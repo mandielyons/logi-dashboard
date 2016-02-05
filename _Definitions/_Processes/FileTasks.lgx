@@ -1,0 +1,79 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Process
+	ID="FileTasks"
+	>
+	<Task
+		ID="taskSaveUploadFile"
+		>
+		<Procedure
+			Filename="@Function.AppPhysicalPath~\UploadedFiles\@FileUpload.UploadFileName~"
+			FileUploadID="inputFileName"
+			ID="procSaveUploadedFile"
+			Type="SaveFileUpload"
+			>
+			<IfError
+				ID="SaveUploadedFileError"
+				>
+				<Procedure
+					Expression="@Procedure.procSaveUploadedFile.ErrorMessage~.Length &gt; 0"
+					ID="procFileUploadError"
+					Type="If"
+					>
+					<Response
+						Type="Report"
+						>
+						<Target
+							Report="Admin.FileUpload"
+							Type="Report"
+							>
+							<WaitPage/>
+						</Target>
+						<LinkParams
+							StatusMsg="Error: @Procedure.procSaveUploadedFile.ErrorMessage~"
+						/>
+					</Response>
+				</Procedure>
+				<Procedure
+					Expression="@Procedure.procSaveUploadedFile.UploadFileLength~ &gt; 1024000"
+					ID="procFileTooBigError"
+					Type="If"
+					>
+					<Procedure
+						Filename="@Procedure.procSaveUploadedFile.UploadFileName~"
+						ID="DeleteBigFile"
+						Type="DeleteFile"
+					/>
+					<Response
+						Type="Report"
+						>
+						<Target
+							Report="Admin.FileUpload"
+							Type="Report"
+							>
+							<WaitPage/>
+						</Target>
+						<LinkParams
+							StatusMsg="Error: File size limit is 1MB."
+						/>
+					</Response>
+				</Procedure>
+			</IfError>
+		</Procedure>
+		<Response
+			Type="Report"
+			>
+			<Target
+				Report="Admin.FileUpload"
+				Type="Report"
+				>
+				<WaitPage/>
+			</Target>
+			<LinkParams
+				StatusMsg="Successfully uploaded."
+			/>
+		</Response>
+	</Task>
+	<ideTestParams
+		rdTaskID=""
+	/>
+</Process>
