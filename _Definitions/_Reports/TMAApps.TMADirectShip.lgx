@@ -68,7 +68,7 @@
 									ExcelOutputFormat="Excel2007"
 									ExportDataTableID="dtTicketTracking"
 									FrameID="NewWindow"
-									Report="TMAReports.TMADirectShip"
+									Report="TMAApps.TMADirectShip"
 									RequestForwarding="True"
 									Type="NativeExcel"
 								/>

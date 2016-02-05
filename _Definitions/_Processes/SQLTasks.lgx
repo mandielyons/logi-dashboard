@@ -93,7 +93,7 @@ VALUES (&apos;@Request.dteDropOff~&apos;,&apos;@Request.iptCustomer~&apos;,&apos
 			Type="Report"
 			>
 			<Target
-				Report="TMAReports.TMADirectShip"
+				Report="TMAApps.TMADirectShip"
 				Type="Report"
 				>
 				<WaitPage/>
