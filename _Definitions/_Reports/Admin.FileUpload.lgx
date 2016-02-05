@@ -1,0 +1,99 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report
+	Caption="File Upload"
+	ID="Admin.FileUpload"
+	SecurityReportRightID="MKC,TMA"
+	>
+	<DefaultRequestParams
+		StatusMsg=""
+	/>
+	<IncludeSharedElement
+		DefinitionFile="_Layout.Shared"
+		SharedElementID="shrHeader"
+	/>
+	<Body>
+		<ResponsiveRow/>
+		<ResponsiveRow>
+			<ResponsiveColumn>
+				<Division
+					Class="panel panel-default"
+					HtmlDiv="True"
+					ID="panel-upload"
+					>
+					<Division
+						Class="panel-heading"
+						HtmlDiv="True"
+						ID="panel-heading"
+						>
+						<Label
+							Caption="Data File Upload"
+						/>
+					</Division>
+					<Division
+						Class="panel-body"
+						HtmlDiv="True"
+						ID="panel-body"
+						>
+						<ResponsiveRow>
+							<ResponsiveColumn>
+								<LineBreak/>
+								<Label
+									Caption="@Request.StatusMsg~"
+									ID="lblStatus"
+									>
+									<ConditionalClass
+										Class="ThemeErrorText"
+										Condition="InStr(&quot;@Request.StatusMsg~&quot;,&quot;Error:&quot;) &gt; 0"
+									/>
+								</Label>
+								<LineBreak/>
+							</ResponsiveColumn>
+						</ResponsiveRow>
+						<ResponsiveRow>
+							<ResponsiveColumn>
+								<InputFileUpload
+									Caption="File to Upload:"
+									ID="inputFileName"
+									InputSize="80"
+									Tooltip="Click &quot;Browse&quot; to find file"
+									>
+									<Validation
+										Type="Required"
+									/>
+								</InputFileUpload>
+								<LineBreak/>
+								<LineBreak/>
+								<Button
+									Caption="Save"
+									ID="btnSubmit"
+									Tooltip="Save the uploaded file."
+									>
+									<Action
+										ConfirmMessage="Are you sure you want to upload this file?"
+										ID="procSaveFile"
+										Process="FileTasks"
+										TaskID="taskSaveUploadFile"
+										Type="Process"
+										Validate="True"
+										>
+										<LinkParams
+											ReportName="@Request.rdReport~"
+										/>
+										<WaitPage/>
+									</Action>
+								</Button>
+							</ResponsiveColumn>
+						</ResponsiveRow>
+					</Division>
+				</Division>
+			</ResponsiveColumn>
+		</ResponsiveRow>
+	</Body>
+	<IncludeSharedElement
+		DefinitionFile="_Layout.Shared"
+		SharedElementID="shrFooter"
+	/>
+	<ideTestParams
+		StatusMsg=""
+	/>
+</Report>

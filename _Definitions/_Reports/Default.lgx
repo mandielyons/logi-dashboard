@@ -4,7 +4,7 @@
 	>
 	<Body>
 		<Label
-			Caption="TEST APP"
+			Caption="MKC Dashboard"
 		/>
 	</Body>
 </Report>

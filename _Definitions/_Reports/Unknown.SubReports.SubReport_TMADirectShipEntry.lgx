@@ -1,0 +1,425 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report
+	Caption="TMA Direct Ship Management"
+	ID="Unknown.SubReports.SubReport_TMADirectShipEntry"
+	>
+	<DefaultRequestParams
+		StatusMsg=""
+	/>
+	<LocalData>
+		<DataLayer
+			ConnectionID="connAgTrax"
+			ID="dlDSEntryIDRecord"
+			Source="Select AGTRAX_STAGING.dbo.DM_DSTicketTracking.EntryID,
+  AGTRAX_STAGING.dbo.DM_DSTicketTracking.DropOffDate,
+  AGTRAX_STAGING.dbo.DM_DSTicketTracking.CUSTOMER,
+  AGTRAX_STAGING.dbo.DM_DSTicketTracking.TotalTickets,
+  AGTRAX_STAGING.dbo.DM_DSTicketTracking.EnteredDate,
+  AGTRAX_STAGING.dbo.DM_DSTicketTracking.UserID,
+  AGTRAX_STAGING.dbo.DM_DSTicketTracking.CompletedDate,
+  AGTRAX_STAGING.dbo.DM_DSTicketTracking.BRANCH_NUMBER
+From AGTRAX_STAGING.dbo.DM_DSTicketTracking
+Where AGTRAX_STAGING.dbo.DM_DSTicketTracking.EntryID = &apos;@Request.EntryId~&apos;"
+			Type="SQL"
+		/>
+	</LocalData>
+	<IncludeSharedElement
+		DefinitionFile="_Layout.Shared"
+		SharedElementID="shrHeader"
+	/>
+	<Body>
+		<InputHidden
+			DefaultValue="@Request.EntryId~"
+			ID="iptEntryId"
+		/>
+		<Division
+			Class="panel panel-default"
+			HtmlDiv="True"
+			ID="panel-ds"
+			>
+			<Division
+				Class="panel-heading"
+				HtmlDiv="True"
+				ID="panel-ds-header"
+				>
+				<Label
+					Caption="TMA Direct Ship Entry"
+				/>
+			</Division>
+			<Division
+				Class="panel-body"
+				HtmlDiv="True"
+				ID="panel-ds-body"
+				>
+				<ResponsiveRow
+					Class="ThemeAlignRight"
+					>
+					<ResponsiveColumn>
+						<Label
+							Caption="View Report"
+							Tooltip="Click here to view report"
+							>
+							<Action
+								ID="lnkReportView"
+								Type="Report"
+								>
+								<Target
+									FrameID="Self"
+									ID="viewReport"
+									Report="TMAApps.TMADirectShip"
+									Type="Report"
+								/>
+							</Action>
+						</Label>
+						<LineBreak/>
+						<LineBreak/>
+					</ResponsiveColumn>
+				</ResponsiveRow>
+				<ResponsiveRow>
+					<ResponsiveColumn>
+						<LineBreak/>
+						<Label
+							Caption="@Request.StatusMsg~"
+							ID="lblStatus"
+							>
+							<ConditionalClass
+								Class="ThemeErrorText"
+								Condition="InStr(&quot;@Request.StatusMsg~&quot;,&quot;Error:&quot;) &gt; 0"
+							/>
+							<ConditionalClass
+								Class="ThemeTextNegative"
+								Condition="InStr(&quot;@Request.StatusMsg~&quot;,&quot;Success:&quot;) &gt; 0"
+							/>
+						</Label>
+						<LineBreak/>
+						<LineBreak/>
+					</ResponsiveColumn>
+				</ResponsiveRow>
+				<ResponsiveRow>
+					<ResponsiveColumn
+						Class="ThemeAlignLeft"
+						>
+						<InputDate
+							CalendarCaptionFormat="MM/dd/yyyy"
+							Caption="Tickets Received:"
+							DefaultValue="@Local.DropOffDate~"
+							ID="dteDropOff"
+							Tooltip="Select the drop off date"
+							>
+							<InputDateCalendar
+								CalendarCaption="Tickets Received"
+								DropdownYearAndMonth="False"
+								ID="iptDropOff"
+								NumberOfMonths="Month"
+								Width="50"
+								WidthScale="%"
+							/>
+						</InputDate>
+						<LineBreak/>
+						<LineBreak/>
+						<LineBreak/>
+					</ResponsiveColumn>
+				</ResponsiveRow>
+				<ResponsiveRow>
+					<ResponsiveColumn
+						Class="ThemeAlignLeft"
+						>
+						<InputSelectList
+							Caption="Customer:"
+							DefaultValue="@Local.CUSTOMER~"
+							ID="iptCustomer"
+							IncludeBlank="True"
+							IncludeBlankCaption="Select a customer"
+							OptionCaptionColumn="ACCOUNT"
+							OptionTooltipColumn="Select a customer"
+							OptionValueColumn="CUSTNMBR"
+							>
+							<DataLayer
+								ConnectionID="connAgTrax"
+								ID="dlCustomer"
+								Source="Select Distinct AR_CUSTOMER_MASTER_TMA.CUSTOMER CUSTNMBR,
+  AR_CUSTOMER_MASTER_TMA.NAME CUSTNAME,
+  LTrim(RTrim(AR_CUSTOMER_MASTER_TMA.CUSTOMER)) + &apos; - &apos; +
+  LTrim(RTrim(AR_CUSTOMER_MASTER_TMA.NAME)) ACCOUNT,
+  AR_CUSTOMER_MISC_FLAG_TMA.MISC_FLAG_NUMBER,
+  AR_CUSTOMER_MISC_FLAG_TMA.MISC_FLAG_VALUE
+From AR_CUSTOMER_MASTER_TMA
+  Inner Join AR_CUSTOMER_MISC_FLAG_TMA On AR_CUSTOMER_MASTER_TMA.CUSTOMER =
+    AR_CUSTOMER_MISC_FLAG_TMA.CUSTOMER
+Where AR_CUSTOMER_MISC_FLAG_TMA.MISC_FLAG_NUMBER = &apos;99&apos; And
+  AR_CUSTOMER_MISC_FLAG_TMA.MISC_FLAG_VALUE = &apos;Y&apos;
+Order By CUSTNMBR"
+								Type="SQL"
+							/>
+						</InputSelectList>
+						<LineBreak/>
+						<LineBreak/>
+					</ResponsiveColumn>
+				</ResponsiveRow>
+				<ResponsiveRow>
+					<ResponsiveColumn
+						Class="ThemeAlignLeft"
+						>
+						<InputSelectList
+							Caption="# of Tickets:"
+							DefaultValue="@Local.TotalTickets~"
+							ID="iptTickets"
+							IncludeBlank="True"
+							IncludeBlankCaption="Select a range"
+							OptionCaptionColumn="Option"
+							OptionTooltipColumn="Select a ticket range"
+							OptionValueColumn="Value"
+							>
+							<DataLayer
+								ColumnNamesRow="1"
+								ExcelFile="C:\inetpub\wwwroot\DirectShip\UploadedFiles\DSRange.xlsx"
+								ExcelWorksheet="Sheet1"
+								ID="dlTicketRange"
+								Type="Excel"
+							/>
+						</InputSelectList>
+						<LineBreak/>
+						<LineBreak/>
+					</ResponsiveColumn>
+				</ResponsiveRow>
+				<ResponsiveRow>
+					<ResponsiveColumn
+						Class="ThemeAlignLeft"
+						>
+						<InputSelectList
+							Caption="Delivery Branch:"
+							DefaultValue="@Local.BRANCH_NUMBER~"
+							ID="iptBranch"
+							IncludeBlank="True"
+							IncludeBlankCaption="Select a location"
+							OptionCaptionColumn="BRANCH"
+							OptionValueColumn="BRANCHNO"
+							>
+							<DataLayer
+								ConnectionID="connAgTrax"
+								ID="dlLocation"
+								Source="SELECT DISTINCT 
+	BRANCH_NUMBER [BRANCHNO]
+	, BRANCH_NAME [BRANCHNAME]
+	, LTRIM(RTRIM(BRANCH_NUMBER))+&apos; - &apos;+LTRIM(RTRIM(BRANCH_NAME)) [BRANCH]
+FROM Agtrax_Staging.dbo.IV_BRANCH_MASTER
+WHERE BRANCH_NUMBER LIKE (&apos;9%%&apos;) AND LEN(BRANCH_NUMBER) = 3 OR BRANCH_NUMBER LIKE (&apos;8%%&apos;) AND LEN(BRANCH_NUMBER) = 3
+ORDER BY BRANCHNO"
+								Type="SQL"
+							/>
+						</InputSelectList>
+						<LineBreak/>
+						<LineBreak/>
+					</ResponsiveColumn>
+				</ResponsiveRow>
+				<ResponsiveRow>
+					<ResponsiveColumn
+						Class="ThemeAlignLeft"
+						>
+						<InputDate
+							Caption="AgTrax Entry Date:"
+							ID="dteEntered"
+							Tooltip="Enter the date ticketes were entered into AgTrax"
+							>
+							<InputDateCalendar
+								CalendarCaption="AgTrax Entry"
+								DropdownYearAndMonth="False"
+								ID="iptEntered"
+								NumberOfMonths="Month"
+								Width="50"
+								WidthScale="%"
+							/>
+						</InputDate>
+						<LineBreak/>
+						<LineBreak/>
+						<LineBreak/>
+					</ResponsiveColumn>
+				</ResponsiveRow>
+				<ResponsiveRow>
+					<ResponsiveColumn
+						Class="ThemeAlignLeft"
+						>
+						<InputCheckbox
+							Caption="Completed per Request:"
+							ID="chkComplete"
+							>
+							<EventHandler
+								DhtmlEvent="onchange"
+								>
+								<Action
+									ID="jsCheckChanged"
+									Javascript="var complete = document.getElementById(&quot;iptCompleteDate&quot;);
+var today = document.getElementById(&quot;iptToday&quot;);
+var done = document.getElementById(&quot;chkComplete&quot;);
+
+if (done.checked){complete.value = today.value;}
+else {complete.value = &quot;&quot;;}
+
+
+"
+									Type="Javascript"
+								/>
+							</EventHandler>
+						</InputCheckbox>
+						<InputHidden
+							DefaultValue="@Local.CompletedDate~"
+							ID="iptCompleteDate"
+						/>
+						<InputHidden
+							DefaultValue="@Function.Date~"
+							ID="iptToday"
+						/>
+						<LineBreak/>
+						<LineBreak/>
+						<LineBreak/>
+					</ResponsiveColumn>
+				</ResponsiveRow>
+				<ResponsiveRow>
+					<ResponsiveColumn
+						Class="ThemeAlignLeft"
+						>
+						<Button
+							Caption="Submit"
+							ID="btnUpdate"
+							>
+							<Action
+								ID="updateRow"
+								Process="SQLTasks"
+								TaskID="updateRow"
+								Type="Process"
+								>
+								<WaitPage/>
+								<LinkParams
+									User="@Function.UserID~"
+								/>
+							</Action>
+						</Button>
+						<Button
+							Caption="Submit"
+							ID="btnAdd"
+							>
+							<Action
+								ID="AddRow"
+								Process="SQLTasks"
+								TaskID="insertRow"
+								Type="Process"
+								>
+								<WaitPage/>
+								<LinkParams
+									User="@Function.UserID~"
+								/>
+							</Action>
+						</Button>
+					</ResponsiveColumn>
+				</ResponsiveRow>
+			</Division>
+		</Division>
+		<Remark>
+			<Division
+				ID="divTest"
+				>
+				<Remark>
+					<Label
+						Caption="@Local.DropOffDate~"
+					/>
+				</Remark>
+				<Remark>
+					<LineBreak/>
+				</Remark>
+				<Remark>
+					<Label
+						Caption="@Local.TotalTickets~"
+					/>
+				</Remark>
+				<Remark>
+					<LineBreak/>
+				</Remark>
+				<Remark>
+					<Label
+						Caption="@Local.BRANCH_NUMBER~"
+					/>
+				</Remark>
+				<Remark>
+					<DataTable
+						AccessibleHeaders="True"
+						AccessibleSummary="AnalysisGrid DataTable"
+						ID="DataTable1"
+						KeepScrollPosition="True"
+						RememberSort="True"
+						ResizableColumns="True"
+						SortArrows="True"
+						TableBorder="0"
+						>
+						<DataLayer
+							ConnectionID="connMKC"
+							ID="SQLDataLayer1"
+							Source="Select Distinct AR_CUSTOMER_MASTER_TMA.CUSTOMER CUSTNMBR,
+  AR_CUSTOMER_MASTER_TMA.NAME CUSTNAME,
+  LTrim(RTrim(AR_CUSTOMER_MASTER_TMA.CUSTOMER)) + &apos; - &apos; +
+  LTrim(RTrim(AR_CUSTOMER_MASTER_TMA.NAME)) ACCOUNT,
+  AR_CUSTOMER_MISC_FLAG_TMA.MISC_FLAG_NUMBER,
+  AR_CUSTOMER_MISC_FLAG_TMA.MISC_FLAG_VALUE
+From AR_CUSTOMER_MASTER_TMA
+  Inner Join AR_CUSTOMER_MISC_FLAG_TMA On AR_CUSTOMER_MASTER_TMA.CUSTOMER =
+    AR_CUSTOMER_MISC_FLAG_TMA.CUSTOMER
+Where AR_CUSTOMER_MISC_FLAG_TMA.MISC_FLAG_NUMBER = &apos;99&apos; And
+  AR_CUSTOMER_MISC_FLAG_TMA.MISC_FLAG_VALUE = &apos;Y&apos;
+Order By CUSTNMBR
+"
+							Type="SQL"
+						/>
+						<InteractivePaging
+							CaptionType="Image"
+							HideShowPrevNextCaptions="False"
+							HideWhenOnePage="True"
+							IDnotSupportedHere="pagingTableNumbered"
+							Location="Top"
+							PageRowCount="20"
+							ShowPageNumber="Numbered"
+						/>
+						<AutoColumns/>
+					</DataTable>
+				</Remark>
+			</Division>
+		</Remark>
+		<IncludeScript
+			ID="jsOnLoad"
+			IncludedScript="var complete = document.getElementById(&quot;iptCompleteDate&quot;);
+var today = document.getElementById(&quot;iptToday&quot;);
+var done = document.getElementById(&quot;chkComplete&quot;);
+var entry = document.getElementById(&quot;iptEntryId&quot;);
+var add = document.getElementById(&quot;btnAdd&quot;);
+var update = document.getElementById(&quot;btnUpdate&quot;);
+var dteDrop = document.getElementById(&quot;dteDropOff&quot;);
+var dteEntry = document.getElementById(&quot;dteEntered&quot;);
+var strComplete = complete.value;
+var n = strComplete.search(&quot;1900-01-01&quot;);
+
+if (n &gt; -1) {done.checked = false;}
+else {done.checked = true;}
+
+if (entry.value == &quot;&quot;){
+	entry.value = &quot;0&quot;;
+	add.style.display = &quot;&quot;;
+	update.style.display = &quot;none&quot;;
+	dteDrop.value = today.value;
+	dteEntry.value = &quot;&quot;;
+	done.checked = false;}
+else if (entry.value &gt; 0){
+	update.style.display = &quot;&quot;;
+	add.style.display = &quot;none&quot;;
+	//remove default date
+	if (dteEntry.value == &quot;1/1/1900&quot;) {dteEntry.value = today.value;}
+}
+"
+		/>
+	</Body>
+	<IncludeSharedElement
+		DefinitionFile="_Layout.Shared"
+		SharedElementID="shrFooter"
+	/>
+	<ideTestParams
+		EntryId=""
+		StatusMsg=""
+	/>
+</Report>
