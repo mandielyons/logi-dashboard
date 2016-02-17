@@ -1,0 +1,316 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report
+	Caption="TMA Contract Detail"
+	ID="Unknown.SubReports.TMAContractsDetail"
+	>
+	<IncludeSharedElement
+		DefinitionFile="_Layout.Shared"
+		SharedElementID="shrHeader"
+	/>
+	<LocalData>
+		<DataLayer
+			ConnectionID="connProdGP"
+			ID="sqlTMAContract"
+			Source="SELECT OC.DATA_KEY AS [KEY]
+  , LTRIM(RTRIM(OC.CUSTOMER_DESC))+&apos; - &apos;+LTRIM(RTRIM(OC.CUSTOMER)) AS [Account]
+  , LTRIM(RTRIM(OC.BRANCH_DESC))+&apos; - &apos;+CAST(BRANCH_NUMBER AS NVARCHAR(20)) AS [Location]
+  , LTRIM(RTRIM(OC.COMMODITY_CODE))+&apos; - &apos;+LTRIM(RTRIM(COMMODITY_DESC)) [Commodity]
+  , OC.CUSTOMER_DESC AS [CUSTDESC]
+  , OC.CUSTOMER AS [CUSTNMBR]
+  , LTRIM(RTRIM(CM.ADDRESS_LINE_1)) AS [CUSTADDR1]
+  , LTRIM(RTRIM(CM.CITY)) AS [CUSTCITY]
+  , LTRIM(RTRIM(CM.[STATE])) AS [CUSTSTATE]
+  , LTRIM(RTRIM(CM.ZIP_CODE)) AS [CUSTZIPCODE]
+  , OC.CONTRACT_MAIN AS [MAINCONTRACT]
+  , OC.CONTRACT_SUB AS [SUBCONTRACT]
+  , OC.CONTRACT_NUMBER AS [CONTRACTNMBR]
+  , OC.ISSUED_DATE AS [CONTRACTDT]
+  , OC.DELIVERY_START_DATE AS [DELIVERY_START_DATE]
+  , OC.DELIVERY_END_DATE AS [DELIVERY_END_DATE]
+  , OC.DPR_POSITION AS [DPRPOSITION]
+  , OC.DPR_GROUP_DESC AS [DPRDESC]
+  , OC.BRANCH_NUMBER AS [LOCNMBR]
+  , OC.BRANCH_DESC AS [LOCDESC]
+  , OC.COMMODITY_CODE AS [COMMODITYCD]
+  , OC.COMMODITY_DESC AS [COMMODITYDESC]
+  , OC.ISSUED_LBS, OC.APPLIED_LBS, OC.ADJUSTED_LBS, OC.SUB_CONT_LBS, OC.REMAINING_LBS
+  , OC.ISSUED_BU, OC.APPLIED_BU, OC.ADJUSTED_BU, OC.SUB_CONT_BU, OC.REMAINING_BU
+FROM AgTrax_Staging..DM_OpenContracts AS OC with(nolock)
+  INNER JOIN AgTrax_Staging..AR_CUSTOMER_MASTER_TMA CM ON OC.CUSTOMER=CM.CUSTOMER
+WHERE OC.DATA_KEY=&apos;@Request.paramContractKey~&apos; OR (OC.CONTRACT_MAIN=&apos;@Request.paramContractMain~&apos; and OC.CUSTOMER=&apos;@Request.paramCustomer~&apos;)
+"
+			Type="SQL"
+			>
+			<DataLayerLink
+				ID="lnkTMAContract"
+			/>
+		</DataLayer>
+	</LocalData>
+	<Body>
+		<Division
+			ID="divBtnExportExcel"
+			>
+			<ResponsiveRow
+				ID="rrExportToExcel"
+				>
+				<ResponsiveColumn
+					ColspanExtraSmallScreen="1"
+					ColspanLargeScreen="1"
+					ColspanMediumScreen="1"
+					ColspanSmallScreen="1"
+				/>
+				<ResponsiveColumn
+					ColspanExtraSmallScreen="1"
+					ColspanLargeScreen="1"
+					ColspanMediumScreen="1"
+					ColspanSmallScreen="1"
+				/>
+				<ResponsiveColumn
+					ColspanExtraSmallScreen="1"
+					ColspanLargeScreen="1"
+					ColspanMediumScreen="1"
+					ColspanSmallScreen="1"
+				/>
+				<ResponsiveColumn
+					ColspanExtraSmallScreen="1"
+					ColspanLargeScreen="1"
+					ColspanMediumScreen="1"
+					ColspanSmallScreen="1"
+				/>
+				<ResponsiveColumn
+					ColspanExtraSmallScreen="1"
+					ColspanLargeScreen="1"
+					ColspanMediumScreen="1"
+					ColspanSmallScreen="1"
+				/>
+				<ResponsiveColumn
+					ColspanExtraSmallScreen="1"
+					ColspanLargeScreen="1"
+					ColspanMediumScreen="1"
+					ColspanSmallScreen="1"
+				/>
+				<ResponsiveColumn
+					ColspanExtraSmallScreen="1"
+					ColspanLargeScreen="1"
+					ColspanMediumScreen="1"
+					ColspanSmallScreen="1"
+				/>
+				<ResponsiveColumn
+					ColspanExtraSmallScreen="1"
+					ColspanLargeScreen="1"
+					ColspanMediumScreen="1"
+					ColspanSmallScreen="1"
+				/>
+				<ResponsiveColumn
+					ColspanExtraSmallScreen="1"
+					ColspanLargeScreen="1"
+					ColspanMediumScreen="1"
+					ColspanSmallScreen="1"
+				/>
+				<ResponsiveColumn
+					ColspanExtraSmallScreen="1"
+					ColspanLargeScreen="1"
+					ColspanMediumScreen="1"
+					ColspanSmallScreen="1"
+				/>
+				<ResponsiveColumn
+					ColspanExtraSmallScreen="1"
+					ColspanLargeScreen="1"
+					ColspanMediumScreen="1"
+					ColspanSmallScreen="1"
+				/>
+				<ResponsiveColumn
+					ColspanExtraSmallScreen="1"
+					ColspanLargeScreen="1"
+					ColspanMediumScreen="1"
+					ColspanSmallScreen="1"
+					>
+					<Label
+						Class="ThemeAlignRight, fa fa-file-excel-o fa-2x"
+						HtmlTag="Div"
+						Tooltip="Export to Excel"
+						>
+						<Action
+							Type="NativeExcel"
+							>
+							<Target
+								ExcelOutputFormat="Excel2007"
+								FrameID="NewWindow"
+								Report="CurrentReport"
+								RequestForwarding="True"
+								Type="NativeExcel"
+							/>
+						</Action>
+					</Label>
+				</ResponsiveColumn>
+			</ResponsiveRow>
+		</Division>
+		<DataTable
+			AccessibleHeaders="True"
+			AccessibleSummary="AnalysisGrid DataTable"
+			Caption="TMA Contracts Detail"
+			ID="dtTMAContractsDetail"
+			KeepScrollPosition="True"
+			RememberSort="True"
+			ResizableColumns="True"
+			SortArrows="True"
+			Width="100"
+			WidthScale="%"
+			>
+			<DataLayer
+				LinkedDataLayerID="lnkTMAContract"
+				Type="Linked"
+			/>
+			<InteractivePaging
+				CaptionType="Image"
+				Class="ThemeTextSmall"
+				Location="Top"
+				PageRowCount="10"
+				ShowPageNumber="True"
+			/>
+			<DataTableColumn
+				Class="ThemeMargin"
+				Header="Account"
+				ID="colAccount"
+				>
+				<Label
+					Caption="@Data.Account~"
+					ID="colAccount"
+				/>
+				<DataColumnSort
+					DataColumn="CUSTNMBR"
+					DataType="Text"
+				/>
+			</DataTableColumn>
+			<DataTableColumn
+				Header="Contract"
+				ID="colCONTRACTNMBR"
+				>
+				<Label
+					Caption="@Data.CONTRACTNMBR~"
+					ID="colCONTRACTNMBR"
+				/>
+				<DataColumnSort
+					DataColumn="CONTRACTNMBR"
+					DataType="Text"
+				/>
+			</DataTableColumn>
+			<DataTableColumn
+				Header="Delivery Start"
+				ID="colDELIVERY_START_DATE"
+				>
+				<Label
+					Caption="@Data.DELIVERY_START_DATE~"
+					Format="Short Date"
+					ID="colDELIVERY_START_DATE"
+				/>
+				<DataColumnSort
+					DataColumn="DELIVERY_START_DATE"
+					DataType="Date"
+				/>
+			</DataTableColumn>
+			<DataTableColumn
+				Header="Delivery End"
+				ID="colDELIVERY_END_DATE"
+				>
+				<Label
+					Caption="@Data.DELIVERY_END_DATE~"
+					Format="Short Date"
+					ID="colDELIVERY_END_DATE"
+				/>
+				<DataColumnSort
+					DataColumn="DELIVERY_END_DATE"
+					DataType="Date"
+				/>
+			</DataTableColumn>
+			<DataTableColumn
+				Header="DPR Position"
+				ID="colDPRPOSITION"
+				>
+				<Label
+					Caption="@Data.DPRPOSITION~"
+					ID="colDPRPOSITION"
+				/>
+				<DataColumnSort
+					DataColumn="DPRPOSITION"
+					DataType="Text"
+				/>
+			</DataTableColumn>
+			<DataTableColumn
+				Header="DPR Description"
+				ID="colDPRDESC"
+				>
+				<Label
+					Caption="@Data.DPRDESC~"
+					ID="colDPRDESC"
+				/>
+				<DataColumnSort
+					DataColumn="DPRDESC"
+					DataType="Text"
+				/>
+			</DataTableColumn>
+			<DataTableColumn
+				Header="Location"
+				ID="colLocation"
+				>
+				<Label
+					Caption="@Data.Location~"
+					ID="colLocation"
+				/>
+				<DataColumnSort
+					DataColumn="CUSTNMBR"
+					DataType="Text"
+				/>
+			</DataTableColumn>
+			<DataTableColumn
+				Header="Commodity"
+				ID="colCommodity"
+				>
+				<Label
+					Caption="@Data.Commodity~"
+					ID="colCommodity"
+				/>
+				<DataColumnSort
+					DataColumn="CUSTNMBR"
+					DataType="Text"
+				/>
+			</DataTableColumn>
+			<DataTableColumn
+				Class="ThemeMargin, ThemeAlignRight"
+				ColumnHeaderClass="ThemeAlignCenter"
+				Header="Remaining BU"
+				ID="colREMAINING_BU"
+				>
+				<Label
+					Caption="@Data.REMAINING_BU~"
+					Format="###,###,##0.00"
+					ID="colREMAINING_BU"
+				/>
+				<DataColumnSort
+					DataColumn="REMAINING_BU"
+					DataType="Number"
+				/>
+				<DataColumnSummary
+					DataColumn="REMAINING_BU"
+					DataType="Number"
+					Function="Sum"
+					ID="totREMAINING_BU"
+				/>
+			</DataTableColumn>
+			<SummaryRow
+				Caption="Totals: "
+				ID="SummaryTotals"
+				LastPageOnly="False"
+			/>
+		</DataTable>
+	</Body>
+	<IncludeSharedElement
+		DefinitionFile="_Layout.Shared"
+		SharedElementID="shrFooter"
+	/>
+	<ideTestParams
+		paramContractKey="1_8320618_02_23978"
+		paramContractMain=""
+		paramCustomer=""
+	/>
+</Report>
