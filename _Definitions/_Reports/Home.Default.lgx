@@ -101,11 +101,13 @@ Order By REMAINING_BU
 				<LineBreak
 					LineCount="5"
 				/>
-				<Image
-					Caption="logo.png"
-					ID="imgMKCLogo"
-					SecurityRightID="MKC"
-				/>
+				<Remark>
+					<Image
+						Caption="logo.png"
+						ID="imgMKCLogo"
+						SecurityRightID="MKC"
+					/>
+				</Remark>
 				<LineBreak
 					LineCount="5"
 				/>

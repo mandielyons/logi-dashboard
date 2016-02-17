@@ -36,24 +36,26 @@
 								HtmlDiv="True"
 								ID="navbar-brand"
 								>
-								<Image
-									Caption="logo-white.png"
-									Class="main-logo"
-									ID="mkclogo"
-									SecurityRightID="MKC"
-									>
-									<Action
-										ID="actHomeLink"
-										Type="Report"
+								<Remark>
+									<Image
+										Caption="logo-white.png"
+										Class="main-logo"
+										ID="mkclogo"
+										SecurityRightID="MKC"
 										>
-										<Target
-											Report="Reports.MKC_Locations"
+										<Action
+											ID="actHomeLink"
 											Type="Report"
 											>
-											<WaitPage/>
-										</Target>
-									</Action>
-								</Image>
+											<Target
+												Report="Reports.MKC_Locations"
+												Type="Report"
+												>
+												<WaitPage/>
+											</Target>
+										</Action>
+									</Image>
+								</Remark>
 								<Note
 									Note="**Comment back in for security**"
 								/>
@@ -699,11 +701,13 @@
 				ID="Footer"
 				ShowModes="rdBrowser"
 				>
-				<Label
-					Caption="© Copyright 2015 - MKC. Shared growth. Shared success. All rights reserved."
-					Format="HTML"
-					SecurityRightID="MKC"
-				/>
+				<Remark>
+					<Label
+						Caption="© Copyright 2015 - MKC. Shared growth. Shared success. All rights reserved."
+						Format="HTML"
+						SecurityRightID="MKC"
+					/>
+				</Remark>
 				<Label
 					Caption="© Copyright 2015 - Team Marketing Alliance. All rights reserved."
 					Format="HTML"
