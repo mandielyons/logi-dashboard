@@ -32,7 +32,7 @@
 					</Division>
 					<Division
 						Class="panel-body"
-						ID="panel-body"
+						ID="panel-body-inputs"
 						>
 						<Rows
 							Width="100"
@@ -46,17 +46,183 @@
 								</Column>
 								<Column>
 									<Label
+										Caption="Filter By Fiscal Year:"
+									/>
+								</Column>
+								<Column>
+									<InputSelectList
+										DefaultValue="@Request.paramFiscYear~"
+										ID="iptFiscalYear"
+										IncludeBlank="False"
+										MultiSelect="False"
+										OptionCaptionColumn="YEAR1"
+										OptionValueColumn="YEAR1"
+										>
+										<DataLayer
+											ConnectionID="connProdGP"
+											ID="sqlFiscalYears"
+											Source="SELECT DISTINCT TOP 5 YEAR1 FROM MKCGP..slbAccountSummary ORDER BY YEAR1 DESC"
+											Type="SQL"
+										/>
+									</InputSelectList>
+									<Image
+										Caption="_theme_files.1x1.gif"
+										Class="ThemeHidden"
+										>
+										<EventHandler
+											DhtmlEvent="onload"
+											>
+											<Action
+												ID="jsChosen"
+												Javascript="$( document ).ready(function() {
+  $(&quot;.chosen-select&quot;).chosen({
+    	search_contains:true,
+		display_selected_options:false
+  });
+});"
+												Type="Javascript"
+											/>
+										</EventHandler>
+									</Image>
+								</Column>
+								<Column>
+									<Spaces
+										Size="45"
+									/>
+								</Column>
+								<Column/>
+								<Column>
+									<Spaces
+										Size="5"
+									/>
+								</Column>
+							</Row>
+							<Row>
+								<Column>
+									<Spaces
+										Size="5"
+									/>
+								</Column>
+								<Column>
+									<Label
+										Caption="Filter By Fiscal Period:"
+									/>
+								</Column>
+								<Column>
+									<InputSelectList
+										DefaultValue="@Request.paramLocGLStr~"
+										ID="iptFiscalPeriod"
+										IncludeBlank="False"
+										MultiSelect="False"
+										OptionCaptionColumn="FISCPRDDSC"
+										OptionValueColumn="FISCPRDID"
+										>
+										<DataLayer
+											ID="StaticDataLayer1"
+											Type="Static"
+											>
+											<StaticDataRow
+												FISCPRDDSC="March"
+												FISCPRDID="1"
+											/>
+											<StaticDataRow
+												FISCPRDDSC="April"
+												FISCPRDID="2"
+											/>
+											<StaticDataRow
+												FISCPRDDSC="May"
+												FISCPRDID="3"
+											/>
+											<StaticDataRow
+												FISCPRDDSC="June"
+												FISCPRDID="4"
+											/>
+											<StaticDataRow
+												FISCPRDDSC="July"
+												FISCPRDID="5"
+											/>
+											<StaticDataRow
+												FISCPRDDSC="August"
+												FISCPRDID="6"
+											/>
+											<StaticDataRow
+												FISCPRDDSC="September"
+												FISCPRDID="7"
+											/>
+											<StaticDataRow
+												FISCPRDDSC="October"
+												FISCPRDID="8"
+											/>
+											<StaticDataRow
+												FISCPRDDSC="November"
+												FISCPRDID="9"
+											/>
+											<StaticDataRow
+												FISCPRDDSC="December"
+												FISCPRDID="10"
+											/>
+											<StaticDataRow
+												FISCPRDDSC="January"
+												FISCPRDID="11"
+											/>
+											<StaticDataRow
+												FISCPRDDSC="February"
+												FISCPRDID="12"
+											/>
+										</DataLayer>
+									</InputSelectList>
+									<Image
+										Caption="_theme_files.1x1.gif"
+										Class="ThemeHidden"
+										>
+										<EventHandler
+											DhtmlEvent="onload"
+											>
+											<Action
+												ID="jsChosen"
+												Javascript="$( document ).ready(function() {
+  $(&quot;.chosen-select&quot;).chosen({
+    	search_contains:true,
+		display_selected_options:false
+  });
+});"
+												Type="Javascript"
+											/>
+										</EventHandler>
+									</Image>
+								</Column>
+								<Column>
+									<Spaces
+										Size="45"
+									/>
+								</Column>
+								<Column/>
+								<Column>
+									<Spaces
+										Size="5"
+									/>
+								</Column>
+							</Row>
+							<Row>
+								<Column>
+									<Spaces
+										Size="5"
+									/>
+								</Column>
+								<Column>
+									<Label
 										Caption="Filter By Location:"
 									/>
 								</Column>
 								<Column>
 									<InputSelectList
-										DefaultValue="@Request.paramLocCd~"
+										DefaultValue="@Request.paramLocGLStr~"
 										ID="iptLocation"
 										IncludeBlank="True"
 										IncludeBlankCaption="MKC All"
+										IncludeBlankValue="ALL"
 										OptionCaptionColumn="Location"
-										OptionValueColumn="LocationCode"
+										OptionValueColumn="LocGLStr"
 										>
 										<Remark>
 											<DataLayer
@@ -110,17 +276,13 @@ From MapMKCLocations"
 											DhtmlEvent="onclick"
 											>
 											<Action
-												ID="actRefreshReport"
-												Type="Report"
+												ConfirmMessage="Fiscal Period: @Request.paramFiscPeriod~  Fiscal Year: @Request.paramFiscYear~  Location: @Request.paramLocGLStr~"
+												ElementID="panel-body-inputs, iptFiscalPeriod"
+												ID="actRefreshBranchFinancialTabs"
+												RequestForwarding="True"
+												Type="RefreshElement"
 												>
-												<Target
-													Type="Report"
-													>
-													<WaitPage/>
-												</Target>
-												<LinkParams
-													cacheExpirationNow="False"
-												/>
+												<WaitPage/>
 											</Action>
 										</EventHandler>
 									</Label>
@@ -193,6 +355,187 @@ From MapMKCLocations"
 								<Note
 									Note="**Add data here**"
 								/>
+								<Division
+									Class="panel-heading"
+									HtmlDiv="True"
+									ID="panel-headingRig"
+									>
+									<Label
+										Caption="Application Acres by Rig"
+									/>
+								</Division>
+								<Division
+									Class="panel-body"
+									HtmlDiv="True"
+									ID="panel-bodyRig"
+									>
+									<Rows
+										Width="100"
+										WidthScale="%"
+										>
+										<Row>
+											<Column>
+												<Spaces
+													Size="30"
+												/>
+											</Column>
+											<Column>
+												<DataTable
+													ID="dtApplicationRig"
+													SortArrows="True"
+													>
+													<DataLayer
+														ConnectionID="connProdGP"
+														ID="sqlApplicationRig"
+														Source="SELECT cMTD.AgLocationCode, LTRIM(RTRIM(cMTD.Rig)) Rig, ISNULL(cMTD.Acres,0) cMTD, ISNULL(cYTD.Acres,0) cYTD, ISNULL(pMTD.Acres,0) pMTD, ISNULL(pYTD.Acres,0) pYTD
+FROM        (SELECT Objects2.LocationCode AgLocationCode, Orders.ApplicatorID, Objects2.Name Rig, SUM(Orders.AcresSprayed) Acres FROM AgOS_MKC_Live..Orders Orders with(nolock) INNER JOIN AgOS_MKC_Live..Objects Objects2 with(nolock) ON Orders.ApplicatorID=Objects2.ObjectID WHERE Orders.Done=1 AND CASE WHEN DATEPART(MONTH,Orders.DoneDate)&lt;3 THEN DATEPART(YEAR,Orders.DoneDate) ELSE DATEPART(YEAR,Orders.DoneDate)+1 END=@Request.paramFiscYear~    AND CASE DATEPART(MONTH,Orders.DoneDate) WHEN 3 THEN 1 WHEN 4 THEN 2 WHEN 5 THEN 3 WHEN 6 THEN 4 WHEN 7 THEN 5 WHEN 8 THEN 6 WHEN 9 THEN 7 WHEN 10 THEN 8 WHEN 11 THEN 9 WHEN 12 THEN 10 WHEN 1 THEN 11 WHEN 2 THEN 12 END =@Request.paramFiscPeriod~ GROUP BY Objects2.LocationCode, Orders.ApplicatorID, Objects2.Name) cMTD 
+  LEFT JOIN (SELECT Objects2.LocationCode AgLocationCode, Orders.ApplicatorID, Objects2.Name Rig, SUM(Orders.AcresSprayed) Acres FROM AgOS_MKC_Live..Orders Orders with(nolock) INNER JOIN AgOS_MKC_Live..Objects Objects2 with(nolock) ON Orders.ApplicatorID=Objects2.ObjectID WHERE Orders.Done=1 AND CASE WHEN DATEPART(MONTH,Orders.DoneDate)&lt;3 THEN DATEPART(YEAR,Orders.DoneDate) ELSE DATEPART(YEAR,Orders.DoneDate)+1 END=@Request.paramFiscYear~    AND CASE DATEPART(MONTH,Orders.DoneDate) WHEN 3 THEN 1 WHEN 4 THEN 2 WHEN 5 THEN 3 WHEN 6 THEN 4 WHEN 7 THEN 5 WHEN 8 THEN 6 WHEN 9 THEN 7 WHEN 10 THEN 8 WHEN 11 THEN 9 WHEN 12 THEN 10 WHEN 1 THEN 11 WHEN 2 THEN 12 END&lt;=@Request.paramFiscPeriod~ GROUP BY Objects2.LocationCode, Orders.ApplicatorID, Objects2.Name) cYTD ON cMTD.AgLocationCode=cYTD.AgLocationCode AND cMTD.ApplicatorID=cYTD.ApplicatorID
+  LEFT JOIN (SELECT Objects2.LocationCode AgLocationCode, Orders.ApplicatorID, Objects2.Name Rig, SUM(Orders.AcresSprayed) Acres FROM AgOS_MKC_Live..Orders Orders with(nolock) INNER JOIN AgOS_MKC_Live..Objects Objects2 with(nolock) ON Orders.ApplicatorID=Objects2.ObjectID WHERE Orders.Done=1 AND CASE WHEN DATEPART(MONTH,Orders.DoneDate)&lt;3 THEN DATEPART(YEAR,Orders.DoneDate) ELSE DATEPART(YEAR,Orders.DoneDate)+1 END=@Request.paramFiscYear~ -1 AND CASE DATEPART(MONTH,Orders.DoneDate) WHEN 3 THEN 1 WHEN 4 THEN 2 WHEN 5 THEN 3 WHEN 6 THEN 4 WHEN 7 THEN 5 WHEN 8 THEN 6 WHEN 9 THEN 7 WHEN 10 THEN 8 WHEN 11 THEN 9 WHEN 12 THEN 10 WHEN 1 THEN 11 WHEN 2 THEN 12 END =@Request.paramFiscPeriod~ GROUP BY Objects2.LocationCode, Orders.ApplicatorID, Objects2.Name) pMTD ON cMTD.AgLocationCode=pMTD.AgLocationCode AND cMTD.ApplicatorID=pMTD.ApplicatorID
+  LEFT JOIN (SELECT Objects2.LocationCode AgLocationCode, Orders.ApplicatorID, Objects2.Name Rig, SUM(Orders.AcresSprayed) Acres FROM AgOS_MKC_Live..Orders Orders with(nolock) INNER JOIN AgOS_MKC_Live..Objects Objects2 with(nolock) ON Orders.ApplicatorID=Objects2.ObjectID WHERE Orders.Done=1 AND CASE WHEN DATEPART(MONTH,Orders.DoneDate)&lt;3 THEN DATEPART(YEAR,Orders.DoneDate) ELSE DATEPART(YEAR,Orders.DoneDate)+1 END=@Request.paramFiscYear~ -1 AND CASE DATEPART(MONTH,Orders.DoneDate) WHEN 3 THEN 1 WHEN 4 THEN 2 WHEN 5 THEN 3 WHEN 6 THEN 4 WHEN 7 THEN 5 WHEN 8 THEN 6 WHEN 9 THEN 7 WHEN 10 THEN 8 WHEN 11 THEN 9 WHEN 12 THEN 10 WHEN 1 THEN 11 WHEN 2 THEN 12 END&lt;=@Request.paramFiscPeriod~ GROUP BY Objects2.LocationCode, Orders.ApplicatorID, Objects2.Name) pYTD ON cMTD.AgLocationCode=pYTD.AgLocationCode AND cMTD.ApplicatorID=pYTD.ApplicatorID
+ORDER BY AgLocationCode, Rig
+"
+														Type="SQL"
+														>
+														<Join
+															ID="joinSqlToXL"
+															IncludeCondition="True"
+															JoinType="InnerJoin"
+															SortLeftSide="True"
+															SortRightSide="True"
+															>
+															<MatchCondition
+																DataType="Text"
+																ID="joinAgLocationCode"
+																LeftDataColumn="AgLocationCode"
+																RightDataColumn="AgLocationCode"
+															/>
+															<DataLayer
+																ColumnNamesRow="1"
+																ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\LocationData.xlsx"
+																ExcelWorksheet="BranchData"
+																ID="xlAgWorksLocation"
+																Type="Excel"
+																>
+																<ConditionFilter
+																	Condition="&apos;@Request.paramLocGLStr~&apos; == &apos;@Data.LocGLStr~&apos;"
+																	ID="condLocGLStr"
+																/>
+															</DataLayer>
+														</Join>
+													</DataLayer>
+													<DataTableColumn
+														Class="ThemeMargin"
+														ColumnHeaderClass="ThemeAlignCenter"
+														Header="Rig Name"
+														HeaderType="Text"
+														ID="colRig"
+														Width="25"
+														WidthScale="%"
+														>
+														<Label
+															Caption="@Data.Rig~"
+															ID="Rig"
+														/>
+														<DataColumnSort
+															DataColumn="Rig"
+															DataType="Text"
+														/>
+													</DataTableColumn>
+													<DataTableColumn
+														Class="ThemeMargin, ThemeAlignRight"
+														ColumnHeaderClass="ThemeAlignCenter"
+														Header="Current Period"
+														HeaderType="Text"
+														ID="colCMTD"
+														>
+														<Label
+															Caption="@Data.cMTD~"
+															Format="###,###,##0"
+															ID="cMTD"
+														/>
+														<DataColumnSort
+															DataColumn="cMTD"
+															DataType="Number"
+														/>
+													</DataTableColumn>
+													<DataTableColumn
+														Class="ThemeMargin, ThemeAlignRight"
+														ColumnHeaderClass="ThemeAlignCenter"
+														Header="Year-To-Date"
+														HeaderType="Text"
+														ID="colCYTD"
+														>
+														<Label
+															Caption="@Data.cYTD~"
+															Format="###,###,##0"
+															ID="cYTD"
+														/>
+														<DataColumnSort
+															DataColumn="cYTD"
+															DataType="Number"
+														/>
+													</DataTableColumn>
+													<DataTableColumn
+														Class="ThemeMargin, ThemeAlignRight"
+														ColumnHeaderClass="ThemeAlignCenter"
+														Header="Prior Year Period"
+														HeaderType="Text"
+														ID="colPMTD"
+														>
+														<Label
+															Caption="@Data.pMTD~"
+															Format="###,###,##0"
+															ID="pMTD"
+														/>
+														<DataColumnSort
+															DataColumn="pMTD"
+															DataType="Number"
+														/>
+													</DataTableColumn>
+													<DataTableColumn
+														Class="ThemeMargin, ThemeAlignRight"
+														ColumnHeaderClass="ThemeAlignCenter"
+														Header="Prior Year-To-Date"
+														HeaderType="Text"
+														ID="colPYTD"
+														>
+														<Label
+															Caption="@Data.pYTD~"
+															Format="###,###,##0"
+															ID="pYTD"
+														/>
+														<DataColumnSort
+															DataColumn="pYTD"
+															DataType="Number"
+														/>
+													</DataTableColumn>
+												</DataTable>
+											</Column>
+											<Column>
+												<Spaces
+													Size="40"
+												/>
+											</Column>
+											<Column>
+												<Spaces
+													Size="40"
+												/>
+											</Column>
+											<Column>
+												<Spaces
+													Size="40"
+												/>
+											</Column>
+											<Column>
+												<Spaces
+													Size="40"
+												/>
+											</Column>
+										</Row>
+									</Rows>
+									<LineBreak/>
+									<LineBreak/>
+								</Division>
 							</Division>
 						</Division>
 					</TabPanel>
@@ -243,6 +586,187 @@ From MapMKCLocations"
 								<Note
 									Note="**Add data here**"
 								/>
+								<Division
+									Class="panel-heading"
+									HtmlDiv="True"
+									ID="panel-headingOperator"
+									>
+									<Label
+										Caption="Application Acres by Employee"
+									/>
+								</Division>
+								<Division
+									Class="panel-body"
+									HtmlDiv="True"
+									ID="panel-bodyOperator"
+									>
+									<Rows
+										Width="100"
+										WidthScale="%"
+										>
+										<Row>
+											<Column>
+												<Spaces
+													Size="30"
+												/>
+											</Column>
+											<Column>
+												<DataTable
+													ID="dtApplicationOperator"
+													SortArrows="True"
+													>
+													<DataLayer
+														ConnectionID="connProdGP"
+														ID="sqlApplicationOperator"
+														Source="SELECT cMTD.AgLocationCode, LTRIM(RTRIM(cMTD.Operator)) Operator, ISNULL(cMTD.Acres,0) cMTD, ISNULL(cYTD.Acres,0) cYTD, ISNULL(pMTD.Acres,0) pMTD, ISNULL(pYTD.Acres,0) pYTD
+FROM        (SELECT Users.LocationCode AgLocationCode, Orders.DoneByID, LTRIM(RTRIM(Users.FirstName))+&apos; &apos;+LTRIM(RTRIM(Users.LastName)) Operator, SUM(Orders.AcresSprayed) Acres FROM AgOS_MKC_Live..Orders Orders with(nolock) INNER JOIN AgOS_MKC_Live..Users Users with(nolock) ON Orders.DoneByID=Users.UserID WHERE Orders.Done=1 AND CASE WHEN DATEPART(MONTH,Orders.DoneDate)&lt;3 THEN DATEPART(YEAR,Orders.DoneDate) ELSE DATEPART(YEAR,Orders.DoneDate)+1 END=@Request.paramFiscYear~    AND CASE DATEPART(MONTH,Orders.DoneDate) WHEN 3 THEN 1 WHEN 4 THEN 2 WHEN 5 THEN 3 WHEN 6 THEN 4 WHEN 7 THEN 5 WHEN 8 THEN 6 WHEN 9 THEN 7 WHEN 10 THEN 8 WHEN 11 THEN 9 WHEN 12 THEN 10 WHEN 1 THEN 11 WHEN 2 THEN 12 END =@Request.paramFiscPeriod~ GROUP BY Users.LocationCode, Orders.DoneByID, Users.LastName, Users.FirstName) cMTD 
+  LEFT JOIN (SELECT Users.LocationCode AgLocationCode, Orders.DoneByID, LTRIM(RTRIM(Users.FirstName))+&apos; &apos;+LTRIM(RTRIM(Users.LastName)) Operator, SUM(Orders.AcresSprayed) Acres FROM AgOS_MKC_Live..Orders Orders with(nolock) INNER JOIN AgOS_MKC_Live..Users Users with(nolock) ON Orders.DoneByID=Users.UserID WHERE Orders.Done=1 AND CASE WHEN DATEPART(MONTH,Orders.DoneDate)&lt;3 THEN DATEPART(YEAR,Orders.DoneDate) ELSE DATEPART(YEAR,Orders.DoneDate)+1 END=@Request.paramFiscYear~    AND CASE DATEPART(MONTH,Orders.DoneDate) WHEN 3 THEN 1 WHEN 4 THEN 2 WHEN 5 THEN 3 WHEN 6 THEN 4 WHEN 7 THEN 5 WHEN 8 THEN 6 WHEN 9 THEN 7 WHEN 10 THEN 8 WHEN 11 THEN 9 WHEN 12 THEN 10 WHEN 1 THEN 11 WHEN 2 THEN 12 END&lt;=@Request.paramFiscPeriod~ GROUP BY Users.LocationCode, Orders.DoneByID, Users.LastName, Users.FirstName) cYTD ON cMTD.AgLocationCode=cYTD.AgLocationCode AND cMTD.DoneByID=cYTD.DoneByID
+  LEFT JOIN (SELECT Users.LocationCode AgLocationCode, Orders.DoneByID, LTRIM(RTRIM(Users.FirstName))+&apos; &apos;+LTRIM(RTRIM(Users.LastName)) Operator, SUM(Orders.AcresSprayed) Acres FROM AgOS_MKC_Live..Orders Orders with(nolock) INNER JOIN AgOS_MKC_Live..Users Users with(nolock) ON Orders.DoneByID=Users.UserID WHERE Orders.Done=1 AND CASE WHEN DATEPART(MONTH,Orders.DoneDate)&lt;3 THEN DATEPART(YEAR,Orders.DoneDate) ELSE DATEPART(YEAR,Orders.DoneDate)+1 END=@Request.paramFiscYear~ -1 AND CASE DATEPART(MONTH,Orders.DoneDate) WHEN 3 THEN 1 WHEN 4 THEN 2 WHEN 5 THEN 3 WHEN 6 THEN 4 WHEN 7 THEN 5 WHEN 8 THEN 6 WHEN 9 THEN 7 WHEN 10 THEN 8 WHEN 11 THEN 9 WHEN 12 THEN 10 WHEN 1 THEN 11 WHEN 2 THEN 12 END =@Request.paramFiscPeriod~ GROUP BY Users.LocationCode, Orders.DoneByID, Users.LastName, Users.FirstName) pMTD ON cMTD.AgLocationCode=pMTD.AgLocationCode AND cMTD.DoneByID=pMTD.DoneByID
+  LEFT JOIN (SELECT Users.LocationCode AgLocationCode, Orders.DoneByID, LTRIM(RTRIM(Users.FirstName))+&apos; &apos;+LTRIM(RTRIM(Users.LastName)) Operator, SUM(Orders.AcresSprayed) Acres FROM AgOS_MKC_Live..Orders Orders with(nolock) INNER JOIN AgOS_MKC_Live..Users Users with(nolock) ON Orders.DoneByID=Users.UserID WHERE Orders.Done=1 AND CASE WHEN DATEPART(MONTH,Orders.DoneDate)&lt;3 THEN DATEPART(YEAR,Orders.DoneDate) ELSE DATEPART(YEAR,Orders.DoneDate)+1 END=@Request.paramFiscYear~ -1 AND CASE DATEPART(MONTH,Orders.DoneDate) WHEN 3 THEN 1 WHEN 4 THEN 2 WHEN 5 THEN 3 WHEN 6 THEN 4 WHEN 7 THEN 5 WHEN 8 THEN 6 WHEN 9 THEN 7 WHEN 10 THEN 8 WHEN 11 THEN 9 WHEN 12 THEN 10 WHEN 1 THEN 11 WHEN 2 THEN 12 END&lt;=@Request.paramFiscPeriod~ GROUP BY Users.LocationCode, Orders.DoneByID, Users.LastName, Users.FirstName) pYTD ON cMTD.AgLocationCode=pYTD.AgLocationCode AND cMTD.DoneByID=pYTD.DoneByID
+ORDER BY AgLocationCode, Operator
+"
+														Type="SQL"
+														>
+														<Join
+															ID="joinSqlToXL"
+															IncludeCondition="True"
+															JoinType="InnerJoin"
+															SortLeftSide="True"
+															SortRightSide="True"
+															>
+															<MatchCondition
+																DataType="Text"
+																ID="joinAgLocationCode"
+																LeftDataColumn="AgLocationCode"
+																RightDataColumn="AgLocationCode"
+															/>
+															<DataLayer
+																ColumnNamesRow="1"
+																ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\LocationData.xlsx"
+																ExcelWorksheet="BranchData"
+																ID="xlAgWorksLocation"
+																Type="Excel"
+																>
+																<ConditionFilter
+																	Condition="&apos;@Request.paramLocGLStr~&apos; == &apos;@Data.LocGLStr~&apos;"
+																	ID="condLocGLStr"
+																/>
+															</DataLayer>
+														</Join>
+													</DataLayer>
+													<DataTableColumn
+														Class="ThemeMargin"
+														ColumnHeaderClass="ThemeAlignCenter"
+														Header="Employee"
+														HeaderType="Text"
+														ID="colOperator"
+														Width="25"
+														WidthScale="%"
+														>
+														<Label
+															Caption="@Data.Operator~"
+															ID="Operator"
+														/>
+														<DataColumnSort
+															DataColumn="Operator"
+															DataType="Text"
+														/>
+													</DataTableColumn>
+													<DataTableColumn
+														Class="ThemeMargin, ThemeAlignRight"
+														ColumnHeaderClass="ThemeAlignCenter"
+														Header="Current Period"
+														HeaderType="Text"
+														ID="colCMTD"
+														>
+														<Label
+															Caption="@Data.cMTD~"
+															Format="###,###,##0"
+															ID="cMTD"
+														/>
+														<DataColumnSort
+															DataColumn="cMTD"
+															DataType="Number"
+														/>
+													</DataTableColumn>
+													<DataTableColumn
+														Class="ThemeMargin, ThemeAlignRight"
+														ColumnHeaderClass="ThemeAlignCenter"
+														Header="Year-To-Date"
+														HeaderType="Text"
+														ID="colCYTD"
+														>
+														<Label
+															Caption="@Data.cYTD~"
+															Format="###,###,##0"
+															ID="cYTD"
+														/>
+														<DataColumnSort
+															DataColumn="cYTD"
+															DataType="Number"
+														/>
+													</DataTableColumn>
+													<DataTableColumn
+														Class="ThemeMargin, ThemeAlignRight"
+														ColumnHeaderClass="ThemeAlignCenter"
+														Header="Prior Year Period"
+														HeaderType="Text"
+														ID="colPMTD"
+														>
+														<Label
+															Caption="@Data.pMTD~"
+															Format="###,###,##0"
+															ID="pMTD"
+														/>
+														<DataColumnSort
+															DataColumn="pMTD"
+															DataType="Number"
+														/>
+													</DataTableColumn>
+													<DataTableColumn
+														Class="ThemeMargin, ThemeAlignRight"
+														ColumnHeaderClass="ThemeAlignCenter"
+														Header="Prior Year-To-Date"
+														HeaderType="Text"
+														ID="colPYTD"
+														>
+														<Label
+															Caption="@Data.pYTD~"
+															Format="###,###,##0"
+															ID="pYTD"
+														/>
+														<DataColumnSort
+															DataColumn="pYTD"
+															DataType="Number"
+														/>
+													</DataTableColumn>
+												</DataTable>
+											</Column>
+											<Column>
+												<Spaces
+													Size="40"
+												/>
+											</Column>
+											<Column>
+												<Spaces
+													Size="40"
+												/>
+											</Column>
+											<Column>
+												<Spaces
+													Size="40"
+												/>
+											</Column>
+											<Column>
+												<Spaces
+													Size="40"
+												/>
+											</Column>
+										</Row>
+									</Rows>
+									<LineBreak/>
+									<LineBreak/>
+								</Division>
 							</Division>
 						</Division>
 					</TabPanel>
@@ -355,6 +879,8 @@ From MapMKCLocations"
 		SharedElementID="shrFooter"
 	/>
 	<ideTestParams
-		paramLocCd=""
+		paramFiscPeriod="11"
+		paramFiscYear="2016"
+		paramLocGLStr="100"
 	/>
 </Report>
