@@ -2,7 +2,6 @@
 <Report
 	Caption="User Management"
 	ID="Admin.UserManagement"
-	SecurityReportRightID="ADMIN"
 	>
 	<DefaultRequestParams
 		cacheExpirationNow="False"
