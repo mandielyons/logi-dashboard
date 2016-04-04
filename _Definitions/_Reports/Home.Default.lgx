@@ -102,17 +102,28 @@ Order By REMAINING_BU
 					LineCount="5"
 				/>
 				<Image
-					Caption="logo.png"
-					ID="imgMKCLogo"
-					SecurityRightID="MKC,SRMGMT"
-				/>
-				<LineBreak
-					LineCount="5"
+					Caption="icon-klipstarts (1).png"
+					Height="230"
+					ID="imgMKCLogo2"
+					SecurityRightID="MKC,SRMGMT,TMA,OC"
+					Width="375"
 				/>
 				<Image
-					Caption="TMA_LogoStkdK.png"
+					Caption="icon-klipstarts.png"
+					Height="230"
+					ID="imgMKCLogo"
+					SecurityRightID="MKC,SRMGMT,TMA,OC"
+					Width="375"
+				/>
+				<LineBreak
+					LineCount="2"
+				/>
+				<Image
+					Caption="dboard.png"
+					Height="325"
 					ID="imgTMALogo"
-					SecurityRightID="TMA,OC"
+					SecurityRightID="MKC,SRMGMT,TMA,OC"
+					Width="325"
 				/>
 			</ResponsiveColumn>
 		</ResponsiveRow>
