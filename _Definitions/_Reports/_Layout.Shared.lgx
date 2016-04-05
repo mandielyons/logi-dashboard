@@ -186,7 +186,7 @@
 										ID="reports"
 										>
 										<Label
-											Caption="Financial Dashboards"
+											Caption="Financial"
 											>
 											<Action
 												ID="actBlank"
@@ -272,7 +272,7 @@
 										ID="tma-reports"
 										>
 										<Label
-											Caption="Grain Dashboards"
+											Caption="Grain"
 											>
 											<Action
 												ID="actBlank"
@@ -358,7 +358,7 @@
 										ID="energy-reports"
 										>
 										<Label
-											Caption="Energy Dashboards"
+											Caption="Energy"
 											>
 											<Action
 												ID="actBlank"
@@ -444,7 +444,7 @@
 										ID="maps"
 										>
 										<Label
-											Caption="Customer Maps"
+											Caption="Maps"
 											>
 											<Action
 												ID="actBlank"
@@ -608,38 +608,36 @@
 										/>
 									</Division>
 								</Remark>
-								<Remark>
-									<Division
-										ID="scorecard-container"
-										SecurityRightID="SRMGMT,STRATEGICPLAN"
+								<Division
+									ID="scorecard-container"
+									SecurityRightID="SRMGMT,STRATEGICPLAN"
+									>
+									<Label
+										Caption="Scorecard"
 										>
-										<Label
-											Caption="Scorecard"
+										<Action
+											ID="actReport"
+											Type="Report"
 											>
-											<Action
-												ID="actReport"
+											<Target
+												ID="tgtReport"
+												Report="Scorecard.StrategicDashboard"
 												Type="Report"
 												>
-												<Target
-													ID="tgtReport"
-													Report="Scorecard.StrategicDashboard"
-													Type="Report"
-													>
-													<WaitPage/>
-												</Target>
-											</Action>
-											<ConditionalClass
-												Class="selected-menu"
-												Condition="&quot;@Request.rdReport~&quot;==&quot;Scorecard.StrategicDashboard&quot;"
-											/>
-										</Label>
-										<Label
-											Caption="|"
-											Class="pipe-spacer"
-											ID="pipe-spacer"
+												<WaitPage/>
+											</Target>
+										</Action>
+										<ConditionalClass
+											Class="selected-menu"
+											Condition="&quot;@Request.rdReport~&quot;==&quot;Scorecard.StrategicDashboard&quot;"
 										/>
-									</Division>
-								</Remark>
+									</Label>
+									<Label
+										Caption="|"
+										Class="pipe-spacer"
+										ID="pipe-spacer"
+									/>
+								</Division>
 								<Division
 									ID="admin-container"
 									SecurityRightID="TMA,MKC"
