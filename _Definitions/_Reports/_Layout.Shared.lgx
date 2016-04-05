@@ -350,7 +350,7 @@
 								</Division>
 								<Division
 									ID="energy-reports-container"
-									SecurityRightID="TMA,MKC"
+									SecurityRightID="MKC"
 									>
 									<Division
 										Class="dropdown"
