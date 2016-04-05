@@ -136,7 +136,12 @@ End If %>
 											<tr>
 												<td id="errorCell" colSpan="2" >&nbsp;<%=Session("rdLogonFailMessage") %></td>
 											</tr>
-										</table>
+																																									<tr>
+												<td></td><td><a href="">Forgot Password?</a></td>
+											</tr>
+											<tr>
+												<td></td><td><a href="">Request Account Login</a></td>
+											</tr>																													</table>
 									</form>
 								</td>
 							</tr>
