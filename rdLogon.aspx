@@ -45,7 +45,7 @@ End If %>
 												
 			#logonPanel
 			{					
-				width: 300px;
+				width: 350px;
 				margin: auto;
 				background-color: #F7F7F7;
 				border: solid #d9bc4a 1px;
@@ -137,10 +137,10 @@ End If %>
 												<td id="errorCell" colSpan="2" >&nbsp;<%=Session("rdLogonFailMessage") %></td>
 											</tr>
 																																									<tr>
-												<td></td><td><a href="">Forgot Password?</a></td>
+												<td></td><td><a href="../Help/rdPage.aspx" target="_blank">Forgot Password?</a></td>
 											</tr>
 											<tr>
-												<td></td><td><a href="">Request Account Login</a></td>
+												<td></td><td><a href="../Help/rdPage.aspx?rdReport=LoginRequest" target="_blank">Request Dashboard Account</a></td>
 											</tr>																													</table>
 									</form>
 								</td>
