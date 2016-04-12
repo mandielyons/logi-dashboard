@@ -5,14 +5,16 @@ End If %>
 <html>
 	<head>
 		<META name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Logon</title>
+		<title>TMA Grain Portal</title>
 		<style type="text/css">
 			BODY
 			{
 				font-family: Verdana, Arial, Helvetica, sans-serif;
 				font-size: 14px;				
 				margin:50px 0px; padding:0px;
-				background-color: #F7F7F7;				
+				/*background-color: #F7F7F7;*/
+				background: url("_SupportFiles/Wheat.jpg");
+				background-size: 100%;			
 			}	
 			
 			TABLE
@@ -31,17 +33,19 @@ End If %>
 				margin: 0px;
 				padding: 0px;
 				width: 100%;
-				height: 60%;
+				height: 100%;
 			}
 			
 			#mainCell
 			{
+				margin: 20px;
+				padding-top: 80px;
 				text-align: center;
 			}
 												
 			#logonPanel
 			{					
-				width: 300px;
+				width: 350px;
 				margin: auto;
 				background-color: #F7F7F7;
 				border: solid #d9bc4a 1px;
@@ -88,20 +92,20 @@ End If %>
 				text-align: center;
 				padding-top: 5px;
 				color: #790619;				
-			}		
+			}
+			#footer
+			{
+				text-align: center;
+				vertical-align: bottom;
+				color: #ffffff;
+			}
+
 			
 		</style>	
 	</head>
-	<body onkeypress="if (event.keyCode==13){frmLogon.submit()}" onload="document.getElementById('rdUsername').focus()" >	
+	<body onkeypress="if (event.keyCode==13){frmLogon.submit()}" onload="document.getElementById('rdUsername').focus()" >
+		
 		<table id="mainTable" cellspacing="0" >
-			<tr>
-				<td align="center">
-					<img src="_SupportFiles/logo.png" />
-				</td>
-				<td align="center">
-					<img src="_SupportFiles/TMA_LogoStkdK.png" />
-				</td>
-			</tr>
 			<tr>
 				<td id="mainCell" colspan="2" >
 					<div id="logonPanel" >
@@ -132,12 +136,22 @@ End If %>
 											<tr>
 												<td id="errorCell" colSpan="2" >&nbsp;<%=Session("rdLogonFailMessage") %></td>
 											</tr>
-										</table>
+																																									<tr>
+												<td></td><td><a href="../Help/rdPage.aspx">Forgot Password?</a></td>
+											</tr>
+											<tr>
+												<td></td><td><a href="../Help/rdPage.aspx?rdReport=LoginRequest">Request Dashboard Account</a></td>
+											</tr>																													</table>
 									</form>
 								</td>
 							</tr>
 						</table>						
 					</div>
+				</td>
+			</tr>
+			<tr>
+				<td id="footer" colspan="2">
+					<span>© Copyright 2016-2017 Team Marketing Alliance. All rights reserved.</span>
 				</td>
 			</tr>
 		</table>

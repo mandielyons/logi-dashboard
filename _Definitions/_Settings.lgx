@@ -3,16 +3,16 @@
 	ID="_settings"
 	>
 	<Application
-		Caption="Mid-Kansas Coop Dashboards"
+		Caption="TMA Grain Dashboards"
 		DefaultReport="Home.Default"
 	/>
 	<Path
-		AppPath="http://localhost/LiveBuild"
+		AppPath="http://localhost/MKCoop"
 	/>
 	<General
 		DoctypeDeclaration="Html5"
 		LogErrors="@Function.AppPhysicalPath~\_ErrorLogs"
-		rdDebuggerStyle="DebuggerLinks"
+		rdDebuggerStyle="NoDetail"
 		RedirectErrorUrl="rdPage.aspx?rdReport=_Layout.Error"
 		RepoFriendly="True"
 	/>
@@ -61,9 +61,9 @@
 			ID="connProdGP"
 			SqlServer="sqlsvr1"
 			SqlServerDatabase="Agtrax_Staging"
-			SqlServerPassword="integr8!"
+			SqlServerPassword="R3ports"
 			SqlServerPort=""
-			SqlServerUser="BIOperations"
+			SqlServerUser="SRS"
 			Type="SqlServer"
 		/>
 		<Connection
@@ -92,6 +92,16 @@
 			SqlServerPassword="integr8!"
 			SqlServerUser="BIOperations"
 			Type="SqlServer"
+		/>
+		<Connection
+			GoogleMapsUseHTTPS="False"
+			ID="gmAPIKey"
+			Type="GoogleMaps"
+		/>
+		<Connection
+			ID="connSMTP"
+			SmtpServer="relay.mkcoop.com"
+			Type="Smtp"
 		/>
 	</Connections>
 	<Security
@@ -133,7 +143,7 @@ FROM USERS
 WHERE 
 ACTIVE = 1
 AND USERNAME = @iptUsername
-AND PASSWORD = @iptPassword
+AND PASSWORD = HASHBYTES(&apos;SHA1&apos;,N&apos;@Request.rdPassword~&apos;)
 "
 				Type="SQL"
 				>
@@ -350,6 +360,93 @@ AND USERNAME = @iptUsername"
 					/>
 					<CalculatedColumn
 						Formula="&quot;TMA Dashboard&quot;"
+						ID="cRole"
+					/>
+				</DataLayer>
+			</RightFromRole>
+			<RightFromRole
+				ID="SRMGMT"
+				RolesDataColumn="cRole"
+				>
+				<DataLayer
+					CacheKey="dlcLdapUserRights"
+					ExpirationTimeSpan="00:05"
+					ID="dlcLdapUserRights"
+					Type="Cached"
+					>
+					<Note
+						Note="*** BRIEFLY caching to improve performance ***"
+					/>
+					<DataLayer
+						ConnectionID="mkcLDAP"
+						ID="dlLdapRights"
+						LdapSource="SELECT memberOf, sAMAccountName, title, name, userPrincipalName, ADsPath, DisplayName, givenName, sn, mail FROM &apos;DC=midkscoop,DC=lan&apos; WHERE SamAccountName=&apos;@Function.UserName~&apos; and objectClass=&apos;person&apos;"
+						Type="Ldap"
+					/>
+					<ConditionFilter
+						Condition="&quot;@Data.memberOf~&quot;.indexOf(&quot;Dashboard Sr Mgmt&quot;)!=&quot;-1&quot;"
+						ID="fSRMGMT"
+					/>
+					<CalculatedColumn
+						Formula="&quot;Dashboard Sr Mgmt&quot;"
+						ID="cRole"
+					/>
+				</DataLayer>
+			</RightFromRole>
+			<RightFromRole
+				ID="STRATEGICPLAN"
+				RolesDataColumn="cRole"
+				>
+				<DataLayer
+					CacheKey="dlcLdapUserRights"
+					ExpirationTimeSpan="00:05"
+					ID="dlcLdapUserRights"
+					Type="Cached"
+					>
+					<Note
+						Note="*** BRIEFLY caching to improve performance ***"
+					/>
+					<DataLayer
+						ConnectionID="mkcLDAP"
+						ID="dlLdapRights"
+						LdapSource="SELECT memberOf, sAMAccountName, title, name, userPrincipalName, ADsPath, DisplayName, givenName, sn, mail FROM &apos;DC=midkscoop,DC=lan&apos; WHERE SamAccountName=&apos;@Function.UserName~&apos; and objectClass=&apos;person&apos;"
+						Type="Ldap"
+					/>
+					<ConditionFilter
+						Condition="&quot;@Data.memberOf~&quot;.indexOf(&quot;Dashboard Strategic Planning&quot;)!=&quot;-1&quot;"
+						ID="fSTRATEGICPLAN"
+					/>
+					<CalculatedColumn
+						Formula="&quot;Dashboard Strategic Planning&quot;"
+						ID="cRole"
+					/>
+				</DataLayer>
+			</RightFromRole>
+			<RightFromRole
+				ID="ADMIN"
+				RolesDataColumn="cRole"
+				>
+				<DataLayer
+					CacheKey="dlcLdapUserRights"
+					ExpirationTimeSpan="00:05"
+					ID="dlcLdapUserRights"
+					Type="Cached"
+					>
+					<Note
+						Note="*** BRIEFLY caching to improve performance ***"
+					/>
+					<DataLayer
+						ConnectionID="mkcLDAP"
+						ID="dlLdapRights"
+						LdapSource="SELECT memberOf, sAMAccountName, title, name, userPrincipalName, ADsPath, DisplayName, givenName, sn, mail FROM &apos;DC=midkscoop,DC=lan&apos; WHERE SamAccountName=&apos;@Function.UserName~&apos; and objectClass=&apos;person&apos;"
+						Type="Ldap"
+					/>
+					<ConditionFilter
+						Condition="&quot;@Data.memberOf~&quot;.indexOf(&quot;Domain Admin&quot;)!=&quot;-1&quot;"
+						ID="fADMIN"
+					/>
+					<CalculatedColumn
+						Formula="&quot;Domain Admin&quot;"
 						ID="cRole"
 					/>
 				</DataLayer>
