@@ -191,7 +191,7 @@ hiddenCust.value = customer.options[customer.selectedIndex].text;"
 							>
 							<DataLayer
 								ColumnNamesRow="1"
-								ExcelFile="C:\inetpub\wwwroot\LiveBuild\UploadedFiles\DSRange.xlsx"
+								ExcelFile="C:\inetpub\wwwroot\DirectShip\UploadedFiles\DSRange.xlsx"
 								ExcelWorksheet="Sheet1"
 								ID="dlTicketRange"
 								Type="Excel"
