@@ -105,7 +105,7 @@
 							Size="2"
 						/>
 						<InputCheckbox
-							Caption="View All Tickets"
+							Caption="Toggle View"
 							CaptionClass="ThemeTextPositive"
 							CheckedValue="true"
 							DefaultValue="@Request.chkAll~"
@@ -401,6 +401,24 @@ Order By DM_DSTicketTracking.DropOffDate ASC
 				</ResponsiveRow>
 			</Division>
 		</Division>
+		<Remark>
+			<IncludeScript
+				ID="jsOnLoad"
+				IncludedScript="var chkBox = document.getElementById(&quot;chkAll&quot;);
+var chkBoxLbl = document.getElementById(&quot;chkAll-Caption&quot;);
+onCheckChange();
+
+function onCheckChange() {
+	if (chkBox.checked == &quot;true&quot;) {
+		chkBoxLbl.innerHTML = &quot;View Incomplete Tickets&quot;;
+	}
+	else {
+		chkBoxLbl.innerHTML = &quot;View All&quot;;
+	}
+}
+"
+			/>
+		</Remark>
 	</Body>
 	<IncludeSharedElement
 		DefinitionFile="_Layout.Shared"
