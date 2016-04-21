@@ -970,15 +970,6 @@ ORDER BY LocGLStr, cMTD.MNACSGMT
 									Note="**Add data here**"
 								/>
 								<Division
-									Class="panel-heading"
-									HtmlDiv="True"
-									ID="panel-headingSalesTotal"
-									>
-									<Label
-										Caption="Sales"
-									/>
-								</Division>
-								<Division
 									Class="panel-body"
 									HtmlDiv="True"
 									ID="panel-bodySalesTotal"
@@ -1103,15 +1094,6 @@ FROM             (SELECT MNACSGMT, ACCATNUM, ACTDESCR, SUM(PERDBLNC) cMTD FROM M
 									</Rows>
 									<LineBreak/>
 									<LineBreak/>
-								</Division>
-								<Division
-									Class="panel-heading"
-									HtmlDiv="True"
-									ID="panel-headingOperatingIncomeTotal"
-									>
-									<Label
-										Caption="Operating Income"
-									/>
 								</Division>
 								<Division
 									Class="panel-body"
@@ -1240,15 +1222,6 @@ FROM             (SELECT MNACSGMT, ACCATNUM, ACTDESCR, SUM(PERDBLNC) cMTD FROM M
 									<LineBreak/>
 								</Division>
 								<Division
-									Class="panel-heading"
-									HtmlDiv="True"
-									ID="panel-headingPersonnelExpenseTotal"
-									>
-									<Label
-										Caption="Personnel Expense"
-									/>
-								</Division>
-								<Division
 									Class="panel-body"
 									HtmlDiv="True"
 									ID="panel-bodyPersonnelExpenseTotal"
@@ -1375,15 +1348,6 @@ FROM             (SELECT MNACSGMT, ACCATNUM, ACTDESCR, SUM(PERDBLNC) cMTD FROM M
 									<LineBreak/>
 								</Division>
 								<Division
-									Class="panel-heading"
-									HtmlDiv="True"
-									ID="panel-headingFixedExpenseTotal"
-									>
-									<Label
-										Caption="Fixed Expense"
-									/>
-								</Division>
-								<Division
 									Class="panel-body"
 									HtmlDiv="True"
 									ID="panel-bodyFixedExpenseTotal"
@@ -1508,15 +1472,6 @@ FROM             (SELECT MNACSGMT, ACCATNUM, ACTDESCR, SUM(PERDBLNC) cMTD FROM M
 									</Rows>
 									<LineBreak/>
 									<LineBreak/>
-								</Division>
-								<Division
-									Class="panel-heading"
-									HtmlDiv="True"
-									ID="panel-headingOtherCostTotal"
-									>
-									<Label
-										Caption="Other Cost"
-									/>
 								</Division>
 								<Division
 									Class="panel-body"
