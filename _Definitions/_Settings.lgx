@@ -7,7 +7,7 @@
 		DefaultReport="Home.Default"
 	/>
 	<Path
-		AppPath="http://localhost/MKCoop"
+		AppPath="http://localhost/LiveBuild"
 	/>
 	<General
 		DoctypeDeclaration="Html5"

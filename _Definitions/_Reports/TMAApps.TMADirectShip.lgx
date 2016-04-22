@@ -101,6 +101,37 @@
 				</ResponsiveRow>
 				<ResponsiveRow>
 					<ResponsiveColumn>
+						<Spaces
+							Size="2"
+						/>
+						<InputCheckbox
+							Caption="Toggle View"
+							CaptionClass="ThemeTextPositive"
+							CheckedValue="true"
+							DefaultValue="@Request.chkAll~"
+							ID="chkAll"
+							UncheckedValue="false"
+							>
+							<EventHandler
+								DhtmlEvent="onchange"
+								>
+								<Action
+									ElementID="dtTicketTracking"
+									ID="refreshData"
+									Type="RefreshElement"
+									>
+									<WaitPage/>
+									<LinkParams/>
+								</Action>
+							</EventHandler>
+						</InputCheckbox>
+						<LineBreak
+							LineCount="2"
+						/>
+					</ResponsiveColumn>
+				</ResponsiveRow>
+				<ResponsiveRow>
+					<ResponsiveColumn>
 						<DataTable
 							AccessibleHeaders="True"
 							AccessibleSummary="AnalysisGrid DataTable"
@@ -133,7 +164,12 @@ From DM_DSTicketTracking
 Order By DM_DSTicketTracking.DropOffDate ASC
 "
 								Type="SQL"
-							/>
+								>
+								<ConditionFilter
+									Condition="InStr(&quot;@Data.CompletedDate~&quot;, &quot;1900-01-01&quot;) &gt; 0"
+									IncludeCondition="&quot;@Request.chkAll~&quot; &lt;&gt; &quot;true&quot;"
+								/>
+							</DataLayer>
 							<InteractivePaging
 								CaptionType="Image"
 								HideShowPrevNextCaptions="False"
@@ -365,12 +401,31 @@ Order By DM_DSTicketTracking.DropOffDate ASC
 				</ResponsiveRow>
 			</Division>
 		</Division>
+		<Remark>
+			<IncludeScript
+				ID="jsOnLoad"
+				IncludedScript="var chkBox = document.getElementById(&quot;chkAll&quot;);
+var chkBoxLbl = document.getElementById(&quot;chkAll-Caption&quot;);
+onCheckChange();
+
+function onCheckChange() {
+	if (chkBox.checked == &quot;true&quot;) {
+		chkBoxLbl.innerHTML = &quot;View Incomplete Tickets&quot;;
+	}
+	else {
+		chkBoxLbl.innerHTML = &quot;View All&quot;;
+	}
+}
+"
+			/>
+		</Remark>
 	</Body>
 	<IncludeSharedElement
 		DefinitionFile="_Layout.Shared"
 		SharedElementID="shrFooter"
 	/>
 	<ideTestParams
+		chkAll=""
 		StatusMsg=""
 	/>
 </Report>

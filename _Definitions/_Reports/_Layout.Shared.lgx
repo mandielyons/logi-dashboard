@@ -764,17 +764,84 @@
 										Note="*** show on sm/xs screens ***"
 									/>
 								</ResponsiveVisibility>
-								<Label
-									Caption="Menu"
-									Class="btn btn-default pull-right"
-									HtmlTag="Span"
+								<Image
+									Caption="hamburger.png"
+									ID="imgMobile"
 									>
 									<Action
-										ID="actBlank"
-										Javascript="void(0)"
-										Type="Javascript"
+										ID="mnuMobile"
+										PopupLocation="Right"
+										Type="Popup"
+										>
+										<PopupOption
+											Caption="Contracts"
+											ID="optContracts"
+											SecurityRightID="MKC,TMA"
+											>
+											<Action
+												ID="tarContracts"
+												Type="Report"
+												>
+												<Target
+													Report="TMAReports.TMAContractsDashboard"
+													Type="Report"
+												/>
+											</Action>
+										</PopupOption>
+										<PopupOption
+											Caption="Dispatch"
+											ID="optDispatch"
+											SecurityRightID="MKC,TMA,OC"
+											>
+											<Action
+												ID="tarDispatch"
+												Type="Report"
+												>
+												<Target
+													Report="TMAReports.TMADispatch"
+													Type="Report"
+												/>
+											</Action>
+										</PopupOption>
+										<PopupOption
+											Caption="Scorecard"
+											ID="optScorecard"
+											SecurityRightID="STRATEGICPLAN,SRMGMT"
+											>
+											<Action
+												ID="tarScorecard"
+												Type="Report"
+												>
+												<Target
+													Report="Scorecard.StrategicDashboard"
+													Type="Report"
+												/>
+											</Action>
+										</PopupOption>
+										<PopupOption
+											Caption="Logout"
+											ID="optLogout"
+											>
+											<Action
+												ID="actLogout"
+												Type="Exit"
+												>
+												<Target
+													ID="tgtLogout"
+													Link="@Function.AppVirtualPath~"
+													Type="Link"
+												/>
+											</Action>
+										</PopupOption>
+									</Action>
+								</Image>
+								<Remark>
+									<Label
+										Caption="Menu"
+										Class="btn btn-default pull-right"
+										HtmlTag="Span"
 									/>
-								</Label>
+								</Remark>
 							</Division>
 						</Division>
 					</Division>
