@@ -442,11 +442,11 @@ AND USERNAME = @iptUsername"
 						Type="Ldap"
 					/>
 					<ConditionFilter
-						Condition="&quot;@Data.memberOf~&quot;.indexOf(&quot;Domain Admin&quot;)!=&quot;-1&quot;"
+						Condition="&quot;@Data.memberOf~&quot;.indexOf(&quot;LogiUserAdmin&quot;)!=&quot;-1&quot;"
 						ID="fADMIN"
 					/>
 					<CalculatedColumn
-						Formula="&quot;Domain Admin&quot;"
+						Formula="&quot;LogiUserAdmin&quot;"
 						ID="cRole"
 					/>
 				</DataLayer>
