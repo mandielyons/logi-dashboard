@@ -863,6 +863,13 @@
 										</PopupOption>
 									</Action>
 								</Image>
+								<Remark>
+									<Label
+										Caption="Menu"
+										Class="btn btn-default pull-right"
+										HtmlTag="Span"
+									/>
+								</Remark>
 							</Division>
 						</Division>
 					</Division>
