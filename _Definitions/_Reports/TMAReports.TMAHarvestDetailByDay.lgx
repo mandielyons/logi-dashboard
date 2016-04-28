@@ -3,6 +3,10 @@
 	Caption="Harvest Detail"
 	ID="TMAReports.TMAHarvestDetailByDay"
 	>
+	<IncludeSharedElement
+		DefinitionFile="_Layout.Shared"
+		SharedElementID="shrHeader"
+	/>
 	<DefaultRequestParams
 		Branch="0"
 		Commodity="0"
@@ -284,6 +288,12 @@ ORDER BY POSTING_DATE, BRANCH_NAME
 			</CrosstabTable>
 		</Division>
 	</Body>
+	<ReportFooter>
+		<IncludeSharedElement
+			DefinitionFile="_Layout.Shared"
+			SharedElementID="shrFooter"
+		/>
+	</ReportFooter>
 	<ideTestParams
 		Branch="0"
 		Commodity="0"

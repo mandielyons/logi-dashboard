@@ -56,6 +56,18 @@ WHERE CONTRACT_TYPE=2
 		</DataLayer>
 	</LocalData>
 	<Body>
+		<IncludeScript
+			IncludedScript="&lt;script&gt;
+  (function(i,s,o,g,r,a,m){i[&apos;GoogleAnalyticsObject&apos;]=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,&apos;script&apos;,&apos;https://www.google-analytics.com/analytics.js&apos;,&apos;ga&apos;);
+
+  ga(&apos;create&apos;, &apos;UA-76860562-1&apos;, &apos;auto&apos;);
+  ga(&apos;send&apos;, &apos;pageview&apos;);
+
+&lt;/script&gt;"
+		/>
 		<Division
 			ID="divBtnExportExcel"
 			>
@@ -207,6 +219,7 @@ ORDER BY BRANCH_DESC
 			</ResponsiveRow>
 		</Division>
 		<Division
+			Class="ThemeTextSmall"
 			ID="divTable"
 			>
 			<LineBreak
@@ -259,8 +272,10 @@ ORDER BY BRANCH_DESC
 					</Join>
 				</DataLayer>
 				<DataTableColumn
-					Header="Shipment Type Code"
+					Header="Type"
 					ID="colSHPMTTYP_CODE"
+					Width="5"
+					WidthScale="%"
 					>
 					<Label
 						Caption="@Data.SHPMTTYP_CODE~"
@@ -274,6 +289,8 @@ ORDER BY BRANCH_DESC
 				<DataTableColumn
 					Header="Account"
 					ID="colAccount"
+					Width="12"
+					WidthScale="%"
 					>
 					<Label
 						Caption="@Data.Account~"
@@ -287,6 +304,8 @@ ORDER BY BRANCH_DESC
 				<DataTableColumn
 					Header="Contract"
 					ID="colCONTRACT_NUMBER"
+					Width="8"
+					WidthScale="%"
 					>
 					<Label
 						Caption="@Data.CONTRACT_NUMBER~"
@@ -297,22 +316,26 @@ ORDER BY BRANCH_DESC
 						DataType="Number"
 					/>
 				</DataTableColumn>
-				<DataTableColumn
-					Header="Account Contract"
-					ID="colTHEIR_CONTRACT_NUMBER"
-					>
-					<Label
-						Caption="@Data.THEIR_CONTRACT_NUMBER~"
-						ID="lblTHEIR_CONTRACT_NUMBER"
-					/>
-					<DataColumnSort
-						DataColumn="THEIR_CONTRACT_NUMBER"
-						DataType="Text"
-					/>
-				</DataTableColumn>
+				<Remark>
+					<DataTableColumn
+						Header="Account Contract"
+						ID="colTHEIR_CONTRACT_NUMBER"
+						>
+						<Label
+							Caption="@Data.THEIR_CONTRACT_NUMBER~"
+							ID="lblTHEIR_CONTRACT_NUMBER"
+						/>
+						<DataColumnSort
+							DataColumn="THEIR_CONTRACT_NUMBER"
+							DataType="Text"
+						/>
+					</DataTableColumn>
+				</Remark>
 				<DataTableColumn
 					Header="Commodity"
 					ID="colCommodity"
+					Width="8"
+					WidthScale="%"
 					>
 					<Label
 						Caption="@Data.Commodity~"
@@ -326,6 +349,8 @@ ORDER BY BRANCH_DESC
 				<DataTableColumn
 					Header="Location"
 					ID="colLocation"
+					Width="12"
+					WidthScale="%"
 					>
 					<Label
 						Caption="@Data.Location~"
@@ -337,38 +362,50 @@ ORDER BY BRANCH_DESC
 					/>
 				</DataTableColumn>
 				<DataTableColumn
-					Header="Delivery Start Date"
-					ID="colDELIVERY_START_DATE"
+					Header="Delivery Start/End"
+					ID="colDELIVERY_START_END"
+					Width="8"
+					WidthScale="%"
 					>
 					<Label
 						Caption="@Data.DELIVERY_START_DATE~"
 						Format="Short Date"
 						ID="lblDELIVERY_START_DATE"
 					/>
-					<DataColumnSort
-						DataColumn="DELIVERY_START_DATE"
-						DataType="Date"
-					/>
-				</DataTableColumn>
-				<DataTableColumn
-					Header="Delivery End Date"
-					ID="colDELIVERY_END_DATE"
-					>
+					<LineBreak/>
 					<Label
 						Caption="@Data.DELIVERY_END_DATE~"
 						Format="Short Date"
 						ID="lblDELIVERY_END_DATE"
 					/>
 					<DataColumnSort
-						DataColumn="DELIVERY_END_DATE"
+						DataColumn="DELIVERY_START_DATE"
 						DataType="Date"
 					/>
 				</DataTableColumn>
+				<Remark>
+					<DataTableColumn
+						Header="Delivery Start/End"
+						ID="colDELIVERY_END_DATE"
+						>
+						<Label
+							Caption="@Data.DELIVERY_END_DATE~"
+							Format="Short Date"
+							ID="lblDELIVERY_END_DATE"
+						/>
+						<DataColumnSort
+							DataColumn="DELIVERY_END_DATE"
+							DataType="Date"
+						/>
+					</DataTableColumn>
+				</Remark>
 				<DataTableColumn
 					Class="ThemeMargin, ThemeAlignRight"
 					ColumnHeaderClass="ThemeAlignCenter"
 					Header="Remaining BU"
 					ID="colREMAINING_BU"
+					Width="8"
+					WidthScale="%"
 					>
 					<Label
 						Caption="@Data.REMAINING_BU~"
@@ -387,8 +424,11 @@ ORDER BY BRANCH_DESC
 					/>
 				</DataTableColumn>
 				<DataTableColumn
+					Class="ThemeAlignCenter"
 					Header="Dest Code"
 					ID="colDEST_CODE"
+					Width="5"
+					WidthScale="%"
 					>
 					<Label
 						Caption="@Data.DEST_CODE~"
@@ -402,6 +442,8 @@ ORDER BY BRANCH_DESC
 				<DataTableColumn
 					Header="Shipper Description"
 					ID="colSHIPR_DESC"
+					Width="10"
+					WidthScale="%"
 					>
 					<Label
 						Caption="@Data.SHIPR_DESC~"
@@ -415,6 +457,8 @@ ORDER BY BRANCH_DESC
 				<DataTableColumn
 					Header="Shipper Number Trucks"
 					ID="colSHIPR_NUMTRCS"
+					Width="8"
+					WidthScale="%"
 					>
 					<Label
 						Caption="@Data.SHIPR_NUMTRCS~"
@@ -424,30 +468,36 @@ ORDER BY BRANCH_DESC
 				<DataTableColumn
 					Header="Shipper Load Description"
 					ID="colSHIPR_LDDESC"
+					Width="8"
+					WidthScale="%"
 					>
 					<Label
 						Caption="@Data.SHIPR_LDDESC~"
 						ID="lblSHIPR_LDDESC"
 					/>
 				</DataTableColumn>
-				<DataTableColumn
-					Header="Rate"
-					ID="colSHIPR_RATE"
-					>
-					<Label
-						Caption="@Data.SHIPR_RATE~"
-						ID="lblSHIPR_RATE"
-					/>
-				</DataTableColumn>
-				<DataTableColumn
-					Header="PAR"
-					ID="colSHIPR_PAR"
-					>
-					<Label
-						Caption="@Data.SHIPR_PAR~"
-						ID="lblSHIPR_PAR"
-					/>
-				</DataTableColumn>
+				<Remark>
+					<DataTableColumn
+						Header="Rate"
+						ID="colSHIPR_RATE"
+						>
+						<Label
+							Caption="@Data.SHIPR_RATE~"
+							ID="lblSHIPR_RATE"
+						/>
+					</DataTableColumn>
+				</Remark>
+				<Remark>
+					<DataTableColumn
+						Header="PAR"
+						ID="colSHIPR_PAR"
+						>
+						<Label
+							Caption="@Data.SHIPR_PAR~"
+							ID="lblSHIPR_PAR"
+						/>
+					</DataTableColumn>
+				</Remark>
 				<DataTableColumn
 					Header="Notes"
 					ID="colTMANOTES"

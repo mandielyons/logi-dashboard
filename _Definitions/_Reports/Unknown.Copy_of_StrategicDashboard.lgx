@@ -1,25 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Report
-	ID="Scorecard.StrategicDashboard"
+	ID="Unknown.Copy_of_StrategicDashboard"
 	SecurityReportRightID="SRMGMT,STRATEGICPLAN"
 	>
 	<IncludeSharedElement
 		DefinitionFile="_Layout.Shared"
 		SharedElementID="shrHeader"
 	/>
-	<Body>
-		<IncludeScript
-			IncludedScript="&lt;script&gt;
-  (function(i,s,o,g,r,a,m){i[&apos;GoogleAnalyticsObject&apos;]=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,&apos;script&apos;,&apos;https://www.google-analytics.com/analytics.js&apos;,&apos;ga&apos;);
-
-  ga(&apos;create&apos;, &apos;UA-76860562-1&apos;, &apos;auto&apos;);
-  ga(&apos;send&apos;, &apos;pageview&apos;);
-
-&lt;/script&gt;"
+	<LocalData>
+		<DataLayer
+			Type="Plugin"
 		/>
+	</LocalData>
+	<Body>
 		<ResponsiveRow>
 			<ResponsiveColumn>
 				<Division
@@ -691,7 +684,7 @@
 						ID="panel-heading-initiatives"
 						>
 						<Label
-							Caption="2016 MKC Balanced Scorecard Initiatives"
+							Caption="2015 MKC Balanced Scorecard Initiatives"
 						/>
 					</Division>
 					<Division
@@ -4292,7 +4285,7 @@
 														ID="panel-heading"
 														>
 														<Label
-															Caption="Communicate the Strategic Plan to the Employee Group"
+															Caption="Communicate the Strategic Plan/Incorporate into Incentive Plan"
 															Tooltip="Click for Detail Report"
 														/>
 														<Division
@@ -4374,7 +4367,7 @@
 																	<DataTable
 																		AccessibleHeaders="True"
 																		AccessibleSummary="AnalysisGrid DataTable"
-																		Caption="Actions for Communicate the Strategic Plan to the Employee Group"
+																		Caption="Actions for Communicate the Strategic Plan/Incorporate into Incentive Plan"
 																		DraggableColumns="False"
 																		HideWhenZeroRows="True"
 																		ID="dtEmpAction1"

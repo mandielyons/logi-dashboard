@@ -3,6 +3,10 @@
 	Caption="Harvest Summary"
 	ID="TMAHarvestSummary"
 	>
+	<IncludeSharedElement
+		DefinitionFile="_Layout.Shared"
+		SharedElementID="shrHeader"
+	/>
 	<LocalData
 		ID="Local-FiscYear"
 		>
@@ -870,6 +874,12 @@ WHERE BRANCH_NUMBER IN(@Request.Branch~) OR &apos;@Request.Branch~&apos;=&apos;-
 			</DataTable>
 		</Division>
 	</Body>
+	<ReportFooter>
+		<IncludeSharedElement
+			DefinitionFile="_Layout.Shared"
+			SharedElementID="shrFooter"
+		/>
+	</ReportFooter>
 	<ideTestParams
 		Branch=""
 	/>
