@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Report
-	ID="_Layout.Shared"
+	ID="_Layout.TMA_Shared"
 	>
 	<SharedElement
 		ID="shrHeader"
@@ -37,38 +37,16 @@
 								ID="navbar-brand"
 								>
 								<Image
-									Caption="logo-white.png"
+									Caption="TMA_LogoStkdWht.png"
 									Class="main-logo"
-									ID="mkclogo"
-									SecurityRightID="MKC,SRMGMT"
+									ID="logo"
 									>
 									<Action
 										ID="actHomeLink"
 										Type="Report"
 										>
 										<Target
-											Report="Reports.MKC_Locations"
-											Type="Report"
-											>
-											<WaitPage/>
-										</Target>
-									</Action>
-								</Image>
-								<Note
-									Note="**Comment back in for security**"
-								/>
-								<Image
-									Caption="TMA_LogoHorWht.png"
-									Class="main-logo"
-									ID="tmalogo"
-									SecurityRightID="TMA,OC"
-									>
-									<Action
-										ID="actHomeLink"
-										Type="Report"
-										>
-										<Target
-											Report="TMAReports.TMAContractsDashboard"
+											Report="Home.MKCReport"
 											Type="Report"
 											>
 											<WaitPage/>
@@ -91,21 +69,9 @@
 									Condition=""
 									ID="title"
 									>
-									<Remark>
-										<Label
-											Caption="Dashboard Reports"
-										/>
-									</Remark>
-									<Spaces
-										Size="25"
+									<Label
+										Caption="Dashboard Reports"
 									/>
-									<Remark>
-										<Label
-											Caption="*****FOR INTERNAL TESTING PURPOSES ONLY*****"
-											Class="ThemeErrorText"
-										/>
-									</Remark>
-									<LineBreak/>
 								</Division>
 							</Division>
 						</Division>
@@ -130,9 +96,7 @@
 									/>
 								</ResponsiveVisibility>
 								<Label
-									Caption="Home"
-									ID="MKCHome"
-									SecurityRightID="MKC"
+									Caption="MKC Home"
 									>
 									<Action
 										ID="actReport"
@@ -140,29 +104,7 @@
 										>
 										<Target
 											ID="tgtReport"
-											Report="Home.Default"
-											Type="Report"
-											>
-											<WaitPage/>
-										</Target>
-									</Action>
-									<ConditionalClass
-										Class="selected-menu "
-										Condition="&quot;@Request.rdReport~&quot;==&quot;Home.MKCReport&quot; || &quot;@Request.rdReport~&quot;==&quot;&quot;"
-									/>
-								</Label>
-								<Label
-									Caption="Home"
-									ID="TMAHome"
-									SecurityRightID="TMA,OC"
-									>
-									<Action
-										ID="actReport"
-										Type="Report"
-										>
-										<Target
-											ID="tgtReport"
-											Report="Home.Default"
+											Report="Home.MKCReport"
 											Type="Report"
 											>
 											<WaitPage/>
@@ -181,7 +123,6 @@
 								<Remark>
 									<Division
 										ID="reports-container"
-										SecurityRightID="MKC"
 										>
 										<Division
 											Class="dropdown"
@@ -189,7 +130,7 @@
 											ID="reports"
 											>
 											<Label
-												Caption="Financial"
+												Caption="MKC Reports"
 												>
 												<Action
 													ID="actBlank"
@@ -268,7 +209,6 @@
 								</Remark>
 								<Division
 									ID="tma-reports-container"
-									SecurityRightID="TMA,MKC,OC"
 									>
 									<Division
 										Class="dropdown"
@@ -276,7 +216,7 @@
 										ID="tma-reports"
 										>
 										<Label
-											Caption="Grain"
+											Caption="TMA Reports"
 											>
 											<Action
 												ID="actBlank"
@@ -354,96 +294,7 @@
 								</Division>
 								<Remark>
 									<Division
-										ID="energy-reports-container"
-										SecurityRightID="MKC"
-										>
-										<Division
-											Class="dropdown"
-											HtmlDiv="True"
-											ID="energy-reports"
-											>
-											<Label
-												Caption="Energy"
-												>
-												<Action
-													ID="actBlank"
-													Javascript="void(0)"
-													Type="Javascript"
-												/>
-												<ConditionalClass
-													Class="selected-menu"
-													Condition="&quot;@Request.rdReport~&quot;.indexOf(&quot;TMAReports&quot;)&lt;&gt;&quot;-1&quot;"
-												/>
-											</Label>
-											<Label
-												Class="caret"
-												>
-												<Action
-													ID="actBlank"
-													Javascript="void(0)"
-													Type="Javascript"
-												/>
-												<ConditionalClass
-													Class="caret selected-menu"
-													Condition="&quot;@Request.rdReport~&quot;.indexOf(&quot;Reports&quot;)&lt;&gt;&quot;-1&quot;"
-												/>
-											</Label>
-											<Division
-												Class="submenu"
-												HtmlDiv="True"
-												ID="submenu-tma-reports"
-												>
-												<DataList
-													ID="lstEnergyReports"
-													>
-													<DataLayer
-														ID="dlNav-Energy"
-														Type="DefinitionList"
-														>
-														<CompareFilter
-															CaseSensitive="True"
-															CompareType="="
-															CompareValue="Energy"
-															DataColumn="Folder1"
-															DataType="Text"
-															ID="fEnergy"
-														/>
-													</DataLayer>
-													<ListItem>
-														<Label
-															Caption="@Data.Caption~"
-															>
-															<Action
-																ID="actReport"
-																Type="Report"
-																>
-																<Target
-																	Report="@Data.ID~"
-																	Type="Report"
-																	>
-																	<WaitPage/>
-																</Target>
-															</Action>
-															<ConditionalClass
-																Class="selected-menu"
-																Condition="&quot;@Request.rdReport~&quot;==&quot;@Data.ID~&quot;"
-															/>
-														</Label>
-													</ListItem>
-												</DataList>
-											</Division>
-										</Division>
-										<Label
-											Caption="|"
-											Class="pipe-spacer"
-											ID="pipe-spacer"
-										/>
-									</Division>
-								</Remark>
-								<Remark>
-									<Division
 										ID="maps-container"
-										SecurityRightID="MKC"
 										>
 										<Division
 											Class="dropdown"
@@ -451,7 +302,7 @@
 											ID="maps"
 											>
 											<Label
-												Caption="Maps"
+												Caption="MKC Maps"
 												>
 												<Action
 													ID="actBlank"
@@ -530,85 +381,28 @@
 								</Remark>
 								<Remark>
 									<Division
-										ID="tma-apps-container"
-										SecurityRightID="TMA,MKC"
+										ID="scorecard-container"
 										>
-										<Division
-											Class="dropdown"
-											HtmlDiv="True"
-											ID="tma-apps"
+										<Label
+											Caption="MKC Scorecard"
 											>
-											<Label
-												Caption="TMA Apps"
+											<Action
+												ID="actReport"
+												Type="Report"
 												>
-												<Action
-													ID="actBlank"
-													Javascript="void(0)"
-													Type="Javascript"
-												/>
-												<ConditionalClass
-													Class="selected-menu"
-													Condition="&quot;@Request.rdReport~&quot;.indexOf(&quot;TMAReports&quot;)&lt;&gt;&quot;-1&quot;"
-												/>
-											</Label>
-											<Label
-												Class="caret"
-												>
-												<Action
-													ID="actBlank"
-													Javascript="void(0)"
-													Type="Javascript"
-												/>
-												<ConditionalClass
-													Class="caret selected-menu"
-													Condition="&quot;@Request.rdReport~&quot;.indexOf(&quot;Reports&quot;)&lt;&gt;&quot;-1&quot;"
-												/>
-											</Label>
-											<Division
-												Class="submenu"
-												HtmlDiv="True"
-												ID="submenu-tma-apps"
-												>
-												<DataList
-													ID="lstTMAApps"
+												<Target
+													ID="tgtReport"
+													Report="Scorecard.StrategicDashboard"
+													Type="Report"
 													>
-													<DataLayer
-														ID="dlNav-TMAReports"
-														Type="DefinitionList"
-														>
-														<CompareFilter
-															CaseSensitive="True"
-															CompareType="="
-															CompareValue="TMAApps"
-															DataColumn="Folder1"
-															DataType="Text"
-															ID="fTMAApps"
-														/>
-													</DataLayer>
-													<ListItem>
-														<Label
-															Caption="@Data.Caption~"
-															>
-															<Action
-																ID="actReport"
-																Type="Report"
-																>
-																<Target
-																	Report="@Data.ID~"
-																	Type="Report"
-																	>
-																	<WaitPage/>
-																</Target>
-															</Action>
-															<ConditionalClass
-																Class="selected-menu"
-																Condition="&quot;@Request.rdReport~&quot;==&quot;@Data.ID~&quot;"
-															/>
-														</Label>
-													</ListItem>
-												</DataList>
-											</Division>
-										</Division>
+													<WaitPage/>
+												</Target>
+											</Action>
+											<ConditionalClass
+												Class="selected-menu"
+												Condition="&quot;@Request.rdReport~&quot;==&quot;Scorecard.StrategicDashboard&quot;"
+											/>
+										</Label>
 										<Label
 											Caption="|"
 											Class="pipe-spacer"
@@ -617,38 +411,7 @@
 									</Division>
 								</Remark>
 								<Division
-									ID="scorecard-container"
-									SecurityRightID="SRMGMT,STRATEGICPLAN"
-									>
-									<Label
-										Caption="Scorecard"
-										>
-										<Action
-											ID="actReport"
-											Type="Report"
-											>
-											<Target
-												ID="tgtReport"
-												Report="Scorecard.StrategicDashboard"
-												Type="Report"
-												>
-												<WaitPage/>
-											</Target>
-										</Action>
-										<ConditionalClass
-											Class="selected-menu"
-											Condition="&quot;@Request.rdReport~&quot;==&quot;Scorecard.StrategicDashboard&quot;"
-										/>
-									</Label>
-									<Label
-										Caption="|"
-										Class="pipe-spacer"
-										ID="pipe-spacer"
-									/>
-								</Division>
-								<Division
 									ID="admin-container"
-									SecurityRightID="TMA,MKC"
 									>
 									<Division
 										Class="dropdown"
@@ -764,77 +527,17 @@
 										Note="*** show on sm/xs screens ***"
 									/>
 								</ResponsiveVisibility>
-								<Image
-									Caption="hamburger.png"
-									ID="imgMobile"
+								<Label
+									Caption="Menu"
+									Class="btn btn-default pull-right"
+									HtmlTag="Span"
 									>
 									<Action
-										ID="mnuMobile"
-										PopupLocation="Right"
-										Type="Popup"
-										>
-										<PopupOption
-											Caption="Contracts"
-											ID="optContracts"
-											SecurityRightID="MKC,TMA"
-											>
-											<Action
-												ID="tarContracts"
-												Type="Report"
-												>
-												<Target
-													Report="TMAReports.TMAContractsDashboard"
-													Type="Report"
-												/>
-											</Action>
-										</PopupOption>
-										<PopupOption
-											Caption="Dispatch"
-											ID="optDispatch"
-											SecurityRightID="MKC,TMA,OC"
-											>
-											<Action
-												ID="tarDispatch"
-												Type="Report"
-												>
-												<Target
-													Report="TMAReports.TMADispatch"
-													Type="Report"
-												/>
-											</Action>
-										</PopupOption>
-										<PopupOption
-											Caption="Scorecard"
-											ID="optScorecard"
-											SecurityRightID="STRATEGICPLAN,SRMGMT"
-											>
-											<Action
-												ID="tarScorecard"
-												Type="Report"
-												>
-												<Target
-													Report="Scorecard.StrategicDashboard"
-													Type="Report"
-												/>
-											</Action>
-										</PopupOption>
-										<PopupOption
-											Caption="Logout"
-											ID="optLogout"
-											>
-											<Action
-												ID="actLogout"
-												Type="Exit"
-												>
-												<Target
-													ID="tgtLogout"
-													Link="@Function.AppVirtualPath~"
-													Type="Link"
-												/>
-											</Action>
-										</PopupOption>
-									</Action>
-								</Image>
+										ID="actBlank"
+										Javascript="void(0)"
+										Type="Javascript"
+									/>
+								</Label>
 							</Division>
 						</Division>
 					</Division>
@@ -865,14 +568,8 @@
 				ShowModes="rdBrowser"
 				>
 				<Label
-					Caption="© Copyright 2015 - MKC. Shared growth. Shared success. All rights reserved."
+					Caption="© Copyright 2015 - Team Marketing Alliance"
 					Format="HTML"
-					SecurityRightID="MKC"
-				/>
-				<Label
-					Caption="© Copyright 2015 - Team Marketing Alliance. All rights reserved."
-					Format="HTML"
-					SecurityRightID="TMA,OC"
 				/>
 				<Remark>
 					<Division
