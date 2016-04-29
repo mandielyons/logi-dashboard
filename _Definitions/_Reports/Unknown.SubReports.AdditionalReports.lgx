@@ -4,8 +4,9 @@
 	ID="Unknown.SubReports.AdditionalReports"
 	>
 	<DefaultRequestParams
-		paramLocCd=""
-		paramLocName=""
+		paramFiscPeriod="11"
+		paramFiscYear="2016"
+		paramLocGLStr="100"
 	/>
 	<IncludeSharedElement
 		DefinitionFile="_Layout.Shared"
@@ -44,7 +45,9 @@
 										Size="5"
 									/>
 								</Column>
-								<Column>
+								<Column
+									Class="ThemeNoWrap"
+									>
 									<Label
 										Caption="Filter By Fiscal Year:"
 									/>
@@ -52,7 +55,7 @@
 								<Column>
 									<InputSelectList
 										DefaultValue="@Request.paramFiscYear~"
-										ID="iptFiscalYear"
+										ID="paramFiscYear"
 										IncludeBlank="False"
 										MultiSelect="False"
 										OptionCaptionColumn="YEAR1"
@@ -65,25 +68,6 @@
 											Type="SQL"
 										/>
 									</InputSelectList>
-									<Image
-										Caption="_theme_files.1x1.gif"
-										Class="ThemeHidden"
-										>
-										<EventHandler
-											DhtmlEvent="onload"
-											>
-											<Action
-												ID="jsChosen"
-												Javascript="$( document ).ready(function() {
-  $(&quot;.chosen-select&quot;).chosen({
-    	search_contains:true,
-		display_selected_options:false
-  });
-});"
-												Type="Javascript"
-											/>
-										</EventHandler>
-									</Image>
 								</Column>
 								<Column>
 									<Spaces
@@ -110,15 +94,15 @@
 								</Column>
 								<Column>
 									<InputSelectList
-										DefaultValue="@Request.paramLocGLStr~"
-										ID="iptFiscalPeriod"
+										DefaultValue="@Request.paramFiscPeriod~"
+										ID="paramFiscPeriod"
 										IncludeBlank="False"
 										MultiSelect="False"
 										OptionCaptionColumn="FISCPRDDSC"
 										OptionValueColumn="FISCPRDID"
 										>
 										<DataLayer
-											ID="StaticDataLayer1"
+											ID="staticFiscalPeriods"
 											Type="Static"
 											>
 											<StaticDataRow
@@ -171,25 +155,6 @@
 											/>
 										</DataLayer>
 									</InputSelectList>
-									<Image
-										Caption="_theme_files.1x1.gif"
-										Class="ThemeHidden"
-										>
-										<EventHandler
-											DhtmlEvent="onload"
-											>
-											<Action
-												ID="jsChosen"
-												Javascript="$( document ).ready(function() {
-  $(&quot;.chosen-select&quot;).chosen({
-    	search_contains:true,
-		display_selected_options:false
-  });
-});"
-												Type="Javascript"
-											/>
-										</EventHandler>
-									</Image>
 								</Column>
 								<Column>
 									<Spaces
@@ -217,50 +182,23 @@
 								<Column>
 									<InputSelectList
 										DefaultValue="@Request.paramLocGLStr~"
-										ID="iptLocation"
-										IncludeBlank="True"
-										IncludeBlankCaption="MKC All"
-										IncludeBlankValue="ALL"
+										ID="paramLocGLStr"
 										OptionCaptionColumn="Location"
 										OptionValueColumn="LocGLStr"
 										>
-										<Remark>
-											<DataLayer
-												ConnectionID="connMKC"
-												ID="dlDataLocations"
-												Source="Select Distinct MapMKCLocations.LOCNCODE As LOCNCODE,
-  MapMKCLocations.LOCNDSCR As LocDescr
-From MapMKCLocations"
-												Type="SQL"
-											/>
-										</Remark>
 										<DataLayer
 											ColumnNamesRow="1"
 											ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\LocationData.xlsx"
 											ExcelWorksheet="BranchData"
 											ID="dlLocations"
 											Type="Excel"
-										/>
-									</InputSelectList>
-									<Image
-										Caption="_theme_files.1x1.gif"
-										Class="ThemeHidden"
-										>
-										<EventHandler
-											DhtmlEvent="onload"
 											>
-											<Action
-												ID="jsChosen"
-												Javascript="$( document ).ready(function() {
-  $(&quot;.chosen-select&quot;).chosen({
-    	search_contains:true,
-		display_selected_options:false
-  });
-});"
-												Type="Javascript"
+											<ConditionFilter
+												Condition="&quot;@Data.LocGLStr~&quot; &lt;&gt; &quot;&quot;"
+												ID="filLocGLStr"
 											/>
-										</EventHandler>
-									</Image>
+										</DataLayer>
+									</InputSelectList>
 								</Column>
 								<Column>
 									<Spaces
@@ -276,10 +214,8 @@ From MapMKCLocations"
 											DhtmlEvent="onclick"
 											>
 											<Action
-												ConfirmMessage="Fiscal Period: @Request.paramFiscPeriod~  Fiscal Year: @Request.paramFiscYear~  Location: @Request.paramLocGLStr~"
-												ElementID="panel-body-inputs, iptFiscalPeriod"
-												ID="actRefreshBranchFinancialTabs"
-												RequestForwarding="True"
+												ElementID="tabRigReports"
+												ID="actRefreshrigReportsTabs"
 												Type="RefreshElement"
 												>
 												<WaitPage/>
@@ -305,7 +241,7 @@ From MapMKCLocations"
 				<Tabs
 					DefaultTab="tabAppByRig"
 					ID="tabRigReports"
-					TabbingStyle="Ajax"
+					TabbingStyle="RefreshPage"
 					TabLocation="top"
 					>
 					<TabPanel
@@ -387,42 +323,17 @@ From MapMKCLocations"
 													<DataLayer
 														ConnectionID="connProdGP"
 														ID="sqlApplicationRig"
-														Source="SELECT cMTD.AgLocationCode, LTRIM(RTRIM(cMTD.Rig)) Rig, ISNULL(cMTD.Acres,0) cMTD, ISNULL(cYTD.Acres,0) cYTD, ISNULL(pMTD.Acres,0) pMTD, ISNULL(pYTD.Acres,0) pYTD
-FROM        (SELECT Objects2.LocationCode AgLocationCode, Orders.ApplicatorID, Objects2.Name Rig, SUM(Orders.AcresSprayed) Acres FROM AgOS_MKC_Live..Orders Orders with(nolock) INNER JOIN AgOS_MKC_Live..Objects Objects2 with(nolock) ON Orders.ApplicatorID=Objects2.ObjectID WHERE Orders.Done=1 AND CASE WHEN DATEPART(MONTH,Orders.DoneDate)&lt;3 THEN DATEPART(YEAR,Orders.DoneDate) ELSE DATEPART(YEAR,Orders.DoneDate)+1 END=@Request.paramFiscYear~    AND CASE DATEPART(MONTH,Orders.DoneDate) WHEN 3 THEN 1 WHEN 4 THEN 2 WHEN 5 THEN 3 WHEN 6 THEN 4 WHEN 7 THEN 5 WHEN 8 THEN 6 WHEN 9 THEN 7 WHEN 10 THEN 8 WHEN 11 THEN 9 WHEN 12 THEN 10 WHEN 1 THEN 11 WHEN 2 THEN 12 END =@Request.paramFiscPeriod~ GROUP BY Objects2.LocationCode, Orders.ApplicatorID, Objects2.Name) cMTD 
-  LEFT JOIN (SELECT Objects2.LocationCode AgLocationCode, Orders.ApplicatorID, Objects2.Name Rig, SUM(Orders.AcresSprayed) Acres FROM AgOS_MKC_Live..Orders Orders with(nolock) INNER JOIN AgOS_MKC_Live..Objects Objects2 with(nolock) ON Orders.ApplicatorID=Objects2.ObjectID WHERE Orders.Done=1 AND CASE WHEN DATEPART(MONTH,Orders.DoneDate)&lt;3 THEN DATEPART(YEAR,Orders.DoneDate) ELSE DATEPART(YEAR,Orders.DoneDate)+1 END=@Request.paramFiscYear~    AND CASE DATEPART(MONTH,Orders.DoneDate) WHEN 3 THEN 1 WHEN 4 THEN 2 WHEN 5 THEN 3 WHEN 6 THEN 4 WHEN 7 THEN 5 WHEN 8 THEN 6 WHEN 9 THEN 7 WHEN 10 THEN 8 WHEN 11 THEN 9 WHEN 12 THEN 10 WHEN 1 THEN 11 WHEN 2 THEN 12 END&lt;=@Request.paramFiscPeriod~ GROUP BY Objects2.LocationCode, Orders.ApplicatorID, Objects2.Name) cYTD ON cMTD.AgLocationCode=cYTD.AgLocationCode AND cMTD.ApplicatorID=cYTD.ApplicatorID
-  LEFT JOIN (SELECT Objects2.LocationCode AgLocationCode, Orders.ApplicatorID, Objects2.Name Rig, SUM(Orders.AcresSprayed) Acres FROM AgOS_MKC_Live..Orders Orders with(nolock) INNER JOIN AgOS_MKC_Live..Objects Objects2 with(nolock) ON Orders.ApplicatorID=Objects2.ObjectID WHERE Orders.Done=1 AND CASE WHEN DATEPART(MONTH,Orders.DoneDate)&lt;3 THEN DATEPART(YEAR,Orders.DoneDate) ELSE DATEPART(YEAR,Orders.DoneDate)+1 END=@Request.paramFiscYear~ -1 AND CASE DATEPART(MONTH,Orders.DoneDate) WHEN 3 THEN 1 WHEN 4 THEN 2 WHEN 5 THEN 3 WHEN 6 THEN 4 WHEN 7 THEN 5 WHEN 8 THEN 6 WHEN 9 THEN 7 WHEN 10 THEN 8 WHEN 11 THEN 9 WHEN 12 THEN 10 WHEN 1 THEN 11 WHEN 2 THEN 12 END =@Request.paramFiscPeriod~ GROUP BY Objects2.LocationCode, Orders.ApplicatorID, Objects2.Name) pMTD ON cMTD.AgLocationCode=pMTD.AgLocationCode AND cMTD.ApplicatorID=pMTD.ApplicatorID
-  LEFT JOIN (SELECT Objects2.LocationCode AgLocationCode, Orders.ApplicatorID, Objects2.Name Rig, SUM(Orders.AcresSprayed) Acres FROM AgOS_MKC_Live..Orders Orders with(nolock) INNER JOIN AgOS_MKC_Live..Objects Objects2 with(nolock) ON Orders.ApplicatorID=Objects2.ObjectID WHERE Orders.Done=1 AND CASE WHEN DATEPART(MONTH,Orders.DoneDate)&lt;3 THEN DATEPART(YEAR,Orders.DoneDate) ELSE DATEPART(YEAR,Orders.DoneDate)+1 END=@Request.paramFiscYear~ -1 AND CASE DATEPART(MONTH,Orders.DoneDate) WHEN 3 THEN 1 WHEN 4 THEN 2 WHEN 5 THEN 3 WHEN 6 THEN 4 WHEN 7 THEN 5 WHEN 8 THEN 6 WHEN 9 THEN 7 WHEN 10 THEN 8 WHEN 11 THEN 9 WHEN 12 THEN 10 WHEN 1 THEN 11 WHEN 2 THEN 12 END&lt;=@Request.paramFiscPeriod~ GROUP BY Objects2.LocationCode, Orders.ApplicatorID, Objects2.Name) pYTD ON cMTD.AgLocationCode=pYTD.AgLocationCode AND cMTD.ApplicatorID=pYTD.ApplicatorID
+														Source="SELECT COALESCE(cMTD.AgLocationCode,cYTD.AgLocationCode,pMTD.AgLocationCode,pYTD.AgLocationCode) AgLocationCode, COALESCE(cMTD.Rig,cYTD.Rig,pMTD.Rig,pYTD.Rig) Rig, SUM(ISNULL(cMTD.Acres,0)) cMTD, SUM(ISNULL(cYTD.Acres,0)) cYTD, SUM(ISNULL(pMTD.Acres,0)) pMTD, SUM(ISNULL(pYTD.Acres,0)) pYTD
+FROM 
+  (SELECT AgLocationCode, Rig, SUM(Acres) Acres FROM AgOS_MKC_Live..vmkcDMRigApplicationAcresByRig WHERE FiscalYear=(@Request.paramFiscYear~  ) and FiscalPeriod =@Request.paramFiscPeriod~ and LocGLStr=&apos;@Request.paramLocGLStr~&apos; GROUP BY AgLocationCode, Rig) cMTD FULL OUTER JOIN 
+  (SELECT AgLocationCode, Rig, SUM(Acres) Acres FROM AgOS_MKC_Live..vmkcDMRigApplicationAcresByRig WHERE FiscalYear=(@Request.paramFiscYear~  ) and FiscalPeriod&lt;=@Request.paramFiscPeriod~ and LocGLStr=&apos;@Request.paramLocGLStr~&apos; GROUP BY AgLocationCode, Rig) cYTD ON cMTD.AgLocationCode=cYTD.AgLocationCode AND cMTD.Rig=cYTD.Rig FULL OUTER JOIN 
+  (SELECT AgLocationCode, Rig, SUM(Acres) Acres FROM AgOS_MKC_Live..vmkcDMRigApplicationAcresByRig WHERE FiscalYear=(@Request.paramFiscYear~-1) and FiscalPeriod =@Request.paramFiscPeriod~ and LocGLStr=&apos;@Request.paramLocGLStr~&apos; GROUP BY AgLocationCode, Rig) pMTD ON cMTD.AgLocationCode=pMTD.AgLocationCode AND cMTD.Rig=pMTD.Rig FULL OUTER JOIN 
+  (SELECT AgLocationCode, Rig, SUM(Acres) Acres FROM AgOS_MKC_Live..vmkcDMRigApplicationAcresByRig WHERE FiscalYear=(@Request.paramFiscYear~-1) and FiscalPeriod&lt;=@Request.paramFiscPeriod~ and LocGLStr=&apos;@Request.paramLocGLStr~&apos; GROUP BY AgLocationCode, Rig) pYTD ON cMTD.AgLocationCode=pYTD.AgLocationCode AND cMTD.Rig=pYTD.Rig 
+GROUP BY COALESCE(cMTD.AgLocationCode,cYTD.AgLocationCode,pMTD.AgLocationCode,pYTD.AgLocationCode), COALESCE(cMTD.Rig,cYTD.Rig,pMTD.Rig,pYTD.Rig) 
 ORDER BY AgLocationCode, Rig
 "
 														Type="SQL"
-														>
-														<Join
-															ID="joinSqlToXL"
-															IncludeCondition="True"
-															JoinType="InnerJoin"
-															SortLeftSide="True"
-															SortRightSide="True"
-															>
-															<MatchCondition
-																DataType="Text"
-																ID="joinAgLocationCode"
-																LeftDataColumn="AgLocationCode"
-																RightDataColumn="AgLocationCode"
-															/>
-															<DataLayer
-																ColumnNamesRow="1"
-																ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\LocationData.xlsx"
-																ExcelWorksheet="BranchData"
-																ID="xlAgWorksLocation"
-																Type="Excel"
-																>
-																<ConditionFilter
-																	Condition="&apos;@Request.paramLocGLStr~&apos; == &apos;@Data.LocGLStr~&apos;"
-																	ID="condLocGLStr"
-																/>
-															</DataLayer>
-														</Join>
-													</DataLayer>
+													/>
 													<DataTableColumn
 														Class="ThemeMargin"
 														ColumnHeaderClass="ThemeAlignCenter"
@@ -511,11 +422,13 @@ ORDER BY AgLocationCode, Rig
 													</DataTableColumn>
 												</DataTable>
 											</Column>
-											<Column>
-												<Spaces
-													Size="40"
-												/>
-											</Column>
+											<Remark>
+												<Column>
+													<Spaces
+														Size="40"
+													/>
+												</Column>
+											</Remark>
 											<Column>
 												<Spaces
 													Size="40"
@@ -618,42 +531,17 @@ ORDER BY AgLocationCode, Rig
 													<DataLayer
 														ConnectionID="connProdGP"
 														ID="sqlApplicationOperator"
-														Source="SELECT cMTD.AgLocationCode, LTRIM(RTRIM(cMTD.Operator)) Operator, ISNULL(cMTD.Acres,0) cMTD, ISNULL(cYTD.Acres,0) cYTD, ISNULL(pMTD.Acres,0) pMTD, ISNULL(pYTD.Acres,0) pYTD
-FROM        (SELECT Users.LocationCode AgLocationCode, Orders.DoneByID, LTRIM(RTRIM(Users.FirstName))+&apos; &apos;+LTRIM(RTRIM(Users.LastName)) Operator, SUM(Orders.AcresSprayed) Acres FROM AgOS_MKC_Live..Orders Orders with(nolock) INNER JOIN AgOS_MKC_Live..Users Users with(nolock) ON Orders.DoneByID=Users.UserID WHERE Orders.Done=1 AND CASE WHEN DATEPART(MONTH,Orders.DoneDate)&lt;3 THEN DATEPART(YEAR,Orders.DoneDate) ELSE DATEPART(YEAR,Orders.DoneDate)+1 END=@Request.paramFiscYear~    AND CASE DATEPART(MONTH,Orders.DoneDate) WHEN 3 THEN 1 WHEN 4 THEN 2 WHEN 5 THEN 3 WHEN 6 THEN 4 WHEN 7 THEN 5 WHEN 8 THEN 6 WHEN 9 THEN 7 WHEN 10 THEN 8 WHEN 11 THEN 9 WHEN 12 THEN 10 WHEN 1 THEN 11 WHEN 2 THEN 12 END =@Request.paramFiscPeriod~ GROUP BY Users.LocationCode, Orders.DoneByID, Users.LastName, Users.FirstName) cMTD 
-  LEFT JOIN (SELECT Users.LocationCode AgLocationCode, Orders.DoneByID, LTRIM(RTRIM(Users.FirstName))+&apos; &apos;+LTRIM(RTRIM(Users.LastName)) Operator, SUM(Orders.AcresSprayed) Acres FROM AgOS_MKC_Live..Orders Orders with(nolock) INNER JOIN AgOS_MKC_Live..Users Users with(nolock) ON Orders.DoneByID=Users.UserID WHERE Orders.Done=1 AND CASE WHEN DATEPART(MONTH,Orders.DoneDate)&lt;3 THEN DATEPART(YEAR,Orders.DoneDate) ELSE DATEPART(YEAR,Orders.DoneDate)+1 END=@Request.paramFiscYear~    AND CASE DATEPART(MONTH,Orders.DoneDate) WHEN 3 THEN 1 WHEN 4 THEN 2 WHEN 5 THEN 3 WHEN 6 THEN 4 WHEN 7 THEN 5 WHEN 8 THEN 6 WHEN 9 THEN 7 WHEN 10 THEN 8 WHEN 11 THEN 9 WHEN 12 THEN 10 WHEN 1 THEN 11 WHEN 2 THEN 12 END&lt;=@Request.paramFiscPeriod~ GROUP BY Users.LocationCode, Orders.DoneByID, Users.LastName, Users.FirstName) cYTD ON cMTD.AgLocationCode=cYTD.AgLocationCode AND cMTD.DoneByID=cYTD.DoneByID
-  LEFT JOIN (SELECT Users.LocationCode AgLocationCode, Orders.DoneByID, LTRIM(RTRIM(Users.FirstName))+&apos; &apos;+LTRIM(RTRIM(Users.LastName)) Operator, SUM(Orders.AcresSprayed) Acres FROM AgOS_MKC_Live..Orders Orders with(nolock) INNER JOIN AgOS_MKC_Live..Users Users with(nolock) ON Orders.DoneByID=Users.UserID WHERE Orders.Done=1 AND CASE WHEN DATEPART(MONTH,Orders.DoneDate)&lt;3 THEN DATEPART(YEAR,Orders.DoneDate) ELSE DATEPART(YEAR,Orders.DoneDate)+1 END=@Request.paramFiscYear~ -1 AND CASE DATEPART(MONTH,Orders.DoneDate) WHEN 3 THEN 1 WHEN 4 THEN 2 WHEN 5 THEN 3 WHEN 6 THEN 4 WHEN 7 THEN 5 WHEN 8 THEN 6 WHEN 9 THEN 7 WHEN 10 THEN 8 WHEN 11 THEN 9 WHEN 12 THEN 10 WHEN 1 THEN 11 WHEN 2 THEN 12 END =@Request.paramFiscPeriod~ GROUP BY Users.LocationCode, Orders.DoneByID, Users.LastName, Users.FirstName) pMTD ON cMTD.AgLocationCode=pMTD.AgLocationCode AND cMTD.DoneByID=pMTD.DoneByID
-  LEFT JOIN (SELECT Users.LocationCode AgLocationCode, Orders.DoneByID, LTRIM(RTRIM(Users.FirstName))+&apos; &apos;+LTRIM(RTRIM(Users.LastName)) Operator, SUM(Orders.AcresSprayed) Acres FROM AgOS_MKC_Live..Orders Orders with(nolock) INNER JOIN AgOS_MKC_Live..Users Users with(nolock) ON Orders.DoneByID=Users.UserID WHERE Orders.Done=1 AND CASE WHEN DATEPART(MONTH,Orders.DoneDate)&lt;3 THEN DATEPART(YEAR,Orders.DoneDate) ELSE DATEPART(YEAR,Orders.DoneDate)+1 END=@Request.paramFiscYear~ -1 AND CASE DATEPART(MONTH,Orders.DoneDate) WHEN 3 THEN 1 WHEN 4 THEN 2 WHEN 5 THEN 3 WHEN 6 THEN 4 WHEN 7 THEN 5 WHEN 8 THEN 6 WHEN 9 THEN 7 WHEN 10 THEN 8 WHEN 11 THEN 9 WHEN 12 THEN 10 WHEN 1 THEN 11 WHEN 2 THEN 12 END&lt;=@Request.paramFiscPeriod~ GROUP BY Users.LocationCode, Orders.DoneByID, Users.LastName, Users.FirstName) pYTD ON cMTD.AgLocationCode=pYTD.AgLocationCode AND cMTD.DoneByID=pYTD.DoneByID
+														Source="SELECT COALESCE(cMTD.AgLocationCode,cYTD.AgLocationCode,pMTD.AgLocationCode,pYTD.AgLocationCode) AgLocationCode, COALESCE(cMTD.Operator,cYTD.Operator,pMTD.Operator,pYTD.Operator) Operator, SUM(ISNULL(cMTD.Acres,0)) cMTD, SUM(ISNULL(cYTD.Acres,0)) cYTD, SUM(ISNULL(pMTD.Acres,0)) pMTD, SUM(ISNULL(pYTD.Acres,0)) pYTD
+FROM 
+  (SELECT AgLocationCode, Operator, SUM(Acres) Acres FROM AgOS_MKC_Live..vmkcDMRigApplicationAcresByOperator WHERE FiscalYear=(@Request.paramFiscYear~  ) and FiscalPeriod =@Request.paramFiscPeriod~ and LocGLStr=&apos;@Request.paramLocGLStr~&apos; GROUP BY AgLocationCode, Operator) cMTD FULL OUTER JOIN 
+  (SELECT AgLocationCode, Operator, SUM(Acres) Acres FROM AgOS_MKC_Live..vmkcDMRigApplicationAcresByOperator WHERE FiscalYear=(@Request.paramFiscYear~  ) and FiscalPeriod&lt;=@Request.paramFiscPeriod~ and LocGLStr=&apos;@Request.paramLocGLStr~&apos; GROUP BY AgLocationCode, Operator) cYTD ON cMTD.AgLocationCode=cYTD.AgLocationCode AND cMTD.Operator=cYTD.Operator FULL OUTER JOIN 
+  (SELECT AgLocationCode, Operator, SUM(Acres) Acres FROM AgOS_MKC_Live..vmkcDMRigApplicationAcresByOperator WHERE FiscalYear=(@Request.paramFiscYear~-1) and FiscalPeriod =@Request.paramFiscPeriod~ and LocGLStr=&apos;@Request.paramLocGLStr~&apos; GROUP BY AgLocationCode, Operator) pMTD ON cMTD.AgLocationCode=pMTD.AgLocationCode AND cMTD.Operator=pMTD.Operator FULL OUTER JOIN 
+  (SELECT AgLocationCode, Operator, SUM(Acres) Acres FROM AgOS_MKC_Live..vmkcDMRigApplicationAcresByOperator WHERE FiscalYear=(@Request.paramFiscYear~-1) and FiscalPeriod&lt;=@Request.paramFiscPeriod~ and LocGLStr=&apos;@Request.paramLocGLStr~&apos; GROUP BY AgLocationCode, Operator) pYTD ON cMTD.AgLocationCode=pYTD.AgLocationCode AND cMTD.Operator=pYTD.Operator 
+GROUP BY COALESCE(cMTD.AgLocationCode,cYTD.AgLocationCode,pMTD.AgLocationCode,pYTD.AgLocationCode), COALESCE(cMTD.Operator,cYTD.Operator,pMTD.Operator,pYTD.Operator) 
 ORDER BY AgLocationCode, Operator
 "
 														Type="SQL"
-														>
-														<Join
-															ID="joinSqlToXL"
-															IncludeCondition="True"
-															JoinType="InnerJoin"
-															SortLeftSide="True"
-															SortRightSide="True"
-															>
-															<MatchCondition
-																DataType="Text"
-																ID="joinAgLocationCode"
-																LeftDataColumn="AgLocationCode"
-																RightDataColumn="AgLocationCode"
-															/>
-															<DataLayer
-																ColumnNamesRow="1"
-																ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\LocationData.xlsx"
-																ExcelWorksheet="BranchData"
-																ID="xlAgWorksLocation"
-																Type="Excel"
-																>
-																<ConditionFilter
-																	Condition="&apos;@Request.paramLocGLStr~&apos; == &apos;@Data.LocGLStr~&apos;"
-																	ID="condLocGLStr"
-																/>
-															</DataLayer>
-														</Join>
-													</DataLayer>
+													/>
 													<DataTableColumn
 														Class="ThemeMargin"
 														ColumnHeaderClass="ThemeAlignCenter"
@@ -742,11 +630,13 @@ ORDER BY AgLocationCode, Operator
 													</DataTableColumn>
 												</DataTable>
 											</Column>
-											<Column>
-												<Spaces
-													Size="40"
-												/>
-											</Column>
+											<Remark>
+												<Column>
+													<Spaces
+														Size="40"
+													/>
+												</Column>
+											</Remark>
 											<Column>
 												<Spaces
 													Size="40"
