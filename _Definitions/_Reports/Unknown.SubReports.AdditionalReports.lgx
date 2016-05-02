@@ -244,6 +244,9 @@
 					TabbingStyle="RefreshPage"
 					TabLocation="top"
 					>
+					<Note
+						Note="Note: &quot;Tabbing Style&quot; *must be* &quot;Refresh Page&quot; for the inputs and sorting to work properly"
+					/>
 					<TabPanel
 						Caption="Application By Rig"
 						Class="ThemeTextPositive ThemeHeaderSmall"
