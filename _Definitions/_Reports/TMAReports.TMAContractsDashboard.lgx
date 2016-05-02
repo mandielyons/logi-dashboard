@@ -1302,6 +1302,7 @@ ORDER BY CONTRACT_TYPE, DELIVERY_END_DATE
 			</Tabs>
 			<LineBreak/>
 		</Division>
+		<Label/>
 	</Body>
 	<Body>
 		<ResponsiveRow
