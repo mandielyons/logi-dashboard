@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report
+	Caption="Audit Log"
+	ID="Admin.EventLog"
+	SecurityReportRightID="ADMIN"
+	>
+	<IncludeSharedElement
+		DefinitionFile="_Layout.Shared"
+		SharedElementID="shrHeader"
+	/>
+	<Body>
+		<Division
+			Class="panel panel-default"
+			HtmlDiv="True"
+			ID="panel-event"
+			>
+			<Division
+				Class="panel-heading"
+				HtmlDiv="True"
+				ID="panel-event-header"
+				>
+				<Label
+					Caption="Audit Log"
+				/>
+			</Division>
+			<Division
+				Class="panel-body"
+				HtmlDiv="True"
+				ID="panel-event-report"
+				>
+				<ResponsiveRow>
+					<ResponsiveColumn>
+						<DataTable
+							AccessibleHeaders="True"
+							AccessibleSummary="AnalysisGrid DataTable"
+							ID="dtEventLog"
+							KeepScrollPosition="True"
+							RememberSort="True"
+							ResizableColumns="True"
+							SortArrows="True"
+							TableBorder="0"
+							>
+							<DataLayer
+								ConnectionID="connLogiEvent"
+								ID="dlEventLog"
+								Source="DECLARE @StartDate DATETIME 
+DECLARE @EndDate DATETIME 
+
+SET @StartDate = Getdate() - 7 /* Seven Days Earlier */
+SET @EndDate = Getdate() /* Now */
+
+Select LogiEventLog.EventID,
+  LogiEventLog.EventDateTime,
+  LogiEventLog.EventName,
+  LogiEventLog.UserID,
+  LogiEventLog.EventDetail,
+  LogiEventLog.SQLCommand
+From LogiEventLog
+WHERE  LogiEventLog.EventDateTime BETWEEN @StartDate AND @Enddate"
+								Type="SQL"
+							/>
+							<InteractivePaging
+								CaptionType="Image"
+								HideShowPrevNextCaptions="False"
+								HideWhenOnePage="True"
+								IDnotSupportedHere="pagingTableNumbered"
+								Location="Top"
+								PageRowCount="20"
+								ShowPageNumber="Numbered"
+							/>
+							<AutoColumns/>
+						</DataTable>
+					</ResponsiveColumn>
+				</ResponsiveRow>
+			</Division>
+		</Division>
+	</Body>
+	<IncludeSharedElement
+		DefinitionFile="_Layout.Shared"
+		SharedElementID="shrFooter"
+	/>
+	<ideTestParams/>
+</Report>
