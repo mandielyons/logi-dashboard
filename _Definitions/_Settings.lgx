@@ -7,7 +7,7 @@
 		DefaultReport="Home.Default"
 	/>
 	<Path
-		AppPath="http://localhost/LiveBuild"
+		AppPath="http://localhost/MKCoop"
 	/>
 	<General
 		DoctypeDeclaration="Html5"
@@ -28,6 +28,45 @@
 		cacheExpirationTime="00:00"
 		cacheExpirationTimeSpan="08:00"
 	/>
+	<EventLogging
+		LogEvents="True"
+		>
+		<LogEvent
+			EventName="AuthenticateUser"
+			ID="eventAuthenticate"
+			>
+			<Action
+				ID="insertAuthenticationRow"
+				Process="LogTasks"
+				TaskID="insertAuthenticationRow"
+				Type="Process"
+			/>
+		</LogEvent>
+		<LogEvent
+			EventName="SessionStart"
+			ID="eventSession"
+			>
+			<Action
+				ID="insertSessionRow"
+				Process="LogTasks"
+				TaskID="insertSessionRow"
+				Type="Process"
+			/>
+		</LogEvent>
+		<Remark>
+			<LogEvent
+				EventName="RunSQL"
+				ID="eventSQL"
+				>
+				<Action
+					ID="insertSQLRow"
+					Process="LogTasks"
+					TaskID="insertSQLRow"
+					Type="Process"
+				/>
+			</LogEvent>
+		</Remark>
+	</EventLogging>
 	<Remark>
 		<Constants
 			Caption_Application="App Template"
@@ -102,6 +141,15 @@
 			ID="connSMTP"
 			SmtpServer="relay.mkcoop.com"
 			Type="Smtp"
+		/>
+		<Connection
+			ID="connLogiEvent"
+			SqlServer="DEVELOPMENT"
+			SqlServerDatabase="DynamicsGPWarehouse"
+			SqlServerPassword="integr8!"
+			SqlServerPort=""
+			SqlServerUser="BIOperations"
+			Type="SqlServer"
 		/>
 	</Connections>
 	<Security
@@ -311,20 +359,11 @@ AND USERNAME = @iptUsername"
 				RolesDataColumn="cRole"
 				>
 				<DataLayer
-					CacheKey="dlcLdapUserRights"
-					ExpirationTimeSpan="00:05"
-					ID="dlcLdapUserRights"
-					Type="Cached"
+					ConnectionID="mkcLDAP"
+					ID="dlLdapRights"
+					LdapSource="SELECT memberOf, sAMAccountName, title, name, userPrincipalName, ADsPath, DisplayName, givenName, sn, mail FROM &apos;DC=midkscoop,DC=lan&apos; WHERE SamAccountName=&apos;@Function.UserName~&apos; and objectClass=&apos;person&apos;"
+					Type="Ldap"
 					>
-					<Note
-						Note="*** BRIEFLY caching to improve performance ***"
-					/>
-					<DataLayer
-						ConnectionID="mkcLDAP"
-						ID="dlLdapRights"
-						LdapSource="SELECT memberOf, sAMAccountName, title, name, userPrincipalName, ADsPath, DisplayName, givenName, sn, mail FROM &apos;DC=midkscoop,DC=lan&apos; WHERE SamAccountName=&apos;@Function.UserName~&apos; and objectClass=&apos;person&apos;"
-						Type="Ldap"
-					/>
 					<ConditionFilter
 						Condition="&quot;@Data.memberOf~&quot;.indexOf(&quot;MKC Dashboard&quot;)!=&quot;-1&quot;"
 						ID="fMKC"
@@ -335,25 +374,47 @@ AND USERNAME = @iptUsername"
 					/>
 				</DataLayer>
 			</RightFromRole>
+			<Remark>
+				<RightFromRole
+					ID="MKC"
+					RolesDataColumn="cRole"
+					>
+					<DataLayer
+						CacheKey="dlcLdapUserRights"
+						ExpirationTimeSpan="00:05"
+						ID="dlcLdapUserRights"
+						Type="Cached"
+						>
+						<Note
+							Note="*** BRIEFLY caching to improve performance ***"
+						/>
+						<DataLayer
+							ConnectionID="mkcLDAP"
+							ID="dlLdapRights"
+							LdapSource="SELECT memberOf, sAMAccountName, title, name, userPrincipalName, ADsPath, DisplayName, givenName, sn, mail FROM &apos;DC=midkscoop,DC=lan&apos; WHERE SamAccountName=&apos;@Function.UserName~&apos; and objectClass=&apos;person&apos;"
+							Type="Ldap"
+						/>
+						<ConditionFilter
+							Condition="&quot;@Data.memberOf~&quot;.indexOf(&quot;MKC Dashboard&quot;)!=&quot;-1&quot;"
+							ID="fMKC"
+						/>
+						<CalculatedColumn
+							Formula="&quot;MKC Dashboard&quot;"
+							ID="cRole"
+						/>
+					</DataLayer>
+				</RightFromRole>
+			</Remark>
 			<RightFromRole
 				ID="TMA"
 				RolesDataColumn="cRole"
 				>
 				<DataLayer
-					CacheKey="dlcLdapUserRights"
-					ExpirationTimeSpan="00:05"
-					ID="dlcLdapUserRights"
-					Type="Cached"
+					ConnectionID="mkcLDAP"
+					ID="dlLdapRights"
+					LdapSource="SELECT memberOf, sAMAccountName, title, name, userPrincipalName, ADsPath, DisplayName, givenName, sn, mail FROM &apos;DC=midkscoop,DC=lan&apos; WHERE SamAccountName=&apos;@Function.UserName~&apos; and objectClass=&apos;person&apos;"
+					Type="Ldap"
 					>
-					<Note
-						Note="*** BRIEFLY caching to improve performance ***"
-					/>
-					<DataLayer
-						ConnectionID="mkcLDAP"
-						ID="dlLdapRights"
-						LdapSource="SELECT memberOf, sAMAccountName, title, name, userPrincipalName, ADsPath, DisplayName, givenName, sn, mail FROM &apos;DC=midkscoop,DC=lan&apos; WHERE SamAccountName=&apos;@Function.UserName~&apos; and objectClass=&apos;person&apos;"
-						Type="Ldap"
-					/>
 					<ConditionFilter
 						Condition="&quot;@Data.memberOf~&quot;.indexOf(&quot;TMA Dashboard&quot;)!=&quot;-1&quot;"
 						ID="fTMA"
@@ -364,83 +425,149 @@ AND USERNAME = @iptUsername"
 					/>
 				</DataLayer>
 			</RightFromRole>
+			<Remark>
+				<RightFromRole
+					ID="TMA"
+					RolesDataColumn="cRole"
+					>
+					<DataLayer
+						CacheKey="dlcLdapUserRights"
+						ExpirationTimeSpan="00:05"
+						ID="dlcLdapUserRights"
+						Type="Cached"
+						>
+						<Note
+							Note="*** BRIEFLY caching to improve performance ***"
+						/>
+						<DataLayer
+							ConnectionID="mkcLDAP"
+							ID="dlLdapRights"
+							LdapSource="SELECT memberOf, sAMAccountName, title, name, userPrincipalName, ADsPath, DisplayName, givenName, sn, mail FROM &apos;DC=midkscoop,DC=lan&apos; WHERE SamAccountName=&apos;@Function.UserName~&apos; and objectClass=&apos;person&apos;"
+							Type="Ldap"
+						/>
+						<ConditionFilter
+							Condition="&quot;@Data.memberOf~&quot;.indexOf(&quot;TMA Dashboard&quot;)!=&quot;-1&quot;"
+							ID="fTMA"
+						/>
+						<CalculatedColumn
+							Formula="&quot;TMA Dashboard&quot;"
+							ID="cRole"
+						/>
+					</DataLayer>
+				</RightFromRole>
+			</Remark>
 			<RightFromRole
 				ID="SRMGMT"
 				RolesDataColumn="cRole"
 				>
 				<DataLayer
-					CacheKey="dlcLdapUserRights"
-					ExpirationTimeSpan="00:05"
-					ID="dlcLdapUserRights"
-					Type="Cached"
+					ConnectionID="mkcLDAP"
+					ID="dlLdapRights"
+					LdapSource="SELECT memberOf, sAMAccountName, title, name, userPrincipalName, ADsPath, DisplayName, givenName, sn, mail FROM &apos;DC=midkscoop,DC=lan&apos; WHERE SamAccountName=&apos;@Function.UserName~&apos; and objectClass=&apos;person&apos;"
+					Type="Ldap"
 					>
-					<Note
-						Note="*** BRIEFLY caching to improve performance ***"
-					/>
-					<DataLayer
-						ConnectionID="mkcLDAP"
-						ID="dlLdapRights"
-						LdapSource="SELECT memberOf, sAMAccountName, title, name, userPrincipalName, ADsPath, DisplayName, givenName, sn, mail FROM &apos;DC=midkscoop,DC=lan&apos; WHERE SamAccountName=&apos;@Function.UserName~&apos; and objectClass=&apos;person&apos;"
-						Type="Ldap"
+					<CalculatedColumn
+						Formula="&quot;Dashboard Stategic Planning&quot;"
+						ID="cRole"
 					/>
 					<ConditionFilter
 						Condition="&quot;@Data.memberOf~&quot;.indexOf(&quot;Dashboard Sr Mgmt&quot;)!=&quot;-1&quot;"
 						ID="fSRMGMT"
 					/>
-					<CalculatedColumn
-						Formula="&quot;Dashboard Sr Mgmt&quot;"
-						ID="cRole"
-					/>
 				</DataLayer>
 			</RightFromRole>
+			<Remark>
+				<RightFromRole
+					ID="SRMGMT"
+					RolesDataColumn="cRole"
+					>
+					<DataLayer
+						CacheKey="dlcLdapUserRights"
+						ExpirationTimeSpan="00:05"
+						ID="dlcLdapUserRights"
+						Type="Cached"
+						>
+						<Note
+							Note="*** BRIEFLY caching to improve performance ***"
+						/>
+						<DataLayer
+							ConnectionID="mkcLDAP"
+							ID="dlLdapRights"
+							LdapSource="SELECT memberOf, sAMAccountName, title, name, userPrincipalName, ADsPath, DisplayName, givenName, sn, mail FROM &apos;DC=midkscoop,DC=lan&apos; WHERE SamAccountName=&apos;@Function.UserName~&apos; and objectClass=&apos;person&apos;"
+							Type="Ldap"
+						/>
+						<ConditionFilter
+							Condition="&quot;@Data.memberOf~&quot;.indexOf(&quot;Dashboard Sr Mgmt&quot;)!=&quot;-1&quot;"
+							ID="fSRMGMT"
+						/>
+						<CalculatedColumn
+							Formula="&quot;Dashboard Sr Mgmt&quot;"
+							ID="cRole"
+						/>
+					</DataLayer>
+				</RightFromRole>
+			</Remark>
 			<RightFromRole
 				ID="STRATEGICPLAN"
 				RolesDataColumn="cRole"
 				>
 				<DataLayer
-					CacheKey="dlcLdapUserRights"
-					ExpirationTimeSpan="00:05"
-					ID="dlcLdapUserRights"
-					Type="Cached"
+					ConnectionID="mkcLDAP"
+					ID="dlLdapRights"
+					LdapSource="SELECT memberOf, sAMAccountName, title, name, userPrincipalName, ADsPath, DisplayName, givenName, sn, mail FROM &apos;DC=midkscoop,DC=lan&apos; WHERE SamAccountName=&apos;@Function.UserName~&apos; and objectClass=&apos;person&apos;"
+					Type="Ldap"
 					>
-					<Note
-						Note="*** BRIEFLY caching to improve performance ***"
-					/>
-					<DataLayer
-						ConnectionID="mkcLDAP"
-						ID="dlLdapRights"
-						LdapSource="SELECT memberOf, sAMAccountName, title, name, userPrincipalName, ADsPath, DisplayName, givenName, sn, mail FROM &apos;DC=midkscoop,DC=lan&apos; WHERE SamAccountName=&apos;@Function.UserName~&apos; and objectClass=&apos;person&apos;"
-						Type="Ldap"
-					/>
 					<ConditionFilter
-						Condition="&quot;@Data.memberOf~&quot;.indexOf(&quot;Dashboard Strategic Planning&quot;)!=&quot;-1&quot;"
+						Condition="&quot;@Data.memberOf~&quot;.indexOf(&quot;Dashboard Stategic Planning&quot;)!=&quot;-1&quot;"
 						ID="fSTRATEGICPLAN"
 					/>
 					<CalculatedColumn
-						Formula="&quot;Dashboard Strategic Planning&quot;"
+						Formula="&quot;Dashboard Stategic Planning&quot;"
 						ID="cRole"
 					/>
 				</DataLayer>
 			</RightFromRole>
+			<Remark>
+				<RightFromRole
+					ID="STRATEGICPLAN"
+					RolesDataColumn="cRole"
+					>
+					<DataLayer
+						CacheKey="dlcLdapUserRights"
+						ExpirationTimeSpan="00:05"
+						ID="dlcLdapUserRights"
+						Type="Cached"
+						>
+						<Note
+							Note="*** BRIEFLY caching to improve performance ***"
+						/>
+						<DataLayer
+							ConnectionID="mkcLDAP"
+							ID="dlLdapRights"
+							LdapSource="SELECT memberOf, sAMAccountName, title, name, userPrincipalName, ADsPath, DisplayName, givenName, sn, mail FROM &apos;DC=midkscoop,DC=lan&apos; WHERE SamAccountName=&apos;@Function.UserName~&apos; and objectClass=&apos;person&apos;"
+							Type="Ldap"
+						/>
+						<ConditionFilter
+							Condition="&quot;@Data.memberOf~&quot;.indexOf(&quot;Dashboard Stategic Planning&quot;)!=&quot;-1&quot;"
+							ID="fSTRATEGICPLAN"
+						/>
+						<CalculatedColumn
+							Formula="&quot;Dashboard Stategic Planning&quot;"
+							ID="cRole"
+						/>
+					</DataLayer>
+				</RightFromRole>
+			</Remark>
 			<RightFromRole
 				ID="ADMIN"
 				RolesDataColumn="cRole"
 				>
 				<DataLayer
-					CacheKey="dlcLdapUserRights"
-					ExpirationTimeSpan="00:05"
-					ID="dlcLdapUserRights"
-					Type="Cached"
+					ConnectionID="mkcLDAP"
+					ID="dlLdapRights"
+					LdapSource="SELECT memberOf, sAMAccountName, title, name, userPrincipalName, ADsPath, DisplayName, givenName, sn, mail FROM &apos;DC=midkscoop,DC=lan&apos; WHERE SamAccountName=&apos;@Function.UserName~&apos; and objectClass=&apos;person&apos;"
+					Type="Ldap"
 					>
-					<Note
-						Note="*** BRIEFLY caching to improve performance ***"
-					/>
-					<DataLayer
-						ConnectionID="mkcLDAP"
-						ID="dlLdapRights"
-						LdapSource="SELECT memberOf, sAMAccountName, title, name, userPrincipalName, ADsPath, DisplayName, givenName, sn, mail FROM &apos;DC=midkscoop,DC=lan&apos; WHERE SamAccountName=&apos;@Function.UserName~&apos; and objectClass=&apos;person&apos;"
-						Type="Ldap"
-					/>
 					<ConditionFilter
 						Condition="&quot;@Data.memberOf~&quot;.indexOf(&quot;LogiUserAdmin&quot;)!=&quot;-1&quot;"
 						ID="fADMIN"
@@ -451,6 +578,37 @@ AND USERNAME = @iptUsername"
 					/>
 				</DataLayer>
 			</RightFromRole>
+			<Remark>
+				<RightFromRole
+					ID="ADMIN"
+					RolesDataColumn="cRole"
+					>
+					<DataLayer
+						CacheKey="dlcLdapUserRights"
+						ExpirationTimeSpan="00:05"
+						ID="dlcLdapUserRights"
+						Type="Cached"
+						>
+						<Note
+							Note="*** BRIEFLY caching to improve performance ***"
+						/>
+						<DataLayer
+							ConnectionID="mkcLDAP"
+							ID="dlLdapRights"
+							LdapSource="SELECT memberOf, sAMAccountName, title, name, userPrincipalName, ADsPath, DisplayName, givenName, sn, mail FROM &apos;DC=midkscoop,DC=lan&apos; WHERE SamAccountName=&apos;@Function.UserName~&apos; and objectClass=&apos;person&apos;"
+							Type="Ldap"
+						/>
+						<ConditionFilter
+							Condition="&quot;@Data.memberOf~&quot;.indexOf(&quot;LogiUserAdmin&quot;)!=&quot;-1&quot;"
+							ID="fADMIN"
+						/>
+						<CalculatedColumn
+							Formula="&quot;LogiUserAdmin&quot;"
+							ID="cRole"
+						/>
+					</DataLayer>
+				</RightFromRole>
+			</Remark>
 		</Rights>
 	</Security>
 	<Remark>
