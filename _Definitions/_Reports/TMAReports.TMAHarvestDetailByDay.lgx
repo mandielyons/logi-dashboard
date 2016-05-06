@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Report
-	Caption="Harvest Detail"
+	Caption="Harvest Receipts Detail"
 	ID="TMAReports.TMAHarvestDetailByDay"
 	>
 	<IncludeSharedElement
@@ -15,19 +15,54 @@
 	/>
 	<Body>
 		<Division
+			ID="divBackToSummary"
+			>
+			<ResponsiveRow>
+				<ResponsiveColumn>
+					<Button
+						Caption="Back to Summary"
+						ID="buttonSummary"
+						Tooltip="Return to TMA Harvest Receipts Summary"
+						>
+						<Action
+							ID="actionReport"
+							Type="Report"
+							>
+							<Target
+								FrameID="Self"
+								ID="rptTgtSummary"
+								Report="TMAReports.TMAHarvestSummary"
+								Type="Report"
+								>
+								<WaitPage/>
+							</Target>
+						</Action>
+					</Button>
+					<LineBreak/>
+					<LineBreak/>
+				</ResponsiveColumn>
+			</ResponsiveRow>
+		</Division>
+		<Division
 			ID="divSelections"
 			>
+			<Label
+				Caption="Use Ctrl or Shift + click to select multiple items"
+				Class="ThemeTextSmall"
+			/>
 			<ResponsiveRow
 				ID="rowSelectionHeaders"
 				>
 				<ResponsiveColumn>
 					<Label
 						Caption="Locations"
+						Class="ThemeBold"
 					/>
 				</ResponsiveColumn>
 				<ResponsiveColumn>
 					<Label
 						Caption="Commodity"
+						Class="ThemeBold"
 					/>
 				</ResponsiveColumn>
 				<ResponsiveColumn/>
@@ -149,30 +184,31 @@ ORDER BY BRANCH_NAME"
 				<ResponsiveColumn/>
 				<ResponsiveColumn/>
 			</ResponsiveRow>
-			<Remark>
-				<ResponsiveRow
-					ID="rowSelectionApply"
-					>
-					<ResponsiveColumn>
-						<LineBreak/>
-						<Label
-							Caption="Use Ctrl+Click to select multiple locations"
-							ID="lblHowToSelect"
-						/>
-						<LineBreak/>
-						<Button
-							Caption="Apply"
-							ID="btnApply"
+			<ResponsiveRow
+				ID="rowSelectionReset"
+				>
+				<ResponsiveColumn>
+					<LineBreak/>
+					<Button
+						Caption="Reset"
+						ID="btnReset"
+						Tooltip="Clear all selections"
+						>
+						<Action
+							ElementID="divHarvest, divSelections"
+							ID="actReport"
+							RequestForwarding="True"
+							Type="RefreshElement"
 							>
-							<Action
-								ElementID="divHarvest"
-								ID="actReport"
-								Type="RefreshElement"
+							<WaitPage/>
+							<LinkParams
+								Branch="0"
+								Commodity="00"
 							/>
-						</Button>
-					</ResponsiveColumn>
-				</ResponsiveRow>
-			</Remark>
+						</Action>
+					</Button>
+				</ResponsiveColumn>
+			</ResponsiveRow>
 			<LineBreak/>
 			<LineBreak/>
 		</Division>
@@ -189,9 +225,9 @@ ORDER BY BRANCH_NAME"
 				>
 				<InteractivePaging
 					CaptionType="Image"
-					HideWhenOnePage="True"
+					Class="ThemeTextSmall"
 					Location="Top"
-					PageRowCount="20"
+					PageRowCount="12"
 					ShowPageNumber="True"
 				/>
 				<DataLayer
