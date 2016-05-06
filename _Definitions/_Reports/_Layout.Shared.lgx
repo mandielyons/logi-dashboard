@@ -802,6 +802,36 @@
 											</Action>
 										</PopupOption>
 										<PopupOption
+											Caption="Harvest Summary"
+											ID="optHarvest"
+											SecurityRightID="MKC,TMA,OC"
+											>
+											<Action
+												ID="tarContracts"
+												Type="Report"
+												>
+												<Target
+													Report="TMAReports.TMAHarvestSummary"
+													Type="Report"
+												/>
+											</Action>
+										</PopupOption>
+										<PopupOption
+											Caption="Harvest Details"
+											ID="optHarvestDetails"
+											SecurityRightID="MKC,TMA,OC"
+											>
+											<Action
+												ID="tarContracts"
+												Type="Report"
+												>
+												<Target
+													Report="TMAReports.TMAHarvestDetailByDay"
+													Type="Report"
+												/>
+											</Action>
+										</PopupOption>
+										<PopupOption
 											Caption="Scorecard"
 											ID="optScorecard"
 											SecurityRightID="STRATEGICPLAN,SRMGMT"
