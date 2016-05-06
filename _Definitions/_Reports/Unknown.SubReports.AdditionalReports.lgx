@@ -62,11 +62,17 @@
 										OptionValueColumn="YEAR1"
 										>
 										<DataLayer
-											ConnectionID="connProdGP"
-											ID="sqlFiscalYears"
-											Source="SELECT DISTINCT TOP 5 YEAR1 FROM MKCGP..slbAccountSummary ORDER BY YEAR1 DESC"
-											Type="SQL"
-										/>
+											CacheKey="luAdditionalReportsFiscYear"
+											ExpirationTimeSpan="8:00"
+											Type="Cached"
+											>
+											<DataLayer
+												ConnectionID="connProdGP"
+												ID="sqlFiscalYears"
+												Source="SELECT DISTINCT TOP 5 YEAR1 FROM MKCGP..slbAccountSummary ORDER BY YEAR1 DESC"
+												Type="SQL"
+											/>
+										</DataLayer>
 									</InputSelectList>
 								</Column>
 								<Column>
@@ -187,16 +193,22 @@
 										OptionValueColumn="LocGLStr"
 										>
 										<DataLayer
-											ColumnNamesRow="1"
-											ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\LocationData.xlsx"
-											ExcelWorksheet="BranchData"
-											ID="dlLocations"
-											Type="Excel"
+											CacheKey="luLocations"
+											ExpirationTimeSpan="8:00"
+											Type="Cached"
 											>
-											<ConditionFilter
-												Condition="&quot;@Data.LocGLStr~&quot; &lt;&gt; &quot;&quot;"
-												ID="filLocGLStr"
-											/>
+											<DataLayer
+												ColumnNamesRow="1"
+												ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\LocationData.xlsx"
+												ExcelWorksheet="BranchData"
+												ID="dlLocations"
+												Type="Excel"
+												>
+												<ConditionFilter
+													Condition="&quot;@Data.LocGLStr~&quot; &lt;&gt; &quot;&quot;"
+													ID="filLocGLStr"
+												/>
+											</DataLayer>
 										</DataLayer>
 									</InputSelectList>
 								</Column>
