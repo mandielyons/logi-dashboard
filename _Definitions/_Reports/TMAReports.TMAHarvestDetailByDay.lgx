@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Report
-	Caption="Harvest Receipts Detail"
+	Caption="Harvest Receipts"
 	ID="TMAReports.TMAHarvestDetailByDay"
 	>
 	<IncludeSharedElement
@@ -19,25 +19,22 @@
 			>
 			<ResponsiveRow>
 				<ResponsiveColumn>
-					<Button
-						Caption="Back to Summary"
-						ID="buttonSummary"
-						Tooltip="Return to TMA Harvest Receipts Summary"
+					<Label
+						Caption="Back to Harvest Summary"
+					/>
+					<Action
+						ID="actionReport"
+						Type="Report"
 						>
-						<Action
-							ID="actionReport"
+						<Target
+							FrameID="Self"
+							ID="rptTgtSummary"
+							Report="TMAReports.TMAHarvestSummary"
 							Type="Report"
 							>
-							<Target
-								FrameID="Self"
-								ID="rptTgtSummary"
-								Report="TMAReports.TMAHarvestSummary"
-								Type="Report"
-								>
-								<WaitPage/>
-							</Target>
-						</Action>
-					</Button>
+							<WaitPage/>
+						</Target>
+					</Action>
 					<LineBreak/>
 					<LineBreak/>
 				</ResponsiveColumn>
