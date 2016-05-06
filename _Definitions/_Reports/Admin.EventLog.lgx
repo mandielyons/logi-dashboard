@@ -53,8 +53,7 @@ Select LogiEventLog.EventID,
   LogiEventLog.EventDateTime,
   LogiEventLog.EventName,
   LogiEventLog.UserID,
-  LogiEventLog.EventDetail,
-  LogiEventLog.SQLCommand
+  LogiEventLog.EventDetail
 From LogiEventLog
 WHERE  LogiEventLog.EventDateTime BETWEEN @StartDate AND @Enddate"
 								Type="SQL"
