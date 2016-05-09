@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Report
-	Caption="Harvest Receipts Detail"
+	Caption="Harvest Receipts"
 	ID="TMAReports.TMAHarvestDetailByDay"
 	>
 	<IncludeSharedElement
@@ -9,6 +9,7 @@
 	/>
 	<DefaultRequestParams
 		Branch="0"
+		cacheExpireTime="8:15"
 		Commodity="0"
 		HarvestBeginDate="2016-03-01"
 		HarvestEndDate="2017-02-28"
@@ -19,25 +20,22 @@
 			>
 			<ResponsiveRow>
 				<ResponsiveColumn>
-					<Button
-						Caption="Back to Summary"
-						ID="buttonSummary"
-						Tooltip="Return to TMA Harvest Receipts Summary"
+					<Label
+						Caption="Back to Harvest Summary"
+					/>
+					<Action
+						ID="actionReport"
+						Type="Report"
 						>
-						<Action
-							ID="actionReport"
+						<Target
+							FrameID="Self"
+							ID="rptTgtSummary"
+							Report="TMAReports.TMAHarvestSummary"
 							Type="Report"
 							>
-							<Target
-								FrameID="Self"
-								ID="rptTgtSummary"
-								Report="TMAReports.TMAHarvestSummary"
-								Type="Report"
-								>
-								<WaitPage/>
-							</Target>
-						</Action>
-					</Button>
+							<WaitPage/>
+						</Target>
+					</Action>
 					<LineBreak/>
 					<LineBreak/>
 				</ResponsiveColumn>
@@ -266,6 +264,8 @@ ORDER BY POSTING_DATE, BRANCH_NAME
 				<CrosstabTableLabelColumn
 					Header="RECEIPT DATE"
 					ID="colAxLabel"
+					Width="150"
+					WidthScale="px"
 					>
 					<Label
 						Caption="@Data.DATE1_By_Date~"
@@ -280,6 +280,8 @@ ORDER BY POSTING_DATE, BRANCH_NAME
 				<CrosstabTableValueColumns
 					Header="@Data.rdCrosstabColumn~"
 					ID="colAxValue"
+					Width="150"
+					WidthScale="px"
 					>
 					<Label
 						Caption="=iif(@Data.rdCrosstabValCount~=0,&quot;&quot;,&quot;@Data.rdCrosstabValue~&quot;)"
@@ -300,6 +302,8 @@ ORDER BY POSTING_DATE, BRANCH_NAME
 					Class="ThemeAlignRight, ThemeBold"
 					Header="TOTAL"
 					ID="colTotal"
+					Width="150"
+					WidthScale="px"
 					>
 					<Label
 						Caption="@Data.crsTotal~"
@@ -320,6 +324,7 @@ ORDER BY POSTING_DATE, BRANCH_NAME
 				<SummaryRow
 					Caption="TOTAL"
 					ID="rowTotal"
+					LastPageOnly="True"
 				/>
 			</CrosstabTable>
 		</Division>
