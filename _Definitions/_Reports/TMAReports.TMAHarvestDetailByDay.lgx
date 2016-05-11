@@ -311,6 +311,8 @@ ORDER BY POSTING_DATE, BRANCH_NAME
 								/>
 								<CrosstabValueColumnSort
 									DataType="Number"
+									FirstSortSequence="Descending"
+									ReverseSortSequence="Ascending"
 								/>
 								<DataColumnSummary
 									DataColumn="rdCrosstabValue"
@@ -334,6 +336,8 @@ ORDER BY POSTING_DATE, BRANCH_NAME
 								<DataColumnSort
 									DataColumn="DATE1_By_Date"
 									DataType="Date"
+									FirstSortSequence="Descending"
+									ReverseSortSequence="Ascending"
 								/>
 								<DataColumnSummary
 									DataColumn="crsTotal"
@@ -357,7 +361,7 @@ ORDER BY POSTING_DATE, BRANCH_NAME
 				</Row>
 				<Row>
 					<Note
-						Note="This row exists because of a flaw with the rendering in the report footer. The footer will overlay the internal body objects rendered."
+						Note="This row exists because of a flaw with the screen rendering of the report footer. The footer will overlay the internal body objects rendered."
 					/>
 					<Column>
 						<Label

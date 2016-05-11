@@ -303,7 +303,6 @@ ORDER BY BRANCH_NAME"
 							ID="dtHarvest"
 							KeepScrollPosition="True"
 							Layout="Auto"
-							RememberSort="True"
 							ResizableColumns="True"
 							SortArrows="True"
 							TableBorder="0"
@@ -499,6 +498,8 @@ WHERE BRANCH_NUMBER IN(@Request.Branch~) OR &apos;@Request.Branch~&apos;=&apos;-
 								<DataColumnSort
 									DataColumn="WHEAT_CBU"
 									DataType="Number"
+									FirstSortSequence="Descending"
+									ReverseSortSequence="Ascending"
 								/>
 								<DataColumnSummary
 									DataColumn="WHEAT_CBU"
@@ -557,6 +558,8 @@ WHERE BRANCH_NUMBER IN(@Request.Branch~) OR &apos;@Request.Branch~&apos;=&apos;-
 								<DataColumnSort
 									DataColumn="MILO_CBU"
 									DataType="Number"
+									FirstSortSequence="Descending"
+									ReverseSortSequence="Ascending"
 								/>
 								<DataColumnSummary
 									DataColumn="MILO_CBU"
@@ -615,6 +618,8 @@ WHERE BRANCH_NUMBER IN(@Request.Branch~) OR &apos;@Request.Branch~&apos;=&apos;-
 								<DataColumnSort
 									DataColumn="SOYBEANS_CBU"
 									DataType="Number"
+									FirstSortSequence="Descending"
+									ReverseSortSequence="Ascending"
 								/>
 								<DataColumnSummary
 									DataColumn="SOYBEANS_CBU"
@@ -673,6 +678,8 @@ WHERE BRANCH_NUMBER IN(@Request.Branch~) OR &apos;@Request.Branch~&apos;=&apos;-
 								<DataColumnSort
 									DataColumn="CORN_CBU"
 									DataType="Number"
+									FirstSortSequence="Descending"
+									ReverseSortSequence="Ascending"
 								/>
 								<DataColumnSummary
 									DataColumn="CORN_CBU"
@@ -712,6 +719,8 @@ WHERE BRANCH_NUMBER IN(@Request.Branch~) OR &apos;@Request.Branch~&apos;=&apos;-
 								<DataColumnSort
 									DataColumn="TOTAL_CBU"
 									DataType="Number"
+									FirstSortSequence="Descending"
+									ReverseSortSequence="Ascending"
 								/>
 								<DataColumnSummary
 									DataColumn="TOTAL_CBU"
@@ -735,6 +744,8 @@ WHERE BRANCH_NUMBER IN(@Request.Branch~) OR &apos;@Request.Branch~&apos;=&apos;-
 								<DataColumnSort
 									DataColumn="CAPACITY"
 									DataType="Number"
+									FirstSortSequence="Descending"
+									ReverseSortSequence="Ascending"
 								/>
 								<DataColumnSummary
 									DataColumn="CAPACITY"
@@ -746,7 +757,7 @@ WHERE BRANCH_NUMBER IN(@Request.Branch~) OR &apos;@Request.Branch~&apos;=&apos;-
 							<DataTableColumn
 								Class="ThemeAlignRight"
 								Condition="(&quot;@Request.Commodity~&quot; = &quot;00&quot;) or InStr(&quot;@Request.Commodity~&quot;, &quot;1&quot;) &gt; 0"
-								Header="WHEAT %"
+								Header="WHEAT % of AVG"
 								ID="colWHEAT_Pct"
 								Width="100"
 								WidthScale="px"
@@ -759,6 +770,8 @@ WHERE BRANCH_NUMBER IN(@Request.Branch~) OR &apos;@Request.Branch~&apos;=&apos;-
 								<DataColumnSort
 									DataColumn="@Data.calcPctWHEAT~"
 									DataType="Number"
+									FirstSortSequence="Descending"
+									ReverseSortSequence="Ascending"
 								/>
 							</DataTableColumn>
 							<DataTableColumn
@@ -777,6 +790,8 @@ WHERE BRANCH_NUMBER IN(@Request.Branch~) OR &apos;@Request.Branch~&apos;=&apos;-
 								<DataColumnSort
 									DataColumn="WHEAT_AVG"
 									DataType="Number"
+									FirstSortSequence="Descending"
+									ReverseSortSequence="Ascending"
 								/>
 								<DataColumnSummary
 									DataColumn="WHEAT_AVG"
@@ -788,7 +803,7 @@ WHERE BRANCH_NUMBER IN(@Request.Branch~) OR &apos;@Request.Branch~&apos;=&apos;-
 							<DataTableColumn
 								Class="ThemeAlignRight"
 								Condition="(&quot;@Request.Commodity~&quot; = &quot;00&quot;) or InStr(&quot;@Request.Commodity~&quot;, &quot;2&quot;) &gt; 0"
-								Header="MILO %"
+								Header="MILO % of AVG"
 								ID="colMILO_Pct"
 								Width="100"
 								WidthScale="px"
@@ -801,6 +816,8 @@ WHERE BRANCH_NUMBER IN(@Request.Branch~) OR &apos;@Request.Branch~&apos;=&apos;-
 								<DataColumnSort
 									DataColumn="@Data.calcPctMILO~"
 									DataType="Number"
+									FirstSortSequence="Descending"
+									ReverseSortSequence="Ascending"
 								/>
 							</DataTableColumn>
 							<DataTableColumn
@@ -819,6 +836,8 @@ WHERE BRANCH_NUMBER IN(@Request.Branch~) OR &apos;@Request.Branch~&apos;=&apos;-
 								<DataColumnSort
 									DataColumn="MILO_AVG"
 									DataType="Number"
+									FirstSortSequence="Descending"
+									ReverseSortSequence="Ascending"
 								/>
 								<DataColumnSummary
 									DataColumn="MILO_AVG"
@@ -830,7 +849,7 @@ WHERE BRANCH_NUMBER IN(@Request.Branch~) OR &apos;@Request.Branch~&apos;=&apos;-
 							<DataTableColumn
 								Class="ThemeAlignRight"
 								Condition="(&quot;@Request.Commodity~&quot; = &quot;00&quot;) or InStr(&quot;@Request.Commodity~&quot;, &quot;3&quot;) &gt; 0"
-								Header="SOYBEANS %"
+								Header="SOYBEANS % of AVG"
 								ID="colSOYBEANS_Pct"
 								Width="100"
 								WidthScale="px"
@@ -843,6 +862,8 @@ WHERE BRANCH_NUMBER IN(@Request.Branch~) OR &apos;@Request.Branch~&apos;=&apos;-
 								<DataColumnSort
 									DataColumn="@Data.calcPctSOYBEANS~"
 									DataType="Number"
+									FirstSortSequence="Descending"
+									ReverseSortSequence="Ascending"
 								/>
 							</DataTableColumn>
 							<DataTableColumn
@@ -861,6 +882,8 @@ WHERE BRANCH_NUMBER IN(@Request.Branch~) OR &apos;@Request.Branch~&apos;=&apos;-
 								<DataColumnSort
 									DataColumn="SOYBEANS_AVG"
 									DataType="Number"
+									FirstSortSequence="Descending"
+									ReverseSortSequence="Ascending"
 								/>
 								<DataColumnSummary
 									DataColumn="SOYBEANS_AVG"
@@ -872,7 +895,7 @@ WHERE BRANCH_NUMBER IN(@Request.Branch~) OR &apos;@Request.Branch~&apos;=&apos;-
 							<DataTableColumn
 								Class="ThemeAlignRight"
 								Condition="(&quot;@Request.Commodity~&quot; = &quot;00&quot;) or InStr(&quot;@Request.Commodity~&quot;, &quot;4&quot;) &gt; 0"
-								Header="CORN %"
+								Header="CORN % of AVG"
 								ID="colCORN_Pct"
 								Width="100"
 								WidthScale="px"
@@ -885,6 +908,8 @@ WHERE BRANCH_NUMBER IN(@Request.Branch~) OR &apos;@Request.Branch~&apos;=&apos;-
 								<DataColumnSort
 									DataColumn="@Data.calcPctCORN~"
 									DataType="Number"
+									FirstSortSequence="Descending"
+									ReverseSortSequence="Ascending"
 								/>
 							</DataTableColumn>
 							<DataTableColumn
@@ -903,6 +928,8 @@ WHERE BRANCH_NUMBER IN(@Request.Branch~) OR &apos;@Request.Branch~&apos;=&apos;-
 								<DataColumnSort
 									DataColumn="CORN_AVG"
 									DataType="Number"
+									FirstSortSequence="Descending"
+									ReverseSortSequence="Ascending"
 								/>
 								<DataColumnSummary
 									DataColumn="CORN_AVG"
@@ -922,7 +949,7 @@ WHERE BRANCH_NUMBER IN(@Request.Branch~) OR &apos;@Request.Branch~&apos;=&apos;-
 				</Row>
 				<Row>
 					<Note
-						Note="This row exists because of a flaw with the rendering in the report footer. The footer will overlay the internal body objects rendered."
+						Note="This row exists because of a flaw with the screen rendering of the report footer. The footer will overlay the internal body objects rendered."
 					/>
 					<Column>
 						<Label
