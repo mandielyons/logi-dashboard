@@ -3,7 +3,18 @@
 	Caption="Additional Branch Reports"
 	ID="Unknown.SubReports.AdditionalReports"
 	>
+	<LocalData>
+		<DataLayer
+			CellRange="E2"
+			ColumnNames="ASOF"
+			ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\InventoryTurns.xlsx"
+			ExcelWorksheet="InventoryTurns"
+			ID="xlInventoryTurnsAsOfDate"
+			Type="Excel"
+		/>
+	</LocalData>
 	<DefaultRequestParams
+		ckbCATEGORY="CHEM"
 		paramFiscPeriod="11"
 		paramFiscYear="2016"
 		paramLocGLStr="100"
@@ -722,6 +733,185 @@ ORDER BY AgLocationCode, Operator
 								<Note
 									Note="**Add data here**"
 								/>
+								<Division
+									Class="panel-heading"
+									HtmlDiv="True"
+									ID="panel-headingInventoryTurns"
+									>
+									<Label
+										Caption="Inventory Turns  as of  @Local.ASOF~"
+									/>
+								</Division>
+								<Division
+									Class="panel-body"
+									HtmlDiv="True"
+									ID="panel-bodyInventoryTurns"
+									>
+									<Rows
+										Width="100"
+										WidthScale="%"
+										>
+										<Row>
+											<Column>
+												<Spaces
+													Size="30"
+												/>
+											</Column>
+											<Column>
+												<Spaces
+													Size="50"
+												/>
+												<InputRadioButtons
+													Class="ThemePadding, ThemeBold, ThemeTextSmall"
+													DefaultValue="@Request.ckbCATEGORY~"
+													ID="ckbCATEGORY"
+													OptionCaptionColumn="CATDESC"
+													OptionValueColumn="CATEGORY"
+													RadioButtonDirection="Across"
+													>
+													<DataLayer
+														ColumnNamesRow="1"
+														ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\InventoryTurns.xlsx"
+														ExcelWorksheet="InventoryTurns"
+														ID="xlCategories"
+														Type="Excel"
+														>
+														<GroupFilter
+															DataType="Text"
+															GroupColumn="CATEGORY"
+															KeepGroupedRows="False"
+														/>
+														<SortFilter
+															DataType="Text"
+															SortColumn="CATEGORY"
+															SortSequence="Ascending"
+														/>
+													</DataLayer>
+													<EventHandler
+														DhtmlEvent="OnChange"
+														ID="evtOnChange"
+														>
+														<Action
+															ElementID="panel-bodyInventoryTurns"
+															ID="actRefreshChart"
+															RequestForwarding="True"
+															Type="RefreshElement"
+														/>
+													</EventHandler>
+												</InputRadioButtons>
+											</Column>
+										</Row>
+										<Row>
+											<Column/>
+										</Row>
+										<Row>
+											<Column>
+												<Spaces
+													Size="30"
+												/>
+											</Column>
+											<Column>
+												<ChartCanvas
+													ChartHeight="700"
+													ChartOrientation="SwapAxes"
+													ChartWidth="900"
+													ID="BarChartTurns"
+													>
+													<Series
+														ChartXDataColumn="LOCNCODE"
+														ChartXDataColumnType="Text"
+														ChartYDataColumn="aggTurns"
+														Color="DarkSeaGreen"
+														LegendLabel="@Request.ckbCATEGORY~"
+														NegativeColor="Tomato"
+														Type="Bar"
+														>
+														<Quicktip>
+															<QuicktipRow
+																Caption="Location: "
+																Value="@Chart.LOCNCODE~"
+															/>
+															<QuicktipRow
+																Caption="Category: "
+																Value="@Chart.CATDESC~"
+															/>
+															<QuicktipRow
+																Caption="Turns: "
+																Value="@Chart.aggTurns~"
+															/>
+														</Quicktip>
+														<DataLabels/>
+													</Series>
+													<ChartXAxis/>
+													<ChartYAxis
+														AxisCaption="Turn Rate"
+													/>
+													<DataLayer
+														ColumnNamesRow="1"
+														ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\InventoryTurns.xlsx"
+														ExcelWorksheet="InventoryTurns"
+														ID="ExcelDataLayer1"
+														Type="Excel"
+														>
+														<ConditionFilter
+															Condition="&quot;@Data.CATEGORY~&quot; = &quot;@Request.ckbCATEGORY~&quot;"
+															ID="filterCategory"
+														/>
+														<GroupFilter
+															DataType="Text"
+															GroupColumn="LOCNCODE"
+															KeepGroupedRows="False"
+															>
+															<GroupAggregateColumn
+																AggregateColumn="TURNOVER"
+																AggregateFunction="SUM"
+																DataType="Number"
+																ID="aggTurns"
+															/>
+														</GroupFilter>
+														<SortFilter
+															DataType="Number"
+															SortColumn="aggTurns"
+															SortSequence="Ascending"
+														/>
+													</DataLayer>
+													<ChartCanvasLegend
+														AlignmentHorizontal="Right"
+														AlignmentVertical="Top"
+														BorderColor="#999999"
+														InsidePlotArea="False"
+														LegendBorderThickness="2"
+														LegendCaption="Category"
+													/>
+												</ChartCanvas>
+											</Column>
+											<Remark>
+												<Column>
+													<Spaces
+														Size="40"
+													/>
+												</Column>
+											</Remark>
+											<Column>
+												<Spaces
+													Size="40"
+												/>
+											</Column>
+											<Column>
+												<Spaces
+													Size="40"
+												/>
+											</Column>
+											<Column>
+												<Spaces
+													Size="40"
+												/>
+											</Column>
+										</Row>
+									</Rows>
+									<LineBreak/>
+									<LineBreak/>
+								</Division>
 							</Division>
 						</Division>
 					</TabPanel>
@@ -784,6 +974,7 @@ ORDER BY AgLocationCode, Operator
 		SharedElementID="shrFooter"
 	/>
 	<ideTestParams
+		ckbCATEGORY="CHEM"
 		paramFiscPeriod="11"
 		paramFiscYear="2016"
 		paramLocGLStr="100"
