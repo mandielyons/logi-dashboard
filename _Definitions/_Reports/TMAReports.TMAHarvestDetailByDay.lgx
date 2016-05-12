@@ -357,7 +357,11 @@ ORDER BY POSTING_DATE, BRANCH_NAME
 					<Column/>
 					<Column/>
 					<Column/>
-					<Column/>
+					<Column>
+						<Spaces
+							Size="20"
+						/>
+					</Column>
 				</Row>
 				<Row>
 					<Note
