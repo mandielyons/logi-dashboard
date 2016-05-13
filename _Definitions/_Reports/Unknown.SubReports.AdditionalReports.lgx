@@ -996,7 +996,13 @@ ORDER BY AgLocationCode, Operator
 														ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\SeededAcres.xlsx"
 														ExcelWorksheet="SeededAcres"
 														Type="Excel"
-													/>
+														>
+														<ConditionFilter
+															Condition="(@Data.FiscalYear~ = @Request.paramFiscYear~) AND 
+(@Data.FiscalPeriod~ = @Request.paramFiscPeriod~) AND
+(&quot;@Data.LocGLStr~&quot; = &quot;@Request.paramLocGLStr~&quot;)"
+														/>
+													</DataLayer>
 													<DataTableColumn
 														Class="ThemeMargin"
 														ColumnHeaderClass="ThemeAlignCenter"
@@ -1015,27 +1021,29 @@ ORDER BY AgLocationCode, Operator
 															DataType="Text"
 														/>
 													</DataTableColumn>
+													<Remark>
+														<DataTableColumn
+															Class="ThemeMargin, ThemeAlignRight"
+															ColumnHeaderClass="ThemeAlignCenter"
+															Header="Current Period Units"
+															HeaderType="Text"
+															ID="colCMTD_U"
+															>
+															<Label
+																Caption="@Data.cMTD_U~"
+																Format="###,###,##0"
+																ID="cMTD_U"
+															/>
+															<DataColumnSort
+																DataColumn="cMTD_U"
+																DataType="Number"
+															/>
+														</DataTableColumn>
+													</Remark>
 													<DataTableColumn
 														Class="ThemeMargin, ThemeAlignRight"
 														ColumnHeaderClass="ThemeAlignCenter"
-														Header="Current Period Units"
-														HeaderType="Text"
-														ID="colCMTD_U"
-														>
-														<Label
-															Caption="@Data.cMTD_U~"
-															Format="###,###,##0"
-															ID="cMTD_U"
-														/>
-														<DataColumnSort
-															DataColumn="cMTD_U"
-															DataType="Number"
-														/>
-													</DataTableColumn>
-													<DataTableColumn
-														Class="ThemeMargin, ThemeAlignRight"
-														ColumnHeaderClass="ThemeAlignCenter"
-														Header="Current Period Acres"
+														Header="Current Period"
 														HeaderType="Text"
 														ID="colCMTD_A"
 														>
@@ -1048,28 +1056,36 @@ ORDER BY AgLocationCode, Operator
 															DataColumn="cMTD_A"
 															DataType="Number"
 														/>
-													</DataTableColumn>
-													<DataTableColumn
-														Class="ThemeMargin, ThemeAlignRight"
-														ColumnHeaderClass="ThemeAlignCenter"
-														Header="Year-To-Date Units"
-														HeaderType="Text"
-														ID="colCYTD_U"
-														>
-														<Label
-															Caption="@Data.cYTD_U~"
-															Format="###,###,##0"
-															ID="cYTD_U"
-														/>
-														<DataColumnSort
-															DataColumn="cYTD_U"
+														<DataColumnSummary
+															DataColumn="cMTD_A"
 															DataType="Number"
+															Function="Sum"
+															ID="sum_cMTD_A"
 														/>
 													</DataTableColumn>
+													<Remark>
+														<DataTableColumn
+															Class="ThemeMargin, ThemeAlignRight"
+															ColumnHeaderClass="ThemeAlignCenter"
+															Header="Year-To-Date Units"
+															HeaderType="Text"
+															ID="colCYTD_U"
+															>
+															<Label
+																Caption="@Data.cYTD_U~"
+																Format="###,###,##0"
+																ID="cYTD_U"
+															/>
+															<DataColumnSort
+																DataColumn="cYTD_U"
+																DataType="Number"
+															/>
+														</DataTableColumn>
+													</Remark>
 													<DataTableColumn
 														Class="ThemeMargin, ThemeAlignRight"
 														ColumnHeaderClass="ThemeAlignCenter"
-														Header="Year-To-Date Acres"
+														Header="Year-To-Date"
 														HeaderType="Text"
 														ID="colCYTD_A"
 														>
@@ -1082,28 +1098,36 @@ ORDER BY AgLocationCode, Operator
 															DataColumn="cYTD_A"
 															DataType="Number"
 														/>
-													</DataTableColumn>
-													<DataTableColumn
-														Class="ThemeMargin, ThemeAlignRight"
-														ColumnHeaderClass="ThemeAlignCenter"
-														Header="Prior Year Period Units"
-														HeaderType="Text"
-														ID="colPMTD_U"
-														>
-														<Label
-															Caption="@Data.pMTD_U~"
-															Format="###,###,##0"
-															ID="pMTD_U"
-														/>
-														<DataColumnSort
-															DataColumn="pMTD_U"
+														<DataColumnSummary
+															DataColumn="cYTD_A"
 															DataType="Number"
+															Function="Sum"
+															ID="sum_cYTD_A"
 														/>
 													</DataTableColumn>
+													<Remark>
+														<DataTableColumn
+															Class="ThemeMargin, ThemeAlignRight"
+															ColumnHeaderClass="ThemeAlignCenter"
+															Header="Prior Year Period Units"
+															HeaderType="Text"
+															ID="colPMTD_U"
+															>
+															<Label
+																Caption="@Data.pMTD_U~"
+																Format="###,###,##0"
+																ID="pMTD_U"
+															/>
+															<DataColumnSort
+																DataColumn="pMTD_U"
+																DataType="Number"
+															/>
+														</DataTableColumn>
+													</Remark>
 													<DataTableColumn
 														Class="ThemeMargin, ThemeAlignRight"
 														ColumnHeaderClass="ThemeAlignCenter"
-														Header="Prior Year Period Acres"
+														Header="Prior Year Period"
 														HeaderType="Text"
 														ID="colPMTD_A"
 														>
@@ -1116,24 +1140,32 @@ ORDER BY AgLocationCode, Operator
 															DataColumn="pMTD_A"
 															DataType="Number"
 														/>
-													</DataTableColumn>
-													<DataTableColumn
-														Class="ThemeMargin, ThemeAlignRight"
-														ColumnHeaderClass="ThemeAlignCenter"
-														Header="Prior Year-To-Date Units"
-														HeaderType="Text"
-														ID="colPYTD_U"
-														>
-														<Label
-															Caption="@Data.pYTD_U~"
-															Format="###,###,##0"
-															ID="pYTD_U"
-														/>
-														<DataColumnSort
-															DataColumn="pYTD_U"
+														<DataColumnSummary
+															DataColumn="pMTD_A"
 															DataType="Number"
+															Function="Sum"
+															ID="sum_pMTD_A"
 														/>
 													</DataTableColumn>
+													<Remark>
+														<DataTableColumn
+															Class="ThemeMargin, ThemeAlignRight"
+															ColumnHeaderClass="ThemeAlignCenter"
+															Header="Prior Year-To-Date Units"
+															HeaderType="Text"
+															ID="colPYTD_U"
+															>
+															<Label
+																Caption="@Data.pYTD_U~"
+																Format="###,###,##0"
+																ID="pYTD_U"
+															/>
+															<DataColumnSort
+																DataColumn="pYTD_U"
+																DataType="Number"
+															/>
+														</DataTableColumn>
+													</Remark>
 													<DataTableColumn
 														Class="ThemeMargin, ThemeAlignRight"
 														ColumnHeaderClass="ThemeAlignCenter"
@@ -1150,7 +1182,19 @@ ORDER BY AgLocationCode, Operator
 															DataColumn="pYTD_A"
 															DataType="Number"
 														/>
+														<DataColumnSummary
+															DataColumn="pMTD_A"
+															DataType="Number"
+															Function="Sum"
+															ID="sum_pMTD_A"
+														/>
 													</DataTableColumn>
+													<Remark>
+														<SummaryRow
+															Caption="Totals: "
+															ID="summaryRow"
+														/>
+													</Remark>
 												</DataTable>
 											</Column>
 											<Remark>
