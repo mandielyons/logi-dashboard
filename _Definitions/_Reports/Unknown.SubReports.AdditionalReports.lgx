@@ -204,22 +204,16 @@
 										OptionValueColumn="LocGLStr"
 										>
 										<DataLayer
-											CacheKey="luLocations"
-											ExpirationTimeSpan="8:00"
-											Type="Cached"
+											ColumnNamesRow="1"
+											ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\LocationData.xlsx"
+											ExcelWorksheet="BranchData"
+											ID="dlLocations"
+											Type="Excel"
 											>
-											<DataLayer
-												ColumnNamesRow="1"
-												ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\LocationData.xlsx"
-												ExcelWorksheet="BranchData"
-												ID="dlLocations"
-												Type="Excel"
-												>
-												<ConditionFilter
-													Condition="&quot;@Data.LocGLStr~&quot; &lt;&gt; &quot;&quot;"
-													ID="filLocGLStr"
-												/>
-											</DataLayer>
+											<ConditionFilter
+												Condition="&quot;@Data.LocGLStr~&quot; &lt;&gt; &quot;&quot;"
+												ID="filLocGLStr"
+											/>
 										</DataLayer>
 									</InputSelectList>
 								</Column>
