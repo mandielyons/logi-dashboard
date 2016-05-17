@@ -8,7 +8,30 @@
 		DefinitionFile="_Layout.Shared"
 		SharedElementID="shrHeader"
 	/>
+	<StyleSheet
+		StyleSheet="defaultTheme.css"
+	/>
+	<StyleSheet
+		StyleSheet="960.css"
+	/>
+	<StyleSheet
+		StyleSheet="demo.css"
+	/>
+	<IncludeScriptFile
+		IncludedScriptFile="https://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"
+	/>
+	<IncludeScriptFile
+		IncludedScriptFile="jquery.fixedheadertable.js"
+	/>
 	<Body>
+		<IncludeScript
+			IncludedScript="$(document).ready(function() {
+    $(&apos;#dtEventLog&apos;).fixedHeaderTable({ footer: true, cloneHeadToFoot: true, altClass: &apos;odd&apos;, autoShow: false });
+    
+    $(&apos;#dtEventLog&apos;).fixedHeaderTable(&apos;show&apos;, 1000);
+    
+});"
+		/>
 		<Division
 			Class="panel panel-default"
 			HtmlDiv="True"
@@ -58,15 +81,17 @@ From LogiEventLog
 WHERE  LogiEventLog.EventDateTime BETWEEN @StartDate AND @Enddate"
 								Type="SQL"
 							/>
-							<InteractivePaging
-								CaptionType="Image"
-								HideShowPrevNextCaptions="False"
-								HideWhenOnePage="True"
-								IDnotSupportedHere="pagingTableNumbered"
-								Location="Top"
-								PageRowCount="20"
-								ShowPageNumber="Numbered"
-							/>
+							<Remark>
+								<InteractivePaging
+									CaptionType="Image"
+									HideShowPrevNextCaptions="False"
+									HideWhenOnePage="True"
+									IDnotSupportedHere="pagingTableNumbered"
+									Location="Top"
+									PageRowCount="20"
+									ShowPageNumber="Numbered"
+								/>
+							</Remark>
 							<AutoColumns/>
 						</DataTable>
 					</ResponsiveColumn>
