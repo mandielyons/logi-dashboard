@@ -3,7 +3,18 @@
 	Caption="Additional Branch Reports"
 	ID="Unknown.SubReports.AdditionalReports"
 	>
+	<LocalData>
+		<DataLayer
+			CellRange="E2"
+			ColumnNames="ASOF"
+			ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\InventoryTurns.xlsx"
+			ExcelWorksheet="InventoryTurns"
+			ID="xlInventoryTurnsAsOfDate"
+			Type="Excel"
+		/>
+	</LocalData>
 	<DefaultRequestParams
+		ckbCATEGORY="CHEM"
 		paramFiscPeriod="11"
 		paramFiscYear="2016"
 		paramLocGLStr="100"
@@ -193,22 +204,16 @@
 										OptionValueColumn="LocGLStr"
 										>
 										<DataLayer
-											CacheKey="luLocations"
-											ExpirationTimeSpan="8:00"
-											Type="Cached"
+											ColumnNamesRow="1"
+											ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\LocationData.xlsx"
+											ExcelWorksheet="BranchData"
+											ID="dlLocations"
+											Type="Excel"
 											>
-											<DataLayer
-												ColumnNamesRow="1"
-												ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\LocationData.xlsx"
-												ExcelWorksheet="BranchData"
-												ID="dlLocations"
-												Type="Excel"
-												>
-												<ConditionFilter
-													Condition="&quot;@Data.LocGLStr~&quot; &lt;&gt; &quot;&quot;"
-													ID="filLocGLStr"
-												/>
-											</DataLayer>
+											<ConditionFilter
+												Condition="&quot;@Data.LocGLStr~&quot; &lt;&gt; &quot;&quot;"
+												ID="filLocGLStr"
+											/>
 										</DataLayer>
 									</InputSelectList>
 								</Column>
@@ -722,6 +727,185 @@ ORDER BY AgLocationCode, Operator
 								<Note
 									Note="**Add data here**"
 								/>
+								<Division
+									Class="panel-heading"
+									HtmlDiv="True"
+									ID="panel-headingInventoryTurns"
+									>
+									<Label
+										Caption="Inventory Turns  as of  @Local.ASOF~"
+									/>
+								</Division>
+								<Division
+									Class="panel-body"
+									HtmlDiv="True"
+									ID="panel-bodyInventoryTurns"
+									>
+									<Rows
+										Width="100"
+										WidthScale="%"
+										>
+										<Row>
+											<Column>
+												<Spaces
+													Size="30"
+												/>
+											</Column>
+											<Column>
+												<Spaces
+													Size="50"
+												/>
+												<InputRadioButtons
+													Class="ThemePadding, ThemeBold, ThemeTextSmall"
+													DefaultValue="@Request.ckbCATEGORY~"
+													ID="ckbCATEGORY"
+													OptionCaptionColumn="CATDESC"
+													OptionValueColumn="CATEGORY"
+													RadioButtonDirection="Across"
+													>
+													<DataLayer
+														ColumnNamesRow="1"
+														ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\InventoryTurns.xlsx"
+														ExcelWorksheet="InventoryTurns"
+														ID="xlCategories"
+														Type="Excel"
+														>
+														<GroupFilter
+															DataType="Text"
+															GroupColumn="CATEGORY"
+															KeepGroupedRows="False"
+														/>
+														<SortFilter
+															DataType="Text"
+															SortColumn="CATEGORY"
+															SortSequence="Ascending"
+														/>
+													</DataLayer>
+													<EventHandler
+														DhtmlEvent="OnChange"
+														ID="evtOnChange"
+														>
+														<Action
+															ElementID="panel-bodyInventoryTurns"
+															ID="actRefreshChart"
+															RequestForwarding="True"
+															Type="RefreshElement"
+														/>
+													</EventHandler>
+												</InputRadioButtons>
+											</Column>
+										</Row>
+										<Row>
+											<Column/>
+										</Row>
+										<Row>
+											<Column>
+												<Spaces
+													Size="30"
+												/>
+											</Column>
+											<Column>
+												<ChartCanvas
+													ChartHeight="700"
+													ChartOrientation="SwapAxes"
+													ChartWidth="900"
+													ID="BarChartTurns"
+													>
+													<Series
+														ChartXDataColumn="LOCNCODE"
+														ChartXDataColumnType="Text"
+														ChartYDataColumn="aggTurns"
+														Color="DarkSeaGreen"
+														LegendLabel="@Request.ckbCATEGORY~"
+														NegativeColor="Tomato"
+														Type="Bar"
+														>
+														<Quicktip>
+															<QuicktipRow
+																Caption="Location: "
+																Value="@Chart.LOCNCODE~"
+															/>
+															<QuicktipRow
+																Caption="Category: "
+																Value="@Chart.CATDESC~"
+															/>
+															<QuicktipRow
+																Caption="Turns: "
+																Value="@Chart.aggTurns~"
+															/>
+														</Quicktip>
+														<DataLabels/>
+													</Series>
+													<ChartXAxis/>
+													<ChartYAxis
+														AxisCaption="Turn Rate"
+													/>
+													<DataLayer
+														ColumnNamesRow="1"
+														ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\InventoryTurns.xlsx"
+														ExcelWorksheet="InventoryTurns"
+														ID="ExcelDataLayer1"
+														Type="Excel"
+														>
+														<ConditionFilter
+															Condition="&quot;@Data.CATEGORY~&quot; = &quot;@Request.ckbCATEGORY~&quot;"
+															ID="filterCategory"
+														/>
+														<GroupFilter
+															DataType="Text"
+															GroupColumn="LOCNCODE"
+															KeepGroupedRows="False"
+															>
+															<GroupAggregateColumn
+																AggregateColumn="TURNOVER"
+																AggregateFunction="SUM"
+																DataType="Number"
+																ID="aggTurns"
+															/>
+														</GroupFilter>
+														<SortFilter
+															DataType="Number"
+															SortColumn="aggTurns"
+															SortSequence="Ascending"
+														/>
+													</DataLayer>
+													<ChartCanvasLegend
+														AlignmentHorizontal="Right"
+														AlignmentVertical="Top"
+														BorderColor="#999999"
+														InsidePlotArea="False"
+														LegendBorderThickness="2"
+														LegendCaption="Category"
+													/>
+												</ChartCanvas>
+											</Column>
+											<Remark>
+												<Column>
+													<Spaces
+														Size="40"
+													/>
+												</Column>
+											</Remark>
+											<Column>
+												<Spaces
+													Size="40"
+												/>
+											</Column>
+											<Column>
+												<Spaces
+													Size="40"
+												/>
+											</Column>
+											<Column>
+												<Spaces
+													Size="40"
+												/>
+											</Column>
+										</Row>
+									</Rows>
+									<LineBreak/>
+									<LineBreak/>
+								</Division>
 							</Division>
 						</Division>
 					</TabPanel>
@@ -772,6 +956,268 @@ ORDER BY AgLocationCode, Operator
 								<Note
 									Note="**Add data here**"
 								/>
+								<Division
+									Class="panel-heading"
+									HtmlDiv="True"
+									ID="panel-headingSeededAcres"
+									>
+									<Label
+										Caption="Seeded Acres"
+									/>
+								</Division>
+								<Division
+									Class="panel-body"
+									HtmlDiv="True"
+									ID="panel-bodySeededAcres"
+									>
+									<Rows
+										Width="100"
+										WidthScale="%"
+										>
+										<Row>
+											<Column>
+												<Spaces
+													Size="30"
+												/>
+											</Column>
+											<Column>
+												<DataTable
+													ID="dtSeededAcres"
+													SortArrows="True"
+													>
+													<DataLayer
+														ColumnNamesRow="1"
+														ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\SeededAcres.xlsx"
+														ExcelWorksheet="SeededAcres"
+														Type="Excel"
+														>
+														<ConditionFilter
+															Condition="(@Data.FiscalYear~ = @Request.paramFiscYear~) AND 
+(@Data.FiscalPeriod~ = @Request.paramFiscPeriod~) AND
+(&quot;@Data.LocGLStr~&quot; = &quot;@Request.paramLocGLStr~&quot;)"
+														/>
+													</DataLayer>
+													<DataTableColumn
+														Class="ThemeMargin"
+														ColumnHeaderClass="ThemeAlignCenter"
+														Header="Seed Category"
+														HeaderType="Text"
+														ID="colSeedCategory"
+														Width="25"
+														WidthScale="%"
+														>
+														<Label
+															Caption="@Data.SeedCategory~"
+															ID="SeedCategory"
+														/>
+														<DataColumnSort
+															DataColumn="SeedCategory"
+															DataType="Text"
+														/>
+													</DataTableColumn>
+													<Remark>
+														<DataTableColumn
+															Class="ThemeMargin, ThemeAlignRight"
+															ColumnHeaderClass="ThemeAlignCenter"
+															Header="Current Period Units"
+															HeaderType="Text"
+															ID="colCMTD_U"
+															>
+															<Label
+																Caption="@Data.cMTD_U~"
+																Format="###,###,##0"
+																ID="cMTD_U"
+															/>
+															<DataColumnSort
+																DataColumn="cMTD_U"
+																DataType="Number"
+															/>
+														</DataTableColumn>
+													</Remark>
+													<DataTableColumn
+														Class="ThemeMargin, ThemeAlignRight"
+														ColumnHeaderClass="ThemeAlignCenter"
+														Header="Current Period"
+														HeaderType="Text"
+														ID="colCMTD_A"
+														>
+														<Label
+															Caption="@Data.cMTD_A~"
+															Format="###,###,##0"
+															ID="cMTD_A"
+														/>
+														<DataColumnSort
+															DataColumn="cMTD_A"
+															DataType="Number"
+														/>
+														<DataColumnSummary
+															DataColumn="cMTD_A"
+															DataType="Number"
+															Function="Sum"
+															ID="sum_cMTD_A"
+														/>
+													</DataTableColumn>
+													<Remark>
+														<DataTableColumn
+															Class="ThemeMargin, ThemeAlignRight"
+															ColumnHeaderClass="ThemeAlignCenter"
+															Header="Year-To-Date Units"
+															HeaderType="Text"
+															ID="colCYTD_U"
+															>
+															<Label
+																Caption="@Data.cYTD_U~"
+																Format="###,###,##0"
+																ID="cYTD_U"
+															/>
+															<DataColumnSort
+																DataColumn="cYTD_U"
+																DataType="Number"
+															/>
+														</DataTableColumn>
+													</Remark>
+													<DataTableColumn
+														Class="ThemeMargin, ThemeAlignRight"
+														ColumnHeaderClass="ThemeAlignCenter"
+														Header="Year-To-Date"
+														HeaderType="Text"
+														ID="colCYTD_A"
+														>
+														<Label
+															Caption="@Data.cYTD_A~"
+															Format="###,###,##0"
+															ID="cYTD_A"
+														/>
+														<DataColumnSort
+															DataColumn="cYTD_A"
+															DataType="Number"
+														/>
+														<DataColumnSummary
+															DataColumn="cYTD_A"
+															DataType="Number"
+															Function="Sum"
+															ID="sum_cYTD_A"
+														/>
+													</DataTableColumn>
+													<Remark>
+														<DataTableColumn
+															Class="ThemeMargin, ThemeAlignRight"
+															ColumnHeaderClass="ThemeAlignCenter"
+															Header="Prior Year Period Units"
+															HeaderType="Text"
+															ID="colPMTD_U"
+															>
+															<Label
+																Caption="@Data.pMTD_U~"
+																Format="###,###,##0"
+																ID="pMTD_U"
+															/>
+															<DataColumnSort
+																DataColumn="pMTD_U"
+																DataType="Number"
+															/>
+														</DataTableColumn>
+													</Remark>
+													<DataTableColumn
+														Class="ThemeMargin, ThemeAlignRight"
+														ColumnHeaderClass="ThemeAlignCenter"
+														Header="Prior Year Period"
+														HeaderType="Text"
+														ID="colPMTD_A"
+														>
+														<Label
+															Caption="@Data.pMTD_A~"
+															Format="###,###,##0"
+															ID="pMTD_A"
+														/>
+														<DataColumnSort
+															DataColumn="pMTD_A"
+															DataType="Number"
+														/>
+														<DataColumnSummary
+															DataColumn="pMTD_A"
+															DataType="Number"
+															Function="Sum"
+															ID="sum_pMTD_A"
+														/>
+													</DataTableColumn>
+													<Remark>
+														<DataTableColumn
+															Class="ThemeMargin, ThemeAlignRight"
+															ColumnHeaderClass="ThemeAlignCenter"
+															Header="Prior Year-To-Date Units"
+															HeaderType="Text"
+															ID="colPYTD_U"
+															>
+															<Label
+																Caption="@Data.pYTD_U~"
+																Format="###,###,##0"
+																ID="pYTD_U"
+															/>
+															<DataColumnSort
+																DataColumn="pYTD_U"
+																DataType="Number"
+															/>
+														</DataTableColumn>
+													</Remark>
+													<DataTableColumn
+														Class="ThemeMargin, ThemeAlignRight"
+														ColumnHeaderClass="ThemeAlignCenter"
+														Header="Prior Year-To-Date"
+														HeaderType="Text"
+														ID="colPYTD_A"
+														>
+														<Label
+															Caption="@Data.pYTD_A~"
+															Format="###,###,##0"
+															ID="pYTD_A"
+														/>
+														<DataColumnSort
+															DataColumn="pYTD_A"
+															DataType="Number"
+														/>
+														<DataColumnSummary
+															DataColumn="pMTD_A"
+															DataType="Number"
+															Function="Sum"
+															ID="sum_pMTD_A"
+														/>
+													</DataTableColumn>
+													<Remark>
+														<SummaryRow
+															Caption="Totals: "
+															ID="summaryRow"
+														/>
+													</Remark>
+												</DataTable>
+											</Column>
+											<Remark>
+												<Column>
+													<Spaces
+														Size="40"
+													/>
+												</Column>
+											</Remark>
+											<Column>
+												<Spaces
+													Size="40"
+												/>
+											</Column>
+											<Column>
+												<Spaces
+													Size="40"
+												/>
+											</Column>
+											<Column>
+												<Spaces
+													Size="40"
+												/>
+											</Column>
+										</Row>
+									</Rows>
+									<LineBreak/>
+									<LineBreak/>
+								</Division>
 							</Division>
 						</Division>
 					</TabPanel>
@@ -784,6 +1230,7 @@ ORDER BY AgLocationCode, Operator
 		SharedElementID="shrFooter"
 	/>
 	<ideTestParams
+		ckbCATEGORY="CHEM"
 		paramFiscPeriod="11"
 		paramFiscYear="2016"
 		paramLocGLStr="100"

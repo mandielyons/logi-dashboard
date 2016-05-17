@@ -703,16 +703,26 @@ ORDER BY IntSort;
 														HeaderType="Text"
 														ID="colDescription"
 														>
-														<Label
-															Caption="@Data.Description~"
-															Class="ThemeClearfix"
-															ID="lblDescription"
+														<Division
+															Condition="&quot;@Data.blnClick~&quot; = &quot;0&quot;"
+															ID="divNotClickable"
 															>
-															<ConditionalClass
-																Class="ThemeBold"
-																Condition="@Data.IntTotal~==1"
-																ID="cndBoldTotal"
-															/>
+															<Label
+																Caption="@Data.Description~"
+																Class="ThemeClearfix"
+																ID="lblDescription"
+																>
+																<ConditionalClass
+																	Class="ThemeBold"
+																	Condition="@Data.IntTotal~==1"
+																	ID="cndBoldTotal"
+																/>
+															</Label>
+														</Division>
+														<Division
+															Condition="&quot;@Data.blnClick~&quot; = &quot;1&quot;"
+															ID="divClickable"
+															>
 															<Action
 																Type="Report"
 																>
@@ -726,7 +736,18 @@ ORDER BY IntSort;
 																	Type="Report"
 																/>
 															</Action>
-														</Label>
+															<Label
+																Caption="@Data.Description~"
+																Class="ThemeClearfix"
+																ID="lblDescription"
+																>
+																<ConditionalClass
+																	Class="ThemeBold"
+																	Condition="@Data.IntTotal~==1"
+																	ID="cndBoldTotal"
+																/>
+															</Label>
+														</Division>
 													</DataTableColumn>
 													<DataTableColumn
 														Class="ThemeMargin, ThemeAlignRight"
@@ -1973,10 +1994,10 @@ ORDER BY MNACSGMT
 														ID="sqlFixedExpense"
 														Source="SELECT COALESCE(cm.MNACSGMT,cy.MNACSGMT,pm.MNACSGMT,py.MNACSGMT) MNACSGMT, COALESCE(cm.ACTDESCR,cy.ACTDESCR,pm.ACTDESCR,py.ACTDESCR) ACTDESCR, SUM(ISNULL(cm.AMT,0)) cMTD, SUM(ISNULL(cy.AMT,0)) cYTD, SUM(ISNULL(pm.AMT,0)) pMTD, SUM(ISNULL(py.AMT,0)) pYTD
 FROM 
-      ( SELECT MNACSGMT, SUBSTRING(ACTNUMBR_4,2,3)+SUBSTRING(ACTNUMBR_5,1,2) AS JSTR, LTRIM(RTRIM(ACTDESCR)) ACTDESCR, SUM(PERDBLNC) AMT FROM MKCGP..slbAccountSummary WHERE YEAR1=(@Request.paramFiscYear~  ) AND PERIODID =@Request.paramFiscPeriod~ AND ACTNUMBR_2 IN(&apos;@Request.paramLocGLStr~&apos;) AND MNACSGMT BETWEEN &apos;@Request.AcctCatFixedExpenseB~&apos; AND &apos;@Request.AcctCatFixedExpenseE~&apos; GROUP BY MNACSGMT, SUBSTRING(ACTNUMBR_4,2,3)+SUBSTRING(ACTNUMBR_5,1,2), LTRIM(RTRIM(ACTDESCR))) cm FULL OUTER JOIN 
-      ( SELECT MNACSGMT, SUBSTRING(ACTNUMBR_4,2,3)+SUBSTRING(ACTNUMBR_5,1,2) AS JSTR, LTRIM(RTRIM(ACTDESCR)) ACTDESCR, SUM(PERDBLNC) AMT FROM MKCGP..slbAccountSummary WHERE YEAR1=(@Request.paramFiscYear~  ) AND PERIODID&lt;=@Request.paramFiscPeriod~ AND ACTNUMBR_2 IN(&apos;@Request.paramLocGLStr~&apos;) AND MNACSGMT BETWEEN &apos;@Request.AcctCatFixedExpenseB~&apos; AND &apos;@Request.AcctCatFixedExpenseE~&apos; GROUP BY MNACSGMT, SUBSTRING(ACTNUMBR_4,2,3)+SUBSTRING(ACTNUMBR_5,1,2), LTRIM(RTRIM(ACTDESCR))) cy ON cm.JSTR=cy.JSTR FULL OUTER JOIN 
-      ( SELECT MNACSGMT, SUBSTRING(ACTNUMBR_4,2,3)+SUBSTRING(ACTNUMBR_5,1,2) AS JSTR, LTRIM(RTRIM(ACTDESCR)) ACTDESCR, SUM(PERDBLNC) AMT FROM MKCGP..slbAccountSummary WHERE YEAR1=(@Request.paramFiscYear~-1) AND PERIODID =@Request.paramFiscPeriod~ AND ACTNUMBR_2 IN(&apos;@Request.paramLocGLStr~&apos;) AND MNACSGMT BETWEEN &apos;@Request.AcctCatFixedExpenseB~&apos; AND &apos;@Request.AcctCatFixedExpenseE~&apos; GROUP BY MNACSGMT, SUBSTRING(ACTNUMBR_4,2,3)+SUBSTRING(ACTNUMBR_5,1,2), LTRIM(RTRIM(ACTDESCR))) pm ON cm.JSTR=pm.JSTR FULL OUTER JOIN
-      ( SELECT MNACSGMT, SUBSTRING(ACTNUMBR_4,2,3)+SUBSTRING(ACTNUMBR_5,1,2) AS JSTR, LTRIM(RTRIM(ACTDESCR)) ACTDESCR, SUM(PERDBLNC) AMT FROM MKCGP..slbAccountSummary WHERE YEAR1=(@Request.paramFiscYear~-1) AND PERIODID&lt;=@Request.paramFiscPeriod~ AND ACTNUMBR_2 IN(&apos;@Request.paramLocGLStr~&apos;) AND MNACSGMT BETWEEN &apos;@Request.AcctCatFixedExpenseB~&apos; AND &apos;@Request.AcctCatFixedExpenseE~&apos; GROUP BY MNACSGMT, SUBSTRING(ACTNUMBR_4,2,3)+SUBSTRING(ACTNUMBR_5,1,2), LTRIM(RTRIM(ACTDESCR))) py ON cm.JSTR=py.JSTR 
+      ( SELECT MNACSGMT, SUBSTRING(ACTNUMBR_4,2,3)+SUBSTRING(ACTNUMBR_5,1,2) AS JSTR, LTRIM(RTRIM(ACTDESCR)) ACTDESCR, SUM(PERDBLNC) AMT FROM MKCGP..slbAccountSummary WHERE YEAR1=(@Request.paramFiscYear~  ) AND PERIODID =@Request.paramFiscPeriod~ AND ACTNUMBR_2 IN(&apos;@Request.paramLocGLStr~&apos;) AND MNACSGMT BETWEEN &apos;@Request.AcctCatFixedExpB~&apos; AND &apos;@Request.AcctCatFixedExpE~&apos; GROUP BY MNACSGMT, SUBSTRING(ACTNUMBR_4,2,3)+SUBSTRING(ACTNUMBR_5,1,2), LTRIM(RTRIM(ACTDESCR))) cm FULL OUTER JOIN 
+      ( SELECT MNACSGMT, SUBSTRING(ACTNUMBR_4,2,3)+SUBSTRING(ACTNUMBR_5,1,2) AS JSTR, LTRIM(RTRIM(ACTDESCR)) ACTDESCR, SUM(PERDBLNC) AMT FROM MKCGP..slbAccountSummary WHERE YEAR1=(@Request.paramFiscYear~  ) AND PERIODID&lt;=@Request.paramFiscPeriod~ AND ACTNUMBR_2 IN(&apos;@Request.paramLocGLStr~&apos;) AND MNACSGMT BETWEEN &apos;@Request.AcctCatFixedExpB~&apos; AND &apos;@Request.AcctCatFixedExpE~&apos; GROUP BY MNACSGMT, SUBSTRING(ACTNUMBR_4,2,3)+SUBSTRING(ACTNUMBR_5,1,2), LTRIM(RTRIM(ACTDESCR))) cy ON cm.JSTR=cy.JSTR FULL OUTER JOIN 
+      ( SELECT MNACSGMT, SUBSTRING(ACTNUMBR_4,2,3)+SUBSTRING(ACTNUMBR_5,1,2) AS JSTR, LTRIM(RTRIM(ACTDESCR)) ACTDESCR, SUM(PERDBLNC) AMT FROM MKCGP..slbAccountSummary WHERE YEAR1=(@Request.paramFiscYear~-1) AND PERIODID =@Request.paramFiscPeriod~ AND ACTNUMBR_2 IN(&apos;@Request.paramLocGLStr~&apos;) AND MNACSGMT BETWEEN &apos;@Request.AcctCatFixedExpB~&apos; AND &apos;@Request.AcctCatFixedExpE~&apos; GROUP BY MNACSGMT, SUBSTRING(ACTNUMBR_4,2,3)+SUBSTRING(ACTNUMBR_5,1,2), LTRIM(RTRIM(ACTDESCR))) pm ON cm.JSTR=pm.JSTR FULL OUTER JOIN
+      ( SELECT MNACSGMT, SUBSTRING(ACTNUMBR_4,2,3)+SUBSTRING(ACTNUMBR_5,1,2) AS JSTR, LTRIM(RTRIM(ACTDESCR)) ACTDESCR, SUM(PERDBLNC) AMT FROM MKCGP..slbAccountSummary WHERE YEAR1=(@Request.paramFiscYear~-1) AND PERIODID&lt;=@Request.paramFiscPeriod~ AND ACTNUMBR_2 IN(&apos;@Request.paramLocGLStr~&apos;) AND MNACSGMT BETWEEN &apos;@Request.AcctCatFixedExpB~&apos; AND &apos;@Request.AcctCatFixedExpE~&apos; GROUP BY MNACSGMT, SUBSTRING(ACTNUMBR_4,2,3)+SUBSTRING(ACTNUMBR_5,1,2), LTRIM(RTRIM(ACTDESCR))) py ON cm.JSTR=py.JSTR 
 GROUP BY COALESCE(cm.MNACSGMT,cy.MNACSGMT,pm.MNACSGMT,py.MNACSGMT), COALESCE(cm.ACTDESCR, cy.ACTDESCR, pm.ACTDESCR, py.ACTDESCR) 
 ORDER BY MNACSGMT
 "
@@ -2372,8 +2393,8 @@ ORDER BY MNACSGMT
 		SharedElementID="shrFooter"
 	/>
 	<ideTestParams
-		AcctCatFixedExpenseB="8100"
-		AcctCatFixedExpenseE="8199"
+		AcctCatFixedExpB=""
+		AcctCatFixedExpE=""
 		AcctCatOtherCostsB="8200"
 		AcctCatOtherCostsE="8499"
 		AcctCatOtherIncomeB="7000"

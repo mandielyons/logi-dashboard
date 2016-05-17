@@ -20,11 +20,17 @@
 	/>
 	<LocalData>
 		<DataLayer
-			ConnectionID="connProdGP"
-			ID="dlSQLShipPeriodDt"
-			Source="SELECT CONVERT(VARCHAR(10),DATEADD(DAY,-1,GETDATE()),120) AS [SHIP_PERIOD_DT], CONVERT(VARCHAR(10),DATEADD(DAY,-1,GETDATE()),110) AS [SHIP_PERIOD_DESC]"
-			Type="SQL"
-		/>
+			CacheKey="dlcachePeriodDatesContractsDashboard"
+			ExpirationTime="00:01"
+			Type="Cached"
+			>
+			<DataLayer
+				ConnectionID="connProdGP"
+				ID="dlSQLShipPeriodDt"
+				Source="SELECT CONVERT(VARCHAR(10),DATEADD(DAY,-1,GETDATE()),120) AS [SHIP_PERIOD_DT], CONVERT(VARCHAR(10),DATEADD(DAY,-1,GETDATE()),110) AS [SHIP_PERIOD_DESC]"
+				Type="SQL"
+			/>
+		</DataLayer>
 	</LocalData>
 	<Body>
 		<IncludeScript
@@ -66,12 +72,18 @@
 						RadioButtonDirection="Across"
 						>
 						<DataLayer
-							ConnectionID="connProdGP"
-							ID="sqlContractType"
-							Source="SELECT DISTINCT CONTRACT_TYPE, CONTRACT_TYPE_DESC FROM Agtrax_Staging..DM_OpenContracts
+							CacheKey="dlcachedLuContractTypeTMAContractsDashboard"
+							ExpirationTime="8:15"
+							Type="Cached"
+							>
+							<DataLayer
+								ConnectionID="connProdGP"
+								ID="sqlContractType"
+								Source="SELECT DISTINCT CONTRACT_TYPE, CONTRACT_TYPE_DESC FROM Agtrax_Staging..DM_OpenContracts
 ORDER BY CONTRACT_TYPE DESC"
-							Type="SQL"
-						/>
+								Type="SQL"
+							/>
+						</DataLayer>
 						<EventHandler
 							DhtmlEvent="onchange"
 							ID="evhOnChange"
@@ -337,39 +349,45 @@ HAVING SUM(REMAINING_BU)&lt;0
 						WidthScale="%"
 						>
 						<DataLayer
-							ConnectionID="connProdGP"
-							ID="SQL-WHEAT"
-							Source="SELECT CONTRACT_TYPE, CONTRACT_TYPE_DESC, DPR_GROUP, DPR_GROUP_DESC, DELIVERY_END_DATE, MONTHID_DESC, SUM(REMAINING_BU) REMAINING_BU
+							CacheKey="dlcacheCtWheatNetTMAContractsDashboard"
+							ExpirationTime="8:15"
+							Type="Cached"
+							>
+							<DataLayer
+								ConnectionID="connProdGP"
+								ID="SQL-WHEAT"
+								Source="SELECT CONTRACT_TYPE, CONTRACT_TYPE_DESC, DPR_GROUP, DPR_GROUP_DESC, DELIVERY_END_DATE, MONTHID_DESC, SUM(REMAINING_BU) REMAINING_BU
 FROM Agtrax_Staging..DM_OpenContractsNet with(nolock) 
 WHERE DPR_GROUP=1
 GROUP BY CONTRACT_TYPE, CONTRACT_TYPE_DESC, DPR_GROUP, DPR_GROUP_DESC, DELIVERY_END_DATE, MONTHID_DESC
 ORDER BY CONTRACT_TYPE, DELIVERY_END_DATE
 "
-							Type="SQL"
-							>
-							<CrosstabFilter
-								CrosstabColumn="MONTHID_DESC"
-								CrosstabLabelColumn="CONTRACT_TYPE_DESC"
-								CrosstabValueColumn="REMAINING_BU"
-								CrosstabValueFunction="SUM"
+								Type="SQL"
 								>
-								<ExtraCrosstabLabelColumn
-									CrosstabLabelColumn="DPR_GROUP"
-									ID="CommodityCode"
-								/>
-								<ExtraCrosstabLabelColumn
-									CrosstabLabelColumn="DPR_GROUP_DESC"
-									ID="CommodityDesc"
-								/>
-								<ExtraCrosstabLabelColumn
+								<CrosstabFilter
+									CrosstabColumn="MONTHID_DESC"
 									CrosstabLabelColumn="CONTRACT_TYPE_DESC"
-									ID="ContractTypeDesc"
-								/>
-								<CrosstabRowSummaryColumn
-									Function="Sum"
-									ID="crsTotal"
-								/>
-							</CrosstabFilter>
+									CrosstabValueColumn="REMAINING_BU"
+									CrosstabValueFunction="SUM"
+									>
+									<ExtraCrosstabLabelColumn
+										CrosstabLabelColumn="DPR_GROUP"
+										ID="CommodityCode"
+									/>
+									<ExtraCrosstabLabelColumn
+										CrosstabLabelColumn="DPR_GROUP_DESC"
+										ID="CommodityDesc"
+									/>
+									<ExtraCrosstabLabelColumn
+										CrosstabLabelColumn="CONTRACT_TYPE_DESC"
+										ID="ContractTypeDesc"
+									/>
+									<CrosstabRowSummaryColumn
+										Function="Sum"
+										ID="crsTotal"
+									/>
+								</CrosstabFilter>
+							</DataLayer>
 						</DataLayer>
 						<CrosstabTableLabelColumn
 							Header="Contract Type"
