@@ -116,6 +116,14 @@
 								Type="NativeExcel"
 							/>
 						</Action>
+						<EventHandler
+							DhtmlEvent="onclick"
+							>
+							<Action
+								Javascript="_gaq.push([&apos;_trackEvent&apos;, &apos;HarvestSummaryExcel&apos;, &apos;clicked&apos;])"
+								Type="Javascript"
+							/>
+						</EventHandler>
 					</Label>
 				</ResponsiveColumn>
 			</ResponsiveRow>

@@ -144,7 +144,7 @@
 		/>
 		<Connection
 			ID="connLogiEvent"
-			SqlServer="DEVELOPMENT"
+			SqlServer="sqlsvr1"
 			SqlServerDatabase="DynamicsGPWarehouse"
 			SqlServerPassword="integr8!"
 			SqlServerPort=""

@@ -146,10 +146,36 @@ WHERE CONTRACT_TYPE=2
 					ColspanMediumScreen="1"
 					ColspanSmallScreen="1"
 					>
-					<Label
+					<Remark>
+						<Label
+							Class="ThemeAlignRight, fa fa-file-excel-o fa-2x"
+							HtmlTag="Div"
+							Tooltip="Export to Excel"
+							>
+							<Action
+								Type="NativeExcel"
+								>
+								<Target
+									ExcelOutputFormat="Excel2007"
+									FrameID="NewWindow"
+									Report="CurrentReport"
+									RequestForwarding="True"
+									Type="NativeExcel"
+								/>
+							</Action>
+							<EventHandler
+								DhtmlEvent="onclick"
+								>
+								<Action
+									Javascript="_gaq.push([&apos;_trackEvent&apos;, &apos;DispatchExcel&apos;, &apos;clicked&apos;])"
+									Type="Javascript"
+								/>
+							</EventHandler>
+						</Label>
+					</Remark>
+					<Button
 						Class="ThemeAlignRight, fa fa-file-excel-o fa-2x"
-						HtmlTag="Div"
-						Tooltip="Export to Excel"
+						ID="btnExcel"
 						>
 						<Action
 							Type="NativeExcel"
@@ -162,7 +188,15 @@ WHERE CONTRACT_TYPE=2
 								Type="NativeExcel"
 							/>
 						</Action>
-					</Label>
+						<EventHandler
+							DhtmlEvent="onclick"
+							>
+							<Action
+								Javascript="_gaq.push([&apos;_trackEvent&apos;, &apos;DispatchExcel&apos;, &apos;clicked&apos;])"
+								Type="Javascript"
+							/>
+						</EventHandler>
+					</Button>
 				</ResponsiveColumn>
 			</ResponsiveRow>
 		</Division>
