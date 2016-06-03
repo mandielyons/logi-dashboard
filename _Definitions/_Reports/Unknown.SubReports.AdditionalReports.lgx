@@ -1221,6 +1221,240 @@ ORDER BY AgLocationCode, Operator
 							</Division>
 						</Division>
 					</TabPanel>
+					<TabPanel
+						Caption="Grain Discounts, Dockage and Shrink"
+						Class="ThemeTextPositive ThemeHeaderSmall"
+						ID="tabGrainShrink"
+						>
+						<Division
+							Class="panel panel-default"
+							HtmlDiv="True"
+							ID="panel-grainshrink"
+							>
+							<Division
+								Class="panel-heading"
+								HtmlDiv="True"
+								ID="divGrainShrinkHeading"
+							/>
+							<Division
+								Class="panel-body ThemeAlignRight"
+								HtmlDiv="True"
+								ID="divGrainShrink"
+								>
+								<Label
+									Class="fa fa-file-pdf-o fa-2x"
+									HtmlTag="Div"
+									ID="exportGrainShrink"
+									Tooltip="Export to PDF"
+									>
+									<Action
+										ID="exportPDFGrainShrink"
+										Type="PDF"
+										>
+										<Target
+											Type="PDF"
+										/>
+									</Action>
+								</Label>
+								<Spaces
+									Size="15"
+								/>
+							</Division>
+							<Division
+								Class="panel-body"
+								HtmlDiv="True"
+								ID="divGrainShrinkData"
+								>
+								<Note
+									Note="**Add data here**"
+								/>
+								<Division
+									Class="panel-heading"
+									HtmlDiv="True"
+									ID="panel-headingGrainShrink"
+									>
+									<Label
+										Caption="Grain Discounts, Dockage and Shrink"
+									/>
+								</Division>
+								<Division
+									Class="panel-body"
+									HtmlDiv="True"
+									ID="panel-bodyGrainShrink"
+									>
+									<Rows
+										Width="100"
+										WidthScale="%"
+										>
+										<Row>
+											<Column>
+												<Spaces
+													Size="30"
+												/>
+											</Column>
+											<Column>
+												<DataTable
+													ID="dtGrainShrink"
+													SortArrows="True"
+													>
+													<DataLayer
+														ColumnNamesRow="1"
+														ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\SeededAcres.xlsx"
+														ExcelWorksheet="SeededAcres"
+														Type="Excel"
+														>
+														<ConditionFilter
+															Condition="(@Data.FiscalYear~ = @Request.paramFiscYear~) AND 
+(@Data.FiscalPeriod~ = @Request.paramFiscPeriod~) AND
+(&quot;@Data.LocGLStr~&quot; = &quot;@Request.paramLocGLStr~&quot;)"
+														/>
+													</DataLayer>
+													<DataTableColumn
+														Class="ThemeMargin"
+														ColumnHeaderClass="ThemeAlignCenter"
+														Header="Commodity"
+														HeaderType="Text"
+														ID="colSeedCategory"
+														Width="25"
+														WidthScale="%"
+														>
+														<Label
+															Caption="@Data.SeedCategory~"
+															ID="SeedCategory"
+														/>
+														<DataColumnSort
+															DataColumn="SeedCategory"
+															DataType="Text"
+														/>
+													</DataTableColumn>
+													<DataTableColumn
+														Class="ThemeMargin, ThemeAlignRight"
+														ColumnHeaderClass="ThemeAlignCenter"
+														Header="Current Period"
+														HeaderType="Text"
+														ID="colCMTD_A"
+														>
+														<Label
+															Caption="@Data.cMTD_A~"
+															Format="###,###,##0"
+															ID="cMTD_A"
+														/>
+														<DataColumnSort
+															DataColumn="cMTD_A"
+															DataType="Number"
+														/>
+														<DataColumnSummary
+															DataColumn="cMTD_A"
+															DataType="Number"
+															Function="Sum"
+															ID="sum_cMTD_A"
+														/>
+													</DataTableColumn>
+													<DataTableColumn
+														Class="ThemeMargin, ThemeAlignRight"
+														ColumnHeaderClass="ThemeAlignCenter"
+														Header="Year-To-Date"
+														HeaderType="Text"
+														ID="colCYTD_A"
+														>
+														<Label
+															Caption="@Data.cYTD_A~"
+															Format="###,###,##0"
+															ID="cYTD_A"
+														/>
+														<DataColumnSort
+															DataColumn="cYTD_A"
+															DataType="Number"
+														/>
+														<DataColumnSummary
+															DataColumn="cYTD_A"
+															DataType="Number"
+															Function="Sum"
+															ID="sum_cYTD_A"
+														/>
+													</DataTableColumn>
+													<DataTableColumn
+														Class="ThemeMargin, ThemeAlignRight"
+														ColumnHeaderClass="ThemeAlignCenter"
+														Header="Prior Year Period"
+														HeaderType="Text"
+														ID="colPMTD_A"
+														>
+														<Label
+															Caption="@Data.pMTD_A~"
+															Format="###,###,##0"
+															ID="pMTD_A"
+														/>
+														<DataColumnSort
+															DataColumn="pMTD_A"
+															DataType="Number"
+														/>
+														<DataColumnSummary
+															DataColumn="pMTD_A"
+															DataType="Number"
+															Function="Sum"
+															ID="sum_pMTD_A"
+														/>
+													</DataTableColumn>
+													<DataTableColumn
+														Class="ThemeMargin, ThemeAlignRight"
+														ColumnHeaderClass="ThemeAlignCenter"
+														Header="Prior Year-To-Date"
+														HeaderType="Text"
+														ID="colPYTD_A"
+														>
+														<Label
+															Caption="@Data.pYTD_A~"
+															Format="###,###,##0"
+															ID="pYTD_A"
+														/>
+														<DataColumnSort
+															DataColumn="pYTD_A"
+															DataType="Number"
+														/>
+														<DataColumnSummary
+															DataColumn="pMTD_A"
+															DataType="Number"
+															Function="Sum"
+															ID="sum_pMTD_A"
+														/>
+													</DataTableColumn>
+													<SummaryRow
+														Caption="Totals: "
+														ID="summaryRow"
+													/>
+												</DataTable>
+											</Column>
+											<Remark>
+												<Column>
+													<Spaces
+														Size="40"
+													/>
+												</Column>
+											</Remark>
+											<Column>
+												<Spaces
+													Size="40"
+												/>
+											</Column>
+											<Column>
+												<Spaces
+													Size="40"
+												/>
+											</Column>
+											<Column>
+												<Spaces
+													Size="40"
+												/>
+											</Column>
+										</Row>
+									</Rows>
+									<LineBreak/>
+									<LineBreak/>
+								</Division>
+							</Division>
+						</Division>
+					</TabPanel>
 				</Tabs>
 			</ResponsiveColumn>
 		</ResponsiveRow>
