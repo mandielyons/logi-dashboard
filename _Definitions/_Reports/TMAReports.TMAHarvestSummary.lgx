@@ -455,11 +455,12 @@ WHERE BRANCH_NUMBER IN(@Request.Branch~) OR &apos;@Request.Branch~&apos;=&apos;-
 							</DataTableColumn>
 							<DataTableColumn
 								Class="ThemeAlignRight"
+								ColumnHeaderClass="ThemeAlignRight"
 								Condition="(&quot;@Request.Commodity~&quot; = &quot;00&quot;) or InStr(&quot;@Request.Commodity~&quot;, &quot;1&quot;) &gt; 0
 "
 								Header="@Local.HARVESTYEAR_CY~ WHEAT"
 								ID="colWHEAT_CBU"
-								Width="100"
+								Width="150"
 								WidthScale="px"
 								>
 								<Label
@@ -518,10 +519,11 @@ WHERE BRANCH_NUMBER IN(@Request.Branch~) OR &apos;@Request.Branch~&apos;=&apos;-
 							</DataTableColumn>
 							<DataTableColumn
 								Class="ThemeAlignRight"
+								ColumnHeaderClass="ThemeAlignRight"
 								Condition="(&quot;@Request.Commodity~&quot; = &quot;00&quot;) or InStr(&quot;@Request.Commodity~&quot;, &quot;2&quot;) &gt; 0"
 								Header="@Local.HARVESTYEAR_CY~ MILO"
 								ID="colMILO_CBU"
-								Width="100"
+								Width="150"
 								WidthScale="px"
 								>
 								<Label
@@ -578,10 +580,11 @@ WHERE BRANCH_NUMBER IN(@Request.Branch~) OR &apos;@Request.Branch~&apos;=&apos;-
 							</DataTableColumn>
 							<DataTableColumn
 								Class="ThemeAlignRight"
+								ColumnHeaderClass="ThemeAlignRight"
 								Condition="(&quot;@Request.Commodity~&quot; = &quot;00&quot;) or InStr(&quot;@Request.Commodity~&quot;, &quot;3&quot;) &gt; 0"
 								Header="@Local.HARVESTYEAR_CY~ SOYBEANS"
 								ID="colSOYBEANS_CBU"
-								Width="100"
+								Width="150"
 								WidthScale="px"
 								>
 								<Label
@@ -638,10 +641,11 @@ WHERE BRANCH_NUMBER IN(@Request.Branch~) OR &apos;@Request.Branch~&apos;=&apos;-
 							</DataTableColumn>
 							<DataTableColumn
 								Class="ThemeAlignRight"
+								ColumnHeaderClass="ThemeAlignRight"
 								Condition="(&quot;@Request.Commodity~&quot; = &quot;00&quot;) or InStr(&quot;@Request.Commodity~&quot;, &quot;4&quot;) &gt; 0"
 								Header="@Local.HARVESTYEAR_CY~ CORN"
 								ID="colCORN_CBU"
-								Width="100"
+								Width="150"
 								WidthScale="px"
 								>
 								<Label
@@ -698,9 +702,10 @@ WHERE BRANCH_NUMBER IN(@Request.Branch~) OR &apos;@Request.Branch~&apos;=&apos;-
 							</DataTableColumn>
 							<DataTableColumn
 								Class="ThemeAlignRight, ThemeBold"
+								ColumnHeaderClass="ThemeAlignRight"
 								Header="@Local.HARVESTYEAR_CY~ TOTAL"
 								ID="colTOTAL_CBU"
-								Width="125"
+								Width="150"
 								WidthScale="px"
 								>
 								<Label
@@ -739,6 +744,7 @@ WHERE BRANCH_NUMBER IN(@Request.Branch~) OR &apos;@Request.Branch~&apos;=&apos;-
 							</DataTableColumn>
 							<DataTableColumn
 								Class="ThemeAlignRight"
+								ColumnHeaderClass="ThemeAlignRight"
 								Header="CAPACITY 90%"
 								ID="colCapacity"
 								Width="150"
@@ -764,10 +770,11 @@ WHERE BRANCH_NUMBER IN(@Request.Branch~) OR &apos;@Request.Branch~&apos;=&apos;-
 							</DataTableColumn>
 							<DataTableColumn
 								Class="ThemeAlignRight"
+								ColumnHeaderClass="ThemeAlignRight"
 								Condition="(&quot;@Request.Commodity~&quot; = &quot;00&quot;) or InStr(&quot;@Request.Commodity~&quot;, &quot;1&quot;) &gt; 0"
 								Header="WHEAT % of AVG"
 								ID="colWHEAT_Pct"
-								Width="100"
+								Width="150"
 								WidthScale="px"
 								>
 								<Label
@@ -784,10 +791,11 @@ WHERE BRANCH_NUMBER IN(@Request.Branch~) OR &apos;@Request.Branch~&apos;=&apos;-
 							</DataTableColumn>
 							<DataTableColumn
 								Class="ThemeAlignRight"
+								ColumnHeaderClass="ThemeAlignRight"
 								Condition="(&quot;@Request.Commodity~&quot; = &quot;00&quot;) or InStr(&quot;@Request.Commodity~&quot;, &quot;1&quot;) &gt; 0"
 								Header="WHEAT 5 YR AVG"
 								ID="colWHEAT_AVG"
-								Width="100"
+								Width="150"
 								WidthScale="px"
 								>
 								<Label
@@ -810,10 +818,11 @@ WHERE BRANCH_NUMBER IN(@Request.Branch~) OR &apos;@Request.Branch~&apos;=&apos;-
 							</DataTableColumn>
 							<DataTableColumn
 								Class="ThemeAlignRight"
+								ColumnHeaderClass="ThemeAlignRight"
 								Condition="(&quot;@Request.Commodity~&quot; = &quot;00&quot;) or InStr(&quot;@Request.Commodity~&quot;, &quot;2&quot;) &gt; 0"
 								Header="MILO % of AVG"
 								ID="colMILO_Pct"
-								Width="100"
+								Width="150"
 								WidthScale="px"
 								>
 								<Label
@@ -830,10 +839,11 @@ WHERE BRANCH_NUMBER IN(@Request.Branch~) OR &apos;@Request.Branch~&apos;=&apos;-
 							</DataTableColumn>
 							<DataTableColumn
 								Class="ThemeAlignRight"
+								ColumnHeaderClass="ThemeAlignRight"
 								Condition="(&quot;@Request.Commodity~&quot; = &quot;00&quot;) or InStr(&quot;@Request.Commodity~&quot;, &quot;2&quot;) &gt; 0"
 								Header="MILO 5 YR AVG"
 								ID="colMILO_AVG"
-								Width="100"
+								Width="150"
 								WidthScale="px"
 								>
 								<Label
@@ -856,10 +866,11 @@ WHERE BRANCH_NUMBER IN(@Request.Branch~) OR &apos;@Request.Branch~&apos;=&apos;-
 							</DataTableColumn>
 							<DataTableColumn
 								Class="ThemeAlignRight"
+								ColumnHeaderClass="ThemeAlignRight"
 								Condition="(&quot;@Request.Commodity~&quot; = &quot;00&quot;) or InStr(&quot;@Request.Commodity~&quot;, &quot;3&quot;) &gt; 0"
 								Header="SOYBEANS % of AVG"
 								ID="colSOYBEANS_Pct"
-								Width="100"
+								Width="150"
 								WidthScale="px"
 								>
 								<Label
@@ -876,10 +887,11 @@ WHERE BRANCH_NUMBER IN(@Request.Branch~) OR &apos;@Request.Branch~&apos;=&apos;-
 							</DataTableColumn>
 							<DataTableColumn
 								Class="ThemeAlignRight"
+								ColumnHeaderClass="ThemeAlignRight"
 								Condition="(&quot;@Request.Commodity~&quot; = &quot;00&quot;) or InStr(&quot;@Request.Commodity~&quot;, &quot;3&quot;) &gt; 0"
 								Header="SOYBEANS 5 YR AVG"
 								ID="colSOYBEANS_AVG"
-								Width="100"
+								Width="150"
 								WidthScale="px"
 								>
 								<Label
@@ -902,10 +914,11 @@ WHERE BRANCH_NUMBER IN(@Request.Branch~) OR &apos;@Request.Branch~&apos;=&apos;-
 							</DataTableColumn>
 							<DataTableColumn
 								Class="ThemeAlignRight"
+								ColumnHeaderClass="ThemeAlignRight"
 								Condition="(&quot;@Request.Commodity~&quot; = &quot;00&quot;) or InStr(&quot;@Request.Commodity~&quot;, &quot;4&quot;) &gt; 0"
 								Header="CORN % of AVG"
 								ID="colCORN_Pct"
-								Width="100"
+								Width="150"
 								WidthScale="px"
 								>
 								<Label
@@ -922,10 +935,11 @@ WHERE BRANCH_NUMBER IN(@Request.Branch~) OR &apos;@Request.Branch~&apos;=&apos;-
 							</DataTableColumn>
 							<DataTableColumn
 								Class="ThemeAlignRight"
+								ColumnHeaderClass="ThemeAlignRight"
 								Condition="(&quot;@Request.Commodity~&quot; = &quot;00&quot;) or InStr(&quot;@Request.Commodity~&quot;, &quot;4&quot;) &gt; 0"
 								Header="CORN 5 YR AVG"
 								ID="colCORN_AVG"
-								Width="100"
+								Width="150"
 								WidthScale="px"
 								>
 								<Label
