@@ -266,7 +266,7 @@ FROM DM_HarvestStaging
 WHERE BRANCH_NUMBER IN(@Request.Branch~) AND COMMODITY_CODE=&apos;@Request.Commodity~&apos; 
   AND POSTING_DATE BETWEEN &apos;@Request.HarvestBeginDate~&apos; AND &apos;@Request.HarvestEndDate~&apos;
 GROUP BY POSTING_DATE, COMMODITY_CODE, BRANCH_NUMBER
-ORDER BY POSTING_DATE, BRANCH_NAME
+ORDER BY POSTING_DATE DESC, BRANCH_NAME
 
 "
 								Type="SQL"
