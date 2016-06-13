@@ -12,8 +12,24 @@
 			<DataLayer
 				ConnectionID="connProdGP"
 				ID="sqlFiscalDates"
-				Source="SELECT CASE WHEN DATEPART(MONTH,GETDATE())&gt;2 THEN DATEPART(YEAR,GETDATE())+1 ELSE DATEPART(YEAR,GETDATE()) END FISCYEAR
-, CASE WHEN DATEPART(DAY,GETDATE())&lt;8 THEN DATEPART(MONTH,DATEADD(MONTH,-1,GETDATE())) ELSE DATEPART(MONTH,GETDATE()) END FISCPERIODID"
+				Source="SELECT 
+  CASE 
+    WHEN DATEPART(MONTH,GETDATE())&gt;2 THEN DATEPART(YEAR,GETDATE())+1 
+  ELSE DATEPART(YEAR,GETDATE()) 
+  END FISCYEAR
+, CASE 
+    WHEN DATEPART(DAY,GETDATE())&lt;5 THEN  /*--if less than five days into the month, use previous month (period)--*/
+      CASE 
+	    WHEN DATEPART(MONTH,DATEADD(MONTH,-1,GETDATE()))&gt;2 THEN DATEPART(MONTH,DATEADD(MONTH,-1,GETDATE()))-2 
+	  ELSE DATEPART(MONTH,DATEADD(MONTH,-1,GETDATE()))+10 
+      END
+  ELSE 
+      CASE 
+	    WHEN DATEPART(MONTH,GETDATE())&gt;2 THEN DATEPART(MONTH,GETDATE())-2 
+	  ELSE DATEPART(MONTH,GETDATE())+10 
+	  END 
+  END FISCPERIODID
+"
 				Type="SQL"
 			/>
 		</DataLayer>
@@ -34,6 +50,8 @@
 		AcctListFuel="9820&apos;,&apos;9825"
 		AcctListGrain="0"
 		paramDefaultTab="tabVolumes"
+		paramFiscPeriod="@Local.FISCPERIODID~"
+		paramFiscYear="@Local.FISCYEAR~"
 		paramLocCd="100"
 		paramLocName="Abilene"
 	/>
@@ -1738,6 +1756,39 @@ ORDER BY MNACSGMT
 													ID="dtOtherIncome"
 													SortArrows="True"
 													>
+													<HeaderRow
+														HeaderPosition="Top"
+														ID="rowCustomHeader"
+														>
+														<Column/>
+														<Column
+															Class="ThemeAlignCenter"
+															ColSpan="2"
+															>
+															<Label
+																Caption="Current"
+																Class="ThemeAlignCenter, ThemeBold"
+															/>
+														</Column>
+														<Column
+															Class="ThemeAlignCenter"
+															ColSpan="2"
+															>
+															<Label
+																Caption="Plan"
+																Class="ThemeAlignCenter, ThemeBold"
+															/>
+														</Column>
+														<Column
+															Class="ThemeAlignCenter"
+															ColSpan="2"
+															>
+															<Label
+																Caption="Prior Year"
+																Class="ThemeAlignCenter, ThemeBold"
+															/>
+														</Column>
+													</HeaderRow>
 													<DataLayer
 														ConnectionID="connProdGP"
 														ID="sqlOtherIncome"
@@ -1771,7 +1822,7 @@ ORDER BY MNACSGMT
 													<DataTableColumn
 														Class="ThemeMargin, ThemeAlignRight"
 														ColumnHeaderClass="ThemeAlignCenter"
-														Header="Current Period"
+														Header="Period Summary"
 														HeaderType="Text"
 														ID="colCMTD"
 														>
@@ -1794,7 +1845,7 @@ ORDER BY MNACSGMT
 													<DataTableColumn
 														Class="ThemeMargin, ThemeAlignRight"
 														ColumnHeaderClass="ThemeAlignCenter"
-														Header="Year-To-Date"
+														Header="YTD"
 														HeaderType="Text"
 														ID="colCYTD"
 														>
@@ -1815,9 +1866,47 @@ ORDER BY MNACSGMT
 														/>
 													</DataTableColumn>
 													<DataTableColumn
+														Class="ThemeMargin, ThemeAlignRight, ThemeContainerShaded"
+														ColumnHeaderClass="ThemeAlignCenter"
+														Header="Amount"
+														HeaderType="Text"
+														ID="colfPlanAmt"
+														>
+														<Label
+															Caption="0"
+															Format="###,###,##0;(###,###,##0)"
+															ID="fPlanAmt"
+														/>
+														<Remark>
+															<DataColumnSort
+																DataColumn="fPlanAmt"
+																DataType="Number"
+															/>
+														</Remark>
+													</DataTableColumn>
+													<DataTableColumn
+														Class="ThemeMargin, ThemeAlignRight, ThemeContainerShaded"
+														ColumnHeaderClass="ThemeAlignCenter"
+														Header="Variance"
+														HeaderType="Text"
+														ID="colfPlanVar"
+														>
+														<Label
+															Caption="0"
+															Format="###,###,##0;(###,###,##0)"
+															ID="fPlanVar"
+														/>
+														<Remark>
+															<DataColumnSort
+																DataColumn="fPlanVar"
+																DataType="Number"
+															/>
+														</Remark>
+													</DataTableColumn>
+													<DataTableColumn
 														Class="ThemeMargin, ThemeAlignRight"
 														ColumnHeaderClass="ThemeAlignCenter"
-														Header="Prior Year Period"
+														Header="Period Summary"
 														HeaderType="Text"
 														ID="colPMTD"
 														>
@@ -1840,7 +1929,7 @@ ORDER BY MNACSGMT
 													<DataTableColumn
 														Class="ThemeMargin, ThemeAlignRight"
 														ColumnHeaderClass="ThemeAlignCenter"
-														Header="Prior Year-To-Date"
+														Header="YTD"
 														HeaderType="Text"
 														ID="colPYTD"
 														>
@@ -1974,6 +2063,39 @@ ORDER BY MNACSGMT
 													ID="dtPersonnel"
 													SortArrows="True"
 													>
+													<HeaderRow
+														HeaderPosition="Top"
+														ID="rowCustomHeader"
+														>
+														<Column/>
+														<Column
+															Class="ThemeAlignCenter"
+															ColSpan="2"
+															>
+															<Label
+																Caption="Current"
+																Class="ThemeAlignCenter, ThemeBold"
+															/>
+														</Column>
+														<Column
+															Class="ThemeAlignCenter"
+															ColSpan="2"
+															>
+															<Label
+																Caption="Plan"
+																Class="ThemeAlignCenter, ThemeBold"
+															/>
+														</Column>
+														<Column
+															Class="ThemeAlignCenter"
+															ColSpan="2"
+															>
+															<Label
+																Caption="Prior Year"
+																Class="ThemeAlignCenter, ThemeBold"
+															/>
+														</Column>
+													</HeaderRow>
 													<DataLayer
 														ConnectionID="connProdGP"
 														ID="sqlPersonnel"
@@ -2007,7 +2129,7 @@ ORDER BY MNACSGMT
 													<DataTableColumn
 														Class="ThemeMargin, ThemeAlignRight"
 														ColumnHeaderClass="ThemeAlignCenter"
-														Header="Current Period"
+														Header="Period Summary"
 														HeaderType="Text"
 														ID="colCMTD"
 														>
@@ -2030,7 +2152,7 @@ ORDER BY MNACSGMT
 													<DataTableColumn
 														Class="ThemeMargin, ThemeAlignRight"
 														ColumnHeaderClass="ThemeAlignCenter"
-														Header="Year-To-Date"
+														Header="YTD"
 														HeaderType="Text"
 														ID="colCYTD"
 														>
@@ -2051,9 +2173,47 @@ ORDER BY MNACSGMT
 														/>
 													</DataTableColumn>
 													<DataTableColumn
+														Class="ThemeMargin, ThemeAlignRight, ThemeContainerShaded"
+														ColumnHeaderClass="ThemeAlignCenter"
+														Header="Amount"
+														HeaderType="Text"
+														ID="colfPlanAmt"
+														>
+														<Label
+															Caption="0"
+															Format="###,###,##0;(###,###,##0)"
+															ID="fPlanAmt"
+														/>
+														<Remark>
+															<DataColumnSort
+																DataColumn="fPlanAmt"
+																DataType="Number"
+															/>
+														</Remark>
+													</DataTableColumn>
+													<DataTableColumn
+														Class="ThemeMargin, ThemeAlignRight, ThemeContainerShaded"
+														ColumnHeaderClass="ThemeAlignCenter"
+														Header="Variance"
+														HeaderType="Text"
+														ID="colfPlanVar"
+														>
+														<Label
+															Caption="0"
+															Format="###,###,##0;(###,###,##0)"
+															ID="fPlanVar"
+														/>
+														<Remark>
+															<DataColumnSort
+																DataColumn="fPlanVar"
+																DataType="Number"
+															/>
+														</Remark>
+													</DataTableColumn>
+													<DataTableColumn
 														Class="ThemeMargin, ThemeAlignRight"
 														ColumnHeaderClass="ThemeAlignCenter"
-														Header="Prior Year Period"
+														Header="Period Summary"
 														HeaderType="Text"
 														ID="colPMTD"
 														>
@@ -2076,7 +2236,7 @@ ORDER BY MNACSGMT
 													<DataTableColumn
 														Class="ThemeMargin, ThemeAlignRight"
 														ColumnHeaderClass="ThemeAlignCenter"
-														Header="Prior Year-To-Date"
+														Header="YTD"
 														HeaderType="Text"
 														ID="colPYTD"
 														>
@@ -2210,6 +2370,39 @@ ORDER BY MNACSGMT
 													ID="dtFixedExpense"
 													SortArrows="True"
 													>
+													<HeaderRow
+														HeaderPosition="Top"
+														ID="rowCustomHeader"
+														>
+														<Column/>
+														<Column
+															Class="ThemeAlignCenter"
+															ColSpan="2"
+															>
+															<Label
+																Caption="Current"
+																Class="ThemeAlignCenter, ThemeBold"
+															/>
+														</Column>
+														<Column
+															Class="ThemeAlignCenter"
+															ColSpan="2"
+															>
+															<Label
+																Caption="Plan"
+																Class="ThemeAlignCenter, ThemeBold"
+															/>
+														</Column>
+														<Column
+															Class="ThemeAlignCenter"
+															ColSpan="2"
+															>
+															<Label
+																Caption="Prior Year"
+																Class="ThemeAlignCenter, ThemeBold"
+															/>
+														</Column>
+													</HeaderRow>
 													<DataLayer
 														ConnectionID="connProdGP"
 														ID="sqlFixedExpense"
@@ -2243,7 +2436,7 @@ ORDER BY MNACSGMT
 													<DataTableColumn
 														Class="ThemeMargin, ThemeAlignRight"
 														ColumnHeaderClass="ThemeAlignCenter"
-														Header="Current Period"
+														Header="Period Summary"
 														HeaderType="Text"
 														ID="colCMTD"
 														>
@@ -2266,7 +2459,7 @@ ORDER BY MNACSGMT
 													<DataTableColumn
 														Class="ThemeMargin, ThemeAlignRight"
 														ColumnHeaderClass="ThemeAlignCenter"
-														Header="Year-To-Date"
+														Header="YTD"
 														HeaderType="Text"
 														ID="colCYTD"
 														>
@@ -2287,9 +2480,47 @@ ORDER BY MNACSGMT
 														/>
 													</DataTableColumn>
 													<DataTableColumn
+														Class="ThemeMargin, ThemeAlignRight, ThemeContainerShaded"
+														ColumnHeaderClass="ThemeAlignCenter"
+														Header="Amount"
+														HeaderType="Text"
+														ID="colfPlanAmt"
+														>
+														<Label
+															Caption="0"
+															Format="###,###,##0;(###,###,##0)"
+															ID="fPlanAmt"
+														/>
+														<Remark>
+															<DataColumnSort
+																DataColumn="fPlanAmt"
+																DataType="Number"
+															/>
+														</Remark>
+													</DataTableColumn>
+													<DataTableColumn
+														Class="ThemeMargin, ThemeAlignRight, ThemeContainerShaded"
+														ColumnHeaderClass="ThemeAlignCenter"
+														Header="Variance"
+														HeaderType="Text"
+														ID="colfPlanVar"
+														>
+														<Label
+															Caption="0"
+															Format="###,###,##0;(###,###,##0)"
+															ID="fPlanVar"
+														/>
+														<Remark>
+															<DataColumnSort
+																DataColumn="fPlanVar"
+																DataType="Number"
+															/>
+														</Remark>
+													</DataTableColumn>
+													<DataTableColumn
 														Class="ThemeMargin, ThemeAlignRight"
 														ColumnHeaderClass="ThemeAlignCenter"
-														Header="Prior Year Period"
+														Header="Period Summary"
 														HeaderType="Text"
 														ID="colPMTD"
 														>
@@ -2312,7 +2543,7 @@ ORDER BY MNACSGMT
 													<DataTableColumn
 														Class="ThemeMargin, ThemeAlignRight"
 														ColumnHeaderClass="ThemeAlignCenter"
-														Header="Prior Year-To-Date"
+														Header="YTD"
 														HeaderType="Text"
 														ID="colPYTD"
 														>
@@ -2446,6 +2677,39 @@ ORDER BY MNACSGMT
 													ID="dtOtherExpense"
 													SortArrows="True"
 													>
+													<HeaderRow
+														HeaderPosition="Top"
+														ID="rowCustomHeader"
+														>
+														<Column/>
+														<Column
+															Class="ThemeAlignCenter"
+															ColSpan="2"
+															>
+															<Label
+																Caption="Current"
+																Class="ThemeAlignCenter, ThemeBold"
+															/>
+														</Column>
+														<Column
+															Class="ThemeAlignCenter"
+															ColSpan="2"
+															>
+															<Label
+																Caption="Plan"
+																Class="ThemeAlignCenter, ThemeBold"
+															/>
+														</Column>
+														<Column
+															Class="ThemeAlignCenter"
+															ColSpan="2"
+															>
+															<Label
+																Caption="Prior Year"
+																Class="ThemeAlignCenter, ThemeBold"
+															/>
+														</Column>
+													</HeaderRow>
 													<DataLayer
 														ConnectionID="connProdGP"
 														ID="sqlOtherExpense"
@@ -2479,7 +2743,7 @@ ORDER BY MNACSGMT
 													<DataTableColumn
 														Class="ThemeMargin, ThemeAlignRight"
 														ColumnHeaderClass="ThemeAlignCenter"
-														Header="Current Period"
+														Header="Period Summary"
 														HeaderType="Text"
 														ID="colCMTD"
 														>
@@ -2502,7 +2766,7 @@ ORDER BY MNACSGMT
 													<DataTableColumn
 														Class="ThemeMargin, ThemeAlignRight"
 														ColumnHeaderClass="ThemeAlignCenter"
-														Header="Year-To-Date"
+														Header="YTD"
 														HeaderType="Text"
 														ID="colCYTD"
 														>
@@ -2523,9 +2787,47 @@ ORDER BY MNACSGMT
 														/>
 													</DataTableColumn>
 													<DataTableColumn
+														Class="ThemeMargin, ThemeAlignRight, ThemeContainerShaded"
+														ColumnHeaderClass="ThemeAlignCenter"
+														Header="Amount"
+														HeaderType="Text"
+														ID="colfPlanAmt"
+														>
+														<Label
+															Caption="0"
+															Format="###,###,##0;(###,###,##0)"
+															ID="fPlanAmt"
+														/>
+														<Remark>
+															<DataColumnSort
+																DataColumn="fPlanAmt"
+																DataType="Number"
+															/>
+														</Remark>
+													</DataTableColumn>
+													<DataTableColumn
+														Class="ThemeMargin, ThemeAlignRight, ThemeContainerShaded"
+														ColumnHeaderClass="ThemeAlignCenter"
+														Header="Variance"
+														HeaderType="Text"
+														ID="colfPlanVar"
+														>
+														<Label
+															Caption="0"
+															Format="###,###,##0;(###,###,##0)"
+															ID="fPlanVar"
+														/>
+														<Remark>
+															<DataColumnSort
+																DataColumn="fPlanVar"
+																DataType="Number"
+															/>
+														</Remark>
+													</DataTableColumn>
+													<DataTableColumn
 														Class="ThemeMargin, ThemeAlignRight"
 														ColumnHeaderClass="ThemeAlignCenter"
-														Header="Prior Year Period"
+														Header="Period Summary"
 														HeaderType="Text"
 														ID="colPMTD"
 														>
@@ -2548,7 +2850,7 @@ ORDER BY MNACSGMT
 													<DataTableColumn
 														Class="ThemeMargin, ThemeAlignRight"
 														ColumnHeaderClass="ThemeAlignCenter"
-														Header="Prior Year-To-Date"
+														Header="YTD"
 														HeaderType="Text"
 														ID="colPYTD"
 														>
@@ -2628,7 +2930,7 @@ ORDER BY MNACSGMT
 		AcctListGrain=""
 		paramDefaultTab=""
 		paramFiscPeriod="11"
-		paramFiscYear="2016"
+		paramFiscYear="2018"
 		paramLocGLStr="100"
 	/>
 </Report>
