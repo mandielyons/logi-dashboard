@@ -66,7 +66,36 @@ WHERE CONTRACT_TYPE=2
   ga(&apos;create&apos;, &apos;UA-76860562-1&apos;, &apos;auto&apos;);
   ga(&apos;send&apos;, &apos;pageview&apos;);
 
-&lt;/script&gt;"
+&lt;/script&gt;
+
+&lt;script type=&quot;text/javascript&quot;&gt;
+
+  var _gaq = _gaq || [];
+  _gaq.push([&apos;_setAccount&apos;, &apos;UA-76860562-1&apos;]);
+  _gaq.push([&apos;_trackPageview&apos;]);
+
+  (function() {
+    var ga = document.createElement(&apos;script&apos;); ga.type = &apos;text/javascript&apos;; ga.async = true;
+    ga.src = (&apos;https:&apos; == document.location.protocol ? &apos;https://ssl&apos; : &apos;http://www&apos;) + &apos;.google-analytics.com/ga.js&apos;;
+    var s = document.getElementsByTagName(&apos;script&apos;)[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+&lt;/script&gt;
+
+&lt;script type=&quot;text/javascript&quot;&gt;
+ function tableToExcel(table, name) {
+    var uri = &apos;data:application/vnd.ms-excel;base64,&apos;
+          , template = &apos;&lt;html xmlns:o=&quot;urn:schemas-microsoft-com:office:office&quot; xmlns:x=&quot;urn:schemas-microsoft-com:office:excel&quot; xmlns=&quot;http://www.w3.org/TR/REC-html40&quot;&gt;&lt;head&gt;&lt;!--[if gte mso 9]&gt;&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;yes&quot;?&gt;&lt;x:ExcelWorkbook&gt;&lt;x:ExcelWorksheets&gt;&lt;x:ExcelWorksheet&gt;&lt;x:Name&gt;{worksheet}&lt;/x:Name&gt;&lt;x:WorksheetOptions&gt;&lt;x:DisplayGridlines/&gt;&lt;/x:WorksheetOptions&gt;&lt;/x:ExcelWorksheet&gt;&lt;/x:ExcelWorksheets&gt;&lt;/x:ExcelWorkbook&gt;&lt;/xml&gt;&lt;![endif]--&gt;&lt;/head&gt;&lt;body&gt;&lt;table&gt;{table}&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;&apos;
+          , base64 = function (s) { return window.btoa(unescape(encodeURIComponent(s))); }
+          , format = function (s, c) { return s.replace(/{(\w+)}/g, function (m, p) { return c[p]; }); };
+        if (!table.nodeType) table = document.getElementById(table);
+        var ctx = { worksheet: name || &apos;Worksheet&apos;, table: table.innerHTML };
+        window.location.href = uri + base64(format(template, ctx));
+
+}
+&lt;/script&gt;
+
+"
 		/>
 		<Division
 			ID="divBtnExportExcel"
@@ -146,36 +175,10 @@ WHERE CONTRACT_TYPE=2
 					ColspanMediumScreen="1"
 					ColspanSmallScreen="1"
 					>
-					<Remark>
-						<Label
-							Class="ThemeAlignRight, fa fa-file-excel-o fa-2x"
-							HtmlTag="Div"
-							Tooltip="Export to Excel"
-							>
-							<Action
-								Type="NativeExcel"
-								>
-								<Target
-									ExcelOutputFormat="Excel2007"
-									FrameID="NewWindow"
-									Report="CurrentReport"
-									RequestForwarding="True"
-									Type="NativeExcel"
-								/>
-							</Action>
-							<EventHandler
-								DhtmlEvent="onclick"
-								>
-								<Action
-									Javascript="_gaq.push([&apos;_trackEvent&apos;, &apos;DispatchExcel&apos;, &apos;clicked&apos;])"
-									Type="Javascript"
-								/>
-							</EventHandler>
-						</Label>
-					</Remark>
-					<Button
+					<Label
 						Class="ThemeAlignRight, fa fa-file-excel-o fa-2x"
-						ID="btnExcel"
+						HtmlTag="Div"
+						Tooltip="Export to Excel"
 						>
 						<Action
 							Type="NativeExcel"
@@ -188,15 +191,46 @@ WHERE CONTRACT_TYPE=2
 								Type="NativeExcel"
 							/>
 						</Action>
-						<EventHandler
-							DhtmlEvent="onclick"
-							>
+						<Remark>
 							<Action
-								Javascript="_gaq.push([&apos;_trackEvent&apos;, &apos;DispatchExcel&apos;, &apos;clicked&apos;])"
+								Javascript="_gaq.push([&apos;_trackEvent&apos;, &apos;Dispatch_ExportExcel&apos;, &apos;clicked&apos;]);
+
+//tableToExcel(&apos;TMAContracts&apos;,name);
+
+alert(&quot;button clicked&quot;);
+
+"
 								Type="Javascript"
 							/>
-						</EventHandler>
-					</Button>
+						</Remark>
+					</Label>
+					<Remark>
+						<Button
+							Caption="Export to Excel"
+							ID="btnExport"
+							>
+							<Action
+								Javascript="_gaq.push([&apos;_trackEvent&apos;, &apos;Dispatch_ExportExcel&apos;, &apos;clicked&apos;]);
+
+//tableToExcel(&apos;TMAContracts&apos;,name);
+
+alert(&quot;button clicked&quot;);
+
+"
+								Type="Javascript"
+							/>
+							<Action
+								Type="NativeExcel"
+								>
+								<Target
+									ExcelOutputFormat="Excel2007"
+									ExportDataTableID="TMAContracts"
+									RequestForwarding="True"
+									Type="NativeExcel"
+								/>
+							</Action>
+						</Button>
+					</Remark>
 				</ResponsiveColumn>
 			</ResponsiveRow>
 		</Division>

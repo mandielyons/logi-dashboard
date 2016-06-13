@@ -308,6 +308,7 @@ ORDER BY BRANCH_NAME"
 						<DataTable
 							AccessibleHeaders="True"
 							AccessibleSummary="AnalysisGrid DataTable"
+							AjaxPaging="True"
 							ID="dtHarvest"
 							KeepScrollPosition="True"
 							Layout="Auto"
