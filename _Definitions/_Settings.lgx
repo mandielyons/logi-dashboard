@@ -105,15 +105,17 @@
 			SqlServerUser="SRS"
 			Type="SqlServer"
 		/>
-		<Connection
-			ID="connLogiDB"
-			SqlServer="sqlsvr1"
-			SqlServerDatabase="TMA_COOP_USERS"
-			SqlServerPassword="integr8!"
-			SqlServerPort=""
-			SqlServerUser="BIOperations"
-			Type="SqlServer"
-		/>
+		<Remark>
+			<Connection
+				ID="connLogiDB"
+				SqlServer="sqlsvr1"
+				SqlServerDatabase="TMA_COOP_USERS"
+				SqlServerPassword="integr8!"
+				SqlServerPort=""
+				SqlServerUser="BIOperations"
+				Type="SqlServer"
+			/>
+		</Remark>
 		<Connection
 			ID="mkcLDAP"
 			LdapBaseDN="DC=midkscoop,DC=lan"
@@ -152,7 +154,7 @@
 			Type="SqlServer"
 		/>
 		<Connection
-			ID="connLogiDBDev"
+			ID="connLogiDB"
 			SqlServer="DEVELOPMENT"
 			SqlServerDatabase="TMA_COOP_USERS"
 			SqlServerPassword="Log1#Admin"

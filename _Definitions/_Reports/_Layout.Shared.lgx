@@ -47,7 +47,7 @@
 										Type="Report"
 										>
 										<Target
-											Report="Reports.MKC_Locations"
+											Report="Default"
 											Type="Report"
 											>
 											<WaitPage/>
