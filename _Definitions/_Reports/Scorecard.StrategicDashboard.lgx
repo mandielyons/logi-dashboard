@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Report
 	ID="Scorecard.StrategicDashboard"
-	SecurityReportRightID="SRMGMT,STRATEGICPLAN"
+	SecurityReportRightID="SRMGMT,STRATEGICPLAN,ADMIN"
 	>
 	<IncludeSharedElement
 		DefinitionFile="_Layout.Shared"
@@ -6454,7 +6454,7 @@
 																	Value="@Data.Progress~"
 																	>
 																	<DataLayer
-																		CellRange="D15"
+																		CellRange="D13"
 																		ColumnNamesRow="1"
 																		ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\Updated Scorecard Tables.xlsx"
 																		ExcelWorksheet="Initiatives"
@@ -6882,7 +6882,7 @@
 																	Value="@Data.Progress~"
 																	>
 																	<DataLayer
-																		CellRange="D17"
+																		CellRange="D14"
 																		ColumnNamesRow="1"
 																		ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\Updated Scorecard Tables.xlsx"
 																		ExcelWorksheet="Initiatives"
@@ -8584,7 +8584,7 @@
 																	Value="@Data.Progress~"
 																	>
 																	<DataLayer
-																		CellRange="D17"
+																		CellRange="D18"
 																		ColumnNamesRow="1"
 																		ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\Updated Scorecard Tables.xlsx"
 																		ExcelWorksheet="Initiatives"
@@ -8773,7 +8773,7 @@
 																					ID="sdlRenewalTasks6"
 																					>
 																					<DataLayer
-																						CellRange="A168:J169"
+																						CellRange="A167:J168"
 																						ColumnNamesRow="1"
 																						ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\Updated Scorecard Tables.xlsx"
 																						ExcelWorksheet="Tasks"

@@ -135,7 +135,6 @@
 						<DataTable
 							AccessibleHeaders="True"
 							AccessibleSummary="AnalysisGrid DataTable"
-							AjaxPaging="True"
 							ID="dtTicketTracking"
 							KeepScrollPosition="True"
 							RememberSort="True"

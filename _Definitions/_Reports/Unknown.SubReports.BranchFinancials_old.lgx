@@ -1,0 +1,2413 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report
+	Caption="Branch Financials"
+	ID="Unknown.SubReports.BranchFinancials"
+	>
+	<LocalData>
+		<DataLayer
+			CacheKey="luLocations"
+			ExpirationTimeSpan="8:00"
+			Type="Cached"
+			>
+			<DataLayer
+				ConnectionID="connProdGP"
+				ID="sqlFiscalDates"
+				Source="SELECT CASE WHEN DATEPART(MONTH,GETDATE())&gt;2 THEN DATEPART(YEAR,GETDATE())+1 ELSE DATEPART(YEAR,GETDATE()) END FISCYEAR
+, CASE WHEN DATEPART(DAY,GETDATE())&lt;8 THEN DATEPART(MONTH,DATEADD(MONTH,-1,GETDATE())) ELSE DATEPART(MONTH,GETDATE()) END FISCPERIODID"
+				Type="SQL"
+			/>
+		</DataLayer>
+	</LocalData>
+	<DefaultRequestParams
+		AcctCatFixedExpB="8100"
+		AcctCatFixedExpE="8199"
+		AcctCatOtherCostsB="8200"
+		AcctCatOtherCostsE="8499"
+		AcctCatOtherIncomeB="7000"
+		AcctCatOtherIncomeE="7999"
+		AcctCatPersonnelB="8000"
+		AcctCatPersonnelE="8099"
+		AcctCatSalesB="4300"
+		AcctCatSalesE="4500"
+		AcctListApplication="9600"
+		AcctListFertilizer="9800&apos;,&apos;9805&apos;,&apos;9810"
+		AcctListFuel="9820&apos;,&apos;9825"
+		AcctListGrain="0"
+		paramDefaultTab="tabVolumes"
+		paramLocCd="100"
+		paramLocName="Abilene"
+	/>
+	<IncludeSharedElement
+		DefinitionFile="_Layout.Shared"
+		SharedElementID="shrHeader"
+	/>
+	<Body>
+		<ResponsiveRow
+			CollisionBehavior="Wrap"
+			ID="ResponsiveRowInput"
+			>
+			<ResponsiveColumn>
+				<Division
+					Class="panel panel-default"
+					HtmlDiv="True"
+					ID="panel"
+					>
+					<Division
+						Class="panel-heading"
+						HtmlDiv="True"
+						ID="panel-heading"
+						>
+						<Label
+							Caption="Branch Financials"
+						/>
+					</Division>
+					<Division
+						Class="panel-body"
+						ID="panel-body-inputs"
+						>
+						<Rows
+							Width="100"
+							WidthScale="%"
+							>
+							<Row>
+								<Column>
+									<Spaces
+										Size="5"
+									/>
+								</Column>
+								<Column
+									Class="ThemeNoWrap"
+									>
+									<Label
+										Caption="Filter By Fiscal Year:"
+									/>
+								</Column>
+								<Column>
+									<InputSelectList
+										DefaultValue="@Request.paramFiscYear~"
+										ID="paramFiscYear"
+										IncludeBlank="False"
+										MultiSelect="False"
+										OptionCaptionColumn="YEAR1"
+										OptionValueColumn="YEAR1"
+										>
+										<DataLayer
+											CacheKey="luFiscalYears"
+											ExpirationTimeSpan="8:00"
+											Type="Cached"
+											>
+											<DataLayer
+												ConnectionID="connProdGP"
+												ID="sqlFiscalYears"
+												Source="SELECT DISTINCT TOP 5 YEAR1 FROM MKCGP..slbAccountSummary ORDER BY YEAR1 DESC"
+												Type="SQL"
+											/>
+										</DataLayer>
+									</InputSelectList>
+								</Column>
+								<Column>
+									<Spaces
+										Size="45"
+									/>
+								</Column>
+								<Column/>
+								<Column>
+									<Spaces
+										Size="5"
+									/>
+								</Column>
+							</Row>
+							<Row>
+								<Column>
+									<Spaces
+										Size="5"
+									/>
+								</Column>
+								<Column>
+									<Label
+										Caption="Filter By Fiscal Period:"
+									/>
+								</Column>
+								<Column>
+									<InputSelectList
+										DefaultValue="@Request.paramFiscPeriod~"
+										ID="paramFiscPeriod"
+										IncludeBlank="False"
+										MultiSelect="False"
+										OptionCaptionColumn="FISCPRDDSC"
+										OptionValueColumn="FISCPRDID"
+										>
+										<DataLayer
+											ID="staticFiscalPeriods"
+											Type="Static"
+											>
+											<StaticDataRow
+												FISCPRDDSC="March"
+												FISCPRDID="1"
+											/>
+											<StaticDataRow
+												FISCPRDDSC="April"
+												FISCPRDID="2"
+											/>
+											<StaticDataRow
+												FISCPRDDSC="May"
+												FISCPRDID="3"
+											/>
+											<StaticDataRow
+												FISCPRDDSC="June"
+												FISCPRDID="4"
+											/>
+											<StaticDataRow
+												FISCPRDDSC="July"
+												FISCPRDID="5"
+											/>
+											<StaticDataRow
+												FISCPRDDSC="August"
+												FISCPRDID="6"
+											/>
+											<StaticDataRow
+												FISCPRDDSC="September"
+												FISCPRDID="7"
+											/>
+											<StaticDataRow
+												FISCPRDDSC="October"
+												FISCPRDID="8"
+											/>
+											<StaticDataRow
+												FISCPRDDSC="November"
+												FISCPRDID="9"
+											/>
+											<StaticDataRow
+												FISCPRDDSC="December"
+												FISCPRDID="10"
+											/>
+											<StaticDataRow
+												FISCPRDDSC="January"
+												FISCPRDID="11"
+											/>
+											<StaticDataRow
+												FISCPRDDSC="February"
+												FISCPRDID="12"
+											/>
+										</DataLayer>
+									</InputSelectList>
+								</Column>
+								<Column>
+									<Spaces
+										Size="45"
+									/>
+								</Column>
+								<Column/>
+								<Column>
+									<Spaces
+										Size="5"
+									/>
+								</Column>
+							</Row>
+							<Row>
+								<Column>
+									<Spaces
+										Size="5"
+									/>
+								</Column>
+								<Column>
+									<Label
+										Caption="Filter By Location:"
+									/>
+								</Column>
+								<Column>
+									<InputSelectList
+										DefaultValue="@Request.paramLocGLStr~"
+										ID="paramLocGLStr"
+										OptionCaptionColumn="Location"
+										OptionValueColumn="LocGLStr"
+										>
+										<DataLayer
+											CacheKey="luLocations"
+											ExpirationTimeSpan="8:00"
+											Type="Cached"
+											>
+											<DataLayer
+												ColumnNamesRow="1"
+												ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\LocationData.xlsx"
+												ExcelWorksheet="BranchData"
+												ID="dlLocations"
+												Type="Excel"
+												>
+												<ConditionFilter
+													Condition="&quot;@Data.LocGLStr~&quot; &lt;&gt; &quot;&quot;"
+													ID="filLocGLStr"
+												/>
+											</DataLayer>
+										</DataLayer>
+									</InputSelectList>
+								</Column>
+								<Column>
+									<Spaces
+										Size="45"
+									/>
+								</Column>
+								<Column>
+									<Label
+										Caption="Apply"
+										Class="btn btn-default pull-right"
+										>
+										<EventHandler
+											DhtmlEvent="onclick"
+											>
+											<Action
+												ElementID="tabFinancials"
+												ID="actRefreshBranchFinancialTabs"
+												Type="RefreshElement"
+												>
+												<WaitPage/>
+											</Action>
+										</EventHandler>
+									</Label>
+								</Column>
+								<Column>
+									<Spaces
+										Size="5"
+									/>
+								</Column>
+							</Row>
+						</Rows>
+						<LineBreak/>
+						<LineBreak/>
+					</Division>
+				</Division>
+			</ResponsiveColumn>
+		</ResponsiveRow>
+		<ResponsiveRow
+			ID="ResponsiveRowTabs"
+			>
+			<ResponsiveColumn>
+				<Tabs
+					DefaultTab="@Request.paramDefaultTab~"
+					ID="tabFinancials"
+					TabbingStyle="RefreshPage"
+					TabLocation="top"
+					>
+					<Note
+						Note="Note: &quot;Tabbing Style&quot; *must be* &quot;Refresh Page&quot; for the inputs and sorting to work properly"
+					/>
+					<TabPanel
+						Caption="Volumes"
+						Class="ThemeTextPositive ThemeHeaderSmall"
+						ID="tabVolumes"
+						>
+						<Division
+							Class="panel panel-default"
+							HtmlDiv="True"
+							ID="panel-Volumes"
+							>
+							<Division
+								Class="panel-heading"
+								HtmlDiv="True"
+								ID="divVolumesHeading"
+							/>
+							<Division
+								Class="panel-body ThemeAlignRight"
+								HtmlDiv="True"
+								ID="divVolumes"
+								>
+								<Label
+									Class="fa fa-file-pdf-o fa-2x"
+									HtmlTag="Div"
+									ID="exportVolumes"
+									Tooltip="Export to PDF"
+									>
+									<Action
+										ID="exportPDFVolumes"
+										Type="PDF"
+										>
+										<Target
+											Report="Unknown.SubReports.BranchFinancials"
+											Type="PDF"
+										/>
+									</Action>
+								</Label>
+								<Spaces
+									Size="15"
+								/>
+							</Division>
+							<Division
+								Class="panel-body"
+								HtmlDiv="True"
+								ID="divVolumesData"
+								>
+								<Note
+									Note="**Add data here**"
+								/>
+								<Division
+									Class="panel-heading"
+									HtmlDiv="True"
+									ID="panel-headingUnits"
+									>
+									<Label
+										Caption="Volumes"
+									/>
+								</Division>
+								<Division
+									Class="panel-body"
+									HtmlDiv="True"
+									ID="panel-bodyUnits"
+									>
+									<Rows
+										Width="100"
+										WidthScale="%"
+										>
+										<Row>
+											<Column>
+												<Spaces
+													Size="30"
+												/>
+											</Column>
+											<Column>
+												<DataTable
+													ID="dtUnits"
+													SortArrows="True"
+													>
+													<DataLayer
+														ConnectionID="connProdGP"
+														ID="sqlUnits"
+														Source="SELECT 1 GroupSort, &apos;Application (acres)&apos; UnitGroup, COALESCE(cm.MNACSGMT,cy.MNACSGMT,pm.MNACSGMT,py.MNACSGMT) MNACSGMT, COALESCE(cm.ACTDESCR,cy.ACTDESCR,pm.ACTDESCR,py.ACTDESCR) ACTDESCR, SUM(ISNULL(cm.AMT,0)) cMTD, SUM(ISNULL(cy.AMT,0)) cYTD, SUM(ISNULL(pm.AMT,0)) pMTD, SUM(ISNULL(py.AMT,0)) pYTD
+FROM 
+      ( SELECT MNACSGMT, SUBSTRING(ACTNUMBR_4,2,3)+SUBSTRING(ACTNUMBR_5,1,2) AS JSTR, LTRIM(RTRIM(ACTDESCR)) ACTDESCR, SUM(PERDBLNC) AMT FROM MKCGP..slbAccountSummary WHERE YEAR1=(@Request.paramFiscYear~  ) AND PERIODID =@Request.paramFiscPeriod~ AND ACTNUMBR_2 IN(&apos;@Request.paramLocGLStr~&apos;) AND MNACSGMT IN(&apos;@Request.AcctListApplication~&apos;) GROUP BY MNACSGMT, SUBSTRING(ACTNUMBR_4,2,3)+SUBSTRING(ACTNUMBR_5,1,2), LTRIM(RTRIM(ACTDESCR))) cm FULL OUTER JOIN 
+      ( SELECT MNACSGMT, SUBSTRING(ACTNUMBR_4,2,3)+SUBSTRING(ACTNUMBR_5,1,2) AS JSTR, LTRIM(RTRIM(ACTDESCR)) ACTDESCR, SUM(PERDBLNC) AMT FROM MKCGP..slbAccountSummary WHERE YEAR1=(@Request.paramFiscYear~  ) AND PERIODID&lt;=@Request.paramFiscPeriod~ AND ACTNUMBR_2 IN(&apos;@Request.paramLocGLStr~&apos;) AND MNACSGMT IN(&apos;@Request.AcctListApplication~&apos;) GROUP BY MNACSGMT, SUBSTRING(ACTNUMBR_4,2,3)+SUBSTRING(ACTNUMBR_5,1,2), LTRIM(RTRIM(ACTDESCR))) cy ON cm.JSTR=cy.JSTR FULL OUTER JOIN 
+      ( SELECT MNACSGMT, SUBSTRING(ACTNUMBR_4,2,3)+SUBSTRING(ACTNUMBR_5,1,2) AS JSTR, LTRIM(RTRIM(ACTDESCR)) ACTDESCR, SUM(PERDBLNC) AMT FROM MKCGP..slbAccountSummary WHERE YEAR1=(@Request.paramFiscYear~-1) AND PERIODID =@Request.paramFiscPeriod~ AND ACTNUMBR_2 IN(&apos;@Request.paramLocGLStr~&apos;) AND MNACSGMT IN(&apos;@Request.AcctListApplication~&apos;) GROUP BY MNACSGMT, SUBSTRING(ACTNUMBR_4,2,3)+SUBSTRING(ACTNUMBR_5,1,2), LTRIM(RTRIM(ACTDESCR))) pm ON cm.JSTR=pm.JSTR FULL OUTER JOIN
+      ( SELECT MNACSGMT, SUBSTRING(ACTNUMBR_4,2,3)+SUBSTRING(ACTNUMBR_5,1,2) AS JSTR, LTRIM(RTRIM(ACTDESCR)) ACTDESCR, SUM(PERDBLNC) AMT FROM MKCGP..slbAccountSummary WHERE YEAR1=(@Request.paramFiscYear~-1) AND PERIODID&lt;=@Request.paramFiscPeriod~ AND ACTNUMBR_2 IN(&apos;@Request.paramLocGLStr~&apos;) AND MNACSGMT IN(&apos;@Request.AcctListApplication~&apos;) GROUP BY MNACSGMT, SUBSTRING(ACTNUMBR_4,2,3)+SUBSTRING(ACTNUMBR_5,1,2), LTRIM(RTRIM(ACTDESCR))) py ON cm.JSTR=py.JSTR 
+GROUP BY COALESCE(cm.MNACSGMT,cy.MNACSGMT,pm.MNACSGMT,py.MNACSGMT), COALESCE(cm.ACTDESCR, cy.ACTDESCR, pm.ACTDESCR, py.ACTDESCR) 
+union all
+SELECT 2 GroupSort, &apos;Fertilizer (tons)&apos; UnitGroup, COALESCE(cm.MNACSGMT,cy.MNACSGMT,pm.MNACSGMT,py.MNACSGMT) MNACSGMT, COALESCE(cm.ACTDESCR,cy.ACTDESCR,pm.ACTDESCR,py.ACTDESCR) ACTDESCR, SUM(ISNULL(cm.AMT,0)) cMTD, SUM(ISNULL(cy.AMT,0)) cYTD, SUM(ISNULL(pm.AMT,0)) pMTD, SUM(ISNULL(py.AMT,0)) pYTD
+FROM 
+      ( SELECT MNACSGMT, SUBSTRING(ACTNUMBR_4,2,3)+SUBSTRING(ACTNUMBR_5,1,2) AS JSTR, LTRIM(RTRIM(ACTDESCR)) ACTDESCR, SUM(PERDBLNC) AMT FROM MKCGP..slbAccountSummary WHERE YEAR1=(@Request.paramFiscYear~  ) AND PERIODID =@Request.paramFiscPeriod~ AND ACTNUMBR_2 IN(&apos;@Request.paramLocGLStr~&apos;) AND MNACSGMT IN(&apos;@Request.AcctListFertilizer~&apos;) GROUP BY MNACSGMT, SUBSTRING(ACTNUMBR_4,2,3)+SUBSTRING(ACTNUMBR_5,1,2), LTRIM(RTRIM(ACTDESCR))) cm FULL OUTER JOIN 
+      ( SELECT MNACSGMT, SUBSTRING(ACTNUMBR_4,2,3)+SUBSTRING(ACTNUMBR_5,1,2) AS JSTR, LTRIM(RTRIM(ACTDESCR)) ACTDESCR, SUM(PERDBLNC) AMT FROM MKCGP..slbAccountSummary WHERE YEAR1=(@Request.paramFiscYear~  ) AND PERIODID&lt;=@Request.paramFiscPeriod~ AND ACTNUMBR_2 IN(&apos;@Request.paramLocGLStr~&apos;) AND MNACSGMT IN(&apos;@Request.AcctListFertilizer~&apos;) GROUP BY MNACSGMT, SUBSTRING(ACTNUMBR_4,2,3)+SUBSTRING(ACTNUMBR_5,1,2), LTRIM(RTRIM(ACTDESCR))) cy ON cm.JSTR=cy.JSTR FULL OUTER JOIN 
+      ( SELECT MNACSGMT, SUBSTRING(ACTNUMBR_4,2,3)+SUBSTRING(ACTNUMBR_5,1,2) AS JSTR, LTRIM(RTRIM(ACTDESCR)) ACTDESCR, SUM(PERDBLNC) AMT FROM MKCGP..slbAccountSummary WHERE YEAR1=(@Request.paramFiscYear~-1) AND PERIODID =@Request.paramFiscPeriod~ AND ACTNUMBR_2 IN(&apos;@Request.paramLocGLStr~&apos;) AND MNACSGMT IN(&apos;@Request.AcctListFertilizer~&apos;) GROUP BY MNACSGMT, SUBSTRING(ACTNUMBR_4,2,3)+SUBSTRING(ACTNUMBR_5,1,2), LTRIM(RTRIM(ACTDESCR))) pm ON cm.JSTR=pm.JSTR FULL OUTER JOIN
+      ( SELECT MNACSGMT, SUBSTRING(ACTNUMBR_4,2,3)+SUBSTRING(ACTNUMBR_5,1,2) AS JSTR, LTRIM(RTRIM(ACTDESCR)) ACTDESCR, SUM(PERDBLNC) AMT FROM MKCGP..slbAccountSummary WHERE YEAR1=(@Request.paramFiscYear~-1) AND PERIODID&lt;=@Request.paramFiscPeriod~ AND ACTNUMBR_2 IN(&apos;@Request.paramLocGLStr~&apos;) AND MNACSGMT IN(&apos;@Request.AcctListFertilizer~&apos;) GROUP BY MNACSGMT, SUBSTRING(ACTNUMBR_4,2,3)+SUBSTRING(ACTNUMBR_5,1,2), LTRIM(RTRIM(ACTDESCR))) py ON cm.JSTR=py.JSTR 
+GROUP BY COALESCE(cm.MNACSGMT,cy.MNACSGMT,pm.MNACSGMT,py.MNACSGMT), COALESCE(cm.ACTDESCR, cy.ACTDESCR, pm.ACTDESCR, py.ACTDESCR) 
+union all
+SELECT 3 GroupSort, &apos;Fuel (gallons)&apos; UnitGroup, COALESCE(cm.MNACSGMT,cy.MNACSGMT,pm.MNACSGMT,py.MNACSGMT) MNACSGMT, COALESCE(cm.ACTDESCR,cy.ACTDESCR,pm.ACTDESCR,py.ACTDESCR) ACTDESCR, SUM(ISNULL(cm.AMT,0)) cMTD, SUM(ISNULL(cy.AMT,0)) cYTD, SUM(ISNULL(pm.AMT,0)) pMTD, SUM(ISNULL(py.AMT,0)) pYTD
+FROM 
+      ( SELECT MNACSGMT, SUBSTRING(ACTNUMBR_4,2,3)+SUBSTRING(ACTNUMBR_5,1,2) AS JSTR, LTRIM(RTRIM(ACTDESCR)) ACTDESCR, SUM(PERDBLNC) AMT FROM MKCGP..slbAccountSummary WHERE YEAR1=(@Request.paramFiscYear~  ) AND PERIODID =@Request.paramFiscPeriod~ AND ACTNUMBR_2 IN(&apos;@Request.paramLocGLStr~&apos;) AND MNACSGMT IN(&apos;@Request.AcctListFuel~&apos;) GROUP BY MNACSGMT, SUBSTRING(ACTNUMBR_4,2,3)+SUBSTRING(ACTNUMBR_5,1,2), LTRIM(RTRIM(ACTDESCR))) cm FULL OUTER JOIN 
+      ( SELECT MNACSGMT, SUBSTRING(ACTNUMBR_4,2,3)+SUBSTRING(ACTNUMBR_5,1,2) AS JSTR, LTRIM(RTRIM(ACTDESCR)) ACTDESCR, SUM(PERDBLNC) AMT FROM MKCGP..slbAccountSummary WHERE YEAR1=(@Request.paramFiscYear~  ) AND PERIODID&lt;=@Request.paramFiscPeriod~ AND ACTNUMBR_2 IN(&apos;@Request.paramLocGLStr~&apos;) AND MNACSGMT IN(&apos;@Request.AcctListFuel~&apos;) GROUP BY MNACSGMT, SUBSTRING(ACTNUMBR_4,2,3)+SUBSTRING(ACTNUMBR_5,1,2), LTRIM(RTRIM(ACTDESCR))) cy ON cm.JSTR=cy.JSTR FULL OUTER JOIN 
+      ( SELECT MNACSGMT, SUBSTRING(ACTNUMBR_4,2,3)+SUBSTRING(ACTNUMBR_5,1,2) AS JSTR, LTRIM(RTRIM(ACTDESCR)) ACTDESCR, SUM(PERDBLNC) AMT FROM MKCGP..slbAccountSummary WHERE YEAR1=(@Request.paramFiscYear~-1) AND PERIODID =@Request.paramFiscPeriod~ AND ACTNUMBR_2 IN(&apos;@Request.paramLocGLStr~&apos;) AND MNACSGMT IN(&apos;@Request.AcctListFuel~&apos;) GROUP BY MNACSGMT, SUBSTRING(ACTNUMBR_4,2,3)+SUBSTRING(ACTNUMBR_5,1,2), LTRIM(RTRIM(ACTDESCR))) pm ON cm.JSTR=pm.JSTR FULL OUTER JOIN
+      ( SELECT MNACSGMT, SUBSTRING(ACTNUMBR_4,2,3)+SUBSTRING(ACTNUMBR_5,1,2) AS JSTR, LTRIM(RTRIM(ACTDESCR)) ACTDESCR, SUM(PERDBLNC) AMT FROM MKCGP..slbAccountSummary WHERE YEAR1=(@Request.paramFiscYear~-1) AND PERIODID&lt;=@Request.paramFiscPeriod~ AND ACTNUMBR_2 IN(&apos;@Request.paramLocGLStr~&apos;) AND MNACSGMT IN(&apos;@Request.AcctListFuel~&apos;) GROUP BY MNACSGMT, SUBSTRING(ACTNUMBR_4,2,3)+SUBSTRING(ACTNUMBR_5,1,2), LTRIM(RTRIM(ACTDESCR))) py ON cm.JSTR=py.JSTR 
+GROUP BY COALESCE(cm.MNACSGMT,cy.MNACSGMT,pm.MNACSGMT,py.MNACSGMT), COALESCE(cm.ACTDESCR, cy.ACTDESCR, pm.ACTDESCR, py.ACTDESCR) 
+union all
+SELECT 4 GroupSort, &apos;Grain (bushels)&apos; UnitGroup, COALESCE(cm.MNACSGMT,cy.MNACSGMT,pm.MNACSGMT,py.MNACSGMT) MNACSGMT, COALESCE(cm.ACTDESCR,cy.ACTDESCR,pm.ACTDESCR,py.ACTDESCR) ACTDESCR, SUM(ISNULL(cm.AMT,0)) cMTD, SUM(ISNULL(cy.AMT,0)) cYTD, SUM(ISNULL(pm.AMT,0)) pMTD, SUM(ISNULL(py.AMT,0)) pYTD
+FROM 
+      ( SELECT MNACSGMT, SUBSTRING(ACTNUMBR_4,2,3)+SUBSTRING(ACTNUMBR_5,1,2) AS JSTR, LTRIM(RTRIM(ACTDESCR)) ACTDESCR, SUM(PERDBLNC) AMT FROM MKCGP..slbAccountSummary WHERE YEAR1=(@Request.paramFiscYear~  ) AND PERIODID =@Request.paramFiscPeriod~ AND ACTNUMBR_2 IN(&apos;@Request.paramLocGLStr~&apos;) AND MNACSGMT IN(&apos;@Request.AcctListGrain~&apos;) GROUP BY MNACSGMT, SUBSTRING(ACTNUMBR_4,2,3)+SUBSTRING(ACTNUMBR_5,1,2), LTRIM(RTRIM(ACTDESCR))) cm FULL OUTER JOIN 
+      ( SELECT MNACSGMT, SUBSTRING(ACTNUMBR_4,2,3)+SUBSTRING(ACTNUMBR_5,1,2) AS JSTR, LTRIM(RTRIM(ACTDESCR)) ACTDESCR, SUM(PERDBLNC) AMT FROM MKCGP..slbAccountSummary WHERE YEAR1=(@Request.paramFiscYear~  ) AND PERIODID&lt;=@Request.paramFiscPeriod~ AND ACTNUMBR_2 IN(&apos;@Request.paramLocGLStr~&apos;) AND MNACSGMT IN(&apos;@Request.AcctListGrain~&apos;) GROUP BY MNACSGMT, SUBSTRING(ACTNUMBR_4,2,3)+SUBSTRING(ACTNUMBR_5,1,2), LTRIM(RTRIM(ACTDESCR))) cy ON cm.JSTR=cy.JSTR FULL OUTER JOIN 
+      ( SELECT MNACSGMT, SUBSTRING(ACTNUMBR_4,2,3)+SUBSTRING(ACTNUMBR_5,1,2) AS JSTR, LTRIM(RTRIM(ACTDESCR)) ACTDESCR, SUM(PERDBLNC) AMT FROM MKCGP..slbAccountSummary WHERE YEAR1=(@Request.paramFiscYear~-1) AND PERIODID =@Request.paramFiscPeriod~ AND ACTNUMBR_2 IN(&apos;@Request.paramLocGLStr~&apos;) AND MNACSGMT IN(&apos;@Request.AcctListGrain~&apos;) GROUP BY MNACSGMT, SUBSTRING(ACTNUMBR_4,2,3)+SUBSTRING(ACTNUMBR_5,1,2), LTRIM(RTRIM(ACTDESCR))) pm ON cm.JSTR=pm.JSTR FULL OUTER JOIN
+      ( SELECT MNACSGMT, SUBSTRING(ACTNUMBR_4,2,3)+SUBSTRING(ACTNUMBR_5,1,2) AS JSTR, LTRIM(RTRIM(ACTDESCR)) ACTDESCR, SUM(PERDBLNC) AMT FROM MKCGP..slbAccountSummary WHERE YEAR1=(@Request.paramFiscYear~-1) AND PERIODID&lt;=@Request.paramFiscPeriod~ AND ACTNUMBR_2 IN(&apos;@Request.paramLocGLStr~&apos;) AND MNACSGMT IN(&apos;@Request.AcctListGrain~&apos;) GROUP BY MNACSGMT, SUBSTRING(ACTNUMBR_4,2,3)+SUBSTRING(ACTNUMBR_5,1,2), LTRIM(RTRIM(ACTDESCR))) py ON cm.JSTR=py.JSTR 
+GROUP BY COALESCE(cm.MNACSGMT,cy.MNACSGMT,pm.MNACSGMT,py.MNACSGMT), COALESCE(cm.ACTDESCR, cy.ACTDESCR, pm.ACTDESCR, py.ACTDESCR) 
+ORDER BY GroupSort, MNACSGMT
+"
+														Type="SQL"
+														>
+														<GroupFilter
+															DataType="Number"
+															GroupColumn="GroupSort"
+															ID="grpFilter"
+															KeepGroupedRows="True"
+														/>
+													</DataLayer>
+													<GroupHeaderRow
+														Caption="@Data.UnitGroup~"
+														Class="ThemeNoWrap, ThemeBold"
+														GroupFilterID="grpFilter"
+														ID="grpHeaderRow"
+														PrependBlankRows="1"
+													/>
+													<DataTableColumn
+														Class="ThemeMargin"
+														ColumnHeaderClass="ThemeAlignCenter"
+														Header="Description"
+														HeaderType="Text"
+														ID="colACTDESCR"
+														>
+														<Label
+															Caption="@Data.ACTDESCR~"
+															ID="ACTDESCR"
+														/>
+														<Remark>
+															<DataColumnSort
+																DataColumn="ACTDESCR"
+																DataType="Text"
+															/>
+														</Remark>
+													</DataTableColumn>
+													<DataTableColumn
+														Class="ThemeMargin, ThemeAlignRight"
+														ColumnHeaderClass="ThemeAlignCenter"
+														Header="Current Period"
+														HeaderType="Text"
+														ID="colCMTD"
+														>
+														<Label
+															Caption="@Data.cMTD~"
+															Format="###,###,##0;(###,###,##0)"
+															ID="cMTD"
+														/>
+														<Remark>
+															<DataColumnSort
+																DataColumn="cMTD"
+																DataType="Number"
+															/>
+														</Remark>
+													</DataTableColumn>
+													<DataTableColumn
+														Class="ThemeMargin, ThemeAlignRight"
+														ColumnHeaderClass="ThemeAlignCenter"
+														Header="Year-To-Date"
+														HeaderType="Text"
+														ID="colCYTD"
+														>
+														<Label
+															Caption="@Data.cYTD~"
+															Format="###,###,##0;(###,###,##0)"
+															ID="cYTD"
+														/>
+														<Remark>
+															<DataColumnSort
+																DataColumn="cYTD"
+																DataType="Number"
+															/>
+														</Remark>
+													</DataTableColumn>
+													<DataTableColumn
+														Class="ThemeMargin, ThemeAlignRight"
+														ColumnHeaderClass="ThemeAlignCenter"
+														Header="Prior Year Period"
+														HeaderType="Text"
+														ID="colPMTD"
+														>
+														<Label
+															Caption="@Data.pMTD~"
+															Format="###,###,##0;(###,###,##0)"
+															ID="pMTD"
+														/>
+														<Remark>
+															<DataColumnSort
+																DataColumn="pMTD"
+																DataType="Number"
+															/>
+														</Remark>
+													</DataTableColumn>
+													<DataTableColumn
+														Class="ThemeMargin, ThemeAlignRight"
+														ColumnHeaderClass="ThemeAlignCenter"
+														Header="Prior Year-To-Date"
+														HeaderType="Text"
+														ID="colPYTD"
+														>
+														<Label
+															Caption="@Data.pYTD~"
+															Format="###,###,##0;(###,###,##0)"
+															ID="pYTD"
+														/>
+														<Remark>
+															<DataColumnSort
+																DataColumn="pYTD"
+																DataType="Number"
+															/>
+														</Remark>
+													</DataTableColumn>
+												</DataTable>
+											</Column>
+											<Remark>
+												<Column>
+													<Spaces
+														Size="40"
+													/>
+												</Column>
+											</Remark>
+											<Column>
+												<Spaces
+													Size="40"
+												/>
+											</Column>
+											<Column>
+												<Spaces
+													Size="40"
+												/>
+											</Column>
+											<Column>
+												<Spaces
+													Size="40"
+												/>
+											</Column>
+										</Row>
+									</Rows>
+									<LineBreak/>
+									<LineBreak/>
+								</Division>
+							</Division>
+						</Division>
+					</TabPanel>
+					<TabPanel
+						Caption="Totals"
+						Class="ThemeTextPositive ThemeHeaderSmall"
+						ID="tabTotals"
+						>
+						<Division
+							Class="panel panel-default"
+							HtmlDiv="True"
+							ID="panel-Totals"
+							>
+							<Division
+								Class="panel-heading"
+								HtmlDiv="True"
+								ID="divTotalsHeading"
+							/>
+							<Division
+								Class="panel-body ThemeAlignRight"
+								HtmlDiv="True"
+								ID="divTotals"
+								>
+								<Label
+									Class="fa fa-file-pdf-o fa-2x"
+									HtmlTag="Div"
+									ID="exportTotals"
+									Tooltip="Export to PDF"
+									>
+									<Action
+										ID="exportPDFTotals"
+										Type="PDF"
+										>
+										<Target
+											FrameID="NewWindow"
+											ID="pdfTotals"
+											Type="PDF"
+										/>
+									</Action>
+								</Label>
+								<Spaces
+									Size="15"
+								/>
+							</Division>
+							<Division
+								Class="panel-body"
+								HtmlDiv="True"
+								ID="divTotalsData"
+								>
+								<Note
+									Note="**Add data here**"
+								/>
+								<Division
+									Class="panel-heading"
+									HtmlDiv="True"
+									ID="panel-headingIncome"
+									>
+									<Label
+										Caption="Totals"
+									/>
+								</Division>
+								<Division
+									Class="panel-body"
+									HtmlDiv="True"
+									ID="panel-bodyIncome"
+									>
+									<Rows
+										Width="100"
+										WidthScale="%"
+										>
+										<Row>
+											<Column>
+												<Spaces
+													Size="30"
+												/>
+											</Column>
+											<Column>
+												<DataTable
+													ID="dtTotals"
+													SortArrows="True"
+													>
+													<DataLayer
+														ConnectionID="connProdGP"
+														ID="sqlTotals"
+														Source="SELECT 1 as IntGroup, 1 as IntSort, 0 as IntTotal, 1 as blnClick, &apos;tabSales&apos; as strTabName, &apos;Sales&apos; as [Description], 
+  (SELECT ROUND(SUM(PERDBLNC),0)*-1 FROM MKCGP..slbAccountSummary WHERE YEAR1=(@Request.paramFiscYear~   ) AND PERIODID =@Request.paramFiscPeriod~ AND ACTNUMBR_2 IN(&apos;@Request.paramLocGLStr~&apos;) AND MNACSGMT BETWEEN &apos;4300&apos; AND &apos;4399&apos;) cMTD,
+  (SELECT ROUND(SUM(PERDBLNC),0)*-1 FROM MKCGP..slbAccountSummary WHERE YEAR1=(@Request.paramFiscYear~   ) AND PERIODID&lt;=@Request.paramFiscPeriod~ AND ACTNUMBR_2 IN(&apos;@Request.paramLocGLStr~&apos;) AND MNACSGMT BETWEEN &apos;4300&apos; AND &apos;4399&apos;) cYTD, 
+  (SELECT ROUND(SUM(PERDBLNC),0)*-1 FROM MKCGP..slbAccountSummary WHERE YEAR1=(@Request.paramFiscYear~ -1) AND PERIODID =@Request.paramFiscPeriod~ AND ACTNUMBR_2 IN(&apos;@Request.paramLocGLStr~&apos;) AND MNACSGMT BETWEEN &apos;4300&apos; AND &apos;4399&apos;) pMTD, 
+  (SELECT ROUND(SUM(PERDBLNC),0)*-1 FROM MKCGP..slbAccountSummary WHERE YEAR1=(@Request.paramFiscYear~ -1) AND PERIODID&lt;=@Request.paramFiscPeriod~ AND ACTNUMBR_2 IN(&apos;@Request.paramLocGLStr~&apos;) AND MNACSGMT BETWEEN &apos;4300&apos; AND &apos;4399&apos;) pYTD
+union all
+SELECT 1 as IntGroup, 2 as IntSort, 0 as IntTotal, 0 as blnClick, &apos;&apos; as strTabName, &apos;Cost of Sales&apos; as [Description], 
+  (SELECT ROUND(SUM(PERDBLNC),0)    FROM MKCGP..slbAccountSummary WHERE YEAR1=(@Request.paramFiscYear~   ) AND PERIODID =@Request.paramFiscPeriod~ AND ACTNUMBR_2 IN(&apos;@Request.paramLocGLStr~&apos;) AND MNACSGMT BETWEEN &apos;4500&apos; AND &apos;5999&apos;) cMTD,
+  (SELECT ROUND(SUM(PERDBLNC),0)    FROM MKCGP..slbAccountSummary WHERE YEAR1=(@Request.paramFiscYear~   ) AND PERIODID&lt;=@Request.paramFiscPeriod~ AND ACTNUMBR_2 IN(&apos;@Request.paramLocGLStr~&apos;) AND MNACSGMT BETWEEN &apos;4500&apos; AND &apos;5999&apos;) cYTD, 
+  (SELECT ROUND(SUM(PERDBLNC),0)    FROM MKCGP..slbAccountSummary WHERE YEAR1=(@Request.paramFiscYear~ -1) AND PERIODID =@Request.paramFiscPeriod~ AND ACTNUMBR_2 IN(&apos;@Request.paramLocGLStr~&apos;) AND MNACSGMT BETWEEN &apos;4500&apos; AND &apos;5999&apos;) pMTD, 
+  (SELECT ROUND(SUM(PERDBLNC),0)    FROM MKCGP..slbAccountSummary WHERE YEAR1=(@Request.paramFiscYear~ -1) AND PERIODID&lt;=@Request.paramFiscPeriod~ AND ACTNUMBR_2 IN(&apos;@Request.paramLocGLStr~&apos;) AND MNACSGMT BETWEEN &apos;4500&apos; AND &apos;5999&apos;) pYTD
+union all
+SELECT 1 as IntGroup, 3 as IntSort, 1 as IntTotal, 0 as blnClick, &apos;&apos; as strTabName, &apos;Gross Margin&apos; as [Description], 
+  (SELECT ROUND(SUM(PERDBLNC),0)*-1 FROM MKCGP..slbAccountSummary WHERE YEAR1=(@Request.paramFiscYear~   ) AND PERIODID =@Request.paramFiscPeriod~ AND ACTNUMBR_2 IN(&apos;@Request.paramLocGLStr~&apos;) AND MNACSGMT BETWEEN &apos;4300&apos; AND &apos;5999&apos;) cMTD,
+  (SELECT ROUND(SUM(PERDBLNC),0)*-1 FROM MKCGP..slbAccountSummary WHERE YEAR1=(@Request.paramFiscYear~   ) AND PERIODID&lt;=@Request.paramFiscPeriod~ AND ACTNUMBR_2 IN(&apos;@Request.paramLocGLStr~&apos;) AND MNACSGMT BETWEEN &apos;4300&apos; AND &apos;5999&apos;) cYTD, 
+  (SELECT ROUND(SUM(PERDBLNC),0)*-1 FROM MKCGP..slbAccountSummary WHERE YEAR1=(@Request.paramFiscYear~ -1) AND PERIODID =@Request.paramFiscPeriod~ AND ACTNUMBR_2 IN(&apos;@Request.paramLocGLStr~&apos;) AND MNACSGMT BETWEEN &apos;4300&apos; AND &apos;5999&apos;) pMTD, 
+  (SELECT ROUND(SUM(PERDBLNC),0)*-1 FROM MKCGP..slbAccountSummary WHERE YEAR1=(@Request.paramFiscYear~ -1) AND PERIODID&lt;=@Request.paramFiscPeriod~ AND ACTNUMBR_2 IN(&apos;@Request.paramLocGLStr~&apos;) AND MNACSGMT BETWEEN &apos;4300&apos; AND &apos;5999&apos;) pYTD
+union all
+SELECT 2 as IntGroup, 4 as IntSort, 0 as IntTotal, 1 as blnClick, &apos;tabOpIncome&apos; as strTabName, &apos;Other Operating Income&apos; as [Description], 
+  (SELECT ROUND(SUM(PERDBLNC),0)*-1 FROM MKCGP..slbAccountSummary WHERE YEAR1=(@Request.paramFiscYear~   ) AND PERIODID =@Request.paramFiscPeriod~ AND ACTNUMBR_2 IN(&apos;@Request.paramLocGLStr~&apos;) AND MNACSGMT BETWEEN &apos;7000&apos; AND &apos;7999&apos;) cMTD,
+  (SELECT ROUND(SUM(PERDBLNC),0)*-1 FROM MKCGP..slbAccountSummary WHERE YEAR1=(@Request.paramFiscYear~   ) AND PERIODID&lt;=@Request.paramFiscPeriod~ AND ACTNUMBR_2 IN(&apos;@Request.paramLocGLStr~&apos;) AND MNACSGMT BETWEEN &apos;7000&apos; AND &apos;7999&apos;) cYTD, 
+  (SELECT ROUND(SUM(PERDBLNC),0)*-1 FROM MKCGP..slbAccountSummary WHERE YEAR1=(@Request.paramFiscYear~ -1) AND PERIODID =@Request.paramFiscPeriod~ AND ACTNUMBR_2 IN(&apos;@Request.paramLocGLStr~&apos;) AND MNACSGMT BETWEEN &apos;7000&apos; AND &apos;7999&apos;) pMTD,
+  (SELECT ROUND(SUM(PERDBLNC),0)*-1 FROM MKCGP..slbAccountSummary WHERE YEAR1=(@Request.paramFiscYear~ -1) AND PERIODID&lt;=@Request.paramFiscPeriod~ AND ACTNUMBR_2 IN(&apos;@Request.paramLocGLStr~&apos;) AND MNACSGMT BETWEEN &apos;7000&apos; AND &apos;7999&apos;) pYTD
+union all
+SELECT 2 as IntGroup, 5 as IntSort, 1 as IntTotal, 0 as blnClick, &apos;&apos; as strTabName, &apos;Gross Income&apos; as [Description], 
+  (SELECT ROUND(SUM(PERDBLNC),0)*-1 FROM MKCGP..slbAccountSummary WHERE YEAR1=(@Request.paramFiscYear~   ) AND PERIODID =@Request.paramFiscPeriod~ AND ACTNUMBR_2 IN(&apos;@Request.paramLocGLStr~&apos;) AND MNACSGMT BETWEEN &apos;4300&apos; AND &apos;7999&apos;) cMTD,
+  (SELECT ROUND(SUM(PERDBLNC),0)*-1 FROM MKCGP..slbAccountSummary WHERE YEAR1=(@Request.paramFiscYear~   ) AND PERIODID&lt;=@Request.paramFiscPeriod~ AND ACTNUMBR_2 IN(&apos;@Request.paramLocGLStr~&apos;) AND MNACSGMT BETWEEN &apos;4300&apos; AND &apos;7999&apos;) cYTD, 
+  (SELECT ROUND(SUM(PERDBLNC),0)*-1 FROM MKCGP..slbAccountSummary WHERE YEAR1=(@Request.paramFiscYear~ -1) AND PERIODID =@Request.paramFiscPeriod~ AND ACTNUMBR_2 IN(&apos;@Request.paramLocGLStr~&apos;) AND MNACSGMT BETWEEN &apos;4300&apos; AND &apos;7999&apos;) pMTD,
+  (SELECT ROUND(SUM(PERDBLNC),0)*-1 FROM MKCGP..slbAccountSummary WHERE YEAR1=(@Request.paramFiscYear~ -1) AND PERIODID&lt;=@Request.paramFiscPeriod~ AND ACTNUMBR_2 IN(&apos;@Request.paramLocGLStr~&apos;) AND MNACSGMT BETWEEN &apos;4300&apos; AND &apos;7999&apos;) pYTD
+union all
+SELECT 4 as IntGroup, 6 as IntSort, 0 as IntTotal, 1 as blnClick, &apos;tabPersonnel&apos; as strTabName, &apos;Personnel Expense&apos; as [Description], 
+  (SELECT ROUND(SUM(PERDBLNC),0)    FROM MKCGP..slbAccountSummary WHERE YEAR1=(@Request.paramFiscYear~   ) AND PERIODID =@Request.paramFiscPeriod~ AND ACTNUMBR_2 IN(&apos;@Request.paramLocGLStr~&apos;) AND MNACSGMT BETWEEN &apos;8000&apos; AND &apos;8099&apos;) cMTD,
+  (SELECT ROUND(SUM(PERDBLNC),0)    FROM MKCGP..slbAccountSummary WHERE YEAR1=(@Request.paramFiscYear~   ) AND PERIODID&lt;=@Request.paramFiscPeriod~ AND ACTNUMBR_2 IN(&apos;@Request.paramLocGLStr~&apos;) AND MNACSGMT BETWEEN &apos;8000&apos; AND &apos;8099&apos;) cYTD, 
+  (SELECT ROUND(SUM(PERDBLNC),0)    FROM MKCGP..slbAccountSummary WHERE YEAR1=(@Request.paramFiscYear~ -1) AND PERIODID =@Request.paramFiscPeriod~ AND ACTNUMBR_2 IN(&apos;@Request.paramLocGLStr~&apos;) AND MNACSGMT BETWEEN &apos;8000&apos; AND &apos;8099&apos;) pMTD,
+  (SELECT ROUND(SUM(PERDBLNC),0)    FROM MKCGP..slbAccountSummary WHERE YEAR1=(@Request.paramFiscYear~ -1) AND PERIODID&lt;=@Request.paramFiscPeriod~ AND ACTNUMBR_2 IN(&apos;@Request.paramLocGLStr~&apos;) AND MNACSGMT BETWEEN &apos;8000&apos; AND &apos;8099&apos;) pYTD
+union all
+SELECT 4 as IntGroup, 7 as IntSort, 0 as IntTotal, 1 as blnClick, &apos;tabFixed&apos; as strTabName, &apos;Fixed Expense&apos; as [Description], 
+  (SELECT ROUND(SUM(PERDBLNC),0)    FROM MKCGP..slbAccountSummary WHERE YEAR1=(@Request.paramFiscYear~   ) AND PERIODID =@Request.paramFiscPeriod~ AND ACTNUMBR_2 IN(&apos;@Request.paramLocGLStr~&apos;) AND MNACSGMT BETWEEN &apos;8100&apos; AND &apos;8199&apos;) cMTD,
+  (SELECT ROUND(SUM(PERDBLNC),0)    FROM MKCGP..slbAccountSummary WHERE YEAR1=(@Request.paramFiscYear~   ) AND PERIODID&lt;=@Request.paramFiscPeriod~ AND ACTNUMBR_2 IN(&apos;@Request.paramLocGLStr~&apos;) AND MNACSGMT BETWEEN &apos;8100&apos; AND &apos;8199&apos;) cYTD, 
+  (SELECT ROUND(SUM(PERDBLNC),0)    FROM MKCGP..slbAccountSummary WHERE YEAR1=(@Request.paramFiscYear~ -1) AND PERIODID =@Request.paramFiscPeriod~ AND ACTNUMBR_2 IN(&apos;@Request.paramLocGLStr~&apos;) AND MNACSGMT BETWEEN &apos;8100&apos; AND &apos;8199&apos;) pMTD,
+  (SELECT ROUND(SUM(PERDBLNC),0)    FROM MKCGP..slbAccountSummary WHERE YEAR1=(@Request.paramFiscYear~ -1) AND PERIODID&lt;=@Request.paramFiscPeriod~ AND ACTNUMBR_2 IN(&apos;@Request.paramLocGLStr~&apos;) AND MNACSGMT BETWEEN &apos;8100&apos; AND &apos;8199&apos;) pYTD
+union all
+SELECT 4 as IntGroup, 8 as IntSort, 0 as IntTotal, 1 as blnClick, &apos;tabOtherExpense&apos; as strTabName, &apos;Other Operating Expense&apos; as [Description], 
+  (SELECT ROUND(SUM(PERDBLNC),0)    FROM MKCGP..slbAccountSummary WHERE YEAR1=(@Request.paramFiscYear~   ) AND PERIODID =@Request.paramFiscPeriod~ AND ACTNUMBR_2 IN(&apos;@Request.paramLocGLStr~&apos;) AND MNACSGMT BETWEEN &apos;8200&apos; AND &apos;8499&apos;) cMTD,
+  (SELECT ROUND(SUM(PERDBLNC),0)    FROM MKCGP..slbAccountSummary WHERE YEAR1=(@Request.paramFiscYear~   ) AND PERIODID&lt;=@Request.paramFiscPeriod~ AND ACTNUMBR_2 IN(&apos;@Request.paramLocGLStr~&apos;) AND MNACSGMT BETWEEN &apos;8200&apos; AND &apos;8499&apos;) cYTD, 
+  (SELECT ROUND(SUM(PERDBLNC),0)    FROM MKCGP..slbAccountSummary WHERE YEAR1=(@Request.paramFiscYear~ -1) AND PERIODID =@Request.paramFiscPeriod~ AND ACTNUMBR_2 IN(&apos;@Request.paramLocGLStr~&apos;) AND MNACSGMT BETWEEN &apos;8200&apos; AND &apos;8499&apos;) pMTD,
+  (SELECT ROUND(SUM(PERDBLNC),0)    FROM MKCGP..slbAccountSummary WHERE YEAR1=(@Request.paramFiscYear~ -1) AND PERIODID&lt;=@Request.paramFiscPeriod~ AND ACTNUMBR_2 IN(&apos;@Request.paramLocGLStr~&apos;) AND MNACSGMT BETWEEN &apos;8200&apos; AND &apos;8499&apos;) pYTD
+union all
+SELECT 4 as IntGroup, 9 as IntSort, 1 as IntTotal, 0 as blnClick, &apos;&apos; as strTabName, &apos;Total Expense&apos; as [Description], 
+  (SELECT ROUND(SUM(PERDBLNC),0)    FROM MKCGP..slbAccountSummary WHERE YEAR1=(@Request.paramFiscYear~   ) AND PERIODID =@Request.paramFiscPeriod~ AND ACTNUMBR_2 IN(&apos;@Request.paramLocGLStr~&apos;) AND MNACSGMT BETWEEN &apos;8000&apos; AND &apos;8499&apos;) cMTD,
+  (SELECT ROUND(SUM(PERDBLNC),0)    FROM MKCGP..slbAccountSummary WHERE YEAR1=(@Request.paramFiscYear~   ) AND PERIODID&lt;=@Request.paramFiscPeriod~ AND ACTNUMBR_2 IN(&apos;@Request.paramLocGLStr~&apos;) AND MNACSGMT BETWEEN &apos;8000&apos; AND &apos;8499&apos;) cYTD, 
+  (SELECT ROUND(SUM(PERDBLNC),0)    FROM MKCGP..slbAccountSummary WHERE YEAR1=(@Request.paramFiscYear~ -1) AND PERIODID =@Request.paramFiscPeriod~ AND ACTNUMBR_2 IN(&apos;@Request.paramLocGLStr~&apos;) AND MNACSGMT BETWEEN &apos;8000&apos; AND &apos;8499&apos;) pMTD,
+  (SELECT ROUND(SUM(PERDBLNC),0)    FROM MKCGP..slbAccountSummary WHERE YEAR1=(@Request.paramFiscYear~ -1) AND PERIODID&lt;=@Request.paramFiscPeriod~ AND ACTNUMBR_2 IN(&apos;@Request.paramLocGLStr~&apos;) AND MNACSGMT BETWEEN &apos;8000&apos; AND &apos;8499&apos;) pYTD
+union all
+SELECT 5 as IntGroup,10 as IntSort, 1 as IntTotal, 0 as blnClick, &apos;&apos; as strTabName, &apos;Net Earnings (Loss)&apos; as [Description], 
+  (SELECT ROUND(SUM(PERDBLNC),0)*-1 FROM MKCGP..slbAccountSummary WHERE YEAR1=(@Request.paramFiscYear~   ) AND PERIODID =@Request.paramFiscPeriod~ AND ACTNUMBR_2 IN(&apos;@Request.paramLocGLStr~&apos;) AND (MNACSGMT BETWEEN &apos;4300&apos; AND &apos;5999&apos; OR MNACSGMT BETWEEN &apos;7000&apos; AND &apos;8499&apos;)) cMTD,
+  (SELECT ROUND(SUM(PERDBLNC),0)*-1 FROM MKCGP..slbAccountSummary WHERE YEAR1=(@Request.paramFiscYear~   ) AND PERIODID&lt;=@Request.paramFiscPeriod~ AND ACTNUMBR_2 IN(&apos;@Request.paramLocGLStr~&apos;) AND (MNACSGMT BETWEEN &apos;4300&apos; AND &apos;5999&apos; OR MNACSGMT BETWEEN &apos;7000&apos; AND &apos;8499&apos;)) cYTD, 
+  (SELECT ROUND(SUM(PERDBLNC),0)*-1 FROM MKCGP..slbAccountSummary WHERE YEAR1=(@Request.paramFiscYear~ -1) AND PERIODID =@Request.paramFiscPeriod~ AND ACTNUMBR_2 IN(&apos;@Request.paramLocGLStr~&apos;) AND (MNACSGMT BETWEEN &apos;4300&apos; AND &apos;5999&apos; OR MNACSGMT BETWEEN &apos;7000&apos; AND &apos;8499&apos;)) pMTD,
+  (SELECT ROUND(SUM(PERDBLNC),0)*-1 FROM MKCGP..slbAccountSummary WHERE YEAR1=(@Request.paramFiscYear~ -1) AND PERIODID&lt;=@Request.paramFiscPeriod~ AND ACTNUMBR_2 IN(&apos;@Request.paramLocGLStr~&apos;) AND (MNACSGMT BETWEEN &apos;4300&apos; AND &apos;5999&apos; OR MNACSGMT BETWEEN &apos;7000&apos; AND &apos;8499&apos;)) pYTD
+ORDER BY IntSort;
+"
+														Type="SQL"
+														>
+														<GroupFilter
+															DataType="Number"
+															GroupColumn="IntGroup"
+															ID="grpIntGroup"
+															KeepGroupedRows="True"
+														/>
+													</DataLayer>
+													<DataTableColumn
+														ColumnHeaderClass="ThemeAlignCenter"
+														Header="Description"
+														HeaderType="Text"
+														ID="colDescription"
+														>
+														<Division
+															Condition="&quot;@Data.blnClick~&quot; = &quot;0&quot;"
+															ID="divNotClickable"
+															>
+															<Label
+																Caption="@Data.Description~"
+																Class="ThemeClearfix"
+																ID="lblDescription"
+																>
+																<ConditionalClass
+																	Class="ThemeBold"
+																	Condition="@Data.IntTotal~==1"
+																	ID="cndBoldTotal"
+																/>
+															</Label>
+														</Division>
+														<Division
+															Condition="&quot;@Data.blnClick~&quot; = &quot;1&quot;"
+															ID="divClickable"
+															>
+															<Action
+																Type="Report"
+																>
+																<LinkParams
+																	tabFinancials="@Data.strTabName~"
+																/>
+																<Target
+																	FrameID="Self"
+																	ID="tgtReportBranchFinancials"
+																	Report="Unknown.SubReports.BranchFinancials"
+																	Type="Report"
+																/>
+															</Action>
+															<Label
+																Caption="@Data.Description~"
+																Class="ThemeClearfix"
+																ID="lblDescription"
+																>
+																<ConditionalClass
+																	Class="ThemeBold"
+																	Condition="@Data.IntTotal~==1"
+																	ID="cndBoldTotal"
+																/>
+															</Label>
+														</Division>
+													</DataTableColumn>
+													<DataTableColumn
+														Class="ThemeMargin, ThemeAlignRight"
+														ColumnHeaderClass="ThemeAlignCenter"
+														Header="Current Period"
+														HeaderType="Text"
+														ID="colCMTD"
+														>
+														<Label
+															Caption="@Data.cMTD~"
+															Format="###,###,##0;(###,###,##0)"
+															ID="cMTD"
+															>
+															<ConditionalClass
+																Class="ThemeBold"
+																Condition="@Data.IntTotal~==1"
+																ID="cndBoldTotal"
+															/>
+														</Label>
+													</DataTableColumn>
+													<DataTableColumn
+														Class="ThemeMargin, ThemeAlignRight"
+														ColumnHeaderClass="ThemeAlignCenter"
+														Header="Year-To-Date"
+														HeaderType="Text"
+														ID="colCYTD"
+														>
+														<Label
+															Caption="@Data.cYTD~"
+															Format="###,###,##0;(###,###,##0)"
+															ID="cYTD"
+															>
+															<ConditionalClass
+																Class="ThemeBold"
+																Condition="@Data.IntTotal~==1"
+																ID="cndBoldTotal"
+															/>
+														</Label>
+													</DataTableColumn>
+													<DataTableColumn
+														Class="ThemeMargin, ThemeAlignRight"
+														ColumnHeaderClass="ThemeAlignCenter"
+														Header="Prior Year Period"
+														HeaderType="Text"
+														ID="colPMTD"
+														>
+														<Label
+															Caption="@Data.pMTD~"
+															Format="###,###,##0;(###,###,##0)"
+															ID="pMTD"
+															>
+															<ConditionalClass
+																Class="ThemeBold"
+																Condition="@Data.IntTotal~==1"
+																ID="cndBoldTotal"
+															/>
+														</Label>
+													</DataTableColumn>
+													<DataTableColumn
+														Class="ThemeMargin, ThemeAlignRight"
+														ColumnHeaderClass="ThemeAlignCenter"
+														Header="Prior Year-To-Date"
+														HeaderType="Text"
+														ID="colPYTD"
+														>
+														<Label
+															Caption="@Data.pYTD~"
+															Format="###,###,##0;(###,###,##0)"
+															ID="pYTD"
+															>
+															<ConditionalClass
+																Class="ThemeBold"
+																Condition="@Data.IntTotal~==1"
+																ID="cndBoldTotal"
+															/>
+														</Label>
+													</DataTableColumn>
+													<GroupSummaryRow
+														GroupFilterID="grpIntGroup"
+														ID="grpSumRow"
+													/>
+												</DataTable>
+											</Column>
+											<Remark>
+												<Column>
+													<Spaces
+														Size="40"
+													/>
+												</Column>
+											</Remark>
+											<Column>
+												<Spaces
+													Size="40"
+												/>
+											</Column>
+											<Column>
+												<Spaces
+													Size="40"
+												/>
+											</Column>
+											<Column>
+												<Spaces
+													Size="40"
+												/>
+											</Column>
+										</Row>
+									</Rows>
+									<LineBreak/>
+									<LineBreak/>
+								</Division>
+							</Division>
+						</Division>
+					</TabPanel>
+					<TabPanel
+						Caption="Sales"
+						Class="ThemeTextPositive ThemeHeaderSmall"
+						ID="tabSales"
+						>
+						<Division
+							Class="panel panel-default"
+							HtmlDiv="True"
+							ID="panel-Sales"
+							>
+							<Division
+								Class="panel-heading"
+								HtmlDiv="True"
+								ID="divSalesHeading"
+							/>
+							<Division
+								Class="panel-body ThemeAlignRight"
+								HtmlDiv="True"
+								ID="divSales"
+								>
+								<Label
+									Class="fa fa-file-pdf-o fa-2x "
+									HtmlTag="Div"
+									ID="exportSales"
+									Tooltip="Export to PDF"
+									>
+									<Action
+										ID="exportPDFSales"
+										Type="PDF"
+										>
+										<Target
+											FrameID="NewWindow"
+											Type="PDF"
+										/>
+									</Action>
+								</Label>
+								<Spaces
+									Size="15"
+								/>
+							</Division>
+							<Division
+								Class="panel-body"
+								HtmlDiv="True"
+								ID="divSalesData"
+								>
+								<Note
+									Note="**Add data here**"
+								/>
+								<Division
+									Class="panel-heading"
+									HtmlDiv="True"
+									ID="panel-headingSales"
+									>
+									<Label
+										Caption="Sales"
+									/>
+								</Division>
+								<Division
+									Class="panel-body"
+									HtmlDiv="True"
+									ID="panel-bodySales"
+									>
+									<Rows
+										Width="100"
+										WidthScale="%"
+										>
+										<Row>
+											<Column>
+												<Spaces
+													Size="30"
+												/>
+											</Column>
+											<Column>
+												<DataTable
+													ID="dtSales"
+													SortArrows="True"
+													>
+													<DataLayer
+														ConnectionID="connProdGP"
+														ID="sqlSales"
+														Source="SELECT COALESCE(cm.MNACSGMT,cy.MNACSGMT,pm.MNACSGMT,py.MNACSGMT) MNACSGMT, COALESCE(cm.ACTDESCR, cy.ACTDESCR, pm.ACTDESCR, py.ACTDESCR) ACTDESCR, SUM(ISNULL(cm.AMT,0))*-1 cMTD, SUM(ISNULL(cm.GM,0))*-1 cGMTD, CASE WHEN SUM(ISNULL(cm.AMT,0))=0 THEN 0 ELSE SUM(ISNULL(cm.GM,0))/SUM(ISNULL(cm.AMT,0)) END cGMTDpct, SUM(ISNULL(cy.AMT,0))*-1 cYTD, SUM(ISNULL(cy.GM,0))*-1 cGYTD, CASE WHEN SUM(ISNULL(cy.AMT,0))=0 THEN 0 ELSE SUM(ISNULL(cy.GM,0))/SUM(ISNULL(cy.AMT,0)) END cGYTDpct, SUM(ISNULL(pm.AMT,0))*-1 pMTD, SUM(ISNULL(pm.GM,0))*-1 pGMTD, CASE WHEN SUM(ISNULL(pm.AMT,0))=0 THEN 0 ELSE SUM(ISNULL(pm.GM,0))/SUM(ISNULL(pm.AMT,0)) END pGMTDpct, SUM(ISNULL(py.AMT,0))*-1 pYTD, SUM(ISNULL(py.GM,0))*-1 pGYTD, CASE WHEN SUM(ISNULL(py.AMT,0))=0 THEN 0 ELSE SUM(ISNULL(py.GM,0))/SUM(ISNULL(py.AMT,0)) END pGYTDpct
+FROM 
+      ( SELECT s.JSTR, COALESCE(s.MNACSGMT,p.MNACSGMT) MNACSGMT, COALESCE(s.ACTDESCR,p.ACTDESCR) ACTDESCR, ISNULL(s.AMT,0) AMT, ISNULL(s.AMT,0)+ISNULL(p.AMT,0) as GM, CASE ISNULL(s.AMT,0) WHEN 0 THEN 0 ELSE (ISNULL(s.AMT,0)+ISNULL(p.AMT,0))/s.AMT END GMPCT FROM 
+	    ( SELECT MNACSGMT, SUBSTRING(ACTNUMBR_4,2,3)+SUBSTRING(ACTNUMBR_5,1,2) AS JSTR, LTRIM(RTRIM(ACTDESCR)) ACTDESCR, CASE MNACSGMT WHEN &apos;4500&apos; THEN 0 ELSE SUM(PERDBLNC) END AMT FROM MKCGP..slbAccountSummary WHERE YEAR1=(@Request.paramFiscYear~  ) AND PERIODID=@Request.paramFiscPeriod~ AND ACTNUMBR_2 IN(&apos;@Request.paramLocGLStr~&apos;) AND MNACSGMT BETWEEN &apos;4300&apos; AND &apos;4500&apos; GROUP BY MNACSGMT, SUBSTRING(ACTNUMBR_4,2,3)+SUBSTRING(ACTNUMBR_5,1,2), LTRIM(RTRIM(ACTDESCR)) ) s FULL OUTER JOIN 
+        ( SELECT MNACSGMT, SUBSTRING(ACTNUMBR_4,2,3)+SUBSTRING(ACTNUMBR_5,1,2) AS JSTR, LTRIM(RTRIM(ACTDESCR)) ACTDESCR, SUM(PERDBLNC) AMT FROM MKCGP..slbAccountSummary WHERE YEAR1=(@Request.paramFiscYear~  ) AND PERIODID =@Request.paramFiscPeriod~ AND ACTNUMBR_2 IN(&apos;@Request.paramLocGLStr~&apos;) AND MNACSGMT BETWEEN &apos;4500&apos; AND &apos;5599&apos; GROUP BY MNACSGMT, SUBSTRING(ACTNUMBR_4,2,3)+SUBSTRING(ACTNUMBR_5,1,2), LTRIM(RTRIM(ACTDESCR)) ) p ON s.JSTR=p.JSTR
+       ) cm 
+	   FULL OUTER JOIN 
+      ( SELECT s.JSTR, COALESCE(s.MNACSGMT,p.MNACSGMT) MNACSGMT, COALESCE(s.ACTDESCR,p.ACTDESCR) ACTDESCR, ISNULL(s.AMT,0) AMT, ISNULL(s.AMT,0)+ISNULL(p.AMT,0) as GM, CASE ISNULL(s.AMT,0) WHEN 0 THEN 0 ELSE (ISNULL(s.AMT,0)+ISNULL(p.AMT,0))/s.AMT END GMPCT FROM 
+	    ( SELECT MNACSGMT, SUBSTRING(ACTNUMBR_4,2,3)+SUBSTRING(ACTNUMBR_5,1,2) AS JSTR, LTRIM(RTRIM(ACTDESCR)) ACTDESCR, CASE MNACSGMT WHEN &apos;4500&apos; THEN 0 ELSE SUM(PERDBLNC) END AMT FROM MKCGP..slbAccountSummary WHERE YEAR1=(@Request.paramFiscYear~  ) AND PERIODID&lt;=@Request.paramFiscPeriod~ AND ACTNUMBR_2 IN(&apos;@Request.paramLocGLStr~&apos;) AND MNACSGMT BETWEEN &apos;4300&apos; AND &apos;4500&apos; GROUP BY MNACSGMT, SUBSTRING(ACTNUMBR_4,2,3)+SUBSTRING(ACTNUMBR_5,1,2), LTRIM(RTRIM(ACTDESCR)) ) s FULL OUTER JOIN 
+        ( SELECT MNACSGMT, SUBSTRING(ACTNUMBR_4,2,3)+SUBSTRING(ACTNUMBR_5,1,2) AS JSTR, LTRIM(RTRIM(ACTDESCR)) ACTDESCR, SUM(PERDBLNC) AMT FROM MKCGP..slbAccountSummary WHERE YEAR1=(@Request.paramFiscYear~  ) AND PERIODID&lt;=@Request.paramFiscPeriod~ AND ACTNUMBR_2 IN(&apos;@Request.paramLocGLStr~&apos;) AND MNACSGMT BETWEEN &apos;4500&apos; AND &apos;5599&apos; GROUP BY MNACSGMT, SUBSTRING(ACTNUMBR_4,2,3)+SUBSTRING(ACTNUMBR_5,1,2), LTRIM(RTRIM(ACTDESCR)) ) p ON s.JSTR=p.JSTR
+       ) cy ON cm.JSTR=cy.JSTR 
+	   FULL OUTER JOIN 
+      ( SELECT s.JSTR, COALESCE(s.MNACSGMT,p.MNACSGMT) MNACSGMT, COALESCE(s.ACTDESCR,p.ACTDESCR) ACTDESCR, ISNULL(s.AMT,0) AMT, ISNULL(s.AMT,0)+ISNULL(p.AMT,0) as GM, CASE ISNULL(s.AMT,0) WHEN 0 THEN 0 ELSE (ISNULL(s.AMT,0)+ISNULL(p.AMT,0))/s.AMT END GMPCT FROM 
+	    ( SELECT MNACSGMT, SUBSTRING(ACTNUMBR_4,2,3)+SUBSTRING(ACTNUMBR_5,1,2) AS JSTR, LTRIM(RTRIM(ACTDESCR)) ACTDESCR, CASE MNACSGMT WHEN &apos;4500&apos; THEN 0 ELSE SUM(PERDBLNC) END AMT FROM MKCGP..slbAccountSummary WHERE YEAR1=(@Request.paramFiscYear~-1) AND PERIODID=@Request.paramFiscPeriod~ AND ACTNUMBR_2 IN(&apos;@Request.paramLocGLStr~&apos;) AND MNACSGMT BETWEEN &apos;4300&apos; AND &apos;4500&apos; GROUP BY MNACSGMT, SUBSTRING(ACTNUMBR_4,2,3)+SUBSTRING(ACTNUMBR_5,1,2), LTRIM(RTRIM(ACTDESCR)) ) s FULL OUTER JOIN 
+        ( SELECT MNACSGMT, SUBSTRING(ACTNUMBR_4,2,3)+SUBSTRING(ACTNUMBR_5,1,2) AS JSTR, LTRIM(RTRIM(ACTDESCR)) ACTDESCR, SUM(PERDBLNC) AMT FROM MKCGP..slbAccountSummary WHERE YEAR1=(@Request.paramFiscYear~-1) AND PERIODID=@Request.paramFiscPeriod~ AND ACTNUMBR_2 IN(&apos;@Request.paramLocGLStr~&apos;) AND MNACSGMT BETWEEN &apos;4500&apos; AND &apos;5599&apos; GROUP BY MNACSGMT, SUBSTRING(ACTNUMBR_4,2,3)+SUBSTRING(ACTNUMBR_5,1,2), LTRIM(RTRIM(ACTDESCR)) ) p ON s.JSTR=p.JSTR
+       ) pm ON cm.JSTR=pm.JSTR 
+	   FULL OUTER JOIN 
+      ( SELECT s.JSTR, COALESCE(s.MNACSGMT,p.MNACSGMT) MNACSGMT, COALESCE(s.ACTDESCR,p.ACTDESCR) ACTDESCR, ISNULL(s.AMT,0) AMT, ISNULL(s.AMT,0)+ISNULL(p.AMT,0) as GM, CASE ISNULL(s.AMT,0) WHEN 0 THEN 0 ELSE (ISNULL(s.AMT,0)+ISNULL(p.AMT,0))/s.AMT END GMPCT FROM 
+	    ( SELECT MNACSGMT, SUBSTRING(ACTNUMBR_4,2,3)+SUBSTRING(ACTNUMBR_5,1,2) AS JSTR, LTRIM(RTRIM(ACTDESCR)) ACTDESCR, CASE MNACSGMT WHEN &apos;4500&apos; THEN 0 ELSE SUM(PERDBLNC) END AMT FROM MKCGP..slbAccountSummary WHERE YEAR1=(@Request.paramFiscYear~-1) AND PERIODID&lt;=@Request.paramFiscPeriod~ AND ACTNUMBR_2 IN(&apos;@Request.paramLocGLStr~&apos;) AND MNACSGMT BETWEEN &apos;4300&apos; AND &apos;4500&apos; GROUP BY MNACSGMT, SUBSTRING(ACTNUMBR_4,2,3)+SUBSTRING(ACTNUMBR_5,1,2), LTRIM(RTRIM(ACTDESCR)) ) s FULL OUTER JOIN 
+        ( SELECT MNACSGMT, SUBSTRING(ACTNUMBR_4,2,3)+SUBSTRING(ACTNUMBR_5,1,2) AS JSTR, LTRIM(RTRIM(ACTDESCR)) ACTDESCR, SUM(PERDBLNC) AMT FROM MKCGP..slbAccountSummary WHERE YEAR1=(@Request.paramFiscYear~-1) AND PERIODID&lt;=@Request.paramFiscPeriod~ AND ACTNUMBR_2 IN(&apos;@Request.paramLocGLStr~&apos;) AND MNACSGMT BETWEEN &apos;4500&apos; AND &apos;5599&apos; GROUP BY MNACSGMT, SUBSTRING(ACTNUMBR_4,2,3)+SUBSTRING(ACTNUMBR_5,1,2), LTRIM(RTRIM(ACTDESCR)) ) p ON s.JSTR=p.JSTR
+       ) py ON cm.JSTR=py.JSTR 
+GROUP BY COALESCE(cm.MNACSGMT,cy.MNACSGMT,pm.MNACSGMT,py.MNACSGMT), COALESCE(cm.ACTDESCR, cy.ACTDESCR, pm.ACTDESCR, py.ACTDESCR) 
+ORDER BY MNACSGMT
+"
+														Type="SQL"
+														>
+														<AggregateColumn
+															AggregateColumn="cMTD"
+															AggregateFunction="Sum"
+															DataType="Number"
+															ID="agg_cMTD"
+														/>
+														<AggregateColumn
+															AggregateColumn="cGMTD"
+															AggregateFunction="Sum"
+															DataType="Number"
+															ID="agg_cGMTD"
+														/>
+														<AggregateColumn
+															AggregateColumn="cYTD"
+															AggregateFunction="Sum"
+															DataType="Number"
+															ID="agg_cYTD"
+														/>
+														<AggregateColumn
+															AggregateColumn="cGYTD"
+															AggregateFunction="Sum"
+															DataType="Number"
+															ID="agg_cGYTD"
+														/>
+														<AggregateColumn
+															AggregateColumn="pMTD"
+															AggregateFunction="Sum"
+															DataType="Number"
+															ID="agg_pMTD"
+														/>
+														<AggregateColumn
+															AggregateColumn="pGMTD"
+															AggregateFunction="Sum"
+															DataType="Number"
+															ID="agg_pGMTD"
+														/>
+														<AggregateColumn
+															AggregateColumn="pYTD"
+															AggregateFunction="Sum"
+															DataType="Number"
+															ID="agg_pYTD"
+														/>
+														<AggregateColumn
+															AggregateColumn="pGYTD"
+															AggregateFunction="Sum"
+															DataType="Number"
+															ID="agg_pGYTD"
+														/>
+														<CalculatedColumn
+															ErrorResult="0"
+															Formula="IIF(@Data.agg_cMTD~==0,0,@Data.agg_cGMTD~/@Data.agg_cMTD~)"
+															ID="calc_cGMTDpct"
+														/>
+														<CalculatedColumn
+															ErrorResult="0"
+															Formula="IIF(@Data.agg_cYTD~==0,0,@Data.agg_cGYTD~/@Data.agg_cYTD~)"
+															ID="calc_cGYTDpct"
+														/>
+														<CalculatedColumn
+															ErrorResult="0"
+															Formula="IIF(@Data.agg_pMTD~==0,0,@Data.agg_pGMTD~/@Data.agg_pMTD~)"
+															ID="calc_pGMTDpct"
+														/>
+														<CalculatedColumn
+															ErrorResult="0"
+															Formula="IIF(@Data.agg_pYTD~==0,0,@Data.agg_pGYTD~/@Data.agg_pYTD~)"
+															ID="calc_pGYTDpct"
+														/>
+														<AggregateColumn
+															AggregateColumn="calc_cGMTDpct"
+															AggregateFunction="Average"
+															DataType="Number"
+															ID="tot_cGMTDpct"
+														/>
+														<AggregateColumn
+															AggregateColumn="calc_cGYTDpct"
+															AggregateFunction="Average"
+															DataType="Number"
+															ID="tot_cGYTDpct"
+														/>
+														<AggregateColumn
+															AggregateColumn="calc_pGMTDpct"
+															AggregateFunction="Average"
+															DataType="Number"
+															ID="tot_pGMTDpct"
+														/>
+														<AggregateColumn
+															AggregateColumn="calc_pGYTDpct"
+															AggregateFunction="Average"
+															DataType="Number"
+															ID="tot_pGYTDpct"
+														/>
+													</DataLayer>
+													<DataTableColumn
+														Class="ThemeMargin"
+														ColumnHeaderClass="ThemeAlignCenter"
+														Header="Description"
+														HeaderType="Text"
+														ID="colACTDESCR"
+														>
+														<Label
+															Caption="@Data.ACTDESCR~"
+															ID="ACTDESCR"
+														/>
+														<DataColumnSort
+															DataColumn="ACTDESCR"
+															DataType="Text"
+														/>
+													</DataTableColumn>
+													<DataTableColumn
+														Class="ThemeMargin, ThemeAlignRight"
+														ColumnHeaderClass="ThemeAlignCenter"
+														Header="Current Period"
+														HeaderType="Text"
+														ID="colCMTD"
+														>
+														<Label
+															Caption="@Data.cMTD~"
+															Format="###,###,##0;(###,###,##0)"
+															ID="cMTD"
+														/>
+														<DataColumnSort
+															DataColumn="cMTD"
+															DataType="Number"
+														/>
+													</DataTableColumn>
+													<DataTableColumn
+														Class="ThemeMargin, ThemeAlignRight"
+														ColumnHeaderClass="ThemeAlignCenter"
+														Header="Current Period Gross Margin"
+														HeaderType="Text"
+														ID="colcGMTD"
+														>
+														<Label
+															Caption="@Data.cGMTD~"
+															Format="###,###,##0;(###,###,##0)"
+															ID="cGMTD"
+														/>
+														<DataColumnSort
+															DataColumn="cGMTD"
+															DataType="Number"
+														/>
+													</DataTableColumn>
+													<DataTableColumn
+														Class="ThemeMargin, ThemeAlignRight"
+														ColumnHeaderClass="ThemeAlignCenter"
+														Header="Current Period Gross Margin %"
+														HeaderType="Text"
+														ID="colcGMTDpct"
+														>
+														<Label
+															Caption="@Data.cGMTDpct~"
+															Format="###,###,##0.0%;(###,###,##0.0%)"
+															ID="cGMTDpct"
+														/>
+														<DataColumnSort
+															DataColumn="cGMTDpct"
+															DataType="Number"
+														/>
+													</DataTableColumn>
+													<DataTableColumn
+														Class="ThemeMargin, ThemeAlignRight"
+														ColumnHeaderClass="ThemeAlignCenter"
+														Header="Year-To-Date"
+														HeaderType="Text"
+														ID="colCYTD"
+														>
+														<Label
+															Caption="@Data.cYTD~"
+															Format="###,###,##0;(###,###,##0)"
+															ID="cYTD"
+														/>
+														<DataColumnSort
+															DataColumn="cYTD"
+															DataType="Number"
+														/>
+													</DataTableColumn>
+													<DataTableColumn
+														Class="ThemeMargin, ThemeAlignRight"
+														ColumnHeaderClass="ThemeAlignCenter"
+														Header="Year-To-Date Gross Margin"
+														HeaderType="Text"
+														ID="colcGYTD"
+														>
+														<Label
+															Caption="@Data.cGYTD~"
+															Format="###,###,##0;(###,###,##0)"
+															ID="cGYTD"
+														/>
+														<DataColumnSort
+															DataColumn="cGYTD"
+															DataType="Number"
+														/>
+													</DataTableColumn>
+													<DataTableColumn
+														Class="ThemeMargin, ThemeAlignRight"
+														ColumnHeaderClass="ThemeAlignCenter"
+														Header="Year-To-Date Gross Margin %"
+														HeaderType="Text"
+														ID="colcGYTDpct"
+														>
+														<Label
+															Caption="@Data.cGYTDpct~"
+															Format="###,###,##0.0%;(###,###,##0.0%)"
+															ID="cGYTDpct"
+														/>
+														<DataColumnSort
+															DataColumn="cGYTDpct"
+															DataType="Number"
+														/>
+													</DataTableColumn>
+													<DataTableColumn
+														Class="ThemeMargin, ThemeAlignRight"
+														ColumnHeaderClass="ThemeAlignCenter"
+														Header="Prior Year Period"
+														HeaderType="Text"
+														ID="colPMTD"
+														>
+														<Label
+															Caption="@Data.pMTD~"
+															Format="###,###,##0;(###,###,##0)"
+															ID="pMTD"
+														/>
+														<DataColumnSort
+															DataColumn="pMTD"
+															DataType="Number"
+														/>
+													</DataTableColumn>
+													<DataTableColumn
+														Class="ThemeMargin, ThemeAlignRight"
+														ColumnHeaderClass="ThemeAlignCenter"
+														Header="Prior Year Period Gross Margin"
+														HeaderType="Text"
+														ID="colpGMTD"
+														>
+														<Label
+															Caption="@Data.pGMTD~"
+															Format="###,###,##0;(###,###,##0)"
+															ID="pGMTD"
+														/>
+														<DataColumnSort
+															DataColumn="pGMTD"
+															DataType="Number"
+														/>
+													</DataTableColumn>
+													<DataTableColumn
+														Class="ThemeMargin, ThemeAlignRight"
+														ColumnHeaderClass="ThemeAlignCenter"
+														Header="Prior Year Period Gross Margin %"
+														HeaderType="Text"
+														ID="colpGMTDpct"
+														>
+														<Label
+															Caption="@Data.pGMTDpct~"
+															Format="###,###,##0.0%;(###,###,##0.0%)"
+															ID="pGMTDpct"
+														/>
+														<DataColumnSort
+															DataColumn="pGMTDpct"
+															DataType="Number"
+														/>
+													</DataTableColumn>
+													<DataTableColumn
+														Class="ThemeMargin, ThemeAlignRight"
+														ColumnHeaderClass="ThemeAlignCenter"
+														Header="Prior Year-To-Date"
+														HeaderType="Text"
+														ID="colPYTD"
+														>
+														<Label
+															Caption="@Data.pYTD~"
+															Format="###,###,##0;(###,###,##0)"
+															ID="pYTD"
+														/>
+														<DataColumnSort
+															DataColumn="pYTD"
+															DataType="Number"
+														/>
+													</DataTableColumn>
+													<DataTableColumn
+														Class="ThemeMargin, ThemeAlignRight"
+														ColumnHeaderClass="ThemeAlignCenter"
+														Header="Prior Year-To-Date Gross Margin"
+														HeaderType="Text"
+														ID="colpGYTD"
+														>
+														<Label
+															Caption="@Data.pGYTD~"
+															Format="###,###,##0;(###,###,##0)"
+															ID="pGYTD"
+														/>
+														<DataColumnSort
+															DataColumn="pGYTD"
+															DataType="Number"
+														/>
+													</DataTableColumn>
+													<DataTableColumn
+														Class="ThemeMargin, ThemeAlignRight"
+														ColumnHeaderClass="ThemeAlignCenter"
+														Header="Prior Year Period Gross Margin %"
+														HeaderType="Text"
+														ID="colpGYTDpct"
+														>
+														<Label
+															Caption="@Data.pGYTDpct~"
+															Format="###,###,##0.0%;(###,###,##0.0%)"
+															ID="pGYTDpct"
+														/>
+														<DataColumnSort
+															DataColumn="pGYTDpct"
+															DataType="Number"
+														/>
+													</DataTableColumn>
+													<SummaryRow
+														Caption="Totals: "
+														ID="rowSalesTotals"
+														LastPageOnly="False"
+														>
+														<Column
+															Class="ThemeMargin"
+															ID="cell_Description"
+															>
+															<Label
+																Caption="Totals: "
+															/>
+														</Column>
+														<Column
+															Class="ThemeMargin, ThemeAlignRight"
+															ID="cell_cMTD"
+															>
+															<Label
+																Caption="@Data.agg_cMTD~"
+																Format="###,###,##0;(###,###,##0)"
+															/>
+														</Column>
+														<Column
+															Class="ThemeMargin, ThemeAlignRight"
+															ID="cell_cGMTD"
+															>
+															<Label
+																Caption="@Data.agg_cGMTD~"
+																Format="###,###,##0;(###,###,##0)"
+															/>
+														</Column>
+														<Column
+															Class="ThemeMargin, ThemeAlignRight"
+															ID="cell_cGMTDpct"
+															>
+															<Label
+																Caption="@Data.tot_cGMTDpct~"
+																Format="###,###,##0.0%;(###,###,##0.0%)"
+															/>
+														</Column>
+														<Column
+															Class="ThemeMargin, ThemeAlignRight"
+															ID="cell_cYTD"
+															>
+															<Label
+																Caption="@Data.agg_cYTD~"
+																Format="###,###,##0;(###,###,##0)"
+															/>
+														</Column>
+														<Column
+															Class="ThemeMargin, ThemeAlignRight"
+															ID="cell_cGYTD"
+															>
+															<Label
+																Caption="@Data.agg_cGMTD~"
+																Format="###,###,##0;(###,###,##0)"
+															/>
+														</Column>
+														<Column
+															Class="ThemeMargin, ThemeAlignRight"
+															ID="cell_cGYTDpct"
+															>
+															<Label
+																Caption="@Data.tot_cGYTDpct~"
+																Format="###,###,##0.0%;(###,###,##0.0%)"
+															/>
+														</Column>
+														<Column
+															Class="ThemeMargin, ThemeAlignRight"
+															ID="cell_pMTD"
+															>
+															<Label
+																Caption="@Data.agg_pMTD~"
+																Format="###,###,##0;(###,###,##0)"
+															/>
+														</Column>
+														<Column
+															Class="ThemeMargin, ThemeAlignRight"
+															ID="cell_pGMTD"
+															>
+															<Label
+																Caption="@Data.agg_pGMTD~"
+																Format="###,###,##0;(###,###,##0)"
+															/>
+														</Column>
+														<Column
+															Class="ThemeMargin, ThemeAlignRight"
+															ID="cell_pGMTDpct"
+															>
+															<Label
+																Caption="@Data.tot_pGMTDpct~"
+																Format="###,###,##0.0%;(###,###,##0.0%)"
+															/>
+														</Column>
+														<Column
+															Class="ThemeMargin, ThemeAlignRight"
+															ID="cell_pYTD"
+															>
+															<Label
+																Caption="@Data.agg_pYTD~"
+																Format="###,###,##0;(###,###,##0)"
+															/>
+														</Column>
+														<Column
+															Class="ThemeMargin, ThemeAlignRight"
+															ID="cell_pGYTD"
+															>
+															<Label
+																Caption="@Data.agg_pGYTD~"
+																Format="###,###,##0;(###,###,##0)"
+															/>
+														</Column>
+														<Column
+															Class="ThemeMargin, ThemeAlignRight"
+															ID="cell_pGYTDpct"
+															>
+															<Label
+																Caption="@Data.tot_pGYTDpct~"
+																Format="###,###,##0.0%;(###,###,##0.0%)"
+															/>
+														</Column>
+													</SummaryRow>
+												</DataTable>
+											</Column>
+											<Remark>
+												<Column>
+													<Spaces
+														Size="40"
+													/>
+												</Column>
+											</Remark>
+											<Remark>
+												<Column>
+													<Spaces
+														Size="40"
+													/>
+												</Column>
+											</Remark>
+											<Remark>
+												<Column>
+													<Spaces
+														Size="40"
+													/>
+												</Column>
+											</Remark>
+											<Remark>
+												<Column>
+													<Spaces
+														Size="40"
+													/>
+												</Column>
+											</Remark>
+										</Row>
+									</Rows>
+									<LineBreak/>
+									<LineBreak/>
+								</Division>
+							</Division>
+						</Division>
+					</TabPanel>
+					<TabPanel
+						Caption="Other Operating Income"
+						Class="ThemeTextPositive ThemeHeaderSmall"
+						ID="tabOpIncome"
+						>
+						<Division
+							Class="panel panel-default"
+							HtmlDiv="True"
+							ID="panel-OpIncome"
+							>
+							<Division
+								Class="panel-heading"
+								HtmlDiv="True"
+								ID="divOpIncomeHeading"
+							/>
+							<Division
+								Class="panel-body ThemeAlignRight"
+								HtmlDiv="True"
+								ID="divOpIncome"
+								>
+								<Label
+									Class="fa fa-file-pdf-o fa-2x"
+									HtmlTag="Div"
+									ID="exportOpIncome"
+									Tooltip="Export to PDF"
+									>
+									<Action
+										ID="exportPDFOpIncome"
+										Type="PDF"
+										>
+										<Target
+											FrameID="NewWindow"
+											Type="PDF"
+										/>
+									</Action>
+								</Label>
+								<Spaces
+									Size="15"
+								/>
+							</Division>
+							<Division
+								Class="panel-body"
+								HtmlDiv="True"
+								ID="divOpIncomeData"
+								>
+								<Note
+									Note="**Add data here**"
+								/>
+								<Division
+									Class="panel-heading"
+									HtmlDiv="True"
+									ID="panel-headingOtherIncome"
+									>
+									<Label
+										Caption="Other Operating Income"
+									/>
+								</Division>
+								<Division
+									Class="panel-body"
+									HtmlDiv="True"
+									ID="panel-bodyOtherIncome"
+									>
+									<Rows
+										Width="100"
+										WidthScale="%"
+										>
+										<Row>
+											<Column>
+												<Spaces
+													Size="30"
+												/>
+											</Column>
+											<Column>
+												<DataTable
+													ID="dtOtherIncome"
+													SortArrows="True"
+													>
+													<DataLayer
+														ConnectionID="connProdGP"
+														ID="sqlOtherIncome"
+														Source="SELECT COALESCE(cm.MNACSGMT,cy.MNACSGMT,pm.MNACSGMT,py.MNACSGMT) MNACSGMT, COALESCE(cm.ACTDESCR,cy.ACTDESCR,pm.ACTDESCR,py.ACTDESCR) ACTDESCR, SUM(ISNULL(cm.AMT,0))*-1 cMTD, SUM(ISNULL(cy.AMT,0))*-1 cYTD, SUM(ISNULL(pm.AMT,0))*-1 pMTD, SUM(ISNULL(py.AMT,0))*-1 pYTD
+FROM 
+      ( SELECT MNACSGMT, SUBSTRING(ACTNUMBR_4,2,3)+SUBSTRING(ACTNUMBR_5,1,2) AS JSTR, LTRIM(RTRIM(ACTDESCR)) ACTDESCR, SUM(PERDBLNC) AMT FROM MKCGP..slbAccountSummary WHERE YEAR1=(@Request.paramFiscYear~  ) AND PERIODID =@Request.paramFiscPeriod~ AND ACTNUMBR_2 IN(&apos;@Request.paramLocGLStr~&apos;) AND MNACSGMT BETWEEN &apos;@Request.AcctCatOtherIncomeB~&apos; AND &apos;@Request.AcctCatOtherIncomeE~&apos; GROUP BY MNACSGMT, SUBSTRING(ACTNUMBR_4,2,3)+SUBSTRING(ACTNUMBR_5,1,2), LTRIM(RTRIM(ACTDESCR))) cm FULL OUTER JOIN 
+      ( SELECT MNACSGMT, SUBSTRING(ACTNUMBR_4,2,3)+SUBSTRING(ACTNUMBR_5,1,2) AS JSTR, LTRIM(RTRIM(ACTDESCR)) ACTDESCR, SUM(PERDBLNC) AMT FROM MKCGP..slbAccountSummary WHERE YEAR1=(@Request.paramFiscYear~  ) AND PERIODID&lt;=@Request.paramFiscPeriod~ AND ACTNUMBR_2 IN(&apos;@Request.paramLocGLStr~&apos;) AND MNACSGMT BETWEEN &apos;@Request.AcctCatOtherIncomeB~&apos; AND &apos;@Request.AcctCatOtherIncomeE~&apos; GROUP BY MNACSGMT, SUBSTRING(ACTNUMBR_4,2,3)+SUBSTRING(ACTNUMBR_5,1,2), LTRIM(RTRIM(ACTDESCR))) cy ON cm.JSTR=cy.JSTR FULL OUTER JOIN 
+      ( SELECT MNACSGMT, SUBSTRING(ACTNUMBR_4,2,3)+SUBSTRING(ACTNUMBR_5,1,2) AS JSTR, LTRIM(RTRIM(ACTDESCR)) ACTDESCR, SUM(PERDBLNC) AMT FROM MKCGP..slbAccountSummary WHERE YEAR1=(@Request.paramFiscYear~-1) AND PERIODID =@Request.paramFiscPeriod~ AND ACTNUMBR_2 IN(&apos;@Request.paramLocGLStr~&apos;) AND MNACSGMT BETWEEN &apos;@Request.AcctCatOtherIncomeB~&apos; AND &apos;@Request.AcctCatOtherIncomeE~&apos; GROUP BY MNACSGMT, SUBSTRING(ACTNUMBR_4,2,3)+SUBSTRING(ACTNUMBR_5,1,2), LTRIM(RTRIM(ACTDESCR))) pm ON cm.JSTR=pm.JSTR FULL OUTER JOIN
+      ( SELECT MNACSGMT, SUBSTRING(ACTNUMBR_4,2,3)+SUBSTRING(ACTNUMBR_5,1,2) AS JSTR, LTRIM(RTRIM(ACTDESCR)) ACTDESCR, SUM(PERDBLNC) AMT FROM MKCGP..slbAccountSummary WHERE YEAR1=(@Request.paramFiscYear~-1) AND PERIODID&lt;=@Request.paramFiscPeriod~ AND ACTNUMBR_2 IN(&apos;@Request.paramLocGLStr~&apos;) AND MNACSGMT BETWEEN &apos;@Request.AcctCatOtherIncomeB~&apos; AND &apos;@Request.AcctCatOtherIncomeE~&apos; GROUP BY MNACSGMT, SUBSTRING(ACTNUMBR_4,2,3)+SUBSTRING(ACTNUMBR_5,1,2), LTRIM(RTRIM(ACTDESCR))) py ON cm.JSTR=py.JSTR 
+GROUP BY COALESCE(cm.MNACSGMT,cy.MNACSGMT,pm.MNACSGMT,py.MNACSGMT), COALESCE(cm.ACTDESCR, cy.ACTDESCR, pm.ACTDESCR, py.ACTDESCR) 
+ORDER BY MNACSGMT
+"
+														Type="SQL"
+													/>
+													<DataTableColumn
+														Class="ThemeMargin"
+														ColumnHeaderClass="ThemeAlignCenter"
+														Header="Description"
+														HeaderType="Text"
+														ID="colACTDESCR"
+														>
+														<Label
+															Caption="@Data.ACTDESCR~"
+															ID="ACTDESCR"
+														/>
+														<DataColumnSort
+															DataColumn="ACTDESCR"
+															DataType="Text"
+														/>
+													</DataTableColumn>
+													<DataTableColumn
+														Class="ThemeMargin, ThemeAlignRight"
+														ColumnHeaderClass="ThemeAlignCenter"
+														Header="Current Period"
+														HeaderType="Text"
+														ID="colCMTD"
+														>
+														<Label
+															Caption="@Data.cMTD~"
+															Format="###,###,##0;(###,###,##0)"
+															ID="cMTD"
+														/>
+														<DataColumnSort
+															DataColumn="cMTD"
+															DataType="Number"
+														/>
+														<DataColumnSummary
+															DataColumn="cMTD"
+															DataType="Number"
+															Function="Sum"
+															ID="dcs_cMTD"
+														/>
+													</DataTableColumn>
+													<DataTableColumn
+														Class="ThemeMargin, ThemeAlignRight"
+														ColumnHeaderClass="ThemeAlignCenter"
+														Header="Year-To-Date"
+														HeaderType="Text"
+														ID="colCYTD"
+														>
+														<Label
+															Caption="@Data.cYTD~"
+															Format="###,###,##0;(###,###,##0)"
+															ID="cYTD"
+														/>
+														<DataColumnSort
+															DataColumn="cYTD"
+															DataType="Number"
+														/>
+														<DataColumnSummary
+															DataColumn="cYTD"
+															DataType="Number"
+															Function="Sum"
+															ID="dcs_cYTD"
+														/>
+													</DataTableColumn>
+													<DataTableColumn
+														Class="ThemeMargin, ThemeAlignRight"
+														ColumnHeaderClass="ThemeAlignCenter"
+														Header="Prior Year Period"
+														HeaderType="Text"
+														ID="colPMTD"
+														>
+														<Label
+															Caption="@Data.pMTD~"
+															Format="###,###,##0;(###,###,##0)"
+															ID="pMTD"
+														/>
+														<DataColumnSort
+															DataColumn="pMTD"
+															DataType="Number"
+														/>
+														<DataColumnSummary
+															DataColumn="pMTD"
+															DataType="Number"
+															Function="Sum"
+															ID="dcs_pMTD"
+														/>
+													</DataTableColumn>
+													<DataTableColumn
+														Class="ThemeMargin, ThemeAlignRight"
+														ColumnHeaderClass="ThemeAlignCenter"
+														Header="Prior Year-To-Date"
+														HeaderType="Text"
+														ID="colPYTD"
+														>
+														<Label
+															Caption="@Data.pYTD~"
+															Format="###,###,##0;(###,###,##0)"
+															ID="pYTD"
+														/>
+														<DataColumnSort
+															DataColumn="pYTD"
+															DataType="Number"
+														/>
+														<DataColumnSummary
+															DataColumn="pYTD"
+															DataType="Number"
+															Function="Sum"
+															ID="dcs_pYTD"
+														/>
+													</DataTableColumn>
+													<SummaryRow
+														Caption="Total Other Income"
+														ID="rowOtherIncomeTotals"
+														LastPageOnly="False"
+													/>
+												</DataTable>
+											</Column>
+											<Remark>
+												<Column>
+													<Spaces
+														Size="40"
+													/>
+												</Column>
+											</Remark>
+											<Column>
+												<Spaces
+													Size="40"
+												/>
+											</Column>
+											<Column>
+												<Spaces
+													Size="40"
+												/>
+											</Column>
+											<Column>
+												<Spaces
+													Size="40"
+												/>
+											</Column>
+										</Row>
+									</Rows>
+									<LineBreak/>
+									<LineBreak/>
+								</Division>
+							</Division>
+						</Division>
+					</TabPanel>
+					<TabPanel
+						Caption="Personnel Expense"
+						Class="ThemeTextPositive ThemeHeaderSmall"
+						ID="tabPersonnel"
+						>
+						<Division
+							Class="panel panel-default"
+							HtmlDiv="True"
+							ID="panel-Personnel"
+							>
+							<Division
+								Class="panel-heading"
+								HtmlDiv="True"
+								ID="divPersonnelHeading"
+							/>
+							<Division
+								Class="panel-body ThemeAlignRight"
+								HtmlDiv="True"
+								ID="divPersonnel"
+								>
+								<Label
+									Class="fa fa-file-pdf-o fa-2x"
+									HtmlTag="Div"
+									ID="exportPersonnel"
+									Tooltip="Export to PDF"
+									>
+									<Action
+										ID="exportPDFPersonnel"
+										Type="PDF"
+										>
+										<Target
+											FrameID="NewWindow"
+											Type="PDF"
+										/>
+									</Action>
+								</Label>
+								<Spaces
+									Size="15"
+								/>
+							</Division>
+							<Division
+								Class="panel-body"
+								HtmlDiv="True"
+								ID="divPersonnelData"
+								>
+								<Note
+									Note="**Add data here**"
+								/>
+								<Division
+									Class="panel-heading"
+									HtmlDiv="True"
+									ID="panel-headingPersonnel"
+									>
+									<Label
+										Caption="Personnel Expense"
+									/>
+								</Division>
+								<Division
+									Class="panel-body"
+									HtmlDiv="True"
+									ID="panel-bodyPersonnel"
+									>
+									<Rows
+										Width="100"
+										WidthScale="%"
+										>
+										<Row>
+											<Column>
+												<Spaces
+													Size="30"
+												/>
+											</Column>
+											<Column>
+												<DataTable
+													ID="dtPersonnel"
+													SortArrows="True"
+													>
+													<DataLayer
+														ConnectionID="connProdGP"
+														ID="sqlPersonnel"
+														Source="SELECT COALESCE(cm.MNACSGMT,cy.MNACSGMT,pm.MNACSGMT,py.MNACSGMT) MNACSGMT, COALESCE(cm.ACTDESCR,cy.ACTDESCR,pm.ACTDESCR,py.ACTDESCR) ACTDESCR, SUM(ISNULL(cm.AMT,0)) cMTD, SUM(ISNULL(cy.AMT,0)) cYTD, SUM(ISNULL(pm.AMT,0)) pMTD, SUM(ISNULL(py.AMT,0)) pYTD
+FROM 
+      ( SELECT MNACSGMT, SUBSTRING(ACTNUMBR_4,2,3)+SUBSTRING(ACTNUMBR_5,1,2) AS JSTR, LTRIM(RTRIM(ACTDESCR)) ACTDESCR, SUM(PERDBLNC) AMT FROM MKCGP..slbAccountSummary WHERE YEAR1=(@Request.paramFiscYear~  ) AND PERIODID =@Request.paramFiscPeriod~ AND ACTNUMBR_2 IN(&apos;@Request.paramLocGLStr~&apos;) AND MNACSGMT BETWEEN &apos;@Request.AcctCatPersonnelB~&apos; AND &apos;@Request.AcctCatPersonnelE~&apos; GROUP BY MNACSGMT, SUBSTRING(ACTNUMBR_4,2,3)+SUBSTRING(ACTNUMBR_5,1,2), LTRIM(RTRIM(ACTDESCR))) cm FULL OUTER JOIN 
+      ( SELECT MNACSGMT, SUBSTRING(ACTNUMBR_4,2,3)+SUBSTRING(ACTNUMBR_5,1,2) AS JSTR, LTRIM(RTRIM(ACTDESCR)) ACTDESCR, SUM(PERDBLNC) AMT FROM MKCGP..slbAccountSummary WHERE YEAR1=(@Request.paramFiscYear~  ) AND PERIODID&lt;=@Request.paramFiscPeriod~ AND ACTNUMBR_2 IN(&apos;@Request.paramLocGLStr~&apos;) AND MNACSGMT BETWEEN &apos;@Request.AcctCatPersonnelB~&apos; AND &apos;@Request.AcctCatPersonnelE~&apos; GROUP BY MNACSGMT, SUBSTRING(ACTNUMBR_4,2,3)+SUBSTRING(ACTNUMBR_5,1,2), LTRIM(RTRIM(ACTDESCR))) cy ON cm.JSTR=cy.JSTR FULL OUTER JOIN 
+      ( SELECT MNACSGMT, SUBSTRING(ACTNUMBR_4,2,3)+SUBSTRING(ACTNUMBR_5,1,2) AS JSTR, LTRIM(RTRIM(ACTDESCR)) ACTDESCR, SUM(PERDBLNC) AMT FROM MKCGP..slbAccountSummary WHERE YEAR1=(@Request.paramFiscYear~-1) AND PERIODID =@Request.paramFiscPeriod~ AND ACTNUMBR_2 IN(&apos;@Request.paramLocGLStr~&apos;) AND MNACSGMT BETWEEN &apos;@Request.AcctCatPersonnelB~&apos; AND &apos;@Request.AcctCatPersonnelE~&apos; GROUP BY MNACSGMT, SUBSTRING(ACTNUMBR_4,2,3)+SUBSTRING(ACTNUMBR_5,1,2), LTRIM(RTRIM(ACTDESCR))) pm ON cm.JSTR=pm.JSTR FULL OUTER JOIN
+      ( SELECT MNACSGMT, SUBSTRING(ACTNUMBR_4,2,3)+SUBSTRING(ACTNUMBR_5,1,2) AS JSTR, LTRIM(RTRIM(ACTDESCR)) ACTDESCR, SUM(PERDBLNC) AMT FROM MKCGP..slbAccountSummary WHERE YEAR1=(@Request.paramFiscYear~-1) AND PERIODID&lt;=@Request.paramFiscPeriod~ AND ACTNUMBR_2 IN(&apos;@Request.paramLocGLStr~&apos;) AND MNACSGMT BETWEEN &apos;@Request.AcctCatPersonnelB~&apos; AND &apos;@Request.AcctCatPersonnelE~&apos; GROUP BY MNACSGMT, SUBSTRING(ACTNUMBR_4,2,3)+SUBSTRING(ACTNUMBR_5,1,2), LTRIM(RTRIM(ACTDESCR))) py ON cm.JSTR=py.JSTR 
+GROUP BY COALESCE(cm.MNACSGMT,cy.MNACSGMT,pm.MNACSGMT,py.MNACSGMT), COALESCE(cm.ACTDESCR, cy.ACTDESCR, pm.ACTDESCR, py.ACTDESCR) 
+ORDER BY MNACSGMT
+"
+														Type="SQL"
+													/>
+													<DataTableColumn
+														Class="ThemeMargin"
+														ColumnHeaderClass="ThemeAlignCenter"
+														Header="Description"
+														HeaderType="Text"
+														ID="colACTDESCR"
+														>
+														<Label
+															Caption="@Data.ACTDESCR~"
+															ID="ACTDESCR"
+														/>
+														<DataColumnSort
+															DataColumn="ACTDESCR"
+															DataType="Text"
+														/>
+													</DataTableColumn>
+													<DataTableColumn
+														Class="ThemeMargin, ThemeAlignRight"
+														ColumnHeaderClass="ThemeAlignCenter"
+														Header="Current Period"
+														HeaderType="Text"
+														ID="colCMTD"
+														>
+														<Label
+															Caption="@Data.cMTD~"
+															Format="###,###,##0;(###,###,##0)"
+															ID="cMTD"
+														/>
+														<DataColumnSort
+															DataColumn="cMTD"
+															DataType="Number"
+														/>
+														<DataColumnSummary
+															DataColumn="cMTD"
+															DataType="Number"
+															Function="Sum"
+															ID="dcs_cMTD"
+														/>
+													</DataTableColumn>
+													<DataTableColumn
+														Class="ThemeMargin, ThemeAlignRight"
+														ColumnHeaderClass="ThemeAlignCenter"
+														Header="Year-To-Date"
+														HeaderType="Text"
+														ID="colCYTD"
+														>
+														<Label
+															Caption="@Data.cYTD~"
+															Format="###,###,##0;(###,###,##0)"
+															ID="cYTD"
+														/>
+														<DataColumnSort
+															DataColumn="cYTD"
+															DataType="Number"
+														/>
+														<DataColumnSummary
+															DataColumn="cYTD"
+															DataType="Number"
+															Function="Sum"
+															ID="dcs_cYTD"
+														/>
+													</DataTableColumn>
+													<DataTableColumn
+														Class="ThemeMargin, ThemeAlignRight"
+														ColumnHeaderClass="ThemeAlignCenter"
+														Header="Prior Year Period"
+														HeaderType="Text"
+														ID="colPMTD"
+														>
+														<Label
+															Caption="@Data.pMTD~"
+															Format="###,###,##0;(###,###,##0)"
+															ID="pMTD"
+														/>
+														<DataColumnSort
+															DataColumn="pMTD"
+															DataType="Number"
+														/>
+														<DataColumnSummary
+															DataColumn="pMTD"
+															DataType="Number"
+															Function="Sum"
+															ID="dcs_pMTD"
+														/>
+													</DataTableColumn>
+													<DataTableColumn
+														Class="ThemeMargin, ThemeAlignRight"
+														ColumnHeaderClass="ThemeAlignCenter"
+														Header="Prior Year-To-Date"
+														HeaderType="Text"
+														ID="colPYTD"
+														>
+														<Label
+															Caption="@Data.pYTD~"
+															Format="###,###,##0;(###,###,##0)"
+															ID="pYTD"
+														/>
+														<DataColumnSort
+															DataColumn="pYTD"
+															DataType="Number"
+														/>
+														<DataColumnSummary
+															DataColumn="pYTD"
+															DataType="Number"
+															Function="Sum"
+															ID="dcs_pYTD"
+														/>
+													</DataTableColumn>
+													<SummaryRow
+														Caption="Total Personnel Expense"
+														ID="rowPersonnelTotals"
+														LastPageOnly="False"
+													/>
+												</DataTable>
+											</Column>
+											<Remark>
+												<Column>
+													<Spaces
+														Size="40"
+													/>
+												</Column>
+											</Remark>
+											<Column>
+												<Spaces
+													Size="40"
+												/>
+											</Column>
+											<Column>
+												<Spaces
+													Size="40"
+												/>
+											</Column>
+											<Column>
+												<Spaces
+													Size="40"
+												/>
+											</Column>
+										</Row>
+									</Rows>
+									<LineBreak/>
+									<LineBreak/>
+								</Division>
+							</Division>
+						</Division>
+					</TabPanel>
+					<TabPanel
+						Caption="Fixed Expense"
+						Class="ThemeTextPositive ThemeHeaderSmall"
+						ID="tabFixed"
+						>
+						<Division
+							Class="panel panel-default"
+							HtmlDiv="True"
+							ID="panel-Fixed"
+							>
+							<Division
+								Class="panel-heading"
+								HtmlDiv="True"
+								ID="divFixedHeading"
+							/>
+							<Division
+								Class="panel-body ThemeAlignRight"
+								HtmlDiv="True"
+								ID="divFixed"
+								>
+								<Label
+									Class="fa fa-file-pdf-o fa-2x"
+									HtmlTag="Div"
+									ID="exportFixed"
+									Tooltip="Export to PDF"
+									>
+									<Action
+										ID="exportPDFFixed"
+										Type="PDF"
+										>
+										<Target
+											FrameID="NewWindow"
+											Type="PDF"
+										/>
+									</Action>
+								</Label>
+								<Spaces
+									Size="15"
+								/>
+							</Division>
+							<Division
+								Class="panel-body"
+								HtmlDiv="True"
+								ID="divFixedData"
+								>
+								<Note
+									Note="**Add data here**"
+								/>
+								<Division
+									Class="panel-heading"
+									HtmlDiv="True"
+									ID="panel-headingFixedExpense"
+									>
+									<Label
+										Caption="Fixed Expense"
+									/>
+								</Division>
+								<Division
+									Class="panel-body"
+									HtmlDiv="True"
+									ID="panel-bodyFixedExpense"
+									>
+									<Rows
+										Width="100"
+										WidthScale="%"
+										>
+										<Row>
+											<Column>
+												<Spaces
+													Size="30"
+												/>
+											</Column>
+											<Column>
+												<DataTable
+													ID="dtFixedExpense"
+													SortArrows="True"
+													>
+													<DataLayer
+														ConnectionID="connProdGP"
+														ID="sqlFixedExpense"
+														Source="SELECT COALESCE(cm.MNACSGMT,cy.MNACSGMT,pm.MNACSGMT,py.MNACSGMT) MNACSGMT, COALESCE(cm.ACTDESCR,cy.ACTDESCR,pm.ACTDESCR,py.ACTDESCR) ACTDESCR, SUM(ISNULL(cm.AMT,0)) cMTD, SUM(ISNULL(cy.AMT,0)) cYTD, SUM(ISNULL(pm.AMT,0)) pMTD, SUM(ISNULL(py.AMT,0)) pYTD
+FROM 
+      ( SELECT MNACSGMT, SUBSTRING(ACTNUMBR_4,2,3)+SUBSTRING(ACTNUMBR_5,1,2) AS JSTR, LTRIM(RTRIM(ACTDESCR)) ACTDESCR, SUM(PERDBLNC) AMT FROM MKCGP..slbAccountSummary WHERE YEAR1=(@Request.paramFiscYear~  ) AND PERIODID =@Request.paramFiscPeriod~ AND ACTNUMBR_2 IN(&apos;@Request.paramLocGLStr~&apos;) AND MNACSGMT BETWEEN &apos;@Request.AcctCatFixedExpB~&apos; AND &apos;@Request.AcctCatFixedExpE~&apos; GROUP BY MNACSGMT, SUBSTRING(ACTNUMBR_4,2,3)+SUBSTRING(ACTNUMBR_5,1,2), LTRIM(RTRIM(ACTDESCR))) cm FULL OUTER JOIN 
+      ( SELECT MNACSGMT, SUBSTRING(ACTNUMBR_4,2,3)+SUBSTRING(ACTNUMBR_5,1,2) AS JSTR, LTRIM(RTRIM(ACTDESCR)) ACTDESCR, SUM(PERDBLNC) AMT FROM MKCGP..slbAccountSummary WHERE YEAR1=(@Request.paramFiscYear~  ) AND PERIODID&lt;=@Request.paramFiscPeriod~ AND ACTNUMBR_2 IN(&apos;@Request.paramLocGLStr~&apos;) AND MNACSGMT BETWEEN &apos;@Request.AcctCatFixedExpB~&apos; AND &apos;@Request.AcctCatFixedExpE~&apos; GROUP BY MNACSGMT, SUBSTRING(ACTNUMBR_4,2,3)+SUBSTRING(ACTNUMBR_5,1,2), LTRIM(RTRIM(ACTDESCR))) cy ON cm.JSTR=cy.JSTR FULL OUTER JOIN 
+      ( SELECT MNACSGMT, SUBSTRING(ACTNUMBR_4,2,3)+SUBSTRING(ACTNUMBR_5,1,2) AS JSTR, LTRIM(RTRIM(ACTDESCR)) ACTDESCR, SUM(PERDBLNC) AMT FROM MKCGP..slbAccountSummary WHERE YEAR1=(@Request.paramFiscYear~-1) AND PERIODID =@Request.paramFiscPeriod~ AND ACTNUMBR_2 IN(&apos;@Request.paramLocGLStr~&apos;) AND MNACSGMT BETWEEN &apos;@Request.AcctCatFixedExpB~&apos; AND &apos;@Request.AcctCatFixedExpE~&apos; GROUP BY MNACSGMT, SUBSTRING(ACTNUMBR_4,2,3)+SUBSTRING(ACTNUMBR_5,1,2), LTRIM(RTRIM(ACTDESCR))) pm ON cm.JSTR=pm.JSTR FULL OUTER JOIN
+      ( SELECT MNACSGMT, SUBSTRING(ACTNUMBR_4,2,3)+SUBSTRING(ACTNUMBR_5,1,2) AS JSTR, LTRIM(RTRIM(ACTDESCR)) ACTDESCR, SUM(PERDBLNC) AMT FROM MKCGP..slbAccountSummary WHERE YEAR1=(@Request.paramFiscYear~-1) AND PERIODID&lt;=@Request.paramFiscPeriod~ AND ACTNUMBR_2 IN(&apos;@Request.paramLocGLStr~&apos;) AND MNACSGMT BETWEEN &apos;@Request.AcctCatFixedExpB~&apos; AND &apos;@Request.AcctCatFixedExpE~&apos; GROUP BY MNACSGMT, SUBSTRING(ACTNUMBR_4,2,3)+SUBSTRING(ACTNUMBR_5,1,2), LTRIM(RTRIM(ACTDESCR))) py ON cm.JSTR=py.JSTR 
+GROUP BY COALESCE(cm.MNACSGMT,cy.MNACSGMT,pm.MNACSGMT,py.MNACSGMT), COALESCE(cm.ACTDESCR, cy.ACTDESCR, pm.ACTDESCR, py.ACTDESCR) 
+ORDER BY MNACSGMT
+"
+														Type="SQL"
+													/>
+													<DataTableColumn
+														Class="ThemeMargin"
+														ColumnHeaderClass="ThemeAlignCenter"
+														Header="Description"
+														HeaderType="Text"
+														ID="colACTDESCR"
+														>
+														<Label
+															Caption="@Data.ACTDESCR~"
+															ID="ACTDESCR"
+														/>
+														<DataColumnSort
+															DataColumn="ACTDESCR"
+															DataType="Text"
+														/>
+													</DataTableColumn>
+													<DataTableColumn
+														Class="ThemeMargin, ThemeAlignRight"
+														ColumnHeaderClass="ThemeAlignCenter"
+														Header="Current Period"
+														HeaderType="Text"
+														ID="colCMTD"
+														>
+														<Label
+															Caption="@Data.cMTD~"
+															Format="###,###,##0;(###,###,##0)"
+															ID="cMTD"
+														/>
+														<DataColumnSort
+															DataColumn="cMTD"
+															DataType="Number"
+														/>
+														<DataColumnSummary
+															DataColumn="cMTD"
+															DataType="Number"
+															Function="Sum"
+															ID="dcs_cMTD"
+														/>
+													</DataTableColumn>
+													<DataTableColumn
+														Class="ThemeMargin, ThemeAlignRight"
+														ColumnHeaderClass="ThemeAlignCenter"
+														Header="Year-To-Date"
+														HeaderType="Text"
+														ID="colCYTD"
+														>
+														<Label
+															Caption="@Data.cYTD~"
+															Format="###,###,##0;(###,###,##0)"
+															ID="cYTD"
+														/>
+														<DataColumnSort
+															DataColumn="cYTD"
+															DataType="Number"
+														/>
+														<DataColumnSummary
+															DataColumn="cYTD"
+															DataType="Number"
+															Function="Sum"
+															ID="dcs_cYTD"
+														/>
+													</DataTableColumn>
+													<DataTableColumn
+														Class="ThemeMargin, ThemeAlignRight"
+														ColumnHeaderClass="ThemeAlignCenter"
+														Header="Prior Year Period"
+														HeaderType="Text"
+														ID="colPMTD"
+														>
+														<Label
+															Caption="@Data.pMTD~"
+															Format="###,###,##0;(###,###,##0)"
+															ID="pMTD"
+														/>
+														<DataColumnSort
+															DataColumn="pMTD"
+															DataType="Number"
+														/>
+														<DataColumnSummary
+															DataColumn="pMTD"
+															DataType="Number"
+															Function="Sum"
+															ID="dcs_pMTD"
+														/>
+													</DataTableColumn>
+													<DataTableColumn
+														Class="ThemeMargin, ThemeAlignRight"
+														ColumnHeaderClass="ThemeAlignCenter"
+														Header="Prior Year-To-Date"
+														HeaderType="Text"
+														ID="colPYTD"
+														>
+														<Label
+															Caption="@Data.pYTD~"
+															Format="###,###,##0;(###,###,##0)"
+															ID="pYTD"
+														/>
+														<DataColumnSort
+															DataColumn="pYTD"
+															DataType="Number"
+														/>
+														<DataColumnSummary
+															DataColumn="pYTD"
+															DataType="Number"
+															Function="Sum"
+															ID="dcs_pYTD"
+														/>
+													</DataTableColumn>
+													<SummaryRow
+														Caption="Total Fixed Expense"
+														ID="rowFixedExpenseTotals"
+														LastPageOnly="False"
+													/>
+												</DataTable>
+											</Column>
+											<Remark>
+												<Column>
+													<Spaces
+														Size="40"
+													/>
+												</Column>
+											</Remark>
+											<Column>
+												<Spaces
+													Size="40"
+												/>
+											</Column>
+											<Column>
+												<Spaces
+													Size="40"
+												/>
+											</Column>
+											<Column>
+												<Spaces
+													Size="40"
+												/>
+											</Column>
+										</Row>
+									</Rows>
+									<LineBreak/>
+									<LineBreak/>
+								</Division>
+							</Division>
+						</Division>
+					</TabPanel>
+					<TabPanel
+						Caption="Other Operating Expense"
+						Class="ThemeTextPositive ThemeHeaderSmall"
+						ID="tabOtherExpense"
+						>
+						<Division
+							Class="panel panel-default"
+							HtmlDiv="True"
+							ID="panel-OtherExpense"
+							>
+							<Division
+								Class="panel-heading"
+								HtmlDiv="True"
+								ID="divOtherExpenseHeading"
+							/>
+							<Division
+								Class="panel-body ThemeAlignRight"
+								HtmlDiv="True"
+								ID="divOtherExpense"
+								>
+								<Label
+									Class="fa fa-file-pdf-o fa-2x"
+									HtmlTag="Div"
+									ID="exportOtherExpense"
+									Tooltip="Export to PDF"
+									>
+									<Action
+										ID="exportPDFOtherExpense"
+										Type="PDF"
+										>
+										<Target
+											FrameID="NewWindow"
+											Type="PDF"
+										/>
+									</Action>
+								</Label>
+								<Spaces
+									Size="15"
+								/>
+							</Division>
+							<Division
+								Class="panel-body"
+								HtmlDiv="True"
+								ID="divOtherExpenseData"
+								>
+								<Note
+									Note="**Add data here**"
+								/>
+								<Division
+									Class="panel-heading"
+									HtmlDiv="True"
+									ID="panel-headingOtherExpense"
+									>
+									<Label
+										Caption="Other Operating Expense"
+									/>
+								</Division>
+								<Division
+									Class="panel-body"
+									HtmlDiv="True"
+									ID="panel-bodyOtherExpense"
+									>
+									<Rows
+										Width="100"
+										WidthScale="%"
+										>
+										<Row>
+											<Column>
+												<Spaces
+													Size="30"
+												/>
+											</Column>
+											<Column>
+												<DataTable
+													ID="dtOtherExpense"
+													SortArrows="True"
+													>
+													<DataLayer
+														ConnectionID="connProdGP"
+														ID="sqlOtherExpense"
+														Source="SELECT COALESCE(cm.MNACSGMT,cy.MNACSGMT,pm.MNACSGMT,py.MNACSGMT) MNACSGMT, COALESCE(cm.ACTDESCR,cy.ACTDESCR,pm.ACTDESCR,py.ACTDESCR) ACTDESCR, SUM(ISNULL(cm.AMT,0)) cMTD, SUM(ISNULL(cy.AMT,0)) cYTD, SUM(ISNULL(pm.AMT,0)) pMTD, SUM(ISNULL(py.AMT,0)) pYTD
+FROM 
+      ( SELECT MNACSGMT, SUBSTRING(ACTNUMBR_4,2,3)+SUBSTRING(ACTNUMBR_5,1,2) AS JSTR, LTRIM(RTRIM(ACTDESCR)) ACTDESCR, SUM(PERDBLNC) AMT FROM MKCGP..slbAccountSummary WHERE YEAR1=(@Request.paramFiscYear~  ) AND PERIODID =@Request.paramFiscPeriod~ AND ACTNUMBR_2 IN(&apos;@Request.paramLocGLStr~&apos;) AND MNACSGMT BETWEEN &apos;@Request.AcctCatOtherCostsB~&apos; AND &apos;@Request.AcctCatOtherCostsE~&apos; GROUP BY MNACSGMT, SUBSTRING(ACTNUMBR_4,2,3)+SUBSTRING(ACTNUMBR_5,1,2), LTRIM(RTRIM(ACTDESCR))) cm FULL OUTER JOIN 
+      ( SELECT MNACSGMT, SUBSTRING(ACTNUMBR_4,2,3)+SUBSTRING(ACTNUMBR_5,1,2) AS JSTR, LTRIM(RTRIM(ACTDESCR)) ACTDESCR, SUM(PERDBLNC) AMT FROM MKCGP..slbAccountSummary WHERE YEAR1=(@Request.paramFiscYear~  ) AND PERIODID&lt;=@Request.paramFiscPeriod~ AND ACTNUMBR_2 IN(&apos;@Request.paramLocGLStr~&apos;) AND MNACSGMT BETWEEN &apos;@Request.AcctCatOtherCostsB~&apos; AND &apos;@Request.AcctCatOtherCostsE~&apos; GROUP BY MNACSGMT, SUBSTRING(ACTNUMBR_4,2,3)+SUBSTRING(ACTNUMBR_5,1,2), LTRIM(RTRIM(ACTDESCR))) cy ON cm.JSTR=cy.JSTR FULL OUTER JOIN 
+      ( SELECT MNACSGMT, SUBSTRING(ACTNUMBR_4,2,3)+SUBSTRING(ACTNUMBR_5,1,2) AS JSTR, LTRIM(RTRIM(ACTDESCR)) ACTDESCR, SUM(PERDBLNC) AMT FROM MKCGP..slbAccountSummary WHERE YEAR1=(@Request.paramFiscYear~-1) AND PERIODID =@Request.paramFiscPeriod~ AND ACTNUMBR_2 IN(&apos;@Request.paramLocGLStr~&apos;) AND MNACSGMT BETWEEN &apos;@Request.AcctCatOtherCostsB~&apos; AND &apos;@Request.AcctCatOtherCostsE~&apos; GROUP BY MNACSGMT, SUBSTRING(ACTNUMBR_4,2,3)+SUBSTRING(ACTNUMBR_5,1,2), LTRIM(RTRIM(ACTDESCR))) pm ON cm.JSTR=pm.JSTR FULL OUTER JOIN
+      ( SELECT MNACSGMT, SUBSTRING(ACTNUMBR_4,2,3)+SUBSTRING(ACTNUMBR_5,1,2) AS JSTR, LTRIM(RTRIM(ACTDESCR)) ACTDESCR, SUM(PERDBLNC) AMT FROM MKCGP..slbAccountSummary WHERE YEAR1=(@Request.paramFiscYear~-1) AND PERIODID&lt;=@Request.paramFiscPeriod~ AND ACTNUMBR_2 IN(&apos;@Request.paramLocGLStr~&apos;) AND MNACSGMT BETWEEN &apos;@Request.AcctCatOtherCostsB~&apos; AND &apos;@Request.AcctCatOtherCostsE~&apos; GROUP BY MNACSGMT, SUBSTRING(ACTNUMBR_4,2,3)+SUBSTRING(ACTNUMBR_5,1,2), LTRIM(RTRIM(ACTDESCR))) py ON cm.JSTR=py.JSTR 
+GROUP BY COALESCE(cm.MNACSGMT,cy.MNACSGMT,pm.MNACSGMT,py.MNACSGMT), COALESCE(cm.ACTDESCR, cy.ACTDESCR, pm.ACTDESCR, py.ACTDESCR) 
+ORDER BY MNACSGMT
+"
+														Type="SQL"
+													/>
+													<DataTableColumn
+														Class="ThemeMargin"
+														ColumnHeaderClass="ThemeAlignCenter"
+														Header="Description"
+														HeaderType="Text"
+														ID="colACTDESCR"
+														>
+														<Label
+															Caption="@Data.ACTDESCR~"
+															ID="ACTDESCR"
+														/>
+														<DataColumnSort
+															DataColumn="ACTDESCR"
+															DataType="Text"
+														/>
+													</DataTableColumn>
+													<DataTableColumn
+														Class="ThemeMargin, ThemeAlignRight"
+														ColumnHeaderClass="ThemeAlignCenter"
+														Header="Current Period"
+														HeaderType="Text"
+														ID="colCMTD"
+														>
+														<Label
+															Caption="@Data.cMTD~"
+															Format="###,###,##0;(###,###,##0)"
+															ID="cMTD"
+														/>
+														<DataColumnSort
+															DataColumn="cMTD"
+															DataType="Number"
+														/>
+														<DataColumnSummary
+															DataColumn="cMTD"
+															DataType="Number"
+															Function="Sum"
+															ID="dcs_cMTD"
+														/>
+													</DataTableColumn>
+													<DataTableColumn
+														Class="ThemeMargin, ThemeAlignRight"
+														ColumnHeaderClass="ThemeAlignCenter"
+														Header="Year-To-Date"
+														HeaderType="Text"
+														ID="colCYTD"
+														>
+														<Label
+															Caption="@Data.cYTD~"
+															Format="###,###,##0;(###,###,##0)"
+															ID="cYTD"
+														/>
+														<DataColumnSort
+															DataColumn="cYTD"
+															DataType="Number"
+														/>
+														<DataColumnSummary
+															DataColumn="cYTD"
+															DataType="Number"
+															Function="Sum"
+															ID="dcs_cYTD"
+														/>
+													</DataTableColumn>
+													<DataTableColumn
+														Class="ThemeMargin, ThemeAlignRight"
+														ColumnHeaderClass="ThemeAlignCenter"
+														Header="Prior Year Period"
+														HeaderType="Text"
+														ID="colPMTD"
+														>
+														<Label
+															Caption="@Data.pMTD~"
+															Format="###,###,##0;(###,###,##0)"
+															ID="pMTD"
+														/>
+														<DataColumnSort
+															DataColumn="pMTD"
+															DataType="Number"
+														/>
+														<DataColumnSummary
+															DataColumn="pMTD"
+															DataType="Number"
+															Function="Sum"
+															ID="dcs_pMTD"
+														/>
+													</DataTableColumn>
+													<DataTableColumn
+														Class="ThemeMargin, ThemeAlignRight"
+														ColumnHeaderClass="ThemeAlignCenter"
+														Header="Prior Year-To-Date"
+														HeaderType="Text"
+														ID="colPYTD"
+														>
+														<Label
+															Caption="@Data.pYTD~"
+															Format="###,###,##0;(###,###,##0)"
+															ID="pYTD"
+														/>
+														<DataColumnSort
+															DataColumn="pYTD"
+															DataType="Number"
+														/>
+														<DataColumnSummary
+															DataColumn="pYTD"
+															DataType="Number"
+															Function="Sum"
+															ID="dcs_pYTD"
+														/>
+													</DataTableColumn>
+													<SummaryRow
+														Caption="Total Other Expense"
+														ID="rowOtherExpenseTotals"
+														LastPageOnly="False"
+													/>
+												</DataTable>
+											</Column>
+											<Remark>
+												<Column>
+													<Spaces
+														Size="40"
+													/>
+												</Column>
+											</Remark>
+											<Column>
+												<Spaces
+													Size="40"
+												/>
+											</Column>
+											<Column>
+												<Spaces
+													Size="40"
+												/>
+											</Column>
+											<Column>
+												<Spaces
+													Size="40"
+												/>
+											</Column>
+										</Row>
+									</Rows>
+									<LineBreak/>
+									<LineBreak/>
+								</Division>
+							</Division>
+						</Division>
+					</TabPanel>
+				</Tabs>
+			</ResponsiveColumn>
+		</ResponsiveRow>
+	</Body>
+	<IncludeSharedElement
+		DefinitionFile="_Layout.Shared"
+		SharedElementID="shrFooter"
+	/>
+	<ideTestParams
+		AcctCatFixedExpB=""
+		AcctCatFixedExpE=""
+		AcctCatOtherCostsB="8200"
+		AcctCatOtherCostsE="8499"
+		AcctCatOtherIncomeB="7000"
+		AcctCatOtherIncomeE="7999"
+		AcctCatPersonnelB="8000"
+		AcctCatPersonnelE="8099"
+		AcctListApplication="9600"
+		AcctListFertilizer="9800&apos;,&apos;9805&apos;,&apos;9810"
+		AcctListFuel="9820&apos;,&apos;9825"
+		AcctListGrain=""
+		paramDefaultTab=""
+		paramFiscPeriod="11"
+		paramFiscYear="2016"
+		paramLocGLStr="100"
+	/>
+</Report>

@@ -4,7 +4,7 @@
 	>
 	<Application
 		Caption="TMA Grain Dashboard Portal"
-		DefaultReport=""
+		DefaultReport="Home.Default"
 	/>
 	<Path
 		AppPath="http://localhost/MKCoop"
@@ -96,17 +96,15 @@
 		<Note
 			Note="then select it and run its Metadata Builder wizard."
 		/>
-		<Remark>
-			<Connection
-				ID="connProdGP"
-				SqlServer="sqlsvr1"
-				SqlServerDatabase="Agtrax_Staging"
-				SqlServerPassword="R3ports"
-				SqlServerPort=""
-				SqlServerUser="SRS"
-				Type="SqlServer"
-			/>
-		</Remark>
+		<Connection
+			ID="connProdGP"
+			SqlServer="sqlsvr1"
+			SqlServerDatabase="Agtrax_Staging"
+			SqlServerPassword="integr8!"
+			SqlServerPort=""
+			SqlServerUser="BIOperations"
+			Type="SqlServer"
+		/>
 		<Remark>
 			<Connection
 				ID="connLogiDB"
@@ -162,15 +160,6 @@
 			SqlServerPassword="Log1#Admin"
 			SqlServerPort=""
 			SqlServerUser="logi_admin"
-			Type="SqlServer"
-		/>
-		<Connection
-			ID="connProdGP"
-			SqlServer="sqlsvr1"
-			SqlServerDatabase="Agtrax_Staging"
-			SqlServerPassword="integr8!"
-			SqlServerPort=""
-			SqlServerUser="BIOperations"
 			Type="SqlServer"
 		/>
 	</Connections>
