@@ -116,14 +116,17 @@
 										Value="@Data.Progress~"
 										>
 										<DataLayer
-											CellRange="C2"
 											ColumnNamesRow="1"
 											ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\Updated Scorecard Tables.xlsx"
 											ExcelWorksheet="Perspectives"
 											ID="dlFinance"
 											MaxRows="1"
 											Type="Excel"
-										/>
+											>
+											<ConditionFilter
+												Condition="&quot;@Data.PID~&quot; = &quot;1&quot;"
+											/>
+										</DataLayer>
 										<GaugeRing
 											Color="LightSlateGray"
 											ID="RingTickBkgnd"
@@ -275,14 +278,17 @@
 										Value="@Data.Progress~"
 										>
 										<DataLayer
-											CellRange="C3"
 											ColumnNamesRow="1"
 											ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\Updated Scorecard Tables.xlsx"
 											ExcelWorksheet="Perspectives"
 											ID="dlCustomer"
 											MaxRows="1"
 											Type="Excel"
-										/>
+											>
+											<ConditionFilter
+												Condition="&quot;@Data.PID~&quot; = &quot;2&quot;"
+											/>
+										</DataLayer>
 										<Remark>
 											<GaugeLabel
 												Caption="Customer"
@@ -434,14 +440,17 @@
 										Value="@Data.Progress~"
 										>
 										<DataLayer
-											CellRange="C4"
 											ColumnNamesRow="1"
 											ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\Updated Scorecard Tables.xlsx"
 											ExcelWorksheet="Perspectives"
 											ID="dlEmployee"
 											MaxRows="1"
 											Type="Excel"
-										/>
+											>
+											<ConditionFilter
+												Condition="&quot;@Data.PID~&quot; = &quot;3&quot; "
+											/>
+										</DataLayer>
 										<Remark>
 											<GaugeLabel
 												Caption="Employee"
@@ -593,14 +602,17 @@
 										Value="@Data.Progress~"
 										>
 										<DataLayer
-											CellRange="C5"
 											ColumnNamesRow="1"
 											ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\Updated Scorecard Tables.xlsx"
 											ExcelWorksheet="Perspectives"
 											ID="dlRenewal"
 											MaxRows="1"
 											Type="Excel"
-										/>
+											>
+											<ConditionFilter
+												Condition="&quot;@Data.PID~&quot; = &quot;4&quot;"
+											/>
+										</DataLayer>
 										<Remark>
 											<GaugeLabel
 												Caption="Organizational Renewal"
@@ -770,13 +782,16 @@
 																	Value="@Data.Progress~"
 																	>
 																	<DataLayer
-																		CellRange="D2"
 																		ColumnNamesRow="1"
 																		ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\Updated Scorecard Tables.xlsx"
 																		ExcelWorksheet="Initiatives"
 																		ID="dlFinanceInit1"
 																		Type="Excel"
-																	/>
+																		>
+																		<ConditionFilter
+																			Condition="&quot;@Data.PID~&quot; = &quot;1&quot; And &quot;@Data.INID~&quot; = &quot;1&quot;"
+																		/>
+																	</DataLayer>
 																	<GaugeRange
 																		Color="#CC0000"
 																		RangeEndValue="30"
@@ -818,13 +833,16 @@
 																		WidthScale="%"
 																		>
 																		<DataLayer
-																			CellRange="A2:I4"
 																			ColumnNamesRow="1"
 																			ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\Updated Scorecard Tables.xlsx"
 																			ExcelWorksheet="Actions"
 																			ID="dlGrowthActions"
 																			Type="Excel"
-																		/>
+																			>
+																			<ConditionFilter
+																				Condition="&quot;@Data.PID~&quot; = &quot;1&quot; And &quot;@Data.INID~&quot; = &quot;1&quot;"
+																			/>
+																		</DataLayer>
 																		<Remark>
 																			<InteractivePaging
 																				CaptionType="Image"
@@ -949,7 +967,6 @@
 																					ID="sdlGrowthTasks"
 																					>
 																					<DataLayer
-																						CellRange="A2:I7"
 																						ColumnNamesRow="1"
 																						ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\Updated Scorecard Tables.xlsx"
 																						ExcelWorksheet="Tasks"
@@ -1164,13 +1181,16 @@
 																				TableBorder="0"
 																				>
 																				<DataLayer
-																					CellRange="A2:I7"
 																					ColumnNamesRow="1"
 																					ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\Updated Scorecard Tables.xlsx"
 																					ExcelWorksheet="Tasks"
 																					ID="dlGrowthTasks"
 																					Type="Excel"
-																				/>
+																					>
+																					<ConditionFilter
+																						Condition="&quot;@Data.PID~&quot; = &quot;1&quot; And &quot;@Data.INID~&quot; = &quot;1&quot;"
+																					/>
+																				</DataLayer>
 																				<InteractivePaging
 																					CaptionType="Image"
 																					HideShowPrevNextCaptions="False"
@@ -1363,13 +1383,16 @@
 																	Value="@Data.Progress~"
 																	>
 																	<DataLayer
-																		CellRange="D3"
 																		ColumnNamesRow="1"
 																		ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\Updated Scorecard Tables.xlsx"
 																		ExcelWorksheet="Initiatives"
 																		ID="dlFinanceInit2"
 																		Type="Excel"
-																	/>
+																		>
+																		<ConditionFilter
+																			Condition="&quot;@Data.PID~&quot; = &quot;1&quot; And &quot;@Data.INID~&quot; = &quot;2&quot;"
+																		/>
+																	</DataLayer>
 																	<GaugeRange
 																		Color="#CC0000"
 																		RangeEndValue="30"
@@ -1416,13 +1439,16 @@
 																		WidthScale="%"
 																		>
 																		<DataLayer
-																			CellRange="A5:I7"
 																			ColumnNamesRow="1"
 																			ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\Updated Scorecard Tables.xlsx"
 																			ExcelWorksheet="Actions"
 																			ID="dlExpenseActions"
 																			Type="Excel"
-																		/>
+																			>
+																			<ConditionFilter
+																				Condition="&quot;@Data.PID~&quot; = &quot;1&quot; And &quot;@Data.INID~&quot; = &quot;2&quot;"
+																			/>
+																		</DataLayer>
 																		<Remark>
 																			<InteractivePaging
 																				CaptionType="Image"
@@ -1555,7 +1581,6 @@
 																					ID="sdlExpenseTasks"
 																					>
 																					<DataLayer
-																						CellRange="A8:J16"
 																						ColumnNamesRow="1"
 																						ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\Updated Scorecard Tables.xlsx"
 																						ExcelWorksheet="Tasks"
@@ -2643,13 +2668,16 @@
 																	Value="@Data.Progress~"
 																	>
 																	<DataLayer
-																		CellRange="D4"
 																		ColumnNamesRow="1"
 																		ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\Updated Scorecard Tables.xlsx"
 																		ExcelWorksheet="Initiatives"
 																		ID="dlCustInit1"
 																		Type="Excel"
-																	/>
+																		>
+																		<ConditionFilter
+																			Condition="&quot;@Data.PID~&quot; = &quot;2&quot; And &quot;@Data.INID~&quot; = &quot;1&quot;"
+																		/>
+																	</DataLayer>
 																	<GaugeRange
 																		Color="#CC0000"
 																		RangeEndValue="30"
@@ -2692,13 +2720,16 @@
 																		WidthScale="%"
 																		>
 																		<DataLayer
-																			CellRange="A8:I11"
 																			ColumnNamesRow="1"
 																			ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\Updated Scorecard Tables.xlsx"
 																			ExcelWorksheet="Actions"
 																			ID="dlCustAction1"
 																			Type="Excel"
-																		/>
+																			>
+																			<ConditionFilter
+																				Condition="&quot;@Data.PID~&quot; = &quot;2&quot; And &quot;@Data.INID~&quot; = &quot;1&quot;"
+																			/>
+																		</DataLayer>
 																		<Remark>
 																			<InteractivePaging
 																				CaptionType="Image"
@@ -2819,7 +2850,6 @@
 																					ID="sdlCustTasks1"
 																					>
 																					<DataLayer
-																						CellRange="A17:J30"
 																						ColumnNamesRow="1"
 																						ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\Updated Scorecard Tables.xlsx"
 																						ExcelWorksheet="Tasks"
@@ -3067,13 +3097,16 @@
 																	Value="@Data.Progress~"
 																	>
 																	<DataLayer
-																		CellRange="D5"
 																		ColumnNamesRow="1"
 																		ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\Updated Scorecard Tables.xlsx"
 																		ExcelWorksheet="Initiatives"
 																		ID="dlCustInitiatives2"
 																		Type="Excel"
-																	/>
+																		>
+																		<ConditionFilter
+																			Condition="&quot;@Data.PID~&quot; = &quot;2&quot; And &quot;@Data.INID~&quot; = &quot;2&quot;"
+																		/>
+																	</DataLayer>
 																	<GaugeRange
 																		Color="#CC0000"
 																		RangeEndValue="30"
@@ -3116,13 +3149,16 @@
 																		WidthScale="%"
 																		>
 																		<DataLayer
-																			CellRange="A12:I18"
 																			ColumnNamesRow="1"
 																			ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\Updated Scorecard Tables.xlsx"
 																			ExcelWorksheet="Actions"
 																			ID="dlCustAction2"
 																			Type="Excel"
-																		/>
+																			>
+																			<ConditionFilter
+																				Condition="&quot;@Data.PID~&quot; = &quot;2&quot; And &quot;@Data.INID~&quot; = &quot;2&quot;"
+																			/>
+																		</DataLayer>
 																		<Remark>
 																			<InteractivePaging
 																				CaptionType="Image"
@@ -3247,7 +3283,6 @@
 																					ID="sdlCustTasks2"
 																					>
 																					<DataLayer
-																						CellRange="A31:J57"
 																						ColumnNamesRow="1"
 																						ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\Updated Scorecard Tables.xlsx"
 																						ExcelWorksheet="Tasks"
@@ -3489,13 +3524,16 @@
 																	Value="@Data.Progress~"
 																	>
 																	<DataLayer
-																		CellRange="D6"
 																		ColumnNamesRow="1"
 																		ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\Updated Scorecard Tables.xlsx"
 																		ExcelWorksheet="Initiatives"
 																		ID="dlCustInitiatives3"
 																		Type="Excel"
-																	/>
+																		>
+																		<ConditionFilter
+																			Condition="&quot;@Data.PID~&quot; = &quot;2&quot; And &quot;@Data.INID~&quot; = &quot;3&quot;"
+																		/>
+																	</DataLayer>
 																	<GaugeRange
 																		Color="#CC0000"
 																		RangeEndValue="30"
@@ -3537,13 +3575,16 @@
 																		WidthScale="%"
 																		>
 																		<DataLayer
-																			CellRange="A19:I21"
 																			ColumnNamesRow="1"
 																			ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\Updated Scorecard Tables.xlsx"
 																			ExcelWorksheet="Actions"
 																			ID="dlCustAction3"
 																			Type="Excel"
-																		/>
+																			>
+																			<ConditionFilter
+																				Condition="&quot;@Data.PID~&quot; = &quot;2&quot; And &quot;@Data.INID~&quot; = &quot;3&quot;"
+																			/>
+																		</DataLayer>
 																		<Remark>
 																			<InteractivePaging
 																				CaptionType="Image"
@@ -3668,7 +3709,6 @@
 																					ID="sdlCustTasks3"
 																					>
 																					<DataLayer
-																						CellRange="A58:J69"
 																						ColumnNamesRow="1"
 																						ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\Updated Scorecard Tables.xlsx"
 																						ExcelWorksheet="Tasks"
@@ -3908,13 +3948,16 @@
 																	Value="@Data.Progress~"
 																	>
 																	<DataLayer
-																		CellRange="D7"
 																		ColumnNamesRow="1"
 																		ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\Updated Scorecard Tables.xlsx"
 																		ExcelWorksheet="Initiatives"
 																		ID="dlCustInitiatives4"
 																		Type="Excel"
-																	/>
+																		>
+																		<ConditionFilter
+																			Condition="&quot;@Data.PID~&quot; = &quot;2&quot; And &quot;@Data.INID~&quot; = &quot;4&quot;"
+																		/>
+																	</DataLayer>
 																	<GaugeRange
 																		Color="#CC0000"
 																		RangeEndValue="30"
@@ -3957,13 +4000,16 @@
 																		WidthScale="%"
 																		>
 																		<DataLayer
-																			CellRange="A22:I25"
 																			ColumnNamesRow="1"
 																			ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\Updated Scorecard Tables.xlsx"
 																			ExcelWorksheet="Actions"
 																			ID="dlCustAction4"
 																			Type="Excel"
-																		/>
+																			>
+																			<ConditionFilter
+																				Condition="&quot;@Data.PID~&quot; = &quot;2&quot; And &quot;@Data.INID~&quot; = &quot;4&quot;"
+																			/>
+																		</DataLayer>
 																		<Remark>
 																			<InteractivePaging
 																				CaptionType="Image"
@@ -4088,7 +4134,6 @@
 																					ID="sdlCustTasks4"
 																					>
 																					<DataLayer
-																						CellRange="A70:J83"
 																						ColumnNamesRow="1"
 																						ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\Updated Scorecard Tables.xlsx"
 																						ExcelWorksheet="Tasks"
@@ -4336,13 +4381,16 @@
 																	Value="@Data.Progress~"
 																	>
 																	<DataLayer
-																		CellRange="D8"
 																		ColumnNamesRow="1"
 																		ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\Updated Scorecard Tables.xlsx"
 																		ExcelWorksheet="Initiatives"
 																		ID="dlEmpInit1"
 																		Type="Excel"
-																	/>
+																		>
+																		<ConditionFilter
+																			Condition="&quot;@Data.PID~&quot; = &quot;3&quot; And &quot;@Data.INID~&quot; = &quot;1&quot;"
+																		/>
+																	</DataLayer>
 																	<GaugeRange
 																		Color="#CC0000"
 																		RangeEndValue="30"
@@ -4385,13 +4433,16 @@
 																		WidthScale="%"
 																		>
 																		<DataLayer
-																			CellRange="A26:I27"
 																			ColumnNamesRow="1"
 																			ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\Updated Scorecard Tables.xlsx"
 																			ExcelWorksheet="Actions"
 																			ID="dlEmpAction1"
 																			Type="Excel"
-																		/>
+																			>
+																			<ConditionFilter
+																				Condition="&quot;@Data.PID~&quot; = &quot;3&quot; And &quot;@Data.INID~&quot; = &quot;1&quot;"
+																			/>
+																		</DataLayer>
 																		<Remark>
 																			<InteractivePaging
 																				CaptionType="Image"
@@ -4516,7 +4567,6 @@
 																					ID="sdlEmployeeTasks1"
 																					>
 																					<DataLayer
-																						CellRange="A84:J89"
 																						ColumnNamesRow="1"
 																						ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\Updated Scorecard Tables.xlsx"
 																						ExcelWorksheet="Tasks"
@@ -4764,13 +4814,16 @@
 																	Value="@Data.Progress~"
 																	>
 																	<DataLayer
-																		CellRange="D9"
 																		ColumnNamesRow="1"
 																		ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\Updated Scorecard Tables.xlsx"
 																		ExcelWorksheet="Initiatives"
 																		ID="dlEmpInitiatives2"
 																		Type="Excel"
-																	/>
+																		>
+																		<ConditionFilter
+																			Condition="&quot;@Data.PID~&quot; = &quot;3&quot; And &quot;@Data.INID~&quot; = &quot;2&quot;"
+																		/>
+																	</DataLayer>
 																	<GaugeRange
 																		Color="#CC0000"
 																		RangeEndValue="30"
@@ -4813,13 +4866,16 @@
 																		WidthScale="%"
 																		>
 																		<DataLayer
-																			CellRange="A28:I31"
 																			ColumnNamesRow="1"
 																			ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\Updated Scorecard Tables.xlsx"
 																			ExcelWorksheet="Actions"
 																			ID="dlEmpAction2"
 																			Type="Excel"
-																		/>
+																			>
+																			<ConditionFilter
+																				Condition="&quot;@Data.PID~&quot; = &quot;3&quot; And &quot;@Data.INID~&quot; = &quot;2&quot;"
+																			/>
+																		</DataLayer>
 																		<Remark>
 																			<InteractivePaging
 																				CaptionType="Image"
@@ -4944,7 +5000,6 @@
 																					ID="sdlEmployeeTasks2"
 																					>
 																					<DataLayer
-																						CellRange="A90:J93"
 																						ColumnNamesRow="1"
 																						ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\Updated Scorecard Tables.xlsx"
 																						ExcelWorksheet="Tasks"
@@ -5186,13 +5241,16 @@
 																	Value="@Data.Progress~"
 																	>
 																	<DataLayer
-																		CellRange="D10"
 																		ColumnNamesRow="1"
 																		ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\Updated Scorecard Tables.xlsx"
 																		ExcelWorksheet="Initiatives"
 																		ID="dlEmpInitiatives3"
 																		Type="Excel"
-																	/>
+																		>
+																		<ConditionFilter
+																			Condition="&quot;@Data.PID~&quot; = &quot;3&quot; And &quot;@Data.INID~&quot; = &quot;3&quot;"
+																		/>
+																	</DataLayer>
 																	<GaugeRange
 																		Color="#CC0000"
 																		RangeEndValue="30"
@@ -5235,13 +5293,16 @@
 																		WidthScale="%"
 																		>
 																		<DataLayer
-																			CellRange="A32:I35"
 																			ColumnNamesRow="1"
 																			ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\Updated Scorecard Tables.xlsx"
 																			ExcelWorksheet="Actions"
 																			ID="dlEmpAction3"
 																			Type="Excel"
-																		/>
+																			>
+																			<ConditionFilter
+																				Condition="&quot;@Data.PID~&quot; = &quot;3&quot; And &quot;@Data.INID~&quot; = &quot;3&quot;"
+																			/>
+																		</DataLayer>
 																		<Remark>
 																			<InteractivePaging
 																				CaptionType="Image"
@@ -5366,7 +5427,6 @@
 																					ID="sdlEmployeeTasks3"
 																					>
 																					<DataLayer
-																						CellRange="A94:J107"
 																						ColumnNamesRow="1"
 																						ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\Updated Scorecard Tables.xlsx"
 																						ExcelWorksheet="Tasks"
@@ -5606,13 +5666,16 @@
 																	Value="@Data.Progress~"
 																	>
 																	<DataLayer
-																		CellRange="D11"
 																		ColumnNamesRow="1"
 																		ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\Updated Scorecard Tables.xlsx"
 																		ExcelWorksheet="Initiatives"
 																		ID="dlEmpInitiatives4"
 																		Type="Excel"
-																	/>
+																		>
+																		<ConditionFilter
+																			Condition="&quot;@Data.PID~&quot; = &quot;3&quot; And &quot;@Data.INID~&quot; = &quot;4&quot;"
+																		/>
+																	</DataLayer>
 																	<GaugeRange
 																		Color="#CC0000"
 																		RangeEndValue="30"
@@ -5655,13 +5718,16 @@
 																		WidthScale="%"
 																		>
 																		<DataLayer
-																			CellRange="A36:I38"
 																			ColumnNamesRow="1"
 																			ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\Updated Scorecard Tables.xlsx"
 																			ExcelWorksheet="Actions"
 																			ID="dlEmpAction4"
 																			Type="Excel"
-																		/>
+																			>
+																			<ConditionFilter
+																				Condition="&quot;@Data.PID~&quot; = &quot;3&quot; And &quot;@Data.INID~&quot; = &quot;4&quot;"
+																			/>
+																		</DataLayer>
 																		<Remark>
 																			<InteractivePaging
 																				CaptionType="Image"
@@ -5786,7 +5852,6 @@
 																					ID="sdlEmployeeTasks4"
 																					>
 																					<DataLayer
-																						CellRange="A108:J113"
 																						ColumnNamesRow="1"
 																						ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\Updated Scorecard Tables.xlsx"
 																						ExcelWorksheet="Tasks"
@@ -6028,13 +6093,16 @@
 																	Value="@Data.Progress~"
 																	>
 																	<DataLayer
-																		CellRange="D12"
 																		ColumnNamesRow="1"
 																		ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\Updated Scorecard Tables.xlsx"
 																		ExcelWorksheet="Initiatives"
 																		ID="dlEmpInitiatives5"
 																		Type="Excel"
-																	/>
+																		>
+																		<ConditionFilter
+																			Condition="&quot;@Data.PID~&quot; = &quot;3&quot; And &quot;@Data.INID~&quot; = &quot;5&quot;"
+																		/>
+																	</DataLayer>
 																	<GaugeRange
 																		Color="#CC0000"
 																		RangeEndValue="30"
@@ -6077,13 +6145,16 @@
 																		WidthScale="%"
 																		>
 																		<DataLayer
-																			CellRange="A39:I42"
 																			ColumnNamesRow="1"
 																			ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\Updated Scorecard Tables.xlsx"
 																			ExcelWorksheet="Actions"
 																			ID="dlEmpAction5"
 																			Type="Excel"
-																		/>
+																			>
+																			<ConditionFilter
+																				Condition="&quot;@Data.PID~&quot; = &quot;3&quot; And &quot;@Data.INID~&quot; = &quot;5&quot;"
+																			/>
+																		</DataLayer>
 																		<Remark>
 																			<InteractivePaging
 																				CaptionType="Image"
@@ -6207,7 +6278,6 @@
 																					ID="sdlEmployeeTasks2"
 																					>
 																					<DataLayer
-																						CellRange="A114:J129"
 																						ColumnNamesRow="1"
 																						ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\Updated Scorecard Tables.xlsx"
 																						ExcelWorksheet="Tasks"
@@ -6454,13 +6524,16 @@
 																	Value="@Data.Progress~"
 																	>
 																	<DataLayer
-																		CellRange="D13"
 																		ColumnNamesRow="1"
 																		ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\Updated Scorecard Tables.xlsx"
 																		ExcelWorksheet="Initiatives"
 																		ID="dlRenewalInit1"
 																		Type="Excel"
-																	/>
+																		>
+																		<ConditionFilter
+																			Condition="&quot;@Data.PID~&quot; = &quot;4&quot; And &quot;@Data.INID~&quot; = &quot;1&quot;"
+																		/>
+																	</DataLayer>
 																	<GaugeRange
 																		Color="#CC0000"
 																		RangeEndValue="30"
@@ -6503,13 +6576,16 @@
 																		WidthScale="%"
 																		>
 																		<DataLayer
-																			CellRange="A43:I44"
 																			ColumnNamesRow="1"
 																			ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\Updated Scorecard Tables.xlsx"
 																			ExcelWorksheet="Actions"
 																			ID="dlRenewalAction1"
 																			Type="Excel"
-																		/>
+																			>
+																			<ConditionFilter
+																				Condition="&quot;@Data.PID~&quot; = &quot;4&quot; And &quot;@Data.INID~&quot; = &quot;1&quot;"
+																			/>
+																		</DataLayer>
 																		<Remark>
 																			<InteractivePaging
 																				CaptionType="Image"
@@ -6634,7 +6710,6 @@
 																					ID="sdlRenewalTasks1"
 																					>
 																					<DataLayer
-																						CellRange="A130:J135"
 																						ColumnNamesRow="1"
 																						ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\Updated Scorecard Tables.xlsx"
 																						ExcelWorksheet="Tasks"
@@ -6882,13 +6957,16 @@
 																	Value="@Data.Progress~"
 																	>
 																	<DataLayer
-																		CellRange="D14"
 																		ColumnNamesRow="1"
 																		ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\Updated Scorecard Tables.xlsx"
 																		ExcelWorksheet="Initiatives"
 																		ID="dlRenewalInit2"
 																		Type="Excel"
-																	/>
+																		>
+																		<ConditionFilter
+																			Condition="&quot;@Data.PID~&quot; = &quot;4&quot; And &quot;@Data.INID~&quot; = &quot;2&quot;"
+																		/>
+																	</DataLayer>
 																	<GaugeRange
 																		Color="#CC0000"
 																		RangeEndValue="30"
@@ -6931,13 +7009,16 @@
 																		WidthScale="%"
 																		>
 																		<DataLayer
-																			CellRange="A45:I48"
 																			ColumnNamesRow="1"
 																			ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\Updated Scorecard Tables.xlsx"
 																			ExcelWorksheet="Actions"
 																			ID="dlRenewalAction2"
 																			Type="Excel"
-																		/>
+																			>
+																			<ConditionFilter
+																				Condition="&quot;@Data.PID~&quot; = &quot;4&quot; And &quot;@Data.INID~&quot; = &quot;2&quot;"
+																			/>
+																		</DataLayer>
 																		<Remark>
 																			<InteractivePaging
 																				CaptionType="Image"
@@ -7062,7 +7143,6 @@
 																					ID="sdlRenewalTasks2"
 																					>
 																					<DataLayer
-																						CellRange="A136:J141"
 																						ColumnNamesRow="1"
 																						ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\Updated Scorecard Tables.xlsx"
 																						ExcelWorksheet="Tasks"
@@ -7304,13 +7384,16 @@
 																	Value="@Data.Progress~"
 																	>
 																	<DataLayer
-																		CellRange="D15"
 																		ColumnNamesRow="1"
 																		ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\Updated Scorecard Tables.xlsx"
 																		ExcelWorksheet="Initiatives"
 																		ID="dlRenewalInitiatives3"
 																		Type="Excel"
-																	/>
+																		>
+																		<ConditionFilter
+																			Condition="&quot;@Data.PID~&quot; = &quot;4&quot; And &quot;@Data.INID~&quot; = &quot;3&quot;"
+																		/>
+																	</DataLayer>
 																	<GaugeRange
 																		Color="#CC0000"
 																		RangeEndValue="30"
@@ -7353,13 +7436,16 @@
 																		WidthScale="%"
 																		>
 																		<DataLayer
-																			CellRange="A49:I50"
 																			ColumnNamesRow="1"
 																			ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\Updated Scorecard Tables.xlsx"
 																			ExcelWorksheet="Actions"
 																			ID="dlRenewalAction3"
 																			Type="Excel"
-																		/>
+																			>
+																			<ConditionFilter
+																				Condition="&quot;@Data.PID~&quot; = &quot;4&quot; And &quot;@Data.INID~&quot; = &quot;3&quot;"
+																			/>
+																		</DataLayer>
 																		<Remark>
 																			<InteractivePaging
 																				CaptionType="Image"
@@ -7484,7 +7570,6 @@
 																					ID="sdlRenewalTasks3"
 																					>
 																					<DataLayer
-																						CellRange="A142:J144"
 																						ColumnNamesRow="1"
 																						ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\Updated Scorecard Tables.xlsx"
 																						ExcelWorksheet="Tasks"
@@ -7724,13 +7809,16 @@
 																	Value="@Data.Progress~"
 																	>
 																	<DataLayer
-																		CellRange="D16"
 																		ColumnNamesRow="1"
 																		ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\Updated Scorecard Tables.xlsx"
 																		ExcelWorksheet="Initiatives"
 																		ID="dlRenewaltInitiatives4"
 																		Type="Excel"
-																	/>
+																		>
+																		<ConditionFilter
+																			Condition="&quot;@Data.PID~&quot; = &quot;4&quot; And &quot;@Data.INID~&quot; = &quot;4&quot;"
+																		/>
+																	</DataLayer>
 																	<GaugeRange
 																		Color="#CC0000"
 																		RangeEndValue="30"
@@ -7773,13 +7861,16 @@
 																		WidthScale="%"
 																		>
 																		<DataLayer
-																			CellRange="A51:I55"
 																			ColumnNamesRow="1"
 																			ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\Updated Scorecard Tables.xlsx"
 																			ExcelWorksheet="Actions"
 																			ID="dlRenewalAction4"
 																			Type="Excel"
-																		/>
+																			>
+																			<ConditionFilter
+																				Condition="&quot;@Data.PID~&quot; = &quot;4&quot; And &quot;@Data.INID~&quot; = &quot;4&quot;"
+																			/>
+																		</DataLayer>
 																		<Remark>
 																			<InteractivePaging
 																				CaptionType="Image"
@@ -7913,7 +8004,6 @@
 																					ID="sdlRenewalTasks4"
 																					>
 																					<DataLayer
-																						CellRange="A145:J156"
 																						ColumnNamesRow="1"
 																						ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\Updated Scorecard Tables.xlsx"
 																						ExcelWorksheet="Tasks"
@@ -8155,13 +8245,16 @@
 																	Value="@Data.Progress~"
 																	>
 																	<DataLayer
-																		CellRange="D17"
 																		ColumnNamesRow="1"
 																		ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\Updated Scorecard Tables.xlsx"
 																		ExcelWorksheet="Initiatives"
 																		ID="dlRenewaltInitiatives5"
 																		Type="Excel"
-																	/>
+																		>
+																		<ConditionFilter
+																			Condition="&quot;@Data.PID~&quot; = &quot;4&quot; And &quot;@Data.INID~&quot; = &quot;5&quot;"
+																		/>
+																	</DataLayer>
 																	<GaugeRange
 																		Color="#CC0000"
 																		RangeEndValue="30"
@@ -8204,13 +8297,16 @@
 																		WidthScale="%"
 																		>
 																		<DataLayer
-																			CellRange="A56:I59"
 																			ColumnNamesRow="1"
 																			ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\Updated Scorecard Tables.xlsx"
 																			ExcelWorksheet="Actions"
 																			ID="dlRenewalAction5"
 																			Type="Excel"
-																		/>
+																			>
+																			<ConditionFilter
+																				Condition="&quot;@Data.PID~&quot; = &quot;4&quot; And &quot;@Data.INID~&quot; = &quot;5&quot;"
+																			/>
+																		</DataLayer>
 																		<Remark>
 																			<InteractivePaging
 																				CaptionType="Image"
@@ -8344,7 +8440,6 @@
 																					ID="sdlRenewalTasks5"
 																					>
 																					<DataLayer
-																						CellRange="A157:J167"
 																						ColumnNamesRow="1"
 																						ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\Updated Scorecard Tables.xlsx"
 																						ExcelWorksheet="Tasks"
@@ -8584,13 +8679,16 @@
 																	Value="@Data.Progress~"
 																	>
 																	<DataLayer
-																		CellRange="D18"
 																		ColumnNamesRow="1"
 																		ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\Updated Scorecard Tables.xlsx"
 																		ExcelWorksheet="Initiatives"
 																		ID="dlRenewaltInitiatives5"
 																		Type="Excel"
-																	/>
+																		>
+																		<ConditionFilter
+																			Condition="&quot;@Data.PID~&quot; = &quot;4&quot; And &quot;@Data.INID~&quot; = &quot;6&quot;"
+																		/>
+																	</DataLayer>
 																	<GaugeRange
 																		Color="#CC0000"
 																		RangeEndValue="30"
@@ -8633,13 +8731,16 @@
 																		WidthScale="%"
 																		>
 																		<DataLayer
-																			CellRange="A60:I61"
 																			ColumnNamesRow="1"
 																			ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\Updated Scorecard Tables.xlsx"
 																			ExcelWorksheet="Actions"
 																			ID="dlRenewalAction6"
 																			Type="Excel"
-																		/>
+																			>
+																			<ConditionFilter
+																				Condition="&quot;@Data.PID~&quot; = &quot;4&quot; And &quot;@Data.INID~&quot; = &quot;6&quot;"
+																			/>
+																		</DataLayer>
 																		<Remark>
 																			<InteractivePaging
 																				CaptionType="Image"
@@ -8773,7 +8874,6 @@
 																					ID="sdlRenewalTasks6"
 																					>
 																					<DataLayer
-																						CellRange="A167:J168"
 																						ColumnNamesRow="1"
 																						ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\Updated Scorecard Tables.xlsx"
 																						ExcelWorksheet="Tasks"
