@@ -928,18 +928,24 @@
 																				Caption="@Data.Progress~%"
 																				ID="colProgress"
 																				>
-																				<ConditionalClass
-																					Class="fa fa-arrow-up text-success"
-																					Condition="@Data.Progress~ &gt; 80"
-																				/>
-																				<ConditionalClass
-																					Class="fa fa-star text-warning"
-																					Condition="@Data.Progress~ &gt; 50 "
-																				/>
-																				<ConditionalClass
-																					Class="fa fa-arrow-down text-danger"
-																					Condition="@Data.Progress~ &lt;= 50"
-																				/>
+																				<Remark>
+																					<ConditionalClass
+																						Class="fa fa-arrow-up text-success"
+																						Condition="@Data.Progress~ &gt; 80"
+																					/>
+																				</Remark>
+																				<Remark>
+																					<ConditionalClass
+																						Class="fa fa-star text-warning"
+																						Condition="@Data.Progress~ &gt; 50 "
+																					/>
+																				</Remark>
+																				<Remark>
+																					<ConditionalClass
+																						Class="fa fa-arrow-down text-danger"
+																						Condition="@Data.Progress~ &lt;= 50"
+																					/>
+																				</Remark>
 																				<Action
 																					Display="Toggle"
 																					ElementID="miGrowthTasks"
@@ -1542,18 +1548,24 @@
 																				Caption="@Data.Progress~%"
 																				ID="colProgress"
 																				>
-																				<ConditionalClass
-																					Class="fa fa-arrow-up text-success"
-																					Condition="@Data.Progress~ &gt; 80"
-																				/>
-																				<ConditionalClass
-																					Class="fa fa-star text-warning"
-																					Condition="@Data.Progress~ &gt; 50 "
-																				/>
-																				<ConditionalClass
-																					Class="fa fa-arrow-down text-danger"
-																					Condition="@Data.Progress~ &lt;= 50"
-																				/>
+																				<Remark>
+																					<ConditionalClass
+																						Class="fa fa-arrow-up text-success"
+																						Condition="@Data.Progress~ &gt; 80"
+																					/>
+																				</Remark>
+																				<Remark>
+																					<ConditionalClass
+																						Class="fa fa-star text-warning"
+																						Condition="@Data.Progress~ &gt; 50 "
+																					/>
+																				</Remark>
+																				<Remark>
+																					<ConditionalClass
+																						Class="fa fa-arrow-down text-danger"
+																						Condition="@Data.Progress~ &lt;= 50"
+																					/>
+																				</Remark>
 																				<Action
 																					Display="Toggle"
 																					ElementID="miExpenseTasks"
@@ -2811,18 +2823,24 @@
 																				Caption="@Data.Progress~%"
 																				ID="colProgress"
 																				>
-																				<ConditionalClass
-																					Class="fa fa-arrow-up text-success"
-																					Condition="@Data.Progress~ &gt; 80"
-																				/>
-																				<ConditionalClass
-																					Class="fa fa-star text-warning"
-																					Condition="@Data.Progress~ &gt; 50 "
-																				/>
-																				<ConditionalClass
-																					Class="fa fa-arrow-down text-danger"
-																					Condition="@Data.Progress~ &lt;= 50"
-																				/>
+																				<Remark>
+																					<ConditionalClass
+																						Class="fa fa-arrow-up text-success"
+																						Condition="@Data.Progress~ &gt; 80"
+																					/>
+																				</Remark>
+																				<Remark>
+																					<ConditionalClass
+																						Class="fa fa-star text-warning"
+																						Condition="@Data.Progress~ &gt; 50 "
+																					/>
+																				</Remark>
+																				<Remark>
+																					<ConditionalClass
+																						Class="fa fa-arrow-down text-danger"
+																						Condition="@Data.Progress~ &lt;= 50"
+																					/>
+																				</Remark>
 																				<Action
 																					Display="Toggle"
 																					ElementID="miCustTasks1"
@@ -3244,18 +3262,24 @@
 																				Caption="@Data.Progress~%"
 																				ID="colProgress"
 																				>
-																				<ConditionalClass
-																					Class="fa fa-arrow-up text-success"
-																					Condition="@Data.Progress~ &gt; 80"
-																				/>
-																				<ConditionalClass
-																					Class="fa fa-star text-warning"
-																					Condition="@Data.Progress~ &gt; 50 "
-																				/>
-																				<ConditionalClass
-																					Class="fa fa-arrow-down text-danger"
-																					Condition="@Data.Progress~ &lt;= 50"
-																				/>
+																				<Remark>
+																					<ConditionalClass
+																						Class="fa fa-arrow-up text-success"
+																						Condition="@Data.Progress~ &gt; 80"
+																					/>
+																				</Remark>
+																				<Remark>
+																					<ConditionalClass
+																						Class="fa fa-star text-warning"
+																						Condition="@Data.Progress~ &gt; 50 "
+																					/>
+																				</Remark>
+																				<Remark>
+																					<ConditionalClass
+																						Class="fa fa-arrow-down text-danger"
+																						Condition="@Data.Progress~ &lt;= 50"
+																					/>
+																				</Remark>
 																				<Action
 																					Display="Toggle"
 																					ElementID="miCustTasks2"
@@ -3670,18 +3694,24 @@
 																				Caption="@Data.Progress~%"
 																				ID="colProgress"
 																				>
-																				<ConditionalClass
-																					Class="fa fa-arrow-up text-success"
-																					Condition="@Data.Progress~ &gt; 80"
-																				/>
-																				<ConditionalClass
-																					Class="fa fa-star text-warning"
-																					Condition="@Data.Progress~ &gt; 50"
-																				/>
-																				<ConditionalClass
-																					Class="fa fa-arrow-down text-danger"
-																					Condition="@Data.Progress~ &lt;= 50"
-																				/>
+																				<Remark>
+																					<ConditionalClass
+																						Class="fa fa-arrow-up text-success"
+																						Condition="@Data.Progress~ &gt; 80"
+																					/>
+																				</Remark>
+																				<Remark>
+																					<ConditionalClass
+																						Class="fa fa-star text-warning"
+																						Condition="@Data.Progress~ &gt; 50"
+																					/>
+																				</Remark>
+																				<Remark>
+																					<ConditionalClass
+																						Class="fa fa-arrow-down text-danger"
+																						Condition="@Data.Progress~ &lt;= 50"
+																					/>
+																				</Remark>
 																				<Action
 																					Display="Toggle"
 																					ElementID="miCustTasks3"
@@ -4095,18 +4125,24 @@
 																				Caption="@Data.Progress~%"
 																				ID="colProgress"
 																				>
-																				<ConditionalClass
-																					Class="fa fa-arrow-up text-success"
-																					Condition="@Data.Progress~ &gt; 80"
-																				/>
-																				<ConditionalClass
-																					Class="fa fa-star text-warning"
-																					Condition="@Data.Progress~ &gt; 50 "
-																				/>
-																				<ConditionalClass
-																					Class="fa fa-arrow-down text-danger"
-																					Condition="@Data.Progress~ &lt;= 50"
-																				/>
+																				<Remark>
+																					<ConditionalClass
+																						Class="fa fa-arrow-up text-success"
+																						Condition="@Data.Progress~ &gt; 80"
+																					/>
+																				</Remark>
+																				<Remark>
+																					<ConditionalClass
+																						Class="fa fa-star text-warning"
+																						Condition="@Data.Progress~ &gt; 50 "
+																					/>
+																				</Remark>
+																				<Remark>
+																					<ConditionalClass
+																						Class="fa fa-arrow-down text-danger"
+																						Condition="@Data.Progress~ &lt;= 50"
+																					/>
+																				</Remark>
 																				<Action
 																					Display="Toggle"
 																					ElementID="miCustTasks4"
@@ -4528,18 +4564,24 @@
 																				Caption="@Data.Progress~%"
 																				ID="colProgress"
 																				>
-																				<ConditionalClass
-																					Class="fa fa-arrow-up text-success"
-																					Condition="@Data.Progress~ &gt; 80"
-																				/>
-																				<ConditionalClass
-																					Class="fa fa-star text-warning"
-																					Condition="@Data.Progress~ &gt; 50 "
-																				/>
-																				<ConditionalClass
-																					Class="fa fa-arrow-down text-danger"
-																					Condition="@Data.Progress~ &lt;= 50"
-																				/>
+																				<Remark>
+																					<ConditionalClass
+																						Class="fa fa-arrow-up text-success"
+																						Condition="@Data.Progress~ &gt; 80"
+																					/>
+																				</Remark>
+																				<Remark>
+																					<ConditionalClass
+																						Class="fa fa-star text-warning"
+																						Condition="@Data.Progress~ &gt; 50 "
+																					/>
+																				</Remark>
+																				<Remark>
+																					<ConditionalClass
+																						Class="fa fa-arrow-down text-danger"
+																						Condition="@Data.Progress~ &lt;= 50"
+																					/>
+																				</Remark>
 																				<Action
 																					Display="Toggle"
 																					ElementID="miEmployeeTasks1"
@@ -4961,18 +5003,24 @@
 																				Caption="@Data.Progress~%"
 																				ID="colProgress"
 																				>
-																				<ConditionalClass
-																					Class="fa fa-arrow-up text-success"
-																					Condition="@Data.Progress~ &gt; 80"
-																				/>
-																				<ConditionalClass
-																					Class="fa fa-star text-warning"
-																					Condition="@Data.Progress~ &gt; 50 "
-																				/>
-																				<ConditionalClass
-																					Class="fa fa-arrow-down text-danger"
-																					Condition="@Data.Progress~ &lt;= 50"
-																				/>
+																				<Remark>
+																					<ConditionalClass
+																						Class="fa fa-arrow-up text-success"
+																						Condition="@Data.Progress~ &gt; 80"
+																					/>
+																				</Remark>
+																				<Remark>
+																					<ConditionalClass
+																						Class="fa fa-star text-warning"
+																						Condition="@Data.Progress~ &gt; 50 "
+																					/>
+																				</Remark>
+																				<Remark>
+																					<ConditionalClass
+																						Class="fa fa-arrow-down text-danger"
+																						Condition="@Data.Progress~ &lt;= 50"
+																					/>
+																				</Remark>
 																				<Action
 																					Display="Toggle"
 																					ElementID="miEmployeeTasks2"
@@ -5388,18 +5436,24 @@
 																				Caption="@Data.Progress~%"
 																				ID="colProgress"
 																				>
-																				<ConditionalClass
-																					Class="fa fa-arrow-up text-success"
-																					Condition="@Data.Progress~ &gt; 80"
-																				/>
-																				<ConditionalClass
-																					Class="fa fa-star text-warning"
-																					Condition="@Data.Progress~ &gt; 50 "
-																				/>
-																				<ConditionalClass
-																					Class="fa fa-arrow-down text-danger"
-																					Condition="@Data.Progress~ &lt;= 50"
-																				/>
+																				<Remark>
+																					<ConditionalClass
+																						Class="fa fa-arrow-up text-success"
+																						Condition="@Data.Progress~ &gt; 80"
+																					/>
+																				</Remark>
+																				<Remark>
+																					<ConditionalClass
+																						Class="fa fa-star text-warning"
+																						Condition="@Data.Progress~ &gt; 50 "
+																					/>
+																				</Remark>
+																				<Remark>
+																					<ConditionalClass
+																						Class="fa fa-arrow-down text-danger"
+																						Condition="@Data.Progress~ &lt;= 50"
+																					/>
+																				</Remark>
 																				<Action
 																					Display="Toggle"
 																					ElementID="miEmployeeTasks3"
@@ -5813,18 +5867,24 @@
 																				Caption="@Data.Progress~%"
 																				ID="colProgress"
 																				>
-																				<ConditionalClass
-																					Class="fa fa-arrow-up text-success"
-																					Condition="@Data.Progress~ &gt; 80"
-																				/>
-																				<ConditionalClass
-																					Class="fa fa-star text-warning"
-																					Condition="@Data.Progress~ &gt; 50 "
-																				/>
-																				<ConditionalClass
-																					Class="fa fa-arrow-down text-danger"
-																					Condition="@Data.Progress~ &lt;= 50"
-																				/>
+																				<Remark>
+																					<ConditionalClass
+																						Class="fa fa-arrow-up text-success"
+																						Condition="@Data.Progress~ &gt; 80"
+																					/>
+																				</Remark>
+																				<Remark>
+																					<ConditionalClass
+																						Class="fa fa-star text-warning"
+																						Condition="@Data.Progress~ &gt; 50 "
+																					/>
+																				</Remark>
+																				<Remark>
+																					<ConditionalClass
+																						Class="fa fa-arrow-down text-danger"
+																						Condition="@Data.Progress~ &lt;= 50"
+																					/>
+																				</Remark>
 																				<Action
 																					Display="Toggle"
 																					ElementID="miEmployeeTasks4"
@@ -6240,18 +6300,24 @@
 																				Caption="@Data.Progress~%"
 																				ID="colProgress"
 																				>
-																				<ConditionalClass
-																					Class="fa fa-arrow-up text-success"
-																					Condition="@Data.Progress~ &gt; 80"
-																				/>
-																				<ConditionalClass
-																					Class="fa fa-star text-warning"
-																					Condition="@Data.Progress~ &gt; 50 "
-																				/>
-																				<ConditionalClass
-																					Class="fa fa-arrow-down text-danger"
-																					Condition="@Data.Progress~ &lt;= 50"
-																				/>
+																				<Remark>
+																					<ConditionalClass
+																						Class="fa fa-arrow-up text-success"
+																						Condition="@Data.Progress~ &gt; 80"
+																					/>
+																				</Remark>
+																				<Remark>
+																					<ConditionalClass
+																						Class="fa fa-star text-warning"
+																						Condition="@Data.Progress~ &gt; 50 "
+																					/>
+																				</Remark>
+																				<Remark>
+																					<ConditionalClass
+																						Class="fa fa-arrow-down text-danger"
+																						Condition="@Data.Progress~ &lt;= 50"
+																					/>
+																				</Remark>
 																				<Action
 																					ElementID="miEmployeeTasks5"
 																					ID="showEmployeeTasks5"
@@ -6671,18 +6737,24 @@
 																				Caption="@Data.Progress~%"
 																				ID="colProgress"
 																				>
-																				<ConditionalClass
-																					Class="fa fa-arrow-up text-success"
-																					Condition="@Data.Progress~ &gt; 80"
-																				/>
-																				<ConditionalClass
-																					Class="fa fa-star text-warning"
-																					Condition="@Data.Progress~ &gt; 50"
-																				/>
-																				<ConditionalClass
-																					Class="fa fa-arrow-down text-danger"
-																					Condition="@Data.Progress~ &lt;= 50"
-																				/>
+																				<Remark>
+																					<ConditionalClass
+																						Class="fa fa-arrow-up text-success"
+																						Condition="@Data.Progress~ &gt; 80"
+																					/>
+																				</Remark>
+																				<Remark>
+																					<ConditionalClass
+																						Class="fa fa-star text-warning"
+																						Condition="@Data.Progress~ &gt; 50"
+																					/>
+																				</Remark>
+																				<Remark>
+																					<ConditionalClass
+																						Class="fa fa-arrow-down text-danger"
+																						Condition="@Data.Progress~ &lt;= 50"
+																					/>
+																				</Remark>
 																				<Action
 																					Display="Toggle"
 																					ElementID="miRenewalTasks1"
@@ -7104,18 +7176,24 @@
 																				Caption="@Data.Progress~%"
 																				ID="colProgress"
 																				>
-																				<ConditionalClass
-																					Class="fa fa-arrow-up text-success"
-																					Condition="@Data.Progress~ &gt; 80"
-																				/>
-																				<ConditionalClass
-																					Class="fa fa-star text-warning"
-																					Condition="@Data.Progress~ &gt; 50"
-																				/>
-																				<ConditionalClass
-																					Class="fa fa-arrow-down text-danger"
-																					Condition="@Data.Progress~ &lt;= 50"
-																				/>
+																				<Remark>
+																					<ConditionalClass
+																						Class="fa fa-arrow-up text-success"
+																						Condition="@Data.Progress~ &gt; 80"
+																					/>
+																				</Remark>
+																				<Remark>
+																					<ConditionalClass
+																						Class="fa fa-star text-warning"
+																						Condition="@Data.Progress~ &gt; 50"
+																					/>
+																				</Remark>
+																				<Remark>
+																					<ConditionalClass
+																						Class="fa fa-arrow-down text-danger"
+																						Condition="@Data.Progress~ &lt;= 50"
+																					/>
+																				</Remark>
 																				<Action
 																					Display="Toggle"
 																					ElementID="miRenewalTasks2"
@@ -7531,18 +7609,24 @@
 																				Caption="@Data.Progress~%"
 																				ID="colProgress"
 																				>
-																				<ConditionalClass
-																					Class="fa fa-arrow-up text-success"
-																					Condition="@Data.Progress~ &gt; 80"
-																				/>
-																				<ConditionalClass
-																					Class="fa fa-star text-warning"
-																					Condition="@Data.Progress~ &gt; 50 "
-																				/>
-																				<ConditionalClass
-																					Class="fa fa-arrow-down text-danger"
-																					Condition="@Data.Progress~ &lt;= 50"
-																				/>
+																				<Remark>
+																					<ConditionalClass
+																						Class="fa fa-arrow-up text-success"
+																						Condition="@Data.Progress~ &gt; 80"
+																					/>
+																				</Remark>
+																				<Remark>
+																					<ConditionalClass
+																						Class="fa fa-star text-warning"
+																						Condition="@Data.Progress~ &gt; 50 "
+																					/>
+																				</Remark>
+																				<Remark>
+																					<ConditionalClass
+																						Class="fa fa-arrow-down text-danger"
+																						Condition="@Data.Progress~ &lt;= 50"
+																					/>
+																				</Remark>
 																				<Action
 																					Display="Toggle"
 																					ElementID="miRenewalTasks3"
@@ -7965,18 +8049,24 @@
 																				Caption="@Data.Progress~%"
 																				ID="colProgress"
 																				>
-																				<ConditionalClass
-																					Class="fa fa-arrow-up text-success"
-																					Condition="@Data.Progress~ &gt; 80"
-																				/>
-																				<ConditionalClass
-																					Class="fa fa-star text-warning"
-																					Condition="@Data.Progress~ &gt; 50 "
-																				/>
-																				<ConditionalClass
-																					Class="fa fa-arrow-down text-danger"
-																					Condition="@Data.Progress~ &lt;= 50"
-																				/>
+																				<Remark>
+																					<ConditionalClass
+																						Class="fa fa-arrow-up text-success"
+																						Condition="@Data.Progress~ &gt; 80"
+																					/>
+																				</Remark>
+																				<Remark>
+																					<ConditionalClass
+																						Class="fa fa-star text-warning"
+																						Condition="@Data.Progress~ &gt; 50 "
+																					/>
+																				</Remark>
+																				<Remark>
+																					<ConditionalClass
+																						Class="fa fa-arrow-down text-danger"
+																						Condition="@Data.Progress~ &lt;= 50"
+																					/>
+																				</Remark>
 																				<Action
 																					Display="Toggle"
 																					ElementID="miRenewalTasks4"
@@ -8401,18 +8491,24 @@
 																				Caption="@Data.Progress~%"
 																				ID="colProgress"
 																				>
-																				<ConditionalClass
-																					Class="fa fa-arrow-up text-success"
-																					Condition="@Data.Progress~ &gt; 80"
-																				/>
-																				<ConditionalClass
-																					Class="fa fa-star text-warning"
-																					Condition="@Data.Progress~ &gt; 50 "
-																				/>
-																				<ConditionalClass
-																					Class="fa fa-arrow-down text-danger"
-																					Condition="@Data.Progress~ &lt;= 50"
-																				/>
+																				<Remark>
+																					<ConditionalClass
+																						Class="fa fa-arrow-up text-success"
+																						Condition="@Data.Progress~ &gt; 80"
+																					/>
+																				</Remark>
+																				<Remark>
+																					<ConditionalClass
+																						Class="fa fa-star text-warning"
+																						Condition="@Data.Progress~ &gt; 50 "
+																					/>
+																				</Remark>
+																				<Remark>
+																					<ConditionalClass
+																						Class="fa fa-arrow-down text-danger"
+																						Condition="@Data.Progress~ &lt;= 50"
+																					/>
+																				</Remark>
 																				<Action
 																					Display="Toggle"
 																					ElementID="miRenewalTasks5"
@@ -8835,18 +8931,24 @@
 																				Caption="@Data.Progress~%"
 																				ID="colProgress"
 																				>
-																				<ConditionalClass
-																					Class="fa fa-arrow-up text-success"
-																					Condition="@Data.Progress~ &gt; 80"
-																				/>
-																				<ConditionalClass
-																					Class="fa fa-star text-warning"
-																					Condition="@Data.Progress~ &gt; 50 "
-																				/>
-																				<ConditionalClass
-																					Class="fa fa-arrow-down text-danger"
-																					Condition="@Data.Progress~ &lt;= 50"
-																				/>
+																				<Remark>
+																					<ConditionalClass
+																						Class="fa fa-arrow-up text-success"
+																						Condition="@Data.Progress~ &gt; 80"
+																					/>
+																				</Remark>
+																				<Remark>
+																					<ConditionalClass
+																						Class="fa fa-star text-warning"
+																						Condition="@Data.Progress~ &gt; 50 "
+																					/>
+																				</Remark>
+																				<Remark>
+																					<ConditionalClass
+																						Class="fa fa-arrow-down text-danger"
+																						Condition="@Data.Progress~ &lt;= 50"
+																					/>
+																				</Remark>
 																				<Action
 																					Display="Toggle"
 																					ElementID="miRenewalTasks6"
