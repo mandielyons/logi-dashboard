@@ -100,9 +100,9 @@
 			ID="connProdGP"
 			SqlServer="sqlsvr1"
 			SqlServerDatabase="Agtrax_Staging"
-			SqlServerPassword="R3ports"
+			SqlServerPassword="integr8!"
 			SqlServerPort=""
-			SqlServerUser="SRS"
+			SqlServerUser="BIOperations"
 			Type="SqlServer"
 		/>
 		<Remark>
