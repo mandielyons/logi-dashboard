@@ -617,7 +617,7 @@
 								</Remark>
 								<Division
 									ID="scorecard-container"
-									SecurityRightID="SRMGMT,STRATEGICPLAN"
+									SecurityRightID="SRMGMT,STRATEGICPLAN,ADMIN"
 									>
 									<Label
 										Caption="Scorecard"
@@ -647,7 +647,7 @@
 								</Division>
 								<Division
 									ID="admin-container"
-									SecurityRightID="TMA,MKC"
+									SecurityRightID="TMA,MKC,OC"
 									>
 									<Division
 										Class="dropdown"

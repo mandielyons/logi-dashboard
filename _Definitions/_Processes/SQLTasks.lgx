@@ -175,6 +175,150 @@ Completed by: @Function.UserID~"
 			/>
 		</Response>
 	</Task>
+	<Task
+		ID="resetPassword"
+		>
+		<Procedure
+			Expression="InStr(&quot;@Request.iptEmail~&quot;,&quot;tmagrain&quot;) &gt; 0"
+			ID="ifTMAGrain"
+			Type="If"
+			>
+			<Response
+				Type="Report"
+				>
+				<Target
+					Report="Admin.PasswordReset"
+					Type="Report"
+					>
+					<WaitPage/>
+				</Target>
+				<LinkParams
+					Email="@Request.iptEmail~"
+					StatusMsg="TMA"
+				/>
+			</Response>
+		</Procedure>
+		<Procedure
+			Expression="InStr(&quot;@Request.iptEmail~&quot;,&quot;mkcoop&quot;) &gt; 0"
+			ID="ifMKCoop"
+			Type="If"
+			>
+			<Response
+				Type="Report"
+				>
+				<Target
+					Report="Admin.PasswordReset"
+					Type="Report"
+					>
+					<WaitPage/>
+				</Target>
+				<LinkParams
+					Email="@Request.iptEmail~"
+					StatusMsg="MKC"
+				/>
+			</Response>
+		</Procedure>
+		<Procedure
+			Expression="InStr(&quot;@Request.iptEmail~&quot;,&quot;@Local.Email~&quot;) &gt; 0"
+			ID="ifOC"
+			Type="If"
+			>
+			<Procedure
+				ConnectionID="connLogiDB"
+				HandleQuotesInTokens="True"
+				ID="procSelectUserSQL"
+				SqlCommand="Select * From USERS Where USERNAME = &apos;@Request.iptEmail~&apos; And PASSWORD = HASHBYTES(&apos;SHA1&apos;,N&apos;@Request.iptOldPwd~&apos;)
+"
+				SqlReturnType="FirstRow"
+				Type="SQL"
+			/>
+			<Procedure
+				Expression="&quot;@Procedure.procSelectUserSQL.USERNAME~&quot; &lt;&gt;&quot;&quot;"
+				ID="ifResults"
+				Type="If"
+				>
+				<Remark>
+					<Procedure
+						ConnectionID="connLogiDB"
+						HandleQuotesInTokens="True"
+						ID="procEditUserSQL"
+						SqlCommand="UPDATE USERS SET PASSWORD = HASHBYTES(&apos;SHA1&apos;,N&apos;@Request.iptNewPwd~&apos;)
+WHERE EMAIL = &apos;@Request.iptEmail~&apos;"
+						SqlReturnType="RowsAffected"
+						Type="SQL"
+					/>
+				</Remark>
+				<Procedure
+					Expression="@Procedure.procEditUserSQL.RowsAffected~ &gt; 0"
+					ID="exit-success"
+					Type="If"
+					>
+					<Procedure
+						BccEmailAddress="mlyons@mkcoop.com"
+						EmailBody="Dear @Local.FName~,
+Your password reset has been processed.  If you did not reset your password, please contact &lt;a href=&quot;mailto:support@tmagrain.com&quot;&gt;TMA Support&lt;/a&gt; immediately.
+&lt;br&gt;
+&lt;br&gt;
+Thank you!&lt;br&gt;
+&lt;a href=&quot;http://info.tmagrain.com&quot;&gt;info.tmagrain.com&lt;/a&gt;
+"
+						EmailBodyType="HTML"
+						EmailSubject="TMA Dashboard Password Reset"
+						FromEmailAddress="noreply-support@tmagrain.com"
+						ID="sendResetEmail"
+						ToEmailAddress="@Local.EMAIL~"
+						Type="SendMail"
+					/>
+					<Response
+						Type="Report"
+						>
+						<Target
+							Report="Admin.PasswordReset"
+							Type="Report"
+							>
+							<WaitPage/>
+						</Target>
+						<LinkParams
+							StatusMsg="OC"
+						/>
+					</Response>
+				</Procedure>
+				<Procedure
+					Expression="@Procedure.procEditUserSQL.RowsAffected~ &lt;= 0"
+					ID="exit-failure"
+					Type="If"
+					>
+					<Response
+						Type="Report"
+						>
+						<Target
+							Report="Admin.PasswordReset"
+							Type="Report"
+							>
+							<WaitPage/>
+						</Target>
+						<LinkParams
+							StatusMsg="Error: Reset Unsuccessful"
+						/>
+					</Response>
+				</Procedure>
+			</Procedure>
+			<Response
+				Type="Report"
+				>
+				<Target
+					Report="Admin.PasswordReset"
+					Type="Report"
+					>
+					<WaitPage/>
+				</Target>
+				<LinkParams
+					Email="@Request.iptEmail~"
+					StatusMsg="Error: Old password is incorrect.  Please try again."
+				/>
+			</Response>
+		</Procedure>
+	</Task>
 	<ideTestParams
 		dteDropOff=""
 		dteEntered=""
@@ -183,7 +327,9 @@ Completed by: @Function.UserID~"
 		iptCompleteDate=""
 		iptCustomer=""
 		iptElectronic=""
+		iptEmail=""
 		iptEntryId=""
+		iptOldPwd=""
 		iptTickets=""
 		iptUserID=""
 		rdTaskID=""
