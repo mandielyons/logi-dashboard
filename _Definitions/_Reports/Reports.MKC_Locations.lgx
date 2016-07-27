@@ -88,6 +88,7 @@
 									>
 									<LinkParams
 										paramLocCd="@Data.LOCNCODE~"
+										paramLocGLStr="@Data.LocGLStr~"
 										paramLocName="@Data.Location~"
 									/>
 									<WaitPage/>
@@ -367,6 +368,7 @@ ORDER BY ID */"
 													</Target>
 													<LinkParams
 														paramLocCd="@Data.LocationCode~"
+														paramLocGLStr="@Data.LocGLStr~"
 														paramLocName="@Request.paramLocName~"
 													/>
 												</Action>
@@ -391,6 +393,7 @@ ORDER BY ID */"
 													</Target>
 													<LinkParams
 														paramLocCd="@Data.LocationCode~"
+														paramLocGLStr="@Data.LocGLStr~"
 														paramLocName="@Request.paramLocName~"
 													/>
 												</Action>
