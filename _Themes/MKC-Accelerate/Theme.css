@@ -146,7 +146,7 @@ tr.ThemeAlternatingRow:hover>td {
 }
 
 .rdThemeDataTableSummaryRow td {
-  background-color: #52C3FF; /* 72C8C1 */
+  background-color: #50C5B7 !important; /* 72C8C1 */
   color: #fff;
 }
 
@@ -1750,7 +1750,7 @@ table #dtBookmarkSharedWith td:first-of-type > span{
 	}
 
 	.ThemeContainerShaded {
-		background-color: #dcd440;
+		background-color: #F0F465 !important;
 		padding: 6px;
 	}
 
