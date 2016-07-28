@@ -5,3 +5,5 @@ _rdLivePreview*.lgx
 rdDataCache/
 rdDownload/
 rdErrorLog/
+rdTemplate/
+bin/
