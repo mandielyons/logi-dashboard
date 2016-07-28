@@ -227,7 +227,7 @@ Completed by: @Function.UserID~"
 				ConnectionID="connLogiDB"
 				HandleQuotesInTokens="True"
 				ID="procSelectUserSQL"
-				SqlCommand="Select * From USERS Where USERNAME = &apos;@Request.iptEmail~&apos; And PASSWORD = HASHBYTES(&apos;SHA1&apos;,N&apos;@Request.iptOldPwd~&apos;)
+				SqlCommand="Select * From USERS Where USERNAME = &apos;@Request.iptEmail~&apos; And PASSWORD = HASHBYTES(&apos;SHA1&apos;,N&apos;@Request.iptOldPwd~&apos;) 
 "
 				SqlReturnType="FirstRow"
 				Type="SQL"
@@ -237,17 +237,15 @@ Completed by: @Function.UserID~"
 				ID="ifResults"
 				Type="If"
 				>
-				<Remark>
-					<Procedure
-						ConnectionID="connLogiDB"
-						HandleQuotesInTokens="True"
-						ID="procEditUserSQL"
-						SqlCommand="UPDATE USERS SET PASSWORD = HASHBYTES(&apos;SHA1&apos;,N&apos;@Request.iptNewPwd~&apos;)
+				<Procedure
+					ConnectionID="connLogiDB"
+					HandleQuotesInTokens="True"
+					ID="procEditUserSQL"
+					SqlCommand="UPDATE USERS SET PASSWORD = HASHBYTES(&apos;SHA1&apos;,N&apos;@Request.iptNewPwd~&apos;)
 WHERE EMAIL = &apos;@Request.iptEmail~&apos;"
-						SqlReturnType="RowsAffected"
-						Type="SQL"
-					/>
-				</Remark>
+					SqlReturnType="RowsAffected"
+					Type="SQL"
+				/>
 				<Procedure
 					Expression="@Procedure.procEditUserSQL.RowsAffected~ &gt; 0"
 					ID="exit-success"
@@ -255,8 +253,7 @@ WHERE EMAIL = &apos;@Request.iptEmail~&apos;"
 					>
 					<Procedure
 						BccEmailAddress="mlyons@mkcoop.com"
-						EmailBody="Dear @Local.FName~,
-Your password reset has been processed.  If you did not reset your password, please contact &lt;a href=&quot;mailto:support@tmagrain.com&quot;&gt;TMA Support&lt;/a&gt; immediately.
+						EmailBody="Your password reset has been processed.  If you did not reset your password, please contact &lt;a href=&quot;mailto:support@tmagrain.com&quot;&gt;TMA Support&lt;/a&gt; immediately.
 &lt;br&gt;
 &lt;br&gt;
 Thank you!&lt;br&gt;
@@ -266,7 +263,7 @@ Thank you!&lt;br&gt;
 						EmailSubject="TMA Dashboard Password Reset"
 						FromEmailAddress="noreply-support@tmagrain.com"
 						ID="sendResetEmail"
-						ToEmailAddress="@Local.EMAIL~"
+						ToEmailAddress="@Request.iptEmail~"
 						Type="SendMail"
 					/>
 					<Response
@@ -329,6 +326,7 @@ Thank you!&lt;br&gt;
 		iptElectronic=""
 		iptEmail=""
 		iptEntryId=""
+		iptNewPwd=""
 		iptOldPwd=""
 		iptTickets=""
 		iptUserID=""
