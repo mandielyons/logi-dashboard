@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Process
 	ID="SQLTasks"
-	SecurityRightID="TMA,MKC"
+	SecurityRightID="TMA,MKC,OC"
 	>
 	<DefaultRequestParams/>
 	<Task

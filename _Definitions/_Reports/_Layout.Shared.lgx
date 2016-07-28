@@ -57,26 +57,24 @@
 								<Note
 									Note="**Comment back in for security**"
 								/>
-								<Remark>
-									<Image
-										Caption="TMA_LogoHorWht.png"
-										Class="main-logo"
-										ID="tmalogo"
-										SecurityRightID="TMA,OC"
+								<Image
+									Caption="TMA_LogoHorWht.png"
+									Class="main-logo"
+									ID="tmalogo"
+									SecurityRightID="TMA,OC"
+									>
+									<Action
+										ID="actHomeLink"
+										Type="Report"
 										>
-										<Action
-											ID="actHomeLink"
+										<Target
+											Report="TMAReports.TMAContractsDashboard"
 											Type="Report"
 											>
-											<Target
-												Report="TMAReports.TMAContractsDashboard"
-												Type="Report"
-												>
-												<WaitPage/>
-											</Target>
-										</Action>
-									</Image>
-								</Remark>
+											<WaitPage/>
+										</Target>
+									</Action>
+								</Image>
 							</Division>
 							<Division
 								Class="navbar-brand navbar-brand-txt"
@@ -101,13 +99,10 @@
 									<Spaces
 										Size="25"
 									/>
-									
-										<Label
-											Caption="*****FOR INTERNAL TESTING PURPOSES ONLY*****"
-											Class="ThemeErrorText"
-										/>
-									
-									
+									<Label
+										Caption="*****FOR INTERNAL TESTING PURPOSES ONLY*****"
+										Class="ThemeErrorText"
+									/>
 									<LineBreak/>
 								</Division>
 							</Division>
@@ -154,30 +149,28 @@
 										Condition="&quot;@Request.rdReport~&quot;==&quot;Home.MKCReport&quot; || &quot;@Request.rdReport~&quot;==&quot;&quot;"
 									/>
 								</Label>
-								<Remark>
-									<Label
-										Caption="Home"
-										ID="TMAHome"
-										SecurityRightID="TMA,OC"
+								<Label
+									Caption="Home"
+									ID="TMAHome"
+									SecurityRightID="TMA,OC"
+									>
+									<Action
+										ID="actReport"
+										Type="Report"
 										>
-										<Action
-											ID="actReport"
+										<Target
+											ID="tgtReport"
+											Report="Home.Default"
 											Type="Report"
 											>
-											<Target
-												ID="tgtReport"
-												Report="Home.Default"
-												Type="Report"
-												>
-												<WaitPage/>
-											</Target>
-										</Action>
-										<ConditionalClass
-											Class="selected-menu "
-											Condition="&quot;@Request.rdReport~&quot;==&quot;Home.MKCReport&quot; || &quot;@Request.rdReport~&quot;==&quot;&quot;"
-										/>
-									</Label>
-								</Remark>
+											<WaitPage/>
+										</Target>
+									</Action>
+									<ConditionalClass
+										Class="selected-menu "
+										Condition="&quot;@Request.rdReport~&quot;==&quot;Home.MKCReport&quot; || &quot;@Request.rdReport~&quot;==&quot;&quot;"
+									/>
+								</Label>
 								<Label
 									Caption="|"
 									Class="pipe-spacer"
@@ -911,13 +904,11 @@
 					Format="HTML"
 					SecurityRightID="MKC"
 				/>
-				<Remark>
-					<Label
-						Caption="© Copyright 2015 - Team Marketing Alliance. All rights reserved."
-						Format="HTML"
-						SecurityRightID="TMA,OC"
-					/>
-				</Remark>
+				<Label
+					Caption="© Copyright 2015 - Team Marketing Alliance. All rights reserved."
+					Format="HTML"
+					SecurityRightID="TMA,OC"
+				/>
 				<Remark>
 					<Division
 						HtmlDiv="True"
