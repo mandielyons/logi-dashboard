@@ -57,24 +57,26 @@
 								<Note
 									Note="**Comment back in for security**"
 								/>
-								<Image
-									Caption="TMA_LogoHorWht.png"
-									Class="main-logo"
-									ID="tmalogo"
-									SecurityRightID="TMA,OC"
-									>
-									<Action
-										ID="actHomeLink"
-										Type="Report"
+								<Remark>
+									<Image
+										Caption="TMA_LogoHorWht.png"
+										Class="main-logo"
+										ID="tmalogo"
+										SecurityRightID="TMA,OC"
 										>
-										<Target
-											Report="TMAReports.TMAContractsDashboard"
+										<Action
+											ID="actHomeLink"
 											Type="Report"
 											>
-											<WaitPage/>
-										</Target>
-									</Action>
-								</Image>
+											<Target
+												Report="TMAReports.TMAContractsDashboard"
+												Type="Report"
+												>
+												<WaitPage/>
+											</Target>
+										</Action>
+									</Image>
+								</Remark>
 							</Division>
 							<Division
 								Class="navbar-brand navbar-brand-txt"
@@ -151,119 +153,123 @@
 										Condition="&quot;@Request.rdReport~&quot;==&quot;Home.MKCReport&quot; || &quot;@Request.rdReport~&quot;==&quot;&quot;"
 									/>
 								</Label>
-								<Label
-									Caption="Home"
-									ID="TMAHome"
-									SecurityRightID="TMA,OC"
-									>
-									<Action
-										ID="actReport"
-										Type="Report"
+								<Remark>
+									<Label
+										Caption="Home"
+										ID="TMAHome"
+										SecurityRightID="TMA,OC"
 										>
-										<Target
-											ID="tgtReport"
-											Report="Home.Default"
+										<Action
+											ID="actReport"
 											Type="Report"
 											>
-											<WaitPage/>
-										</Target>
-									</Action>
-									<ConditionalClass
-										Class="selected-menu "
-										Condition="&quot;@Request.rdReport~&quot;==&quot;Home.MKCReport&quot; || &quot;@Request.rdReport~&quot;==&quot;&quot;"
-									/>
-								</Label>
+											<Target
+												ID="tgtReport"
+												Report="Home.Default"
+												Type="Report"
+												>
+												<WaitPage/>
+											</Target>
+										</Action>
+										<ConditionalClass
+											Class="selected-menu "
+											Condition="&quot;@Request.rdReport~&quot;==&quot;Home.MKCReport&quot; || &quot;@Request.rdReport~&quot;==&quot;&quot;"
+										/>
+									</Label>
+								</Remark>
 								<Label
 									Caption="|"
 									Class="pipe-spacer"
 									ID="pipe-spacer"
 								/>
-								<Division
-									ID="reports-container"
-									SecurityRightID="MKC"
-									>
+								<Remark>
 									<Division
-										Class="dropdown"
-										HtmlDiv="True"
-										ID="reports"
+										ID="reports-container"
+										SecurityRightID="MKC"
 										>
-										<Label
-											Caption="Financial"
-											>
-											<Action
-												ID="actBlank"
-												Javascript="void(0)"
-												Type="Javascript"
-											/>
-											<ConditionalClass
-												Class="selected-menu"
-												Condition="&quot;@Request.rdReport~&quot;.indexOf(&quot;Reports&quot;)&lt;&gt;&quot;-1&quot;"
-											/>
-										</Label>
-										<Label
-											Class="caret"
-											>
-											<Action
-												ID="actBlank"
-												Javascript="void(0)"
-												Type="Javascript"
-											/>
-											<ConditionalClass
-												Class="caret selected-menu"
-												Condition="&quot;@Request.rdReport~&quot;.indexOf(&quot;Reports&quot;)&lt;&gt;&quot;-1&quot;"
-											/>
-										</Label>
 										<Division
-											Class="submenu"
+											Class="dropdown"
 											HtmlDiv="True"
-											ID="submenu-reports"
+											ID="reports"
 											>
-											<DataList
-												ID="lstReports"
+											<Label
+												Caption="Financial"
 												>
-												<DataLayer
-													ID="dlNav-Reports"
-													Type="DefinitionList"
+												<Action
+													ID="actBlank"
+													Javascript="void(0)"
+													Type="Javascript"
+												/>
+												<ConditionalClass
+													Class="selected-menu"
+													Condition="&quot;@Request.rdReport~&quot;.indexOf(&quot;Reports&quot;)&lt;&gt;&quot;-1&quot;"
+												/>
+											</Label>
+											<Label
+												Class="caret"
+												>
+												<Action
+													ID="actBlank"
+													Javascript="void(0)"
+													Type="Javascript"
+												/>
+												<ConditionalClass
+													Class="caret selected-menu"
+													Condition="&quot;@Request.rdReport~&quot;.indexOf(&quot;Reports&quot;)&lt;&gt;&quot;-1&quot;"
+												/>
+											</Label>
+											<Division
+												Class="submenu"
+												HtmlDiv="True"
+												ID="submenu-reports"
+												>
+												<DataList
+													ID="lstReports"
 													>
-													<CompareFilter
-														CaseSensitive="True"
-														CompareType="="
-														CompareValue="Reports"
-														DataColumn="Folder1"
-														DataType="Text"
-														ID="fReports"
-													/>
-												</DataLayer>
-												<ListItem>
-													<Label
-														Caption="@Data.Caption~"
+													<DataLayer
+														ID="dlNav-Reports"
+														Type="DefinitionList"
 														>
-														<Action
-															ID="actReport"
-															Type="Report"
+														<CompareFilter
+															CaseSensitive="True"
+															CompareType="="
+															CompareValue="Reports"
+															DataColumn="Folder1"
+															DataType="Text"
+															ID="fReports"
+														/>
+													</DataLayer>
+													<ListItem>
+														<Label
+															Caption="@Data.Caption~"
 															>
-															<Target
-																Report="@Data.ID~"
+															<Action
+																ID="actReport"
 																Type="Report"
 																>
-																<WaitPage/>
-															</Target>
-														</Action>
-														<ConditionalClass
-															Class="selected-menu"
-															Condition="&quot;@Request.rdReport~&quot;==&quot;@Data.ID~&quot;"
-														/>
-													</Label>
-												</ListItem>
-											</DataList>
+																<Target
+																	Report="@Data.ID~"
+																	Type="Report"
+																	>
+																	<WaitPage/>
+																</Target>
+															</Action>
+															<ConditionalClass
+																Class="selected-menu"
+																Condition="&quot;@Request.rdReport~&quot;==&quot;@Data.ID~&quot;"
+															/>
+														</Label>
+													</ListItem>
+												</DataList>
+											</Division>
 										</Division>
+										<Label
+											Caption="|"
+											Class="pipe-spacer"
+											ID="pipe-spacer"
+										/>
 									</Division>
-									<Label
-										Caption="|"
-										Class="pipe-spacer"
-										ID="pipe-spacer"
-									/>
-								</Division>
+								</Remark>
 								<Division
 									ID="tma-reports-container"
 									SecurityRightID="TMA,MKC,OC"
@@ -904,11 +910,13 @@
 					Format="HTML"
 					SecurityRightID="MKC"
 				/>
-				<Label
-					Caption="© Copyright 2015 - Team Marketing Alliance. All rights reserved."
-					Format="HTML"
-					SecurityRightID="TMA,OC"
-				/>
+				<Remark>
+					<Label
+						Caption="© Copyright 2015 - Team Marketing Alliance. All rights reserved."
+						Format="HTML"
+						SecurityRightID="TMA,OC"
+					/>
+				</Remark>
 				<Remark>
 					<Division
 						HtmlDiv="True"
