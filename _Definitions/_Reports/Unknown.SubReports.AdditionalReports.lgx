@@ -1229,26 +1229,26 @@ ORDER BY AgLocationCode, Operator
 						<Division
 							Class="panel panel-default"
 							HtmlDiv="True"
-							ID="panel-grainshrink"
+							ID="panel-AvoidableDiscounts"
 							>
 							<Division
 								Class="panel-heading"
 								HtmlDiv="True"
-								ID="divGrainShrinkHeading"
+								ID="divAvoidableDiscountsHeading"
 							/>
 							<Division
 								Class="panel-body ThemeAlignRight"
 								HtmlDiv="True"
-								ID="divGrainShrink"
+								ID="divAvoidableDiscounts"
 								>
 								<Label
 									Class="fa fa-file-pdf-o fa-2x"
 									HtmlTag="Div"
-									ID="exportGrainShrink"
+									ID="exportAvoidableDiscounts"
 									Tooltip="Export to PDF"
 									>
 									<Action
-										ID="exportPDFGrainShrink"
+										ID="exportPDFAvoidableDiscounts"
 										Type="PDF"
 										>
 										<Target
@@ -1263,7 +1263,7 @@ ORDER BY AgLocationCode, Operator
 							<Division
 								Class="panel-body"
 								HtmlDiv="True"
-								ID="divGrainShrinkData"
+								ID="divAvoidableDiscountsData"
 								>
 								<Note
 									Note="**Add data here**"
@@ -1271,16 +1271,16 @@ ORDER BY AgLocationCode, Operator
 								<Division
 									Class="panel-heading"
 									HtmlDiv="True"
-									ID="panel-headingGrainShrink"
+									ID="panel-headingAvoidableDiscounts"
 									>
 									<Label
-										Caption="Grain Discounts, Dockage and Shrink"
+										Caption="Avoidable Discounts - Dollars"
 									/>
 								</Division>
 								<Division
 									Class="panel-body"
 									HtmlDiv="True"
-									ID="panel-bodyGrainShrink"
+									ID="panel-bodyAvoidableDiscounts"
 									>
 									<Rows
 										Width="100"
@@ -1294,36 +1294,38 @@ ORDER BY AgLocationCode, Operator
 											</Column>
 											<Column>
 												<DataTable
-													ID="dtGrainShrink"
+													ID="dtAvoidableDiscounts"
 													SortArrows="True"
 													>
 													<DataLayer
-														ColumnNamesRow="1"
-														ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\SeededAcres.xlsx"
-														ExcelWorksheet="SeededAcres"
-														Type="Excel"
-														>
-														<ConditionFilter
-															Condition="(@Data.FiscalYear~ = @Request.paramFiscYear~) AND 
-(@Data.FiscalPeriod~ = @Request.paramFiscPeriod~) AND
-(&quot;@Data.LocGLStr~&quot; = &quot;@Request.paramLocGLStr~&quot;)"
-														/>
-													</DataLayer>
+														ConnectionID="connProdGP"
+														ID="sqlAvoidableDiscounts"
+														Source="SELECT COALESCE(cMTD.GLLocStr,cYTD.GLLocStr,pMTD.GLLocStr,pYTD.GLLocStr) GLLocStr, COALESCE(cMTD.COMMODITY_DESC,cYTD.COMMODITY_DESC,pMTD.COMMODITY_DESC,pYTD.COMMODITY_DESC) COMMODITY_DESC, SUM(ISNULL(cMTD.AMOUNT,0)) cMTD, SUM(ISNULL(cYTD.AMOUNT,0)) cYTD, SUM(ISNULL(pMTD.AMOUNT,0)) pMTD, SUM(ISNULL(pYTD.AMOUNT,0)) pYTD
+FROM 
+  (SELECT GLLocStr, COMMODITY_DESC, SUM(AMOUNT) AMOUNT FROM MKCGP..vmkcGrainAvoidableDiscounts WHERE FiscalYear=(@Request.paramFiscYear~  ) and FiscalPeriod =@Request.paramFiscPeriod~ and GLLocStr=&apos;@Request.paramLocGLStr~&apos; GROUP BY GLLocStr, COMMODITY_DESC) cMTD FULL OUTER JOIN 
+  (SELECT GLLocStr, COMMODITY_DESC, SUM(AMOUNT) AMOUNT FROM MKCGP..vmkcGrainAvoidableDiscounts WHERE FiscalYear=(@Request.paramFiscYear~  ) and FiscalPeriod&lt;=@Request.paramFiscPeriod~ and GLLocStr=&apos;@Request.paramLocGLStr~&apos; GROUP BY GLLocStr, COMMODITY_DESC) cYTD ON cMTD.GLLocStr=cYTD.GLLocStr AND cMTD.COMMODITY_DESC=cYTD.COMMODITY_DESC FULL OUTER JOIN 
+  (SELECT GLLocStr, COMMODITY_DESC, SUM(AMOUNT) AMOUNT FROM MKCGP..vmkcGrainAvoidableDiscounts WHERE FiscalYear=(@Request.paramFiscYear~-1) and FiscalPeriod =@Request.paramFiscPeriod~ and GLLocStr=&apos;@Request.paramLocGLStr~&apos; GROUP BY GLLocStr, COMMODITY_DESC) pMTD ON cMTD.GLLocStr=pMTD.GLLocStr AND cMTD.COMMODITY_DESC=pMTD.COMMODITY_DESC FULL OUTER JOIN 
+  (SELECT GLLocStr, COMMODITY_DESC, SUM(AMOUNT) AMOUNT FROM MKCGP..vmkcGrainAvoidableDiscounts WHERE FiscalYear=(@Request.paramFiscYear~-1) and FiscalPeriod&lt;=@Request.paramFiscPeriod~ and GLLocStr=&apos;@Request.paramLocGLStr~&apos; GROUP BY GLLocStr, COMMODITY_DESC) pYTD ON cMTD.GLLocStr=pYTD.GLLocStr AND cMTD.COMMODITY_DESC=pYTD.COMMODITY_DESC 
+GROUP BY COALESCE(cMTD.GLLocStr,cYTD.GLLocStr,pMTD.GLLocStr,pYTD.GLLocStr), COALESCE(cMTD.COMMODITY_DESC,cYTD.COMMODITY_DESC,pMTD.COMMODITY_DESC,pYTD.COMMODITY_DESC) 
+ORDER BY GLLocStr, COMMODITY_DESC
+"
+														Type="SQL"
+													/>
 													<DataTableColumn
 														Class="ThemeMargin"
 														ColumnHeaderClass="ThemeAlignCenter"
 														Header="Commodity"
 														HeaderType="Text"
-														ID="colSeedCategory"
+														ID="colCommodityDesc"
 														Width="25"
 														WidthScale="%"
 														>
 														<Label
-															Caption="@Data.SeedCategory~"
-															ID="SeedCategory"
+															Caption="@Data.COMMODITY_DESC~"
+															ID="COMMODITY_DESC"
 														/>
 														<DataColumnSort
-															DataColumn="SeedCategory"
+															DataColumn="COMMODITY_DESC"
 															DataType="Text"
 														/>
 													</DataTableColumn>
@@ -1332,22 +1334,22 @@ ORDER BY AgLocationCode, Operator
 														ColumnHeaderClass="ThemeAlignCenter"
 														Header="Current Period"
 														HeaderType="Text"
-														ID="colCMTD_A"
+														ID="colCMTD"
 														>
 														<Label
-															Caption="@Data.cMTD_A~"
+															Caption="@Data.cMTD~"
 															Format="###,###,##0"
-															ID="cMTD_A"
+															ID="cMTD"
 														/>
 														<DataColumnSort
-															DataColumn="cMTD_A"
+															DataColumn="cMTD"
 															DataType="Number"
 														/>
 														<DataColumnSummary
-															DataColumn="cMTD_A"
+															DataColumn="cMTD"
 															DataType="Number"
 															Function="Sum"
-															ID="sum_cMTD_A"
+															ID="sum_cMTD"
 														/>
 													</DataTableColumn>
 													<DataTableColumn
@@ -1355,22 +1357,22 @@ ORDER BY AgLocationCode, Operator
 														ColumnHeaderClass="ThemeAlignCenter"
 														Header="Year-To-Date"
 														HeaderType="Text"
-														ID="colCYTD_A"
+														ID="colCYTD"
 														>
 														<Label
-															Caption="@Data.cYTD_A~"
+															Caption="@Data.cYTD~"
 															Format="###,###,##0"
-															ID="cYTD_A"
+															ID="cYTD"
 														/>
 														<DataColumnSort
-															DataColumn="cYTD_A"
+															DataColumn="cYTD"
 															DataType="Number"
 														/>
 														<DataColumnSummary
-															DataColumn="cYTD_A"
+															DataColumn="cYTD"
 															DataType="Number"
 															Function="Sum"
-															ID="sum_cYTD_A"
+															ID="sum_cYTD"
 														/>
 													</DataTableColumn>
 													<DataTableColumn
@@ -1378,22 +1380,22 @@ ORDER BY AgLocationCode, Operator
 														ColumnHeaderClass="ThemeAlignCenter"
 														Header="Prior Year Period"
 														HeaderType="Text"
-														ID="colPMTD_A"
+														ID="colPMTD"
 														>
 														<Label
-															Caption="@Data.pMTD_A~"
+															Caption="@Data.pMTD~"
 															Format="###,###,##0"
-															ID="pMTD_A"
+															ID="pMTD"
 														/>
 														<DataColumnSort
-															DataColumn="pMTD_A"
+															DataColumn="pMTD"
 															DataType="Number"
 														/>
 														<DataColumnSummary
-															DataColumn="pMTD_A"
+															DataColumn="pMTD"
 															DataType="Number"
 															Function="Sum"
-															ID="sum_pMTD_A"
+															ID="sum_pMTD"
 														/>
 													</DataTableColumn>
 													<DataTableColumn
@@ -1401,22 +1403,252 @@ ORDER BY AgLocationCode, Operator
 														ColumnHeaderClass="ThemeAlignCenter"
 														Header="Prior Year-To-Date"
 														HeaderType="Text"
-														ID="colPYTD_A"
+														ID="colPYTD"
 														>
 														<Label
-															Caption="@Data.pYTD_A~"
+															Caption="@Data.pYTD~"
 															Format="###,###,##0"
-															ID="pYTD_A"
+															ID="pYTD"
 														/>
 														<DataColumnSort
-															DataColumn="pYTD_A"
+															DataColumn="pYTD"
 															DataType="Number"
 														/>
 														<DataColumnSummary
-															DataColumn="pMTD_A"
+															DataColumn="pMTD"
 															DataType="Number"
 															Function="Sum"
-															ID="sum_pMTD_A"
+															ID="sum_pMTD"
+														/>
+													</DataTableColumn>
+													<SummaryRow
+														Caption="Totals: "
+														ID="summaryRow"
+													/>
+												</DataTable>
+											</Column>
+											<Remark>
+												<Column>
+													<Spaces
+														Size="40"
+													/>
+												</Column>
+											</Remark>
+											<Column>
+												<Spaces
+													Size="40"
+												/>
+											</Column>
+											<Column>
+												<Spaces
+													Size="40"
+												/>
+											</Column>
+											<Column>
+												<Spaces
+													Size="40"
+												/>
+											</Column>
+										</Row>
+									</Rows>
+									<LineBreak/>
+									<LineBreak/>
+								</Division>
+							</Division>
+						</Division>
+						<Division
+							Class="panel panel-default"
+							HtmlDiv="True"
+							ID="panel-LongShort"
+							>
+							<Division
+								Class="panel-heading"
+								HtmlDiv="True"
+								ID="divLongShortHeading"
+							/>
+							<Division
+								Class="panel-body ThemeAlignRight"
+								HtmlDiv="True"
+								ID="divLongShort"
+								>
+								<Label
+									Class="fa fa-file-pdf-o fa-2x"
+									HtmlTag="Div"
+									ID="exportLongShort"
+									Tooltip="Export to PDF"
+									>
+									<Action
+										ID="exportPDFLongShort"
+										Type="PDF"
+										>
+										<Target
+											Type="PDF"
+										/>
+									</Action>
+								</Label>
+								<Spaces
+									Size="15"
+								/>
+							</Division>
+							<Division
+								Class="panel-body"
+								HtmlDiv="True"
+								ID="divLongShort"
+								>
+								<Note
+									Note="**Add data here**"
+								/>
+								<Division
+									Class="panel-heading"
+									HtmlDiv="True"
+									ID="panel-headingLongShort"
+									>
+									<Label
+										Caption="Long Short - Bushels"
+									/>
+								</Division>
+								<Division
+									Class="panel-body"
+									HtmlDiv="True"
+									ID="panel-bodyLongShort"
+									>
+									<Rows
+										Width="100"
+										WidthScale="%"
+										>
+										<Row>
+											<Column>
+												<Spaces
+													Size="30"
+												/>
+											</Column>
+											<Column>
+												<DataTable
+													ID="dtLongShort"
+													SortArrows="True"
+													>
+													<DataLayer
+														ConnectionID="connProdGP"
+														ID="sqlLongShort"
+														Source="SELECT COALESCE(cMTD.GLLocStr,cYTD.GLLocStr,pMTD.GLLocStr,pYTD.GLLocStr) GLLocStr, COALESCE(cMTD.COMMODITY_DESC,cYTD.COMMODITY_DESC,pMTD.COMMODITY_DESC,pYTD.COMMODITY_DESC) COMMODITY_DESC, SUM(ISNULL(cMTD.BU,0)) cMTD, SUM(ISNULL(cYTD.BU,0)) cYTD, SUM(ISNULL(pMTD.BU,0)) pMTD, SUM(ISNULL(pYTD.BU,0)) pYTD
+FROM 
+  (SELECT GLLocStr, COMMODITY_DESC, SUM(BU) BU FROM MKCGP..vmkcGrainLongShort WHERE FiscalYear=(@Request.paramFiscYear~  ) and FiscalPeriod =@Request.paramFiscPeriod~ and GLLocStr=&apos;@Request.paramLocGLStr~&apos; GROUP BY GLLocStr, COMMODITY_DESC) cMTD FULL OUTER JOIN 
+  (SELECT GLLocStr, COMMODITY_DESC, SUM(BU) BU FROM MKCGP..vmkcGrainLongShort WHERE FiscalYear=(@Request.paramFiscYear~  ) and FiscalPeriod&lt;=@Request.paramFiscPeriod~ and GLLocStr=&apos;@Request.paramLocGLStr~&apos; GROUP BY GLLocStr, COMMODITY_DESC) cYTD ON cMTD.GLLocStr=cYTD.GLLocStr AND cMTD.COMMODITY_DESC=cYTD.COMMODITY_DESC FULL OUTER JOIN 
+  (SELECT GLLocStr, COMMODITY_DESC, SUM(BU) BU FROM MKCGP..vmkcGrainLongShort WHERE FiscalYear=(@Request.paramFiscYear~-1) and FiscalPeriod =@Request.paramFiscPeriod~ and GLLocStr=&apos;@Request.paramLocGLStr~&apos; GROUP BY GLLocStr, COMMODITY_DESC) pMTD ON cMTD.GLLocStr=pMTD.GLLocStr AND cMTD.COMMODITY_DESC=pMTD.COMMODITY_DESC FULL OUTER JOIN 
+  (SELECT GLLocStr, COMMODITY_DESC, SUM(BU) BU FROM MKCGP..vmkcGrainLongShort WHERE FiscalYear=(@Request.paramFiscYear~-1) and FiscalPeriod&lt;=@Request.paramFiscPeriod~ and GLLocStr=&apos;@Request.paramLocGLStr~&apos; GROUP BY GLLocStr, COMMODITY_DESC) pYTD ON cMTD.GLLocStr=pYTD.GLLocStr AND cMTD.COMMODITY_DESC=pYTD.COMMODITY_DESC 
+GROUP BY COALESCE(cMTD.GLLocStr,cYTD.GLLocStr,pMTD.GLLocStr,pYTD.GLLocStr), COALESCE(cMTD.COMMODITY_DESC,cYTD.COMMODITY_DESC,pMTD.COMMODITY_DESC,pYTD.COMMODITY_DESC) 
+ORDER BY GLLocStr, COMMODITY_DESC
+"
+														Type="SQL"
+													/>
+													<DataTableColumn
+														Class="ThemeMargin"
+														ColumnHeaderClass="ThemeAlignCenter"
+														Header="Commodity"
+														HeaderType="Text"
+														ID="colCommodityDesc"
+														Width="25"
+														WidthScale="%"
+														>
+														<Label
+															Caption="@Data.COMMODITY_DESC~"
+															ID="COMMODITY_DESC"
+														/>
+														<DataColumnSort
+															DataColumn="COMMODITY_DESC"
+															DataType="Text"
+														/>
+													</DataTableColumn>
+													<DataTableColumn
+														Class="ThemeMargin, ThemeAlignRight"
+														ColumnHeaderClass="ThemeAlignCenter"
+														Header="Current Period"
+														HeaderType="Text"
+														ID="colCMTD"
+														>
+														<Label
+															Caption="@Data.cMTD~"
+															Format="###,###,##0"
+															ID="cMTD"
+														/>
+														<DataColumnSort
+															DataColumn="cMTD"
+															DataType="Number"
+														/>
+														<DataColumnSummary
+															DataColumn="cMTD"
+															DataType="Number"
+															Function="Sum"
+															ID="sum_cMTD"
+														/>
+													</DataTableColumn>
+													<DataTableColumn
+														Class="ThemeMargin, ThemeAlignRight"
+														ColumnHeaderClass="ThemeAlignCenter"
+														Header="Year-To-Date"
+														HeaderType="Text"
+														ID="colCYTD"
+														>
+														<Label
+															Caption="@Data.cYTD~"
+															Format="###,###,##0"
+															ID="cYTD"
+														/>
+														<DataColumnSort
+															DataColumn="cYTD"
+															DataType="Number"
+														/>
+														<DataColumnSummary
+															DataColumn="cYTD"
+															DataType="Number"
+															Function="Sum"
+															ID="sum_cYTD"
+														/>
+													</DataTableColumn>
+													<DataTableColumn
+														Class="ThemeMargin, ThemeAlignRight"
+														ColumnHeaderClass="ThemeAlignCenter"
+														Header="Prior Year Period"
+														HeaderType="Text"
+														ID="colPMTD"
+														>
+														<Label
+															Caption="@Data.pMTD~"
+															Format="###,###,##0"
+															ID="pMTD"
+														/>
+														<DataColumnSort
+															DataColumn="pMTD"
+															DataType="Number"
+														/>
+														<DataColumnSummary
+															DataColumn="pMTD"
+															DataType="Number"
+															Function="Sum"
+															ID="sum_pMTD"
+														/>
+													</DataTableColumn>
+													<DataTableColumn
+														Class="ThemeMargin, ThemeAlignRight"
+														ColumnHeaderClass="ThemeAlignCenter"
+														Header="Prior Year-To-Date"
+														HeaderType="Text"
+														ID="colPYTD"
+														>
+														<Label
+															Caption="@Data.pYTD~"
+															Format="###,###,##0"
+															ID="pYTD"
+														/>
+														<DataColumnSort
+															DataColumn="pYTD"
+															DataType="Number"
+														/>
+														<DataColumnSummary
+															DataColumn="pMTD"
+															DataType="Number"
+															Function="Sum"
+															ID="sum_pMTD"
 														/>
 													</DataTableColumn>
 													<SummaryRow
