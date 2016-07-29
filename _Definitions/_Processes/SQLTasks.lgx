@@ -253,6 +253,7 @@ WHERE EMAIL = &apos;@Request.iptEmail~&apos;"
 					>
 					<Procedure
 						BccEmailAddress="mlyons@mkcoop.com"
+						ConnectionID="connSMTP"
 						EmailBody="Your password reset has been processed.  If you did not reset your password, please contact &lt;a href=&quot;mailto:support@tmagrain.com&quot;&gt;TMA Support&lt;/a&gt; immediately.
 &lt;br&gt;
 &lt;br&gt;
@@ -265,7 +266,29 @@ Thank you!&lt;br&gt;
 						ID="sendResetEmail"
 						ToEmailAddress="@Request.iptEmail~"
 						Type="SendMail"
-					/>
+						>
+						<IfError>
+							<Procedure
+								Expression="Len(&quot;@Procedure.sendResetEmail.ErrorMessage~&quot;) &gt; 0"
+								ID="procSendResetError"
+								Type="If"
+								>
+								<Response
+									Type="Report"
+									>
+									<Target
+										Report="Admin.PasswordReset"
+										Type="Report"
+										>
+										<WaitPage/>
+									</Target>
+									<LinkParams
+										StatusMsg="OC"
+									/>
+								</Response>
+							</Procedure>
+						</IfError>
+					</Procedure>
 					<Response
 						Type="Report"
 						>
