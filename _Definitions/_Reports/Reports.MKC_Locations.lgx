@@ -26,26 +26,6 @@
 		SharedElementID="shrHeader"
 	/>
 	<Body>
-		<Remark>
-			<ResponsiveRow>
-				<ResponsiveColumn>
-					<DataTable
-						ID="dtTest"
-						>
-						<AutoColumns/>
-						<DataLayer
-							ID="dllBranch1"
-							LinkedDataLayerID="dllBranchData"
-							Type="Linked"
-							>
-							<ConditionFilter
-								Condition="&quot;@Data.Active~&quot; = &quot;1&quot;"
-							/>
-						</DataLayer>
-					</DataTable>
-				</ResponsiveColumn>
-			</ResponsiveRow>
-		</Remark>
 		<ResponsiveRow>
 			<ResponsiveColumn>
 				<Division
@@ -362,6 +342,7 @@ ORDER BY ID */"
 														FrameID="NewWindow"
 														ID="targetFinancials"
 														Report="Unknown.SubReports.BranchFinancials"
+														RequestForwarding="True"
 														Type="Report"
 														>
 														<WaitPage/>
@@ -387,6 +368,7 @@ ORDER BY ID */"
 														FrameID="NewWindow"
 														ID="targetAdditional"
 														Report="Unknown.SubReports.AdditionalReports"
+														RequestForwarding="True"
 														Type="Report"
 														>
 														<WaitPage/>

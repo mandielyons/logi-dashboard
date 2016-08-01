@@ -5,7 +5,7 @@
 	>
 	<LocalData>
 		<DataLayer
-			CacheKey="luLocations"
+			CacheKey="luBranchFinancialsLocations"
 			ExpirationTimeSpan="8:00"
 			Type="Cached"
 			>
