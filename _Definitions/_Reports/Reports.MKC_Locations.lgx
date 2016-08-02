@@ -261,7 +261,6 @@ ORDER BY ID */"
 												<LineBreak/>
 												<Label
 													Caption="@Data.CapacityGrain~ Bushels"
-													Format="General Number"
 													ID="lblGrain"
 													>
 													<ConditionalClass
