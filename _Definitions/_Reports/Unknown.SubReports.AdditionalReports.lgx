@@ -317,21 +317,23 @@
 								HtmlDiv="True"
 								ID="divAppByRig"
 								>
-								<Label
-									Class="fa fa-file-pdf-o fa-2x"
-									HtmlTag="Div"
-									ID="exportAppByRig"
-									Tooltip="Export to PDF"
-									>
-									<Action
-										ID="exportPDFAppByRig"
-										Type="PDF"
+								<Remark>
+									<Label
+										Class="fa fa-file-pdf-o fa-2x"
+										HtmlTag="Div"
+										ID="exportAppByRig"
+										Tooltip="Export to PDF"
 										>
-										<Target
+										<Action
+											ID="exportPDFAppByRig"
 											Type="PDF"
-										/>
-									</Action>
-								</Label>
+											>
+											<Target
+												Type="PDF"
+											/>
+										</Action>
+									</Label>
+								</Remark>
 								<Spaces
 									Size="15"
 								/>
@@ -549,21 +551,23 @@ ORDER BY AgLocationCode, Rig
 								HtmlDiv="True"
 								ID="divAppByEmployee"
 								>
-								<Label
-									Class="fa fa-file-pdf-o fa-2x"
-									HtmlTag="Div"
-									ID="exportAppByEmployee"
-									Tooltip="Export to PDF"
-									>
-									<Action
-										ID="exportPDFAppByEmployee"
-										Type="PDF"
+								<Remark>
+									<Label
+										Class="fa fa-file-pdf-o fa-2x"
+										HtmlTag="Div"
+										ID="exportAppByEmployee"
+										Tooltip="Export to PDF"
 										>
-										<Target
+										<Action
+											ID="exportPDFAppByEmployee"
 											Type="PDF"
-										/>
-									</Action>
-								</Label>
+											>
+											<Target
+												Type="PDF"
+											/>
+										</Action>
+									</Label>
+								</Remark>
 								<Spaces
 									Size="15"
 								/>
@@ -781,21 +785,23 @@ ORDER BY AgLocationCode, Operator
 								HtmlDiv="True"
 								ID="divTurns"
 								>
-								<Label
-									Class="fa fa-file-pdf-o fa-2x "
-									HtmlTag="Div"
-									ID="exportTurns"
-									Tooltip="Export to PDF"
-									>
-									<Action
-										ID="exportPDFTurns"
-										Type="PDF"
+								<Remark>
+									<Label
+										Class="fa fa-file-pdf-o fa-2x "
+										HtmlTag="Div"
+										ID="exportTurns"
+										Tooltip="Export to PDF"
 										>
-										<Target
+										<Action
+											ID="exportPDFTurns"
 											Type="PDF"
-										/>
-									</Action>
-								</Label>
+											>
+											<Target
+												Type="PDF"
+											/>
+										</Action>
+									</Label>
+								</Remark>
 								<Spaces
 									Size="15"
 								/>
@@ -1010,21 +1016,23 @@ ORDER BY AgLocationCode, Operator
 								HtmlDiv="True"
 								ID="divAcres"
 								>
-								<Label
-									Class="fa fa-file-pdf-o fa-2x"
-									HtmlTag="Div"
-									ID="exportAcres"
-									Tooltip="Export to PDF"
-									>
-									<Action
-										ID="exportPDFAcres"
-										Type="PDF"
+								<Remark>
+									<Label
+										Class="fa fa-file-pdf-o fa-2x"
+										HtmlTag="Div"
+										ID="exportAcres"
+										Tooltip="Export to PDF"
 										>
-										<Target
+										<Action
+											ID="exportPDFAcres"
 											Type="PDF"
-										/>
-									</Action>
-								</Label>
+											>
+											<Target
+												Type="PDF"
+											/>
+										</Action>
+									</Label>
+								</Remark>
 								<Spaces
 									Size="15"
 								/>
@@ -1346,21 +1354,23 @@ ORDER BY AgLocationCode, Operator
 								HtmlDiv="True"
 								ID="divAvoidableDiscounts"
 								>
-								<Label
-									Class="fa fa-file-pdf-o fa-2x"
-									HtmlTag="Div"
-									ID="exportAvoidableDiscounts"
-									Tooltip="Export to PDF"
-									>
-									<Action
-										ID="exportPDFAvoidableDiscounts"
-										Type="PDF"
+								<Remark>
+									<Label
+										Class="fa fa-file-pdf-o fa-2x"
+										HtmlTag="Div"
+										ID="exportAvoidableDiscounts"
+										Tooltip="Export to PDF"
 										>
-										<Target
+										<Action
+											ID="exportPDFAvoidableDiscounts"
 											Type="PDF"
-										/>
-									</Action>
-								</Label>
+											>
+											<Target
+												Type="PDF"
+											/>
+										</Action>
+									</Label>
+								</Remark>
 								<Spaces
 									Size="15"
 								/>
@@ -1600,21 +1610,23 @@ ORDER BY GLLocStr, COMMODITY_DESC
 								HtmlDiv="True"
 								ID="divLongShort"
 								>
-								<Label
-									Class="fa fa-file-pdf-o fa-2x"
-									HtmlTag="Div"
-									ID="exportLongShort"
-									Tooltip="Export to PDF"
-									>
-									<Action
-										ID="exportPDFLongShort"
-										Type="PDF"
+								<Remark>
+									<Label
+										Class="fa fa-file-pdf-o fa-2x"
+										HtmlTag="Div"
+										ID="exportLongShort"
+										Tooltip="Export to PDF"
 										>
-										<Target
+										<Action
+											ID="exportPDFLongShort"
 											Type="PDF"
-										/>
-									</Action>
-								</Label>
+											>
+											<Target
+												Type="PDF"
+											/>
+										</Action>
+									</Label>
+								</Remark>
 								<Spaces
 									Size="15"
 								/>

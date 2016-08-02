@@ -323,22 +323,24 @@
 								HtmlDiv="True"
 								ID="divVolumes"
 								>
-								<Label
-									Class="fa fa-file-pdf-o fa-2x"
-									HtmlTag="Div"
-									ID="exportVolumes"
-									Tooltip="Export to PDF"
-									>
-									<Action
-										ID="exportPDFVolumes"
-										Type="PDF"
+								<Remark>
+									<Label
+										Class="fa fa-file-pdf-o fa-2x"
+										HtmlTag="Div"
+										ID="exportVolumes"
+										Tooltip="Export to PDF"
 										>
-										<Target
-											Report="Unknown.SubReports.BranchFinancials"
+										<Action
+											ID="exportPDFVolumes"
 											Type="PDF"
-										/>
-									</Action>
-								</Label>
+											>
+											<Target
+												Report="Unknown.SubReports.BranchFinancials"
+												Type="PDF"
+											/>
+										</Action>
+									</Label>
+								</Remark>
 								<Spaces
 									Size="15"
 								/>
@@ -649,23 +651,25 @@ ORDER BY GroupSort, MNACSGMT
 								HtmlDiv="True"
 								ID="divTotals"
 								>
-								<Label
-									Class="fa fa-file-pdf-o fa-2x"
-									HtmlTag="Div"
-									ID="exportTotals"
-									Tooltip="Export to PDF"
-									>
-									<Action
-										ID="exportPDFTotals"
-										Type="PDF"
+								<Remark>
+									<Label
+										Class="fa fa-file-pdf-o fa-2x"
+										HtmlTag="Div"
+										ID="exportTotals"
+										Tooltip="Export to PDF"
 										>
-										<Target
-											FrameID="NewWindow"
-											ID="pdfTotals"
+										<Action
+											ID="exportPDFTotals"
 											Type="PDF"
-										/>
-									</Action>
-								</Label>
+											>
+											<Target
+												FrameID="NewWindow"
+												ID="pdfTotals"
+												Type="PDF"
+											/>
+										</Action>
+									</Label>
+								</Remark>
 								<Spaces
 									Size="15"
 								/>
@@ -1035,22 +1039,24 @@ ORDER BY IntSort;
 								HtmlDiv="True"
 								ID="divSales"
 								>
-								<Label
-									Class="fa fa-file-pdf-o fa-2x "
-									HtmlTag="Div"
-									ID="exportSales"
-									Tooltip="Export to PDF"
-									>
-									<Action
-										ID="exportPDFSales"
-										Type="PDF"
+								<Remark>
+									<Label
+										Class="fa fa-file-pdf-o fa-2x "
+										HtmlTag="Div"
+										ID="exportSales"
+										Tooltip="Export to PDF"
 										>
-										<Target
-											FrameID="NewWindow"
+										<Action
+											ID="exportPDFSales"
 											Type="PDF"
-										/>
-									</Action>
-								</Label>
+											>
+											<Target
+												FrameID="NewWindow"
+												Type="PDF"
+											/>
+										</Action>
+									</Label>
+								</Remark>
 								<Spaces
 									Size="15"
 								/>
@@ -1699,22 +1705,24 @@ ORDER BY MNACSGMT
 								HtmlDiv="True"
 								ID="divOpIncome"
 								>
-								<Label
-									Class="fa fa-file-pdf-o fa-2x"
-									HtmlTag="Div"
-									ID="exportOpIncome"
-									Tooltip="Export to PDF"
-									>
-									<Action
-										ID="exportPDFOpIncome"
-										Type="PDF"
+								<Remark>
+									<Label
+										Class="fa fa-file-pdf-o fa-2x"
+										HtmlTag="Div"
+										ID="exportOpIncome"
+										Tooltip="Export to PDF"
 										>
-										<Target
-											FrameID="NewWindow"
+										<Action
+											ID="exportPDFOpIncome"
 											Type="PDF"
-										/>
-									</Action>
-								</Label>
+											>
+											<Target
+												FrameID="NewWindow"
+												Type="PDF"
+											/>
+										</Action>
+									</Label>
+								</Remark>
 								<Spaces
 									Size="15"
 								/>
@@ -2006,22 +2014,24 @@ ORDER BY MNACSGMT
 								HtmlDiv="True"
 								ID="divPersonnel"
 								>
-								<Label
-									Class="fa fa-file-pdf-o fa-2x"
-									HtmlTag="Div"
-									ID="exportPersonnel"
-									Tooltip="Export to PDF"
-									>
-									<Action
-										ID="exportPDFPersonnel"
-										Type="PDF"
+								<Remark>
+									<Label
+										Class="fa fa-file-pdf-o fa-2x"
+										HtmlTag="Div"
+										ID="exportPersonnel"
+										Tooltip="Export to PDF"
 										>
-										<Target
-											FrameID="NewWindow"
+										<Action
+											ID="exportPDFPersonnel"
 											Type="PDF"
-										/>
-									</Action>
-								</Label>
+											>
+											<Target
+												FrameID="NewWindow"
+												Type="PDF"
+											/>
+										</Action>
+									</Label>
+								</Remark>
 								<Spaces
 									Size="15"
 								/>
@@ -2313,22 +2323,24 @@ ORDER BY MNACSGMT
 								HtmlDiv="True"
 								ID="divFixed"
 								>
-								<Label
-									Class="fa fa-file-pdf-o fa-2x"
-									HtmlTag="Div"
-									ID="exportFixed"
-									Tooltip="Export to PDF"
-									>
-									<Action
-										ID="exportPDFFixed"
-										Type="PDF"
+								<Remark>
+									<Label
+										Class="fa fa-file-pdf-o fa-2x"
+										HtmlTag="Div"
+										ID="exportFixed"
+										Tooltip="Export to PDF"
 										>
-										<Target
-											FrameID="NewWindow"
+										<Action
+											ID="exportPDFFixed"
 											Type="PDF"
-										/>
-									</Action>
-								</Label>
+											>
+											<Target
+												FrameID="NewWindow"
+												Type="PDF"
+											/>
+										</Action>
+									</Label>
+								</Remark>
 								<Spaces
 									Size="15"
 								/>
@@ -2620,22 +2632,24 @@ ORDER BY MNACSGMT
 								HtmlDiv="True"
 								ID="divOtherExpense"
 								>
-								<Label
-									Class="fa fa-file-pdf-o fa-2x"
-									HtmlTag="Div"
-									ID="exportOtherExpense"
-									Tooltip="Export to PDF"
-									>
-									<Action
-										ID="exportPDFOtherExpense"
-										Type="PDF"
+								<Remark>
+									<Label
+										Class="fa fa-file-pdf-o fa-2x"
+										HtmlTag="Div"
+										ID="exportOtherExpense"
+										Tooltip="Export to PDF"
 										>
-										<Target
-											FrameID="NewWindow"
+										<Action
+											ID="exportPDFOtherExpense"
 											Type="PDF"
-										/>
-									</Action>
-								</Label>
+											>
+											<Target
+												FrameID="NewWindow"
+												Type="PDF"
+											/>
+										</Action>
+									</Label>
+								</Remark>
 								<Spaces
 									Size="15"
 								/>
