@@ -1,0 +1,213 @@
+2015-12-09 15:13:30.1677|INFO|thread: 4|AsyncReaderWriterLock|Released concurrent scheduler for operation: 27 at RepositoryViewModel.cs:328 after blocking 0.0104429s
+2015-12-09 15:11:42.2090|INFO|thread: 1|CommandLineHandler|Parsing command line arguments:
+2015-12-09 15:11:42.2254|INFO|thread: 1|CommandLineHandler|Unprocessed args: 
+2015-12-09 15:11:42.2308|INFO|thread: 1|AppInstance|Starting up as master instance of GitHub Desktop
+2015-12-09 15:11:42.2716|INFO|thread: 1|HardwareRenderingHelper|Your video card appears to support hardware rendering. If this isn't the case and you see glitches
+2015-12-09 15:11:42.2716|INFO|thread: 1|HardwareRenderingHelper|set the GH_FORCE_SW_RENDERING environment variable to 1
+2015-12-09 15:11:42.3046|INFO|thread: 4|StartupLogging| #########################################
+2015-12-09 15:11:42.3046|INFO|thread: 4|StartupLogging| GitHub Desktop started. VERSION: 3.0.9.0
+2015-12-09 15:11:42.3046|INFO|thread: 4|StartupLogging| Build version: dd3b7aadb16cf8300c1e2f34ba0cf1f5cf4b960b
+2015-12-09 15:11:42.3046|INFO|thread: 4|StartupLogging| ***************************************
+2015-12-09 15:11:42.3046|INFO|thread: 4|StartupLogging| ***                                 ***
+2015-12-09 15:11:42.3046|INFO|thread: 4|StartupLogging| ***                                 ***
+2015-12-09 15:11:42.3046|INFO|thread: 4|StartupLogging| ***        Have a problem?          ***
+2015-12-09 15:11:42.3046|INFO|thread: 4|StartupLogging| ***    Email support@github.com     ***
+2015-12-09 15:11:42.3046|INFO|thread: 4|StartupLogging| ***      and include this file      ***
+2015-12-09 15:11:42.3046|INFO|thread: 4|StartupLogging| ***                                 ***
+2015-12-09 15:11:42.3046|INFO|thread: 4|StartupLogging| ***                                 ***
+2015-12-09 15:11:42.3046|INFO|thread: 4|StartupLogging| ***************************************
+2015-12-09 15:11:42.3046|INFO|thread: 4|StartupLogging| OS Version: Windows NT 6.3.9600.0 amd64
+2015-12-09 15:11:42.3046|INFO|thread: 4|StartupLogging| CLR Version: 4.0.30319.34209
+2015-12-09 15:11:42.3046|INFO|thread: 4|StartupLogging| Current culture: en-US
+2015-12-09 15:11:42.3046|INFO|thread: 4|StartupLogging| Environment.CurrentDirectory: C:\Users\mlyons\AppData\Local\Apps\2.0\O4HG3OVX.C2H\RZG8RJZ0.LZL\gith..tion_317444273a93ac29_0003.0000_f3a9f44c4e4f6514
+2015-12-09 15:11:42.3046|INFO|thread: 4|StartupLogging| currentProcess.StartInfo.WorkingDirectory: 
+2015-12-09 15:11:42.3046|INFO|thread: 4|StartupLogging| Terminal Services session: no
+2015-12-09 15:11:42.3046|INFO|thread: 4|StartupLogging| Location: C:\Users\mlyons\AppData\Local\Apps\2.0\O4HG3OVX.C2H\RZG8RJZ0.LZL\gith..tion_317444273a93ac29_0003.0000_f3a9f44c4e4f6514\GitHub.exe
+2015-12-09 15:11:42.3094|INFO|thread: 1|App|Checking whether application is network deployed: True
+2015-12-09 15:11:42.3094|INFO|thread: 1|App|Shortcut C:\Users\mlyons\AppData\Local\GitHub\GitHub.appref-ms exists? True
+2015-12-09 15:11:42.3094|INFO|thread: 4|StartupLogging| ActivationUri: https://github-windows.s3.amazonaws.com/GitHub.application
+2015-12-09 15:11:42.3094|INFO|thread: 4|StartupLogging| System.Environment.CommandLine: C:\Users\mlyons\AppData\Local\Apps\2.0\O4HG3OVX.C2H\RZG8RJZ0.LZL\gith..tion_317444273a93ac29_0003.0000_f3a9f44c4e4f6514\GitHub.exe
+2015-12-09 15:11:42.3442|INFO|thread: 1|ClickOnceAppIconHelper|Updating registry with our application icon 'C:\Users\mlyons\AppData\Local\Apps\2.0\O4HG3OVX.C2H\RZG8RJZ0.LZL\gith..tion_317444273a93ac29_0003.0000_f3a9f44c4e4f6514\Images\App.ico'
+2015-12-09 15:11:42.3442|INFO|thread: 4|GitEnvironment|Process set up with this SSH Agent info: 10900:/tmp/ssh-EMqKkISRySiz/agent.9092
+2015-12-09 15:11:42.3442|INFO|thread: 4|GitEnvironment|PATH is C:\Users\mlyons\AppData\Local\GitHub\PortableGit_c7e0cbde92ba565cb218a521411d0e854079a28c\cmd;C:\Users\mlyons\AppData\Local\GitHub\PortableGit_c7e0cbde92ba565cb218a521411d0e854079a28c\usr\bin;C:\Users\mlyons\AppData\Local\GitHub\PortableGit_c7e0cbde92ba565cb218a521411d0e854079a28c\usr\share\git-tfs;C:\Users\mlyons\AppData\Local\Apps\2.0\O4HG3OVX.C2H\RZG8RJZ0.LZL\gith..tion_317444273a93ac29_0003.0000_f3a9f44c4e4f6514;C:\Users\mlyons\AppData\Local\GitHub\lfs-amd64_1.0.2;C:\Windows\Microsoft.NET\Framework\v4.0.30319;C:\Program Files (x86)\Intel\iCLS Client\;C:\Program Files\Intel\iCLS Client\;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files\Intel\WiFi\bin\;C:\Program Files\Common Files\Intel\WirelessCommon\;C:\Program Files\Lenovo\Fingerprint Manager Pro\;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files (x86)\Bitvise SSH Client
+2015-12-09 15:11:42.3442|INFO|thread: 4|StartupLogging| =====================================================
+2015-12-09 15:11:42.3442|INFO|thread: 4|StartupLogging|  DIAGNOSTICS                                        |
+2015-12-09 15:11:42.3442|INFO|thread: 4|StartupLogging| =====================================================
+2015-12-09 15:11:42.3442|INFO|thread: 4|StartupLogging| Git Extracted: 'True:
+2015-12-09 15:11:42.3442|INFO|thread: 4|StartupLogging| PortableGit Dir Exists: 'C:\Users\mlyons\AppData\Local\GitHub\PortableGit_c7e0cbde92ba565cb218a521411d0e854079a28c'
+2015-12-09 15:11:42.3442|INFO|thread: 4|StartupLogging| Git Executable Exists: 'C:\Users\mlyons\AppData\Local\GitHub\PortableGit_c7e0cbde92ba565cb218a521411d0e854079a28c\cmd\git.exe'
+2015-12-09 15:11:42.3442|INFO|thread: 4|StartupLogging| ----------------------------------------------------
+2015-12-09 15:11:42.3442|INFO|thread: 4|StartupLogging| PATH: C:\Program Files (x86)\Intel\iCLS Client\;C:\Program Files\Intel\iCLS Client\;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files\Intel\WiFi\bin\;C:\Program Files\Common Files\Intel\WirelessCommon\;C:\Program Files\Lenovo\Fingerprint Manager Pro\;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files (x86)\Bitvise SSH Client
+2015-12-09 15:11:42.4282|INFO|thread: 4|StartupLogger|Proxy information: (None)
+2015-12-09 15:11:42.4282|INFO|thread: 4|StartupLogger|Couldn't fetch creds for proxy
+2015-12-09 15:11:42.8820|INFO|thread: 4|PortablePackageManager|Already extracted PortableGit.7z, returning 100%
+2015-12-09 15:11:42.9767|INFO|thread: 4|MsysGitCertificateInstaller|Found certificate cache, loaded 156 certificates
+2015-12-09 15:11:42.9767|INFO|thread: 4|MsysGitCertificateInstaller|Created certificate bundle with 182 entries
+2015-12-09 15:11:43.0492|INFO|thread: 4|StartupSequence|Took 177ms to Update certificate bundle from system store
+2015-12-09 15:11:43.7773|INFO|thread: 1|CommandLineToolsExtractor|Portable Git and Git LFS are already extracted
+2015-12-09 15:11:43.7773|INFO|thread: 1|GitClient|Installing git lfs filters
+2015-12-09 15:11:43.7943|INFO|thread: 1|GitEnvironment|Process set up with this SSH Agent info: 10900:/tmp/ssh-EMqKkISRySiz/agent.9092
+2015-12-09 15:11:43.7943|INFO|thread: 1|GitEnvironment|PATH is C:\Users\mlyons\AppData\Local\GitHub\PortableGit_c7e0cbde92ba565cb218a521411d0e854079a28c\cmd;C:\Users\mlyons\AppData\Local\GitHub\PortableGit_c7e0cbde92ba565cb218a521411d0e854079a28c\usr\bin;C:\Users\mlyons\AppData\Local\GitHub\PortableGit_c7e0cbde92ba565cb218a521411d0e854079a28c\usr\share\git-tfs;C:\Users\mlyons\AppData\Local\Apps\2.0\O4HG3OVX.C2H\RZG8RJZ0.LZL\gith..tion_317444273a93ac29_0003.0000_f3a9f44c4e4f6514;C:\Users\mlyons\AppData\Local\GitHub\lfs-amd64_1.0.2;C:\Windows\Microsoft.NET\Framework\v4.0.30319;C:\Windows\System32
+2015-12-09 15:11:43.7943|INFO|thread: 1|ProcessWrapper|Starting: Process - FileName: 'C:\Users\mlyons\AppData\Local\GitHub\PortableGit_c7e0cbde92ba565cb218a521411d0e854079a28c\cmd\git.exe', Args: 'lfs init --force ', Working Directory: C:\Users\mlyons\AppData\Local\Temp\
+2015-12-09 15:11:43.8386|INFO|thread: 1|ReactiveScreen|Activating GitHub.ViewModels.ShellViewModel.
+2015-12-09 15:11:43.8386|INFO|thread: 1|ReactiveScreen|Activating GitHub.ViewModels.DashboardViewModel.
+2015-12-09 15:11:45.0755|INFO|thread: 1|PortablePackageManager|Already extracted gitignore.7z, returning 100%
+2015-12-09 15:11:45.5748|WARN|thread:17|LoginCache|Could not get login for host 'GitHub.HostAddress'
+System.Collections.Generic.KeyNotFoundException: The given key 'login:null' was not present in the cache.
+2015-12-09 15:11:46.3697|INFO|thread: 1|RepositoryHost|Log in from cache for login 'mandielyons' to host 'https://api.github.com/' SUCCEEDED
+2015-12-09 15:11:46.3898|INFO|thread:24|ApplicationShellInitializer|Running post login tasks. ~/.gitconfig is set up with user.name = 'mandielyons' and user.email = 'mlyons@mkcoop.com'
+2015-12-09 15:11:46.4038|INFO|thread:24|SSHKeyHelper|ssh-agent already running
+2015-12-09 15:11:46.4038|INFO|thread:24|PortablePackageManager|Already extracted lfs-amd64.7z, returning 100%
+2015-12-09 15:11:46.4233|INFO|thread:24|GitEnvironment|Process set up with this SSH Agent info: 10900:/tmp/ssh-EMqKkISRySiz/agent.9092
+2015-12-09 15:11:46.4233|INFO|thread:24|GitEnvironment|PATH is C:\Users\mlyons\AppData\Local\GitHub\PortableGit_c7e0cbde92ba565cb218a521411d0e854079a28c\cmd;C:\Users\mlyons\AppData\Local\GitHub\PortableGit_c7e0cbde92ba565cb218a521411d0e854079a28c\usr\bin;C:\Users\mlyons\AppData\Local\GitHub\PortableGit_c7e0cbde92ba565cb218a521411d0e854079a28c\usr\share\git-tfs;C:\Users\mlyons\AppData\Local\Apps\2.0\O4HG3OVX.C2H\RZG8RJZ0.LZL\gith..tion_317444273a93ac29_0003.0000_f3a9f44c4e4f6514;C:\Users\mlyons\AppData\Local\GitHub\lfs-amd64_1.0.2;C:\Windows\Microsoft.NET\Framework\v4.0.30319;C:\Windows\System32
+2015-12-09 15:11:46.4233|INFO|thread:24|ProcessWrapper|Starting: Process - FileName: 'C:\Users\mlyons\AppData\Local\GitHub\PortableGit_c7e0cbde92ba565cb218a521411d0e854079a28c\usr\bin\ssh-add.exe', Args: '"C:\Users\mlyons\.ssh\github_rsa"', Working Directory: C:\Users\mlyons\AppData\Local\Temp\
+2015-12-09 15:11:46.6658|INFO|thread:14|DashboardViewModel|Selected repository '/Tutorial'
+2015-12-09 15:11:46.6841|INFO|thread:14|AsyncReaderWriterLock|Acquiring concurrent scheduler for operation 1 at GitClient.cs:631
+2015-12-09 15:11:46.6841|INFO|thread: 9|AsyncReaderWriterLock|Acquired concurrent scheduler for operation: 1 at GitClient.cs:631 after waiting 0.0016611s
+2015-12-09 15:11:46.6841|INFO|thread:14|AsyncReaderWriterLock|Acquiring exclusive scheduler for operation 2 at GitClient.cs:609
+2015-12-09 15:11:46.7123|INFO|thread: 5|AsyncReaderWriterLock|Released concurrent scheduler for operation: 1 at GitClient.cs:631 after blocking 0.0265024s
+2015-12-09 15:11:46.7143|INFO|thread: 9|AsyncReaderWriterLock|Acquired exclusive scheduler for operation: 2 at GitClient.cs:609 after waiting 0.0262139s
+2015-12-09 15:11:46.8027|INFO|thread:17|SSHKeyHelper|Found existing SSH key pair
+2015-12-09 15:11:47.2135|INFO|thread: 9|AsyncReaderWriterLock|Acquiring concurrent scheduler for operation 3 at GitClient.cs:626
+2015-12-09 15:11:47.3003|INFO|thread: 9|AsyncReaderWriterLock|Acquiring concurrent scheduler for operation 4 at GitClient.cs:224
+2015-12-09 15:11:47.3003|INFO|thread: 9|DashboardViewModel|Took 623ms to Create RepositoryViewModel for location C:\Users\mlyons\AppData\Local\GitHub\TutorialRepository_a66c3719071da6d865a984bb8d6bfb5bcd775ec8\new-repo
+2015-12-09 15:11:47.3003|INFO|thread: 9|AsyncReaderWriterLock|Released exclusive scheduler for operation: 2 at GitClient.cs:609 after blocking 0.5875455s
+2015-12-09 15:11:47.3003|INFO|thread: 4|AsyncReaderWriterLock|Acquired concurrent scheduler for operation: 3 at GitClient.cs:626 after waiting 0.0888115s
+2015-12-09 15:11:47.3003|INFO|thread: 5|AsyncReaderWriterLock|Acquired concurrent scheduler for operation: 4 at GitClient.cs:224 after waiting 0.002136s
+2015-12-09 15:11:47.3103|INFO|thread: 5|GitClient|Loading commits for repo: C:\Users\mlyons\AppData\Local\GitHub\TutorialRepository_a66c3719071da6d865a984bb8d6bfb5bcd775ec8\new-repo
+2015-12-09 15:11:47.3384|INFO|thread: 4|AsyncReaderWriterLock|Acquiring concurrent scheduler for operation 5 at RepositoryViewModel.cs:328
+2015-12-09 15:11:47.3384|INFO|thread:17|AsyncReaderWriterLock|Acquired concurrent scheduler for operation: 5 at RepositoryViewModel.cs:328 after waiting 0.0012636s
+2015-12-09 15:11:47.3384|INFO|thread: 4|AsyncReaderWriterLock|Released concurrent scheduler for operation: 3 at GitClient.cs:626 after blocking 0.038586s
+2015-12-09 15:11:47.3614|INFO|thread: 5|ConcurrentRepositoryConnection|Loaded '2' commits for repo: C:\Users\mlyons\AppData\Local\GitHub\TutorialRepository_a66c3719071da6d865a984bb8d6bfb5bcd775ec8\new-repo\.
+2015-12-09 15:11:47.3794|INFO|thread: 5|AsyncReaderWriterLock|Released concurrent scheduler for operation: 4 at GitClient.cs:224 after blocking 0.0767907s
+2015-12-09 15:11:47.3966|INFO|thread: 9|AsyncReaderWriterLock|Released concurrent scheduler for operation: 5 at RepositoryViewModel.cs:328 after blocking 0.0563197s
+2015-12-09 15:11:47.5004|INFO|thread: 1|AsyncReaderWriterLock|Acquiring concurrent scheduler for operation 6 at GitClient.cs:201
+2015-12-09 15:11:47.5004|INFO|thread: 9|AsyncReaderWriterLock|Acquired concurrent scheduler for operation: 6 at GitClient.cs:201 after waiting 6.94E-05s
+2015-12-09 15:11:47.5004|INFO|thread: 1|AsyncReaderWriterLock|Acquiring concurrent scheduler for operation 7 at RepositoryModel.cs:596
+2015-12-09 15:11:47.5004|INFO|thread: 5|AsyncReaderWriterLock|Acquiring concurrent scheduler for operation 8 at RepositoryModel.cs:596
+2015-12-09 15:11:47.5004|INFO|thread: 4|AsyncReaderWriterLock|Acquired concurrent scheduler for operation: 7 at RepositoryModel.cs:596 after waiting 0.0056414s
+2015-12-09 15:11:47.5337|INFO|thread: 5|AsyncReaderWriterLock|Acquired concurrent scheduler for operation: 8 at RepositoryModel.cs:596 after waiting 0.0277286s
+2015-12-09 15:11:47.5447|INFO|thread:17|AsyncReaderWriterLock|Released concurrent scheduler for operation: 6 at GitClient.cs:201 after blocking 0.0440273s
+2015-12-09 15:11:47.5447|INFO|thread: 5|AsyncReaderWriterLock|Acquiring concurrent scheduler for operation 9 at GitClient.cs:290
+2015-12-09 15:11:47.5447|INFO|thread:17|AsyncReaderWriterLock|Acquired concurrent scheduler for operation: 9 at GitClient.cs:290 after waiting 6.51E-05s
+2015-12-09 15:11:47.5597|INFO|thread: 9|AsyncReaderWriterLock|Released concurrent scheduler for operation: 7 at RepositoryModel.cs:596 after blocking 0.0527957s
+2015-12-09 15:11:47.5597|INFO|thread: 5|AsyncReaderWriterLock|Released concurrent scheduler for operation: 8 at RepositoryModel.cs:596 after blocking 0.0257686s
+2015-12-09 15:11:47.5597|INFO|thread: 4|GitEnvironment|Process set up with this SSH Agent info: 10900:/tmp/ssh-EMqKkISRySiz/agent.9092
+2015-12-09 15:11:47.5597|INFO|thread: 4|GitEnvironment|PATH is C:\Users\mlyons\AppData\Local\GitHub\PortableGit_c7e0cbde92ba565cb218a521411d0e854079a28c\cmd;C:\Users\mlyons\AppData\Local\GitHub\PortableGit_c7e0cbde92ba565cb218a521411d0e854079a28c\usr\bin;C:\Users\mlyons\AppData\Local\GitHub\PortableGit_c7e0cbde92ba565cb218a521411d0e854079a28c\usr\share\git-tfs;C:\Users\mlyons\AppData\Local\Apps\2.0\O4HG3OVX.C2H\RZG8RJZ0.LZL\gith..tion_317444273a93ac29_0003.0000_f3a9f44c4e4f6514;C:\Users\mlyons\AppData\Local\GitHub\lfs-amd64_1.0.2;C:\Windows\Microsoft.NET\Framework\v4.0.30319;C:\Windows\System32
+2015-12-09 15:11:47.5597|INFO|thread: 4|ProcessWrapper|Starting: Process - FileName: 'C:\Users\mlyons\AppData\Local\GitHub\PortableGit_c7e0cbde92ba565cb218a521411d0e854079a28c\cmd\git.exe', Args: 'status --untracked-files=all --porcelain -z ', Working Directory: C:\Users\mlyons\AppData\Local\GitHub\TutorialRepository_a66c3719071da6d865a984bb8d6bfb5bcd775ec8\new-repo\
+2015-12-09 15:11:47.6061|INFO|thread: 4|ConcurrentRepositoryConnection|Took 30ms to git status
+2015-12-09 15:11:47.6061|INFO|thread: 4|ConcurrentRepositoryConnection|Took 31ms to git status and parse output
+2015-12-09 15:11:47.6061|INFO|thread: 4|NewCommitViewModel|Took 64ms to load files for C:\Users\mlyons\AppData\Local\GitHub\TutorialRepository_a66c3719071da6d865a984bb8d6bfb5bcd775ec8\new-repo
+2015-12-09 15:11:47.6061|INFO|thread: 4|AsyncReaderWriterLock|Released concurrent scheduler for operation: 9 at GitClient.cs:290 after blocking 0.0643649s
+2015-12-09 15:11:48.4156|INFO|thread: 1|AsyncReaderWriterLock|Acquiring concurrent scheduler for operation 10 at GitClient.cs:614
+2015-12-09 15:11:48.4156|INFO|thread: 4|AsyncReaderWriterLock|Acquired concurrent scheduler for operation: 10 at GitClient.cs:614 after waiting 2.96E-05s
+2015-12-09 15:11:48.4196|INFO|thread:12|AsyncReaderWriterLock|Released concurrent scheduler for operation: 10 at GitClient.cs:614 after blocking 0.0040608s
+2015-12-09 15:11:48.9260|INFO|thread: 1|AsyncReaderWriterLock|Acquiring concurrent scheduler for operation 11 at BranchesViewModel.cs:535
+2015-12-09 15:11:48.9260|INFO|thread: 4|AsyncReaderWriterLock|Acquired concurrent scheduler for operation: 11 at BranchesViewModel.cs:535 after waiting 8.17E-05s
+2015-12-09 15:11:48.9260|INFO|thread: 1|AsyncReaderWriterLock|Acquiring concurrent scheduler for operation 12 at RepositoryViewModel.cs:328
+2015-12-09 15:11:48.9260|INFO|thread:12|AsyncReaderWriterLock|Acquired concurrent scheduler for operation: 12 at RepositoryViewModel.cs:328 after waiting 4.06E-05s
+2015-12-09 15:11:48.9406|INFO|thread: 1|AsyncReaderWriterLock|Acquiring concurrent scheduler for operation 13 at BranchSynchronizer.cs:126
+2015-12-09 15:11:48.9406|INFO|thread:17|AsyncReaderWriterLock|Acquired concurrent scheduler for operation: 13 at BranchSynchronizer.cs:126 after waiting 0.0014104s
+2015-12-09 15:11:48.9406|INFO|thread: 9|AsyncReaderWriterLock|Released concurrent scheduler for operation: 11 at BranchesViewModel.cs:535 after blocking 0.0196013s
+2015-12-09 15:11:48.9636|INFO|thread: 4|ConcurrentRepositoryConnection|branch stats: remote not found for tutorial-branch
+2015-12-09 15:11:48.9636|INFO|thread: 4|AsyncReaderWriterLock|Released concurrent scheduler for operation: 13 at BranchSynchronizer.cs:126 after blocking 0.0232007s
+2015-12-09 15:11:48.9636|INFO|thread: 5|AsyncReaderWriterLock|Released concurrent scheduler for operation: 12 at RepositoryViewModel.cs:328 after blocking 0.048093s
+2015-12-09 15:11:49.0156|INFO|thread: 1|NewCommitViewModel|Took 1399ms to render file list for C:\Users\mlyons\AppData\Local\GitHub\TutorialRepository_a66c3719071da6d865a984bb8d6bfb5bcd775ec8\new-repo
+2015-12-09 15:11:49.0299|INFO|thread: 1|AsyncReaderWriterLock|Acquiring concurrent scheduler for operation 14 at RepositoryViewModel.cs:328
+2015-12-09 15:11:49.0299|INFO|thread: 5|AsyncReaderWriterLock|Acquired concurrent scheduler for operation: 14 at RepositoryViewModel.cs:328 after waiting 3E-05s
+2015-12-09 15:11:49.0299|INFO|thread: 1|AsyncReaderWriterLock|Released concurrent scheduler for operation: 14 at RepositoryViewModel.cs:328 after blocking 3.67E-05s
+2015-12-09 15:11:49.0299|INFO|thread: 1|AsyncReaderWriterLock|Acquiring concurrent scheduler for operation 15 at RepositoryViewModel.cs:328
+2015-12-09 15:11:49.0299|INFO|thread: 5|AsyncReaderWriterLock|Acquired concurrent scheduler for operation: 15 at RepositoryViewModel.cs:328 after waiting 1.18E-05s
+2015-12-09 15:11:49.0549|INFO|thread:17|AsyncReaderWriterLock|Released concurrent scheduler for operation: 15 at RepositoryViewModel.cs:328 after blocking 0.0245535s
+2015-12-09 15:11:49.6646|INFO|thread: 1|AsyncReaderWriterLock|Acquiring concurrent scheduler for operation 16 at RepositoryViewModel.cs:747
+2015-12-09 15:11:49.6646|INFO|thread: 4|AsyncReaderWriterLock|Acquired concurrent scheduler for operation: 16 at RepositoryViewModel.cs:747 after waiting 9.23E-05s
+2015-12-09 15:11:49.6906|INFO|thread:17|AsyncReaderWriterLock|Released concurrent scheduler for operation: 16 at RepositoryViewModel.cs:747 after blocking 0.0266919s
+2015-12-09 15:11:49.6986|INFO|thread: 1|AsyncReaderWriterLock|Acquiring concurrent scheduler for operation 17 at GitClient.cs:407
+2015-12-09 15:11:49.6986|INFO|thread: 9|AsyncReaderWriterLock|Acquired concurrent scheduler for operation: 17 at GitClient.cs:407 after waiting 0.0001101s
+2015-12-09 15:11:49.6986|INFO|thread: 1|AsyncReaderWriterLock|Acquiring concurrent scheduler for operation 18 at GitClient.cs:407
+2015-12-09 15:11:49.6986|INFO|thread:17|AsyncReaderWriterLock|Acquired concurrent scheduler for operation: 18 at GitClient.cs:407 after waiting 2.21E-05s
+2015-12-09 15:11:49.7147|INFO|thread: 5|GitEnvironment|Process set up with this SSH Agent info: 10900:/tmp/ssh-EMqKkISRySiz/agent.9092
+2015-12-09 15:11:49.7147|INFO|thread: 5|GitEnvironment|PATH is C:\Users\mlyons\AppData\Local\GitHub\PortableGit_c7e0cbde92ba565cb218a521411d0e854079a28c\cmd;C:\Users\mlyons\AppData\Local\GitHub\PortableGit_c7e0cbde92ba565cb218a521411d0e854079a28c\usr\bin;C:\Users\mlyons\AppData\Local\GitHub\PortableGit_c7e0cbde92ba565cb218a521411d0e854079a28c\usr\share\git-tfs;C:\Users\mlyons\AppData\Local\Apps\2.0\O4HG3OVX.C2H\RZG8RJZ0.LZL\gith..tion_317444273a93ac29_0003.0000_f3a9f44c4e4f6514;C:\Users\mlyons\AppData\Local\GitHub\lfs-amd64_1.0.2;C:\Windows\Microsoft.NET\Framework\v4.0.30319;C:\Windows\System32
+2015-12-09 15:11:49.7147|INFO|thread: 5|ProcessWrapper|Starting: Process - FileName: 'C:\Users\mlyons\AppData\Local\GitHub\PortableGit_c7e0cbde92ba565cb218a521411d0e854079a28c\cmd\git.exe', Args: 'diff-tree --root -m -r -z --name-status 3c4783ea5494d3a8ea4736aca832b376992bfc11 ', Working Directory: C:\Users\mlyons\AppData\Local\GitHub\TutorialRepository_a66c3719071da6d865a984bb8d6bfb5bcd775ec8\new-repo\
+2015-12-09 15:11:49.7147|INFO|thread: 4|GitEnvironment|Process set up with this SSH Agent info: 10900:/tmp/ssh-EMqKkISRySiz/agent.9092
+2015-12-09 15:11:49.7147|INFO|thread: 4|GitEnvironment|PATH is C:\Users\mlyons\AppData\Local\GitHub\PortableGit_c7e0cbde92ba565cb218a521411d0e854079a28c\cmd;C:\Users\mlyons\AppData\Local\GitHub\PortableGit_c7e0cbde92ba565cb218a521411d0e854079a28c\usr\bin;C:\Users\mlyons\AppData\Local\GitHub\PortableGit_c7e0cbde92ba565cb218a521411d0e854079a28c\usr\share\git-tfs;C:\Users\mlyons\AppData\Local\Apps\2.0\O4HG3OVX.C2H\RZG8RJZ0.LZL\gith..tion_317444273a93ac29_0003.0000_f3a9f44c4e4f6514;C:\Users\mlyons\AppData\Local\GitHub\lfs-amd64_1.0.2;C:\Windows\Microsoft.NET\Framework\v4.0.30319;C:\Windows\System32
+2015-12-09 15:11:49.7147|INFO|thread: 4|ProcessWrapper|Starting: Process - FileName: 'C:\Users\mlyons\AppData\Local\GitHub\PortableGit_c7e0cbde92ba565cb218a521411d0e854079a28c\cmd\git.exe', Args: 'diff-tree --root -m -r -z --name-status 3c4783ea5494d3a8ea4736aca832b376992bfc11 ', Working Directory: C:\Users\mlyons\AppData\Local\GitHub\TutorialRepository_a66c3719071da6d865a984bb8d6bfb5bcd775ec8\new-repo\
+2015-12-09 15:11:49.7147|INFO|thread: 5|GitEnvironment|Process set up with this SSH Agent info: 10900:/tmp/ssh-EMqKkISRySiz/agent.9092
+2015-12-09 15:11:49.7147|INFO|thread: 5|GitEnvironment|PATH is C:\Users\mlyons\AppData\Local\GitHub\PortableGit_c7e0cbde92ba565cb218a521411d0e854079a28c\cmd;C:\Users\mlyons\AppData\Local\GitHub\PortableGit_c7e0cbde92ba565cb218a521411d0e854079a28c\usr\bin;C:\Users\mlyons\AppData\Local\GitHub\PortableGit_c7e0cbde92ba565cb218a521411d0e854079a28c\usr\share\git-tfs;C:\Users\mlyons\AppData\Local\Apps\2.0\O4HG3OVX.C2H\RZG8RJZ0.LZL\gith..tion_317444273a93ac29_0003.0000_f3a9f44c4e4f6514;C:\Users\mlyons\AppData\Local\GitHub\lfs-amd64_1.0.2;C:\Windows\Microsoft.NET\Framework\v4.0.30319;C:\Windows\System32
+2015-12-09 15:11:49.7147|INFO|thread: 5|ProcessWrapper|Starting: Process - FileName: 'C:\Users\mlyons\AppData\Local\GitHub\PortableGit_c7e0cbde92ba565cb218a521411d0e854079a28c\cmd\git.exe', Args: 'diff-tree --root -m -r -z --numstat 3c4783ea5494d3a8ea4736aca832b376992bfc11 ', Working Directory: C:\Users\mlyons\AppData\Local\GitHub\TutorialRepository_a66c3719071da6d865a984bb8d6bfb5bcd775ec8\new-repo\
+2015-12-09 15:11:49.7147|INFO|thread: 4|GitEnvironment|Process set up with this SSH Agent info: 10900:/tmp/ssh-EMqKkISRySiz/agent.9092
+2015-12-09 15:11:49.7147|INFO|thread: 4|GitEnvironment|PATH is C:\Users\mlyons\AppData\Local\GitHub\PortableGit_c7e0cbde92ba565cb218a521411d0e854079a28c\cmd;C:\Users\mlyons\AppData\Local\GitHub\PortableGit_c7e0cbde92ba565cb218a521411d0e854079a28c\usr\bin;C:\Users\mlyons\AppData\Local\GitHub\PortableGit_c7e0cbde92ba565cb218a521411d0e854079a28c\usr\share\git-tfs;C:\Users\mlyons\AppData\Local\Apps\2.0\O4HG3OVX.C2H\RZG8RJZ0.LZL\gith..tion_317444273a93ac29_0003.0000_f3a9f44c4e4f6514;C:\Users\mlyons\AppData\Local\GitHub\lfs-amd64_1.0.2;C:\Windows\Microsoft.NET\Framework\v4.0.30319;C:\Windows\System32
+2015-12-09 15:11:49.7147|INFO|thread: 4|ProcessWrapper|Starting: Process - FileName: 'C:\Users\mlyons\AppData\Local\GitHub\PortableGit_c7e0cbde92ba565cb218a521411d0e854079a28c\cmd\git.exe', Args: 'diff-tree --root -m -r -z --numstat 3c4783ea5494d3a8ea4736aca832b376992bfc11 ', Working Directory: C:\Users\mlyons\AppData\Local\GitHub\TutorialRepository_a66c3719071da6d865a984bb8d6bfb5bcd775ec8\new-repo\
+2015-12-09 15:11:49.7587|INFO|thread: 1|AsyncReaderWriterLock|Acquiring concurrent scheduler for operation 19 at RepositoryViewModel.cs:747
+2015-12-09 15:11:49.8217|INFO|thread: 1|AsyncReaderWriterLock|Acquiring concurrent scheduler for operation 20 at ICommittedFileForklift.cs:59
+2015-12-09 15:11:50.4809|INFO|thread:12|AsyncReaderWriterLock|Acquired concurrent scheduler for operation: 19 at RepositoryViewModel.cs:747 after waiting 0.7223333s
+2015-12-09 15:11:51.5052|INFO|thread:31|AsyncReaderWriterLock|Released concurrent scheduler for operation: 19 at RepositoryViewModel.cs:747 after blocking 1.0245887s
+2015-12-09 15:11:51.5052|INFO|thread:12|AsyncReaderWriterLock|Acquired concurrent scheduler for operation: 20 at ICommittedFileForklift.cs:59 after waiting 1.6854013s
+2015-12-09 15:11:51.5525|INFO|thread:31|AsyncReaderWriterLock|Released concurrent scheduler for operation: 20 at ICommittedFileForklift.cs:59 after blocking 0.044698s
+2015-12-09 15:11:51.5806|INFO|thread:12|AsyncReaderWriterLock|Released concurrent scheduler for operation: 17 at GitClient.cs:407 after blocking 1.8808588s
+2015-12-09 15:11:51.5806|INFO|thread:31|AsyncReaderWriterLock|Released concurrent scheduler for operation: 18 at GitClient.cs:407 after blocking 1.8778436s
+2015-12-09 15:11:52.2604|INFO|thread: 1|SelectedCommitViewModel|Took 2571ms to load files for commit 3c4783e in repo C:\Users\mlyons\AppData\Local\GitHub\TutorialRepository_a66c3719071da6d865a984bb8d6bfb5bcd775ec8\new-repo
+2015-12-09 15:11:52.2604|INFO|thread: 1|SelectedCommitViewModel|Took 2559ms to load files for commit 3c4783e in repo C:\Users\mlyons\AppData\Local\GitHub\TutorialRepository_a66c3719071da6d865a984bb8d6bfb5bcd775ec8\new-repo
+2015-12-09 15:11:52.2604|INFO|thread: 5|AsyncReaderWriterLock|Acquiring concurrent scheduler for operation 22 at GitClient.cs:500
+2015-12-09 15:11:52.2604|INFO|thread:12|AsyncReaderWriterLock|Acquiring concurrent scheduler for operation 21 at GitClient.cs:500
+2015-12-09 15:11:52.2604|INFO|thread:17|AsyncReaderWriterLock|Acquired concurrent scheduler for operation: 22 at GitClient.cs:500 after waiting 0.0001061s
+2015-12-09 15:11:52.2604|INFO|thread: 4|AsyncReaderWriterLock|Acquired concurrent scheduler for operation: 21 at GitClient.cs:500 after waiting 0.0001326s
+2015-12-09 15:11:52.3161|INFO|thread:12|AsyncReaderWriterLock|Released concurrent scheduler for operation: 21 at GitClient.cs:500 after blocking 0.0455424s
+2015-12-09 15:11:52.3161|INFO|thread: 5|AsyncReaderWriterLock|Released concurrent scheduler for operation: 22 at GitClient.cs:500 after blocking 0.0455993s
+2015-12-09 15:11:52.4051|INFO|thread: 5|SoftwareUpdateViewModel|Checking for new version
+2015-12-09 15:12:55.0255|INFO|thread: 1|RepositoryModel|Creating and initializing new local repository here 'C:\inetpub\wwwroot\MKCoop'
+2015-12-09 15:12:55.0720|WARN|thread: 1|StandardUserErrors|Showing user error An error occurred while creating the repository. You might need to open a shell and debug the state of this repo.
+LibGit2Sharp.LibGit2SharpException: Failed to make directory 'C:/inetpub/wwwroot/MKCoop/.git': Access is denied.
+
+   at LibGit2Sharp.Core.Ensure.HandleError(Int32 result)
+   at LibGit2Sharp.Core.Proxy.git_repository_init_ext(FilePath workdirPath, FilePath gitdirPath, Boolean isBare)
+   at LibGit2Sharp.Repository.Init(String path, Boolean isBare)
+   at GitHub.Models.RepositoryModel.<>c__DisplayClassa4.<CreateNewRepository>b__9c()
+   at System.Reactive.Linq.ObservableImpl.Defer`1.Eval()
+   at System.Reactive.Linq.ObservableImpl.Defer`1._.Run()
+2015-12-09 15:12:58.8476|INFO|thread: 1|RepositoryModel|Creating and initializing new local repository here 'C:\inetpub\wwwroot\MKCoop'
+2015-12-09 15:12:58.8476|WARN|thread: 1|StandardUserErrors|Showing user error An error occurred while creating the repository. You might need to open a shell and debug the state of this repo.
+LibGit2Sharp.LibGit2SharpException: Failed to make directory 'C:/inetpub/wwwroot/MKCoop/.git': Access is denied.
+
+   at LibGit2Sharp.Core.Ensure.HandleError(Int32 result)
+   at LibGit2Sharp.Core.Proxy.git_repository_init_ext(FilePath workdirPath, FilePath gitdirPath, Boolean isBare)
+   at LibGit2Sharp.Repository.Init(String path, Boolean isBare)
+   at GitHub.Models.RepositoryModel.<>c__DisplayClassa4.<CreateNewRepository>b__9c()
+   at System.Reactive.Linq.ObservableImpl.Defer`1.Eval()
+   at System.Reactive.Linq.ObservableImpl.Defer`1._.Run()
+2015-12-09 15:13:19.0017|INFO|thread: 1|DashboardViewModel|Received request to clone: 'https://github.com/mandielyons/logi-dashboard.git'
+2015-12-09 15:13:29.8405|INFO|thread: 1|RepositoryModel|Cloning repo https://github.com/mandielyons/logi-dashboard.git
+2015-12-09 15:13:29.8405|INFO|thread: 1|GitLfsSmudgeTail|Setting Git LFS smudge progress environment variable
+2015-12-09 15:13:29.8535|INFO|thread: 1|RepositoryModel|Cloning 'https://github.com/mandielyons/logi-dashboard.git' to 'logi-dashboard' in directory 'C:\inetpub\wwwroot\MKCoop
+2015-12-09 15:13:29.8535|INFO|thread: 1|GitEnvironment|Process set up with this SSH Agent info: 10900:/tmp/ssh-EMqKkISRySiz/agent.9092
+2015-12-09 15:13:29.8535|INFO|thread: 1|GitEnvironment|PATH is C:\Users\mlyons\AppData\Local\GitHub\PortableGit_c7e0cbde92ba565cb218a521411d0e854079a28c\cmd;C:\Users\mlyons\AppData\Local\GitHub\PortableGit_c7e0cbde92ba565cb218a521411d0e854079a28c\usr\bin;C:\Users\mlyons\AppData\Local\GitHub\PortableGit_c7e0cbde92ba565cb218a521411d0e854079a28c\usr\share\git-tfs;C:\Users\mlyons\AppData\Local\Apps\2.0\O4HG3OVX.C2H\RZG8RJZ0.LZL\gith..tion_317444273a93ac29_0003.0000_f3a9f44c4e4f6514;C:\Users\mlyons\AppData\Local\GitHub\lfs-amd64_1.0.2;C:\Windows\Microsoft.NET\Framework\v4.0.30319;C:\Windows\System32
+2015-12-09 15:13:29.8535|INFO|thread: 1|ProcessWrapper|Starting: Process - FileName: 'C:\Users\mlyons\AppData\Local\GitHub\PortableGit_c7e0cbde92ba565cb218a521411d0e854079a28c\cmd\git.exe', Args: 'clone --progress --recursive  --  "https://github.com/mandielyons/logi-dashboard.git" "logi-dashboard" ', Working Directory: C:\inetpub\wwwroot\MKCoop
+2015-12-09 15:13:29.8945|INFO|thread:17|GitLfsSmudgeTail|Cleaning up Git LFS smudge progress environment variable
+2015-12-09 15:13:29.9005|INFO|thread:14|DashboardViewModel|Selected repository 'mandielyons/logi-dashboard'
+2015-12-09 15:13:29.9460|WARN|thread: 1|StandardUserErrors|Showing user error Please check your log file for more details, or email support if you are still having problems.
+GitHub.IO.ProcessException: 15:13:29.879556 git.c:348               trace: built-in: git 'clone' '--progress' '--recursive' '--' 'https://github.com/mandielyons/logi-dashboard.git' 'logi-dashboard'
+fatal: could not create work tree dir 'logi-dashboard': Permission denied
+2015-12-09 15:13:30.0541|INFO|thread:14|DashboardViewModel|Took 0ms to Create RepositoryViewModel for location C:\inetpub\wwwroot\MKCoop\logi-dashboard
+2015-12-09 15:13:30.0541|INFO|thread:14|DashboardViewModel|Selected repository '/Tutorial'
+2015-12-09 15:13:30.1021|INFO|thread: 1|AsyncReaderWriterLock|Acquiring concurrent scheduler for operation 23 at GitClient.cs:201
+2015-12-09 15:13:30.1021|INFO|thread: 4|AsyncReaderWriterLock|Acquired concurrent scheduler for operation: 23 at GitClient.cs:201 after waiting 4.42E-05s
+2015-12-09 15:13:30.1021|INFO|thread: 1|AsyncReaderWriterLock|Acquiring concurrent scheduler for operation 24 at RepositoryModel.cs:596
+2015-12-09 15:13:30.1021|INFO|thread:17|AsyncReaderWriterLock|Acquired concurrent scheduler for operation: 24 at RepositoryModel.cs:596 after waiting 2.44E-05s
+2015-12-09 15:13:30.1126|INFO|thread:32|AsyncReaderWriterLock|Acquiring concurrent scheduler for operation 25 at GitClient.cs:290
+2015-12-09 15:13:30.1126|INFO|thread:32|AsyncReaderWriterLock|Acquiring concurrent scheduler for operation 26 at BranchSynchronizer.cs:126
+2015-12-09 15:13:30.1126|INFO|thread:32|AsyncReaderWriterLock|Released concurrent scheduler for operation: 24 at RepositoryModel.cs:596 after blocking 0.010345s
+2015-12-09 15:13:30.1126|INFO|thread:32|AsyncReaderWriterLock|Acquired concurrent scheduler for operation: 25 at GitClient.cs:290 after waiting 0.0003375s
+2015-12-09 15:13:30.1126|INFO|thread:17|AsyncReaderWriterLock|Acquired concurrent scheduler for operation: 26 at BranchSynchronizer.cs:126 after waiting 0.0002206s
+2015-12-09 15:13:30.1206|INFO|thread:17|ConcurrentRepositoryConnection|branch stats: remote not found for tutorial-branch
+2015-12-09 15:13:30.1206|INFO|thread:17|AsyncReaderWriterLock|Released concurrent scheduler for operation: 26 at BranchSynchronizer.cs:126 after blocking 0.0078856s
+2015-12-09 15:13:30.1206|INFO|thread:12|AsyncReaderWriterLock|Released concurrent scheduler for operation: 23 at GitClient.cs:201 after blocking 0.0301137s
+2015-12-09 15:13:30.1206|INFO|thread:17|GitEnvironment|Process set up with this SSH Agent info: 10900:/tmp/ssh-EMqKkISRySiz/agent.9092
+2015-12-09 15:13:30.1206|INFO|thread:17|GitEnvironment|PATH is C:\Users\mlyons\AppData\Local\GitHub\PortableGit_c7e0cbde92ba565cb218a521411d0e854079a28c\cmd;C:\Users\mlyons\AppData\Local\GitHub\PortableGit_c7e0cbde92ba565cb218a521411d0e854079a28c\usr\bin;C:\Users\mlyons\AppData\Local\GitHub\PortableGit_c7e0cbde92ba565cb218a521411d0e854079a28c\usr\share\git-tfs;C:\Users\mlyons\AppData\Local\Apps\2.0\O4HG3OVX.C2H\RZG8RJZ0.LZL\gith..tion_317444273a93ac29_0003.0000_f3a9f44c4e4f6514;C:\Users\mlyons\AppData\Local\GitHub\lfs-amd64_1.0.2;C:\Windows\Microsoft.NET\Framework\v4.0.30319;C:\Windows\System32
+2015-12-09 15:13:30.1206|INFO|thread:17|ProcessWrapper|Starting: Process - FileName: 'C:\Users\mlyons\AppData\Local\GitHub\PortableGit_c7e0cbde92ba565cb218a521411d0e854079a28c\cmd\git.exe', Args: 'status --untracked-files=all --porcelain -z ', Working Directory: C:\Users\mlyons\AppData\Local\GitHub\TutorialRepository_a66c3719071da6d865a984bb8d6bfb5bcd775ec8\new-repo\
+2015-12-09 15:13:30.1677|INFO|thread:17|ConcurrentRepositoryConnection|Took 31ms to git status
+2015-12-09 15:13:30.1677|INFO|thread:17|ConcurrentRepositoryConnection|Took 31ms to git status and parse output
+2015-12-09 15:13:30.1677|INFO|thread:17|NewCommitViewModel|Took 55ms to load files for C:\Users\mlyons\AppData\Local\GitHub\TutorialRepository_a66c3719071da6d865a984bb8d6bfb5bcd775ec8\new-repo
+2015-12-09 15:13:30.1677|INFO|thread: 4|AsyncReaderWriterLock|Released concurrent scheduler for operation: 25 at GitClient.cs:290 after blocking 0.0556147s
+2015-12-09 15:13:30.1677|INFO|thread: 1|NewCommitViewModel|Took 0ms to render file list for C:\Users\mlyons\AppData\Local\GitHub\TutorialRepository_a66c3719071da6d865a984bb8d6bfb5bcd775ec8\new-repo
+2015-12-09 15:13:30.1677|INFO|thread: 1|AsyncReaderWriterLock|Acquiring concurrent scheduler for operation 27 at RepositoryViewModel.cs:328
+2015-12-09 15:13:30.1677|INFO|thread:12|AsyncReaderWriterLock|Acquired concurrent scheduler for operation: 27 at RepositoryViewModel.cs:328 after waiting 1.85E-05s

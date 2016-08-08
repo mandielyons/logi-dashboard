@@ -57,26 +57,24 @@
 								<Note
 									Note="**Comment back in for security**"
 								/>
-								<Remark>
-									<Image
-										Caption="TMA_LogoHorWht.png"
-										Class="main-logo"
-										ID="tmalogo"
-										SecurityRightID="TMA,OC"
+								<Image
+									Caption="TMA_LogoHorWht.png"
+									Class="main-logo"
+									ID="tmalogo"
+									SecurityRightID="TMA,OC"
+									>
+									<Action
+										ID="actHomeLink"
+										Type="Report"
 										>
-										<Action
-											ID="actHomeLink"
+										<Target
+											Report="TMAReports.TMAContractsDashboard"
 											Type="Report"
 											>
-											<Target
-												Report="TMAReports.TMAContractsDashboard"
-												Type="Report"
-												>
-												<WaitPage/>
-											</Target>
-										</Action>
-									</Image>
-								</Remark>
+											<WaitPage/>
+										</Target>
+									</Action>
+								</Image>
 							</Division>
 							<Division
 								Class="navbar-brand navbar-brand-txt"
@@ -101,12 +99,10 @@
 									<Spaces
 										Size="25"
 									/>
-									<Remark>
-										<Label
-											Caption="*****FOR INTERNAL TESTING PURPOSES ONLY*****"
-											Class="ThemeErrorText"
-										/>
-									</Remark>
+									<Label
+										Caption="*****FOR INTERNAL TESTING PURPOSES ONLY*****"
+										Class="ThemeErrorText"
+									/>
 									<LineBreak/>
 								</Division>
 							</Division>
@@ -153,123 +149,119 @@
 										Condition="&quot;@Request.rdReport~&quot;==&quot;Home.MKCReport&quot; || &quot;@Request.rdReport~&quot;==&quot;&quot;"
 									/>
 								</Label>
-								<Remark>
-									<Label
-										Caption="Home"
-										ID="TMAHome"
-										SecurityRightID="TMA,OC"
+								<Label
+									Caption="Home"
+									ID="TMAHome"
+									SecurityRightID="TMA,OC"
+									>
+									<Action
+										ID="actReport"
+										Type="Report"
 										>
-										<Action
-											ID="actReport"
+										<Target
+											ID="tgtReport"
+											Report="Home.Default"
 											Type="Report"
 											>
-											<Target
-												ID="tgtReport"
-												Report="Home.Default"
-												Type="Report"
-												>
-												<WaitPage/>
-											</Target>
-										</Action>
-										<ConditionalClass
-											Class="selected-menu "
-											Condition="&quot;@Request.rdReport~&quot;==&quot;Home.MKCReport&quot; || &quot;@Request.rdReport~&quot;==&quot;&quot;"
-										/>
-									</Label>
-								</Remark>
+											<WaitPage/>
+										</Target>
+									</Action>
+									<ConditionalClass
+										Class="selected-menu "
+										Condition="&quot;@Request.rdReport~&quot;==&quot;Home.MKCReport&quot; || &quot;@Request.rdReport~&quot;==&quot;&quot;"
+									/>
+								</Label>
 								<Label
 									Caption="|"
 									Class="pipe-spacer"
 									ID="pipe-spacer"
 								/>
-								<Remark>
+								<Division
+									ID="reports-container"
+									SecurityRightID="MKC"
+									>
 									<Division
-										ID="reports-container"
-										SecurityRightID="MKC"
+										Class="dropdown"
+										HtmlDiv="True"
+										ID="reports"
 										>
-										<Division
-											Class="dropdown"
-											HtmlDiv="True"
-											ID="reports"
+										<Label
+											Caption="Financial"
 											>
-											<Label
-												Caption="Financial"
+											<Action
+												ID="actBlank"
+												Javascript="void(0)"
+												Type="Javascript"
+											/>
+											<ConditionalClass
+												Class="selected-menu"
+												Condition="&quot;@Request.rdReport~&quot;.indexOf(&quot;Reports&quot;)&lt;&gt;&quot;-1&quot;"
+											/>
+										</Label>
+										<Label
+											Class="caret"
+											>
+											<Action
+												ID="actBlank"
+												Javascript="void(0)"
+												Type="Javascript"
+											/>
+											<ConditionalClass
+												Class="caret selected-menu"
+												Condition="&quot;@Request.rdReport~&quot;.indexOf(&quot;Reports&quot;)&lt;&gt;&quot;-1&quot;"
+											/>
+										</Label>
+										<Division
+											Class="submenu"
+											HtmlDiv="True"
+											ID="submenu-reports"
+											>
+											<DataList
+												ID="lstReports"
 												>
-												<Action
-													ID="actBlank"
-													Javascript="void(0)"
-													Type="Javascript"
-												/>
-												<ConditionalClass
-													Class="selected-menu"
-													Condition="&quot;@Request.rdReport~&quot;.indexOf(&quot;Reports&quot;)&lt;&gt;&quot;-1&quot;"
-												/>
-											</Label>
-											<Label
-												Class="caret"
-												>
-												<Action
-													ID="actBlank"
-													Javascript="void(0)"
-													Type="Javascript"
-												/>
-												<ConditionalClass
-													Class="caret selected-menu"
-													Condition="&quot;@Request.rdReport~&quot;.indexOf(&quot;Reports&quot;)&lt;&gt;&quot;-1&quot;"
-												/>
-											</Label>
-											<Division
-												Class="submenu"
-												HtmlDiv="True"
-												ID="submenu-reports"
-												>
-												<DataList
-													ID="lstReports"
+												<DataLayer
+													ID="dlNav-Reports"
+													Type="DefinitionList"
 													>
-													<DataLayer
-														ID="dlNav-Reports"
-														Type="DefinitionList"
+													<CompareFilter
+														CaseSensitive="True"
+														CompareType="="
+														CompareValue="Reports"
+														DataColumn="Folder1"
+														DataType="Text"
+														ID="fReports"
+													/>
+												</DataLayer>
+												<ListItem>
+													<Label
+														Caption="@Data.Caption~"
 														>
-														<CompareFilter
-															CaseSensitive="True"
-															CompareType="="
-															CompareValue="Reports"
-															DataColumn="Folder1"
-															DataType="Text"
-															ID="fReports"
-														/>
-													</DataLayer>
-													<ListItem>
-														<Label
-															Caption="@Data.Caption~"
+														<Action
+															ID="actReport"
+															Type="Report"
 															>
-															<Action
-																ID="actReport"
+															<Target
+																Report="@Data.ID~"
 																Type="Report"
 																>
-																<Target
-																	Report="@Data.ID~"
-																	Type="Report"
-																	>
-																	<WaitPage/>
-																</Target>
-															</Action>
-															<ConditionalClass
-																Class="selected-menu"
-																Condition="&quot;@Request.rdReport~&quot;==&quot;@Data.ID~&quot;"
-															/>
-														</Label>
-													</ListItem>
-												</DataList>
-											</Division>
+																<WaitPage/>
+															</Target>
+														</Action>
+														<ConditionalClass
+															Class="selected-menu"
+															Condition="&quot;@Request.rdReport~&quot;==&quot;@Data.ID~&quot;"
+														/>
+													</Label>
+												</ListItem>
+											</DataList>
 										</Division>
-										<Label
-											Caption="|"
-											Class="pipe-spacer"
-											ID="pipe-spacer"
-										/>
 									</Division>
-								</Remark>
+									<Label
+										Caption="|"
+										Class="pipe-spacer"
+										ID="pipe-spacer"
+									/>
+								</Division>
 								<Division
 									ID="tma-reports-container"
 									SecurityRightID="TMA,MKC,OC"
@@ -910,13 +902,11 @@
 					Format="HTML"
 					SecurityRightID="MKC"
 				/>
-				<Remark>
-					<Label
-						Caption="© Copyright 2015 - Team Marketing Alliance. All rights reserved."
-						Format="HTML"
-						SecurityRightID="TMA,OC"
-					/>
-				</Remark>
+				<Label
+					Caption="© Copyright 2015 - Team Marketing Alliance. All rights reserved."
+					Format="HTML"
+					SecurityRightID="TMA,OC"
+				/>
 				<Remark>
 					<Division
 						HtmlDiv="True"
@@ -985,11 +975,13 @@
 &lt;/ul&gt;"
 				/>
 			</Remark>
-			<IncludeScript
-				IncludedScript="$(function() {
+			<Remark>
+				<IncludeScript
+					IncludedScript="$(function() {
   $(&apos;#main-menu&apos;).smartmenus();
 });"
-			/>
+				/>
+			</Remark>
 		</Division>
 	</SharedElement>
 	<ideTestParams/>
