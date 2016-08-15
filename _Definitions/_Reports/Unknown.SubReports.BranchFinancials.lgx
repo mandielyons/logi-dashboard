@@ -1561,7 +1561,7 @@ ORDER BY MNACSGMT
 															ID="cell_cGYTD"
 															>
 															<Label
-																Caption="@Data.agg_cGMTD~"
+																Caption="@Data.agg_cGYTD~"
 																Format="###,###,##0;(###,###,##0)"
 															/>
 														</Column>
