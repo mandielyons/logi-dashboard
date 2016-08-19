@@ -54,12 +54,20 @@
 		paramFiscYear="@Local.FISCYEAR~"
 		paramLocCd="100"
 		paramLocName="Abilene"
-	/>
+		themePlanColumn="ThemeMargin, ThemeAlignRight"
+		>
+		<Note
+			Note="themePlanColumn (with shading) = ThemeMargin, ThemeAlignRight, ThemeContainerShaded"
+		/>
+	</DefaultRequestParams>
 	<IncludeSharedElement
 		DefinitionFile="_Layout.Shared"
 		SharedElementID="shrHeader"
 	/>
 	<Body>
+		<Note
+			Note="8/17/2016 - [Tricia Jantz] Danny would like the yellow highlighting of the financial plan on the branch dashboard financials to be removed before we roll it out next week."
+		/>
 		<ResponsiveRow
 			CollisionBehavior="Wrap"
 			ID="ResponsiveRowInput"
@@ -524,7 +532,7 @@ ORDER BY GroupSort, MNACSGMT
 														</Remark>
 													</DataTableColumn>
 													<DataTableColumn
-														Class="ThemeMargin, ThemeAlignRight, ThemeContainerShaded"
+														Class="@Request.themePlanColumn~"
 														ColumnHeaderClass="ThemeAlignCenter"
 														Header="Amount"
 														HeaderType="Text"
@@ -543,7 +551,7 @@ ORDER BY GroupSort, MNACSGMT
 														</Remark>
 													</DataTableColumn>
 													<DataTableColumn
-														Class="ThemeMargin, ThemeAlignRight, ThemeContainerShaded"
+														Class="@Request.themePlanColumn~"
 														ColumnHeaderClass="ThemeAlignCenter"
 														Header="Variance"
 														HeaderType="Text"
@@ -908,7 +916,7 @@ ORDER BY IntSort;
 														</Label>
 													</DataTableColumn>
 													<DataTableColumn
-														Class="ThemeMargin, ThemeAlignRight, ThemeContainerShaded"
+														Class="@Request.themePlanColumn~"
 														ColumnHeaderClass="ThemeAlignCenter"
 														Header="Amount"
 														HeaderType="Text"
@@ -927,7 +935,7 @@ ORDER BY IntSort;
 														</Label>
 													</DataTableColumn>
 													<DataTableColumn
-														Class="ThemeMargin, ThemeAlignRight, ThemeContainerShaded"
+														Class="@Request.themePlanColumn~"
 														ColumnHeaderClass="ThemeAlignCenter"
 														Header="Variance"
 														HeaderType="Text"
@@ -1372,7 +1380,7 @@ ORDER BY MNACSGMT
 														/>
 													</DataTableColumn>
 													<DataTableColumn
-														Class="ThemeMargin, ThemeAlignRight, ThemeContainerShaded"
+														Class="@Request.themePlanColumn~"
 														ColumnHeaderClass="ThemeAlignCenter"
 														Header="Amount"
 														HeaderType="Text"
@@ -1389,7 +1397,7 @@ ORDER BY MNACSGMT
 														/>
 													</DataTableColumn>
 													<DataTableColumn
-														Class="ThemeMargin, ThemeAlignRight, ThemeContainerShaded"
+														Class="@Request.themePlanColumn~"
 														ColumnHeaderClass="ThemeAlignCenter"
 														Header="Variance"
 														HeaderType="Text"
@@ -1874,7 +1882,7 @@ ORDER BY MNACSGMT
 														/>
 													</DataTableColumn>
 													<DataTableColumn
-														Class="ThemeMargin, ThemeAlignRight, ThemeContainerShaded"
+														Class="@Request.themePlanColumn~"
 														ColumnHeaderClass="ThemeAlignCenter"
 														Header="Amount"
 														HeaderType="Text"
@@ -1893,7 +1901,7 @@ ORDER BY MNACSGMT
 														</Remark>
 													</DataTableColumn>
 													<DataTableColumn
-														Class="ThemeMargin, ThemeAlignRight, ThemeContainerShaded"
+														Class="@Request.themePlanColumn~"
 														ColumnHeaderClass="ThemeAlignCenter"
 														Header="Variance"
 														HeaderType="Text"
@@ -2183,7 +2191,7 @@ ORDER BY MNACSGMT
 														/>
 													</DataTableColumn>
 													<DataTableColumn
-														Class="ThemeMargin, ThemeAlignRight, ThemeContainerShaded"
+														Class="@Request.themePlanColumn~"
 														ColumnHeaderClass="ThemeAlignCenter"
 														Header="Amount"
 														HeaderType="Text"
@@ -2202,7 +2210,7 @@ ORDER BY MNACSGMT
 														</Remark>
 													</DataTableColumn>
 													<DataTableColumn
-														Class="ThemeMargin, ThemeAlignRight, ThemeContainerShaded"
+														Class="@Request.themePlanColumn~"
 														ColumnHeaderClass="ThemeAlignCenter"
 														Header="Variance"
 														HeaderType="Text"
@@ -2492,7 +2500,7 @@ ORDER BY MNACSGMT
 														/>
 													</DataTableColumn>
 													<DataTableColumn
-														Class="ThemeMargin, ThemeAlignRight, ThemeContainerShaded"
+														Class="@Request.themePlanColumn~"
 														ColumnHeaderClass="ThemeAlignCenter"
 														Header="Amount"
 														HeaderType="Text"
@@ -2511,7 +2519,7 @@ ORDER BY MNACSGMT
 														</Remark>
 													</DataTableColumn>
 													<DataTableColumn
-														Class="ThemeMargin, ThemeAlignRight, ThemeContainerShaded"
+														Class="@Request.themePlanColumn~"
 														ColumnHeaderClass="ThemeAlignCenter"
 														Header="Variance"
 														HeaderType="Text"
@@ -2801,7 +2809,7 @@ ORDER BY MNACSGMT
 														/>
 													</DataTableColumn>
 													<DataTableColumn
-														Class="ThemeMargin, ThemeAlignRight, ThemeContainerShaded"
+														Class="@Request.themePlanColumn~"
 														ColumnHeaderClass="ThemeAlignCenter"
 														Header="Amount"
 														HeaderType="Text"
@@ -2820,7 +2828,7 @@ ORDER BY MNACSGMT
 														</Remark>
 													</DataTableColumn>
 													<DataTableColumn
-														Class="ThemeMargin, ThemeAlignRight, ThemeContainerShaded"
+														Class="@Request.themePlanColumn~"
 														ColumnHeaderClass="ThemeAlignCenter"
 														Header="Variance"
 														HeaderType="Text"
@@ -2946,5 +2954,6 @@ ORDER BY MNACSGMT
 		paramFiscPeriod="11"
 		paramFiscYear="2018"
 		paramLocGLStr="100"
+		themePlanColumn=""
 	/>
 </Report>
