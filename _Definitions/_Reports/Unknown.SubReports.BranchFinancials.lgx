@@ -96,6 +96,36 @@
 							WidthScale="%"
 							>
 							<Row>
+								<Column
+									Class="ThemeAlignRight"
+									ColSpan="5"
+									>
+									<Label
+										Caption="Branch Dashboard FAQs"
+										Class="ThemeBold, ThemeAlignRight"
+										>
+										<Action
+											ID="lnkFAQ"
+											Type="Report"
+											>
+											<Target
+												FrameID="NewWindow"
+												ID="targetFAQ"
+												Report="Unknown.SubReports.BranchFAQs"
+												Type="Report"
+												>
+												<WaitPage/>
+											</Target>
+										</Action>
+									</Label>
+								</Column>
+								<Column>
+									<Spaces
+										Size="5"
+									/>
+								</Column>
+							</Row>
+							<Row>
 								<Column>
 									<Spaces
 										Size="5"
