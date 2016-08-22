@@ -538,21 +538,27 @@ ORDER BY AgLocationCode, Rig
 													/>
 												</Column>
 											</Remark>
-											<Column>
-												<Spaces
-													Size="40"
-												/>
-											</Column>
-											<Column>
-												<Spaces
-													Size="40"
-												/>
-											</Column>
-											<Column>
-												<Spaces
-													Size="40"
-												/>
-											</Column>
+											<Remark>
+												<Column>
+													<Spaces
+														Size="40"
+													/>
+												</Column>
+											</Remark>
+											<Remark>
+												<Column>
+													<Spaces
+														Size="40"
+													/>
+												</Column>
+											</Remark>
+											<Remark>
+												<Column>
+													<Spaces
+														Size="40"
+													/>
+												</Column>
+											</Remark>
 										</Row>
 									</Rows>
 									<LineBreak/>
@@ -772,21 +778,27 @@ ORDER BY AgLocationCode, Operator
 													/>
 												</Column>
 											</Remark>
-											<Column>
-												<Spaces
-													Size="40"
-												/>
-											</Column>
-											<Column>
-												<Spaces
-													Size="40"
-												/>
-											</Column>
-											<Column>
-												<Spaces
-													Size="40"
-												/>
-											</Column>
+											<Remark>
+												<Column>
+													<Spaces
+														Size="40"
+													/>
+												</Column>
+											</Remark>
+											<Remark>
+												<Column>
+													<Spaces
+														Size="40"
+													/>
+												</Column>
+											</Remark>
+											<Remark>
+												<Column>
+													<Spaces
+														Size="40"
+													/>
+												</Column>
+											</Remark>
 										</Row>
 									</Rows>
 									<LineBreak/>
@@ -1003,21 +1015,27 @@ ORDER BY AgLocationCode, Operator
 													/>
 												</Column>
 											</Remark>
-											<Column>
-												<Spaces
-													Size="40"
-												/>
-											</Column>
-											<Column>
-												<Spaces
-													Size="40"
-												/>
-											</Column>
-											<Column>
-												<Spaces
-													Size="40"
-												/>
-											</Column>
+											<Remark>
+												<Column>
+													<Spaces
+														Size="40"
+													/>
+												</Column>
+											</Remark>
+											<Remark>
+												<Column>
+													<Spaces
+														Size="40"
+													/>
+												</Column>
+											</Remark>
+											<Remark>
+												<Column>
+													<Spaces
+														Size="40"
+													/>
+												</Column>
+											</Remark>
 										</Row>
 									</Rows>
 									<LineBreak/>
@@ -1345,21 +1363,27 @@ ORDER BY AgLocationCode, Operator
 														/>
 													</Column>
 												</Remark>
-												<Column>
-													<Spaces
-														Size="40"
-													/>
-												</Column>
-												<Column>
-													<Spaces
-														Size="40"
-													/>
-												</Column>
-												<Column>
-													<Spaces
-														Size="40"
-													/>
-												</Column>
+												<Remark>
+													<Column>
+														<Spaces
+															Size="40"
+														/>
+													</Column>
+												</Remark>
+												<Remark>
+													<Column>
+														<Spaces
+															Size="40"
+														/>
+													</Column>
+												</Remark>
+												<Remark>
+													<Column>
+														<Spaces
+															Size="40"
+														/>
+													</Column>
+												</Remark>
 											</Row>
 										</Rows>
 										<LineBreak/>
@@ -1746,13 +1770,13 @@ ORDER BY GLLocStr, COMMODITY_DESC
 														ColumnHeaderClass="ThemeAlignCenter"
 														Header="Commodity"
 														HeaderType="Text"
-														ID="colCommodityDesc"
+														ID="colCommodityDesc_ls"
 														Width="25"
 														WidthScale="%"
 														>
 														<Label
 															Caption="@Data.COMMODITY_DESC~"
-															ID="COMMODITY_DESC"
+															ID="COMMODITY_DESC_ls"
 														/>
 														<DataColumnSort
 															DataColumn="COMMODITY_DESC"
@@ -1764,12 +1788,12 @@ ORDER BY GLLocStr, COMMODITY_DESC
 														ColumnHeaderClass="ThemeAlignCenter"
 														Header="Period Summary"
 														HeaderType="Text"
-														ID="colCMTD"
+														ID="colCMTD_ls"
 														>
 														<Label
 															Caption="@Data.cMTD~"
 															Format="###,###,##0"
-															ID="cMTD"
+															ID="cMTD_ls"
 														/>
 														<DataColumnSort
 															DataColumn="cMTD"
@@ -1779,7 +1803,7 @@ ORDER BY GLLocStr, COMMODITY_DESC
 															DataColumn="cMTD"
 															DataType="Number"
 															Function="Sum"
-															ID="sum_cMTD"
+															ID="sum_cMTD_ls"
 														/>
 													</DataTableColumn>
 													<DataTableColumn
@@ -1787,12 +1811,12 @@ ORDER BY GLLocStr, COMMODITY_DESC
 														ColumnHeaderClass="ThemeAlignCenter"
 														Header="YTD"
 														HeaderType="Text"
-														ID="colCYTD"
+														ID="colCYTD_ls"
 														>
 														<Label
 															Caption="@Data.cYTD~"
 															Format="###,###,##0"
-															ID="cYTD"
+															ID="cYTD_ls"
 														/>
 														<DataColumnSort
 															DataColumn="cYTD"
@@ -1802,7 +1826,7 @@ ORDER BY GLLocStr, COMMODITY_DESC
 															DataColumn="cYTD"
 															DataType="Number"
 															Function="Sum"
-															ID="sum_cYTD"
+															ID="sum_cYTD_ls"
 														/>
 													</DataTableColumn>
 													<DataTableColumn
@@ -1810,12 +1834,12 @@ ORDER BY GLLocStr, COMMODITY_DESC
 														ColumnHeaderClass="ThemeAlignCenter"
 														Header="Period Summary"
 														HeaderType="Text"
-														ID="colPMTD"
+														ID="colPMTD_ls"
 														>
 														<Label
 															Caption="@Data.pMTD~"
 															Format="###,###,##0"
-															ID="pMTD"
+															ID="pMTD_ls"
 														/>
 														<DataColumnSort
 															DataColumn="pMTD"
@@ -1825,7 +1849,7 @@ ORDER BY GLLocStr, COMMODITY_DESC
 															DataColumn="pMTD"
 															DataType="Number"
 															Function="Sum"
-															ID="sum_pMTD"
+															ID="sum_pMTD_ls"
 														/>
 													</DataTableColumn>
 													<DataTableColumn
@@ -1833,22 +1857,22 @@ ORDER BY GLLocStr, COMMODITY_DESC
 														ColumnHeaderClass="ThemeAlignCenter"
 														Header="YTD"
 														HeaderType="Text"
-														ID="colPYTD"
+														ID="colPYTD_ls"
 														>
 														<Label
 															Caption="@Data.pYTD~"
 															Format="###,###,##0"
-															ID="pYTD"
+															ID="pYTD_ls"
 														/>
 														<DataColumnSort
 															DataColumn="pYTD"
 															DataType="Number"
 														/>
 														<DataColumnSummary
-															DataColumn="pMTD"
+															DataColumn="pYTD"
 															DataType="Number"
 															Function="Sum"
-															ID="sum_pMTD"
+															ID="sum_pYTD_ls"
 														/>
 													</DataTableColumn>
 													<SummaryRow
