@@ -47,6 +47,7 @@
 						HtmlDiv="True"
 						ID="panel-body-map"
 						>
+						<LineBreak/>
 						<GoogleMap
 							ConnectionID="gmAPIKey"
 							GoogleMapTypes="Hybrid"
@@ -84,6 +85,7 @@
 								</DataLayer>
 							</GoogleMapMarkers>
 						</GoogleMap>
+						<LineBreak/>
 						<LineBreak/>
 					</Division>
 				</Division>
@@ -457,6 +459,24 @@ ORDER BY ID */"
 											/>
 										</DataTableColumn>
 									</DataTable>
+									<Label
+										Caption="Branch Dashboard FAQs"
+										Class="ThemeBold, ThemeAlignRight"
+										>
+										<Action
+											ID="lnkFAQ"
+											Type="Report"
+											>
+											<Target
+												FrameID="NewWindow"
+												ID="targetFAQ"
+												Report="Unknown.SubReports.BranchFAQs"
+												Type="Report"
+												>
+												<WaitPage/>
+											</Target>
+										</Action>
+									</Label>
 								</ResponsiveColumn>
 							</ResponsiveRow>
 						</Division>
