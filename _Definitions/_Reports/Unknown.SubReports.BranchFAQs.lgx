@@ -66,7 +66,7 @@ If your question was not answered in the FAQs, then you may contact the followin
 										Class="ThemeBold"
 									/>
 									<IncludeHtml
-										Html="With the exception of the inventory turns, information is posted to the dashboard daily, but you will need to keep in mind that doesn’t mean numbers are finalized daily.  There may be billing that’s not finished, journal entries to be completed or unposted items in GP.  The inventory turns are updated quarterly and the as of date is listed at the top of the report.
+										Html="&lt;br /&gt;With the exception of the inventory turns, information is posted to the dashboard daily, but you will need to keep in mind that doesn’t mean numbers are finalized daily.  There may be billing that’s not finished, journal entries to be completed or unposted items in GP.  The inventory turns are updated quarterly and the as of date is listed at the top of the report.
 &lt;br /&gt;"
 									/>
 									<LineBreak/>
@@ -100,6 +100,15 @@ If your question was not answered in the FAQs, then you may contact the followin
 									/>
 									<IncludeHtml
 										Html="&lt;br /&gt;The dashboard can only display branches one at a time.  To view another branch, change the filter at the top of the report page and click apply.
+&lt;br /&gt;"
+									/>
+									<LineBreak/>
+									<Label
+										Caption="How do I know what fiscal year to select?"
+										Class="ThemeBold"
+									/>
+									<IncludeHtml
+										Html="&lt;br /&gt;MKC’s fiscal year is different from the calendar year.  When you open the financial details or additional branch details, the default fiscal year will be the current fiscal year we are in.  MKC’s fiscal year is March 1st – the last day in February.  If, for example, you want to look at information from May 2015, you would choose fiscal year 2016 since May 2015 falls within the fiscal year March 1, 2015 – February 29, 2016.
 &lt;br /&gt;"
 									/>
 									<LineBreak/>
