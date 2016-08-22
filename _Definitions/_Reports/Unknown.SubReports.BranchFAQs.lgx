@@ -66,7 +66,7 @@ If your question was not answered in the FAQs, then you may contact the followin
 										Class="ThemeBold"
 									/>
 									<IncludeHtml
-										Html="With the exception of the inventory turns, information is posted to the dashboard daily, but you will need to keep in mind that doesn’t mean numbers are finalized daily.  There may be billing that’s not finished, journal entries to be completed or unposted items in GP.  The inventory turns are updated quarterly and the as of date is listed at the top of the report.
+										Html="&lt;br /&gt;With the exception of the inventory turns, information is posted to the dashboard daily, but you will need to keep in mind that doesn’t mean numbers are finalized daily.  There may be billing that’s not finished, journal entries to be completed or unposted items in GP.  The inventory turns are updated quarterly and the as of date is listed at the top of the report.
 &lt;br /&gt;"
 									/>
 									<LineBreak/>
