@@ -178,7 +178,7 @@
 								/>
 								<Division
 									ID="reports-container"
-									SecurityRightID="MKC"
+									SecurityRightID="FINANCIALS"
 									>
 									<Division
 										Class="dropdown"

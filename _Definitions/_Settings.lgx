@@ -620,6 +620,26 @@ AND USERNAME = @iptUsername"
 					</DataLayer>
 				</RightFromRole>
 			</Remark>
+			<RightFromRole
+				ID="FINANCIALS"
+				RolesDataColumn="cRole"
+				>
+				<DataLayer
+					ConnectionID="mkcLDAP"
+					ID="dlLdapRights"
+					LdapSource="SELECT memberOf, sAMAccountName, title, name, userPrincipalName, ADsPath, DisplayName, givenName, sn, mail FROM &apos;DC=midkscoop,DC=lan&apos; WHERE SamAccountName=&apos;@Function.UserName~&apos; and objectClass=&apos;person&apos;"
+					Type="Ldap"
+					>
+					<ConditionFilter
+						Condition="&quot;@Data.memberOf~&quot;.indexOf(&quot;Dashboard Monthly Staff&quot;)!=&quot;-1&quot;"
+						ID="fSTRATEGICPLAN"
+					/>
+					<CalculatedColumn
+						Formula="&quot;Dashboard Monthly Staff&quot;"
+						ID="cRole"
+					/>
+				</DataLayer>
+			</RightFromRole>
 		</Rights>
 	</Security>
 	<Remark>

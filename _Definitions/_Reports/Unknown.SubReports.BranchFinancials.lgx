@@ -2,6 +2,7 @@
 <Report
 	Caption="Branch Financials"
 	ID="Unknown.SubReports.BranchFinancials"
+	SecurityReportRightID="FINANCIALS"
 	>
 	<LocalData>
 		<DataLayer
@@ -646,27 +647,21 @@ ORDER BY GroupSort, MNACSGMT
 													/>
 												</Column>
 											</Remark>
-											<Remark>
-												<Column>
-													<Spaces
-														Size="40"
-													/>
-												</Column>
-											</Remark>
-											<Remark>
-												<Column>
-													<Spaces
-														Size="40"
-													/>
-												</Column>
-											</Remark>
-											<Remark>
-												<Column>
-													<Spaces
-														Size="40"
-													/>
-												</Column>
-											</Remark>
+											<Column>
+												<Spaces
+													Size="40"
+												/>
+											</Column>
+											<Column>
+												<Spaces
+													Size="40"
+												/>
+											</Column>
+											<Column>
+												<Spaces
+													Size="40"
+												/>
+											</Column>
 										</Row>
 									</Rows>
 									<LineBreak/>
@@ -1040,27 +1035,21 @@ ORDER BY IntSort;
 													/>
 												</Column>
 											</Remark>
-											<Remark>
-												<Column>
-													<Spaces
-														Size="40"
-													/>
-												</Column>
-											</Remark>
-											<Remark>
-												<Column>
-													<Spaces
-														Size="40"
-													/>
-												</Column>
-											</Remark>
-											<Remark>
-												<Column>
-													<Spaces
-														Size="40"
-													/>
-												</Column>
-											</Remark>
+											<Column>
+												<Spaces
+													Size="40"
+												/>
+											</Column>
+											<Column>
+												<Spaces
+													Size="40"
+												/>
+											</Column>
+											<Column>
+												<Spaces
+													Size="40"
+												/>
+											</Column>
 										</Row>
 									</Rows>
 									<LineBreak/>
@@ -1433,12 +1422,10 @@ ORDER BY MNACSGMT
 															Format="###,###,##0;(###,###,##0)"
 															ID="fPlanAmt"
 														/>
-														<Remark>
-															<DataColumnSort
-																DataColumn="fPlanAmt"
-																DataType="Number"
-															/>
-														</Remark>
+														<DataColumnSort
+															DataColumn="fPlanAmt"
+															DataType="Number"
+														/>
 													</DataTableColumn>
 													<DataTableColumn
 														Class="@Request.themePlanColumn~"
@@ -1452,12 +1439,10 @@ ORDER BY MNACSGMT
 															Format="###,###,##0;(###,###,##0)"
 															ID="fPlanVar"
 														/>
-														<Remark>
-															<DataColumnSort
-																DataColumn="fPlanVar"
-																DataType="Number"
-															/>
-														</Remark>
+														<DataColumnSort
+															DataColumn="fPlanVar"
+															DataType="Number"
+														/>
 													</DataTableColumn>
 													<DataTableColumn
 														Class="ThemeMargin, ThemeAlignRight"
@@ -2025,27 +2010,21 @@ ORDER BY MNACSGMT
 													/>
 												</Column>
 											</Remark>
-											<Remark>
-												<Column>
-													<Spaces
-														Size="40"
-													/>
-												</Column>
-											</Remark>
-											<Remark>
-												<Column>
-													<Spaces
-														Size="40"
-													/>
-												</Column>
-											</Remark>
-											<Remark>
-												<Column>
-													<Spaces
-														Size="40"
-													/>
-												</Column>
-											</Remark>
+											<Column>
+												<Spaces
+													Size="40"
+												/>
+											</Column>
+											<Column>
+												<Spaces
+													Size="40"
+												/>
+											</Column>
+											<Column>
+												<Spaces
+													Size="40"
+												/>
+											</Column>
 										</Row>
 									</Rows>
 									<LineBreak/>
@@ -2340,27 +2319,21 @@ ORDER BY MNACSGMT
 													/>
 												</Column>
 											</Remark>
-											<Remark>
-												<Column>
-													<Spaces
-														Size="40"
-													/>
-												</Column>
-											</Remark>
-											<Remark>
-												<Column>
-													<Spaces
-														Size="40"
-													/>
-												</Column>
-											</Remark>
-											<Remark>
-												<Column>
-													<Spaces
-														Size="40"
-													/>
-												</Column>
-											</Remark>
+											<Column>
+												<Spaces
+													Size="40"
+												/>
+											</Column>
+											<Column>
+												<Spaces
+													Size="40"
+												/>
+											</Column>
+											<Column>
+												<Spaces
+													Size="40"
+												/>
+											</Column>
 										</Row>
 									</Rows>
 									<LineBreak/>
@@ -2655,27 +2628,21 @@ ORDER BY MNACSGMT
 													/>
 												</Column>
 											</Remark>
-											<Remark>
-												<Column>
-													<Spaces
-														Size="40"
-													/>
-												</Column>
-											</Remark>
-											<Remark>
-												<Column>
-													<Spaces
-														Size="40"
-													/>
-												</Column>
-											</Remark>
-											<Remark>
-												<Column>
-													<Spaces
-														Size="40"
-													/>
-												</Column>
-											</Remark>
+											<Column>
+												<Spaces
+													Size="40"
+												/>
+											</Column>
+											<Column>
+												<Spaces
+													Size="40"
+												/>
+											</Column>
+											<Column>
+												<Spaces
+													Size="40"
+												/>
+											</Column>
 										</Row>
 									</Rows>
 									<LineBreak/>
@@ -2767,9 +2734,7 @@ ORDER BY MNACSGMT
 														HeaderPosition="Top"
 														ID="rowCustomHeader"
 														>
-														<Column
-															ColSpan="2"
-														/>
+														<Column/>
 														<Column
 															Class="ThemeAlignCenter"
 															ColSpan="2"
@@ -2825,45 +2790,6 @@ ORDER BY MNACSGMT
 														/>
 														<DataColumnSort
 															DataColumn="ACTDESCR"
-															DataType="Text"
-														/>
-													</DataTableColumn>
-													<DataTableColumn
-														Class="ThemeAlignCenter"
-														ColumnHeaderClass="ThemeAlignCenter"
-														Header="Account"
-														HeaderType="Text"
-														ID="colMNACSGMT"
-														>
-														<Label
-															Caption="@Data.MNACSGMT~"
-															ID="MNACSGMT"
-															>
-															<Action
-																Display="Toggle"
-																ElementID="pupAccount"
-																ID="aseAccount"
-																ShowElementEffect="FadeIn"
-																Type="ShowElement"
-															/>
-														</Label>
-														<PopupPanel
-															Caption="GP SmartList"
-															Draggable="False"
-															Height="100"
-															HeightScale="px"
-															ID="pupAccount"
-															PopupModal="True"
-															PopupPanelLocation="Mouse"
-															ShowOnPageLoad="False"
-															>
-															<Label
-																Caption="Financials--&gt; Account Transactions --&gt; Financial Dashboard Detail"
-																ID="lblSmartList"
-															/>
-														</PopupPanel>
-														<DataColumnSort
-															DataColumn="MNACSGMT"
 															DataType="Text"
 														/>
 													</DataTableColumn>
@@ -3011,27 +2937,21 @@ ORDER BY MNACSGMT
 													/>
 												</Column>
 											</Remark>
-											<Remark>
-												<Column>
-													<Spaces
-														Size="40"
-													/>
-												</Column>
-											</Remark>
-											<Remark>
-												<Column>
-													<Spaces
-														Size="40"
-													/>
-												</Column>
-											</Remark>
-											<Remark>
-												<Column>
-													<Spaces
-														Size="40"
-													/>
-												</Column>
-											</Remark>
+											<Column>
+												<Spaces
+													Size="40"
+												/>
+											</Column>
+											<Column>
+												<Spaces
+													Size="40"
+												/>
+											</Column>
+											<Column>
+												<Spaces
+													Size="40"
+												/>
+											</Column>
 										</Row>
 									</Rows>
 									<LineBreak/>

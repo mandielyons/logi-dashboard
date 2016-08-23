@@ -2,6 +2,7 @@
 <Report
 	Caption="Locations"
 	ID="Reports.MKC_Locations"
+	SecurityReportRightID="FINANCIALS"
 	>
 	<LocalData
 		ID="Local-BranchData"
