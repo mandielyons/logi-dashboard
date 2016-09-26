@@ -644,7 +644,7 @@
 								</Division>
 								<Division
 									ID="admin-container"
-									SecurityRightID="TMA Dashboard,MKC Dashboard,OC"
+									SecurityRightID="TMA Dashboard,MKC Dashboard"
 									>
 									<Division
 										Class="dropdown"
