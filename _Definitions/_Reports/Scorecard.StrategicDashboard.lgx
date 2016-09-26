@@ -67,7 +67,7 @@
 										Size="2"
 									/>
 									<Label
-										Caption="6 Actions "
+										Caption="9 Actions "
 									/>
 									<Spaces
 										Size="2"
@@ -79,7 +79,7 @@
 										Size="2"
 									/>
 									<Label
-										Caption="15 Tasks "
+										Caption="23 Tasks "
 									/>
 									<LineBreak/>
 									<LineBreak/>
@@ -229,7 +229,7 @@
 										Size="2"
 									/>
 									<Label
-										Caption="18 Actions "
+										Caption="27 Actions "
 									/>
 									<Spaces
 										Size="2"
@@ -241,7 +241,7 @@
 										Size="2"
 									/>
 									<Label
-										Caption=" 62 Tasks "
+										Caption=" 98 Tasks "
 									/>
 									<LineBreak/>
 									<LineBreak/>
@@ -403,7 +403,7 @@
 										Size="2"
 									/>
 									<Label
-										Caption=" 50 Tasks "
+										Caption=" 41 Tasks "
 									/>
 									<LineBreak/>
 									<LineBreak/>
@@ -553,7 +553,7 @@
 										Size="2"
 									/>
 									<Label
-										Caption=" 17 Actions "
+										Caption=" 18 Actions "
 									/>
 									<Spaces
 										Size="2"
@@ -565,7 +565,7 @@
 										Size="2"
 									/>
 									<Label
-										Caption="30 Tasks "
+										Caption="36 Tasks "
 									/>
 									<LineBreak/>
 									<LineBreak/>
