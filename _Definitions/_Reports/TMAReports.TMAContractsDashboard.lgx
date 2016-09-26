@@ -2,7 +2,7 @@
 <Report
 	Caption="Contracts"
 	ID="TMAReports.TMAContractsDashboard"
-	SecurityReportRightID="TMA,MKC"
+	SecurityReportRightID="TMA Dashboard,MKC Dashboard"
 	>
 	<IncludeSharedElement
 		DefinitionFile="_Layout.Shared"

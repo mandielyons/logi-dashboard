@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Report
 	ID="Home.Default"
-	SecurityReportRightID="MKC,TMA,OC"
+	SecurityReportRightID="MKC Dashboard,TMA Dashboard,OC"
 	>
 	<IncludeSharedElement
 		DefinitionFile="_Layout.Shared"
@@ -31,14 +31,14 @@
 					Caption="icon-klipstarts (1).png"
 					Height="230"
 					ID="imgMKCLogo2"
-					SecurityRightID="MKC,SRMGMT,TMA,OC"
+					SecurityRightID="MKC Dashboard,TMA Dashboard,OC"
 					Width="375"
 				/>
 				<Image
 					Caption="icon-klipstarts.png"
 					Height="230"
 					ID="imgMKCLogo"
-					SecurityRightID="MKC,SRMGMT,TMA,OC"
+					SecurityRightID="MKC Dashboard,TMA Dashboard,OC"
 					Width="375"
 				/>
 				<LineBreak
@@ -48,7 +48,7 @@
 					Caption="dboard.png"
 					Height="325"
 					ID="imgTMALogo"
-					SecurityRightID="MKC,SRMGMT,TMA,OC"
+					SecurityRightID="MKC Dashboard,TMA Dashboard,OC"
 					Width="325"
 				/>
 			</ResponsiveColumn>

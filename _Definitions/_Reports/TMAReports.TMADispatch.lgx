@@ -2,7 +2,7 @@
 <Report
 	Caption="Dispatch"
 	ID="TMAReports.TMADispatch"
-	SecurityReportRightID="TMA,MKC,OC"
+	SecurityReportRightID="TMA Dashboard,MKC Dashboard,OC"
 	>
 	<IncludeSharedElement
 		DefinitionFile="_Layout.Shared"

@@ -2,7 +2,7 @@
 <Report
 	Caption="File Upload"
 	ID="Admin.FileUpload"
-	SecurityReportRightID="MKC,TMA"
+	SecurityReportRightID="MKC Dashboard,TMA Dashboard"
 	>
 	<DefaultRequestParams
 		StatusMsg=""

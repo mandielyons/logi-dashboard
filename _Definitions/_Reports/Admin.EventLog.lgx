@@ -2,7 +2,7 @@
 <Report
 	Caption="Audit Log"
 	ID="Admin.EventLog"
-	SecurityReportRightID="ADMIN"
+	SecurityReportRightID="LogiUserAdmin"
 	>
 	<IncludeSharedElement
 		DefinitionFile="_Layout.Shared"

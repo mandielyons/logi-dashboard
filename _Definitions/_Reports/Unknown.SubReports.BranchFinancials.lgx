@@ -2,7 +2,7 @@
 <Report
 	Caption="Branch Financials"
 	ID="Unknown.SubReports.BranchFinancials"
-	SecurityReportRightID="FINANCIALS"
+	SecurityReportRightID="Dashboard Monthly Staff"
 	>
 	<LocalData>
 		<DataLayer

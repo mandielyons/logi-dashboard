@@ -40,7 +40,7 @@
 									Caption="logo-white.png"
 									Class="main-logo"
 									ID="mkclogo"
-									SecurityRightID="MKC,SRMGMT"
+									SecurityRightID="MKC Dashboard,SRMGMT"
 									>
 									<Action
 										ID="actHomeLink"
@@ -61,7 +61,7 @@
 									Caption="TMA_LogoHorWht.png"
 									Class="main-logo"
 									ID="tmalogo"
-									SecurityRightID="TMA,OC"
+									SecurityRightID="TMA Dashboard,OC"
 									>
 									<Action
 										ID="actHomeLink"
@@ -99,10 +99,12 @@
 									<Spaces
 										Size="25"
 									/>
-									<Label
-										Caption="*****FOR INTERNAL TESTING PURPOSES ONLY*****"
-										Class="ThemeErrorText"
-									/>
+									<Remark>
+										<Label
+											Caption="*****FOR INTERNAL TESTING PURPOSES ONLY*****"
+											Class="ThemeErrorText"
+										/>
+									</Remark>
 									<LineBreak/>
 								</Division>
 							</Division>
@@ -130,7 +132,7 @@
 								<Label
 									Caption="Home"
 									ID="MKCHome"
-									SecurityRightID="MKC"
+									SecurityRightID="MKC Dashboard"
 									>
 									<Action
 										ID="actReport"
@@ -152,7 +154,7 @@
 								<Label
 									Caption="Home"
 									ID="TMAHome"
-									SecurityRightID="TMA,OC"
+									SecurityRightID="TMA Dashboard,OC"
 									>
 									<Action
 										ID="actReport"
@@ -178,7 +180,7 @@
 								/>
 								<Division
 									ID="reports-container"
-									SecurityRightID="FINANCIALS"
+									SecurityRightID="Dashboard Monthly Staff"
 									>
 									<Division
 										Class="dropdown"
@@ -264,7 +266,7 @@
 								</Division>
 								<Division
 									ID="tma-reports-container"
-									SecurityRightID="TMA,MKC,OC"
+									SecurityRightID="TMA Dashboard,MKC Dashboard,OC"
 									>
 									<Division
 										Class="dropdown"
@@ -524,97 +526,95 @@
 										/>
 									</Division>
 								</Remark>
-								<Remark>
+								<Division
+									ID="tma-apps-container"
+									SecurityRightID="TMA Dashboard,MKC Dashboard"
+									>
 									<Division
-										ID="tma-apps-container"
-										SecurityRightID="TMA,MKC"
+										Class="dropdown"
+										HtmlDiv="True"
+										ID="tma-apps"
 										>
-										<Division
-											Class="dropdown"
-											HtmlDiv="True"
-											ID="tma-apps"
+										<Label
+											Caption="TMA Apps"
 											>
-											<Label
-												Caption="TMA Apps"
+											<Action
+												ID="actBlank"
+												Javascript="void(0)"
+												Type="Javascript"
+											/>
+											<ConditionalClass
+												Class="selected-menu"
+												Condition="&quot;@Request.rdReport~&quot;.indexOf(&quot;TMAReports&quot;)&lt;&gt;&quot;-1&quot;"
+											/>
+										</Label>
+										<Label
+											Class="caret"
+											>
+											<Action
+												ID="actBlank"
+												Javascript="void(0)"
+												Type="Javascript"
+											/>
+											<ConditionalClass
+												Class="caret selected-menu"
+												Condition="&quot;@Request.rdReport~&quot;.indexOf(&quot;Reports&quot;)&lt;&gt;&quot;-1&quot;"
+											/>
+										</Label>
+										<Division
+											Class="submenu"
+											HtmlDiv="True"
+											ID="submenu-tma-apps"
+											>
+											<DataList
+												ID="lstTMAApps"
 												>
-												<Action
-													ID="actBlank"
-													Javascript="void(0)"
-													Type="Javascript"
-												/>
-												<ConditionalClass
-													Class="selected-menu"
-													Condition="&quot;@Request.rdReport~&quot;.indexOf(&quot;TMAReports&quot;)&lt;&gt;&quot;-1&quot;"
-												/>
-											</Label>
-											<Label
-												Class="caret"
-												>
-												<Action
-													ID="actBlank"
-													Javascript="void(0)"
-													Type="Javascript"
-												/>
-												<ConditionalClass
-													Class="caret selected-menu"
-													Condition="&quot;@Request.rdReport~&quot;.indexOf(&quot;Reports&quot;)&lt;&gt;&quot;-1&quot;"
-												/>
-											</Label>
-											<Division
-												Class="submenu"
-												HtmlDiv="True"
-												ID="submenu-tma-apps"
-												>
-												<DataList
-													ID="lstTMAApps"
+												<DataLayer
+													ID="dlNav-TMAReports"
+													Type="DefinitionList"
 													>
-													<DataLayer
-														ID="dlNav-TMAReports"
-														Type="DefinitionList"
+													<CompareFilter
+														CaseSensitive="True"
+														CompareType="="
+														CompareValue="TMAApps"
+														DataColumn="Folder1"
+														DataType="Text"
+														ID="fTMAApps"
+													/>
+												</DataLayer>
+												<ListItem>
+													<Label
+														Caption="@Data.Caption~"
 														>
-														<CompareFilter
-															CaseSensitive="True"
-															CompareType="="
-															CompareValue="TMAApps"
-															DataColumn="Folder1"
-															DataType="Text"
-															ID="fTMAApps"
-														/>
-													</DataLayer>
-													<ListItem>
-														<Label
-															Caption="@Data.Caption~"
+														<Action
+															ID="actReport"
+															Type="Report"
 															>
-															<Action
-																ID="actReport"
+															<Target
+																Report="@Data.ID~"
 																Type="Report"
 																>
-																<Target
-																	Report="@Data.ID~"
-																	Type="Report"
-																	>
-																	<WaitPage/>
-																</Target>
-															</Action>
-															<ConditionalClass
-																Class="selected-menu"
-																Condition="&quot;@Request.rdReport~&quot;==&quot;@Data.ID~&quot;"
-															/>
-														</Label>
-													</ListItem>
-												</DataList>
-											</Division>
+																<WaitPage/>
+															</Target>
+														</Action>
+														<ConditionalClass
+															Class="selected-menu"
+															Condition="&quot;@Request.rdReport~&quot;==&quot;@Data.ID~&quot;"
+														/>
+													</Label>
+												</ListItem>
+											</DataList>
 										</Division>
-										<Label
-											Caption="|"
-											Class="pipe-spacer"
-											ID="pipe-spacer"
-										/>
 									</Division>
-								</Remark>
+									<Label
+										Caption="|"
+										Class="pipe-spacer"
+										ID="pipe-spacer"
+									/>
+								</Division>
 								<Division
 									ID="scorecard-container"
-									SecurityRightID="SRMGMT,STRATEGICPLAN,ADMIN"
+									SecurityRightID="Dashboard Stategic Planning,LogiUserAdmin,Dashboard Sr Mgmt"
 									>
 									<Label
 										Caption="Scorecard"
@@ -644,7 +644,7 @@
 								</Division>
 								<Division
 									ID="admin-container"
-									SecurityRightID="TMA,MKC,OC"
+									SecurityRightID="TMA Dashboard,MKC Dashboard,OC"
 									>
 									<Division
 										Class="dropdown"
@@ -900,12 +900,12 @@
 				<Label
 					Caption="© Copyright 2015 - MKC. Shared growth. Shared success. All rights reserved."
 					Format="HTML"
-					SecurityRightID="MKC"
+					SecurityRightID="MKC Dashboard"
 				/>
 				<Label
 					Caption="© Copyright 2015 - Team Marketing Alliance. All rights reserved."
 					Format="HTML"
-					SecurityRightID="TMA,OC"
+					SecurityRightID="TMA Dashboard,OC"
 				/>
 				<Remark>
 					<Division

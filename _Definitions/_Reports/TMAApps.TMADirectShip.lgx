@@ -2,7 +2,7 @@
 <Report
 	Caption="Direct Ship App"
 	ID="TMAApps.TMADirectShip"
-	SecurityReportRightID="TMA,MKC"
+	SecurityReportRightID="TMA Dashboard,MKC Dashboard"
 	>
 	<IncludeSharedElement
 		DefinitionFile="_Layout.Shared"
