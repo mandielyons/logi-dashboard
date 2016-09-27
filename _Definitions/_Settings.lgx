@@ -349,6 +349,36 @@ AND USERNAME = @iptUsername"
 			</Remark>
 			<Remark>
 				<RightFromRole
+					ID="OC"
+					RolesDataColumn="cRole"
+					>
+					<DataLayer
+						ConnectionID="connLogiDB"
+						HandleQuotesInTokens="True"
+						ID="dlLogiDbRoles"
+						Source="SELECT USERNAME
+FROM USERS
+WHERE 
+ACTIVE = 1
+AND USERNAME = @iptUsername"
+						Type="SQL"
+						>
+						<SqlParameters>
+							<SqlParameter
+								ID="iptUsername"
+								SqlParamType="dt-200"
+								Value="@Function.UserName~"
+							/>
+						</SqlParameters>
+						<CalculatedColumn
+							Formula="&quot;OC&quot;"
+							ID="cRight"
+						/>
+					</DataLayer>
+				</RightFromRole>
+			</Remark>
+			<Remark>
+				<RightFromRole
 					ID="MKC"
 					RolesDataColumn="cRight"
 					>
