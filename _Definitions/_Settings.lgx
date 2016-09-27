@@ -242,51 +242,75 @@ AND PASSWORD = HASHBYTES(&apos;SHA1&apos;,N&apos;@Request.rdPassword~&apos;)
 				</SqlParameters>
 			</DataLayer>
 		</AuthenticationRule>
-		<UserRoles
-			ID="UserRoles"
-			RolesDataColumn="memberOf"
-			>
-			<DataLayer
-				ConnectionID="mkcLDAP"
-				ID="dlLdapRoles"
-				LdapSource="SELECT memberOf, sAMAccountName, title, name, userPrincipalName, ADsPath, DisplayName, givenName, sn, mail FROM &apos;DC=midkscoop,DC=lan&apos; WHERE SamAccountName=&apos;@Function.UserName~&apos; and objectClass=&apos;person&apos;"
-				Type="Ldap"
+		<Remark>
+			<UserRoles
+				ID="UserRoles"
+				RolesDataColumn="memberOf"
 				>
-				<CalculatedColumn
-					Formula="&quot;@Data.memberOf~&quot;.substring(3,&quot;@Data.memberOf~&quot;.indexOf(&quot;,&quot;))"
-					ID="memberOf"
-				/>
-				<Join
-					ID="joinLogiDbRoles"
-					JoinType="Union"
+				<DataLayer
+					ConnectionID="mkcLDAP"
+					ID="dlLdapRoles"
+					LdapSource="SELECT memberOf, sAMAccountName, title, name, userPrincipalName, ADsPath, DisplayName, givenName, sn, mail FROM &apos;DC=midkscoop,DC=lan&apos; WHERE SamAccountName=&apos;@Function.UserName~&apos; and objectClass=&apos;person&apos;"
+					Type="Ldap"
 					>
-					<DataLayer
-						ConnectionID="connLogiDB"
-						HandleQuotesInTokens="True"
-						ID="dlLogiDbRoles"
-						Source="SELECT USERNAME
+					<CalculatedColumn
+						Formula="&quot;@Data.memberOf~&quot;.substring(3,&quot;@Data.memberOf~&quot;.indexOf(&quot;,&quot;))"
+						ID="memberOf"
+					/>
+					<Join
+						ID="joinLogiDbRoles"
+						JoinType="Union"
+						>
+						<DataLayer
+							ConnectionID="connLogiDB"
+							HandleQuotesInTokens="True"
+							ID="dlLogiDbRoles"
+							Source="SELECT USERNAME
 FROM USERS
 WHERE 
 ACTIVE = 1
 AND USERNAME = @iptUsername"
-						Type="SQL"
-						>
-						<SqlParameters>
-							<SqlParameter
-								ID="iptUsername"
-								SqlParamType="dt-200"
-								Value="@Function.UserName~"
+							Type="SQL"
+							>
+							<SqlParameters>
+								<SqlParameter
+									ID="iptUsername"
+									SqlParamType="dt-200"
+									Value="@Function.UserName~"
+								/>
+							</SqlParameters>
+							<CalculatedColumn
+								Formula="&quot;OC&quot;"
+								ID="memberOf"
 							/>
-						</SqlParameters>
-						<CalculatedColumn
-							Formula="&quot;OC&quot;"
-							ID="memberOf"
-						/>
-					</DataLayer>
-				</Join>
-			</DataLayer>
-		</UserRoles>
+						</DataLayer>
+					</Join>
+				</DataLayer>
+			</UserRoles>
+		</Remark>
 		<Rights>
+			<RightsFromDataLayer
+				RightsDataColumn="cRight"
+				>
+				<Note
+					Note="*** this is incomplete ***"
+					>
+					<Note
+						Note="*** would need to calculate cRight from the memberOf data column ***"
+					/>
+				</Note>
+				<DataLayer
+					ConnectionID="mkcLDAP"
+					ID="dlLdapRights"
+					LdapSource="SELECT memberOf, sAMAccountName, title, name, userPrincipalName, ADsPath, DisplayName, givenName, sn, mail FROM &apos;DC=midkscoop,DC=lan&apos; WHERE SamAccountName=&apos;@Function.UserName~&apos; and objectClass=&apos;person&apos;"
+					Type="Ldap"
+					>
+					<CalculatedColumn
+						Formula="&quot;@Data.memberOf~&quot;.substring(3,&quot;@Data.memberOf~&quot;.indexOf(&quot;,&quot;))"
+						ID="cRight"
+					/>
+				</DataLayer>
+			</RightsFromDataLayer>
 			<RightFromRole
 				ID="OC"
 				RolesDataColumn="cRole"
@@ -315,28 +339,6 @@ AND USERNAME = @iptUsername"
 					/>
 				</DataLayer>
 			</RightFromRole>
-			<RightsFromDataLayer
-				RightsDataColumn="cRight"
-				>
-				<Note
-					Note="*** this is incomplete ***"
-					>
-					<Note
-						Note="*** would need to calculate cRight from the memberOf data column ***"
-					/>
-				</Note>
-				<DataLayer
-					ConnectionID="mkcLDAP"
-					ID="dlLdapRights"
-					LdapSource="SELECT memberOf, sAMAccountName, title, name, userPrincipalName, ADsPath, DisplayName, givenName, sn, mail FROM &apos;DC=midkscoop,DC=lan&apos; WHERE SamAccountName=&apos;@Function.UserName~&apos; and objectClass=&apos;person&apos;"
-					Type="Ldap"
-					>
-					<CalculatedColumn
-						Formula="&quot;@Data.memberOf~&quot;.substring(3,&quot;@Data.memberOf~&quot;.indexOf(&quot;,&quot;))"
-						ID="cRight"
-					/>
-				</DataLayer>
-			</RightsFromDataLayer>
 			<Remark>
 				<RightFromRole
 					ID="MKC"
