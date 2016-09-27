@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Process
 	ID="Admin"
+	SecurityRightID="LogiUserAdmin"
 	>
 	<Task
 		ID="tskManageUser"
