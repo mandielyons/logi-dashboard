@@ -2,7 +2,7 @@
 <Report
 	Caption="TMA Direct Ship Management"
 	ID="Unknown.SubReports.SubReport_TMADirectShipEntry"
-	SecurityReportRightID="TMA,MKC"
+	SecurityReportRightID="TMA Dashboard,MKC Dashboard"
 	>
 	<DefaultRequestParams
 		StatusMsg=""
