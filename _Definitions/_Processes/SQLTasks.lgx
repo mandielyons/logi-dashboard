@@ -10,7 +10,7 @@
 		<Procedure
 			ConnectionID="connProdGP"
 			ID="procUpdateRow"
-			SqlCommand="UPDATE AGTRAX_STAGING.dbo.DM_DSTicketTracking SET DM_DSTicketTracking.DropOffDate = &apos;@Request.dteDropOff~&apos;, DM_DSTicketTracking.CUSTOMER = &apos;@Request.iptCustomer~&apos;, DM_DSTicketTracking.BRANCH_NUMBER = &apos;@Request.iptBranch~&apos;, DM_DSTicketTracking.TotalTickets = &apos;@Request.iptTickets~&apos;, DM_DSTicketTracking.EnteredDate = &apos;@Request.dteEntered~&apos;, DM_DSTicketTracking.ElectronicTicket = &apos;@Request.iptElectronic~&apos;, DM_DSTicketTracking.CompletedDate = &apos;@Request.iptCompleteDate~&apos;
+			SqlCommand="UPDATE AGTRAX_STAGING.dbo.DM_DSTicketTracking SET DM_DSTicketTracking.DropOffDate = &apos;@Request.dteDropOff~&apos;, DM_DSTicketTracking.CUSTOMER = &apos;@Request.iptCustomer~&apos;, DM_DSTicketTracking.BRANCH_NUMBER = &apos;@Request.iptBranch~&apos;, DM_DSTicketTracking.TotalTickets = &apos;@Request.iptTickets~&apos;, DM_DSTicketTracking.EnteredDate = &apos;@Request.dteEntered~&apos;, DM_DSTicketTracking.ElectronicTicket = &apos;@Request.iptElectronic~&apos;, DM_DSTicketTracking.CompletedDate = &apos;@Request.iptCompleteDate~&apos;, DM_DSTicketTracking.COMMENTS = &apos;@Request.iptComments~&apos;, DM_DSTicketTracking.COMMODITY_CODE = &apos;@Request.iptCommodity~&apos;
 WHERE DM_DSTicketTracking.EntryID = &apos;@Request.iptEntryId~&apos;"
 			Type="SQL"
 			>
@@ -83,8 +83,8 @@ Completed by: @Function.UserID~"
 		<Procedure
 			ConnectionID="connProdGP"
 			ID="procInsertRow"
-			SqlCommand="INSERT INTO AGTRAX_STAGING.dbo.DM_DSTicketTracking (DM_DSTicketTracking.DropOffDate,DM_DSTicketTracking.CUSTOMER,DM_DSTicketTracking.BRANCH_NUMBER,DM_DSTicketTracking.TotalTickets,DM_DSTicketTracking.EnteredDate,DM_DSTicketTracking.UserID,DM_DSTicketTracking.ElectronicTicket)
-VALUES (&apos;@Request.dteDropOff~&apos;,&apos;@Request.iptCustomer~&apos;,&apos;@Request.iptBranch~&apos;,&apos;@Request.iptTickets~&apos;,&apos;@Request.dteEntered~&apos;,&apos;@Function.UserID~&apos;,&apos;@Request.iptElectronic~&apos;)
+			SqlCommand="INSERT INTO AGTRAX_STAGING.dbo.DM_DSTicketTracking (DM_DSTicketTracking.DropOffDate,DM_DSTicketTracking.CUSTOMER,DM_DSTicketTracking.BRANCH_NUMBER,DM_DSTicketTracking.TotalTickets,DM_DSTicketTracking.EnteredDate,DM_DSTicketTracking.UserID,DM_DSTicketTracking.ElectronicTicket,DM_DSTicketTracking.COMMENTS,DM_DSTicketTracking.COMMODITY_CODE)
+VALUES (&apos;@Request.dteDropOff~&apos;,&apos;@Request.iptCustomer~&apos;,&apos;@Request.iptBranch~&apos;,&apos;@Request.iptTickets~&apos;,&apos;@Request.dteEntered~&apos;,&apos;@Function.UserID~&apos;,&apos;@Request.iptElectronic~&apos;,&apos;@Request.iptComments~&apos;,&apos;@Request.iptCommodity~&apos;)
 "
 			SqlReturnType="RowsAffected"
 			Type="SQL"
@@ -344,6 +344,8 @@ Thank you!&lt;br&gt;
 		dteEntered=""
 		iptAccount=""
 		iptBranch=""
+		iptComments=""
+		iptCommodity=""
 		iptCompleteDate=""
 		iptCustomer=""
 		iptElectronic=""
