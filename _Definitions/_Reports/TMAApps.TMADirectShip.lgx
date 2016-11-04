@@ -147,7 +147,7 @@
 						/>
 						<InputCheckbox
 							Caption="Toggle View"
-							CaptionClass="ThemeTextPositive"
+							CaptionClass="ThemeBold"
 							CheckedValue="true"
 							DefaultValue="@Request.chkAll~"
 							ID="chkAll"
@@ -178,7 +178,7 @@
 							AccessibleSummary="AnalysisGrid DataTable"
 							ID="dtTicketTracking"
 							KeepScrollPosition="True"
-							RememberSort="True"
+							RememberSort="False"
 							ResizableColumns="True"
 							SortArrows="True"
 							TableBorder="0"
@@ -236,6 +236,19 @@ Order By DM_DSTicketTracking.DropOffDate ASC
 								</DataTableColumn>
 							</Remark>
 							<DataTableColumn
+								ID="colOverdue"
+								>
+								<Label
+									Class="ThemeHidden"
+									ID="colWarning"
+									>
+									<ConditionalClass
+										Class="text-danger fa fa-warning"
+										Condition="InStr(&quot;@Data.EnteredDate~&quot;, &quot;1900-01-01&quot;) &gt; 0 And &quot;@Date.10DaysAgo~&quot; &gt;= &quot;@Data.DropOffDate~&quot;"
+									/>
+								</Label>
+							</DataTableColumn>
+							<DataTableColumn
 								Header="Tickets Received"
 								ID="colDropOffDate"
 								>
@@ -247,6 +260,10 @@ Order By DM_DSTicketTracking.DropOffDate ASC
 								<DataColumnSort
 									DataColumn="DropOffDate"
 									DataType="Date"
+								/>
+								<ConditionalClass
+									Class="text-danger"
+									Condition="InStr(&quot;@Data.EnteredDate~&quot;, &quot;1900-01-01&quot;) &gt; 0 And &quot;@Date.10DaysAgo~&quot; &gt;= &quot;@Data.DropOffDate~&quot;"
 								/>
 							</DataTableColumn>
 							<DataTableColumn
@@ -261,6 +278,10 @@ Order By DM_DSTicketTracking.DropOffDate ASC
 									DataColumn="CUSTOMER"
 									DataType="Text"
 								/>
+								<ConditionalClass
+									Class="text-danger"
+									Condition="InStr(&quot;@Data.EnteredDate~&quot;, &quot;1900-01-01&quot;) &gt; 0 And &quot;@Date.10DaysAgo~&quot; &gt;= &quot;@Data.DropOffDate~&quot;"
+								/>
 							</DataTableColumn>
 							<DataTableColumn
 								Header="Branch "
@@ -273,6 +294,10 @@ Order By DM_DSTicketTracking.DropOffDate ASC
 								<DataColumnSort
 									DataColumn="BRANCH_NUMBER"
 									DataType="Number"
+								/>
+								<ConditionalClass
+									Class="text-danger"
+									Condition="InStr(&quot;@Data.EnteredDate~&quot;, &quot;1900-01-01&quot;) &gt; 0 And &quot;@Date.10DaysAgo~&quot; &gt;= &quot;@Data.DropOffDate~&quot;"
 								/>
 							</DataTableColumn>
 							<DataTableColumn
@@ -337,6 +362,10 @@ Order By DM_DSTicketTracking.DropOffDate ASC
 									DataColumn="TotalTickets"
 									DataType="Text"
 								/>
+								<ConditionalClass
+									Class="text-danger"
+									Condition="InStr(&quot;@Data.EnteredDate~&quot;, &quot;1900-01-01&quot;) &gt; 0 And &quot;@Date.10DaysAgo~&quot; &gt;= &quot;@Data.DropOffDate~&quot;"
+								/>
 							</DataTableColumn>
 							<DataTableColumn
 								Header="AgTrax Entered Date"
@@ -356,6 +385,10 @@ Order By DM_DSTicketTracking.DropOffDate ASC
 									DataColumn="EnteredDate"
 									DataType="Date"
 								/>
+								<ConditionalClass
+									Class="text-danger"
+									Condition="InStr(&quot;@Data.EnteredDate~&quot;, &quot;1900-01-01&quot;) &gt; 0 And &quot;@Date.10DaysAgo~&quot; &gt;= &quot;@Data.DropOffDate~&quot;"
+								/>
 							</DataTableColumn>
 							<DataTableColumn
 								Header="Entered By"
@@ -368,6 +401,10 @@ Order By DM_DSTicketTracking.DropOffDate ASC
 								<DataColumnSort
 									DataColumn="UserID"
 									DataType="Text"
+								/>
+								<ConditionalClass
+									Class="text-danger"
+									Condition="InStr(&quot;@Data.EnteredDate~&quot;, &quot;1900-01-01&quot;) &gt; 0 And &quot;@Date.10DaysAgo~&quot; &gt;= &quot;@Data.DropOffDate~&quot;"
 								/>
 							</DataTableColumn>
 							<DataTableColumn
@@ -396,6 +433,10 @@ Order By DM_DSTicketTracking.DropOffDate ASC
 									DataColumn="CompletedDate"
 									DataType="Date"
 								/>
+								<ConditionalClass
+									Class="text-danger"
+									Condition="InStr(&quot;@Data.EnteredDate~&quot;, &quot;1900-01-01&quot;) &gt; 0 And &quot;@Date.10DaysAgo~&quot; &gt;= &quot;@Data.DropOffDate~&quot;"
+								/>
 							</DataTableColumn>
 							<DataTableColumn
 								ColumnHeaderClass=" "
@@ -414,6 +455,10 @@ Order By DM_DSTicketTracking.DropOffDate ASC
 								<DataColumnSort
 									DataColumn="ElectronicTicket"
 									DataType="Number"
+								/>
+								<ConditionalClass
+									Class="text-danger"
+									Condition="InStr(&quot;@Data.EnteredDate~&quot;, &quot;1900-01-01&quot;) &gt; 0 And &quot;@Date.10DaysAgo~&quot; &gt;= &quot;@Data.DropOffDate~&quot;"
 								/>
 							</DataTableColumn>
 							<DataTableColumn>
