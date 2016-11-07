@@ -186,7 +186,7 @@
 							<DataLayer
 								ConnectionID="connProdGP"
 								ID="dlTicketTracking"
-								Source="Select DM_DSTicketTracking.EntryID,
+								Source="SELECT DM_DSTicketTracking.EntryID,
   DM_DSTicketTracking.DropOffDate,
   DM_DSTicketTracking.CUSTOMER,
   DM_DSTicketTracking.BRANCH_NUMBER,
@@ -196,13 +196,15 @@
   DM_DSTicketTracking.CompletedDate,
   IV_BRANCH_MASTER.BRANCH_NAME,
   AR_CUSTOMER_MASTER_TMA.NAME,
-  DM_DSTicketTracking.ElectronicTicket
-From DM_DSTicketTracking
-  Inner Join IV_BRANCH_MASTER On DM_DSTicketTracking.BRANCH_NUMBER =
-    IV_BRANCH_MASTER.BRANCH_NUMBER
-  Inner Join AR_CUSTOMER_MASTER_TMA On DM_DSTicketTracking.CUSTOMER =
-    AR_CUSTOMER_MASTER_TMA.CUSTOMER
-Order By DM_DSTicketTracking.DropOffDate ASC
+  DM_DSTicketTracking.ElectronicTicket,
+  DM_DSTicketTracking.COMMODITY_CODE,
+  CA_COMMODITY_MASTER.DESCRIPTION COMMODITY_DESC,
+  DM_DSTicketTracking.COMMENTS
+FROM Agtrax_Staging.dbo.DM_DSTicketTracking
+  INNER JOIN Agtrax_Staging.dbo.IV_BRANCH_MASTER ON DM_DSTicketTracking.BRANCH_NUMBER = IV_BRANCH_MASTER.BRANCH_NUMBER
+  INNER JOIN Agtrax_Staging.dbo.AR_CUSTOMER_MASTER_TMA ON DM_DSTicketTracking.CUSTOMER = AR_CUSTOMER_MASTER_TMA.CUSTOMER
+  LEFT OUTER JOIN Agtrax_Staging.dbo.CA_COMMODITY_MASTER ON DM_DSTicketTracking.COMMODITY_CODE = CA_COMMODITY_MASTER.COMMODITY_CODE
+ORDER BY DM_DSTicketTracking.DropOffDate ASC
 "
 								Type="SQL"
 								>
@@ -298,6 +300,27 @@ Order By DM_DSTicketTracking.DropOffDate ASC
 								<ConditionalClass
 									Class="text-danger"
 									Condition="InStr(&quot;@Data.CompletedDate~&quot;, &quot;1900-01-01&quot;) &gt; 0 And &quot;@Date.10DaysAgo~&quot; &gt;= &quot;@Data.DropOffDate~&quot;"
+								/>
+							</DataTableColumn>
+							<DataTableColumn
+								Header="Commodity"
+								ID="colCommodity"
+								>
+								<Label
+									Caption="@Data.COMMODITY_CODE~ - @Data.COMMODITY_DESC~"
+									Class="ThemeHidden"
+									ID="colCommodity"
+									>
+									<ConditionalClass
+										Condition="&quot;@Data.COMMODITY_CODE~&quot; &lt;&gt; &quot;&quot;"
+									/>
+								</Label>
+								<ConditionalClass
+									Class="text-danger"
+									Condition="InStr(&quot;@Data.CompletedDate~&quot;, &quot;1900-01-01&quot;) &gt; 0 And &quot;@Date.10DaysAgo~&quot; &gt;= &quot;@Data.DropOffDate~&quot;"
+								/>
+								<DataColumnSort
+									DataColumn="COMMODITY_CODE"
 								/>
 							</DataTableColumn>
 							<DataTableColumn
