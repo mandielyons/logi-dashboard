@@ -10,7 +10,7 @@
 	/>
 	<DefaultRequestParams
 		Account="ALL"
-		Branch="ALL"
+		Branch="-1"
 		Commodity="ALL"
 		ContractType="Sale"
 		Position="ALL"
@@ -330,7 +330,7 @@ ORDER BY CUSTDESC"
 						ID="Branch"
 						IncludeBlank="True"
 						IncludeBlankCaption="All Branches"
-						IncludeBlankValue="ALL"
+						IncludeBlankValue="-1"
 						MultiSelect="False"
 						OptionCaptionColumn="BRANCH"
 						OptionValueColumn="BRANCH_NUMBER"
@@ -399,7 +399,7 @@ WHERE DELIVERY_END_DATE &lt;= &apos;@Request.paramShipPeriodDt~&apos;
   AND (     (COMMODITY_CODE = &apos;@Request.Commodity~&apos; OR &apos;@Request.Commodity~&apos;=&apos;ALL&apos;)
         AND (DPR_POSITION_GROUP = &apos;@Request.Position~&apos; OR &apos;@Request.Position~&apos;=&apos;ALL&apos;)
         AND (CUSTOMER = &apos;@Request.Account~&apos; OR &apos;@Request.Account~&apos;=&apos;ALL&apos;)
-        AND (BRANCH_NUMBER = &apos;@Request.Branch~&apos; OR &apos;@Request.Branch~&apos;=&apos;ALL&apos;)
+        AND (BRANCH_NUMBER = &apos;@Request.Branch~&apos; OR &apos;@Request.Branch~&apos; = -1)
 	   )
 GROUP BY CUSTOMER, CONTRACT_MAIN, CONTRACT_TYPE_DESC, DPR_POSITION, DPR_POSITION_GROUP, BRANCH_NUMBER, COMMODITY_CODE,DELIVERY_START_DATE, DELIVERY_END_DATE 
 HAVING SUM(REMAINING_BU)&lt;&gt;0
@@ -564,7 +564,7 @@ ORDER BY CUSTDESC, MAINCONTRACT
 	/>
 	<ideTestParams
 		Account="ALL"
-		Branch="ALL"
+		Branch="-1"
 		Commodity="ALL"
 		ContractType="Sale"
 		paramCommodityCode="01"
