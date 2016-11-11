@@ -2,7 +2,7 @@
 <Report
 	Caption="TMA Contracts By Ship Date"
 	ID="Unknown.SubReports.TMAContractsByShipDate"
-	SecurityReportRightID="TMA,MKC"
+	SecurityReportRightID="TMA Dashboard,MKC Dashboard"
 	>
 	<IncludeSharedElement
 		DefinitionFile="_Layout.Shared"
