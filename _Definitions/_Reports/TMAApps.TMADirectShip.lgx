@@ -186,7 +186,7 @@
 							<DataLayer
 								ConnectionID="connProdGP"
 								ID="dlTicketTracking"
-								Source="SELECT DM_DSTicketTracking.EntryID,
+								Source="Select DM_DSTicketTracking.EntryID,
   DM_DSTicketTracking.DropOffDate,
   DM_DSTicketTracking.CUSTOMER,
   DM_DSTicketTracking.BRANCH_NUMBER,
@@ -199,13 +199,16 @@
   DM_DSTicketTracking.ElectronicTicket,
   DM_DSTicketTracking.COMMODITY_CODE,
   CA_COMMODITY_MASTER.DESCRIPTION COMMODITY_DESC,
-  DM_DSTicketTracking.COMMENTS
-FROM Agtrax_Staging.dbo.DM_DSTicketTracking
-  INNER JOIN Agtrax_Staging.dbo.IV_BRANCH_MASTER ON DM_DSTicketTracking.BRANCH_NUMBER = IV_BRANCH_MASTER.BRANCH_NUMBER
-  INNER JOIN Agtrax_Staging.dbo.AR_CUSTOMER_MASTER_TMA ON DM_DSTicketTracking.CUSTOMER = AR_CUSTOMER_MASTER_TMA.CUSTOMER
-  LEFT OUTER JOIN Agtrax_Staging.dbo.CA_COMMODITY_MASTER ON DM_DSTicketTracking.COMMODITY_CODE = CA_COMMODITY_MASTER.COMMODITY_CODE
-ORDER BY DM_DSTicketTracking.DropOffDate ASC
-"
+  DM_DSTicketTracking.COMMENTS,
+  DateDiff(day, DM_DSTicketTracking.DropOffDate, GetDate()) As DaysOld
+From DM_DSTicketTracking
+  Inner Join IV_BRANCH_MASTER On DM_DSTicketTracking.BRANCH_NUMBER =
+    IV_BRANCH_MASTER.BRANCH_NUMBER
+  Inner Join AR_CUSTOMER_MASTER_TMA On DM_DSTicketTracking.CUSTOMER =
+    AR_CUSTOMER_MASTER_TMA.CUSTOMER
+  Left Outer Join CA_COMMODITY_MASTER On DM_DSTicketTracking.COMMODITY_CODE =
+    CA_COMMODITY_MASTER.COMMODITY_CODE
+Order By DM_DSTicketTracking.DropOffDate"
 								Type="SQL"
 								>
 								<ConditionFilter
@@ -246,7 +249,7 @@ ORDER BY DM_DSTicketTracking.DropOffDate ASC
 									>
 									<ConditionalClass
 										Class="text-danger fa fa-warning"
-										Condition="InStr(&quot;@Data.CompletedDate~&quot;, &quot;1900-01-01&quot;) &gt; 0 And &quot;@Date.10DaysAgo~&quot; &gt;= &quot;@Data.DropOffDate~&quot;"
+										Condition="InStr(&quot;@Data.CompletedDate~&quot;, &quot;1900-01-01&quot;) &gt; 0 And @Data.DaysOld~ &gt; 10"
 									/>
 								</Label>
 							</DataTableColumn>
@@ -255,7 +258,7 @@ ORDER BY DM_DSTicketTracking.DropOffDate ASC
 								ID="colDropOffDate"
 								>
 								<Label
-									Caption="@Data.DropOffDate~"
+									Caption="@Data.DropOffDate~ "
 									Format="Short Date"
 									ID="colDropOffDate"
 								/>
@@ -265,7 +268,7 @@ ORDER BY DM_DSTicketTracking.DropOffDate ASC
 								/>
 								<ConditionalClass
 									Class="text-danger"
-									Condition="InStr(&quot;@Data.CompletedDate~&quot;, &quot;1900-01-01&quot;) &gt; 0 And &quot;@Date.10DaysAgo~&quot; &gt;= &quot;@Data.DropOffDate~&quot;"
+									Condition="InStr(&quot;@Data.CompletedDate~&quot;, &quot;1900-01-01&quot;) &gt; 0 And @Data.DaysOld~ &gt; 10"
 								/>
 							</DataTableColumn>
 							<DataTableColumn
@@ -282,7 +285,7 @@ ORDER BY DM_DSTicketTracking.DropOffDate ASC
 								/>
 								<ConditionalClass
 									Class="text-danger"
-									Condition="InStr(&quot;@Data.CompletedDate~&quot;, &quot;1900-01-01&quot;) &gt; 0 And &quot;@Date.10DaysAgo~&quot; &gt;= &quot;@Data.DropOffDate~&quot;"
+									Condition="InStr(&quot;@Data.CompletedDate~&quot;, &quot;1900-01-01&quot;) &gt; 0 And @Data.DaysOld~ &gt; 10"
 								/>
 							</DataTableColumn>
 							<DataTableColumn
@@ -299,7 +302,7 @@ ORDER BY DM_DSTicketTracking.DropOffDate ASC
 								/>
 								<ConditionalClass
 									Class="text-danger"
-									Condition="InStr(&quot;@Data.CompletedDate~&quot;, &quot;1900-01-01&quot;) &gt; 0 And &quot;@Date.10DaysAgo~&quot; &gt;= &quot;@Data.DropOffDate~&quot;"
+									Condition="InStr(&quot;@Data.CompletedDate~&quot;, &quot;1900-01-01&quot;) &gt; 0 And @Data.DaysOld~ &gt; 10"
 								/>
 							</DataTableColumn>
 							<DataTableColumn
@@ -317,7 +320,7 @@ ORDER BY DM_DSTicketTracking.DropOffDate ASC
 								</Label>
 								<ConditionalClass
 									Class="text-danger"
-									Condition="InStr(&quot;@Data.CompletedDate~&quot;, &quot;1900-01-01&quot;) &gt; 0 And &quot;@Date.10DaysAgo~&quot; &gt;= &quot;@Data.DropOffDate~&quot;"
+									Condition="InStr(&quot;@Data.CompletedDate~&quot;, &quot;1900-01-01&quot;) &gt; 0 And @Data.DaysOld~ &gt; 10"
 								/>
 								<DataColumnSort
 									DataColumn="COMMODITY_CODE"
@@ -387,7 +390,7 @@ ORDER BY DM_DSTicketTracking.DropOffDate ASC
 								/>
 								<ConditionalClass
 									Class="text-danger"
-									Condition="InStr(&quot;@Data.CompletedDate~&quot;, &quot;1900-01-01&quot;) &gt; 0 And &quot;@Date.10DaysAgo~&quot; &gt;= &quot;@Data.DropOffDate~&quot;"
+									Condition="InStr(&quot;@Data.CompletedDate~&quot;, &quot;1900-01-01&quot;) &gt; 0 And @Data.DaysOld~ &gt; 10"
 								/>
 							</DataTableColumn>
 							<DataTableColumn
@@ -410,7 +413,7 @@ ORDER BY DM_DSTicketTracking.DropOffDate ASC
 								/>
 								<ConditionalClass
 									Class="text-danger"
-									Condition="InStr(&quot;@Data.CompletedDate~&quot;, &quot;1900-01-01&quot;) &gt; 0 And &quot;@Date.10DaysAgo~&quot; &gt;= &quot;@Data.DropOffDate~&quot;"
+									Condition="InStr(&quot;@Data.CompletedDate~&quot;, &quot;1900-01-01&quot;) &gt; 0 And @Data.DaysOld~ &gt; 10"
 								/>
 							</DataTableColumn>
 							<DataTableColumn
@@ -427,7 +430,7 @@ ORDER BY DM_DSTicketTracking.DropOffDate ASC
 								/>
 								<ConditionalClass
 									Class="text-danger"
-									Condition="InStr(&quot;@Data.CompletedDate~&quot;, &quot;1900-01-01&quot;) &gt; 0 And &quot;@Date.10DaysAgo~&quot; &gt;= &quot;@Data.DropOffDate~&quot;"
+									Condition="InStr(&quot;@Data.CompletedDate~&quot;, &quot;1900-01-01&quot;) &gt; 0 And @Data.DaysOld~ &gt; 10"
 								/>
 							</DataTableColumn>
 							<DataTableColumn
@@ -436,6 +439,7 @@ ORDER BY DM_DSTicketTracking.DropOffDate ASC
 								>
 								<Label
 									Class="fa fa-check"
+									Format="Short Date"
 									>
 									<ConditionalClass
 										Class="ThemeHidden"
@@ -458,7 +462,7 @@ ORDER BY DM_DSTicketTracking.DropOffDate ASC
 								/>
 								<ConditionalClass
 									Class="text-danger"
-									Condition="InStr(&quot;@Data.CompletedDate~&quot;, &quot;1900-01-01&quot;) &gt; 0 And &quot;@Date.10DaysAgo~&quot; &gt;= &quot;@Data.DropOffDate~&quot;"
+									Condition="InStr(&quot;@Data.CompletedDate~&quot;, &quot;1900-01-01&quot;) &gt; 0 And @Data.DaysOld~ &gt; 10"
 								/>
 							</DataTableColumn>
 							<DataTableColumn
@@ -481,7 +485,7 @@ ORDER BY DM_DSTicketTracking.DropOffDate ASC
 								/>
 								<ConditionalClass
 									Class="text-danger"
-									Condition="InStr(&quot;@Data.CompletedDate~&quot;, &quot;1900-01-01&quot;) &gt; 0 And &quot;@Date.10DaysAgo~&quot; &gt;= &quot;@Data.DropOffDate~&quot;"
+									Condition="InStr(&quot;@Data.CompletedDate~&quot;, &quot;1900-01-01&quot;) &gt; 0 And @Data.DaysOld~ &gt; 10"
 								/>
 							</DataTableColumn>
 							<DataTableColumn>
