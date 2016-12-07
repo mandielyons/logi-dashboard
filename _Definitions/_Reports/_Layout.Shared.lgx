@@ -5,6 +5,42 @@
 	<SharedElement
 		ID="shrHeader"
 		>
+		<IncludeHtml
+			Html="  &lt;link href=&quot;//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css&quot; rel=&quot;stylesheet&quot;&gt;
+  &lt;script src=&quot;http://code.jquery.com/jquery-2.0.3.min.js&quot;&gt;&lt;/script&gt; 
+  &lt;script src=&quot;https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js&quot;&gt;&lt;/script&gt;
+  &lt;script src=&quot;http://smtpjs.com/smtp.js&quot;&gt;
+&lt;/script&gt;
+  &lt;style&gt;
+  /* Popover */
+  .popover {
+      border: 2px dotted red;
+	  position: fixed;
+  }
+  /* Popover Header */
+  .popover-title {
+      background-color: #73AD21;
+      color: dark grey;
+      font-size: 14px;
+	  font-weight: bold;
+  }
+  /* Popover Body */
+  .popover-content {
+      background-color: #73AD21;
+      color: #FFFFFF;
+  }
+  /* Popover Arrow */
+  .arrow {
+      border-right-color: coral !important;
+  }
+  /* Wish Div */
+  .wish {
+  	position: relative;
+  }
+  
+  &lt;/style&gt;
+"
+		/>
 		<Division
 			HtmlDiv="True"
 			ID="Header"
@@ -887,9 +923,7 @@
 		ID="shrFooter"
 		>
 		<Division
-			HtmlDiv="True"
 			ID="FooterWrap"
-			ShowModes="rdBrowser"
 			>
 			<Division
 				Condition=""
@@ -897,91 +931,71 @@
 				ID="Footer"
 				ShowModes="rdBrowser"
 				>
-				<Label
-					Caption="© Copyright 2015 - MKC. Shared growth. Shared success. All rights reserved."
-					Format="HTML"
-					SecurityRightID="MKC Dashboard"
-				/>
-				<Label
-					Caption="© Copyright 2015 - Team Marketing Alliance. All rights reserved."
-					Format="HTML"
-					SecurityRightID="TMA Dashboard,OC"
-				/>
-				<Remark>
-					<Division
-						HtmlDiv="True"
-						ID="DEBUG"
-						ShowModes="rdBrowser"
-						>
-						<Rows>
-							<Row>
-								<Column>
-									<Label
-										Caption="Username: "
-									/>
-								</Column>
-								<Column>
-									<Label
-										Caption="@Function.UserName~"
-									/>
-								</Column>
-							</Row>
-							<Row>
-								<Column>
-									<Label
-										Caption="Role(s): "
-									/>
-								</Column>
-								<Column>
-									<Label
-										Caption="@Function.UserRoles~"
-									/>
-								</Column>
-							</Row>
-							<Row>
-								<Column>
-									<Label
-										Caption="Right(s): "
-									/>
-								</Column>
-								<Column>
-									<Label
-										Caption="@Function.UserRights~"
-									/>
-								</Column>
-							</Row>
-						</Rows>
-					</Division>
-				</Remark>
+				<ResponsiveRow
+					CollisionBehavior="Overlap"
+					>
+					<ResponsiveColumn>
+						<Label
+							Caption="© Copyright 2015 - MKC. Shared growth. Shared success. All rights reserved."
+							Format="HTML"
+							SecurityRightID="MKC Dashboard"
+						/>
+						<Label
+							Caption="© Copyright 2015 - Team Marketing Alliance. All rights reserved."
+							Format="HTML"
+							SecurityRightID="TMA Dashboard,OC"
+						/>
+					</ResponsiveColumn>
+					<ResponsiveColumn>
+						<Division
+							Class="pull-right"
+							HtmlDiv="True"
+							ID="div-Wish"
+							>
+							<IncludeHtml
+								Html="&lt;div class=&quot;wish&quot;&gt;
+	&lt;span class=&quot;fa fa-star&quot; style=&quot;color: coral;&quot;&gt;&lt;/span&gt;
+   	&lt;a href=&quot;#&quot; style=&quot;color: coral;&quot; data-toggle=&quot;popover&quot; data-placement=&quot;left&quot; data-container=&quot;body&quot; data-html=&quot;true&quot; data-title=&quot;Make A Wish&quot;&gt;What would you like to see on this page?&lt;/a&gt;
+&lt;/div&gt;
+&lt;!-- Popover content --&gt;
+&lt;div id=&quot;popover-content&quot; class=&quot;hide&quot;&gt;
+  &lt;form class=&quot;form-inline&quot; role=&quot;form&quot;&gt;
+    &lt;div class=&quot;form-group&quot;&gt;
+      &lt;textarea rows=&quot;3&quot; cols=&quot;20&quot; name=&quot;wish&quot; type=&quot;text&quot; placeholder=&quot;I wish this page would...&quot; class=&quot;form-control&quot; maxlength=&quot;100&quot; wrap=&quot;soft&quot;&gt;&lt;/textarea&gt;
+      &lt;button id=&quot;wish&quot; class=&quot;btn btn-default&quot; type=&quot;submit&quot; onClick=&quot;SendMail();&quot;&gt;Send Wish&lt;/button&gt;                                  
+    &lt;/div&gt;
+  &lt;/form&gt;
+&lt;/div&gt;
+
+&lt;script type=&quot;text/javascript&quot;&gt;
+$(document).ready(function(){
+	$(&quot;[data-toggle=popover]&quot;).popover({
+		html: true, 
+		content: function() {
+			return $(&apos;#popover-content&apos;).html();
+			}
+	});
+
+});
+
+function SendMail() {
+	$(&quot;[data-toggle=popover]&quot;).popover(&apos;hide&apos;);
+	
+	Email.send(&quot;noreply-support@tmagrain.com&quot;,
+	&quot;mlyons@mkcoop.com&quot;,
+	&quot;This is a subject&quot;,
+	&quot;My wish&quot;,
+	{token: &quot;f27a4587-facd-43ba-823c-7e78fbc76069&quot;});
+}
+
+&lt;/script&gt;
+
+"
+							/>
+						</Division>
+					</ResponsiveColumn>
+				</ResponsiveRow>
 			</Division>
-		</Division>
-		<Division
-			HtmlDiv="True"
-			ID="div-JS"
-			ShowModes="rdBrowser"
-			>
-			<Remark>
-				<IncludeHtml
-					Html="&lt;ul id=&quot;main-menu&quot; class=&quot;sm sm-blue&quot;&gt;
-  &lt;li&gt;&lt;a href=&quot;#&quot;&gt;Item 1&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#&quot;&gt;Item 2&lt;/a&gt;
-    &lt;ul&gt;
-      &lt;li&gt;&lt;a href=&quot;#&quot;&gt;Item 2-1&lt;/a&gt;&lt;/li&gt;
-      &lt;li&gt;&lt;a href=&quot;#&quot;&gt;Item 2-2&lt;/a&gt;&lt;/li&gt;
-      &lt;li&gt;&lt;a href=&quot;#&quot;&gt;Item 2-3&lt;/a&gt;&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#&quot;&gt;Item 3&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;"
-				/>
-			</Remark>
-			<Remark>
-				<IncludeScript
-					IncludedScript="$(function() {
-  $(&apos;#main-menu&apos;).smartmenus();
-});"
-				/>
-			</Remark>
 		</Division>
 	</SharedElement>
 	<ideTestParams/>
