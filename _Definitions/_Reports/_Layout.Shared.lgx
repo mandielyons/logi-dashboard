@@ -2,6 +2,14 @@
 <Report
 	ID="_Layout.Shared"
 	>
+	<SetSessionVariables
+		SetFirstTimeOnly="True"
+		>
+		<SessionParams
+			Report="@Request.rdReport~"
+			User="@Request.rdUserName~"
+		/>
+	</SetSessionVariables>
 	<SharedElement
 		ID="shrHeader"
 		>
@@ -9,8 +17,8 @@
 			Html="  &lt;link href=&quot;//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css&quot; rel=&quot;stylesheet&quot;&gt;
   &lt;script src=&quot;http://code.jquery.com/jquery-2.0.3.min.js&quot;&gt;&lt;/script&gt; 
   &lt;script src=&quot;https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js&quot;&gt;&lt;/script&gt;
-  &lt;script src=&quot;http://smtpjs.com/smtp.js&quot;&gt;
-&lt;/script&gt;
+  &lt;script src=&quot;http://smtpjs.com/smtp.js&quot;&gt;&lt;/script&gt;
+
   &lt;style&gt;
   /* Popover */
   .popover {
@@ -34,10 +42,20 @@
       border-right-color: coral !important;
   }
   /* Wish Div */
-  .wish {
+  .wish-div {
   	position: relative;
   }
-  
+	.mac-style {
+		width: 180px;
+		-webkit-transition: width 1s ease-in-out;
+		-moz-transition:width 1s ease-in-out;
+		-o-transition: width 1s ease-in-out;
+		transition: width 1s ease-in-out;
+	}
+	
+	.mac-style:focus{
+		width: 300px;
+	}
   &lt;/style&gt;
 "
 		/>
@@ -950,43 +968,49 @@
 						<Division
 							Class="pull-right"
 							HtmlDiv="True"
-							ID="div-Wish"
+							ID="wish"
 							>
+							<Rows>
+								<Row>
+									<Column>
+										<InputText
+											Class="mac-style clearfix"
+											Format="HTML"
+											ID="iptWish"
+											InputSize="120px"
+											Placeholder="I wish this page would..."
+										/>
+									</Column>
+									<Column>
+										<Button
+											Caption="Make A Wish"
+											Class="btn btn-default"
+											ID="btnWish"
+											>
+											<Action
+												ID="procWishEmail"
+												Process="SQLTasks"
+												TaskID="WishEmail"
+												Type="Process"
+												>
+												<LinkParams
+													Report="@Request.rdReport~"
+													User="@Session.User~"
+													Wish="@Input.iptWish~"
+												/>
+												<WaitPage/>
+											</Action>
+										</Button>
+									</Column>
+								</Row>
+							</Rows>
 							<IncludeHtml
-								Html="&lt;div class=&quot;wish&quot;&gt;
-	&lt;span class=&quot;fa fa-star&quot; style=&quot;color: coral;&quot;&gt;&lt;/span&gt;
-   	&lt;a href=&quot;#&quot; style=&quot;color: coral;&quot; data-toggle=&quot;popover&quot; data-placement=&quot;left&quot; data-container=&quot;body&quot; data-html=&quot;true&quot; data-title=&quot;Make A Wish&quot;&gt;What would you like to see on this page?&lt;/a&gt;
-&lt;/div&gt;
-&lt;!-- Popover content --&gt;
-&lt;div id=&quot;popover-content&quot; class=&quot;hide&quot;&gt;
-  &lt;form class=&quot;form-inline&quot; role=&quot;form&quot;&gt;
-    &lt;div class=&quot;form-group&quot;&gt;
-      &lt;textarea rows=&quot;3&quot; cols=&quot;20&quot; name=&quot;wish&quot; type=&quot;text&quot; placeholder=&quot;I wish this page would...&quot; class=&quot;form-control&quot; maxlength=&quot;100&quot; wrap=&quot;soft&quot;&gt;&lt;/textarea&gt;
-      &lt;button id=&quot;wish&quot; class=&quot;btn btn-default&quot; type=&quot;submit&quot; onClick=&quot;SendMail();&quot;&gt;Send Wish&lt;/button&gt;                                  
-    &lt;/div&gt;
-  &lt;/form&gt;
-&lt;/div&gt;
-
-&lt;script type=&quot;text/javascript&quot;&gt;
-$(document).ready(function(){
-	$(&quot;[data-toggle=popover]&quot;).popover({
-		html: true, 
-		content: function() {
-			return $(&apos;#popover-content&apos;).html();
-			}
-	});
-
+								Html="&lt;script type=&quot;text/javascript&quot;&gt;
+$(&quot;#iptWish&quot;).keyup(function(event){
+    if(event.keyCode == 13){
+        $(&quot;#btnWish&quot;).click();		
+    }
 });
-
-function SendMail() {
-	$(&quot;[data-toggle=popover]&quot;).popover(&apos;hide&apos;);
-	
-	Email.send(&quot;noreply-support@tmagrain.com&quot;,
-	&quot;mlyons@mkcoop.com&quot;,
-	&quot;This is a subject&quot;,
-	&quot;My wish&quot;,
-	{token: &quot;f27a4587-facd-43ba-823c-7e78fbc76069&quot;});
-}
 
 &lt;/script&gt;
 
@@ -998,5 +1022,7 @@ function SendMail() {
 			</Division>
 		</Division>
 	</SharedElement>
-	<ideTestParams/>
+	<ideTestParams
+		rdUserName=""
+	/>
 </Report>

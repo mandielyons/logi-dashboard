@@ -339,6 +339,35 @@ Thank you!&lt;br&gt;
 			</Response>
 		</Procedure>
 	</Task>
+	<Task
+		ID="WishEmail"
+		>
+		<Procedure
+			ConnectionID="connSMTP"
+			EmailBody="@Request.Report~
+&lt;br&gt;
+I wish this page would...
+@Request.iptWish~
+&lt;br&gt;
+Thanks!"
+			EmailBodyType="HTML"
+			EmailSubject="Dashboard Wish"
+			FromEmailAddress="noreply-support@tmagrain.com"
+			ID="sendWishEmail"
+			ToEmailAddress="mlyons@mkcoop.com"
+			Type="SendMail"
+		/>
+		<Response
+			Type="Report"
+			>
+			<Target
+				Report="@Request.rdReport~"
+				Type="Report"
+				>
+				<WaitPage/>
+			</Target>
+		</Response>
+	</Task>
 	<ideTestParams
 		dteDropOff=""
 		dteEntered=""
@@ -355,6 +384,8 @@ Thank you!&lt;br&gt;
 		iptOldPwd=""
 		iptTickets=""
 		iptUserID=""
+		iptWish=""
 		rdTaskID=""
+		Report=""
 	/>
 </Process>
