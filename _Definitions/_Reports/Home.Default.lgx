@@ -29,27 +29,27 @@
 				/>
 				<Image
 					Caption="icon-klipstarts (1).png"
-					Height="230"
+					Height="200"
 					ID="imgMKCLogo2"
 					SecurityRightID="MKC Dashboard,TMA Dashboard,OC"
-					Width="375"
+					Width="350"
 				/>
 				<Image
 					Caption="icon-klipstarts.png"
-					Height="230"
+					Height="200"
 					ID="imgMKCLogo"
 					SecurityRightID="MKC Dashboard,TMA Dashboard,OC"
-					Width="375"
+					Width="350"
 				/>
 				<LineBreak
 					LineCount="2"
 				/>
 				<Image
 					Caption="dboard.png"
-					Height="325"
+					Height="300"
 					ID="imgTMALogo"
 					SecurityRightID="MKC Dashboard,TMA Dashboard,OC"
-					Width="325"
+					Width="300"
 				/>
 			</ResponsiveColumn>
 		</ResponsiveRow>
