@@ -697,6 +697,36 @@
 									/>
 								</Division>
 								<Division
+									ID="other-container"
+									SecurityRightID="OC,LogiUserAdmin"
+									>
+									<Label
+										Caption="Password Reset"
+										>
+										<Action
+											ID="actReport"
+											Type="Report"
+											>
+											<Target
+												ID="tgtReport"
+												Report="Other.PasswordReset"
+												Type="Report"
+												>
+												<WaitPage/>
+											</Target>
+										</Action>
+										<ConditionalClass
+											Class="selected-menu"
+											Condition="&quot;@Request.rdReport~&quot;==&quot;Other.PasswordReset&quot;"
+										/>
+									</Label>
+									<Label
+										Caption="|"
+										Class="pipe-spacer"
+										ID="pipe-spacer"
+									/>
+								</Division>
+								<Division
 									ID="admin-container"
 									SecurityRightID="TMA Dashboard,MKC Dashboard"
 									>
