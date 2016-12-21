@@ -138,20 +138,18 @@
 									Condition=""
 									ID="title"
 									>
-									<Remark>
-										<Label
-											Caption="Dashboard Reports"
-										/>
-									</Remark>
+									
+										
+									
 									<Spaces
 										Size="25"
 									/>
-									<Remark>
+									
 										<Label
 											Caption="*****FOR INTERNAL TESTING PURPOSES ONLY*****"
 											Class="ThemeErrorText"
 										/>
-									</Remark>
+									
 									<LineBreak/>
 								</Division>
 							</Division>

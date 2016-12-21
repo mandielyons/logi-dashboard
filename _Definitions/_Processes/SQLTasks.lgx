@@ -365,6 +365,22 @@ Thanks!"
 					ID="procSendWishError"
 					Type="If"
 					>
+					<Procedure
+						Expression="&quot;@Request.Report~&quot; = &quot;&quot;"
+						ID="reportEmptyError"
+						Type="If"
+						>
+						<Response
+							Type="Report"
+							>
+							<Target
+								Report="Home.Default"
+								Type="Report"
+								>
+								<WaitPage/>
+							</Target>
+						</Response>
+					</Procedure>
 					<Response
 						Type="Report"
 						>
@@ -377,6 +393,22 @@ Thanks!"
 					</Response>
 				</Procedure>
 			</IfError>
+		</Procedure>
+		<Procedure
+			Expression="&quot;@Request.Report~&quot; = &quot;&quot;"
+			ID="reportEmptySuccess"
+			Type="If"
+			>
+			<Response
+				Type="Report"
+				>
+				<Target
+					Report="Home.Default"
+					Type="Report"
+					>
+					<WaitPage/>
+				</Target>
+			</Response>
 		</Procedure>
 		<Response
 			Type="Report"
