@@ -344,9 +344,11 @@ Thank you!&lt;br&gt;
 		>
 		<Procedure
 			ConnectionID="connSMTP"
-			EmailBody="@Request.Report~
+			EmailBody="Sent from Report: @Request.Report~
 &lt;br&gt;
-I wish this page would...
+From User: @Request.User~
+&lt;br&gt;
+I wish this page would:
 @Request.iptWish~
 &lt;br&gt;
 Thanks!"
@@ -356,12 +358,31 @@ Thanks!"
 			ID="sendWishEmail"
 			ToEmailAddress="mlyons@mkcoop.com"
 			Type="SendMail"
-		/>
+			>
+			<IfError>
+				<Procedure
+					Expression="Len(&quot;@Procedure.sendWishEmail.ErrorMessage~&quot;) &gt; 0"
+					ID="procSendWishError"
+					Type="If"
+					>
+					<Response
+						Type="Report"
+						>
+						<Target
+							Report="@Request.Report~"
+							Type="Report"
+							>
+							<WaitPage/>
+						</Target>
+					</Response>
+				</Procedure>
+			</IfError>
+		</Procedure>
 		<Response
 			Type="Report"
 			>
 			<Target
-				Report="@Request.rdReport~"
+				Report="@Request.Report~"
 				Type="Report"
 				>
 				<WaitPage/>
@@ -387,5 +408,6 @@ Thanks!"
 		iptWish=""
 		rdTaskID=""
 		Report=""
+		User=""
 	/>
 </Process>
