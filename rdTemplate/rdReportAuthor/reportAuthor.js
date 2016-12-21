@@ -21,6 +21,8 @@ YUI.add('reportAuthor', function (Y) {
             this._parseHTMLConfig();
             this.configNode.setData(TRIGGER, this);
             this.processPopups();
+            //defined in global.js
+            rdSetUndoRedoVisibility();
         },
 
         processPopups: function () {
@@ -49,7 +51,7 @@ YUI.add('reportAuthor', function (Y) {
                 }, this);
             }
             if (LogiXML.Ajax.AjaxTarget && !this._handlers.popupCloseAjax) {
-                this._handlers.popupCloseAjax = LogiXML.Ajax.AjaxTarget().on('reinitialize', function () { this.processPopups(); this.checkForLoadedPopups();}, this);
+                this._handlers.popupCloseAjax = LogiXML.Ajax.AjaxTarget().on('reinitialize', function () { this.processPopups(); this.checkForLoadedPopups(); rdSetUndoRedoVisibility(); }, this);
             }
             
         },
@@ -76,7 +78,7 @@ YUI.add('reportAuthor', function (Y) {
             this.addVisualizationsPopupDone();
         },
 
-        addVisualizationsPopupDone: function() {
+        addVisualizationsPopupDone: function () {
             var visualizationIds = this.visualizationStack.join(","),
                 parentId = this.visualizationParentId,
                 siblingId = this.visualizationParentSiblingId,
@@ -95,14 +97,28 @@ YUI.add('reportAuthor', function (Y) {
                 refreshElementId = editorNode.getAttribute('id');
             }
 
-
-
             //hide popup 
             ShowElement(this.id, 'ppChangeDashboard', 'Hide', '');
+           
             //post to server 
             if (visualizationIds && visualizationIds.length > 0) {
                 rdAjaxRequestWithFormVars('rdAjaxCommand=RefreshElement&rdRefreshElementID=' + this.id + ',' + refreshElementId +
                     '&rdReportAuthorAction=refresh&rdReportAuthorElementID=' + refreshElementId + '&rdReport=' + this.reportName, 'false', '', null, null, null, ['', '', '']);
+                
+                // should be revisited , if NGP platform, refresh after adding panel
+                //console.log("visualizationIds: " + visualizationIds); 
+                //if (window.Logi !== undefined) {
+                if (visualizationIds.indexOf('NGPviz') >= 0 && !window.Logi) {
+                    //console.log("visualizationIds.length: " + visualizationIds.length);
+                    //window.location.reload(false);
+					var href = window.location.href;
+					if (href && href.indexOf && href.indexOf('&rdNewBookmark=True' != -1)) {
+						href = href.replace('&rdNewBookmark=True', '');
+						window.location.replace(href);
+					} else {
+						window.location = window.location;
+					}
+                }
             }
 
         },
@@ -301,6 +317,7 @@ YUI.add('reportAuthor', function (Y) {
 }, '1.0.0', { requires: ['base', 'node', 'node-base', 'event', 'node-custom-destroy', 'json-parse', 'stylesheet', 'event-custom', 'io-base','io-xdr','io-form','io-upload-iframe','io-queue'] });
 
 
+
 function GetColorPicker(sColorPickerValue) {
     window.sColorPicker = sColorPickerValue;
 };
@@ -383,13 +400,22 @@ function onClickwrapper(event) {
 function exitInlineEdit(element) {
     if (element.outerHTML.indexOf("<textarea") > -1) {
         var newText = element.value;
-        element.innerHTML = newText;
-        element.className = "rd-editable";
         var elemId = element.id.substring(element.id.lastIndexOf("_") + 1, element.id.length);
-        var editor = document.getElementById("txtLabelText_" + elemId);
-        if (editor) {
-            editor.value = HtmlEncode(element.value);
+        element.className = "rd-editable";
+        element.parentNode.parentNode.previousSibling.style.display = null;
+        element.parentNode.parentNode.parentNode.style.background = null;
+
+        if (element.defaultValue != newText) {
+            document.getElementById("isChanged_" + elemId).value = "True";
+
+            element.innerHTML = newText;
+
+            var editor = document.getElementById("txtLabelText_" + elemId);
+            if (editor) {
+                editor.value = element.value;
+            }
         }
+        
         element.outerHTML = element.outerHTML.replace("<textarea", "<span").replace("</textarea>", "</span>");
         element = document.getElementById(element.id);
         element.onblur = null;
@@ -401,8 +427,15 @@ function exitInlineEdit(element) {
     }
 }
 function HtmlEncode(str) {
-    return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&apos;').replace('/', '%5C');
+    return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&apos;');
 }
 function HtmlDecode(str) {
-    return str.replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&apos;/g, '\'').replace('%5C', '/');
+    return str.replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&apos;/g, '\'');
+}
+
+function setEditActionCause(isUser) {
+    var eleSetFromUser = document.getElementById('rdSetSettingsFromUser');
+    if (eleSetFromUser) {
+         eleSetFromUser.value = isUser;
+    }
 }

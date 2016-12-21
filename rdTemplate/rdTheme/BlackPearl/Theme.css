@@ -1,1497 +1,1723 @@
-/*Global Style Settings */
+/* Page Layout */
 body {
-	background-color: #0f0f0f;
-	font-family: Helvetica;
-	font-size: 11px;
-	color: #fff;
+  background-color: #0F0F0F /*PageBackgroundColor*/ ;
+}
+form[name="rdForm"] {
+  margin-bottom: 0;
 }
 
-table {
-	font-family: Helvetica;
-	font-size: 100%;
+/* Global Typography */
+body {
+  font-family: Helvetica /*MainFont*/, 'Avenir Next', 'Avenir', 'Helvetica Neue', 'Helvetica', 'Arial', 'sans-serif';
+  color: #FFFFFF /*PageFontColor*/ ;
+  font-size: 100%;
+  min-height: 100%;
+  text-decoration: none;
+  text-transform: none;
+  text-rendering: optimizeLegibility;
+}
+h1, h2, h3, h4, h5, h6, .ThemeHeaderLargest, .ThemeHeaderLarger, .ThemeHeaderLarge, .ThemeHeader, .ThemeHeaderSmall, .ThemeHeaderSmaller, .ThemeHeaderSmallest {
+  text-align: center;
+  min-height: 100%;
+  position: relative;
+}
+p, .ThemeTextLargest, .ThemeTextLarger, .ThemeTextLarge, .ThemeText, .ThemeTextSmall, .ThemeTextSmaller, .ThemeTextSmallest {
+  min-height: 100%;
+  position: relative;
+}
+table, .rdDashboard, .rdDashboard table {
+  color: #FFFFFF /*PageFontColor*/ ;
+  font-size: 100%;
+}
+strong {
+  font-weight: bold;
+}
+em {
+  font-style: italic;
+}
+#rdMainBody {
+  font-size: 12px;
 }
 
-img{
-	border: 0px;
+/*User classes*/
+h1, .ThemeHeaderLargest {
+  font-size: 190%;
+  font-weight: bold;
+}
+h2, .ThemeHeaderLarger {
+  font-size: 170%;
+  font-weight: bold;
+}
+h3, .ThemeHeaderLarge {
+  font-size: 150%;
+  font-weight: bold;
+}
+h4, .ThemeHeader {
+  font-size: 130%;
+}
+h5, .ThemeHeaderSmall {
+  font-size: 120%;
+}
+h6, .ThemeHeaderSmaller {
+  font-size: 100%;
+  font-weight: 600;
+}
+.ThemeHeaderSmallest {
+  font-size: 90%;
+  font-weight: 600;
+}
+blockquote {
+  font-size: 120%;
+}
+.ThemeBold {
+  font-weight: bold;
+}
+.ThemeItalic {
+  font-style: italic;
+}
+.ThemeTextLargest {
+  font-size: 185%;
+}
+.ThemeTextLarger {
+  font-size: 150%;
+}
+.ThemeTextLarge {
+  font-size: 120%;
+}
+.ThemeTextNormal {
+  font-size: 100%;
+  color: #FFFFFF /*PageFontColor*/ ;
+}
+.ThemeTextSmall {
+  font-size: 95%;
+}
+.ThemeTextSmaller {
+  font-size: 90%;
+}
+.ThemeTextSmallest {
+  font-size: 85%;
+}
+.ThemeTextPositive {
+  color: #85B74D /*TextPositiveFont*/ ;
+}
+.ThemeTextNegative {
+  color: #B84026 /*TextNegativeFont*/ ;
+}
+.ThemeErrorText {
+  color: #FFFFFF /*ErrorFont*/ !important;
+  border: 1px solid !important;
+  border-color: #97351F /*ErrorBorder*/ !important;
+  background-color: #B84026 /*ErrorBackground*/ !important;
+}
+.ThemeNoWrap {
+  white-space: nowrap;
+}
+.ThemePanel {
+  padding: 12px;
+  background-color: #242424 /*ModalBackgroundColor*/ ;
+  -webkit-box-shadow: 0 1px 2px 0px rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: 0 1px 2px 0px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 1px 2px 0px rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+}
+.ThemeHidden {
+  display: none;
+}
+.ThemeAlignCenter {
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+.ThemeAlignLeft {
+  text-align: left;
+}
+.ThemeAlignRight {
+  text-align: right;
+}
+.ThemeAlignTop {
+  vertical-align: top;
+}
+.ThemeAlignTopLeft {
+  vertical-align: top;
+  text-align: left;
+}
+.ThemeAlignTopRight {
+  vertical-align: top;
+  text-align: right;
+}
+.ThemeAlignBottom {
+  vertical-align: bottom;
+}
+.ThemeAlignBottomLeft {
+  vertical-align: bottom;
+  text-align: left;
+}
+.ThemeAlignBottomRight {
+  vertical-align: bottom;
+  text-align: right;
+}
+.ThemeMarginLargest {
+  margin: 72px;
+}
+.ThemeMarginLarger {
+  margin: 36px;
+}
+.ThemeMarginLarge {
+  margin: 12px;
+}
+.ThemeMargin {
+  margin: 6px;
+}
+.ThemePaddingLargest {
+  padding: 72px;
+}
+.ThemePaddingLarger {
+  padding: 36px;
+}
+.ThemePaddingLarge {
+  padding: 12px;
+}
+.ThemePadding {
+  padding: 6px;
+}
+.ThemeContainerBordered {
+  border: solid 2px !important;
+  border-color: #FFFFFF /*ContainerBorder*/ !important;
+  padding: 6px;
+  border-radius: 4px;
+}
+.ThemeContainerShaded {
+  background-color: #363636 /*ShadedBackground*/ ;
+  color: #FFFFFF /*ShadedFont*/ ;
+  padding: 6px;
+  border-radius: 4px;
+}
+.ThemeContainerShadedAndBordered {
+  border: solid 2px !important;
+  border-color: #FFFFFF /*ContainerBorder*/ !important;
+  background-color: #363636 /*ShadedAndBorderedBackground*/ ;
+  color: #FFFFFF /*ShadedAndBorderedFont*/ ;
+  padding: 6px;
+  border-radius: 4px;
+}
+.ThemeContainerShadedAndBordered a {
+  color: #ffffff /*ShadedAndBorderedLink*/ !important;
 }
 
-a:link {
-	color: #fdfac3;
-	text-decoration: none;
+.ThemeAlternatingRow{                
+}
+
+/*User classes end*/
+
+tr.ThemeAlternatingRow td, .rdAg tr.ThemeAlternatingRow td, .rdAgDataTable tr.ThemeAlternatingRow td, .rdThemeDataTable tr.ThemeAlternatingRow > td {
+  background-color: #242424 /*TableDataAlternateBackgroundColor*/ ;
+}
+
+.ThemeClearfix:before, .ThemeClearfix:after {
+  display: table;
+  line-height: 0;
+  content: "";
+}
+.ThemeClearfix:after {
+  clear: both;
+}
+.ThemeClearfix {
+  zoom: 1;
+}
+
+/* Images */
+
+img {
+  border: 0;
+  -ms-interpolation-mode: bicubic;
+}
+
+/* Links and Buttons */
+a, a:link {
+  color: #FDFAC3 /*LinkColor*/ ;
+  text-decoration: none;
 }
 a:active {
-	color: #fdfac3;
-	text-decoration: none;
+  color: #FDFAC3 /*LinkColor*/ ;
+  text-decoration: none;
 }
 a:visited {
-	color: #f3f1d1;
-	text-decoration: none;
+  color: #FDFAC3 /*LinkColor*/ ;
+  text-decoration: none;
 }
-a:hover {
-	color: #fdfac3;
-	text-decoration: underline;
+.rdPreviewHyperlink, a:hover {
+  color: #F3F1D1 /*LinkHoverColor*/ ;
+  text-decoration: none;
 }
-
-a:hover.ThemeLinkButton,
-a:hover.ThemeLinkButtonSmall,
-a:link.ThemeLinkButton,
-a:link.ThemeLinkButtonSmall,
-a:visited.ThemeLinkButton,
-a:visited.ThemeLinkButtonSmall,
-a:active.ThemeLinkButton,
-a:active.ThemeLinkButtonSmall {
-	color: #fff;
-	text-decoration: none;
+a:hover.ThemeLinkButton, a:hover.ThemeLinkButtonSmall, a:link.ThemeLinkButton, a:link.ThemeLinkButtonSmall, a:visited.ThemeLinkButton, a:visited.ThemeLinkButtonSmall, a:active.ThemeLinkButton, a:active.ThemeLinkButtonSmall {
+  color: #FFFFFF /*ButtonFontColor*/ ;
+  text-decoration: none;
 }
-
-.ThemeLinkButton:hover,
-.ThemeLinkButtonSmall:hover,
-img:hover.rdThemePaging,
-td:hover.rdAgUnselectedTab,
-td:hover.rdOgUnselectedTab,
-span:hover.rdAgCommand,
-span:hover.rdOgCommand,
-span:hover.rdCgCommand
- {
-	background-image: url(linkButtonHover.png);
-	border-top: 1px Solid #c6cdd3;
-	border-left: 1px Solid #aaafb5;
-	border-bottom: 1px Solid #43464a;
-	border-right: 1px Solid #43464a;
+.ThemeLinkButton, .ThemeLinkButtonSmall, .rdAgCommand, .rdOgCommand, .rdAcCommand, span.rdCgCommand, .rdDashboardCommand, input[type="button"] {
+  color: #FFFFFF /*ButtonFontColor*/ !important;
+  font-weight: normal;
+  background-image: none;
+  background-color: #666666 /*ButtonBackgroundColor*/ !important;
+  border-radius: 4px;
+  text-decoration: none;
+  cursor: pointer;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-color: #CCCCCC /*ButtonBorderColor*/ !important;
+  border: 1px solid;
 }
-.ThemeLinkButton:active,
-.ThemeLinkButtonSmall:active,
-img:active.rdThemePaging,
-span:active.rdAgCommand,
-span:active.rdOgCommand,
-span:active.rdCgCommand {
-	background-image: url(rdButton.png);
-}
-
-span:hover.rdDashboardCommand,
-span:hover.rdPopupPanelCommand {
-	background-color: #2a2a2a;
-	cursor: pointer;
-}
-span:active.rdDashboardCommand,
-span:active.rdPopupPanelCommand {
-	background-color: #3f3f3f;
-}
-
-img:hover.rdThemePaging {
-	margin: -1px;
-}
-td:hover.rdAgUnselectedTabOn {
-	background-image: url(rdButtonOutOnHover.png);
-}
-span:hover.rdAcCommand {
-	background-image: url(linkButtonHover.png);
-}
-
-/*User classes*/
-
-.ThemeHeaderLargest {
-	color: #fff;
-	font-weight: bold;
-	font-size: 220%;
-	padding-bottom: 1px;
-}
-
-.ThemeHeaderLarger {
-	color: #fff;
-	font-weight: bold;
-	font-size: 169%;
-	padding-bottom: 1px;
-}
-
-.ThemeHeaderLarge {
-	color: #fff;
-	font-weight: bold;
-	font-size: 130%;
-	padding-bottom: 1px;
-}
-
-.ThemeHeader {
-	color: #fff;
-	font-weight: bold;
-	padding-bottom: 1px;
-}
-
-.ThemeHeaderSmall {
-	color: #fff;
-	font-weight: bold;
-	font-size: 85%;
-	padding-bottom: 1px;
-}
-
-.ThemeHeaderSmaller {
-	color: #fff;
-	font-weight: bold;
-	font-size: 75%;
-	padding-bottom: 1px;
-}
-
-.ThemeHeaderSmallest {
-	color: #fff;
-	font-weight: bold;
-	font-size: 60%;
-	padding-bottom: 1px;
-}
-
-.ThemeTextLargest {
-	font-size: 160%;
-}
-
-.ThemeTextLarger {
-	font-size: 145%;
-}
-
-.ThemeTextLarge {
-	font-size: 130%;
-}
-
-.ThemeTextSmall {
-	font-size: 85%;
-}
-
-.ThemeTextSmaller {
-	font-size: 75%;
-}
-
-.ThemeTextSmallest {
-	font-size: 60%;
-}
-
-.ThemeMarginLargest {
-	margin: 25px;
-}
-
-.ThemeMarginLarger {
-	margin: 20px;
-}
-
-.ThemeMarginLarge {
-	margin: 15px;
-}
-
-.ThemeMargin {
-	margin: 5px;
-}
-
-.ThemePaddingLargest {
-	padding: 25px;
-}
-
-.ThemePaddingLarger {
-	padding: 20px;
-}
-
-.ThemePaddingLarge {
-	padding: 15px;
-}
-
-.ThemePadding {
-	padding: 5px;
-}
-
-.ThemeBold {
-	font-weight: bold;
-}
-
-.ThemeItalic {
-	font-style: italic;
-}
-
-.ThemeTextPositive {
-	color: #7cfc00;
-}
-
-.ThemeTextNegative {
-	color: #ff6347;
-}
-
-.ThemeTextNormal {
-	font-size: 11px;
-	color: #fff;
-}
-
-.ThemeErrorText {
-	color: #790619 !important;
-	font-family: Helvetica;
-	font-size: 100%;
-	border: 1px solid #d8000c !important;
-	background-color: #ffbaba !important;
-}
-
-.ThemeNoWrap {
-	white-space: nowrap;
-}
-
-.ThemeHidden {
-	display: none;
-}
-
-.ThemeContainerBordered {
-	border: solid 2px #978b71;
-	padding: 3px;
-}
-
-.ThemeContainerShaded {
-	background-color: #363636;
-	padding: 3px;
-}
-
-.ThemeContainerShadedAndBordered {
-	background-image: url(AgFadeContentRow.png);
-    background-repeat: repeat-x;
-	background-color: #0f0f0f;
-	color: #fff;
-	vertical-align: top;
-	border: 1px Solid #fff;
-	padding: 3px;
-}
-
-tr.ThemeAlternatingRow td.rdThemeDataTableCell {
-	background-color: #313131;
-	color: #fff;
-	padding-left: 4px;
-	padding-top: 2px;
-	padding-right: 3px;
-	padding-bottom: 2px;
-}
-
 .ThemeLinkButton {
-	background-image: url(linkButton.png);
-	color: #fff;
-	text-decoration: none;
-	border-top: 1px Solid #d6dbdf;
-	border-left: 1px Solid #c1c5c9;
-	border-bottom: 1px Solid #5d6165;
-	border-right: 1px Solid #5d6165;
-	padding-left: 11px;
-	padding-right: 10px;
-	padding-top: 5px;
-	padding-bottom: 5px;
-	margin-right: 7px;
-	margin-bottom: 2px;
-	cursor: pointer;
-	line-height: 24px;
-	white-space: nowrap;
+  font-size: 110%;
+  padding: 3px 7px 2px;
+  margin: 3px 6px;
+  border-color: #CCCCCC /*ButtonBorderColor*/ !important;
+  border: 1px solid;
 }
-
+input[type="button"] {
+  padding: 5px 7px 3px;
+  margin: 3px 6px;
+  border-color: #CCCCCC /*ButtonBorderColor*/ !important;
+  border: 1px solid;
+}
 .ThemeLinkButtonSmall {
-	background-image: url(linkButton.png);
-	color: #fff;
-	text-decoration: none;
-	border-top: 1px Solid #d6dbdf;
-	border-left: 1px Solid #c1c5c9;
-	border-bottom: 1px Solid #5d6165;
-	border-right: 1px Solid #5d6165;
-	margin-left: 3px;
-	padding-right: 3px;
-	padding-left: 3px;
-	padding-top: 2px;
-	padding-bottom: 2px;
-	cursor: pointer;
-	line-height: 24px;
-	white-space: nowrap;
+  font-size: 100%;
+  padding: 3px 7px 2px;
+  margin-top: 3px !important;
+  border-color: #CCCCCC /*ButtonBorderColor*/ !important;
+  border: 1px solid;
+}
+.ThemeLinkButton span, .ThemeLinkButtonSmall span {
+  color: #FFFFFF /*ButtonFontColor*/ !important;
+}
+.rdPreviewHoverState, .rdPreviewHoverState:hover, .ThemeLinkButton:hover, .ThemeLinkButtonSmall:hover, span:hover.rdAgCommand, span:hover.rdAcCommand, span:hover.rdOgCommand, span:hover.rdCgCommand, span:hover.rdDashboardCommand, #rowChangeTab span:hover.rdDashboardCommand, span:hover.rdPopupPanelCommand, .rdAgUnselectedTab:hover, .rdOgUnselectedTab:hover, input[type="button"]:hover {
+  background-color: #4D4D4D /*ButtonHoverBackgroundColor*/ !important;
+  color: #FFFFFF /*ButtonHoverFontColor*/ !important;
+  text-decoration: none;
+}
+img:active.rdThemePaging, span:active.rdAgCommand, span:active.rdOgCommand, span:active.rdCgCommand, span:active.rdDashboardCommand, #rowChangeTab span:active.rdDashboardCommand, span:active.rdPopupPanelCommand {
+  top: 1px;
 }
 
-.ThemeContainer {
-	background-color: #242424;
-	color: #fff;
-	border: 1px Solid #696868;
-	margin-top: 15px;
+/* Data Table / Crosstab Table */
+.rdThemeDataTable, .rdAgDataTable, .rdOgOlapTable, .rdDgOlapTable {
+  background-color: #5F5F5F /*TableBorderColor*/;
+  border-radius: 0px;
+  border-spacing: 1px;
 }
-
-.ThemeAlignCenter {
-	text-align: center;
+td.rdDgPanelLine #mclDimensions, td.rdDgPanelLine #mclMeasures, td.rdDgPanelLine #mclFilters, #rowTable table.rdDgPanel table.rdDgContentHeadingRow, #otOlapGrid th.rdOgPositionCellXAxis table, #rowChart table.rdDgPanel tr:first-child table.rdDgContentHeadingRow, #rowHeatmap table.rdDgPanel tr:first-child table.rdDgContentHeadingRow, #rowsChartLists, #rowChartYColumnContainer, #rowChartExtraDataColumnContainer {
+  border: none !important;
+  background-color: transparent !important;
 }
-
-.ThemeAlignLeft {
-	text-align: left;
+.rdThemeDataTableCell {
+  padding: 2px 10px;
+  color: #FFFFFF /*TableDataFontColor*/;
+  background-color: #4B4B4B /*TableDataBackgroundColor*/
 }
-
-.ThemeAlignRight {
-	text-align: right;
+.rdThemeDataTableMainHeader a {
+  color: #FDFAC3 /*TableCaptionFontColor*/ ;
 }
-
-.ThemeAlignTop {
-	vertical-align: top;
-}
-
-.ThemeAlignTopLeft {
-	vertical-align: top;
-	text-align: left;
-}
-
-.ThemeAlignTopRight {
-	vertical-align: top;
-	text-align: right;
-}
-
-.ThemeAlignBottom {
-	vertical-align: bottom;
-}
-
-.ThemeAlignBottomLeft {
-	vertical-align: bottom;
-	text-align: left;
-}
-
-.ThemeAlignBottomRight {
-	vertical-align: bottom;
-	text-align: right;
-}
-
-/*User classes*/
-
-/*Wait page fix for BlackPearl*/
-#rdWaitMsg  {
-	font: 9pt Helvetica, Verdana, sans-serif;
-	color: #0f0f0f;
-	vertical-align: absmiddle;
-	margin-left: 5px;
-	margin-right: 15px;
-}
-
-input.ThemeLinkButton, input.ThemeLinkButtonSmall {
-	line-height: 10px;
-}
-
-/* LinkLabel */
-a.rdThemeLinkLabel:visited {
-	color: #fcf8a6;
-}
-
-.rdThemeBullet {
-	list-style-image: url(bullet.gif);
-	background-repeat: no-repeat;
-}
-
-/* Bullet */
-.rdThemeBullet {
-	list-style-image: url(bullet.gif);
-	background-repeat: no-repeat;
-	*margin-right: 5px;
-	*padding-bottom: 5px;
-}
-
-* html .rdThemeBullet {
-	list-style-image: url(bullet.gif);
-	background-repeat: no-repeat;
-	margin-right: 5px;
-	padding-bottom: 5px;
-}
-
-/* HorizontalRule */
-.rdThemeHorizontalRule {
-	background-color: #fff;
-	height: 2px;
-}
-
-/*Datatable, Crosstab Table, AnalysisGrid*/
-.rdThemeDataTable, .rdAgDataTable, .rdAc table {
-	background-color: #0f0f0f;
-	border: 1px solid #b0b0b0;
-	margin-bottom: 5px;
-}
- .rdOgOlapTable , .rdDgOlapTable{
-	background-color: #0f0f0f;
-	border: 1px solid #b0b0b0;
-	margin-top: 5px;
-	margin-bottom: 5px;
-}
-
- .rdOgMemberPropCell{
-	color: #00aa00;
-}
-
-
 .rdThemeDataTableMainHeader {
-	background-image: url(rdDataTableMainHeader.png);
-	background-repeat: repeat-x;
-	background-color: #c0c0c0;
-	color: #fff;
-	font-size: 115%;
-	font-weight: bold;
-	text-align: left;
-	padding-left: 15px;
-	padding-top: 5px;
-	padding-bottom: 5px;
-}
-
-* html .rdThemeDataTableMainHeader  {
-	background-image: url(rdDataTableMainHeader.png);
-	background-repeat: repeat-x;
-	background-color: #c0c0c0;
-	color: #fff;
-	font-size: 115%;
-	font-weight: bold;
-	height: 25px;
-	text-align: left;
-	padding-left: 15px;
-	padding-top: 7px;
-	margin-bottom: 50px;
-}
-
-.rdThemeDataTableHeader, table.rdAgDataTable th, tr.rdAgHeaderRow th, tr.rdAgHeaderRow td  {
-	background-image: url(rdThemeHeaderFade.png);
-	background-repeat: repeat-x;
-	background-color: #4b4b4b;
-	color: #fff;
+  color: #FDFAC3 /*TableCaptionFontColor*/ ;
+  background-color: #4B4B4B /*TableCaptionBackgroundColor*/ ;
+  font-size: 150%;
+  padding-left: 12px;
+  text-align: left;
+  margin-bottom: 1px;
 }
 .rdThemeDataTableHeader {
-	padding: 4px;
+  color: #FDFAC3 /*TableColumnHeaderFontColor*/ ;
+  background-color: #2D2D2D /*TableColumnHeaderBackgroundColor*/ ;
+  padding: 2px 10px 2px 10px;
+  font-size: 100%;
 }
-
-.rdOgPositionCell  {
-	background-image: none;
-	background-color: #545454;
-	color: #fff;
-	font-weight: normal;
-	padding: 4px;
+.rdThemeDataTableHeader td {
+  color: #FDFAC3 /*TableColumnHeaderFontColor*/ ;
+  background-color: #2D2D2D /*TableColumnHeaderBackgroundColor*/ !important;
+  font-size: 100%;
+  font-weight: bold;
 }
-
-.rdThemeDataTableCell, table.rdAgDataTable td, .rdOgDataCell  {
-	background-color: #4b4b4b;
-	color: #fff;
-	padding: 4px;
+.rdThemeDataTableHeader a {
+  color: #FDFAC3 /*TableColumnHeaderFontColor*/ ;
 }
-
-.rdThemeDataTableHeaderRow, th.rdThemeDataTableCell{
-	background-image: url(AgGroupHeaderRowA.png);
-	background-repeat: repeat-x;
-	background-color: #6b6a6a;
+.rdThemeDataTableHeaderAlternate {
+  background-color: #2D2D2D /*TableColumnHeaderBackgroundColor*/ ;
+  border: none;
 }
-
+.rdThemeDataTableHeaderAlternate  a {
+  color: #FDFAC3 /*TableColumnHeaderFontColor*/ !important;
+}
+.rdThemeDataTableHeaderRow th {
+  background-color: #2D2D2D /*TableHeaderRowBackgroundColor*/ ;
+  color: #FDFAC3 /*TableHeaderRowFontColor*/ ;
+}
 .rdThemeDataTableSummaryRow td {
-	background-image: url(rdDataTableSummaryRow.png);
-	background-color: #2d2c2c;
-	padding-left: 10px;
-	color: #fff;
-	font-weight: bold;
-	padding-top: 4px;
-	padding-bottom: 4px;
+  background-color: #2D2D2D /*TableColumnHeaderBackgroundColor*/ ;
+  color: #FDFAC3 /*TableColumnHeaderFontColor*/ ;
 }
-
-.rdThemeDataTableGroupHeaderRow0 td, tr.rdAgGroup0HeaderRow td {
-	background-image: url(AgGroupHeaderRowB.png);
-	background-color: transparent;
-	color: #fff;
-	font-weight: bold;
-	padding: 4px;
+.rdThemeDataTableGroupHeaderRow0 td, table.rdAgDataTable tr.rdAgGroup0HeaderRow td, .rdThemeDataTableGroupHeaderRow1 td, table.rdAgDataTable tr.rdAgGroup1HeaderRow td, .rdThemeDataTableGroupHeaderRow2 td, table.rdAgDataTable tr.rdAgGroup2HeaderRow td, .rdThemeDataTableGroupHeaderRow3 td, table.rdAgDataTable tr.rdAgGroup3HeaderRow td, .rdThemeDataTableGroupHeaderRow4 td, table.rdAgDataTable tr.rdAgGroup4HeaderRow td {
+  color: #FFFFFF /*TableGroupHeaderRowFontColor*/ ;
+  padding: 2px 10px 2px 10px;
+  font-weight: bold;
 }
-
-.rdThemeDataTableGroupHeaderRow1 td, tr.rdAgGroup1HeaderRow td {
-	background-color: #666665;
-	padding-left: 3px;
-	color: #fff;
-	font-weight: bold;
+.rdThemeDataTableGroupHeaderRow0 td, table.rdAgDataTable tr.rdAgGroup0HeaderRow td {
+  background-color: #2D2D2D /*TableGroupHeaderRowBackgroundColor*/ ;
 }
-
-.rdThemeDataTableGroupHeaderRow2 td, tr.rdAgGroup2HeaderRow td {
-	background-color: #5b5c5c;
-	padding-left: 3px;
-	color: #fff;
-	font-weight: bold;
+.rdThemeDataTableGroupHeaderRow1 td, table.rdAgDataTable tr.rdAgGroup1HeaderRow td {
+  background-color: #404040 /*TableGroup1HeaderRowBackgroundColor*/ ;
 }
-
-.rdThemeDataTableGroupHeaderRow3 td, tr.rdAgGroup3HeaderRow td {
-	background-color: #504f50;
-	padding-left: 3px;
-	color: #fff;
-	font-weight: bold;
+.rdThemeDataTableGroupHeaderRow2 td, table.rdAgDataTable tr.rdAgGroup2HeaderRow td {
+  background-color: #575757 /*TableGroup2HeaderRowBackgroundColor*/ ;
 }
-
-.rdThemeDataTableGroupHeaderRow4 td, tr.rdAgGroup4HeaderRow td {
-	background-color: #343434;
-	padding-left: 3px;
-	color: #fff;
-	font-weight: bold;
+.rdThemeDataTableGroupHeaderRow3 td, table.rdAgDataTable tr.rdAgGroup3HeaderRow td {
+  background-color: #696969 /*TableGroup3HeaderRowBackgroundColor*/ ;
 }
-
+.rdThemeDataTableGroupHeaderRow4 td, table.rdAgDataTable tr.rdAgGroup4HeaderRow td {
+  background-color: #858585 /*TableGroup4HeaderRowBackgroundColor*/ ;
+}
 .rdThemeDataTableGroupSummaryRow td {
-	background-image: url(AgGroupHeaderRowA.png);
-	background-color: transparent;
-	color: #fff;
-	font-weight: normal;
-	padding: 4px;
+  padding: 3px;
+}
+td.rdThemeDataTableMoreInfoRow {
+  color: #FDFAC3 /*TableColumnHeaderFontColor*/ ;
+  background-color: #2D2D2D /*TableColumnHeaderBackgroundColor*/ ;
+}
+TABLE.rdAgDataTable TD {
+   background-color: transparent ;
+}
+.rdAgPickDistinct {
+    background-color: #242424 /*ModalBackgroundColor*/;
+}
+#rdDataTableDiv-dtFilter .rdThemeDataTableCell {
+    background-color: transparent;
 }
 
-.rdThemeDataTableMoreInfoRow {
-	background-color: #a0a0a0;
-	border-top: 1px Solid #706f6f;
-	color: #0f0f0f;
-	font-weight: normal;
-	padding-left: 7px;
-	padding-top: 4px;
-	padding-bottom: 4px;
+/* Analysis Grid */
+.rdAg, .rdAc, .rdDg, .rdOg, .rdCg, .rdAg table, .rdAc table, .rdDg table, .rdOg table, .rdCg table {
+  font-size: 100%;
+}
+.rdAgCaptionRow {
+  height: 12px;
+  background-image: none;
+  color: #FFFFFF /*PageFontColor*/ ;
+  font-size: 185%;
+}
+.rdAgCaptionRow TD {
+  background-color: #0F0F0F /*PageBackgroundColor*/ ;
+}
+.PreviewUnselected, #rowMenu table {
+  background: transparent;
+  border: none;
+  border-spacing: 0;
+  padding: 0;
+}
+#rowMenu .rdAgPanel > tbody > tr > td {
+  padding: 0;
+}
+#rowsAnalysisGrid {
+
+  /* bring in to make continuous menu */
+  margin-bottom: 12px;
+  border-collapse: collapse;
+  display: block; /* keep it from expanding to entire width */
+}
+.PreviewMenuBG, #rowsAnalysisGrid .rdAgContentRow, #rowsAnalysisGrid #rowMenu>table>table {
+  background-color: #0F0F0F /*TabContainerBackground*/ ;
+}
+#rowsAnalysisGrid #rowMenu{
+  /* but not remaining row after buttons */
+  background-color: transparent;
+}
+#rowsAnalysisGrid .ThemeLinkButton:hover, #rowsAnalysisGrid .ThemeLinkButtonSmall:hover, #rowsAnalysisGrid span:hover.rdAgCommand {
+  background-color: #666666 /*ButtonBackgroundColor*/ ;
+}
+#colSpacerCalculatedMeasure, #colSpacerDimension, #colSpacerMeasure, #colSpacerQueryBuilder, #colSpacerCalc, #colSpacerLayout, #colSpacerLayout, #colSpacerSort, #colSpacerFilter, #colSpacerGroup, #colSpacerAggr, #colSpacerChart, #colSpacerCrosstab {
+  width: 0 !important;
+  display: inline;
+}
+#lblChartAdd {
+  display: none;
+}
+.rdAg #lblExport, .rdAg #lblExportCrosstab {
+  color: #FFFFFF /*TabContainerSelectedFont*/ ;
+}
+#colTableExportControls {
+  float: none !important;
 }
 
-.rdRemoveTableStyle td, .rdRemoveTableStyle th  {
-	background-image: none;
-	background-color: transparent;
-	height: 5px;
-	border: 0px;
+/* AnalysisGrid: Main Menu */
+.rdAgUnselectedTab, .rdOgUnselectedTab, .rdAgSelectedTab, .rdOgSelectedTab {
+  background-image: none;
+  background: #4D4D4D /*TabContainerUnselectedBackground*/ ;
+  border: none;
+  padding: 5px;
+  text-decoration: none;
+  text-align: center;
+  color: #FFFFFF /*TabContainerUnselectedFont*/ ;
+  border-radius: 4px;
+}
+.rdAgSelectedTab span, .rdAgSelectedTab, .rdOgSelectedTab {
+  background-color: #666666 /*TabContainerSelectedBackground*/ ;
+  color: #FFFFFF /*TabContainerSelectedFont*/ ;
+}
+.rdAgUnselectedTab td, .rdOgUnselectedTab td {
+  color: #FFFFFF /*TabContainerUnselectedFont*/ ;
+}
+.rdAgTabHeading a {
+  color: #FFFFFF /*TabContainerUnselectedFont*/ !important;
+}
+.rdAgUnselectedTab td, .rdAgSelectedTab td {
+  padding-bottom: 6px;
+  padding-top: 6px;
+}
+.rdAgSelectedTabOn {
+  background-color: #666666 /*TabContainerSelectedBackground*/ ;
+}
+.rdAgUnselectedTabOn {
+  background-color: #4D4D4D /*TabContainerUnselectedBackground*/ ;
+}
+.rdAgUnselectedTabOn:hover, .rdAgUnselectedTab:hover, .rdOgUnselectedTabOn:hover, .rdOgUnselectedTab:hover {
+  background-color: #666666 /*ButtonBackgroundColor*/ !important;
+  color: #FFFFFF /*TabContainerUnselectedFont*/ !important;
+}
+.PreviewSelectedFont, #rowQueryBuilder table, #rowPaging table, #rowCrosstab table, #rowAggr table, #rowGroup table, #rowFilter table, #rowSortOrder table, #rowLayout table, #rowCalc table {
+  color: #FFFFFF /*TabContainerFontColor*/ ;
+  border: none;
+  background-color: transparent;
+}
+#rowChart table {
+  color: #FFFFFF /*TabContainerFontColor*/
+}
+.rdAgTabHeading {
+  font-size: 120%;
+  padding-left: 3px;
+}
+.rdAgCommandHightlight {
+  background: transparent;
+  color: #666666 /*TabContainerSelectedBackground*/ !important;
+  border-bottom: 4px solid;
+  border-color: #666666 /*TabContainerSelectedBackground*/ ;
+}
+#rowsAnalysisGrid span:hover.rdAgCommandHightlight {
+  background: transparent;
+}
+#rowsAnalysisGrid a {
+  color: #FFFFFF /*TabContainerFontColor*/ ;
+  text-decoration: none;
+}
+#rowsAnalysisGrid a:hover {
+  color: #FFFFFF /*TabContainerFontColor*/ ;
+  text-decoration: none;
+}
+.rdAgPanel, .rdOgPanel, .rdDgPanel {
+  background-color: #242424 /*ModalBackgroundColor*/ ;
+  color: #FFFFFF /*ModalFontColor*/ ;
+  vertical-align: top;
+  padding: 12px;
+  border-collapse: separate;
+}
+.rdDgPanel {
+    border-radius: 4px;
+}
+#rdDivAgPanels .rdAgPanel {
+  -webkit-box-shadow: 0 1px 2px 0px rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: 0 1px 2px 0px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 1px 2px 0px rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+}
+.rdAgPanel .rdAgUnselectedTab, .rdAgPanel .rdAgSelectedTab, .rdOgPanel .rdOgUnselectedTab, .rdOgPanel .rdOgSelectedTab {
+  padding-top: 6px;      /* but not for menu */
+}
+.rdAgPanel td td, .rdOgPanel td td {
+  padding: 3px;  /* add extra padding since buttons are squished otherwise */
+}
+.rdAgContentHeadingRow, .rdOgContentHeading {
+  background-color: transparent;
+  color: #FFFFFF /*ModalFontColor*/ ;
+}
+.rdAgContentHeading, .rdOgContentHeading {
+  font-size: 180%;
+}
+.rdAgContentHeadingItem .rdAgContentHeading, .rdAgContentHeadingItem td.rdAgPanelHeading {
+  color: #FFFFFF /*ModalFontColor*/ ;
+  padding-top: 0;
+  vertical-align: middle;
+}
+tr.rdAgContentRow tr.rdAgContentHeadingItem td table.rdAgContentHeadingRow td {
+  padding-top: 0px !important;
+  padding-left: 1px !important;
+  vertical-align: bottom;
+}
+.rdAgInstruct {
+  vertical-align: inherit;
+  white-space: normal;
+  width: auto;
+  word-wrap: normal;
+}
+.rdAgError, .rdOgError {
+  color: #B84026 /*ErrorBackground*/ ;
+}
+.rdAgMessage {
+  color: #FFFFFF /*ModalFontColor*/ ;
+  font-weight: bold;
+  padding-left: 12px;
+}
+
+/* Analysis Grid Data Table */
+table.rdAgDataTable td {
+  padding: 5px 10px;
+  background-color: #4B4B4B /*TableDataBackgroundColor*/;
+}  
+th.rdAgDataTable td, table.rdAgDataTable th, table.rdAgDataTable > th a, table.rdOgOlapTable th, tr.rdAgHeaderRow th, table.rdDgPanel th {
+  background-image: none;
+  background-color: #2D2D2D /*TableColumnHeaderBackgroundColor*/ !important;
+  color: #FDFAC3 /*TableColumnHeaderFontColor*/ !important;
+  font-size: 100%;
+  font-weight: bold;
+}
+table.rdAgDataTable > th span, th.rdAgDataTable > a  {
+  color: #FDFAC3 /*TableColumnHeaderFontColor*/ !important;
+}
+tr.rdAgHeaderRow td {
+  background-image: none;
+  background-color: #2D2D2D /*TableColumnHeaderBackgroundColor*/ ;
+  color: #FDFAC3 /*TableColumnHeaderFontColor*/ ;
+  font-weight: bold;
+  font-size: 100%;
+}
+table#dtAnalysisGrid {
+  color: #FFFFFF /*TableDataFontColor*/ ;
+}
+table.rdAgDataTable th > a:hover {
+  color: #F3F1D1 /*LinkHoverColor*/ ;
+  text-decoration: underline;
+}
+.rdAg .rdThemeDataTableHeader td {
+  background-color: #2D2D2D /*TableColumnHeaderBackgroundColor*/ !important;
+  color: #FDFAC3 /*TableColumnHeaderFontColor*/ ;
+}
+
+/* Super-element Buttons */
+.rdAgCommand, .rdOgCommand, .rdAcCommand, span.rdCgCommand, .rdDashboardCommand {
+  font-size: 120%;
+  margin-right: 4px;
+  padding: 3px 12px;
+  vertical-align: baseline;
+}
+
+/* AG Edit Gear and new Sub menu */
+.rdAgEditOff {
+  background-color: none;
+  width: 24px;
+  height: 22px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.rdAgEditOff:Hover {
+  width: 24px;
+  height: 22px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.rdAgEditOn {
+  width: 24px;
+  height: 22px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.rdAgEditOn:Hover {
+  width: 24px;
+  height: 22px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.rdAcContentRow {
+  border: 0px solid;
+  border-color: #CCCCCC /*ModalBorderColor*/ ;
+  background-color: transparent;
+}
+.rdAcBackground {
+  background-color: #242424 /*ModalBackgroundColor*/ ;
+}
+.rdAcCommandIdle, .rdAcCommandLeft, .rdAcCommandMiddle, .rdAcCommandRight, .rdAgCommandIdle, .rdAgCommandLeft, .rdAgCommandMiddle, .rdAgCommandRight {
+  color: #FFFFFF /*TabContainerFontColor*/ !important;
+  cursor: pointer;
+  text-decoration: none;
+  vertical-align: baseline;
+  white-space: nowrap;
+  font-size: 120%;
+  border-bottom: 4px solid;
+  border-color: #e1e1e1;
+  border-top: none;
+  border-right: none;
+  border-left: none;
+  padding: 3px;
+  margin: 1px;
+  border-radius: 0;
+  background: none;
+}
+.rdAcCommandHighlight, .rdAgCommandHighlight {
+  border-radius: 0;
+  color: #FFFFFF /*TabContainerFontColor*/ !important;
+  cursor: pointer;
+  text-decoration: none;
+  vertical-align: baseline;
+  white-space: nowrap;
+  font-size: 120%;
+  border-bottom: 4px solid;
+  border-color: #666666 /*TabContainerSelectedBackground*/ ;
+  border-top: none;
+  border-right: none;
+  border-left: none;
+  background: none;
+  padding: 3px;
+  margin: 1px;
+}
+.rdRemoveTableStyle td, .rdAg .rdRemoveTableStyle td, .rdRemoveTableStyle th {
+  background-image: none;
+  background-color: transparent;
+  height: 6px;
+  border: none;
+  border-collapse: collapse;
+}
+
+/* Query Builder */
+.rdQueryColumn {
+  display: block;
+  padding: 6px 12px;
+  margin: 6px 0;
+  background: #242424 /*ModalBackgroundColor*/ ;
+  -webkit-box-shadow: 0 1px 2px 0px rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: 0 1px 2px 0px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 1px 2px 0px rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+}
+.rdQueryColumn td td {
+
+  /* Multi-column list of columns */
+  padding: 6px 12px !important;
+  line-height: 1.5;
+}
+#lblMetadataCaption, #lblStartTableCaption, #lblJoinTableCaption {
+  font-size: 120%;
+}
+.rdQueryRow .rdThemeInput {
+  font-size: 120%;
+  min-width: 180px;
+}
+#colMetadata {
+  background: transparent;
+  box-shadow: none;
+  border: none;
+  padding: 0 12px 6px;
+}
+#rowNoColumnsContainer .rdQueryColumn {
+  display: inline-block;
+  margin: 12px;
+}
+
+/* QB dropdowns */
+.rdQueryColumn select {
+}
+
+/* QB dropdowns and AG table headers */
+select.rdAgQbColor1, table.rdAgDataTable th.rdAgQbColor1 {
+  border-top: 4px solid #2f7ed8 !important;
+}
+select.rdAgQbColor2, table.rdAgDataTable th.rdAgQbColor2 {
+  border-top: 4px solid #c42525 !important;
+}
+select.rdAgQbColor3, table.rdAgDataTable th.rdAgQbColor3 {
+  border-top: 4px solid #8bbc21 !important;
+}
+select.rdAgQbColor4, table.rdAgDataTable th.rdAgQbColor4 {
+  border-top: 4px solid #910000 !important;
+}
+select.rdAgQbColor5, table.rdAgDataTable th.rdAgQbColor5 {
+  border-top: 4px solid #1aadce !important;
+}
+select.rdAgQbColor6, table.rdAgDataTable th.rdAgQbColor6 {
+  border-top: 4px solid #492970 !important;
+}
+
+/* Non-AG table headers */
+.rdDashboard table.rdAgDataTable th.rdAgQbColor1, .rdDashboard table.rdAgDataTable th.rdAgQbColor2, .rdDashboard table.rdAgDataTable th.rdAgQbColor3, .rdDashboard table.rdAgDataTable th.rdAgQbColor4, .rdDashboard table.rdAgDataTable th.rdAgQbColor5, .rdDashboard table.rdAgDataTable th.rdAgQbColor6, #rdReportAuthor table.rdAgDataTable th.rdAgQbColor1, #rdReportAuthor table.rdAgDataTable th.rdAgQbColor2, #rdReportAuthor table.rdAgDataTable th.rdAgQbColor3, #rdReportAuthor table.rdAgDataTable th.rdAgQbColor4, #rdReportAuthor table.rdAgDataTable th.rdAgQbColor5, #rdReportAuthor table.rdAgDataTable th.rdAgQbColor6 {
+  border-top: none;
 }
 
 /*SubDataTable*/
+
+/*BEN-Make sub data tables get updated the same as regular data tables*/
 .rdThemeSubDataTable {
-	background-color: #443515;
-	border: 1px solid #beb9ad;
-	margin-top: 5px;
-	margin-bottom: 5px;
+  background-color: #242424 /*ModalBackgroundColor*/ ; /* This is used as the border for the subtable */
+  margin-top: 6px;
+  margin-bottom: 6px;
 }
-
-.rdThemeSubDataTableHeader  {
-	background-image: url(rdThemeSubHeaderFade.png);
-	background-repeat:repeat-x;
-	color: #fff;
-	font-weight: normal;
-	padding-left: 1px;
-	padding-right: 1px;
-	padding-top: 4px;
-	padding-bottom: 4px;
+table.rdThemeSubDataTable th, .rdThemeSubDataTable th {
+  color: #FFFFFF /*TableGroupHeaderRowFontColor*/ ;
+  background-color: #2D2D2D /*TableGroupHeaderRowBackgroundColor*/ ;
+  padding: 1px 3px;
 }
-
-.rdThemeSubDataTableCell  {
-	background-color: #a59c8b;
-	color: #fff;
-	padding-left: 4px;
-	padding-top: 2px;
-	padding-right: 3px;
-	padding-bottom: 2px;
-}
-
 .rdThemeSubDataTableGroupHeaderRow td {
-	background-color: #716449;
-	padding-left: 3px;
-	color: #e6e1d8;
-	font-weight: bold;
+  color: #FFFFFF /*TableGroupHeaderRowFontColor*/ ;
+  background-color: #2D2D2D /*TableGroupHeaderRowBackgroundColor*/ ;
+  padding-left: 3px;
 }
-
-.rdThemeSubDataTableGroupSummaryRow td {
-	background-color: #867c67;
-	padding-left: 3px;
-	font-weight: bold;
-	color: #e6e1d8;
+.rdThemeSubDataTableDataTableCell {
+  color: #FFFFFF /*TableDataFontColor*/ ;
 }
-
-.rdThemeSubDataTableSummaryRow td {
-	background-color: #615232;
-	padding-left: 3px;
-	color: #e6decb;
-	font-weight: bold;
-}
-
 .rdThemeSubDataTableMoreInfoRow {
-	background-color: #c2b8a2;
-	border-top: 1px Solid #938264;
-	color: #0f0f0f;
-	padding: 4px;
+  background-color: #242424 /*ModalBackgroundColor*/ ;
+  color: #FFFFFF /*ModalFontColor*/ ;
+  padding-left: 3px;
 }
-
-/* Paging */
-
-.rdThemePaging {
-	color: #fff;
-	vertical-align : middle;
+.rdThemeSubDataTableGroupSummaryRow td {
+  color: #FFFFFF /*TableGroupHeaderRowFontColor*/ ;
+  background-color: #2D2D2D /*TableGroupHeaderRowBackgroundColor*/ ;
+  padding-left: 3px;
 }
-
-.rdThemePagingCurrent {
-	background-color: #fff9af;
-	color: #0f0f0f;
-	font-weight: bold;
-	padding-bottom: 2px;
-    padding-top: 2px;
-    padding-left: 3px;
-    padding-right: 3px;
-	text-align: center;
+.rdThemeSubDataTableSummaryRow td {
+  background-color: #2D2D2D /*TableColumnHeaderBackgroundColor*/ ;
+  color: #FDFAC3 /*TableColumnHeaderFontColor*/ ;
+  padding-left: 3px;
 }
-
-input.rdThemePagingCurrent {
-	font-size: 100%;
-	font-weight: normal;
-	color: #fff;
-	background-color: #4b4b4b;
-	border: 1px solid #ccc;
-	padding: 2px;
-}
-
-img.rdThemePaging {
-	background-image: url(linkButton.png);
-	border-top: 1px Solid #d6dbdf;
-	border-left: 1px Solid #c1c5c9;
-	border-bottom: 1px Solid #5d6165;
-	border-right: 1px Solid #5d6165;
-	margin: -1px;
+.rdAg a:link {
+  color: #FDFAC3 /*TableColumnHeaderFontColor*/ ;
 }
 
 /* User Input Controls */
 .rdThemeInputCaption {
-	padding-right: 10px;
-	vertical-align: middle;
+  padding-right: 6px;
+  vertical-align: middle;
 }
-
-input.rdThemeInput, textarea.rdThemeInput, select.rdThemeInput, select.rdDataCalendarDropdown {
-	font-family: helvetica;
-	font-size: 100%;
-	background-color: #4b4b4b;
-	color: #fff;
-	border: 1px solid #ccc;
-	padding: 2px;
+input, input.rdThemeInput, textarea, textarea.rdThemeInput, select.rdThemeInput, select.rdDataCalendarDropdown {
+  font-size: 100%;
+  font-family: Helvetica /*MainFont*/, 'Avenir Next', 'Avenir', 'Helvetica Neue', 'Helvetica', 'Arial', 'sans-serif';
+  background-color: #4B4B4B /*InputBoxBackground*/ ;
+  color: #FFFFFF /*InputBoxFontColor*/ ;
+  border: 1px solid;
+  border-color: #CCCCCC /*InputBoxBorderColor*/ ;
+  padding: 3px;
+  margin: 3px;
+  border-radius: 4px;
 }
-
-
-.rdAgContentRow input.rdThemeInput,
-#rowsAxControls input.rdThemeInput,
-#cellAcControls input.rdThemeInput{
-	min-width:150px;
+.rd-checkboxlist-dropdown {
+  color: #FFFFFF /*InputBoxFontColor*/ ;
+  background-color: #4B4B4B /*InputBoxBackground*/ ;
+  border: 1px solid;
+  border-color: #CCCCCC /*InputBoxBorderColor*/ ;
 }
-
-.rdAgContentRow select.rdThemeInput,
-#rowsAxControls select.rdThemeInput,
-#cellAcControls select.rdThemeInput{
-	min-width:160px;
-	margin-left:3px;
+.rdAgContentRow input.rdThemeInput, #rowsAxControls input.rdThemeInput, #cellAcControls input.rdThemeInput {
+  min-width: 120px;
+}
+.rdAgContentRow select.rdThemeInput, #rowsAxControls select.rdThemeInput, #cellAcControls select.rdThemeInput {
+  min-width: 152px;
+}
+input#upldFile {
+  background-color: transparent;
+  border: none;
 }
 
 /* Input checkbox list */
-.rd-checkboxlist, .rd-checkboxlist-dropdown {
-	font-family: helvetica;
-	color: #fff;
-	background-color: #4b4b4b;
-	border: 1px solid #ccc;
-
+input[type="radio"], input[type="checkbox"] {
+  margin: 1px;
+  margin-top: 1px;
+}
+.rd-checkboxlist-popup {
+  border: 1px solid;
+  color: #FFFFFF /*InputBoxFontColor*/ ;
+  border-color: #CCCCCC /*InputBoxBorderColor*/ ;
+  background-color: #4B4B4B /*InputBoxBackground*/ ;
+  padding: 3px;
+}
+.rd-checkboxlist ul li span {
+  color: #FFFFFF /*InputBoxFontColor*/
+}
+.yui3-skin-sam .yui3-aclist-content {
+  background: #4B4B4B /*InputBoxBackground*/ !important;
+  border: 1px solid;
+  border-color: #CCCCCC /*InputBoxBorderColor*/ !important;
 }
 
-.rd-checkboxlist-popup {
-	background-color: #4b4b4b;
-	padding: 2px;
+/* Paging */
+.rdThemePaging {
+  vertical-align: middle;
+}
+table.rdThemePaging {
+  margin: 6px 0;
+}
+.rdAg .rdThemePaging {
+  background-color: #242424 /*ModalBackgroundColor*/ ;
+}
+.rdThemePaging a {
+  font-size: 100%;
+  color: #FDFAC3 /*LinkColor*/ !important;
+}
+.rdThemePagingCurrent {
+  background-color: #666666 /*ButtonBackgroundColor*/ ;
+  color: #FFFFFF /*ButtonFontColor*/ ;
+  padding: 1px 3px;
+  text-align: center;
+  font-size: 120%;
+}
+input.rdThemePagingCurrent {
+  background-color: #242424 /*ModalBackgroundColor*/ ;
+  color: #F3F1D1 /*LinkHoverColor*/ ;
+  padding: 1px;
+  border-radius: 0;
 }
 
 /* Quicktip */
-.rdquicktip-content {
-	background-color: #0f0f0f;
-	border-color: #ebebeb;
-	color: #fff;
-	border-width: 2px;
-	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=90)";
-	filter: alpha(opacity=90);
-	opacity: 0.9;
-	padding: 7px;
-    padding-top: 1px;
-
+.highcharts-tooltip .rdquicktip-table {
+  font-family: Helvetica /*MainFont*/, 'Avenir Next', 'Avenir', 'Helvetica Neue', 'Helvetica', 'Arial', 'sans-serif';
+  background-color: #363B42 /*QuicktipBackgroundColor*/ !important;
+  color: #ffffff /*QuicktipFontColor*/ !important;
 }
-
+.rdquicktip-content, .rdCcTextNormal, .rdCcTextNormal table, .rdCcTextNormal td, .rdCcTextNormal span {
+  background-color: #363b42 /*QuicktipBackgroundColor*/ !important;
+  border-color: #363b42 /*QuicktipBorderColor*/ ;
+  color: #ffffff /*QuicktipFontColor*/ ;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=90)";
+  filter: alpha(opacity=95);
+  opacity: 0.99;
+  border-radius: 0;
+  font-weight: bold;
+  font-size: 100%;
+  padding: 1px 2px 2px;
+}
 .rdquicktip-content .rdquicktip-table {
-	color: #fff;
+  color: #ffffff /*QuicktipFontColor*/ ;
 }
-
 .quicktip-pointer {
-	border-color: #ebebeb transparent;
+  border-color: #363b42 /*QuicktipBorderColor*/ transparent;
 }
-
 .quicktip-pointer-inner {
-	border-color: #0f0f0f transparent;
-	margin-left: -5px;
+  border-color: #363b42 /*QuicktipBorderColor*/ transparent;
 }
-
 .rdquicktip-content .header {
-	background-color: #0f0f0f;
-}
-
-/* make pointer border widths 2px*/
-.top .quicktip-pointer-inner {
-	border-left: 5px solid transparent;
-	border-right: 5px solid transparent;
-	border-width: 0px 5px 10px;
-	bottom: -14px;
-}
-
-.bottom .quicktip-pointer-inner {
-	border-left: 5px solid transparent;
-	border-right: 5px solid transparent;
-	border-width: 10px 5px 0px;
-	top: -14px;
-}
-
-/* PopupPanel */
-
-.rdPopupPanel
-{
-	border: 2px Solid #ebebeb;
-	background-color: #0f0f0f;
-}
-
-.rdPopupPanelTitle
-{
-	background-color: #3f3f3f;
-	background-image: none;
-	font-weight: bold;
-}
-.rdPopupPanelTitleCaption
-{
-	font-weight:bolder;
-}
-
-td.rdPopupPanelControl
-{
-	font-weight:bolder;
-	text-align:right;
-    background-color: #3f3f3f;
-	color: #fff;
-}
-
-/* PopupMenu */
-.rdPopupMenu A:link
-{
-    text-decoration: none;
-    color: #fdfac3;
-}
-.rdPopupMenu A:visited
-{
-    text-decoration: none;
-    color: #fdfac3;
-}
-
-.rdThemePopupMenu
-{
-    text-decoration: none;
-    color: #fff;
-    background-color: #0f0f0f;
-}
-
-/* Black pearl column headers have an image background, so we need to make sure we don't override that if we have a popup menu link on the column header. */
-a.rdThemePopupMenu 
-{
-    background-color: transparent !important;
-}
-
-.yuimenubaritemlabel, .yuimenuitemlabel, .yuimenubaritem, .yuimenuitem
-{
-    color: #fff;
-    font-weight: normal;
-}
-
-.yuimenubaritemlabel-selected, .yuimenuitemlabel-selected, .yuimenubaritem-selected, .yuimenuitem-selected
-{
-    color: #fff;
-    background-color: #767676;
-    text-decoration: none;
-}
-
-/* Analysis/OLAP Grid, Chart */
-
-.rdAg table, .rdAc table, .rdOg table, .rdDg table, .rdCg table {
-	color: #fff;
-}
-
-.rdAcContentRow, .rdAgPanel, .rdOgPanel, .rdDgPanel, .rdCgPanel {
-	background-image: url(AgFadeContentRow.png);
-    background-repeat: repeat-x;
-	background-color: #0f0f0f;
-	color: #fff;
-	vertical-align: top;
-	border: 1px Solid #fff;
-}
-
-.rdOgContentHeadingRow, .rdDgContentHeadingRow, .rdCgContentHeadingRow
-{
-	background-color: #343434;
-}
-
-.rdOgContentHeading, .rdDgContentHeading, .rdCgContentHeading
-{
-	color: #fff;
-	font-weight: bold;
-	font-size: 110%;
-}
-
-.rdOgSubContentHeading, .rdDgSubContentHeading
-{
-	color: #fff;
-	font-weight: bold;
-}
-
-.rdOgPositionCellXAxis, .rdOgPositionCellYAxis, .rdCgPositionCellYAxis, .rdCgPositionCellXAxis {
-	background-image: none;
-	background-color: #545454;
-	color: #fff;
-	font-weight: normal;
-	font-size: 103%;
-	padding: 4px;
-}
-
-.rdOgSortColumn {
-	background-image: url(rdThemeHeaderFade.png);
-	background-repeat: repeat-x;
-	font-size: 103%;
-	padding: 4px;
-}
-
-.rdOgDataCell, .rdCgDataCell {
-	color: #fff;
-	font-weight: normal;
-	font-size: 103%;
-	padding: 4px;
-}
-
-#lblLeft, #lblTop, #lblMeasure, #lblExport {
-	color: #fff;
-	font-family: Helvetica;
-}
-
-.rdAgCaptionRow, .rdOgCaptionRow , .rdAcCaptionRow, .rdDgCaptionRow, .rdCgCaptionRow {
-	background-image: none;
-	padding-left: 15px;
-	text-align: left;
-	padding-top: 4px;
-	padding-bottom: 4px;
-}
-.rdAgCaptionRow td, .rdOgCaptionRow td, .rdAcCaptionRow td, .rdDgCaptionRow td, .rdCgCaptionRow td {
-	background-color: #6b6a6a;
-}
-
-.rdAgUnselectedTab, .rdOgUnselectedTab
-{
-    background-image: url(rdButton.png);
-	background-repeat: repeat-x;
-	border-top: 1px Solid #d6dbdf;
-	border-left: 1px Solid #c1c5c9;
-	border-bottom: 1px Solid #5d6165;
-	border-right: 1px Solid #5d6165;
-	text-decoration: none;
-	margin-left: 0px;
-}
-
-.rdAgSelectedTab, .rdOgSelectedTab
-{
-	background-image: url(rdButtonIn.png);
-	background-repeat: repeat-x;
-	border-top: 1px Solid #d6dbdf;
-	border-left: 1px Solid #c1c5c9;
-	border-bottom: 1px Solid #5d6165;
-	border-right: 1px Solid #5d6165;
-	text-decoration: none;
-	margin-left: 0px;
-}
-.rdAgSelectedTab span, .rdOgSelectedTab span {
-	color: #0f0f0f;
-}
-
-.rdAgSelectedTabOn
-{
-	color: #0f0f0f;
-    background-image: url(rdButtonInOn.png);
-}
-.rdAgUnselectedTabOn
-{
-	color: #0f0f0f;
-    background-image: url(rdButtonOutOn.png);
-}
-
-.rdAgCommand, .rdOgCommand, .rdAcCommand, span.rdCgCommand {
-	background-image: url(linkButton.png);
-	color: #fff;
-	text-decoration: none;
-	border-top: 1px Solid #d6dbdf;
-	border-left: 1px Solid #c1c5c9;
-	border-bottom: 1px Solid #5d6165;
-	border-right: 1px Solid #5d6165;
-	padding-right: 3px;
-	padding-left: 3px;
-	padding-top: 2px;
-	padding-bottom: 2px;
-	cursor: pointer;
-	font-size: 12px;
-}
-
-
-/* AG Edit Gear and new Sub menu */
-
-.rdAgEditOff {
-	background-color: none;
-	width: 24px;
-	height:22px;
-	border-radius: 2px;
-	cursor:pointer;
-}
-
-.rdAgEditOff:Hover{
-	background-color: #FFF9AF;
-	width: 24px;
-	height:22px;
-	border-radius: 2px;
-	cursor:pointer;
-}
-
-.rdAgEditOn {
-	background-color: #262626;
-	width: 24px;
-	height:22px;
-	border-radius: 2px;
-	cursor:pointer;
-}
-
-.rdAgEditOn:Hover {
-	background-color: #474747;
-	width: 24px;
-	height:22px;
-	border-radius: 2px;
-	cursor:pointer;
-}
-
-.rdAcContentRow {
-	border: 0px solid #90909c;
-	background-color: transparent;
-}
-
-.rdAcCommandIdle, .rdAcCommandLeft, .rdAcCommandMiddle, .rdAcCommandRight, .rdAgCommandIdle, .rdAgCommandLeft, .rdAgCommandMiddle, .rdAgCommandRight {
-    color: #ffffff !important;
-	cursor: pointer;
-	text-decoration: none;
-	vertical-align: baseline;
-	white-space: nowrap;
-	font-size: 16px;
-	border-bottom: 4px solid #343434;
-	border-top: none;
-	border-right: none;
-	border-left: none;
-	padding: 3px;
-	margin: 1px;
-    border-radius: 0;
-	background: none;
-}
-
-.rdAcCommandHighlight, .rdAgCommandHighlight {
-	border-radius: 0;
-	color: #ffffff !important;
-	cursor: pointer;
-	text-decoration: none;
-	vertical-align: baseline;
-	white-space: nowrap;
-	font-size: 16px;
-	border-bottom: 4px solid #FFF9AF;
-	border-top: none;
-	border-right: none;
-	border-left: none;
-	background: none;
-	padding: 3px;
-	margin: 1px;
-}
-
-
-.rdAgError, .rdOgError, .rdDgError, .rdCgError {
-	color: #ffae44;
-	font-weight: normal;
-}
-
-.rdAc table
-{
-	border: none;
-}
-
-.rdDg a:link, .rdCg a:link, .rdOg a:link {
-	color: #fdfac3;
-}
-.rdDg a:active, .rdCg a:active, .rdOg a:active {
-	color: #fdfac3;
-}
-.rdDg a:visited, .rdCg a:visited, .rdOg a:visited {
-	color: #f3f1d1;
-}
-
-.rdOgOlapTable tr:hover td , .rdDgOlapTable tr:hover td
-{
-	background-color: #a0a0a0;
-	color: #0f0f0f;
-}
-
-div.rdDgSelectedNot:hover,
-div.rdCgSelectedNot:hover {
-    background-color: #333333;
-}
-
-.rdDgSelected, .rdCgSelected
-{
-	background-color: #767676;
-}
-
-.rdBackgroundLevel7 {
-      background-color: #0f0f0f;
-}
-.rdBackgroundLevel6 {
-      background-color: #0d0d0d;
-}
-.rdBackgroundLevel5 {
-      background-color: #121212;
-}
-.rdBackgroundLevel4 {
-      background-color: #191919;
-}
-.rdBackgroundLevel3 {
-      background-color: #1d1d1d;
-}
-.rdBackgroundLevel2 {
-      background-color: #2a2a2a;
-}
-.rdBackgroundLevel1 {
-      background-color: #373737;
-}
-.rdBackgroundLevel0 {
-      background-color: #3f3f3f;
-}
-
-/* Dashboard */
-
-.rdDashboard
-{
-	font-family: Helvetica, arial, sans-serif;
-}
-
-td.rdDashboard
-{
-	background-color: #5e6060;
-}
-
-.rdDashboardMenu
-{
-	background-color: #5e6060;
-	color: #fff;
-	padding-top: 4px;
-}
-tr.rdDashboardMenu
-{
-	background-color: #5e6060;
-	color: #fff;
-	text-align: left;
-}
-
-.rdDashboardColumn
-{
-	vertical-align: top;
-	padding: 5px;
-	background-color: #5e6060;
-}
-.rdDashboardPanel
-{
-	background-color: #0f0f0f;
-	border: 1px solid #978b71;
-}
-
-td.rdDashboardTitle
-{
-    background-color: #3f3f3f;
-	background-image: none;
-}
-
-.rdDashboardParams
-{
-	background-color: #191919;
-}
-td.rdDashboardParams
-{
-	background-color: #191919;
-}
-td.rdDashboardParamsSave
-{
-	vertical-align: bottom;
-	text-align: right;
-	background-color: #191919;
-	padding-right: 3px;
-	padding-left: 3px;
-}
-
-.rdDashboardCommand, .rdPopupPanelCommand
-{
-	color: #fff;
-	background-color: #3f3f3f;
-	border: 1px solid #fff;
-	text-decoration: none;
-	margin-left: 3px;
-	padding-right: 3px;
-	padding-left: 3px;
-	padding-top: 2px;
-	padding-bottom: 2px;
-}
-
-/* Dashboard Dropzone */
-
-.rdDashboardDropZone
-{
-	height: 15px;
-}
-
-.rdDashboardDropZoneActive, .rdAgDropZoneActive
-{
-    background-image: none;
-	background-color: #3e3e3e;
-    border-width: 1px;
-	height: 15px;
-}
-.rdAgDropZoneActive { height: 5px; }
-
-/* DataCalendar/TimePicker */
-
-.rdDataCalendar, .rdTimePicker
-{
-	background-color: #0f0f0f;
-	border: 1px Solid #ccc;
-}
-
-.rdDataCalendarCaption
-{
-	background-image: url(rdThemeHeaderFade.png);
-	background-repeat: repeat-x;
-	background-color: #0f0f0f;
-	color: #fff;
-	text-align: center;
-	vertical-align: middle;
-	font-weight: bolder;
-	padding: 4px;
-}
-
-.rdDataCalendarWeekdayCaption, .rdTimePickerTableHeaderCaption
-{
-	background-image: url(rdThemeHeaderFade.png);
-	background-repeat: repeat-x;
-	background-color: #0f0f0f;
-	color: #fff;
-	text-align: center;
-	font-weight: bolder;
-	padding-top: 4px;
-	padding-bottom: 4px;
-}
-
-.rdDataCalendarFont
-{
-	font-family: Helvetica;
-	font-weight: normal;
-}
-
-.rdDataCalendarDay, .rdTimePickerCell, .rdTimePickerAMPMCell
-{
-	vertical-align: top;
-	background-color: #575756;
-	padding: 5px 5px 5px 5px;
-}
-
-.rdDataCalendarToday
-{
-	background-color: #0f0f0f;
-}
-
-.rdDataCalendarDayLabelHighlight, .rdTimePickerLabelHighlight
- {
-	background-color: #ffae44;
-}
-
-.rdDataCalendarDayOutsideMonth
-{
-	background-color: #3f3f3f;
-	height: 21px; /*Issue 22365*/
-}
-
-.rdDataCalendarPopUp, .rdTimePickerPopup
-{
-	color: #fff;
-}
-
-#Cal-2-CaptionCell.rdDataCalendarCaption,
-#Cal-3-CaptionCell.rdDataCalendarCaption {
-	line-height: 25px; /*Issue 22365*/
+  background-color: #363b42 /*QuicktipBackgroundColor*/ ;
+  font-size: 120%;
 }
 
 /* CrosstabComparison */
-
-.rdCcTextPositive {
-	color: #7cfc00;
-}
-
-.rdCcTextNegative {
-	color: #ff6347;
-}
-
 .rdCcTextNormal {
-	color: #fff;
+}
+.rdCcTextNormal .rdPopupContent span {
+  color: #ffffff /*QuicktipFontColor*/ ;
+}
+.rdCcTextPositive, .rdCcTextNormal .rdPopupContent .rdCcTextPositive span {
+  color: #85B74D /*TextPositiveFont*/ ;
+}
+.rdCcTextNegative, .rdCcTextNormal .rdPopupContent .rdCcTextNegative span {
+  color: #B84026 /*TextNegativeFont*/ ;
+}
+.rdCcTextNormal .rdPopupContent {
+  font-size: 90%;
 }
 
+/* Dimension / OLAP / Chart Grid */
+.rdAgPanel, .rdOgPanel, .rdDgPanel {
+  border: 1px solid;
+  border-color: #CCCCCC /*ModalBorderColor*/;
+  border-radius: 4px;
+}
+.rdDgCaptionRow, .rdDgCaptionRow td {
+  background-color: #0F0F0F /*PageBackgroundColor*/;
+  color: #FFFFFF /*PageFontColor*/;
+  background-image: none;
+}
+.rdDgCaptionRow {
+  font-size: 185%;
+}
+#lblOgTitle, #lblOgDrillthroughTitle {
+  font-size: 133%;
+  font-weight: bold;
+  padding: 0px;
+}
+.rdCgPanel {
+  background-color: #242424 /*ModalBackgroundColor*/ ;
+  border: none;
+}
+.rdCgFilterTable td, .rdDg #popupFilter td, .rdDg #popupFilter a {
+  background-color: #242424 /*ModalBackgroundColor*/ !important;
+  color: #FFFFFF /*ModalFontColor*/ ;
+}
+td.rdDgPanel table, .rdDgContentHeadingRow, td.rdCgPanel table, .rdCgContentHeadingRow {
+  color: #FFFFFF /*ModalFontColor*/;
+  background-color: #242424 /*ModalBackgroundColor*/;
+}
+.rdDg A:link, .rdOg a:link, #dtFilter a {
+  color: #FDFAC3 /*LinkColor*/;
+}
+.rdCg IMG {
+  margin-bottom: -8px;
+  padding-left: 6px;
+}
+.rdCgPanel > table > tbody > tr > td {
+  padding: 6px;
+}
+td.rdDgPanel .rdThemeDataTableCell, td.rdCgPanel .rdThemeDataTableCell {
+  background-color: #242424 /*ModalBackgroundColor*/ !important;
+}
+.rdOgDataCell, .rdCgDataCell {
+  padding: 5px 10px;
+  color: #ffffff /*TableDataFontColor*/ ;
+  background-color: #4B4B4B /*TableDataBackgroundColor*/ !important;
+}
+.rdOgPanel table.rdOgOlapTable tr:last-child td, .rdOgPanel table.rdOgOlapTable tr:last-child th, .rdDgPanel table.rdDgOlapTable tr:last-child td, .rdDgPanel table.rdDgOlapTable tr:last-child th {
+  border-bottom: none;
+}
+.rdOgPanel table.rdOgOlapTable td:last-child, .rdDgPanel table.rdDgOlapTable td:last-child {
+  border-right: none;
+}
+.rdOgPositionCellXAxis {
+  border-right: 0 solid #CCCCCC !important;
+}
+#rowDimension #mclDimensions, #rowMeasure #mclMeasures, #rowFilter #mclFilters, .rdOg #rowFilter {
+  background-color: #0F0F0F /*TabContainerBackground*/;
+}
+td.rdDgPanelLine, .rdDgPanelLine td, .rdDgPanelLine a:link, td.rdCgPanelLine, .rdCgPanelLine td, .rdCgPanelLine a:link {
+  background-color: #242424 /*ModalBackgroundColor*/ ;
+  font-size: 100%;
+  border: none;
+}
+.rdDgPanelLine .rdDgSelected a:link
+.rdCgPanelLine .rdCgSelected a:link {
+  color: #FFFFFF /*TabContainerFontColor*/ !important;
+  font-weight: normal;
+}
+.rdDgPanelLine .rdDgSelected, .rdCgPanelLine .rdCgSelected, .rdCgPanelLine .rdCgSelected span {
+  background-color: #4B4B4B /*SideHoverBackground*/ !important;
+  color: #FFFFFF /*SideFont*/ !important;
+}
+th.rdOgPositionCellXAxis, td.rdOgPositionCellXAxis, td.rdOgPositionCellXAxis td, th.rdOgPositionCellYAxis, th.rdOgSortColumn, th.rdCgPositionCellXAxis, td.rdCgPositionCellXAxis, td.rdCgPositionCellXAxis td, th.rdCgPositionCellYAxis {
+  color: #FDFAC3 /*TableColumnHeaderFontColor*/ ;
+  background-color: #2D2D2D /*TableColumnHeaderBackgroundColor*/ ;
+  padding: 3px;
+}
+th.rdOgPositionCellXAxis, td.rdOgPositionCellXAxis, th.rdCgPositionCellXAxis, td.rdCgPositionCellXAxis {
+  padding: 3px;
+}
+td .rdDgPanelLine, td .rdDgPanelLine table {
+  background-color: #242424 /*ModalBackgroundColor*/ !important;
+}
+#rowExport #lblExport {
+  color: #363B42;
+}
+.rdOgContentHeading {
+  color: #FFFFFF /*TableGroupHeaderRowFontColor*/ ;
+}
+.rdDgContentHeading, .rdCgContentHeading, .rdOgContentHeading {
+  color: #ffffff /*ModalTitleFontColor*/;
+  font-size: 180%;
+  vertical-align: bottom;
+}
+#lblOgDrillthroughTitle {
+  padding: 12px 6px;
+  color: #ffffff /*ModalTitleFontColor*/;
+}
+#divAxes .rdOgContentHeading #lblExport {
+  background-color: #ecedee !important;
+}
+#divExport #lblExport {
+  background-color: #454d59 !important;
+}
+.rdOgSortColumn span {
+  color: #FDFAC3 /*TableColumnHeaderFontColor*/ ;
+}
+.rdCg #lblColumnTitle, .rdCg #lblRowTitle {
+  color: #363b42 !important;
+}
+.rdOgOlapTable {
+  border:none;
+}
+/*Row Selection Style for DG*/
+.rdOgOlapTable tr:hover td, .rdDgOlapTable tr:hover td {
+  background-color: #4B4B4B /*SideHoverBackground*/ !important;
+  color: #FFFFFF /*SideFont*/ !important;
+}
+.rdOgOlapTable tr:hover .rdOgPositionCellXAxis td {
+  background-color: #2D2D2D /*TableColumnHeaderBackgroundColor*/!important
+}
+.rdDgOlapTable tr:hover .rdOgPositionCellXAxis td {
+  background-color: #2D2D2D /*TableColumnHeaderBackgroundColor*/!important
+}
+#otFilterTable input[type='checkbox'] {
+  margin: 1px 2px 0;
+  vertical-align: bottom;
+}
+#otFilterTable .rdOgPositionLabelYAxis {
+  vertical-align: sub;
+}
+.rdOgPositionLabelYAxis {
+  color: #FDFAC3 /*TableColumnHeaderFontColor*/ ;
+}
 
 /* Tabs */
-
-.yui-nav a:link {
-	background-image: url(rdThemeTabBg.png);
-	color: #fff;
-	text-decoration: none;
-	text-align: center;
-	padding-left: 10px;
-	padding-right: 10px;
+#rdTabs {
+  background: transparent;
 }
-.yui-nav a:visited {
-	color: #fff;
+.yui-navset {
+  font-size: 100%;
 }
-.yui-navset-left .yui-nav a:link {
-	background-image: url(rdThemeLeftTabBg.png);
-	background-repeat: repeat-y;
+.yui-navset .yui-nav .selected a, .yui-navset .yui-nav a {
+  font-size: 150%;
+  background-color: transparent !important;
+  background-image: none !important;
+  color: #454d59;
+  text-decoration: none;
+  border: none !important;
 }
-.yui-navset-right .yui-nav a:link  {
-	background-image: url(rdThemeRightTabBg.png);
-	background-repeat: repeat-y;
-	background-position: right;
-}
-.yui-navset-bottom .yui-nav a:link {
-	background-image: url(rdThemeBottomTabBg.png);
-	background-position: bottom;
-}
-
-.yui-nav a:hover {
-	background-image: url(rdThemeTabBgOn.png);
-	color: #d4d5d5;
-	text-align: center;
-	padding-left: 10px;
-	padding-right: 10px;
-}
-.yui-navset .yui-nav .selected a {
-	background-image: url(rdThemeTabBgOn.png);
-	color: #fdfac3;
-	text-align: center;
-	padding-left: 10px;
-	padding-right: 10px;
-}
-.yui-navset-left .yui-nav a:hover , .yui-navset-left .yui-nav .selected a {
-	background-image: url(rdThemeLeftTabBgOn.png);
-	background-repeat: repeat-y;
-}
-.yui-navset-right .yui-nav a:hover, .yui-navset-right .yui-nav .selected a {
-	background-image: url(rdThemeRightTabBgOn.png);
-	background-repeat: repeat-y;
-	background-position: right;
-}
-.yui-navset-bottom .yui-nav a:hover, .yui-navset-bottom  .yui-nav .selected a {
-	background-image: url(rdThemeBottomTabBgOn.png);
-	background-position: bottom;
-}
-
 .yui-navset .yui-content {
-	padding: 5px 5px 5px 5px;
+  border: none !important;
+}
+.yui-navset .yui-nav li {
+  background-color: #242424 /*InactiveTabBackground*/ ;
+  padding: 6px 18px;
+  border-radius: 4px;
+}
+.yui-navset .yui-nav li.selected, .yui-navset .yui-nav li.selected:hover {
+  background-color: #363636 /*ActiveTabBackground*/ ;
+  border-radius: 4px 4px 0 0;
+  border-color: #666666 /*TabContainerSelectedBackground*/ ;
+}
+.yui-navset .yui-nav li a {
+  color: #FFFFFF /*InactiveTabFontColor*/ ;
+}
+.yui-navset .yui-nav li.selected a {
+  color: #FDFAC3 /*ActiveTabFontColor*/ !important;
+  -webkit-transition: color 0.20s ease-in-out 0s;
+  -moz-transition: color 0.20s ease-in-out 0s;
+  transition: color 0.20s ease-in-out 0s;
+}
+.yui-navset .yui-nav li:hover {
+  background-color: #363636 /*InactiveHoverTabBackground*/ ;
+}
+.yui-navset div.yui-content {
+  background-color: #363636 /*ActiveTabBackground*/ !important;
+  overflow: none;
+}
+.yui-navset li em {
+  padding: 0 !important;
+}
+#rdTabs .selected.yui3-dd-drop a {
+  padding-right: 3px;
+}
+#rdTabs .selected.yui3-dd-drop a em {
+  font-weight: bold;
+}
+
+/* dashboard */
+table.rdDashboard {
+  left: 0;
+  right: 0;
+}
+td.rdDashboard {
+  background-color: #363636 /*ActiveTabBackground*/ ;
+}
+#rdDashboardPanelTable, #rdDivDashboardPanelTable, .rdDashboardDropZone {
+  background-color: #363636 /*ActiveTabBackground*/ ;
+}
+td.rdDashboardDropZoneActive, .rdAgDropZoneActive {
+  background-image: none;
+  background-color: #E2CE5D;
+}
+.rdDashboardPanel, .rdDashboardPanel > table {
+  background-color: #242424 /*ModalBackgroundColor*/ ;
+  border-radius: 4px;
+}
+.rdDashboardPanel {
+  padding: 0px;
+  -webkit-box-shadow: 0 1px 2px 0px rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: 0 1px 2px 0px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 1px 2px 0px rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+}
+#rdDashboardListTable {
+  margin: 0;
+}
+.rdDashboardTitle table {
+  background-image: none !important;
+  color: #ffffff /*ModalTitleFontColor*/ ;
+  padding: 0;
+}
+.rdDashboardTitle .rdDashboardCommand {
+  font-weight: normal;
+}
+td.rdDashboardTitle {
+  background-image: none !important;
+  background-color: #242424 /*ModalBackgroundColor*/ ;
+  padding: 0;
+}
+.rdDashboardText.panelTitleRename {
+  margin: 12px;
+}
+.rdDashboardColumn .rdDashboardTitleCaption, #rdDivDashboardPanelTable .rdDashboardTitleCaption {
+  color: #FFFFFF /*ModalTitleFontColor*/ ;
+}
+.rdDashboardTitleCaption {
+  font-size: 150%;
+}
+.rdDashboardTitle .rdDashboardControl {
+  padding: 5px;
+  vertical-align: top;
+}
+.panelInnerTable {
+  padding-left: 5px;
+}
+#rowChangeTab {
+  background-color: transparent ;
+}
+#rowChangeTab .rdDashboardCommand {
+  background-color: transparent ;
+}
+#rowsTabChange table, #rdDashboardListTable table {
+  background-color: transparent;
+}
+#rowsTabChange .rdDashboardTitle, #rowPanelList .rdDashboardTitle {
+  border: none;
+}
+#rdTabAddNewTab a {
+}
+#rdTabAddNewTab em {
+  padding-top: 0;
+  padding-right: 0;
+  padding-bottom: 6px;
+}
+.rdDashboardParams, td.rdDashboardParams, .rdDashboardParams table, tr.rdDashboardParams td  {
+  background-color: transparent;
+  color: #FFFFFF /*PageFontColor*/;
+}
+.rdDashboardParams a {
+  float: right;
+}
+.rdDashboardText {
+  line-height: 1.25;
+}
+
+/* Add Panels + Visual Gallery */
+.rdPopupPanelTitleCaption {
+  font-size: 150%;
+}
+.rdDashboardPanelDescription {
+  padding: 0 12px 24px 12px;
+}
+.rdDashboardPanelDescription .rdDashboardTitleCaption {
+  font-size: 120%;
+}
+.rdDashboardPanelDescription .rdDashboardPanelImage, .rdDashboardPanelDescription .rdDashboardTitleCaption, .rdDashboardPanelDescription .rdDashboardText {
+  margin-bottom: 12px;
+}
+.rdNewAnalysisText {
+  font-size: 120%;
+}
+.rdPopupContent a span.rdNewAnalysisLink {
+  color: #FDFAC3 /*LinkColor*/ ;
+}
+.rdPopupContent a:hover span.rdNewAnalysisLink {
+  color: #F3F1D1 /*LinkHoverColor*/ ;
+  text-decoration: underline;
+}
+
+/* Report Layout */
+#rdReportAuthor {
+  -webkit-box-shadow: 0 1px 2px 0px rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: 0 1px 2px 0px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 1px 2px 0px rgba(0, 0, 0, 0.2);
+}
+#rdReportAuthor, #rdReportAuthor #rdDashboardPanelTable, #rdReportAuthor .rdDashboardDropZone {
+  background-color: #ffffff;
+}
+#rdReportAuthor #rdDivDashboardPanelTable {
+  background-color: #ffffff;
+  -webkit-box-shadow: 0 1px 2px 0px rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: 0 1px 2px 0px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 1px 2px 0px rgba(0, 0, 0, 0.2);
+}
+.rdDashboardPanelContainer {
+  background-color: transparent;
+}
+#rdReportAuthor .rdDashboardPanelContainer .rdDashboardPanel {
+  box-shadow: none;
+  border: 1px solid #f0f0f0;
+}
+#rdReportAuthor .rdDashboardPanelContainer .rdDashboardPanel:hover {
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2);
+}
+#rdReportAuthor .rdDashboardControl {
+  width: 1%;
+}
+
+/* Report Layout Toolbar */
+
+.rdReportLayoutToolbar {
+  border-collapse: collapse;
+}
+.rdReportLayoutToolbarItem {
+  padding: 12px 0;
+  border: 1px solid #86cac3;
+}
+.rdReportLayoutToolbarItem:hover {
+  background-color: #abe4de;
+}
+.rdReportLayoutToolbarItem:active {
+  position: relative;
+  top: 1px;
+}
+.rdReportLayoutToolbarItemImage {
+  padding-right: 12px;
+}
+
+/* Popup Panel */
+.rdPopupPanel {
+  background-color: #242424 /*ModalBackgroundColor*/ !important;
+  border-color: #CCCCCC /*ModalBorderColor*/ ;
+  border-radius: 4px;
+  padding: 8px;
+  -webkit-box-shadow: 0 1px 2px 0px rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: 0 1px 2px 0px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 1px 2px 0px rgba(0, 0, 0, 0.2);
+}
+#PopupPanelContent {
+  padding: 5px;
+  margin: 0px !important;
+}
+#PopupPanelContent td.rdDashboardControl {
+  padding: 12px;  /* background-color: #e1e1e1;      /* add background for just bottom bar */
+}
+#PopupPanelContent .rdDashboard, #rowsSchedule, .sharePopup {
+
+  /* eliminate the gray container background */
+  background-color: #242424 /*ModalBackgroundColor*/ ;
+}
+#PopupPanelContent a {
+  text-align: left;
+}
+#PopupPanelContent #colHours, #PopupPanelContent #colMinutes {
+  vertical-align: top;
+}
+.ModalPreviewFont, .rdPopupContent .rdThemeInputCaption, .rdPopupContent > td, .rdPopupContent span, .rdPopupContent a span {
+  color: #FFFFFF /*ModalFontColor*/ ;
+}
+.rdPopupPanelTitle, .rdPopupPanelTitle td, .rdPopupPanelTitle span {
+  background-color: #242424 /*ModalBackgroundColor*/ !important;
+  background-image: none;
+}
+.ModalTitlePreview, .rdPopupPanelTitle, .rdPopupPanelTitle td, .rdPopupPanelTitle span {
+  color: #FFFFFF /*ModalTitleFontColor*/ !important;
+}
+.rdPopupPanelTitle {
+  padding-bottom: 6px;
+}
+.rdPopupPanelTitle .rdPopupPanelTitle {
+  padding-bottom: 0;
+}
+.rdPopupPanelTitle .rdPopupPanelCommand {
+  border: none !important;
+  border-radius: 4px;
+}
+.rdPopupPanelCommand {
+  font-size: 150%;
+  background: none;
+  text-decoration: none !important;
+  color: #FFFFFF /*ModalTitleFontColor*/ ;
+  border-color: transparent;
+  font-weight: bold;
+  padding: 0 3px;
+}
+.rdPopupPanelControl {
+  width: 1%;
+}
+.rdPopupPanel .rdDashboardPanel {
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+}
+input#txtEditBookmarkDescription {
+  margin: 18px 0 18px 3px;
+}
+#scriptUpdateCaption {
+  float: left;
+}
+.ppAddToDashboardPanel {
+  font-size: 100%;
+}
+
+/* PopupMenu */
+.yuimenu {
+  padding: 0 !important; /* 1px */
+  border-radius: 4px;
+  border: 1px solid;
+  border-color: #FFFFFF /*MenuBorderColor*/ !important;
+  -webkit-box-shadow: 0 1px 2px 0px rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: 0 1px 2px 0px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 1px 2px 0px rgba(0, 0, 0, 0.2);
+}
+.rdPreviewMenu, .yuimenu ul {
+  background: #0F0F0F /*MenuBackgroundColor*/ !important;
+  padding: 6px 0;
+}
+.yuimenu ul li {
+  background: #0F0F0F /*MenuBackgroundColor*/ !important;
+}
+.rdPopupMenu .yuimenuitemlabel {
+  font-size: 100%;
+  font-weight: normal;
+}
+.rdPopupMenu A:visited, .rdPopupMenu A:link {
+  color: #FDFAC3 /*MenuLinkColor*/ !important;
+}
+.yuimenubaritemlabel, .yuimenuitemlabel, .yuimenubaritem, .yuimenuitem {
+  font-size: 100%;
+  line-height: 2;
+}
+.yuimenubaritemlabel-selected, .yuimenuitemlabel-selected, .yuimenubaritem-selected, .yuimenuitem-selected {
+  background-color: #4B4B4B /*MenuItemHoverBackgroundColor*/ ;
+  text-decoration: none;
+}
+.yuimenuitem-hassubmenu-selected > a span {
+  color: #FFFFFF /*MenuItemHoverColor*/ ;
+}
+.first-of-type {
+  background-color: #4B4B4B /*MenuItemHoverBackgroundColor*/ ;
+  border: none;
+  display: block;
+  padding: 3px;
+  width: 100%;
+}
+.first-of-type li a:hover {
+  color: #FFFFFF /*MenuItemHoverColor*/ !important;
+  background-color: #4B4B4B /*MenuItemHoverBackgroundColor*/ !important;
+  text-decoration: none;
+}
+.first-of-type:hover {
+  background-color: #4B4B4B /*MenuItemHoverBackgroundColor*/ ;
+  text-decoration: none;
+}
+
+/* calendar */
+.rdDataCalendarFont, .rdDataCalendar, .rdDataCalendar table, .rdDataCalendarPopUp, .rdDataCalendarPopUp table, .rdTimePicker {
+  font-weight: normal;
+  border-collapse: separate;
+}
+.rdPopupContent .rdTimePicker {
+  background-color: transparent;
+}
+table.rdDataCalendar {
+  background-color: transparent;
+  border-collapse: collapse;
+}
+.rdPopupContent table.rdDataCalendar {
+  background-color: transparent;
+  border-collapse: collapse;
+}
+.rdDataCalendarWeekdayCaption {
+  background-color: #242424 /*WeekdayBackground*/ ;
+  color: #FFFFFF /*ModalFontColor*/ !important;
+  font-size: 120%;
+}
+.rdDataCalendarWeekdayCaption td {
+  color: #FFFFFF /*ModalFontColor*/ !important;
+}
+.rdDataCalendarDay, .rdTimePickerCell, .rdTimePickerAMPMCell {
+  background-color: transparent;
+  color: #FFFFFF /*ModalFontColor*/ ;
+}
+.rdPopupContent .rdDataCalendarDay, .rdPopupContent .rdTimePickerCell, .rdPopupContent .rdTimePickerAMPMCell, .rdPopupContent .rdDataCalendarDay span, .rdPopupContent .rdTimePickerCell span, .rdPopupContent .rdTimePickerAMPMCell span {
+  background-color: #242424 /*ModalBackgroundColor*/ !important;
+  color: #FFFFFF /*ModalFontColor*/ !important;
+}
+.rdDataCalendarToday, .rdPopupContent .rdDataCalendarToday, .rdPopupContent .rdDataCalendarToday span {
+  background-color: #8C8C8C /*TodayBackgroundColor*/ !important;
+}
+.rdDataCalendarCaption, .rdDataCalendarDayCaption {
+  color: #FFFFFF /*ModalFontColor*/ !important;
+  font-size: 120%;
+}
+.rdDataCalendarDayOutsideMonth, .rdDataCalendarDayOutsideMonth span {
+  background-color: #353535 /*OutsideMonthBackground*/ !important;
+  height: 24px; /*Issue 22365*/
+  ;
+}
+.rdDataCalendarDayOutsideMonth {
+  border: solid 1px;
+  border-color: #9C9C9C /*PickerBorderColor*/ ;
+}
+.rdPopupContent .rdDataCalendarDayOutsideMonth {
+  border: solid 1px;
+  border-color: #9C9C9C /*PickerBorderColor*/ ;
+}
+td.rdDataCalendarDay {
+  border: solid 1px;
+  border-color: #9C9C9C /*PickerBorderColor*/ ;
+}
+.rdPopupContent td.rdDataCalendarDay, .rdPopupContent .rdTimePickerInnerTables td {
+  border: solid 1px;
+  border-color: #9C9C9C /*PickerBorderColor*/ ;
+}
+.rdDataCalendarDayLabelHighlight, .rdTimePickerTableHeaderCaption, .rdDataCalendarCaption, .rdTimePickerLabelHighlight, .rdPopupContent .rdDataCalendarDayLabelHighlight span, .rdPopupContent .rdTimePickerLabelHighlight span {
+  background-color: #5F5F5F /*CalendarSelectionColor*/ !important;
+}
+#Cal-2-CaptionCell.rdDataCalendarCaption, #Cal-3-CaptionCell.rdDataCalendarCaption {
+  line-height: 2.2;
 }
 
 /* WaitPage */
 .rdThemeWaitPanel {
-	border: 1px solid #fff;
-	background-color: #4b4b4b;
-	padding: 10px;
+  background-color: #ECEDEE;
+  padding: 12px;
 }
 .rdThemeWaitCaption {
-	font-size: 18px;
+  color: #000000;
+  font-size: 120%;
+}
+#rdWait span {
+  color: #000000 !important;
 }
 
-.rdWaitContainerBorder {
-	background-color: #6b6a6a;
+/* MultiColumnList */
+.ThemeContainer tr td span:hover {
+  background-color: #e0eefb;
 }
-.rdWaitContainer {
-	background-color: #fff;
-}
-#rdWaitMsg  {
-	vertical-align: absmiddle;
-	margin-left: 5px;
-	margin-right: 15px;
-}
+.rdDataCalendar .rdDataCalendarDropdown {
 
-/*rdElement: DataList | rdElement: ListItem*/
-
-.ThemeULNone {
-	list-style-type: none;
+  /*Issue 22365*/
+  margin-bottom: 2px;
+  margin-top: 2px;
 }
-
-.ThemeULDisc {
-	list-style-type: disc;
+.rdDgSelectedNot a {
+  background-color: transparent !important;
 }
-
-.ThemeULCircle {
-	list-style-type: circle;
+#rdDataTableDiv-otFilterTable {
+  padding: 7px;
 }
-
-.ThemeULSquare {
-	list-style-type: square;
+#rowsFilterDone #actFilterMember {
+  padding-left: 7px;
 }
-
-.ThemeOLDecimal {
-	list-style-type: decimal;
+.rdPopupPanelTitle .rdPopupPanelTitleCaption {
+  padding-left: 0px;
 }
-
-.ThemeOLLowerAlpha {
-	list-style-type: lower-alpha;
+.rd-settings-popup .rd-popup-content td {
+  padding-top: 0px !important;
 }
-
-.ThemeOLUpperAlpha {
-	list-style-type: upper-alpha;
+.rdThemeWaitPanel .rdThemeWaitCaption {
+  color: #000000;
 }
-
-.ThemeOLLowerRoman {
-	list-style-type: lower-roman;
+div[id^=LinkSettingPopup] .rd-popup-content #rdRows-3 tr td:first-child {
+  width: 100%;
 }
-
-.ThemeOLUpperRoman {
-	list-style-type: upper-roman;
+div[id^=LinkSettingPopup] .rd-popup-content #rdRows-4 tr td {
+  width: 100%;
 }
-
-/*End Element*/
-/*ReportAuthor*/
-.rdReportAuthor_CommandLeft, .rdReportAuthor_CommandMiddle{
-    padding: 5px 12px!important;
-    margin: 0px;
-    border-radius: 0;
+@media screen and (-ms-high-contrast:active), (-ms-high-contrast:none) {
+  div[id^=LinkSettingPopup] .rd-popup-content #rdRows-3 tr td:first-child {
+    width: 100%;
+  }
+  div[id^=LinkSettingPopup] .rd-popup-content #rdRows-4 tr td {
+    width: 100%;
+  }
 }
-/*buttom menu*/
-.rdAcCommand{
-padding-top: 0px!important;
-text-decoration: none!important;
-}
-.rdAgPanel span a:hover{
-    text-decoration: none!important;
-}
-
-.reportAuthorHeightMenu{
-height: 30px!important;
-padding-top: 1px;
-}
-.reportAuthorbgc{
-  background-color: #CBCBCB;
-}
-.rd-element-editor {
-    border: solid 1px #D4D4D5;
-}
-
-    .rd-element-editor:hover {
-        border-color: #757981;
-    }
-
-.rd-element-editor-header {
-    background-color: #f8f8f8;
-}
-
-.rd-element-editor-droppable {
-    border: solid 1px #D4D4D5;
-}
-
-    .rd-element-editor-droppable:hover {
-        border-color: #757981;
-    }
-
-.column-with-droppable {
-    border-right: 1px solid #D4D4D5;
-}
-
-/* ingoGo - Table for Share Bookmarks list */
-table #dtBookmarkSharedWith.rdThemeDataTable{
-	border-collapse: collapse !important;
-	border: none;
-}
-
-#rowBookmarkSharedWith {
-  min-height: 185px;
-  height: 185px;
-}
-
-
-table #dtBookmarkSharedWith a{
-  display: inline-block;
-  line-height: 28px;
-  padding-right: 25px;
-  background: transparent url("../../rdBookmarkOrganizer/rdDelete.png") top right no-repeat; 
-}
-
-table #dtBookmarkSharedWith td:first-of-type > span{
-  display: inline-block;
-  line-height: 28px;
-  padding-left: 25px;
-  background: transparent url("../../rdBookmarkOrganizer/rdBookmarkSharingOn.png") top left no-repeat; 
-}
-
-.iconAddUser{
-  background: transparent url("../../rdBookmarkOrganizer/rdBookmarkSharingAdd.png") top left no-repeat; 
-  height: 24px;
-  display: block;
-}
-
-.iconAddGroup{
-  background: transparent url("../../rdBookmarkOrganizer/rdBookmarkGroupSharingAdd.png") top left no-repeat; 
-  height: 24px;
-  display: block;
-}
-
-#dtBookmarkSharedWith a, #dtBookmarkSharedWith a:hover,
-#rdDivBookmarkShareTemplate a, #rdDivBookmarkShareTemplate a:hover{
-	text-decoration: none;
-}
-
-
-/* ingoGo - Table for Share Bookmarks Autocomplite */
-input + div .yui3-aclist-content{
-	background: #4b4b4b !important
-}
-
-#DpForInputDate_txtOrderDate_rdInputDateElement td{ /*Issue 22365*/
-	vertical-align: top;
-}
-.rdDataCalendar .rdDataCalendarDropdown{ /*Issue 22365*/
-	margin-bottom: 2px;
-    margin-top: 2px;
-}
-
-.rdAgUnselectedTab a{
-	color: white;
-}
-div[id^=LinkSettingPopup] .rd-popup-content #rdRows-3 tr td:first-child{
-	width: 128px\9;
-}
-div[id^=LinkSettingPopup] .rd-popup-content #rdRows-4 tr td{
-	width: 100%\9;
-}
-
-.rdDgOlapTable tbody a{
+.rdDgOlapTable tbody a {
   display: inline-table;
 }
-
-fieldset legend {
+.rdquicktip-content p {
   color: #ffffff !important;
 }
-
-#divReportAuthorWorkContainer{
-margin-left:44px;
+.rdThemeDataTableHeader > span {
+  color: #FDFAC3 /*TableColumnHeaderFontColor*/ !important;
 }
-
-.rd-toolbox-container{
-background-color:#0f0f0f;
+.rdAgContentHeadingRow td.rdAgAddDashboard {
+  float: none !important;
 }
-
+#divReportAuthorWorkContainer {
+  margin-left: 0px;
+}
 .rdAgControlsPosition {
-	padding-right:35px;
+  padding-right: 40px;
 }
-
 .rdAgControls {
-	padding-bottom:35px;
+  padding-bottom: 32px;
 }
-
 .rdAgBackground {
-	background-color: #4b4b4b;
-	width:100%;
-	white-space: nowrap;
+  background-color: #242424 /*ModalBackgroundColor*/ ;
+  width: 100%;
+  white-space: nowrap;
+  border-radius: 4px;
 }
-
-#lstFilter  tr td li{
-  background-color: #0f0f0f;
+#imgMinus, #rowTable #imgTableExport, #imgAddToDashboardDataTable, #imgTableEdit {
+  margin: 0 !important;
+}
+.rdOgCaptionRow, .rdOgCaptionRow td {
+  background: transparent !important;
+  color: #ffffff /*TableGroupHeaderRowFontColor*/ !important;
+}
+#rowTable .rdOgContentHeadingRow span a, #rowTable .rdOgContentHeadingRow td, #rowChart .rdOgContentHeadingRow span a, #rowHeatmap .rdOgContentHeadingRow span a {
+  vertical-align: sub !important;
+}
+#rowDimension table, #rowMeasure table, #rowDimension .rdOgContentHeadingRow, #rowCalculatedMeasure table {
+  background-color: #0F0F0F /*TabContainerBackground*/ ;
   border: none;
+  color: #FFFFFF /*ModalTitleFontColor*/ ;
+}
+.rdOgContentHeadingRow, #rowTable .rdOgContentHeadingRow, #rowHeatmap .rdOgContentHeadingRow {
+  background-color: #242424 /*ModalBackgroundColor*/ ;
+  border: none;
+  color: #FFFFFF /*ModalTitleFontColor*/ ;
+}
+.rdOg A:hover {
+    text-decoration: none;
+}
+#rowMenu .rdAgPanel IMG {
+  margin: 5px 0 2px;
+}
+#rowMenu .rdAgPanel table td:first-child, #rowMenu .rdOgPanel table td:first-child {
+  padding-left: 10px;
+}
+#rowMenu .rdAgPanel table td:last-child {
+  padding-right: 10px;
+}
+#rowMenu .rdAgTabHeading span {
+  padding-left: 0 !important;
+}
+#rowsAnalysisGrid {
+  padding-left: 1px;
+}
+.go-headers .go-box-container {
+  padding-left: 14px !important;
+}
+.yuimenuitemlabel {
+  padding: 2px 20px !important;
+  color: #000000 !important;
+}
+/* Master Report Top Frame*/
+.ThemeMasterReportTopFrame {
+  background-color: #4B4B4B /*HeaderBackground*/ ;
+  height: 40px;
+}
+.rd-gridsystem-scrollbar-wrap {
+  display: -webkit-flex;
+  display: inline;
+  -webkit-flex-direction: row;
+  flex-direction: row;
+}
+.ThemeMasterReportTopFrame .row.rd-gridsystem-scrollbar-wrap {
+    margin: 0;
+}
+.ThemeMasterReportTopFrame .rdResponsiveColumn {
+  align-self: center;
+}
+#FirstColumnResponsive {
+  width: auto;
+}
+#divLogo {
+  margin-right: 20px;
+}
+#LogoutColumn {
+  width: auto;
+  margin-left: auto;
+  float: right;
+}
+.ThemeMasterReportTopFrame img {
+  vertical-align: text-bottom;
+}
+.ThemeMasterReportTopFont, .ThemeMasterReportTopFrame a {
+  color: #FFFFFF /*HeaderFont*/ ;
+}
+.ThemeMasterReportTopFrame a:hover {
+  opacity: .9;
+  text-decoration: none;
 }
 
-#lstFilter {
-  background-color: #0f0f0f;
+/* Master Report Left Frame*/
+.ThemeMasterReportLeftFrame {
+  background-color: #2D2D2D /*SideBackground*/ ;
+  color: #FFFFFF /*SideFont*/ ;
+  min-width: 150px;
+}
+.ThemeMasterReportLeftFrame a, .ThemeMasterReportLeftFrame span, .ThemeMasterReportLeftFrame #rdMenuTable {
+  width: 100%;
+  text-decoration: none;
+}
+#LeftFrame .ThemeLinkButtonSmall span, #LeftFrame .ThemeLinkButtonSmall {
+  background-color: transparent !important;
+  color: #FFFFFF /*SideFont*/ !important;
+}
+#LeftFrame .ThemeLinkButtonSmall:hover {
+  background-color: #4B4B4B /*SideHoverBackground*/ !important;
+  color: #FFFFFF /*SideFont*/ !important;
+}
+.ThemeMasterReportFooterFrame {
+  background-color: #4B4B4B /*FooterBackground*/ ;
+  color: #FDFAC3 /*FooterFont*/ ;
+  height: 20px;
+  padding: 3px;
+}
+.rdTimePickerInnerTables {
+  padding: 0px !important;
 }
 
-#rdDataTableDiv-dtFilter tr td {
-background-color: #0f0f0f;
+/* NewMenuHoverEffect */
+#LeftFrame .ThemeMenuItemLink span, #LeftFrame .ThemeMenuItemLink {
+  background-color: transparent !important;
+  color: #FFFFFF /*SideFont*/ !important;
+}
+.ThemeMenuItemLink {
+  font-size: 12px;
+  line-height: 1.5;
+  margin-top: 3px !important;
+  padding: 3px 6px;
+  cursor: pointer;
+}
+#LeftFrame .ThemeMenuItemLink:hover {
+  background-color: #4B4B4B /*SideHoverBackground*/ !important;
+  color: #FFFFFF /*SideFont*/ !important;
 }
 
+/* End NewMenuHoverEffect
+
+/*ThemeEditor*/
+.rdThemeEditorAccordion a {
+  text-decoration: none;
+}
+.rdThemeEditorAccordion {
+  background-color: #4B4B4B;
+  width: 100%;
+  text-decoration: none;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+.rdThemeEditorAccordion:hover {
+  background-color: #2D2D2D;
+  width: 100%;
+  text-decoration: none;
+}
+.rdThemeEditorAccordionSelected {
+  background-color: #4B4B4B;
+  width: 100%;
+  text-decoration: none;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom: 4px solid;
+  border-color: #666666 /*TabContainerSelectedBackground*/ ;
+}
+.rdThemeEditorAccordionSelected a {
+  text-decoration: none;
+  cursor: default;
+}
+
+/*Theme Editor*/
+.rdPreviewBorder {
+  border: solid 2px #f5f5f5;
+  padding: 4px;
+  border-radius: 4px;
+}
+.rdPreviewColorBox {
+  height: 70px;
+  padding: 6px !important;
+}
+.rdPreviewDisable {
+  opacity: .2;
+  cursor: not-allowed;
+}
+#divPreview {
+  padding: 5px;
+}

@@ -12,6 +12,29 @@
 				<Column ID="colDrillthroughTitle" ColSpan="2">
 					<Label ID="lblDrillthroughTitle" Caption="Drillthrough" Class="ThemeHeaderLarger" />
 				</Column>
+				<Column ShowModes="rdBrowser" >
+					<Spaces Size="3" />
+					<Image ID="lblExportExcel" Caption="rdTemplate/rdExport.png" Tooltip="Export">
+						<Action Type="Popup" ID="agExportPopupMenu" Class="rdThemePopupMenu">
+							<PopupOption ID="lblExportExcel" Caption="Excel">
+								<Action Type="NativeExcel" ID="exportExcel">
+									<Target Type="NativeExcel" ExportDataTableID="dtDrillthrough" RequestForwarding="True" />
+								</Action>
+							</PopupOption>
+							<PopupOption ID="lblExportCsv" Caption="CSV">
+								<Action Type="CSV" ID="exportCSV">
+									<Target Type="CSV" ExportDataTableID="dtDrillthrough" RequestForwarding="True" />
+								</Action>
+							</PopupOption>
+							<PopupOption ID="lblExportPdf" Caption="PDF">
+								<Action Type="PDF" ID="exportPDF">
+									<Target Type="PDF" RequestForwarding="True" ID="targetPDF" />
+									<LinkParams rdGroupDrillthroughId="" />
+								</Action>
+							</PopupOption>
+						</Action>
+					</Image>
+				</Column>
 			</Row>
 			<Row ID="rowTable">
 				<Column ColSpan="2">
@@ -23,46 +46,6 @@
 								</Column>
 								<Column>
 									<Label ID="lblDrillDownByValue" />
-								</Column>
-							</Row>
-							<Row ID="rowExport" ShowModes="rdBrowser" >
-								<Column>
-									<Label Caption="Export: " ID="lblExportTypes" Class="ThemeBold" />
-								</Column>
-								<Column>
-									<Division ID="divEXCEL" ShowModes="None">
-										<Label Caption="Excel" ID="lblExportExcel" Class="ThemeLinkButtonSmall">
-											<Action Type="NativeExcel" ID="exportExcell">
-												<Target Type="NativeExcel" ExportDataTableID="dtDrillthrough" RequestForwarding="True" />
-											</Action>
-										</Label>
-										<Spaces Size="2" />
-									</Division>
-									<Division ID="divWORD" ShowModes="None">
-										<Label Caption="Word" ID="lblExportWord" Class="ThemeLinkButtonSmall">
-											<Action Type="NativeWord" ID="exportWord">
-												<Target Type="NativeWord" RequestForwarding="True" />
-											</Action>
-										</Label>
-										<Spaces Size="2" />
-									</Division>
-									<Division ID="divPDF" ShowModes="None">
-										<Label Caption="PDF" ID="lblExportPDF" Class="ThemeLinkButtonSmall">
-											<Action Type="PDF" ID="exportPDF">
-												<Target Type="PDF" RequestForwarding="True" ID="targetPDF" />
-												<LinkParams rdGroupDrillthroughId="" />
-											</Action>
-										</Label>
-										<Spaces Size="2" />
-									</Division>
-									<Division ID="divCSV" ShowModes="None">
-										<Label Caption="CSV" ID="lblExportCSV" Class="ThemeLinkButtonSmall">
-											<Action Type="CSV" ID="exportCSV">
-												<Target Type="CSV" ExportDataTableID="dtDrillthrough" RequestForwarding="True" />
-											</Action>
-										</Label>
-										<Spaces Size="2" />
-									</Division>
 								</Column>
 							</Row>
 						</Rows>

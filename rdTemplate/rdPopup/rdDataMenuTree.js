@@ -1,4 +1,4 @@
-function rdDataMenuTreeInit(sID) { 
+function rdDataMenuTreeInit(sID) {
     //Collapse items with plus sign.
     var bUseDefaultExpansion = true
     nRow = 1 
@@ -6,7 +6,7 @@ function rdDataMenuTreeInit(sID) {
     while (eleMenuImage){
         var eleStatus = document.getElementById("rdExpandoStatus_" + sID + "_Row" + nRow)
         if (rdDmtGetInnerText(eleStatus).length != 0) {
-            if (rdHasLocalStorage()) {
+            if (!rdDisableRememberExpansion(sID) && rdHasLocalStorage()) {
                 //Get the status from localStorage.
                 var eleItemId = document.getElementById("rdExpandoItemID_" + sID + "_Row" + nRow)
                 if (eleItemId) {
@@ -20,11 +20,11 @@ function rdDataMenuTreeInit(sID) {
         
         switch (rdDmtGetInnerText(eleStatus)) {
 	        case "+":
-	            eleMenuImage.src = eleMenuImage.src.replace("rdArrowBlank.gif","rdArrowRight.gif")
+	            eleMenuImage.src = document.getElementById("rdBranchCollapsedImage_" + sID).src
                 rdCollapseChildren(sID, nRow)
 		        break;
 	        case "-":
-	            eleMenuImage.src = eleMenuImage.src.replace("rdArrowBlank.gif","rdArrowDown.gif")
+	            eleMenuImage.src = document.getElementById("rdBranchExpandedImage_" + sID).src
 	            break;
             default:                
                 if (eleMenuImage.parentNode) { //24709
@@ -32,10 +32,20 @@ function rdDataMenuTreeInit(sID) {
                 }               
 //	        default:
 //	            eleMenuImage.src = eleMenuImage.src.replace("rdArrowBlank.png","rdBlank.gif")
-	    }
+        }
+
+        var eleChildIndent = document.getElementById("rdIndent_" + sID + "_Row" + nRow)
+        if (eleChildIndent.style.width == "0px") {
+            eleChildIndent.style.display = "none"
+        }
+
         nRow += 1
         eleMenuImage = document.getElementById("rdExpando_" + sID + "_Row" + nRow)
-    } 
+    }
+
+    var eleMenuTable = document.getElementById(sID)  //Initially invisible until all collapses are done.
+    eleMenuTable.style.display = ""
+
 }
 
 function rdDataMenuTreeExpandCollapse(sID, eleClicked) {
@@ -46,12 +56,12 @@ function rdDataMenuTreeExpandCollapse(sID, eleClicked) {
     switch (rdDmtGetInnerText(eleStatus)) {
         case "+":
             //Expand
-            eleClicked.src = eleClicked.src.replace("rdArrowRight","rdArrowDown")
+            eleClicked.src = document.getElementById("rdBranchExpandedImage_" + sID).src
             rdDmtSetInnerText(eleStatus,"-")
             rdExpandChildren(sID, nRow)
             break;
         case "-":
-            eleClicked.src = eleClicked.src.replace("rdArrowDown","rdArrowRight")
+            eleClicked.src = document.getElementById("rdBranchCollapsedImage_" + sID).src
             rdDmtSetInnerText(eleStatus,"+")
             rdCollapseChildren(sID, nRow)
             break;
@@ -59,7 +69,7 @@ function rdDataMenuTreeExpandCollapse(sID, eleClicked) {
    
     
     //Save the status in localStorage.
-    if (rdHasLocalStorage()) {
+    if (!rdDisableRememberExpansion() && rdHasLocalStorage()) {
         var eleItemId = document.getElementById("rdExpandoItemID_" + sID + "_Row" + nRow)
         if (eleItemId) {
             localStorage["rdExpandoStatus_" + sID + "_" + rdDmtGetInnerText(eleItemId)] = rdDmtGetInnerText(eleStatus)
@@ -74,13 +84,14 @@ function rdExpandChildren(sID, nRow){
     var eleChildIndent = document.getElementById("rdIndent_" + sID + "_Row" + nRow)
     var nChildIndent = parseInt(eleChildIndent.style.width.replace("px",""))
     
-    var eleRowTable = document.getElementById("rdDtCol_" + sID + "_Row" + nRow)
+    var eleRowTable = document.getElementById("rdMenuColumn_" + sID + "_Row" + nRow)
     while (eleRowTable){
         eleChildIndent = document.getElementById("rdIndent_" + sID + "_Row" + nRow)
         var nCurrIndent = parseInt(eleChildIndent.style.width.replace("px",""))
         if (nCurrIndent == nChildIndent) {
             var eleRow = eleRowTable.parentNode
             eleRow.style.display=""
+
             //Expand children too?
             var eleChildStatus = document.getElementById("rdExpandoStatus_" + sID + "_Row" + nRow)
             if (rdDmtGetInnerText(eleChildStatus) == "-") {
@@ -91,7 +102,7 @@ function rdExpandChildren(sID, nRow){
             break
         }
         nRow += 1
-        eleRowTable = document.getElementById("rdDtCol_" + sID + "_Row" + nRow)
+        eleRowTable = document.getElementById("rdMenuColumn_" + sID + "_Row" + nRow)
     }
 }
 
@@ -100,7 +111,7 @@ function rdCollapseChildren(sID, nRow){
     var nClickIndent = parseInt(eleIndent.style.width.replace("px",""))
     
     nRow += 1
-    var eleRowTable = document.getElementById("rdDtCol_" + sID + "_Row" + nRow)
+    var eleRowTable = document.getElementById("rdMenuColumn_" + sID + "_Row" + nRow)
     
     while (eleRowTable){
         eleIndent = document.getElementById("rdIndent_" + sID + "_Row" + nRow)
@@ -110,12 +121,11 @@ function rdCollapseChildren(sID, nRow){
             break
         }
         
-        
         var eleRow = eleRowTable.parentNode
         eleRow.style.display="none"
         
         nRow += 1
-        eleRowTable = document.getElementById("rdDtCol_" + sID + "_Row" + nRow)
+        eleRowTable = document.getElementById("rdMenuColumn_" + sID + "_Row" + nRow)
     }
 }
 
@@ -132,4 +142,14 @@ function rdDmtSetInnerText(ele,sValue){
     } else {
         ele.innerText = sValue //IE
     }
+}
+
+function rdDisableRememberExpansion(sID) {
+    var eleDisableRememberExpansion = document.getElementById("rdDisableRememberExpansion_" + sID)
+    if (eleDisableRememberExpansion) {
+        if (eleDisableRememberExpansion.value == "True") {
+            return true
+        }
+    }
+    return false
 }

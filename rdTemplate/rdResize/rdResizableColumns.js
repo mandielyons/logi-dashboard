@@ -10,13 +10,84 @@
         LogiXML.Ajax.AjaxTarget().on('reinitialize', this.rdInitResizableColumns);
     };
 
+    ResizableColumns.plug = function(j, headers) {
+      
+            var header = Y.one(headers[j]);
+
+            //Get the resize handle
+            var node = Y.one(header.one('td.rdResizeHeaderRow'));
+            if (Y.Lang.isValue(node)) {
+
+                var headerHTML = header._stateProxy.outerHTML;
+
+                if (Y.Lang.isValue(header.getDOMNode().style.width) && header.getDOMNode().style.width != "" && parseInt(header.getStyle('width'), 10) > 0) {
+                    //19263
+                    if (headerHTML.indexOf("rdcondelement") > 0 && header.getAttribute('conditionalProcessed') == "") {
+                        header.setAttribute('conditionalProcessed', 'true');
+                        header.getDOMNode().style.width = (parseInt(header.getDOMNode().style.width, 10) + 12) + 'px';
+                    }
+
+                } else if (parseInt(header.getStyle('width'), 10) > 0) {
+                    //19263
+                    if (headerHTML.indexOf("rdcondelement") > 0) {
+                        header.setAttribute('conditionalProcessed', 'true');
+                        header.getDOMNode().style.width = (header.get('offsetWidth') + 4) + 'px';
+                    } else
+                        header.getDOMNode().style.width = (header.get('offsetWidth') - 8) + 'px';
+                } else { //19600 20413
+                    header.getDOMNode().style.width = '100px';
+                }
+
+                //Only show handle when inside the cell. For touch always show.
+                if (LogiXML.features['touch']) {
+                    node.one('img[id$="-ResizeHandle"]').setStyle('visibility', 'visible');
+                } else {
+                    node.ancestor("TH", true).on('mouseover', function(e) {
+                        e.currentTarget.one('img[id$="-ResizeHandle"]').setStyle('visibility', 'visible');
+                    });
+                    node.ancestor("TH", true).on('mouseout', function(e) {
+                        e.currentTarget.one('img[id$="-ResizeHandle"]').setStyle('visibility', 'hidden');
+                    });
+                }
+
+                //In case of AJAX refresh, we don't want to create an extra drag node
+                if (!Y.Lang.isValue(node.dd)) {
+
+                    //Plug drag node to allow us to drag resize handle
+                    node.plug(Y.Plugin.Drag);
+                    var dd = node.dd;
+                    //Plug proxy node to maintain position of resize handle
+                    dd.plug(Y.Plugin.DDProxy, {
+                        positionProxy: true,
+                        resizeFrame: false,
+                        moveOnEnd: false
+                    });
+
+                    var hndNode = node.one('img[id$="-ResizeHandle"]');
+                    if (!LogiXML.features['touch'])
+                        hndNode.setStyle('visibility', 'hidden');
+
+                    dd.addHandle('#' + hndNode.get('id')).plug(Y.Plugin.DDWinScroll, { vertical: false, scrollDelay: 5 });;
+                    hndNode.setStyle('cursor', 'col-resize');
+
+                    dd.on('drag:start', ResizableColumns._onResizeStart);
+                    //This event occurs on all drag events, needed to make sure that we don't make the column too small or go in the wrong direction
+                    dd.on('drag:drag', ResizableColumns._onResize, node);
+                    dd.on('drag:end', ResizableColumns._onResizeEnd, node);
+
+                }
+            }
+
+      
+    };
+
     ResizableColumns.rdInitResizableColumns = function () {
 
         var htmlTables = Y.all('table[rdResizableColumnsID]');
         var table, header;
         var tableWidth, tableNode;
-
-        for (var i = 0; i < htmlTables.size() ; i++) {
+        var tablesSize = htmlTables.size();
+        for (var i = 0; i < tablesSize ; i++) {
             table = htmlTables.item(i).getDOMNode();
             
             // Safari doesn't support table.tHead, sigh
@@ -26,81 +97,10 @@
             var resizeTable = false;
             tableNode = Y.one(table);
             var headers = table.tHead.rows[0].cells;
-            for (var j = 0; j < headers.length; j++) {
-                (function (j) {
-                    header = Y.one(headers[j]);
-                    
-                    //Get the resize handle
-                    var node = Y.one(header.one('td.rdResizeHeaderRow'));
-                    if (Y.Lang.isValue(node)) {
-
-                        var headerHTML = header._stateProxy.outerHTML;
-
-                        if (Y.Lang.isValue(header.getDOMNode().style.width) && header.getDOMNode().style.width != "" && parseInt(header.getStyle('width'), 10) > 0) {
-                            //19263
-                            if (headerHTML.indexOf("rdcondelement") > 0 && header.getAttribute('conditionalProcessed') == "") {
-                                header.setAttribute('conditionalProcessed', 'true');
-                                header.getDOMNode().style.width = (parseInt(header.getDOMNode().style.width, 10) + 12) + 'px';
-                            }
-                                
-                        }
-                        else if (parseInt(header.getStyle('width'), 10) > 0) {
-                            //19263
-                            if (headerHTML.indexOf("rdcondelement") > 0) {
-                                header.setAttribute('conditionalProcessed', 'true');
-                                header.getDOMNode().style.width = (header.get('offsetWidth') + 4) + 'px';
-                            }
-                            else
-                                header.getDOMNode().style.width = (header.get('offsetWidth') - 8) + 'px';
-                        }
-                        else { //19600 20413
-                            header.getDOMNode().style.width = '100px';
-                        }
-
-                            //Only show handle when inside the cell. For touch always show.
-                            if (LogiXML.features['touch']) {
-                                node.one('img[id$="-ResizeHandle"]').setStyle('visibility', 'visible');
-                            }
-                            else {
-                                node.ancestor("TH", true).on('mouseover', function (e) {
-                                    e.currentTarget.one('img[id$="-ResizeHandle"]').setStyle('visibility', 'visible');
-                                });
-                                node.ancestor("TH", true).on('mouseout', function (e) {
-                                    e.currentTarget.one('img[id$="-ResizeHandle"]').setStyle('visibility', 'hidden');
-                                });
-                            }
-                            
-                            //In case of AJAX refresh, we don't want to create an extra drag node
-                            if (!Y.Lang.isValue(node.dd)) {
-
-                                //Plug drag node to allow us to drag resize handle
-                                node.plug(Y.Plugin.Drag);
-                                var dd = node.dd;
-                                //Plug proxy node to maintain position of resize handle
-                                dd.plug(Y.Plugin.DDProxy, {
-                                    positionProxy: true,
-                                    resizeFrame: false,
-                                    moveOnEnd: false
-                                });
-
-                                var hndNode = node.one('img[id$="-ResizeHandle"]');
-                                if (!LogiXML.features['touch'])
-                                    hndNode.setStyle('visibility', 'hidden');
-
-                                dd.addHandle('#' + hndNode.get('id')).plug(Y.Plugin.DDWinScroll, { vertical: false, scrollDelay: 5 });;
-                                hndNode.setStyle('cursor', 'col-resize');
-
-                                dd.on('drag:start', ResizableColumns._onResizeStart);
-                                //This event occurs on all drag events, needed to make sure that we don't make the column too small or go in the wrong direction
-                                dd.on('drag:drag', ResizableColumns._onResize, node);
-                                dd.on('drag:end', ResizableColumns._onResizeEnd, node);
-
-                            }
-                        }                
-                })(j);
+            var headersLength = headers.length;
+            for (var j = 0; j < headersLength; j++) {
+                ResizableColumns.plug(j, headers);
             }
-
-
 
             var tableDOM = tableNode.getDOMNode();
 
@@ -126,21 +126,14 @@
                             tableWidth += 12;
                     }
                 }
-                nodeDOM.style.overflow = "hidden";
-                nodeDOM.style.textOverflow = "clip";
-            });
-
-            tableNode.all('TD').each(function (node) {
-                nodeDOM = node.getDOMNode();
-                nodeDOM.style.overflow = "hidden";
-                nodeDOM.style.textOverflow = "clip";
+                //nodeDOM.style.overflow = "hidden";
+                //nodeDOM.style.textOverflow = "clip";
             });
 
             //Set table style to fixed so that table will leave viewport if necessary
-            if (typeof tableWidth === 'number' && !isNaN(tableWidth)) { //21231
+            if (typeof tableWidth === 'number' && !isNaN(tableWidth) && tableWidth!=0) { //21231
                 tableDOM.style.width = tableWidth + 'px';
                 //23183 24337
-                //tableDOM.style.maxWidth = tableWidth + 'px';
                 tableDOM.style.tableLayout = "fixed";
             }
         }
@@ -158,9 +151,7 @@
         if (!node) {
             e.halt();
             return;
-        }
-
-        
+        }  
 
         var sourceTableNode = node.ancestor('table', false);
         if (!sourceTableNode) {
@@ -302,13 +293,6 @@
         //Firefox requires fixed layout to be set like this
         sourceTableDOM.style.tableLayout = "fixed";
         sourceTableDOM.style.width = tableWidth + 'px';
-        
-
-        sourceTableNode.all('TD').each(function (node) {
-            nodeDOM = node.getDOMNode();
-            nodeDOM.style.overflow = "hidden";
-            nodeDOM.style.textOverflow = "clip";
-        });
 
         //Build AJAX post string
         var sResize = "";
@@ -326,7 +310,6 @@
                 sResize += "," + sResizeColId + ":" + parseInt(headerNode.getDOMNode().style.width,10);
         }
 
-
         sResize += "," + sourceTableNode.getAttribute('ID') + ":" + tableWidth;
         var sResizableColumnsID = sourceTable.getAttribute("rdResizableColumnsID");
 
@@ -341,7 +324,6 @@
 
             rdAjaxRequest('rdAjaxCommand=rdAjaxNotify&rdNotifyCommand=SaveResizableColumns&rdResizableColumnsID=' + sResizableColumnsID + '&rdResize=' + sResize + '&rdIsAg=True&rdAgID=' + document.rdForm.rdAgId.value);
         } else {
-
             rdAjaxRequest('rdAjaxCommand=rdAjaxNotify&rdNotifyCommand=SaveResizableColumns&rdResizableColumnsID=' + sResizableColumnsID + '&rdResize=' + sResize);
         }
         

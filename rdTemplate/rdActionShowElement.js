@@ -1,6 +1,13 @@
 var rdParentPopupPanel;    // Variable to hold the parent PopUp object. Used in case of a Calendar and AddBookmark.
 
 function ShowElement(sParentId,sElementId,sAction,sEffect) {
+
+    var rdSaveASNewHiddenInput = Y.one('#rdSaveASNew');
+
+    if (rdSaveASNewHiddenInput) {
+        rdSaveASNewHiddenInput.set('value', '');
+    }
+
     if(sElementId == null) return;
     if(sElementId.tagName) {
         // sElementId is actually an element object.
@@ -54,22 +61,24 @@ function ShowElement(sParentId,sElementId,sAction,sEffect) {
                     if (sElementId.indexOf('ppAddToDashboardPrompt_')==0) {
                         //Get the suggested dashboard panel's caption from the AG or AC panel's heading.
                         if (sAction.toLowerCase() != 'hide') {
-                            var eleAction = document.getElementById(sElementId.replace('ppAddToDashboardPrompt_', ''));
-                            var eleActionParent = eleAction.parentNode;
-                            var sHeadingID = eleActionParent.id;
-                            sHeadingID = sHeadingID.replace('colAnalChartAddDashboard_', 'lblHeadingAnalChart_');  //AG Chart
-                            sHeadingID = sHeadingID.replace('colAnalCrosstabAddDashboard_', 'lblHeadingAnalCrosstab_');  //AG Crosstab
-                            sHeadingID = sHeadingID.replace('colTableAddDashboard', 'lblHeadingTable');  //AG Table
-                            sHeadingID = sHeadingID.replace('divAddToDashboardPanel_', 'lblHeadingAnalChart_');  //AC Chart
-                            if (sHeadingID.indexOf("lblHeading") != -1) {  //Test for AG.
-                                var eleHeading = document.getElementById(sHeadingID);
-                                if (eleHeading) {
-                                    var sTitle = eleHeading.innerHTML;
-                                    var sInputTitleID = sElementId.replace('ppAddToDashboardPrompt_', 'rdPanelTitle_');
-                                    var eleInputTitle = document.getElementById(sInputTitleID);
-                                    eleInputTitle.value = sTitle;
+                            var eleAction = document.getElementById(sElementId.replace('ppAddToDashboardPrompt_', ''));                            
+                            if (eleAction) {   //25650 - when under another popup panel.
+                                var eleActionParent = eleAction.parentNode;
+                                var sHeadingID = eleActionParent.id;
+                                sHeadingID = sHeadingID.replace('colAnalChartAddDashboard_', 'lblHeadingAnalChart_');  //AG Chart
+                                sHeadingID = sHeadingID.replace('colAnalCrosstabAddDashboard_', 'lblHeadingAnalCrosstab_');  //AG Crosstab
+                                sHeadingID = sHeadingID.replace('colAddToDashboardDataTable', 'lblHeadingTable');  //AG Table
+                                sHeadingID = sHeadingID.replace('divAddToDashboardPanel_', 'lblHeadingAnalChart_');  //Dashbboard
+                                if (sHeadingID.indexOf("lblHeading") != -1) {  //Test for AG.
+                                    var eleHeading = document.getElementById(sHeadingID);
+                                    if (eleHeading) {
+                                        var sTitle = eleHeading.innerHTML;
+                                        var sInputTitleID = sElementId.replace('ppAddToDashboardPrompt_', 'rdPanelTitle_');
+                                        var eleInputTitle = document.getElementById(sInputTitleID);
+                                        eleInputTitle.value = sTitle;
+                                    }
                                 }
-                            }
+                            }                            
                         }
                     }else if(!sElementId.match('PPDatePickerForInputDate') && !sElementId.match('PPTimePickerForInputTime')){
                         if(c.getAttribute('rdPopupPanel') == 'True') 

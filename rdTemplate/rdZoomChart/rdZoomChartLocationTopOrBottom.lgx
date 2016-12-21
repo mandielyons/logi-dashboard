@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Report SavedBy="LOGIXML\dima" SavedAt="09/08/2012 15:12:17" EngineVersion="8.2.26">
+<Report>
   <Body>
     <Division ID="divPlaceholder" Class="rdZoomChart">
 		<Division HtmlDiv="False" ID="divInnerPlaceholder">

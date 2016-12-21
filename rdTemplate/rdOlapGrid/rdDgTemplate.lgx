@@ -23,7 +23,7 @@
                 <Rows Width="150" WidthScale="px">
                   <Row>
                     <Column Width="1" WidthScale="%">
-                      <Image Caption="rdTemplate/rdOlapGrid/rdDgRows.gif" ID="imgRows" AltText="Set the Dimensions for the table's rows." Tooltip="Set the Dimensions for the table's rows."/>
+                      <Image Caption="rdTemplate/rdOlapGrid/rdDgRows.gif" ID="imgRowsOG" AltText="Set the Dimensions for the table's rows." Tooltip="Set the Dimensions for the table's rows."/>
                     </Column>
                     <Column >
                       <Label Caption="Rows" Class="rdDgContentHeading" ID="lblRows"/>
@@ -61,7 +61,7 @@
                 <Rows Width="150" WidthScale="px">
                   <Row>
                     <Column Width="1" WidthScale="%">
-                      <Image Caption="rdTemplate/rdOlapGrid/rdDgCols.gif" ID="imgCols" AltText="Set the Dimensions for the table's columns." Tooltip="Set the Dimensions for the table's columns."/>
+                      <Image Caption="rdTemplate/rdOlapGrid/rdDgCols.gif" ID="imgColsOG" AltText="Set the Dimensions for the table's columns." Tooltip="Set the Dimensions for the table's columns."/>
                     </Column>
                     <Column Class="rdAlignMiddle" >
                       <Label Caption="Columns" Class="rdDgContentHeading" ID="lblColumns"/>
@@ -100,7 +100,7 @@
                 <Rows Width="150" WidthScale="px">
                   <Row>
                     <Column Width="1" WidthScale="%">
-                      <Image Caption="rdTemplate/rdOlapGrid/rdDgMeasures.gif" ID="imgMeasures" AltText="Set the Measures for the table's cell values." Tooltip="Set the Measures for the table's cell values."/>
+                      <Image Caption="rdTemplate/rdOlapGrid/rdDgMeasures.gif" ID="imgMeasuresOG" AltText="Set the Measures for the table's cell values." Tooltip="Set the Measures for the table's cell values."/>
                     </Column>
                     <Column Class="rdAlignMiddle" >
                       <Label Caption="Values" Class="rdDgContentHeading" ID="lblValues"/>
@@ -144,7 +144,7 @@
                 <Rows Width="150" WidthScale="px">
                   <Row>
                     <Column Width="1" WidthScale="%">
-                      <Image Caption="rdTemplate/rdOlapGrid/rdDgFilter.gif" ID="imgFilter" AltText="Add Filters to include or exclude members and values." Tooltip="Add Filters to include or exclude members and values."/>
+                      <Image Caption="rdTemplate/rdOlapGrid/rdDgFilter.gif" ID="imgFilterOG" AltText="Add Filters to include or exclude members and values." Tooltip="Add Filters to include or exclude members and values."/>
                     </Column>
                     <Column Class="rdAlignMiddle">
                       <Label Caption="Filter" Class="rdDgContentHeading" ID="lblFilters"/>
@@ -234,7 +234,7 @@
                 <Rows Width="150" WidthScale="px">
                   <Row>
                     <Column Width="1" WidthScale="%">
-                      <Image Caption="rdTemplate/rdOlapGrid/rdDgViews.gif" ID="imgChart" Tooltip="Show different views of the data." AltText="Show different views of the data."/>
+                      <Image Caption="rdTemplate/rdOlapGrid/rdDgViews.gif" ID="imgViewDG" Tooltip="Show different views of the data." AltText="Show different views of the data."/>
                     </Column>
                     <Column Class="rdAlignMiddle">
                       <Label Caption="View" Class="rdDgContentHeading" ID="lblView"/>
@@ -275,34 +275,6 @@
                   </Row>
                 </Rows>
               </Column>
-              <Column ID="rowDimensionGridViewSpacer" Width="6" WidthScale="px" />
-              <Column ID="rowDimensionGridExport" Class="rdDgPanel" >
-                <Rows Width="150" WidthScale="px">
-                  <Row>
-                    <Column Width="1" WidthScale="%">
-                      <Image Caption="rdTemplate/rdOlapGrid/rdDgExport.gif" ID="imgExport" AltText="Export the table." Tooltip="Export the table."/>
-                    </Column>
-                    <Column Class="rdAlignMiddle">
-                      <Label Caption="Export" Class="rdDgContentHeading" ID="lblExport"/>
-                    </Column>
-                  </Row>
-                  <Row>
-                    <Column ColSpan="2" Class="rdDgPanelLine">
-                      <Rows>
-                        <Row>
-                          <Column>
-                            <Label Caption="Excel" ID="lblExportExcel" >
-                              <Action Type="NativeExcel">
-                                <Target ID="TargetNativeExcel"  Type="NativeExcel" ExportDataTableID="otOlapGrid" ExcelOutputFormat="Excel2003"/>
-                              </Action>
-                            </Label>
-                          </Column>
-                        </Row>
-                      </Rows>
-                    </Column>
-                  </Row>
-                </Rows>
-              </Column>
             </Row>
             <Row CellSpacing="0" Class="rdDgRowSpacer" >
               <Column></Column>
@@ -322,20 +294,34 @@
                 <Rows Class="rdDgPanel" CellSpacing="2" Width="100" WidthScale="%">
                   <Row>
 					  <Column Class="rdDgNoPadding" >
-						  <Rows Class="rdDgContentHeadingRow">
+						  <Rows Class="rdDgContentHeadingRow" Width="165" WidthScale="px">
 							  <Row>
-								  <Column>
-									  <Image Caption="rdTemplate/rdOlapGrid/rdDgTableHeading.gif" ID="imgTable"/>
-									  <Spaces Size="1"/>
-									  <Label Caption="Table" ID="lblTableHeading" Class="rdDgContentHeading"/>
+								  <Column Width="0.2" WidthScale="%">
+									  <Image Caption="rdTemplate/rdOlapGrid/rdDgTableHeading.gif" ID="imgTableOG"/>
 								  </Column>
-								  <Column Class="rdDgAlignRight">
+								  <Column Width="0.3" WidthScale="%">
+                    <Label Caption="Table" ID="lblTableHeading" Class="rdDgContentHeading"/>
+                  </Column>
+								  <Column ID="colCrosstabExportControls_rdAxID" Width="0.5" WidthScale="%">
+                    <Division ID="divCrosstabExportControls">
+                      <Image ID="imgTableExport" Caption="rdTemplate/rdExport.png" Tooltip="Export.">
+                        <Action Type="Popup" ID="agExportPopupMenu" Class="rdThemePopupMenu">
+                          <PopupOption ID="lblExportExcel" Caption="Excel">
+                            <Action Type="NativeExcel">
+                              <Target ID="TargetNativeExcel"  Type="NativeExcel" ExportDataTableID="otOlapGrid" ExcelOutputFormat="Excel2003"/>
+                            </Action>
+                          </PopupOption>
+                        </Action>
+                      </Image >
+                    </Division>
+                  </Column >
+                  <Column Class="" Width="1" WidthScale="%">
 									  <Division Condition="@Session.ogEmptyTable~">
-										  <Label Caption="Add to Dashboard" Class="rdOgCommand" ID="lblAddToDashboardDataTable">
-											  <Action ID="actAddToDashboardDgTable" Type="AddDashboardPanel" DashboardSaveFile="@Request.DashboardSaveFile~" AddPanelContentElementID="otOlapGrid" AddPanelPopupCaption="Add a Dashboard Panel" AddPanelButtonCaption="Done" AddPanelTitle="Enter a Panel Title" AddPanelDescription="" Image="../rdTemplate/rdAnalysisGrid/rdAgCrosstab.png" MultipleInstances="False" OgAddToDashboard="True" OgDataTable="True" AddPanelSkipLocalData="False">
+										  <Image Caption="rdTemplate/rdAddToDBoard.png" Tooltip="Add to dashboard." ID="lblAddToDashboardDataTable">
+											  <Action ID="actAddToDashboardDgTable" Type="AddDashboardPanel" DashboardSaveFile="@Request.DashboardSaveFile~" AddPanelContentElementID="otOlapGrid" AddPanelPopupCaption="Add Panel" AddPanelButtonCaption="Done" AddPanelTitle="Enter a Panel Title" AddPanelDescription="" Image="../rdTemplate/rdAnalysisGrid/rdAgCrosstab.png" MultipleInstances="False" OgAddToDashboard="True" OgDataTable="True" AddPanelSkipLocalData="False">
 												  <BookmarkLinkback Caption="Run the original report." BookmarkCollection="@Request.BookmarkCollection~" FrameID="Self" />
 											  </Action>
-										  </Label>
+										  </Image>
 									  </Division>
 								  </Column>
 							  </Row>
@@ -393,17 +379,17 @@
                       <Rows Class="rdDgContentHeadingRow">
                         <Row>
                           <Column>
-                            <Image Caption="rdTemplate/rdOlapGrid/rdDgChartHeading.gif" ID="imgChart"/>
+                            <Image Caption="rdTemplate/rdOlapGrid/rdDgChartHeading.gif" ID="imgChartOG"/>
                             <Spaces Size="1"/>
                             <Label Caption="Chart" ID="lblChartHeading" Class="rdDgContentHeading"/>
                           </Column>
 							<Column Class="rdDgAlignRight">
 								<Division Condition="@Session.ogEmptyTable~">
-									<Label Caption="Add to Dashboard" Class="rdOgCommand" ID="lblAddToDashboardChart">
-										<Action ID="actAddToDashboardDgChart" Type="AddDashboardPanel" DashboardSaveFile="@Request.DashboardSaveFile~" AddPanelContentElementID="ogChart" AddPanelPopupCaption="Add a Dashboard Panel" AddPanelButtonCaption="Done" AddPanelTitle="Enter a Panel Title" AddPanelDescription="" MultipleInstances="False" OgAddToDashboard="True" OgChart="True" AddPanelSkipLocalData="False">
+									<Image Caption="rdTemplate/rdAddToDBoard.png" Tooltip="Add to dashboard." ID="lblAddToDashboardChart">
+										<Action ID="actAddToDashboardDgChart" Type="AddDashboardPanel" DashboardSaveFile="@Request.DashboardSaveFile~" AddPanelContentElementID="ogChart" AddPanelPopupCaption="Add Panel" AddPanelButtonCaption="Done" AddPanelTitle="Enter a Panel Title" AddPanelDescription="" MultipleInstances="False" OgAddToDashboard="True" OgChart="True" AddPanelSkipLocalData="False">
 											<BookmarkLinkback Caption="Run the original report." BookmarkCollection="@Request.BookmarkCollection~" FrameID="Self" />
 										</Action>
-									</Label>
+									</Image>
 								</Division>
 							</Column>
                         </Row>
@@ -466,8 +452,8 @@
                           <Resizer ID="rdChartResizerTemplate" MinWidth="250" MinHeight="250" />
                           <HoverHighlight />
                           <Quicktip ID="rdDgGaugeQuicktip"/>
-                        </Chart>-->
-                        <ChartCanvas ID="ogChart-dgNWSales2" ChartWidth="600" ChartHeight="400" BorderColor="Transparent" BorderRadius="0" BackgroundColor="#ffffff" SpacingTop="20" SpacingRight="20">
+                        </Chart>--> 
+                        <ChartCanvas ID="ogChart-dgNWSales2" ChartWidth="600" ChartHeight="400" BorderColor="Transparent" BorderRadius="0" BackgroundColor="" SpacingTop="20" SpacingRight="20">
                           <Series Type="Bar"  ID="templateSeries">
                             <Action Type="Report" ID="actChartDrilldown">
                               <Target Type="Report" KeepScrollPosition="True" KeepShowElements="True" />
@@ -476,15 +462,15 @@
                             <Quicktip ID="rdDgGaugeQuicktip" />
                           </Series>
                           <ChartXAxis>
-                            <AxisLabelStyle FontColor="#424242" FontFamily="Segoe UI" FontSize="8pt" />
-                            <AxisCaptionStyle FontColor="#3B4247" FontFamily="Segoe UI" FontSize="11pt" />
+                            <AxisLabelStyle FontColor="" FontFamily="" FontSize="" />
+                            <AxisCaptionStyle FontColor="" FontFamily="" FontSize="" />
                           </ChartXAxis>
                           <ChartYAxis>
-                            <AxisLabelStyle FontColor="#3B4247" FontFamily="Segoe UI" FontSize="8pt" />
-                            <AxisCaptionStyle FontColor="#3B4247" FontFamily="Segoe UI" FontSize="11pt" />
+                            <AxisLabelStyle FontColor="" FontFamily="" FontSize="" />
+                            <AxisCaptionStyle FontColor="" FontFamily="" FontSize="" />
                           </ChartYAxis>
                           <Resizer ID="rdChartResizerTemplate" MinWidth="250" MinHeight="250" />
-                          <ChartCaptionStyle FontColor="#424242" FontFamily="Segoe UI" FontSize="18pt" AlignmentHorizontal="Center" />
+                          <ChartCaptionStyle FontColor="" FontFamily="" FontSize="" AlignmentHorizontal="Center" />
                         </ChartCanvas>
                       </OlapChart>
                     </Column>
@@ -508,17 +494,17 @@
                       <Rows Class="rdDgContentHeadingRow">
                         <Row>
                           <Column>
-                            <Image Caption="rdTemplate/rdOlapGrid/rdDgHeatmapHeading.gif" ID="imgHeatmap" />
+                            <Image Caption="rdTemplate/rdOlapGrid/rdDgHeatmapHeading.gif" ID="imgHeatmapOG" />
                             <Spaces Size="1"/>
                             <Label Caption="Heatmap" ID="lblHeading" Class="rdDgContentHeading"/>
                           </Column>
 							<Column Class="rdDgAlignRight">
 								<Division Condition="@Session.ogEmptyTable~">
-									<Label Caption="Add to Dashboard" Class="rdOgCommand" ID="lblAddToDashboardHeatmap">
-										<Action ID="actAddToDashboardDgHeatmap" Type="AddDashboardPanel" DashboardSaveFile="@Request.DashboardSaveFile~" AddPanelContentElementID="heatmapGrid" AddPanelPopupCaption="Add a Dashboard Panel" AddPanelButtonCaption="Done" AddPanelTitle="Enter a Panel Title" AddPanelDescription="" MultipleInstances="False" Image="../rdTemplate/rdOlapGrid/rdOgHeatmap.png" OgAddToDashboard="True" OgHeatmap="True" AddPanelSkipLocalData="False">
+									<Image Caption="rdTemplate/rdAddToDBoard.png" Tooltip="Add to dashboard." ID="lblAddToDashboardHeatmap">
+										<Action ID="actAddToDashboardDgHeatmap" Type="AddDashboardPanel" DashboardSaveFile="@Request.DashboardSaveFile~" AddPanelContentElementID="heatmapGrid" AddPanelPopupCaption="Add Panel" AddPanelButtonCaption="Done" AddPanelTitle="Enter a Panel Title" AddPanelDescription="" MultipleInstances="False" Image="../rdTemplate/rdOlapGrid/rdOgHeatmap.png" OgAddToDashboard="True" OgHeatmap="True" AddPanelSkipLocalData="False">
 											<BookmarkLinkback Caption="Run the original report." BookmarkCollection="@Request.BookmarkCollection~" FrameID="Self" />
 										</Action>
-									</Label>
+									</Image>
 								</Division>
 							</Column>
                         </Row>

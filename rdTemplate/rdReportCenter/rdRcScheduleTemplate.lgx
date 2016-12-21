@@ -113,6 +113,7 @@
 									<InputHidden ID="rdExportTableID" DefaultValue="(set in subRedirectToReportCenterSchedule()" />
 									<InputHidden ID="rdCustomColumn1" DefaultValue="(set in subRedirectToReportCenterSchedule()" />
 									<InputHidden ID="rdCustomColumn2" DefaultValue="(set in subRedirectToReportCenterSchedule()" />
+									<InputHidden ID="rdSchedulerSessionVariables" DefaultValue="" />
 								</Column>
 							</Row>
 							<Row ID="rowLastRun" Condition="Len(&quot;@Local.TimeLastRun~&quot;)&gt;0">

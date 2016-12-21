@@ -42,6 +42,15 @@ if (LogiXML.decodeHtml === undefined) {
 LogiXML.rd = {};
 LogiXML.guids = {};
 
+if (!Array.prototype.indexOf) {
+    Array.prototype.indexOf = function (obj, start) {
+        for (var i = (start || 0), j = this.length; i < j; i++) {
+            if (this[i] === obj) { return i; }
+        }
+        return -1;
+    }
+}
+
 Array.prototype.maxArray = function () {
     return Math.max.apply(null, this);
 };
@@ -336,7 +345,8 @@ LogiXML.SubReport.initSubReports = function() {
 	Y.each(Y.all('iframe'), function(nodeFrame) {		
 		if (LogiXML.isNodeVisible(nodeFrame) 
 		&& !Y.Lang.isValue(nodeFrame.getData('waitkey'))
-		&& nodeFrame.getAttribute('src') == '') 			
+		&& nodeFrame.getAttribute('src') == ''
+        && nodeFrame.getData('hiddensource'))
 			nodeFrame.set('src', nodeFrame.getData('hiddensource'));
 	});
 }
@@ -414,18 +424,18 @@ LogiXML.PopupMenu = {};
 	// http://es5.github.com/#x15.9.4.2
 	// based on work shared by Daniel Friesen (dantman)
 	// http://gist.github.com/303249
-	if (!Date.parse || Date.parse("+275760-09-13T00:00:00.000Z") !== 8.64e15) {
+	if (!Date.parse || (Date.parse && Date.parse("+275760-09-13T00:00:00.000Z") !== 8.64e15))  {
 		// XXX global assignment won't work in embeddings that use
-		// an alternate object for the context.
+	    // an alternate object for the context.
+	    var origDate = Date;
 		Date = (function(NativeDate) {
-
 			// Date.length === 7
 			var Date = function Date(Y, M, D, h, m, s, ms) {
 				var length = arguments.length;
 				if (this instanceof NativeDate) {
 					var date = length === 1 && String(Y) === Y ? // isString(Y)
 						// We explicitly pass it through parse:
-						new NativeDate(Date.parse(Y)) :
+						new NativeDate(origDate.parse(Y)) :
 						// We have to manually make calls depending on argument
 						// length here
 						length >= 7 ? new NativeDate(Y, M, D, h, m, s, ms) :
@@ -680,4 +690,111 @@ LogiXML.getObjectX = function(eleObject) {
 }, 
 LogiXML.getObjectY = function (eleObject) {
     return (eleObject.offsetParent ? (LogiXML.getObjectY(eleObject.offsetParent) + eleObject.offsetTop) : eleObject.offsetTop);
+}
+
+function rdGetCookie(varName) {
+    var name = varName + "=";
+    var cookieString = document.cookie.split(';');
+    for (var i = 0; i < cookieString.length; i++) {
+        var cookie = cookieString[i].trim();
+        if (cookie.indexOf(name) == 0) return cookie.substring(name.length, cookie.length);
+    }
+    return "";
+}
+
+
+function rdSetUndoRedoVisibility() {
+
+    document.onkeydown = UndoRedo;
+
+    var bNoData = false;
+    var eleUndoDisabled = document.getElementById('divUndoDisabled');
+    var eleUndoEnabled = document.getElementById('divUndoEnabled');
+    var eleRedoDisabled = document.getElementById('divRedoDisabled');
+    var eleRedoEnabled = document.getElementById('divRedoEnabled');
+
+    var rdAllowUndo =   rdGetCookie("rdAllowUndo")
+   
+    var rdAllowRedo = rdGetCookie("rdAllowRedo");
+
+    if (Y.Lang.isValue(eleRedoDisabled)) {
+        if (rdAllowRedo == "False" && rdAllowUndo == "False") {
+            eleRedoEnabled.style.display = "none";
+            eleRedoDisabled.style.display = "none";
+        }
+        else if (rdAllowRedo == "True") {
+            eleRedoEnabled.style.display = "";
+            eleRedoDisabled.style.display = "none";
+        }
+        else if (rdAllowRedo == "False") {
+            eleRedoEnabled.style.display = "none";
+            eleRedoDisabled.style.display = "";
+        } 
+    }
+
+    if (Y.Lang.isValue(eleUndoDisabled)) {
+        if (rdAllowUndo == "False" && rdAllowRedo == "False") {
+            eleUndoEnabled.style.display = "none";
+            eleUndoDisabled.style.display = "none";
+        }
+        else if (rdAllowUndo == "True") {
+            eleUndoEnabled.style.display = "";
+            eleUndoDisabled.style.display = "none";
+        }
+        else if (rdAllowUndo == "False") {
+            eleUndoEnabled.style.display = "none";
+            eleUndoDisabled.style.display = "";
+        } 
+    }
+
+}
+
+function rdSetCookie(name, value) {
+    var path = window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/') + 1);
+    document.cookie = name + "=" + value + "; path=" + path;
+}
+
+/*Undo/Redo code - should only attach the key listener event if the undo/redo divisions are present.
+*/
+function UndoRedo(e) {
+    var evtobj = window.event ? event : e
+
+    if (evtobj.keyCode == 90 && evtobj.ctrlKey) {
+
+        var rdAllowUndo = rdGetCookie("rdAllowUndo")
+        var divUndo = document.getElementById('divUndoEnabled');
+        if (rdAllowUndo == "True" && divUndo)
+            divUndo.click();
+    }
+
+    if (evtobj.keyCode == 89 && evtobj.ctrlKey) {
+
+        var rdAllowRedo = rdGetCookie("rdAllowRedo");
+        var divRedo = document.getElementById('divRedoEnabled');
+
+        if (rdAllowRedo == "True" && divRedo)
+            divRedo.click();
+    }
+}
+
+var _nThrottleTimeout = 0;
+function rdEventThrottle(fn, nInterval) {    
+    if (_nThrottleTimeout)
+        window.clearTimeout(_nThrottleTimeout);
+    _nThrottleTimeout = window.setTimeout(fn, nInterval);
+}
+
+function getCustomCssProperty(style, propertyName) {    
+    if (style) {
+        var entries = style.split(";");
+
+        for (var i = 0; i < entries.length; i++) {
+            var entry = entries[i].split(":");
+            if (entry[0] == propertyName) {
+                return entry[1];
+            }
+        }
+        return null;    
+    }
+    return null;
 }

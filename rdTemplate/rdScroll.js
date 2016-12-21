@@ -6,6 +6,11 @@ function rdSetScroll(){
     } 
 }
 
+function rdResetScroll() {
+    if (window.parent && window.parent.scrollTo)
+        window.parent.scrollTo(0, 0);
+}
+
 function rdGetScroll(sAxis) { 
 	var x;
 	var y;

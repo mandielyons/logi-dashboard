@@ -20,6 +20,7 @@ LogiXML.rdAnalysisCrosstab = {
             divLabelGrouping = Y.one('#divAxLabelGroupByDateOperator_' + sAxId),
             selectLabelGrouping = Y.one('#rdAxLabelDateGroupBy_' + sAxId),
             selectAggregate = Y.one('#rdAxAggrFunction_' + sAxId),
+            sAggregate = selectAggregate.get('value'),
             sHeaderColumn = selectHeaderColumn.get('value'),
             sLabelColumn = selectLabelColumn.get('value'),
             sValueColumn = selectValueColumn.get('value'),
@@ -28,6 +29,7 @@ LogiXML.rdAnalysisCrosstab = {
         LogiXML.rdAnalysisCrosstab.setVisibilityForGroupByDateDiv(sHeaderColumn, sAxId, divHeaderGrouping, selectHeaderGrouping);
         LogiXML.rdAnalysisCrosstab.setVisibilityForGroupByDateDiv(sLabelColumn, sAxId, divLabelGrouping, selectLabelGrouping);
         LogiXML.rdAnalysisCrosstab.setVisibilityForAggregateOptions(sAxId, sValueColumn, selectAggregate);
+        LogiXML.rdAnalysisCrosstab.setVisibilityForSummaryOptions(sAxId, sAggregate);
         LogiXML.rdAnalysisCrosstab.setVisibilityToReverseColors(sAxId);
 
         isValid = LogiXML.rdAnalysisCrosstab.validateForUniqueColumns(sAxId, sHeaderColumn, sLabelColumn, sValueColumn);
@@ -36,7 +38,21 @@ LogiXML.rdAnalysisCrosstab = {
         if (bRefresh && isValid) {  //When not batch selection, update the visualization with every control change.
             var sAjaxUrl = 'rdAjaxCommand=RefreshElement&rdAxRefresh=True&rdRefreshElementID=' + sElementIDs + '&rdReport=' + sReport + '&rdAxId=' + sAxId;
             sAjaxUrl = sAjaxUrl + '&rdAxNewCommand=True';
-            rdAjaxRequestWithFormVars(sAjaxUrl,'false','',true,null,null,['','','']);
+
+            //Parse out WaitPage configuration
+            var waitCfg = ['', '', '']
+            var eleWaitCfg = document.getElementById("rdWaitCfg")
+            if (eleWaitCfg) {
+                try {
+                    var sScript = eleWaitCfg.parentElement.href
+                    sScript = sScript.substr(sScript.indexOf("["))
+                    waitCfg = eval(sScript.substr(0, sScript.indexOf("]") + 1))
+                }
+                catch (e) { }
+            }
+
+            rdAjaxRequestWithFormVars(sAjaxUrl, 'false', '', true, null, null, waitCfg);
+
         }
     },
 
@@ -99,20 +115,56 @@ LogiXML.rdAnalysisCrosstab = {
 
         if (dataColumnDetailsDictionary[sDataColumn] != "Number") {
             selectControl.get('children').each(function (node) {
-                if (node.get('value').indexOf('COUNT') == -1) {
+                if (node.get('value').indexOf('Count') == -1) {
                     node.remove();
                 }
             });
 
-            if (selectedValue.indexOf('COUNT') == -1) {
-                selectControl.set('value', 'COUNT');
+            if (selectedValue.indexOf('Count') == -1) {
+                selectControl.set('value', 'Count');
             }
-        } else if (selectControl.get('children').size() < 3){
+        } else if (selectControl.get('children').size() < 3) {
             selectControl.get('childNodes').remove();
             selectControl.set('innerHTML', allOptions);
             selectControl.set('value', selectedValue);
         }
     },
+
+    setVisibilityForSummaryOptions: function (sAxId, sAggrFunction) {
+        var selectSummary = Y.one('#rdAxSummaryFunction_' + sAxId)
+        var selectSummaryAvg = Y.one('#rdAxSummaryFunctionAvg_' + sAxId)
+        if (sAggrFunction == "Average") {
+            selectSummary._node.style.display = "none"
+            selectSummaryAvg._node.style.display = ""
+        } else {
+            selectSummary._node.style.display = ""
+            selectSummaryAvg._node.style.display = "none"
+        }
+
+        var selectSummaryOptions = Y.one('#rowCrosstabSummaryFunction_' + sAxId)
+        if (document.getElementById('rdAxActiveSqlMode_' + sAxId)) {
+            //Using ActiveSQL
+            if (sAggrFunction == "Sum" || sAggrFunction == "Count" || sAggrFunction == "DistinctCount") {
+                selectSummaryOptions._node.style.display = ""
+            } else {
+                //Hide all summary options.
+                selectSummaryOptions._node.style.display = "none"
+                selectSummary._node.options[0].selected = true
+                selectSummaryAvg._node.options[0].selected = true
+            }
+        } else {
+            if (sAggrFunction == "Stdev") {
+                //Hide all summary options.
+                selectSummaryOptions._node.style.display = "none"
+                selectSummary._node.options[0].selected = true
+                selectSummaryAvg._node.options[0].selected = true
+            } else {
+                selectSummaryOptions._node.style.display = ""
+            }
+        }
+        
+     },
+
     setVisibilityToReverseColors: function (sAxId) {
         var checked = document.getElementById('rdAxComparisionCheckbox_' + sAxId).checked;
         var row = document.getElementById('rowAxComparisonColors_' + sAxId);
@@ -124,5 +176,18 @@ LogiXML.rdAnalysisCrosstab = {
         } else {
             row.style.display = 'table-row';
         }
+    },
+
+    showAddToDashboard: function (sAxId) {
+    if (typeof LogiXML.AnalysisGrid.rdAgToggleChartPanel === "function") {
+        var eleAddToDashboard = document.getElementById("colAnalCrosstabAddDashboard_" + sAxId)
+        if (eleAddToDashboard) {
+            eleAddToDashboard.style.display = ''
+        }
+        var eleExportLinks = document.getElementById("colCrosstabExportControls_" + sAxId)
+        if (eleExportLinks) {
+            eleExportLinks.style.display = ''
+        }
     }
+}
 };

@@ -1,7 +1,6 @@
 .rdDashboard, .rdDashboard table
 {
 	font-size: 11px;
-	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 .rdDashboard a:link,
 .rdDashboard a:visited,
@@ -28,12 +27,15 @@
 	background-color: #ECECEC;
 	vertical-align: top;
 }
-
+.dashboardPanelContainer 
+{
+    z-index: 2;
+}
 .rdDashboardColumn
 {
 	vertical-align:top;
 	padding-left:5px;
-	padding-right:5px;
+	padding-right:2px;
 	padding-bottom:0px;
 }
 .rdDashboardPanel
@@ -123,12 +125,12 @@ td.rdDashboardParamsSave
 
 .rdDashboardDropZone
 {
-	height:15px;
+	height:5px;
 }
 .rdDashboardDropZoneActive
 {
 	background-color: #dcdcdc;
-	height:15px;
+	height:5px;
 }
 
 .rdDashboardTabs
@@ -242,6 +244,10 @@ td.rdDashboardPanelImageColumn
 	padding-right: 16px;
 }
 
+#rdSettingsCog{
+    z-index : 9000;
+}
+
 #rdSettingsCog a.rdThemePopupMenu,
 #rdDashboardControl a.rdThemePopupMenu {
 	background-color: inherit;
@@ -294,4 +300,45 @@ img#rdAddNewTabCog,
 }
 .rdAddPanelFind span{
 	margin-left: 5px;
+}
+
+#divUndoEnabled,
+#divRedoEnabled {
+	cursor: pointer;
+}
+
+#colUndoRedo IMG {
+position:relative;
+}
+
+span:hover.rdDashboardCommand, span:hover.rdPopupPanelCommand {
+  cursor: pointer;
+}
+
+#divUndo{
+margin-left:10px;
+}
+
+#divRedo{
+margin-left:5px;
+}
+  
+.yui3-dd-shim, .panelTitle, .rdDashboardTitle, .rdDashboardControl, .rdDashboardTab{
+touch-action: none !important;
+-ms-touch-action: none !important;
+}
+
+/*-----------------AnalysisGrid Specific--------------*/
+.rdAgAlignCenter {
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
+.rdAgAlignLeft {
+  text-align: left;
+}
+
+.rdAgAlignRight {
+  text-align: right;
 }

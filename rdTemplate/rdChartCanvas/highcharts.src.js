@@ -1685,16 +1685,16 @@ defaultOptions = {
 			year: '%Y'
 		},
 		//formatter: defaultFormatter,
-		headerFormat: '<span style="font-size: 10px">{point.key}</span><br/>',
+		headerFormat: '<span>{point.key}</span><br/>',
 		pointFormat: '<span style="color:{series.color}">\u25CF</span> {series.name}: <b>{point.y}</b><br/>',
 		shadow: true,
 		//shape: 'callout',
 		//shared: false,
 		snap: isTouchDevice ? 25 : 10,
 		style: {
-			color: '#333333',
+			//color: '#333333',
 			cursor: 'default',
-			fontSize: '12px',
+			//fontSize: '12px',
 			padding: '8px',
 			whiteSpace: 'nowrap'
 		}
@@ -3172,7 +3172,7 @@ SVGRenderer.prototype = {
 	        // Complex strings, add more logic
 	    } else {
 
-	        styleRegex = /<.*style="([^"]+)".*>/;
+	        styleRegex = /style=("|')(.*?)("|')/g;
 	        hrefRegex = /<.*href="(http[^"]+)".*>/;
 
 	        if (width && !wrapper.added) {
@@ -3180,13 +3180,13 @@ SVGRenderer.prototype = {
 	        }
 
 	        if (hasMarkup) {
-	            lines = textStr
-					.replace(/<(b|strong)>/g, '<span style="font-weight:bold">')
-					.replace(/<(i|em)>/g, '<span style="font-style:italic">')
-					.replace(/<a/g, '<span')
-					.replace(/<\/(b|strong|i|em|a)>/g, '</span>')
-					.split(/<br.*?>/g);
-
+	            lines = textStr.split(/<br.*?>/g);
+	            for (var i = 0; i < lines.length; i++) {
+	                lines[i] = lines[i].replace(/<(b|strong)/g, '<span style="font-weight:bold"')
+	                	               .replace(/<(i|em)/g, '<span style="font-style:italic"')
+	                	               .replace(/<a/g, '<span')
+	                	               .replace(/<\/(b|strong|i|em|a)>/g, '</span>');
+	            }
 	        } else {
 	            lines = [textStr];
 	        }
@@ -3200,7 +3200,7 @@ SVGRenderer.prototype = {
 
 	        // build the lines
 	        each(lines, function (line, lineNo) {
-	            var spans, spanNo = 0;
+	            var spans, spanNo = 0, styles = [];
 
 	            line = line.replace(/<span/g, '|||<span').replace(/<\/span>/g, '</span>|||');
 	            spans = line.split('|||');
@@ -3210,9 +3210,12 @@ SVGRenderer.prototype = {
 	                    var attributes = {},
 							tspan = doc.createElementNS(SVG_NS, 'tspan'),
 							spanStyle; // #390
-	                    if (styleRegex.test(span)) {
-	                        spanStyle = span.match(styleRegex)[1].replace(/(;| |^)color([ :])/, '$1fill$2');
-	                        attr(tspan, 'style', spanStyle);
+	                    if (hasMarkup) {
+	                        var matches;
+	                        while (matches = styleRegex.exec(span)) {
+	                            spanStyle = matches[2].replace(/(;| |^)color([ :])/, '$1fill$2');
+	                            styles.push(spanStyle);
+	                        }
 	                    }
 	                    if (hrefRegex.test(span) && !forExport) { // Not for export - #1529
 	                        attr(tspan, 'onclick', 'location.href=\"' + span.match(hrefRegex)[1] + '\"');
@@ -3239,6 +3242,12 @@ SVGRenderer.prototype = {
 
 	                        // add attributes
 	                        attr(tspan, attributes);
+
+                            // combine styles from different 'tspan' tags #25536
+	                        if (styles.length > 0) {
+	                            attr(tspan, 'style', styles.join(';'));
+	                            styles = [];
+	                        }
 
 	                        // Append it
 	                        textNode.appendChild(tspan);
@@ -4416,7 +4425,8 @@ extend(SVGElement.prototype, {
 					css(elem, {
 						width: textWidth + PX,
 						display: 'block',
-						whiteSpace: 'normal'
+						whiteSpace: 'normal',
+						textAlign: align // #25670
 					});
 					width = textWidth;
 				}
@@ -5800,8 +5810,12 @@ Tick.prototype = {
 
             //LOGIFIX
             // 21549 Bubble series display some numbers in the X-axis
-            if (axis.categories && (pos < 0 || pos === names.length))
-                str = "";
+            if (axis.categories && (pos < 0 || pos === names.length)) {
+                //LOGIFIX REPDEV-19141 	
+                if (names.length != 0) {
+                    str = "";
+                }
+            }
 		// prepare CSS
 		css = width && { width: mathMax(1, mathRound(width - 2 * (labelOptions.padding || 10))) + PX };
 		
@@ -7059,7 +7073,7 @@ Axis.prototype = {
 	/**
 	 * Set the tick positions of a linear axis to round values like whole tens or every five.
 	 */
-	getLinearTickPositions: function (tickInterval, min, max) {
+	getLinearTickPositions: function (tickInterval, min, max, hasBinaryValues) {
 		var pos,
 			lastPos,
 			roundedMin = correctFloat(mathFloor(min / tickInterval) * tickInterval),
@@ -7073,6 +7087,16 @@ Axis.prototype = {
 
 		// Populate the intermediate values
 		pos = roundedMin;
+
+	    if (hasBinaryValues) {
+	        tickPositions.push(0);
+	        tickPositions.push(1);
+	        if (max == 2) {
+	            tickPositions.push(2);
+	        }
+	        return tickPositions;
+	    }
+
 		while (pos <= roundedMax) {
 
 			// Place the tick on the rounded value
@@ -7376,6 +7400,10 @@ Axis.prototype = {
 			            axis.min -= length * minPadding;
 			        }
 				}
+			    else if (axis.dataMin < 0) {
+			        axis.min = axis.dataMin - length * minPadding;
+			    }
+
 				if (!defined(options.max) && !defined(axis.userMax)  && maxPadding && (axis.dataMax > 0 || !axis.ignoreMaxPadding)) {
 					axis.max += length * maxPadding;
 				}
@@ -7488,7 +7516,7 @@ Axis.prototype = {
 			} else if (isLog) {
 				tickPositions = axis.getLogTickPositions(axis.tickInterval, axis.min, axis.max);
 			} else {
-				tickPositions = axis.getLinearTickPositions(axis.tickInterval, axis.min, axis.max);
+			    tickPositions = axis.getLinearTickPositions(axis.tickInterval, axis.min, axis.max, axis.hasBinaryValues);
 			}
 
 			if (keepTwoTicksOnly) {
@@ -8067,7 +8095,7 @@ Axis.prototype = {
 				this.axisTitleMargin +
 				(this.side === 2 ? fontSize : 0);
 
-		var currentChart = charts[charts.length - 1]; //LOGIFIX Issue 23822  ChartCaption: X-Axis caption wrong position. Hotfix
+		var currentChart = this.chart; //LOGIFIX Issue 23822  ChartCaption: X-Axis caption wrong position. Hotfix
 	    if (horiz && currentChart && currentChart.legend && currentChart.legend.itemHeight) {
 	        offset += currentChart.legend.itemHeight;
 		}
@@ -8899,18 +8927,31 @@ Tooltip.prototype = {
 	/**
 	 * Hide the tooltip
 	 */
-	hide: function (delay) {
+	hide: function (delay, mouseEvent) {
 		var tooltip = this,
 			hoverPoints;
 		
 		clearTimeout(this.hideTimer); // disallow duplicate timers (#1728, #1766)
 		if (!this.isHidden) {
-			hoverPoints = this.chart.hoverPoints;
+		    hoverPoints = this.chart.hoverPoints;
 
-			this.hideTimer = setTimeout(function () {
-				tooltip.label.fadeOut();
-				tooltip.isHidden = true;
-			}, pick(delay, this.options.hideDelay, 500));
+		    if (mouseEvent && (tooltip.label.div || tooltip.label.element)) {
+		        var element = tooltip.label.div || tooltip.label.element;
+		        var tooltipRect = element.getBoundingClientRect();
+		        var tooltipX1 = tooltipRect.left;
+		        var tooltipY1 = tooltipRect.top;
+		        var tooltipX2 = tooltipRect.left + tooltip.label.width;
+		        var tooltipY2 = tooltipRect.top + tooltip.label.height;
+		        var isOverlap = (tooltipX1 <= mouseEvent.clientX && mouseEvent.clientX <= tooltipX2 &&
+                                 tooltipY1 <= mouseEvent.clientY && mouseEvent.clientY <= tooltipY2);
+		    }
+
+		    if (!isOverlap) {
+		        this.hideTimer = setTimeout(function () {
+		            tooltip.label.fadeOut();
+		            tooltip.isHidden = true;
+		        }, pick(delay, this.options.hideDelay, 500));
+		    }
 
 			// hide previous hoverPoints and set new
 			if (hoverPoints) {
@@ -9182,7 +9223,7 @@ Tooltip.prototype = {
 				stroke: borderColor
 			});
 			
-			tooltip.updatePosition({ plotX: x, plotY: y, negative: point.negative, ttBelow: point.ttBelow });
+			tooltip.updatePosition({ plotX: x, plotY: y, negative: point.negative, ttBelow: point.ttBelow, bar: point }, mouseEvent);
 		
 			this.isHidden = false;
 		}
@@ -9197,7 +9238,7 @@ Tooltip.prototype = {
 	/**
 	 * Find the new position and perform the move
 	 */
-	updatePosition: function (point) {
+	updatePosition: function (point, mouseEvent) {
 		var chart = this.chart,
 			label = this.label, 
 			pos = (this.options.positioner || this.getPosition).call(
@@ -9206,6 +9247,36 @@ Tooltip.prototype = {
 				label.height,
 				point
 			);
+
+		if (point.bar && point.bar.shapeType == 'rect') { // #25457
+		    var shapeArgs = point.bar.shapeArgs;
+		    var squareX1 = pos.x;
+		    var squareX2 = pos.x + label.width;
+		    var squareY1 = pos.y;
+		    var squareY2 = pos.y + label.height;
+		    var mouseX = mouseEvent.pageX - chart.renderTo.offsetLeft;
+		    var mouseY = mouseEvent.pageY - chart.renderTo.offsetTop;
+
+		    var isOverlap = !(squareY2 - chart.plotTop < shapeArgs.y ||
+		                      squareY1 - chart.plotTop > shapeArgs.y + shapeArgs.height ||
+		                      squareX2 - chart.plotLeft < shapeArgs.x ||
+		                      squareX1 - chart.plotLeft > shapeArgs.x + shapeArgs.width);
+
+		    if (isOverlap) {
+		        squareX1 -= 10;
+		        squareX2 += 10;
+		        squareY1 -= 10;
+		        squareY2 += 10;
+		    }
+
+		    if (mouseX >= squareX1 && mouseX <= squareX2 &&
+                mouseY >= squareY1 && mouseY <= squareY2) {
+		        if (shapeArgs.x > label.width)
+		            pos.x = shapeArgs.x + chart.plotLeft - label.width - 15;
+		        else
+		            pos.x = shapeArgs.x + shapeArgs.width + chart.plotLeft + 15;
+		    }
+		}
 
 		// do the move
 		this.move(
@@ -9493,7 +9564,7 @@ Pointer.prototype = {
 	 * 
 	 * @param allowMove {Boolean} Instead of destroying the tooltip altogether, allow moving it if possible
 	 */
-	reset: function (allowMove, delay) {
+	reset: function (allowMove, delay, mouseEvent) {
 		var pointer = this,
 			chart = pointer.chart,
 			hoverSeries = chart.hoverSeries,
@@ -9524,11 +9595,11 @@ Pointer.prototype = {
 			}
 
 			if (hoverSeries) {
-				hoverSeries.onMouseOut();
+			    hoverSeries.onMouseOut(mouseEvent);
 			}
 
 			if (tooltip) {
-				tooltip.hide(delay);
+			    tooltip.hide(delay, mouseEvent);
 			}
 
 			if (pointer._onDocumentMouseMove) {
@@ -9793,12 +9864,23 @@ Pointer.prototype = {
 	/**
 	 * When mouse leaves the container, hide the tooltip.
 	 */
-	onContainerMouseLeave: function () {
+	onContainerMouseLeave: function (mouseEvent) {
 		var chart = charts[hoverChartIndex];
 		if (chart) {
-			chart.pointer.reset();
+		    chart.pointer.reset(null, null, mouseEvent);
 			chart.pointer.chartPosition = null; // also reset the chart position, used in #149 fix
 		}
+	},
+
+    /**
+	 * When mouse leaves the tooltip, hide it.
+	 */
+	onTooltipMouseLeave: function (mouseEvent) {
+	    var chart = charts[hoverChartIndex];
+	    if (chart) {
+	        chart.pointer.reset();
+	        chart.pointer.chartPosition = null; // also reset the chart position, used in #149 fix
+	    }
 	},
 
 	// The mousemove, touchmove and touchstart event handler
@@ -9856,7 +9938,7 @@ Pointer.prototype = {
             // 20921: ChartCanvas: JS error when mouse out of chart, caused by new ver of Highcharts
             if (relatedTarget && series && !series.options.stickyTracking && !this.inClass(relatedTarget, PREFIX + 'tooltip') &&
 				relatedSeries !== series) {
-			series.onMouseOut();
+			series.onMouseOut(e);
 		}
 	},
 
@@ -9906,7 +9988,8 @@ Pointer.prototype = {
 	setDOMEvents: function () {
 
 		var pointer = this,
-			container = pointer.chart.container;
+			container = pointer.chart.container,
+		    tooltip = pointer.chart.tooltip.label.div || pointer.chart.tooltip.label.element;
 
 		container.onmousedown = function (e) {
 			pointer.onContainerMouseDown(e);
@@ -9918,6 +10001,8 @@ Pointer.prototype = {
 			pointer.onContainerClick(e);
 		};
 		addEvent(container, 'mouseleave', pointer.onContainerMouseLeave);
+		if (tooltip)
+		    addEvent(tooltip, 'mouseleave', pointer.onTooltipMouseLeave);
 		if (chartCount === 1) {
 			addEvent(doc, 'mouseup', pointer.onDocumentMouseUp);
 		}
@@ -10641,23 +10726,24 @@ Legend.prototype = {
 				return;
 			}
 
-                //LOGIFIX
-                // 21163 Hide legend item when there's no data to display in the serie
-                // 21195 Legend remains in bold after mouse over
-                var scrap = LogiXML.getRandomElements(seriesOptions.data, 10);
-                if (scrap.some(function (item) {
+		    //LOGIFIX
+		    // 21163 Hide legend item when there's no data to display in the serie
+		    // 21195 Legend remains in bold after mouse over
+		    // 26289 chart canvas - 11 empty records shows legend label for series
+			var scrap = LogiXML.getRandomElements(seriesOptions.data, seriesOptions.data.length);
+			if (!series.chart.userOptions.isChartCanvas || scrap.some(function (item) {
                     return LogiXML.hasValue(item);
-                })) {
-			// use points or series for the legend item depending on legendType
-			allItems = allItems.concat(
-					series.legendItems ||
-					(seriesOptions.legendType === 'point' ?
-							series.data :
-							series)
-			);
-                }
+			})) {
+			    // use points or series for the legend item depending on legendType
+			    allItems = allItems.concat(
+                        series.legendItems ||
+                        (seriesOptions.legendType === 'point' ?
+                                series.data :
+                                series)
+                );
+			}
 		});
-		return allItems;
+	    return allItems;
 	},
 
 	/**
@@ -13338,7 +13424,7 @@ Series.prototype = {
                             if (!pt.isInvalidPoint) {
 						series.updateParallelArrays(pt, i);
                             }
-						if (hasCategories && pt.name) {
+						if (hasCategories && pt.name != null) { // #25482
 							xAxis.names[pt.x] = pt.name; // #2046
 						}
 					}
@@ -16027,7 +16113,7 @@ var ColumnSeries = extendClass(Series, {
 			// Fix the tooltip on center of grouped columns (#1216, #424)
 			point.tooltipPos = chart.inverted ? 
 				[yAxis.len - plotY, series.xAxis.len - barX - barW / 2] : 
-				[barX + barW / 2, plotY + yAxis.pos - chart.plotTop];
+				[barX + barW / 2, plotY < 0 ? yAxis.pos - chart.plotTop : plotY + yAxis.pos - chart.plotTop]; // #25456
 
 			// Round off to obtain crisp edges and avoid overlapping with neighbours (#2694)
 			right = mathRound(barX + barW) + xCrisp;
@@ -18126,7 +18212,7 @@ extend(Series.prototype, {
 	/**
 	 * Series mouse out handler
 	 */
-	onMouseOut: function () {
+	onMouseOut: function (mouseEvent) {
 		// trigger the event only if listeners exist
 		var series = this,
 			options = series.options,
@@ -18147,7 +18233,7 @@ extend(Series.prototype, {
 
 		// hide the tooltip
 		if (tooltip && !options.stickyTracking && (!tooltip.shared || series.noSharedTooltip)) {
-			tooltip.hide();
+		    tooltip.hide(null, mouseEvent);
 		}
 
 		// set normal state

@@ -519,6 +519,10 @@ wrap(axisProto, 'init', function (proceed, chart, userOptions) {
 	
 	// Run prototype.init
 	proceed.call(this, chart, userOptions);
+
+    if (this.options.hasBinaryValues) {
+        axis.hasBinaryValues = true;
+    }
 	
 	if (!isHidden && (angular || polar)) {
 		options = this.options;
@@ -1871,13 +1875,30 @@ seriesTypes.bubble = extendClass(seriesTypes.scatter, {
 	 * accordance with the point sizes.
 	 */
 	getRadii: function (zMin, zMax, minSize, maxSize) {
+	    if (maxSize < minSize) {
+	        if (maxSize > 0) {
+	            var temp = maxSize;
+	            maxSize = minSize;
+	            minSize = temp;
+	        }
+	        else if (minSize == 0 && maxSize == 0) {
+                // use default values
+	            minSize = 8;
+	            maxSize = math.min(chart.plotWidth, chart.plotHeight) * 0.2;
+	        }
+	        else {
+	            maxSize = minSize;
+	        }
+	    }
+
 	    var len,
-			i,
-			pos,
+			i,			
 			zData = this.zData,
-			radii = [],
-			sizeByArea = this.options.sizeBy !== 'width',
-			zRange;
+			radii = [],            
+		    defaultSize = math.ceil(minSize + math.sqrt(0.5) * (maxSize - minSize)) / 2;
+	        //var pos,
+	        //sizeByArea = this.options.sizeBy !== 'width',
+	        //zRange;
 
 	    /*		// Set the shape type and arguments to be picked up in drawPoints
                 for (i = 0, len = zData.length; i < len; i++) {
@@ -1892,12 +1913,23 @@ seriesTypes.bubble = extendClass(seriesTypes.scatter, {
                 }
                 this.radii = radii;*/
 	    var radiifactor = (maxSize / 2) / Math.sqrt(zMax);
-	    for (i = 0, len = zData.length; i < len; i++) {
-	        var currRadii = math.ceil((Math.sqrt(zData[i]) * radiifactor));
-	        if (currRadii * 2 < minSize) {
-	            currRadii = math.ceil(minSize / 2);
+	    if (!radiifactor || !isFinite(radiifactor)) {
+	        for (var j = 0; j < zData.length; j++) {
+	            radii.push(defaultSize);
 	        }
-	        radii.push(currRadii);
+	    }
+	    else {
+	        for (i = 0, len = zData.length; i < len; i++) {
+	            var currRadii = math.ceil((Math.sqrt(zData[i]) * radiifactor));
+	            if (currRadii * 2 < minSize) {
+	                currRadii = math.ceil(minSize / 2);
+	            }
+
+	            if (!currRadii)
+	                radii.push(defaultSize);
+	            else
+	                radii.push(currRadii);
+	        }
 	    }
 	    this.radii = radii;
 	},

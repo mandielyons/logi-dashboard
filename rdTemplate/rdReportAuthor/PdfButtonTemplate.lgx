@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Report ID="ReportAuthorDev.Templates.PdfButtonTemplate" SavedBy="LOGIXML\dima" SavedAt="8/7/2014 10:55:50 AM" EngineVersion="8.2.26">
+<Report ID="ReportAuthorDev.Templates.PdfButtonTemplate">
   <Body>
     <Division ID="rdElementID" rdReportAuthorElementType="PdfButton" HtmlDiv="True" ShowModes="rdBrowser" Class="rd-report-author-element">
       <Image ID="img_rdElementID" Caption="../rdTemplate/rdReportAuthor/PDF.png" AltText="Print to PDF" />

@@ -10,9 +10,22 @@ LogiXML.HighchartsFormatters = {
         //date in categories should be date object, not timestamp
         if (chartOptions.xAxis) {
             LogiXML.HighchartsFormatters.checkForDateInAxises(chartOptions.xAxis);
+
+            for (var j = 0; j < chartOptions.xAxis.length; j++) {
+                var xAxis = chartOptions.xAxis[j];
+                if (xAxis.title && xAxis.title.format)
+                    xAxis.title.text = LogiXML.Formatter.format(xAxis.title.text, xAxis.title.format);
+            }
         }
         if (chartOptions.yAxis) {
             LogiXML.HighchartsFormatters.checkForDateInAxises(chartOptions.yAxis);
+
+            for (var j = 0; j < chartOptions.yAxis.length; j++) {
+                var yAxis = chartOptions.yAxis[j];
+                if (yAxis.title && yAxis.title.format)
+                    yAxis.title.text = LogiXML.Formatter.format(yAxis.title.text, yAxis.title.format);
+                this.checkForOnOffInAxis(yAxis);
+            }
         }
 
         if (chartOptions.xAxis) {
@@ -23,6 +36,7 @@ LogiXML.HighchartsFormatters = {
                 if (axis.labels && axis.labels.formatter == 'labelFormatter') {
                     axis.labels.formatter = LogiXML.HighchartsFormatters.labelFormatter;
                 }
+                this.checkForOnOffInAxis(axis);
             }
         }
 
@@ -51,7 +65,7 @@ LogiXML.HighchartsFormatters = {
             }
         }
 
-        var useFormat = function(data) {
+        var useFormat = function (data) {
             if (data.dataLabels && data.dataLabels.formatter) {
 
                 switch (data.dataLabels.formatter) {
@@ -78,15 +92,21 @@ LogiXML.HighchartsFormatters = {
                 series = chartOptions.series[i];
                 if (!series.data)
                     continue;
-                
-                for (var f=0;f < series.data.length; f++) {
+
+                for (var f = 0; f < series.data.length; f++) {
                     var dataPoint = series.data[f];
-                    if (dataPoint!=null && dataPoint!=undefined) {
+                    if (dataPoint != null && dataPoint != undefined) {
                         useFormat(dataPoint);
                     }
                 }
                 useFormat(series);
             }
+        }
+    },
+
+    checkForOnOffInAxis: function (axis) {
+        if (axis.labels && axis.labels.format && (axis.labels.format == "Yes/No" || axis.labels.format == "On/Off" || axis.labels.format == "True/False")) {
+            axis.hasBinaryValues = true;
         }
     },
 
@@ -114,17 +134,17 @@ LogiXML.HighchartsFormatters = {
             dataArray[i] = new Date(dataArray[i]);
         }
     },
-    isArray: function(obj) {
+    isArray: function (obj) {
         return Object.prototype.toString.call(obj) === '[object Array]';
     },
-    isNumber: function(n) {
-	    return typeof n === 'number';
+    isNumber: function (n) {
+        return typeof n === 'number';
     },
     splat: function (obj) {
         return LogiXML.HighchartsFormatters.isArray(obj) ? obj : [obj];
     },
-    pick: function() {
-	    var args = arguments,
+    pick: function () {
+        var args = arguments,
 		    i,
 		    arg,
 		    length = args.length;
@@ -136,12 +156,12 @@ LogiXML.HighchartsFormatters = {
         }
     },
     inArray: function (item, arr) {
-        var len, 
+        var len,
             i = 0;
 
         if (arr) {
             len = arr.length;
-					
+
             for (; i < len; i++) {
                 if (arr[i] === item) {
                     return i;
@@ -153,12 +173,12 @@ LogiXML.HighchartsFormatters = {
     },
 
     tooltipFormatter: function (tooltip) {
-        var quicktip = this.point.series.quicktip, 
+        var quicktip = this.point.series.quicktip,
             i, length, html, tooltipData;
 
         if (this.point.isGroup)
             quicktip = this.point.style.quicktip;
-        
+
         //remove quicktip for calculated columns
         if (this.point.isIntermediateSum || this.point.isSum) {
             quicktip = null;
@@ -192,7 +212,7 @@ LogiXML.HighchartsFormatters = {
                     //s.push(items[i].point.tooltipFormatter(series.tooltipOptions.pointFormat));
                     s.push(LogiXML.HighchartsFormatters.tooltipAutoPointFormatter(this.point));
                 }
-               
+
             };
 
             // footer
@@ -237,7 +257,7 @@ LogiXML.HighchartsFormatters = {
                 if (qtPointValue.startsWith('$0')) { // 23595 - we need to escape $0 sign
                     qtPointValue = '$' + qtPointValue;
                 }
-                html = html.replace(new RegExp('\\{' + i + '\\}', 'g'), LogiXML.decodeHtml(qtPointValue, quicktip.rows[i] && quicktip.rows[i].format && quicktip.rows[i].format == 'HTML'));
+                html = html.replace(new RegExp('\\{' + i + '\\}', 'g'), LogiXML.decodeHtml(qtPointValue, quicktip.rows && quicktip.rows[i] && quicktip.rows[i].format && quicktip.rows[i].format == 'HTML'));
             }
         }
         html += '</div></div></div>';
@@ -268,8 +288,9 @@ LogiXML.HighchartsFormatters = {
             }
         }
 
-        // Insert the header date format if any
-        if (isDateTime && xDateFormat && LogiXML.HighchartsFormatters.isNumber(point.key)) {
+        if (xAxis && xAxis.options && xAxis.options.labels && xAxis.options.labels.format) {
+            headerFormat = headerFormat.replace('{point.key}', LogiXML.Formatter.format(isDateTime ? new Date(point.key) : point.key, xAxis.options.labels.format));
+        } else if (isDateTime && xDateFormat && LogiXML.HighchartsFormatters.isNumber(point.key)) { // Insert the header date format if any
             if (xDateFormat == "%Y" && point.key) {
                 headerFormat = headerFormat.replace('{point.key}', LogiXML.Formatter.formatDate(point.key, 'd'));
             } else {
@@ -277,7 +298,7 @@ LogiXML.HighchartsFormatters = {
             }
         } else if (!series.xAxis) {
             headerFormat = headerFormat.replace('{point.key:.2f}', point.key);
-            tooltipOptions.pointFormat = tooltipOptions.pointFormat.replace('{series.name}:', "").replace('●','');
+            tooltipOptions.pointFormat = tooltipOptions.pointFormat.replace('{series.name}:', "").replace('●', '');
         }
         else if (!series.xAxis) {
             headerFormat = headerFormat.replace('{point.key:.2f}', point.key);
@@ -295,10 +316,23 @@ LogiXML.HighchartsFormatters = {
             pointFormat = series.tooltipOptions.pointFormat,
 			seriesTooltipOptions = series.tooltipOptions,
 			valueDecimals = LogiXML.HighchartsFormatters.pick(seriesTooltipOptions.valueDecimals, ''),
+            xAxisIsDateTime = series.xAxis && series.xAxis.options.type === 'datetime',
+            yAxisIsDateTime = series.yAxis && series.yAxis.options.type === 'datetime',
 			valuePrefix = seriesTooltipOptions.valuePrefix || '',
 			valueSuffix = seriesTooltipOptions.valueSuffix || '',
             pointArrayMap, i = 0, length, key,
-            format, axisType,val;
+            format, axisType, val;
+
+        if (series.xAxis && series.xAxis.options && series.xAxis.options.labels && series.xAxis.options.labels.format) {
+            pointFormat = pointFormat.replace('{point.x}', LogiXML.Formatter.format(xAxisIsDateTime ? new Date(point.x) : point.x, series.xAxis.options.labels.format));
+        }
+
+        if (series.yAxis && series.yAxis.options && series.yAxis.options.labels && series.yAxis.options.labels.format) {
+            pointFormat = pointFormat.replace('{point.y}', LogiXML.Formatter.format(yAxisIsDateTime ? new Date(point.y) : point.y, series.yAxis.options.labels.format));
+        }
+        else if (series && series.options && series.options.dataLabels && series.options.dataLabels._format) {
+            pointFormat = pointFormat.replace('{point.y}', LogiXML.Formatter.format(yAxisIsDateTime ? new Date(point.y) : point.y, series.options.dataLabels._format));
+        }
 
         // Loop over the point array map and replace unformatted values with sprintf formatting markup
         pointArrayMap = series.pointArrayMap || ['x', 'y'];
@@ -310,15 +344,15 @@ LogiXML.HighchartsFormatters = {
             key = pointArrayMap[i];
             if (key == 'x') {
                 axisType = series.xAxis && series.xAxis.options.type || 'category';
-            } else{
+            } else {
                 axisType = series.yAxis && series.yAxis.options.type || 'linear';
             }
             format = '';
-            switch(axisType) {
+            switch (axisType) {
                 case 'category':
                     //nothing to do
                     break;
-                case 'datetime': 
+                case 'datetime':
                     if (key == 'x') {
                         format = tooltipOptions.xDateFormat;
                     } else {
@@ -337,7 +371,7 @@ LogiXML.HighchartsFormatters = {
                     break;
             }
 
-            key = '{point.' +key;
+            key = '{point.' + key;
             if (valuePrefix || valueSuffix) {
                 pointFormat = pointFormat.replace(key + '}', valuePrefix + key + '}' + valueSuffix);
             }
@@ -355,10 +389,15 @@ LogiXML.HighchartsFormatters = {
     dataLabelFormatter: function () {
         var format = this.series.options.dataLabels._format,
             value = this.y;
+
+        if (this.series.options.stacking && value === 0) {
+            return "";
+        }
+
         //TODO: may be percent, total, etc. Digg it later
-        if (format=='HTML' && this.key) {
+        if (format == 'HTML' && this.key) {
             this.key = LogiXML.decodeHtml(this.key, true)
-        }        
+        }
         return LogiXML.Formatter.format(value, format);
     },
 
@@ -375,7 +414,7 @@ LogiXML.HighchartsFormatters = {
                 dataValue = this.percentage / 100;
             }
             dataValue = LogiXML.Formatter.format(dataValue, format);
-        } 
+        }
         if (showPointName && showDataValue) {
             ret = "<div>" + value + "<br />" + dataValue + "</div>";
         } else if (showPointName) {
@@ -417,10 +456,10 @@ LogiXML.HighchartsFormatters = {
         } else {
             return LogiXML.Formatter.format(value, format);
         }
-            //    return LogiXML.Formatter.formatNumber(this.value, format, lang, global);
-            //} else if (typeof this.value === 'string') {
-            //    return LogiXML.Formatter.formatString(this.value, format, lang, global);
-            //}
-            //return this.value;
+        //    return LogiXML.Formatter.formatNumber(this.value, format, lang, global);
+        //} else if (typeof this.value === 'string') {
+        //    return LogiXML.Formatter.formatString(this.value, format, lang, global);
+        //}
+        //return this.value;
     }
 }

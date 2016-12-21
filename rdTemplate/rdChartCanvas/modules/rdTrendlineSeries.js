@@ -31,7 +31,9 @@
                 }
             }
             
-            data = this.extractXYDataFromSeries(parentOptions);
+            //25275
+            if (parentOptions.data.length > 0 && parentOptions.dataInfo)
+                data = this.extractXYDataFromSeries(parentOptions);
             if (data && data.data && data.data.length >= 2) {
                 lineAlgorithm = lineAlgorithm.toLowerCase().replace('regression', '');
                 regressionData = this.methods[lineAlgorithm](data.data);

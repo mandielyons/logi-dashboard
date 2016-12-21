@@ -7,12 +7,12 @@ BODY {
 .rdAc, .rdAc TABLE, 
 .rdDataCalendar, .rdDataCalendar TABLE, .rdDataCalendarFont, .rdDataCalendarDayLabel,
 .rdTimePicker, .rdTimePicker TABLE,
-.rdPopupPanelTitleCaption 
+.rdPopupPanelTitleCaption
 {
 	font-size: 100%;		
 }
 
-.rdAcCommand,  .rdAcCommandHighlight { font-size: 120%; }
+ .rdAcCommand,  .rdAcCommandHighlight { font-size: 120%; }
 
 .rdDashboardColumn {	padding: 2px; }
 
@@ -24,7 +24,7 @@ BODY {
 
 .rdDataCalendarDay, .rdDataCalendarDayLabelHighlight
 {	
-	padding: 15px 13px 13px 13px;
+	padding: 13px 13px 13px 13px;
 }
 .rdTimePickerCell, .rdTimePickerAMPMCell, .rdTimePickerLabelHighlight
 {
@@ -36,9 +36,8 @@ BODY {
 }
  .rdDataCalendarPopUp  .rdDataCalendarDay, .rdDataCalendarPopUp  .rdDataCalendarDayLabelHighlight
 {
-    padding: 15px 13px 13px 13px;
+    padding: 13px 13px 13px 13px;
 }
-
 
 .ThemeLinkButton {
 	font-size: 120%;

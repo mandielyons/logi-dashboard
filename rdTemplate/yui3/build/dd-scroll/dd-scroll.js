@@ -305,6 +305,24 @@ YUI.add('dd-scroll', function(Y) {
         */        
         _setDimCache: function() {
             var node = this.get(HOST).get('dragNode');
+
+            //Only for AG and DB 25557
+            if (node._node) {
+                if (node._node.className.indexOf('dragHandleOnly') >= 0) {
+                    if (Object.keys(this.get(HOST)._handles).length == 1) {
+                        var handle = this.get(HOST)._handles[Object.keys(this.get(HOST)._handles)[0]];
+                        if (typeof handle.get === 'function') {
+                            node = handle;
+                        }
+                        else {
+                            handle = Y.one(handle);
+                            if (typeof handle.get === 'function') {
+                                node = handle;
+                            }
+                        }
+                    }
+                }
+            }
             this._dimCache = {
                 h: node.get(OFFSET_HEIGHT),
                 w: node.get(OFFSET_WIDTH)

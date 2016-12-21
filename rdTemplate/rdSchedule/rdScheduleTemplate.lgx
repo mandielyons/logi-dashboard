@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Report ID="rdScheduleTemplate" rdSchVersion="10.0" EngineVersion="10.0.442">
+<Report ID="rdScheduleTemplate" rdSchVersion="10.0">
   <Body>
     <Rows ID="rowsSchContainer_rdSchId" CellSpacing="0" Class="rdSchedule" Border="1">
       <Row>

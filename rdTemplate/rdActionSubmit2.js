@@ -63,51 +63,20 @@ function SubmitForm(sPage, sTarget, bValidate, sConfirm, bFromOnClick, waitCfg) 
 	    if (!ele.type) {
 	        continue;  //Not an input element.
 	    }
-
-	    else if ((ele.type == 'checkbox') && (ele.name != "") && (aCheckBoxIds.indexOf(ele.name) == -1) && (aCheckBoxListIds.indexOf(ele.name) == -1)) { //21555,25311
-	        var sCheckboxValue = rdGetInputValues(ele);
-	        var sCBId = sCheckboxValue.substring(1, sCheckboxValue.lastIndexOf("="));	        
-	        sCheckboxValue = decodeURIComponent(sCheckboxValue.substring(sCheckboxValue.lastIndexOf("=") + 1))
-	        aCheckBoxListIds.push(sCBId);
-	       	       
-	        if (sCheckboxValue != "rdNotSent" && aCheckBoxIds.indexOf(sCBId) == -1) {
-	            if ((sCheckboxValue == "") || (sCheckboxValue == ele.getAttribute("rdUncheckedValue"))) {
-
-	                var inputNodes = Y.all('#' + sCBId);
-	                var found = false;
-	                inputNodes.each(function (inputNode) {
-	                    var domNode = inputNode.getDOMNode();
-	                    var nodeType = domNode.type;
-	                    if (nodeType && nodeType.toLowerCase() === "hidden") {
-	                        found = true;
-	                    }
-	                });
-	                if (!found) {
-	                    var hiddenCBV = document.createHiddenInput(sCBId, sCheckboxValue);
-	                    document.rdForm.appendChild(hiddenCBV);
-	                }
-	                aCheckBoxIds.push(sCBId);
-	            } else {
-
-	                var inputNodes = Y.all('#' + sCBId);
-
-	                inputNodes.each(function (inputNode) {
-	                    var domNode = inputNode.getDOMNode();
-	                    var nodeType = domNode.type;
-	                    if (nodeType && nodeType.toLowerCase() === "hidden" )  {
-	                        domNode.parentNode.removeChild(domNode);
-	                    }
-	                });
-	             }
+            
+	    else if ( (ele.type == 'checkbox') && (ele.getAttribute("rdUncheckedValue")) ) {
+	        if ((ele.checked == false) && ele.getAttribute("rdUncheckedValue") != "rdNotSent") {
+	            var hiddenCBV = document.createHiddenInput(ele.name, ele.getAttribute("rdUncheckedValue"));
+	            document.rdForm.appendChild(hiddenCBV);
 	        }
-	    }    
-	    
+	    }
+
 	    else {
-            if(ele.type == 'text')
+	         if(ele.type == 'text')
 	            rdFixupInputs(ele);
 	    }
 
-        
+	    
 	}
 	
     var eleRemoved = new Array(0)
@@ -189,7 +158,11 @@ function SubmitForm(sPage, sTarget, bValidate, sConfirm, bFromOnClick, waitCfg) 
 	    document.rdForm.submit();
 		
 		//Show wait panel
-		if (waitCfg != null) {
+	    if (waitCfg != null) {
+	        //25599
+	        if (Y.Cookie.exists('rdFileDownloadComplete')) {
+	            Y.Cookie.remove('rdFileDownloadComplete', { path: '/' });
+	        }
 			LogiXML.WaitPanel.pageWaitPanel.readyWait();
 			setTimeout(function() {LogiXML.WaitPanel.pageWaitPanel.showWaitPanel(waitCfg)}, 1000);
 		}
@@ -293,6 +266,10 @@ function NavigateLink2(sUrl, sTarget, bValidate, sFeatures, sConfirm, waitCfg) {
 			
 			//Show wait panel
 			if (waitCfg != null) {
+			    //25599
+			    if (Y.Cookie.exists('rdFileDownloadComplete')) {
+			        Y.Cookie.remove('rdFileDownloadComplete', { path: '/' });
+			    }
 				LogiXML.WaitPanel.pageWaitPanel.readyWait();
 				setTimeout(function() {LogiXML.WaitPanel.pageWaitPanel.showWaitPanel(waitCfg)}, 1000);				
 			}	

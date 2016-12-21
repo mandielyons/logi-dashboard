@@ -1,16 +1,16 @@
 ﻿<Report ID="rdPopup.rdDataMenuTreeTemplate">
 	<Body ID="bodyMain">
-		<Division ID="rdDataMenuTreeID">
-			<DataTable ID="rdMenuTable" CellSpacing="0">
-				<DataTableColumn ID="rdDtCol_rdDataMenuTreeID">
-					<Rows>
+		<Division ID="rdDataMenuTreeID" ShowModes="None">
+			<DataTable ID="rdMenuTable" CellSpacing="0" >
+				<DataTableColumn ID="rdMenuColumn_rdDataMenuTreeID">
+					<Rows CellSpacing="0">
 						<Row>
+							<Action Type="Link" ID="actLink_rdDataMenuTreeID">
+								<Target Type="Link" ID="tgt_rdDataMenuTreeID" Link="javascript:rdDataMenuTreeExpandCollapse('rdDataMenuTreeID',document.getElementById('rdExpando_rdDataMenuTreeID_Row@Function.RowNumber~'));" />
+							</Action>
 							<Column ID="rdIndent_rdDataMenuTreeID" Width="@Data.rdIndent~" WidthScale="px" />
 							<Column ID="rdImage">
 								<Image ID="rdExpando_rdDataMenuTreeID" Caption="rdTemplate/rdArrowBlank.gif">
-									<Action Type="Link" ID="actLink_rdDataMenuTreeID">
-                    <Target Type="Link" ID="tgt_rdDataMenuTreeID" Link="javascript:rdDataMenuTreeExpandCollapse('rdDataMenuTreeID',document.getElementById('rdExpando_rdDataMenuTreeID_Row@Function.RowNumber~'));" />
-                  </Action>
 								</Image>
 								<Image ID="rdDmtImage" Caption="_SupportFiles/@Data.rdMenuImage~">
 									<Note Note="Height and Width come from attributes optionally set in the Menu element." />
@@ -32,6 +32,10 @@
 					</Rows>
 				</DataTableColumn>
 			</DataTable>
+			<Division ShowModes="None">
+				<Image ID="rdBranchCollapsedImage_rdDataMenuTreeID" Caption="rdTemplate/rdArrowRight.png" />
+				<Image ID="rdBranchExpandedImage_rdDataMenuTreeID" Caption="rdTemplate/rdArrowDown.png" />
+			</Division>
 			<IncludeHtml Html="&lt;SCRIPT rdAjaxRunOnLoad=&quot;True&quot;&gt;rdDataMenuTreeInit('rdDataMenuTreeID')&lt;/SCRIPT&gt;" />
 		</Division>
 	</Body>

@@ -1,3 +1,7 @@
+//SavedCustomFormats
+//SavedCustomAlignments
+//SavedPanelState
+
 //InputSelectList/DataLayer[@ID='dlCalcDataColumns']
 //DataTable/DataLayer[@ID='dlCalcColumns']
 

@@ -35,7 +35,7 @@ if (system.args.length < 6) {
     var pageWidth = TryParseInt(system.args[3], 1200);
     page.viewportSize = { width: pageWidth, height: 800 };
     var browserTimeout = TryParseInt(system.args[4], 60) * 1000;
-    var checkTimeInterval = TryParseInt(TryParseFloat(system.args[5], 0.25) * 1000, 250);
+    var checkTimeInterval = TryParseInt((TryParseFloat(system.args[5], 0.25) * 1000) + "", 250);  //25729
     var maxAttempt = browserTimeout / checkTimeInterval;
     var currentAttempt = 0;
 

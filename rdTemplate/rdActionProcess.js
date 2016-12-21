@@ -55,6 +55,18 @@ function RunProcess(sActionsXml, bValidate, sConfirm, sTarget, waitCfg) {
                 }
             }
         }
+
+        // checkbox unchecked value ...
+        if ((eleInput.type == 'checkbox') && (eleInput.getAttribute("rdUncheckedValue"))) {
+            if ((eleInput.checked == false) && eleInput.getAttribute("rdUncheckedValue") != "rdNotSent") {
+                var hiddenCBV = document.createElement("INPUT");
+                hiddenCBV.type = "HIDDEN";
+                hiddenCBV.id = eleInput.name;
+                hiddenCBV.name = eleInput.name;
+                hiddenCBV.value = eleInput.getAttribute("rdUncheckedValue");
+                document.rdForm.appendChild(hiddenCBV);
+            }
+        }
     }
 	
 	hiddenProcessAction=document.createElement("INPUT");

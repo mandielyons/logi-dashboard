@@ -1,3 +1,4 @@
+var rdNewPanelCnt = 0
 
 YUI.add('dashboard', function (Y) {
     var FreeForm = Y.LogiXML.Dashboard.FreeForm;
@@ -34,6 +35,12 @@ YUI.add('dashboard', function (Y) {
                 }
             }
 
+            if (LogiXML.Ajax.AjaxTarget) {
+                LogiXML.Ajax.AjaxTarget().on('reinitialize', function () { rdSetUndoRedoVisibility(); }, this);
+            }
+
+            rdSetUndoRedoVisibility();
+
             var i;
             //Make the panels draggable.
             if (typeof (rdMobileReport) == 'undefined') { //Not for mobile. 13676
@@ -59,6 +66,9 @@ YUI.add('dashboard', function (Y) {
                     var drag = new Y.DD.Drag({
                         node: panelNode
                     })
+                    //25557
+                    panelNode.addClass('dragHandleOnly');
+
                     if (this.get('bIsFreeformLayout')) {
                         drag.plug(Y.Plugin.DDConstrained, {
                             tickX: 10,
@@ -90,10 +100,18 @@ YUI.add('dashboard', function (Y) {
 
                     //Now you can only drag it from the panel title
                     var hndNode = panelNode.one('tr[id="' + dashTitleID + '"]');
-                    panelNode.dd.addHandle(hndNode);
-                    if (this.get('bIsFreeformLayout')) panelNode.dd.plug(Y.Plugin.DDWinScroll, { scrollDelay: 100 });
+                    panelNode.dd.addHandle(hndNode).plug(Y.Plugin.DDWinScroll, { scrollDelay: 100 });
+                    //25556
+                    //if (this.get('bIsFreeformLayout')) panelNode.dd.plug(Y.Plugin.DDWinScroll, { scrollDelay: 100 });
                     hndNode.setStyle('cursor', 'move');
-                    panelNode.setStyle('opacity', '.92');
+
+                    //25623
+                    if (this.get('bIsFreeformLayout')) {
+                        panelNode.setStyle('opacity', '.92');
+                    }
+                    else {
+                        panelNode.setStyle('opacity', '1');
+                    }
                 }
             }
 
@@ -132,9 +150,6 @@ YUI.add('dashboard', function (Y) {
             //Settings Cog (mobile reports resize the tab, so no need to do this twice)
             if (typeof (rdMobileReport) === 'undefined') {
                 this.rdPositiontabSettingsCog(true);
-                Y.on('windowresize', function (e) {
-                    LogiXML.Dashboard.pageDashboard.rdPositiontabSettingsCog();
-                });
             }
 
             //Make the Add New Tab look like a button instead of a tab.
@@ -162,6 +177,15 @@ YUI.add('dashboard', function (Y) {
                     eleMobileDashboardTab.firstChild.firstChild.style.width = (nTabWidth - 8) + 'px';
                     eleMobileDashboardTab.firstChild.firstChild.style.wordWrap = 'break-word';
                     this.rdPositiontabSettingsCog(false);
+                }
+            }
+        },
+
+        rdClientSideEnableUndo: function () {
+            var eleAutoBookmark = document.getElementById("lblAutoBookmark");
+            if (eleAutoBookmark) {
+                if (eleAutoBookmark.value == "") {
+                    rdSetUndoRedoVisibility();
                 }
             }
         },
@@ -328,7 +352,9 @@ YUI.add('dashboard', function (Y) {
         /* ---Methods--- */
 
         rdAddDashboardPanel: function (sPanelID, nRowNr, eleEventOriginationPopup) {
-
+			if (sPanelID.indexOf('NGPviz') >= 0) {
+				bIsNgpViz = true;
+			}
             var rdFreeformLayout = document.getElementById('rdFreeformLayout');
             if (rdFreeformLayout != null) {
                 if (rdFreeformLayout.id.toLowerCase() == 'rdhiddenrequestforwarding') {
@@ -347,13 +373,11 @@ YUI.add('dashboard', function (Y) {
             if (rdFreeformLayout) {
                 rdParams += "&rdFreeformLayout=True";
                 rdParams += "&rdNewFreeformLayoutPanel=True";
+                rdParams += "&rdFreeformLayoutStyle=Position:absolute;" + "Left:" + (rdNewPanelCnt * 25) + "px;Top:" + (rdNewPanelCnt * 25) + "px;z-index:" + this.get('zIndex') + ';';
 
-                //if( this.get('nNewAddedPanelCount') === 0 && this.get('zIndex') === 0 ) {
-                //    rdParams += "&rdFreeformLayoutStyle=Position:absolute;Left:0px;Top:0px;z-index:1;";
-                //    this.set('zIndex', 1);
-                //} else {
-                rdParams += "&rdFreeformLayoutStyle=Position:absolute;" + "Left:" + (this.get('nNewAddedPanelCount') * 25) + "px;Top:" + (this.get('nNewAddedPanelCount') * 25) + "px;z-index:" + this.get('zIndex') + ';';
-                //}
+                if (bIsNgpViz) {
+                    rdParams += "height:400px;";
+                }
                 rdParams += ("&rdDashboardTabStyle=Width:" + Y.DOM.winWidth() + "px;Height:" + (Y.DOM.winHeight() - Y.DOM.region(Y.DOM.byId('rdDashboardList')).top - 50) + 'px;');
             }
             else {
@@ -362,7 +386,8 @@ YUI.add('dashboard', function (Y) {
                 var panelContainer = Y.one('.rdDashboardPanelContainer');
                 rdParams += "&rdDashboardTabStyle=Width:" + panelContainer.get('offsetWidth') + "px;";
             }
-            this.set('nNewAddedPanelCount', this.get('nNewAddedPanelCount') + 1)
+            rdNewPanelCnt += 1
+            this.rdClientSideEnableUndo();
             rdAjaxRequestWithFormVars('rdAjaxCommand=rdAjaxNotify&rdNotifyCommand=AddDashboardPanel' + rdParams)
             //Update the count.
             if (typeof eleEventOriginationPopup === 'undefined') {
@@ -415,7 +440,7 @@ YUI.add('dashboard', function (Y) {
             for (i = 0; i < numberofPanels; i++) {
                 panel = dashboardPanels.item(i);
                 var nPanelzIndex = panel.getComputedStyle('zIndex');
-                if (this.get('zIndex') < nPanelzIndex) {
+                if (this.get('zIndex') <= nPanelzIndex) {
                     this.set('zIndex', parseInt(nPanelzIndex) + 1);
                 }
             }
@@ -450,6 +475,7 @@ YUI.add('dashboard', function (Y) {
                     rdPanelParams += "&rdFreeformLayout=True";
                 }
                 rdPanelParams += '&DashboardID=' + document.getElementById("DashboardIdentifier").value;
+                this.rdClientSideEnableUndo();
                 rdAjaxRequestWithFormVars('rdAjaxCommand=rdAjaxNotify&rdNotifyCommand=RemoveDashboardPanel' + rdPanelParams)
             }
         },
@@ -512,6 +538,7 @@ YUI.add('dashboard', function (Y) {
             }
             var rdPanelParams = "&rdReport=" + document.getElementById("rdDashboardDefinition").value
             window.status = "Saving dashboard panel positions."
+            this.rdClientSideEnableUndo();
             rdAjaxRequestWithFormVars('rdAjaxCommand=rdAjaxNotify&rdNotifyCommand=UpdateDashboardPanelOrder' + rdPanelParams)
         },
 
@@ -748,6 +775,7 @@ YUI.add('dashboard', function (Y) {
             rdParams += "&TabID=" + sTabID
             rdParams += "&NewName=" + rdAjaxEncodeValue(sNewName)
             bSubmitFormAfterAjax = true //13690
+            this.rdClientSideEnableUndo();
             rdAjaxRequest('rdAjaxCommand=rdAjaxNotify&rdNotifyCommand=RenameDashboardTab' + rdParams);
             LogiXML.Dashboard.pageDashboard.rdPositiontabSettingsCog();
         },
@@ -851,6 +879,7 @@ YUI.add('dashboard', function (Y) {
                 var rdParams = "&rdReport=" + document.getElementById("rdDashboardDefinition").value
                 rdParams += "&TabID=" + sTabID
                 rdParams += "&Direction=" + sDirection
+                this.rdClientSideEnableUndo();
                 rdAjaxRequest('rdAjaxCommand=rdAjaxNotify&rdNotifyCommand=MoveDashboardTab' + rdParams)
             }
 
@@ -874,6 +903,7 @@ YUI.add('dashboard', function (Y) {
                 var rdParams = "&rdReport=" + document.getElementById("rdDashboardDefinition").value
                 rdParams += '&PanelInstanceID=' + this.rdGetPanelInstanceId(elePanel)
                 rdParams += "&TabID=" + sTabID
+                this.rdClientSideEnableUndo();
                 rdAjaxRequest('rdAjaxCommand=rdAjaxNotify&rdNotifyCommand=MoveDashboardPanelToTab' + rdParams)
             }
         },
@@ -895,6 +925,9 @@ YUI.add('dashboard', function (Y) {
                 nodeActiveTab.get("firstChild").setStyle("cursor", "move");
             }
 
+            //Get Add Tab element to define DashboardTabs mode
+            var nodeAddNewTabCog = Y.one('#rdAddTabCog');
+
             //Set positions for the cog and add-tab icons.
             var nRegionTop
             if (!Y.Lang.isNull(nodeActiveTab)) {
@@ -915,11 +948,20 @@ YUI.add('dashboard', function (Y) {
                         eleImg.setAttribute('rdExtraMarginLeft', nExtraMarginLeft)
                     }
 
-                    nodeSettingsCog.setStyles({
-                        'margin-left': regionActiveTab.left + regionActiveTab.width - regionTab.left - nExtraMarginLeft - nodeSettingsCogRegion.width - 4,
-                        'margin-top': regionActiveTab.top - nRegionTop + 4,
-                        position: 'absolute',
-                    });
+                    //if DashboardTabs is disabled, set static position for node setting element
+                    if (Y.Lang.isNull(nodeAddNewTabCog)) {
+                        nodeSettingsCog.setStyles({
+                            'margin-left': 5,
+                            'margin-top': 0,
+                            position: 'absolute',
+                        });
+                    } else {
+                        nodeSettingsCog.setStyles({
+                            'margin-left': regionActiveTab.left + regionActiveTab.width - regionTab.left - nExtraMarginLeft - nodeSettingsCogRegion.width - 4,
+                            'margin-top': regionActiveTab.top - nRegionTop + 4,
+                            position: 'absolute',
+                        });
+                    }
 
                 }
                 else {
@@ -933,7 +975,6 @@ YUI.add('dashboard', function (Y) {
             }
             //Add Tab icon.
             var TabsUl = Y.one('#rdTabs ul');
-            var nodeAddNewTabCog = Y.one('#rdAddTabCog');
             if (!Y.Lang.isNull(nodeAddNewTabCog)) {
                 nodeAddNewTabCog.setStyles({
                     display: ''
@@ -970,10 +1011,23 @@ YUI.add('dashboard', function (Y) {
             } else {  //When no tabs.
                 rdAjaxRequest('rdAjaxCommand=RefreshElement&rdRefreshElementID=' + nodeDashboardId.get("value") + ',rdDashboardPanels' + '&rdRefreshDashboard=True&rdReport=' + document.getElementById("rdDashboardDefinition").value + '&rdRequestForwarding=Form');
             }
+
+            // should be revisited , if NGP platform, refresh after adding panel
+		    //if (window.Logi !== undefined)
+		    if ((bIsNgpViz !== undefined && bIsNgpViz == true) && !window.Logi) {
+		        var href = window.location.href;
+				if (href && href.indexOf && href.indexOf('&rdNewBookmark=True' != -1)) {
+					href = href.replace('&rdNewBookmark=True', '');
+					window.location.replace(href);
+				} else {
+					window.location = window.location;
+				}
+		    }
         },
 
         rdAddDashboardPanels: function () {
-            if (LogiXML.Dashboard.pageDashboard.get('nNewAddedPanelCount') > 0) {
+            if (rdNewPanelCnt > 0) {
+                rdNewPanelCnt = 0
                 LogiXML.Dashboard.pageDashboard.rdRefreshDashboard();
             }
             ShowElement(null, 'ppChangeDashboard,ppAddPanels', 'Hide');
@@ -1364,10 +1418,7 @@ YUI.add('dashboard', function (Y) {
         ATTRS: {
             //Id of the current drop zone
             rdDropZoneId: {},
-            //Count of new panels
-            nNewAddedPanelCount: {
-                value: 0
-            },
+
             //Is this a freeform dashboard
             bIsFreeformLayout: {
                 value: false
@@ -1393,6 +1444,7 @@ var sColorPicker = '1';
 var sPanelInstanceId = '';
 var elePanel = null;
 var eleParamsPopup = null;
+var bIsNgpViz = false;
 
 function GetColorPicker(sColorPickerValue, objImg) {
     sColorPicker = sColorPickerValue;
@@ -1513,6 +1565,11 @@ YUI.add('dashboard-freeform', function (Y) {
             //#18513 The chart needs to initialize after ajax refresh
             LogiXML.Ajax.AjaxTarget().on('reinitialize', Y.bind(FreeForm._reinitializeChart, this, '#' + chartNode.get('id'), '#' + panelNode.get('id')));
         }, this);
+
+        var ngpVisualization = panelNode.one('.rdLogiVisualization logi-visualization,.rdLogiVisualization logi-crosstab-table');
+        if (ngpVisualization) {
+            FreeForm.resizeVisualizationToFitPanel(panelNode, ngpVisualization);
+        }
     };
 
     FreeForm._reinitializeChart = function (chartPointer, panelPointer) {
@@ -1775,6 +1832,64 @@ YUI.add('dashboard-freeform', function (Y) {
         }
     };
 
+    FreeForm.resizeVisualizationToFitPanel = function (panel, chart) {
+        var chartNode = Y.one(chart),
+			panelNode = Y.one(panel),
+            panelBody = panelNode.one('.panelBody'), availableWidth, availableHeight;
+       
+        //Get debug image node if there is one
+        var debugNode = Y.one('#rdDebugChart');
+
+        //Make chart size of entire panel to start -- sets correctly if the chart is the only content in panel, but too big otherwise
+        //This is to allow us to find out how much space the other content occupies in the panel
+        availableHeight = panelBody.get('clientHeight');
+        availableWidth = panelBody.get('clientWidth');
+
+        //Have to manually adjust for debug image if it is present (due to its absolute positioning)
+        if (Y.Lang.isValue(debugNode) && debugNode.get('tagName') === 'IMG')
+            availableHeight = availableHeight - 30;
+
+        //Set chart minimums in case the area is very small
+        if (availableHeight <= 5)
+            availableHeight = 5;
+        if (availableWidth <= 5)
+            availableWidth = 5;
+
+        //24513 - 1 hide highcharts tooltips before measuring (it may adds not necessary width for scrolls)
+        FreeForm.hideOrShoeChartCanvasTooltips(panelBody, false);
+
+        //Resize chart -- set width and height to match offset width/height (have to do both)
+        chart.set('width', availableWidth);
+        chart.set('height', availableHeight);
+        chart.set('offsetWidth', availableWidth);
+        chart.set('offsetHeight', availableHeight);
+
+        //Add scrollbars
+        panelBody.setStyle('overflow', 'scroll');
+
+        availableHeight = availableHeight - (panelBody.get('scrollHeight') - panelBody.get('clientHeight'));
+
+        if (availableHeight <= 5)
+            availableHeight = 5;
+
+        chart.set('height', availableHeight);
+        chart.set('offsetHeight', availableHeight);
+
+        availableWidth = availableWidth - (panelBody.get('scrollWidth') - panelBody.get('clientWidth'));
+
+        if (availableWidth <= 5)
+            availableWidth = 5;
+        if (chart.get('tagName') === 'LOGI-VISUALIZATION' || chart.get('tagName') === 'LOGI-CROSSTAB-TABLE') {
+
+            Y.LogiXML.rdLogiVisualization.resize(chart, availableWidth, availableHeight, 'px', 'px');
+            //set flag to parend node (avoid double resizing for panelFitToChart
+            chart.get('parentNode').setAttribute('data-skip-initial-resizing', 'true');
+        }
+        //Get rid of the scroll bars
+        panelBody.setStyle('overflow', 'hidden');
+        FreeForm.hideOrShoeChartCanvasTooltips(panelBody, true);
+    };
+
     FreeForm.hideOrShoeChartCanvasTooltips = function (panel, show) {
         if (!panel) {
             return;
@@ -1940,9 +2055,12 @@ YUI.add('dashboard-freeform', function (Y) {
         if (panelNode.getData("oneChart")) {
             chart = panel.one('img.dashboardChart,div.rdChartCanvas');
             FreeForm.resizeChartToFitPanel(panel, chart);
-
+        } else {
+            var ngpVisualization = panelNode.one('logi-visualization,logi-crosstab-table');
+            if (ngpVisualization) {
+                FreeForm.resizeVisualizationToFitPanel(panel, ngpVisualization);
+            }
         }
-
     };
 
     /*
@@ -2119,6 +2237,35 @@ YUI.add('dashboard-freeform', function (Y) {
         dashContainer.setStyle('position', 'relative');
     }
 
+    FreeForm.panelFitToChart = function () {
+        var panels = Y.all('div.rdDashboardPanel');
+        panels.each(function (panel) {
+            var panelBody = panel.one('div.panelBody');
+            var charts = panelBody.all("div.rdLogiVisualization");
+            if (charts.size() !== 1) {
+                var additionalHeight = 0;
+                charts.each(function (chart) {
+                    additionalHeight += parseInt(chart.get('clientHeight'));
+                });
+                if (additionalHeight > 0) {
+                    panelBody.setStyle('height', additionalHeight);
+                    FreeForm.resizePanelBodytoFitPanel(panel);
+                }
+            } else {
+                var ngpVisualization = panel.one('logi-visualization,logi-crosstab-table');
+                if (ngpVisualization) {
+                    if (ngpVisualization.get('parentNode').getAttribute('data-skip-initial-resizing') != 'true') {
+                        FreeForm.resizeVisualizationToFitPanel(panel, ngpVisualization);
+                    }
+                }
+            }
+        });
+        FreeForm.rdResizeDashboardContainer();
+		
+    }
+
     LogiXML.Dashboard.FreeForm = FreeForm;
 
 }, '1.0.0', { requires: ['node-base', 'rdResize', 'querystring', 'dd-constrain', 'dd-proxy', 'dd-drop-plugin', 'dd-plugin', 'dd-scroll'] });
+
+

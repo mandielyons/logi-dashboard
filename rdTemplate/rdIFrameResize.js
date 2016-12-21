@@ -1,5 +1,8 @@
 function iframeResize(o, sOptionalParam) {
 
+    if (!o)
+        return;
+
     if (o.src != "") {
         // Normally contentDocument is all you need, but IE7 doesn't have that property 
         if (o.contentWindow === null) //21313

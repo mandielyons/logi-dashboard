@@ -9,10 +9,15 @@ YUI.add('analysis-grid', function(Y) {
 		initializer : function() {
 		
 			//Show the selected tab (if the menu is not hidden) -- Dont show menu if we just added a crosstab or chart 24511
-		    if (!(location.href.indexOf("AcChartAdd") > -1 || location.href.indexOf("AxAdd") > -1)
-                && !Y.Lang.isValue(Y.one('hideAgMenu'))
-			&& Y.Lang.isValue(document.getElementById('rdAgCurrentOpenPanel')))
-			    this.rdAgShowMenuTab(document.getElementById('rdAgCurrentOpenPanel').value, true);
+		    if (!Y.Lang.isValue(Y.one('hideAgMenu'))
+			&& Y.Lang.isValue(document.getElementById('rdAgCurrentOpenPanel'))) {
+		        if (location.href.indexOf("AcChartAdd") > -1 || location.href.indexOf("AxAdd") > -1) {
+		            //Don't show an open tab.
+		            this.rdAgShowMenuTab("", true);
+		        } else {
+		            this.rdAgShowMenuTab(document.getElementById('rdAgCurrentOpenPanel').value, true);
+		        }
+		    }
 
 		    //Show the selected tab (if the menu is not hidden)
 			if (!Y.Lang.isValue(Y.one('hideAgMenu'))
@@ -33,23 +38,23 @@ YUI.add('analysis-grid', function(Y) {
 
 			if (document.getElementById('rdAllowCrosstabBasedOnCurrentColumns') && document.getElementById('rdAllowCrosstabBasedOnCurrentColumns').value == "False")
 			    this.rdSetPanelDisabledClass('Crosstab');
+
+			rdSetUndoRedoVisibility();
 		},
 		
 		/* -----Analysis Grid Methods----- */
 
 		rdAgShowMenuTab: function (sTabName, bCheckForReset, sSelectedColumn, bKeepOpen) {
-
 		    var bNoData = false;
 		    var eleStartTableDropdown = document.getElementById('rdStartTable');
 
-		    if (eleStartTableDropdown != null) {
-		        if (eleStartTableDropdown.selectedIndex == 0) {
-		                //No table selected in QB. Show the QB.
-		            sTabName = "QueryBuilder"
-		            bNoData = true
-		        }
+		    var eleAgDataColumnDetails = document.getElementById('rdAgDataColumnDetails');
+		    if (eleAgDataColumnDetails.value == '') {
+		        //No table selected in QB. Show the QB.
+		        sTabName = "QueryBuilder"
+		        bNoData = true
 		    }
-
+            
 		    var bOpen = true;
 
 			if (sTabName.length==0){
@@ -108,18 +113,20 @@ YUI.add('analysis-grid', function(Y) {
                 }
 			}
 			
-			this.rdSetPanelModifiedClass('QueryBuilder');
-			this.rdSetPanelModifiedClass('Calc');
-			this.rdSetPanelModifiedClass('Filter');
-			this.rdSetPanelModifiedClass('TableEdit');
+			this.rdSetMenuClasses(bNoData);
 
-			if (bNoData) {
-			    this.rdSetPanelDisabledClass('Calc');
-			    this.rdSetPanelDisabledClass('Filter');
-			    this.rdSetPanelDisabledClass('TableEdit');
-			    this.rdSetPanelDisabledClass('Chart');
-			    this.rdSetPanelDisabledClass('Crosstab');
-            }
+			var iQb = 0;
+			var iclQbValue = "";
+            //Disable menu's if no data is selected (intially or subsequent joins)
+		    while (document.getElementById("iclQbColumns" + iQb) != null) {
+		        var Qbval = rdGetInputValues(document.getElementById("iclQbColumns" + iQb))
+		        Qbval = decodeURIComponent(Qbval.substring(Qbval.lastIndexOf("=") + 1))
+		        iclQbValue += Qbval;
+		        iQb += 1;
+		    }
+		    if ((iclQbValue == "") && (iQb > 0)) {
+		        this.rdSetMenuClasses(true);
+		    }
 
 			if (typeof window.rdRepositionSliders != 'undefined') {
 				//Move CellColorSliders, if there are any.
@@ -137,37 +144,39 @@ YUI.add('analysis-grid', function(Y) {
 			        });
 			        Y.one('#rowsAnalysisGrid').scrollIntoView();
 			    }
-				this.rdAgShowPickDistinctButton();
+				this.rdAgShowFilterOptions();
 			}
 			
 		},
 
-		rdGetCookie: function (varName) {
-		    var name = varName + "=";
-		    var cookieString = document.cookie.split(';');
-		    for (var i = 0; i < cookieString.length; i++) {
-		        var cookie = cookieString[i].trim();
-		        if (cookie.indexOf(name) == 0) return cookie.substring(name.length, cookie.length);
-		    }
-		    return "";
-		},
+		rdSetMenuClasses: function (bNoData) {
+		    this.rdSetPanelModifiedClass('QueryBuilder');
+		    this.rdSetPanelModifiedClass('Calc');
+		    this.rdSetPanelModifiedClass('Filter');
+		    this.rdSetPanelModifiedClass('TableEdit');
 
-		rdSetCookie: function (name, value) {
-		    document.cookie = name + "=" + value + "; ";
+		    if (bNoData) {
+		        this.rdSetPanelDisabledClass('Calc');
+		        this.rdSetPanelDisabledClass('Filter');
+		        this.rdSetPanelDisabledClass('TableEdit');
+		        this.rdSetPanelDisabledClass('Chart');
+		        this.rdSetPanelDisabledClass('Crosstab');
+		    }
 		},
+        
 
 		rdAgToggleTablePanel: function (initializing) {
 
-		    var expandedState = this.rdGetCookie('rdPanelExpanded_Table');
+		    var expandedState = rdGetCookie('rdPanelExpanded_Table');
 		    //We do not want to toggle if we are intializing the AG
 		    if (!initializing) {
 		        if (expandedState != "True") {
 		            expandedState = "True";
-		            this.rdSetCookie('rdPanelExpanded_Table', "True");
+		            rdSetCookie('rdPanelExpanded_Table', "True");
 		        }
 		        else {
 		            expandedState = "False";
-		            this.rdSetCookie('rdPanelExpanded_Table', "False");
+		            rdSetCookie('rdPanelExpanded_Table', "False");
 		        }
 		    }
 		    
@@ -187,7 +196,7 @@ YUI.add('analysis-grid', function(Y) {
 		        var rowControls = document.getElementById('rowTableControls');
 		        if (rowControls)
 		            rowControls.style.display = '';
-		        var colAddToDashboard = document.getElementById('colTableAddDashboard');
+		        var colAddToDashboard = document.getElementById('colAddToDashboardDataTable');
 		        if (colAddToDashboard)
 		            colAddToDashboard.style.display = '';
 		        var rowTableMenu = document.getElementById('colTableMenu');
@@ -197,7 +206,11 @@ YUI.add('analysis-grid', function(Y) {
 		        if (colTableExport)
 		            colTableExport.style.display = '';
 
-		    }
+		        var colTableExport = document.getElementById('colAddToDashboardDataTable');
+		        if (colTableExport)
+		            colTableExport.style.display = '';
+
+            }
 		    else {
 		        var divClosed = document.getElementById('divPanelClosed_Table');
 		        if (divClosed)
@@ -214,7 +227,7 @@ YUI.add('analysis-grid', function(Y) {
 		        var rowControls = document.getElementById('rowTableControls');
 		        if (rowControls)
 		            rowControls.style.display = 'none';
-		        var colAddToDashboard = document.getElementById('colTableAddDashboard');
+		        var colAddToDashboard = document.getElementById('colAddToDashboardDataTable');
 		        if (colAddToDashboard)
 		            colAddToDashboard.style.display = 'none';
 		        var colTableMenu = document.getElementById('colTableMenu');
@@ -230,20 +243,23 @@ YUI.add('analysis-grid', function(Y) {
 		        rdRepositionSliders();
 		    }
 
+		    if (!initializing) {
+		        this.rdSavePanelState("Table", expandedState)
+		    }
+
 		},
 
 		rdAgToggleCrosstabPanel: function (sID, initializing) {
-
-		    var expandedState = this.rdGetCookie('rdPanelExpanded_' + sID);
+		    var expandedState = rdGetCookie('rdPanelExpanded_' + sID);
 		    //We do not want to toggle if we are intializing the AG
 		    if (!initializing) {
 		        if (expandedState != "True") {
 		            expandedState = "True";
-		            this.rdSetCookie('rdPanelExpanded_' + sID, "True");
+		            rdSetCookie('rdPanelExpanded_' + sID, "True");
 		        }
 		        else {
 		            expandedState = "False";
-		            this.rdSetCookie('rdPanelExpanded_' + sID, "False");
+		            rdSetCookie('rdPanelExpanded_' + sID, "False");
 		        }
 		    }
 
@@ -260,12 +276,12 @@ YUI.add('analysis-grid', function(Y) {
 		        var colAddToDashboard = document.getElementById('colAnalCrosstabAddDashboard_' + sID);
 		        if (colAddToDashboard)
 		            colAddToDashboard.style.display = '';
+		        var colExportLinks = document.getElementById('colCrosstabExportControls_' + sID);
+		        if (colExportLinks)
+		            colExportLinks.style.display = '';
 		        var colEdit = document.getElementById('colAxEdit_' + sID);
 		        if (colEdit)
 		            colEdit.style.display = '';
-		        var colExport = document.getElementById('divCrosstabExportControls_' + sID);
-		        if (colExport)
-		            colExport.style.display = '';
             }
 		    else {
 		        var divClosed = document.getElementById('divPanelClosed_' + sID);
@@ -280,16 +296,28 @@ YUI.add('analysis-grid', function(Y) {
 		        var colAddToDashboard = document.getElementById('colAnalCrosstabAddDashboard_' + sID);
 		        if (colAddToDashboard)
 		            colAddToDashboard.style.display = 'none';
+		        var colExportLinks = document.getElementById('colCrosstabExportControls_' + sID);
+		        if (colExportLinks)
+		            colExportLinks.style.display = 'none';
 		        var colEdit = document.getElementById('colAxEdit_' + sID);
 		        if (colEdit)
 		            colEdit.style.display = 'none';
-		        var colExport = document.getElementById('divCrosstabExportControls_' + sID);
-		        if (colExport)
-		            colExport.style.display = 'none';
+		    }
+		    if (!document.getElementById("cellAxCrosstab_" + sID)) {  //Is crosstab table present yet?
+		        var colAddToDashboard = document.getElementById('colAnalCrosstabAddDashboard_' + sID);
+		        if (colAddToDashboard)
+		            colAddToDashboard.style.display = 'none';
+		        var colExportLinks = document.getElementById('colCrosstabExportControls_' + sID);
+		        if (colExportLinks)
+		            colExportLinks.style.display = 'none';
             }
 		    if (typeof window.rdRepositionSliders != 'undefined') {
 		        //Move CellColorSliders, if there are any.
 		        rdRepositionSliders();
+		    }
+
+		    if (!initializing) {
+		        this.rdSavePanelState(sID, expandedState)
 		    }
 
 		},
@@ -369,7 +397,7 @@ YUI.add('analysis-grid', function(Y) {
 		                var sDataColumnDetail = aDataColumnDetails[i];
 		                if (sDataColumnDetail.length > 1 && sDataColumnDetail.indexOf(':') > -1) {
 		                    var sDataColumn = sDataColumnDetail.split(':')[0];
-		                    sDataColumn = sDataColumn.split(';')[1];
+		                    sDataColumn = sDataColumn.split(';')[0];
 		                    if (sDataColumn == sColumn) {
 		                        //22397
 		                        return sDataColumnDetail.split(':')[1].split("|")[0];
@@ -383,16 +411,16 @@ YUI.add('analysis-grid', function(Y) {
 
 		rdAgToggleChartPanel: function (sID, initializing) {
 
-		    var expandedState = this.rdGetCookie('rdPanelExpanded_' + sID);
+		    var expandedState = rdGetCookie('rdPanelExpanded_' + sID);
 		    //We do not want to toggle if we are intializing the AG
 		    if (!initializing) {
 		        if (expandedState != "True") {
 		            expandedState = "True";
-		            this.rdSetCookie('rdPanelExpanded_' + sID, "True");
+		            rdSetCookie('rdPanelExpanded_' + sID, "True");
 		        }
 		        else {
 		            expandedState = "False";
-		            this.rdSetCookie('rdPanelExpanded_' + sID, "False");
+		            rdSetCookie('rdPanelExpanded_' + sID, "False");
 		        }
 		    }
 
@@ -430,11 +458,30 @@ YUI.add('analysis-grid', function(Y) {
 		        if (colEdit)
 		            colEdit.style.display = 'none';
 		    }
+		    if (!document.getElementById("rdAcChart_" + sID)) {
+		        var colAddToDashboard = document.getElementById('colAnalChartAddDashboard_' + sID);
+		        if (colAddToDashboard)
+		            colAddToDashboard.style.display = 'none';
+		    }
 		    if (typeof window.rdRepositionSliders != 'undefined') {
 		        //Move CellColorSliders, if there are any.
 		        rdRepositionSliders();
 		    }
 
+
+		    if (!initializing) {
+		        this.rdSavePanelState(sID, expandedState)
+		    }
+
+		},
+
+		rdSavePanelState: function (sPanelID, sExpanded) {
+		    //Save the panel state in the SaveFile/bookmark.
+		    var rdPanelParams = "&rdReport=" + document.getElementById("rdAgReportId").value;
+		    rdPanelParams += "&rdAgPanelID=" + sPanelID;
+		    rdPanelParams += "&rdAgId=" + document.getElementById('rdAgId').value;
+		    rdPanelParams += "&rdAgPanelEpanded=" + sExpanded;
+		    rdAjaxRequestWithFormVars('rdAjaxCommand=rdAjaxNotify&rdNotifyCommand=UpdateAgPanelState' + rdPanelParams);
 		},
 
 		rdChangeAggregateOptions: function(){
@@ -446,21 +493,24 @@ YUI.add('analysis-grid', function(Y) {
 		    var sVal = rdColList.options[rdColList.selectedIndex].value;
 
 		    var dataType = this.rdAgGetColumnDataType(sVal);
+            // for the blank default option, set datatype to a random value instead of undefined, so that all the aggregate options are repopulated.26028
+		    if ( sVal == '' )
+		        dataType = 'all';
 		    rdchangeList('rdAgAggrFunction', aAggrList, aAggrListLabel, dataType, '', '');
 		},
 
 		rdAgTableTogglePanelMenu: function (initializing) {
 
-		    var expandedState = this.rdGetCookie('rdTablePanelMenuExpanded');
+		    var expandedState = rdGetCookie('rdTablePanelMenuExpanded');
 		    //We do not want to toggle if we are intializing the AG
 		    if (!initializing) {
 		        if (expandedState != "True") {
 		            expandedState = "True";
-		            this.rdSetCookie('rdTablePanelMenuExpanded', "True");
+		            rdSetCookie('rdTablePanelMenuExpanded', "True");
 		        }
 		        else {
 		            expandedState = "False";
-		            this.rdSetCookie('rdTablePanelMenuExpanded', "False");
+		            rdSetCookie('rdTablePanelMenuExpanded', "False");
 		        }
 		    }
 
@@ -468,23 +518,11 @@ YUI.add('analysis-grid', function(Y) {
 		        var menu = document.getElementById('rowTableMenu');
 		        if (menu)
 		            menu.style.display = 'none';
-		        var selected = document.getElementById('divTableEditSelected');
-		        if (selected)
-		            selected.style.display = 'none';
-		        var unselected = document.getElementById('divTableEditUnselected');
-		        if (unselected)
-		            unselected.style.display = '';
 		    }
 		    else {
 		        var menu = document.getElementById('rowTableMenu');
 		        if (menu)
 		            menu.style.display = '';
-		        var selected = document.getElementById('divTableEditSelected');
-		        if (selected)
-		            selected.style.display = '';
-		        var unselected = document.getElementById('divTableEditUnselected');
-		        if (unselected)
-		            unselected.style.display = 'none';
 		    }
 		    if (typeof window.rdRepositionSliders != 'undefined') {
 		        //Move CellColorSliders, if there are any.
@@ -495,16 +533,16 @@ YUI.add('analysis-grid', function(Y) {
 
 		rdAgChartTogglePanelMenu: function (sID, initializing) {
   
-		    var expandedState = this.rdGetCookie('rdChartPanelMenuExpanded_' + sID);
+		    var expandedState = rdGetCookie('rdChartPanelMenuExpanded_' + sID);
 		    //We do not want to toggle if we are intializing the AG
 		    if (!initializing) {
 		        if (expandedState != "True") {
 		            expandedState = "True";
-		            this.rdSetCookie('rdChartPanelMenuExpanded_' + sID, "True");
+		            rdSetCookie('rdChartPanelMenuExpanded_' + sID, "True");
 		        }
 		        else {
 		            expandedState = "False";
-		            this.rdSetCookie('rdChartPanelMenuExpanded_' + sID, "False");
+		            rdSetCookie('rdChartPanelMenuExpanded_' + sID, "False");
 		        }
 		    }
 		    if (expandedState == "False") {
@@ -517,12 +555,6 @@ YUI.add('analysis-grid', function(Y) {
 		        var controls = document.getElementById('divAcControls_' + sID);
 		        if (controls)
 		            controls.style.display = 'none';
-		        var selected = document.getElementById('divAcEditSelected_' + sID);
-		        if (selected)
-		            selected.style.display = 'none';
-		        var unselected = document.getElementById('divAcEditUnselected_' + sID);
-		        if (unselected)
-		            unselected.style.display = '';
 		    }
 		    else {
 		        var types = document.getElementById('divAcChartTypes_' + sID);
@@ -534,12 +566,6 @@ YUI.add('analysis-grid', function(Y) {
 		        var controls = document.getElementById('divAcControls_' + sID);
 		        if (controls)
 		            controls.style.display = '';
-		        var selected = document.getElementById('divAcEditSelected_' + sID);
-		        if (selected)
-		            selected.style.display = '';
-		        var unselected = document.getElementById('divAcEditUnselected_' + sID);
-		        if (unselected)
-		            unselected.style.display = 'none';
 		    }
 		    if (typeof window.rdRepositionSliders != 'undefined') {
 		        //Move CellColorSliders, if there are any.
@@ -550,16 +576,16 @@ YUI.add('analysis-grid', function(Y) {
     
 		rdAgCrosstabTogglePanelMenu: function (sID, initializing) {
 
-		    var expandedState = this.rdGetCookie('rdCrosstabPanelMenuExpanded_' + sID);
+		    var expandedState = rdGetCookie('rdCrosstabPanelMenuExpanded_' + sID);
             //We do not want to toggle if we are intializing the AG
 		    if (!initializing) {
 		        if (expandedState != "True") {
 		            expandedState = "True";
-		            this.rdSetCookie('rdCrosstabPanelMenuExpanded_' + sID, "True");
+		            rdSetCookie('rdCrosstabPanelMenuExpanded_' + sID, "True");
 		        }
 		        else {
 		            expandedState = "False";
-		            this.rdSetCookie('rdCrosstabPanelMenuExpanded_' + sID, "False");
+		            rdSetCookie('rdCrosstabPanelMenuExpanded_' + sID, "False");
 		        }
 		    }
 
@@ -567,12 +593,6 @@ YUI.add('analysis-grid', function(Y) {
 		        var controls = document.getElementById('divAxControls_' + sID);
 		        if(controls)
 		            controls.style.display = 'none';
-		        var selected = document.getElementById('divAxEditSelected_' + sID);
-		        if(selected)
-		            selected.style.display = 'none';
-		        var unselected = document.getElementById('divAxEditUnselected_' + sID);
-		        if(unselected)
-		            unselected.style.display = '';
 		    }
 		    else {
 		        var controls = document.getElementById('divAxControls_' + sID);
@@ -656,20 +676,6 @@ YUI.add('analysis-grid', function(Y) {
 		    }
 		},
 
-		rdAgLayoutSelect: function (sAllNone) {
-		    var nlCheckboxes = Y.all('.rdAgColVisible')
-		    for (var i = 0; i < nlCheckboxes.size() ; i++) {
-		        nlCheckboxes.item(i).set('checked', (sAllNone == "All"))
-		    }
-		},
-
-		rdQbColumnSelect: function (sAllNone) {
-		    var nlCheckboxes = Y.all('.rdAgColSelect')
-		    for (var i = 0; i < nlCheckboxes.size() ; i++) {
-		        nlCheckboxes.item(i).set('checked', (sAllNone == "All"))
-		    }
-		},
-
 		rdSetClassNameById: function (sId, sClassName) {
 			var ele = document.getElementById(sId);
 			if(ele) {
@@ -684,8 +690,9 @@ YUI.add('analysis-grid', function(Y) {
 		},
 		rdSetPanelModifiedClass: function (sPanel) {
 		    var nodeButton = Y.one("#col" + sPanel);
-		    if (Y.Lang.isValue(nodeButton) && nodeButton.one('table').hasClass('rdHighlightOn'))
+		    if (Y.Lang.isValue(nodeButton) && nodeButton.one('table').hasClass('rdHighlightOn')) {
 		        nodeButton.addClass(nodeButton.get('className') + "On");
+		    }
 		},
 		rdSetPanelDisabledClass: function (sPanel) {
 		    var nodeButton = Y.one("#col" + sPanel);
@@ -693,131 +700,148 @@ YUI.add('analysis-grid', function(Y) {
 		        nodeButton.addClass("rdAgDisabledTab");
 		    }
 		},
-		rdAgShowPickDistinctButton: function () {
-			// Function gets called on the onchange event of the Filter column dropdown.           
-			this.rdAgRemoveAllWhiteSpaceNodesFromFilterOperatorDropdown();        // Do this to clear the FilterOparator dropdown off all whitespace/text nodes.
-			ShowElement(this.id,'divPickDistinct','Show');
-			var i = 0;
-			if (document.rdForm.rdAgFilterColumn.value!=""){
-				 //Dates
-				if((document.rdForm.rdAgPickDateColumns.value.indexOf(document.rdForm.rdAgFilterColumn.value + ",")!=-1) | (document.rdForm.rdAgPickDateColumns.value.indexOf(document.rdForm.rdAgFilterColumn.value +"-NoCalendar" + ",")!=-1 )){
-					// Manipulate the DataColumn Dropdown.       
-					if(document.rdForm.rdAgFilterOperator.lastChild.value == 'Date Range'){    // condition specific for a fresh dropdown.
-						for(i=1;i<=1;i++){
-							rdFilterNewComparisonOptionsArray.push(document.rdForm.rdAgFilterOperator.lastChild);    // remove the new Comparison option 'Date Range'.
-							document.rdForm.rdAgFilterOperator.removeChild(document.rdForm.rdAgFilterOperator.lastChild); 
-						}  
-						if (document.rdForm.rdAgFilterOperator.lastChild.value == 'Not Contains') {    //remove 'Not Contains' and 4 options before that.
-							for (i=0;i<=5;i++){
-								rdFilterOldComparisonOptionsArray.push(document.rdForm.rdAgFilterOperator.lastChild);
-								document.rdForm.rdAgFilterOperator.removeChild(document.rdForm.rdAgFilterOperator.lastChild); 
-							}
-						}
-						 for(i=1;i<=1;i++){ // Add the new Comparison option 'Date Range' back.
-							document.rdForm.rdAgFilterOperator.appendChild(rdFilterNewComparisonOptionsArray.pop());
-						}  
-					}
-					else{   // condition specific for an already manipulated dropdown.
-					    if (document.rdForm.rdAgFilterOperator.lastChild.value == 'Not Contains') {    //remove 'Not Contains' and 4 options before that.
-							for (i=0;i<=5;i++){
-								rdFilterOldComparisonOptionsArray.push(document.rdForm.rdAgFilterOperator.lastChild);
-								document.rdForm.rdAgFilterOperator.removeChild(document.rdForm.rdAgFilterOperator.lastChild); 
-							}
-						}
-						for(i=1;i<=1;i++){ // Add the new Comparison option 'Date Range' back.
-							document.rdForm.rdAgFilterOperator.appendChild(rdFilterNewComparisonOptionsArray.pop());
-						}
-					}
-					this.rdAgManipulateFilterInputTextBoxValuesForDateColumns(document.rdForm.rdAgFilterColumn.value, document.rdForm.rdAgFilterOperator.value, document.rdForm.rdAgCurrentFilterValue.value, document.rdForm.rdAgCurrentDateType.value);
-					return;
-				}
-				// Distinct values popup.
-				else if(document.rdForm.rdAgPickDistinctColumns.value.indexOf(document.rdForm.rdAgFilterColumn.value + ",")!=-1){
-					if(document.rdForm.rdAgFilterOperator.lastChild.value == 'Date Range'){
-						for(i=1;i<=1;i++){
-							rdFilterNewComparisonOptionsArray.push(document.rdForm.rdAgFilterOperator.lastChild);    // remove the new Comparison option.
-							document.rdForm.rdAgFilterOperator.removeChild(document.rdForm.rdAgFilterOperator.lastChild); 
-						}  
-						if(document.rdForm.rdAgFilterOperator.lastChild.value != 'Not Contains'){    // condition specific for an already manipulated dropdown.
-						    for (i = 0; i <= 5; i++) {
-						        document.rdForm.rdAgFilterOperator.appendChild(rdFilterOldComparisonOptionsArray.pop());
-							}
-						}
-					}
-					var elePopupIFrame = document.getElementById('subPickDistinct')
-					var sSrc = Y.one(elePopupIFrame).getData("hiddensource");
+		rdAgShowFilterOptions: function () {
+		    // Function gets called on the onchange event of the Filter column dropdown.   
+		    this.rdAgRemoveAllWhiteSpaceNodesFromFilterOperatorDropdown();        // Do this to clear the FilterOparator dropdown off all whitespace/text nodes.
 
-					//Put the picked column name into the URL.
-					var nStart = sSrc.indexOf("&rdAgDataColumn=")
-					var nEnd = sSrc.indexOf("&", nStart + 1)
-					sSrc = sSrc.substr(0, nStart) + "&rdAgDataColumn=" + encodeURIComponent(document.rdForm.rdAgFilterColumn.value) + sSrc.substr(nEnd)
-					var nStart = sSrc.indexOf("&rdAgFilterOperator=")
-					var nEnd = sSrc.indexOf("&", nStart + 1)
-					sSrc = sSrc.substr(0, nStart) + "&rdAgFilterOperator=" + encodeURIComponent(document.rdForm.rdAgFilterOperator.value) + sSrc.substr(nEnd)
+		    this.rdAgHideAllFilterDivs();
 
-                    //Get format of column for subreport and put it into the URL
-					var columnFormat = "";
-					var columnFormats = document.getElementById("rdAgColumnFormats").value;
-					columnFormats = columnFormats.split("|");
-					for (var i = 0; i < columnFormats.length - 1; i++) {
-					    var colId = columnFormats[i].split(":")[0];
-					    if (colId == document.rdForm.rdAgFilterColumn.value) {
-					        columnFormat = columnFormats[i].split(":")[1];
-					        break;
-					    }
-					}
-					var nStart = sSrc.indexOf("&rdAgColumnFormat=")
-					var nEnd = sSrc.indexOf("&", nStart + 1)
-					sSrc = sSrc.substr(0, nStart) + "&rdAgColumnFormat=" + encodeURIComponent(columnFormat) + sSrc.substr(nEnd)
+		    var columnDataTypes = document.getElementById("rdAgColumnDataTypes").value;
+		    columnDataTypes = columnDataTypes.split("|");
 
-				    //Get data type of column for subreport and put it into the URL
-					var columnDataType = "";
-					var columnDataTypes = document.getElementById("rdAgColumnDataTypes").value;
-					columnDataTypes = columnDataTypes.split("|");
-					for (var i = 0; i < columnDataTypes.length - 1; i++) {
-					    var colId = columnDataTypes[i].split(":")[0];
-					    if (colId == document.rdForm.rdAgFilterColumn.value) {
-					        columnDataType = columnDataTypes[i].split(":")[1];
-					        break;
-					    }
-					}
-					var nStart = sSrc.indexOf("&rdAgColumnDataType=")
-					var nEnd = sSrc.indexOf("&", nStart + 1)
-					sSrc = sSrc.substr(0, nStart) + "&rdAgColumnDataType=" + encodeURIComponent(columnDataType) + sSrc.substr(nEnd)
+		    //For Boolean DataTypes, hide the FilterOperator dropdown. It's "=" only.
+		    var bBooleanType = false
+		    if (document.getElementById("rowFilterOperator")) {
+		        var columnDataType = "";
+		        if (document.rdForm.rdAgFilterColumn.value != "" && columnDataTypes.indexOf(document.rdForm.rdAgFilterColumn.value + ":" + "Boolean") != -1) {
+		            //Boolean type selected.
+		            bBooleanType = true
+		            ShowElement(this.id, 'rowFilterOperator', 'Hide')
+		            ShowElement(this.id, 'divPickBoolean', 'Show')
+		            document.rdForm.rdAgFilterOperator.value = "="
+		        }
+		    }
 
-					Y.one(elePopupIFrame).setData("hiddensource", sSrc);
-					//elePopupIFrame.setAttribute("HiddenSource", elePopupIFrame.getAttribute("HiddenSource").replace("rdPickDataColumn",encodeURI(document.rdForm.rdAgFilterColumn.value)))
-					this.rdAgHideAllFilterDivs();
-					ShowElement(this.id,'divPickDistinct','Show')
-					ShowElement(this.id,'divPickDistinctPopUpButton','Show')
-					elePopupIFrame.removeAttribute("src") //Clear the list so it's rebuilt when the user clicks.
-					//15311
-					//rdAgManipulateFilterInputTextBoxValuesForDateColumns(document.rdForm.rdAgFilterColumn.value, document.rdForm.rdAgFilterOperator.value, document.rdForm.rdAgCurrentFilterValue.value, document.rdForm.rdAgCurrentDateType.value);
-					return;
-				}
-				else{                      
-					this.rdAgHideAllFilterDivs();
-					ShowElement(this.id,'divPickDistinct','Show')     
-					if(document.rdForm.rdAgFilterOperator.lastChild.value != 'Not Contains'){
-						if(document.rdForm.rdAgFilterOperator.lastChild.value == 'Date Range'){
-							for(i=1;i<=1;i++){
-							rdFilterNewComparisonOptionsArray.push(document.rdForm.rdAgFilterOperator.lastChild);    // remove the new Comparison option 'Date Range'.
-							document.rdForm.rdAgFilterOperator.removeChild(document.rdForm.rdAgFilterOperator.lastChild); 
-							} 
-						}
-						if (rdFilterOldComparisonOptionsArray[0] && rdFilterOldComparisonOptionsArray[0] != '') {
-							for(i=0;i<=5;i++){
-								document.rdForm.rdAgFilterOperator.appendChild(rdFilterOldComparisonOptionsArray.pop());
-							}
-						}
-					}            
-				}
-			}
-			else{   // When no column is selected.
-				this.rdAgHideAllFilterDivs();
-				ShowElement(this.id,'divPickDistinct','Show')    
-				document.rdForm.rdAgFilterOperator.value = "="; 
-			}
+		    if (!bBooleanType) {
+		        ShowElement(this.id, 'rowFilterOperator', 'Show')
+                //Show or hide the Distinct pick/selection list.
+		        var i = 0;
+		        if (document.rdForm.rdAgFilterColumn.value!=""){
+		            //Dates
+		            if(document.rdForm.rdAgPickDateColumns.value.indexOf(document.rdForm.rdAgFilterColumn.value + ",")!=-1){
+		                    // Manipulate the DataColumn Dropdown.       
+		                if(document.rdForm.rdAgFilterOperator.lastChild.value == 'Date Range'){    // condition specific for a fresh dropdown.
+		                    for(i=1;i<=1;i++){
+		                        rdFilterNewComparisonOptionsArray.push(document.rdForm.rdAgFilterOperator.lastChild);    // remove the new Comparison option 'Date Range'.
+		                        document.rdForm.rdAgFilterOperator.removeChild(document.rdForm.rdAgFilterOperator.lastChild); 
+		                    }  
+		                    if (document.rdForm.rdAgFilterOperator.lastChild.value == 'Not Contains') {    //remove 'Not Contains' and 4 options before that.
+		                        for (i=0;i<=5;i++){
+		                            rdFilterOldComparisonOptionsArray.push(document.rdForm.rdAgFilterOperator.lastChild);
+		                            document.rdForm.rdAgFilterOperator.removeChild(document.rdForm.rdAgFilterOperator.lastChild); 
+		                        }
+		                    }
+		                    for(i=1;i<=1;i++){ // Add the new Comparison option 'Date Range' back.
+		                        document.rdForm.rdAgFilterOperator.appendChild(rdFilterNewComparisonOptionsArray.pop());
+		                    }  
+		                }
+		                else{   // condition specific for an already manipulated dropdown.
+		                    if (document.rdForm.rdAgFilterOperator.lastChild.value == 'Not Contains') {    //remove 'Not Contains' and 4 options before that.
+		                        for (i=0;i<=5;i++){
+		                            rdFilterOldComparisonOptionsArray.push(document.rdForm.rdAgFilterOperator.lastChild);
+		                            document.rdForm.rdAgFilterOperator.removeChild(document.rdForm.rdAgFilterOperator.lastChild); 
+		                        }
+		                    }
+		                    for(i=1;i<=1;i++){ // Add the new Comparison option 'Date Range' back.
+		                        document.rdForm.rdAgFilterOperator.appendChild(rdFilterNewComparisonOptionsArray.pop());
+		                    }
+		                }
+		                this.rdAgManipulateFilterInputTextBoxValuesForDateColumns(document.rdForm.rdAgFilterColumn.value, document.rdForm.rdAgFilterOperator.value, document.rdForm.rdAgCurrentFilterValue.value, document.rdForm.rdAgCurrentDateType.value);
+		                return;
+		            }
+		                // Distinct values popup.
+		            else if(document.rdForm.rdAgPickDistinctColumns.value.indexOf(document.rdForm.rdAgFilterColumn.value + ",")!=-1){
+		                if(document.rdForm.rdAgFilterOperator.lastChild.value == 'Date Range'){
+		                    for(i=1;i<=1;i++){
+		                        rdFilterNewComparisonOptionsArray.push(document.rdForm.rdAgFilterOperator.lastChild);    // remove the new Comparison option.
+		                        document.rdForm.rdAgFilterOperator.removeChild(document.rdForm.rdAgFilterOperator.lastChild); 
+		                    }  
+		                    if(document.rdForm.rdAgFilterOperator.lastChild.value != 'Not Contains'){    // condition specific for an already manipulated dropdown.
+		                        for (i = 0; i <= 5; i++) {
+		                            document.rdForm.rdAgFilterOperator.appendChild(rdFilterOldComparisonOptionsArray.pop());
+		                        }
+		                    }
+		                }
+		                var elePopupIFrame = document.getElementById('subPickDistinct')
+		                var sSrc = Y.one(elePopupIFrame).getData("hiddensource");
+
+		                //Put the picked column name into the URL.
+		                var nStart = sSrc.indexOf("&rdAgDataColumn=")
+		                var nEnd = sSrc.indexOf("&", nStart + 1)
+		                sSrc = sSrc.substr(0, nStart) + "&rdAgDataColumn=" + encodeURIComponent(document.rdForm.rdAgFilterColumn.value) + sSrc.substr(nEnd)
+		                var nStart = sSrc.indexOf("&rdAgFilterOperator=")
+		                var nEnd = sSrc.indexOf("&", nStart + 1)
+		                sSrc = sSrc.substr(0, nStart) + "&rdAgFilterOperator=" + encodeURIComponent(document.rdForm.rdAgFilterOperator.value) + sSrc.substr(nEnd)
+
+		                //Get format of column for subreport and put it into the URL
+		                var columnFormat = "";
+		                var columnFormats = document.getElementById("rdAgColumnFormats").value;
+		                columnFormats = columnFormats.split("|");
+		                for (var i = 0; i < columnFormats.length - 1; i++) {
+		                    var colId = columnFormats[i].split(":")[0];
+		                    if (colId == document.rdForm.rdAgFilterColumn.value) {
+		                        columnFormat = columnFormats[i].split(":")[1];
+		                        break;
+		                    }
+		                }
+		                var nStart = sSrc.indexOf("&rdAgColumnFormat=")
+		                var nEnd = sSrc.indexOf("&", nStart + 1)
+		                sSrc = sSrc.substr(0, nStart) + "&rdAgColumnFormat=" + encodeURIComponent(columnFormat) + sSrc.substr(nEnd)
+
+		                //Get data type of column for subreport and put it into the URL
+		                for (var i = 0; i < columnDataTypes.length - 1; i++) {
+		                    var colId = columnDataTypes[i].split(":")[0];
+		                    if (colId == document.rdForm.rdAgFilterColumn.value) {
+		                        columnDataType = columnDataTypes[i].split(":")[1];
+		                        break;
+		                    }
+		                }
+		                var nStart = sSrc.indexOf("&rdAgColumnDataType=")
+		                var nEnd = sSrc.indexOf("&", nStart + 1)
+		                sSrc = sSrc.substr(0, nStart) + "&rdAgColumnDataType=" + encodeURIComponent(columnDataType) + sSrc.substr(nEnd)
+
+		                Y.one(elePopupIFrame).setData("hiddensource", sSrc);
+		                //elePopupIFrame.setAttribute("HiddenSource", elePopupIFrame.getAttribute("HiddenSource").replace("rdPickDataColumn",encodeURI(document.rdForm.rdAgFilterColumn.value)))
+		                ShowElement(this.id,'divPickDistinct','Show')
+		                ShowElement(this.id,'divPickDistinctPopUpButton','Show')
+		                elePopupIFrame.removeAttribute("src") //Clear the list so it's rebuilt when the user clicks.
+		                //15311
+		                //rdAgManipulateFilterInputTextBoxValuesForDateColumns(document.rdForm.rdAgFilterColumn.value, document.rdForm.rdAgFilterOperator.value, document.rdForm.rdAgCurrentFilterValue.value, document.rdForm.rdAgCurrentDateType.value);
+		                return;
+		            }
+		            else{                      
+		                ShowElement(this.id,'divPickDistinct','Show')     
+		                if(document.rdForm.rdAgFilterOperator.lastChild.value != 'Not Contains'){
+		                    if(document.rdForm.rdAgFilterOperator.lastChild.value == 'Date Range'){
+		                        for(i=1;i<=1;i++){
+		                            rdFilterNewComparisonOptionsArray.push(document.rdForm.rdAgFilterOperator.lastChild);    // remove the new Comparison option 'Date Range'.
+		                            document.rdForm.rdAgFilterOperator.removeChild(document.rdForm.rdAgFilterOperator.lastChild); 
+		                        } 
+		                    }
+		                    if (rdFilterOldComparisonOptionsArray[0] && rdFilterOldComparisonOptionsArray[0] != '') {
+		                        for(i=0;i<=5;i++){
+		                            document.rdForm.rdAgFilterOperator.appendChild(rdFilterOldComparisonOptionsArray.pop());
+		                        }
+		                    }
+		                }            
+		            }
+		        }
+		        else{   // When no column is selected.
+		            ShowElement(this.id,'divPickDistinct','Show')    
+		            document.rdForm.rdAgFilterOperator.value = "="; 
+		        }
+
+		    }
 		},		
 		rdAgGetGroupByDateOperatorDiv : function(){
 			// Function used by the Grouping division for hiding/unhiding the GroupByOperator Div.
@@ -857,125 +881,124 @@ YUI.add('analysis-grid', function(Y) {
 			var sInputElementValue = sFilterValue.split('|')[0];
 			if (sFilterValue) {
 				document.rdForm.rdAgFilterStartDate.value = sInputElementValue;
-				document.rdForm.rdAgFilterStartDateTextbox.value = sInputElementValue;
 				document.rdForm.rdAgFilterValue.value = sInputElementValue; 
 				document.rdForm.rdAgFilterEndDate.value = '';
-				document.rdForm.rdAgFilterEndDateTextbox.value = '';
 				if(sDateType){
 					sDateTypeOperator = sDateType.split(',')[0];
 					if(sDateTypeOperator)
-						document.rdForm.rdAgSlidingTimeStartDateFilterOpearator.value = sDateTypeOperator;
+						document.rdForm.rdAgSlidingTimeStartDateFilterOperator.value = sDateTypeOperator;
 				}
 				else{
-					document.rdForm.rdAgSlidingTimeStartDateFilterOpearator.value = "Specific Date";
+					document.rdForm.rdAgSlidingTimeStartDateFilterOperator.value = "Specific Date";
 				}
+
+
 				if(sSlidingDateName){
 					sSlidingDateValue = sSlidingDateName.split(',')[0];
 					if(sSlidingDateValue)
-						document.rdForm.rdAgSlidingTimeStartDateFilterOpearatorOptions.value = sSlidingDateValue;
+						document.rdForm.rdAgSlidingTimeStartDateFilterOperatorOptions.value = sSlidingDateValue;
 				}  
 				if(sFilterValue.split('|')[1]){
 					sInputElementValue = sFilterValue.split('|')[1];
 					document.rdForm.rdAgFilterEndDate.value = sInputElementValue;
-					document.rdForm.rdAgFilterEndDateTextbox.value = sInputElementValue;
 					if(sDateType){
 						sDateTypeOperator = sDateType.split(',')[1];
 						if(sDateTypeOperator)
-							document.rdForm.rdAgSlidingTimeEndDateFilterOpearator.value = sDateTypeOperator;
+							document.rdForm.rdAgSlidingTimeEndDateFilterOperator.value = sDateTypeOperator;
 					}
 					else{
-						document.rdForm.rdAgSlidingTimeEndDateFilterOpearator.value = "Specific Date";
+						document.rdForm.rdAgSlidingTimeEndDateFilterOperator.value = "Specific Date";
 					} 
 					if(sSlidingDateName){
 						sSlidingDateValue = sSlidingDateName.split(',')[1];
 						if(sSlidingDateValue)
-							document.rdForm.rdAgSlidingTimeEndDateFilterOpearatorOptions.value = sSlidingDateValue;
+							document.rdForm.rdAgSlidingTimeEndDateFilterOperatorOptions.value = sSlidingDateValue;
 					} 
 				}
+
+			    //Split the start time from the date.
+				if (document.rdForm.rdAgSlidingTimeStartDateFilterOperator.value == "Specific Date") {
+				    var aDateAndTime = document.rdForm.rdAgFilterStartDate.value.split(' ')
+				    if (aDateAndTime.length > 1) {
+				        var sTime = aDateAndTime[aDateAndTime.length - 1]
+				        if (sTime.indexOf(":") != 0) {
+				            document.rdForm.rdAgFilterStartDate.value = document.rdForm.rdAgFilterStartDate.value.replace(sTime, "")
+				            document.rdForm.rdAgFilterStartTime.value = sTime
+				        }
+				    }
+				}
+			    //Split the end time from the date.
+				if (document.rdForm.rdAgSlidingTimeEndDateFilterOperator.value == "Specific Date") {
+				    var aDateAndTime = document.rdForm.rdAgFilterEndDate.value.split(' ')
+				    if (aDateAndTime.length > 1) {
+				        var sTime = aDateAndTime[aDateAndTime.length - 1]
+				        if (sTime.indexOf(":") != 0) {
+				            document.rdForm.rdAgFilterEndDate.value = document.rdForm.rdAgFilterEndDate.value.replace(sTime, "")
+				            document.rdForm.rdAgFilterEndTime.value = sTime
+				        }
+				    }
+				}
+
+
 			}
 			this.rdAgShowProperElementDiv(sFilterColumn, sFilterOperator);    // Run through this function to show hide the divs
+
+
 		},
 		
 		rdAgShowProperElementDiv : function(sFilterColumn, sFilterOperator){
-			// Function runs on clicking the filter link with the filter info to show the proper panel/Div.
-			if(sFilterColumn){    
+		    // Function runs on clicking the filter link with the filter info to show the proper panel/Div.
+		    this.rdAgHideAllFilterDivs();
+		    if (sFilterColumn) {
 				if(document.rdForm.rdAgPickDateColumns.value.indexOf(sFilterColumn + ",")!=-1){
 					if(sFilterOperator == 'Date Range'){
-						this.rdAgHideAllFilterDivs();
-						ShowElement(this.id,'divSlidingTimeStartDateFilterOpearator','Show')
-						ShowElement(this.id,'divSlidingTimeEndDateFilterOpearator','Show')
-						if(document.rdForm.rdAgSlidingTimeStartDateFilterOpearator.value == 'Specific Date'){ 
+						ShowElement(this.id,'divSlidingTimeStartDateFilterOperator','Show')
+						ShowElement(this.id,'divSlidingTimeEndDateFilterOperator','Show')
+						if (document.rdForm.rdAgSlidingTimeStartDateFilterOperator.value == 'Specific Date') {
 							ShowElement(this.id,'divFilterStartDateCalendar','Show')
-							ShowElement(this.id,'divSlidingTimeStartDateFilterOpearatorValues','Hide')
+							ShowElement(this.id,'divSlidingTimeStartDateFilterOperatorValues','Hide')
 						}
-						if(document.rdForm.rdAgSlidingTimeEndDateFilterOpearator.value == 'Specific Date'){
+						if(document.rdForm.rdAgSlidingTimeEndDateFilterOperator.value == 'Specific Date'){
 							ShowElement(this.id,'divFilterEndDateCalendar','Show')
-							ShowElement(this.id,'divSlidingTimeEndDateFilterOpearatorValues','Hide')
+							ShowElement(this.id,'divSlidingTimeEndDateFilterOperatorValues','Hide')
 						}                        
-						if(document.rdForm.rdAgSlidingTimeStartDateFilterOpearator.value == 'Sliding Date'){
-							ShowElement(this.id,'divSlidingTimeStartDateFilterOpearatorValues','Show')
+						if(document.rdForm.rdAgSlidingTimeStartDateFilterOperator.value == 'Sliding Date'){
+						    ShowElement(this.id, 'divSlidingTimeStartDateFilterOperatorValues', 'Show')
 							ShowElement(this.id,'divFilterStartDateCalendar','Hide')
 						}
-						if(document.rdForm.rdAgSlidingTimeEndDateFilterOpearator.value == 'Sliding Date'){
-							ShowElement(this.id,'divSlidingTimeEndDateFilterOpearatorValues','Show')
+						if(document.rdForm.rdAgSlidingTimeEndDateFilterOperator.value == 'Sliding Date'){
+							ShowElement(this.id,'divSlidingTimeEndDateFilterOperatorValues','Show')
 							ShowElement(this.id,'divFilterEndDateCalendar','Hide')
 						}                   
 					}
 					else{
-						this.rdAgHideAllFilterDivs();
-						ShowElement(this.id,'divSlidingTimeStartDateFilterOpearator','Show')
-						if(document.rdForm.rdAgSlidingTimeStartDateFilterOpearator.value == 'Specific Date'){
+						ShowElement(this.id,'divSlidingTimeStartDateFilterOperator','Show')
+						if (document.rdForm.rdAgSlidingTimeStartDateFilterOperator.value == 'Specific Date') {
 							ShowElement(this.id,'divFilterStartDateCalendar','Show')
-							ShowElement(this.id,'divSlidingTimeStartDateFilterOpearatorValues','Hide')
+							ShowElement(this.id,'divSlidingTimeStartDateFilterOperatorValues','Hide')
 						}
-						else{               
+						else {
 							ShowElement(this.id,'divFilterStartDateCalendar','Hide')     
-							ShowElement(this.id,'divSlidingTimeStartDateFilterOpearatorValues','Show')
-						}
-					}   
-				}
-				else if(document.rdForm.rdAgPickDateColumns.value.indexOf(sFilterColumn +"-NoCalendar" + ",")!=-1){
-				   if(sFilterOperator == 'Date Range'){
-						this.rdAgHideAllFilterDivs();
-						ShowElement(this.id,'divSlidingTimeStartDateFilterOpearator','Show')
-						ShowElement(this.id,'divSlidingTimeEndDateFilterOpearator','Show')
-						if(document.rdForm.rdAgSlidingTimeStartDateFilterOpearator.value == 'Specific Date'){ 
-							ShowElement(this.id,'divFilterStartDateTextbox','Show')
-							ShowElement(this.id,'divSlidingTimeStartDateFilterOpearatorValues','Hide')
-						}
-						if(document.rdForm.rdAgSlidingTimeEndDateFilterOpearator.value == 'Specific Date'){
-							ShowElement(this.id,'divFilterEndDateTextbox','Show')
-							ShowElement(this.id,'divSlidingTimeEndDateFilterOpearatorValues','Hide')
-						}
-						if(document.rdForm.rdAgSlidingTimeStartDateFilterOpearator.value == 'Sliding Date'){
-							ShowElement(this.id,'divSlidingTimeStartDateFilterOpearatorValues','Show')
-							ShowElement(this.id,'divFilterStartDateTextbox','Hide')
-						}
-						if(document.rdForm.rdAgSlidingTimeEndDateFilterOpearator.value == 'Sliding Date'){
-							ShowElement(this.id,'divSlidingTimeEndDateFilterOpearatorValues','Show')
-							ShowElement(this.id,'divFilterEndDateTextbox','Hide')
-						}    
-					}
-					else{
-						this.rdAgHideAllFilterDivs();
-						 ShowElement(this.id,'divSlidingTimeStartDateFilterOpearator','Show')
-						 if(document.rdForm.rdAgSlidingTimeStartDateFilterOpearator.value == 'Specific Date'){ 
-							ShowElement(this.id,'divFilterStartDateTextbox','Show')
-							ShowElement(this.id,'divSlidingTimeStartDateFilterOpearatorValues','Hide')
-						}
-						if(document.rdForm.rdAgSlidingTimeStartDateFilterOpearator.value == 'Sliding Date'){
-							ShowElement(this.id,'divSlidingTimeStartDateFilterOpearatorValues','Show')
-							ShowElement(this.id,'divFilterStartDateTextbox','Hide')
+							ShowElement(this.id,'divSlidingTimeStartDateFilterOperatorValues','Show')
 						}
 					}
+
+					var sDataType = this.rdAgGetColumnDataType(sFilterColumn)
+					if (sDataType == "DateTime") {
+					    ShowElement(this.id,'divFilterStartTime','Show')
+					    ShowElement(this.id,'divFilterEndTime','Show')
+					} else {
+					    ShowElement(this.id, 'divFilterStartTime', 'Hide')
+					    ShowElement(this.id, 'divFilterEndTime', 'Hide')
+					}
+
 				}
+
 				else{  // When filter column is not a Date column.
 					if(document.rdForm.rdAgPickDistinctColumns.value.indexOf(document.rdForm.rdAgFilterColumn.value + ",")!=-1){
-						this.rdAgHideAllFilterDivs();
 						ShowElement(this.id,'divPickDistinct','Show')
 						ShowElement(this.id,'divPickDistinctPopUpButton','Show')}
 					else{
-						this.rdAgHideAllFilterDivs();
 						ShowElement(this.id,'divPickDistinct','Show')
 					}
 				}
@@ -984,80 +1007,77 @@ YUI.add('analysis-grid', function(Y) {
 		
 		rdAgHideAllFilterDivs : function(){
 			// Function hides all the Divs mentioned below used to seperate elements that are used in specific conditions under the Filters section.
-				ShowElement(this.id,'divPickDistinct','Hide');                               // Div holds a common TextBox.
-
-				ShowElement(this.id,'divPickDistinctPopUpButton','Hide');                    // Div holds the popup button that pulls up the list of ID's, like CustomerID, OrderID etc. This above div is always hidden for Date Time Columns.   
-																																																											   
-				ShowElement(this.id,'divSlidingTimeStartDateFilterOpearator','Hide');        // Div holds a dropdown with the sliding time filter operatior values like Sliding Date etc.
-																  
-				ShowElement(this.id,'divSlidingTimeEndDateFilterOpearator','Hide');          // Div holds a dropdown with the sliding time filter operatior values.
-																  
-				ShowElement(this.id,'divSlidingTimeStartDateFilterOpearatorValues','Hide');  // Div holds a dropdown with the sliding time filter operatior option values like Today, Yesterday etc.
-																
-				ShowElement(this.id,'divSlidingTimeEndDateFilterOpearatorValues','Hide');    // Div holds a dropdown with the sliding time filter operatior option values like Today, Yesterday etc.
-				
-				ShowElement(this.id,'divFilterStartDateCalendar','Hide');        // Div holds a calendar control for start date.
-				
-				ShowElement(this.id,'divFilterEndDateCalendar','Hide');           // Div holds a calendar control for start date.
-				
-				ShowElement(this.id,'divFilterStartDateTextbox','Hide');          // Div holds a textbox for start date.
-				
-				ShowElement(this.id,'divFilterEndDateTextbox','Hide');            // Div holds a textbox for end date.
+			ShowElement(this.id,'divPickDistinct','Hide'); 
+			ShowElement(this.id,'divPickDistinctPopUpButton','Hide');
+			ShowElement(this.id,'divSlidingTimeStartDateFilterOperator','Hide');
+			ShowElement(this.id,'divSlidingTimeEndDateFilterOperator','Hide');
+			ShowElement(this.id,'divSlidingTimeStartDateFilterOperatorValues','Hide');
+			ShowElement(this.id, 'divSlidingTimeEndDateFilterOperatorValues', 'Hide');
+			ShowElement(this.id,'divFilterStartDateCalendar','Hide');
+			ShowElement(this.id,'divFilterEndDateCalendar','Hide');
+		    ShowElement(this.id,'divPickBoolean', 'Hide')
 		},
 		
 		/* -----Action.Javascript Methods----- */
 		
-		rdAgManipulateFilterOptionsDropdownForDateColumns : function(sFilterColumn, sFilterOperator, sFilterValue){
+		rdAgManipulateFilterOptionsDropdownForDateColumns: function (sFilterColumn, sFilterOperator, sFilterValue) {
 			// Function gets called when the filter link (with the filter info displayed above the data table) displayed is clicked to set the drop down values.  
 			this.rdAgRemoveAllWhiteSpaceNodesFromFilterOperatorDropdown();      
 			document.rdForm.rdAgFilterColumn.value = sFilterColumn;
+
+		    //Set the checkbox for boolean values.
+			var sFilterValueLower = sFilterValue.toLowerCase()
+			if (sFilterValueLower == "false" || sFilterValueLower == "off" || sFilterValueLower == "no" || sFilterValueLower == "0") {
+			    document.rdForm.rdAgFilterValueBoolean.checked = false
+			} else if (sFilterValueLower == "true" || sFilterValueLower == "on" || sFilterValueLower == "yes" || sFilterValueLower == "1") {
+			    document.rdForm.rdAgFilterValueBoolean.checked = true
+			}
+
 			var i = 0;
-			if(document.rdForm.rdAgFilterColumn.value){
-				if((document.rdForm.rdAgPickDateColumns.value.indexOf(document.rdForm.rdAgFilterColumn.value + ",")!=-1)|(document.rdForm.rdAgPickDateColumns.value.indexOf(document.rdForm.rdAgFilterColumn.value +"-NoCalendar" + ",")!=-1)){
-					if(document.rdForm.rdAgFilterOperator.lastChild.value == 'Date Range'){
-						for(i=1;i<=1;i++){
-							rdFilterNewComparisonOptionsArray.push(document.rdForm.rdAgFilterOperator.lastChild);    // remove the new Comparison option 'Date Range'.
+			if((document.rdForm.rdAgPickDateColumns.value.indexOf(document.rdForm.rdAgFilterColumn.value + ",")!=-1)|(document.rdForm.rdAgPickDateColumns.value.indexOf(document.rdForm.rdAgFilterColumn.value +"-NoCalendar" + ",")!=-1)){
+				if(document.rdForm.rdAgFilterOperator.lastChild.value == 'Date Range'){
+					for(i=1;i<=1;i++){
+						rdFilterNewComparisonOptionsArray.push(document.rdForm.rdAgFilterOperator.lastChild);    // remove the new Comparison option 'Date Range'.
+						document.rdForm.rdAgFilterOperator.removeChild(document.rdForm.rdAgFilterOperator.lastChild); 
+					}  
+					if(document.rdForm.rdAgFilterOperator.lastChild.value == 'Contains'){    //remove the options 'Starts With' and 'Contains'.
+						for (i=0;i<=1;i++){
+							rdFilterOldComparisonOptionsArray.push(document.rdForm.rdAgFilterOperator.lastChild);
 							document.rdForm.rdAgFilterOperator.removeChild(document.rdForm.rdAgFilterOperator.lastChild); 
-						}  
-						if(document.rdForm.rdAgFilterOperator.lastChild.value == 'Contains'){    //remove the options 'Starts With' and 'Contains'.
-							for (i=0;i<=1;i++){
-								rdFilterOldComparisonOptionsArray.push(document.rdForm.rdAgFilterOperator.lastChild);
-								document.rdForm.rdAgFilterOperator.removeChild(document.rdForm.rdAgFilterOperator.lastChild); 
-							}
 						}
-						for(i=1;i<=1;i++){ // Add the new Comparison option 'Date Range' back.
-							document.rdForm.rdAgFilterOperator.appendChild(rdFilterNewComparisonOptionsArray.pop());
-						}  
 					}
-					else{
-					   if(document.rdForm.rdAgFilterOperator.lastChild.value == 'Contains'){    //remove the options 'Starts With' and 'Contains'.
-							for (i=0;i<=1;i++){
-								rdFilterOldComparisonOptionsArray.push(document.rdForm.rdAgFilterOperator.lastChild);
-								document.rdForm.rdAgFilterOperator.removeChild(document.rdForm.rdAgFilterOperator.lastChild); 
-							}
-						}
-						for(i=1;i<=1;i++){ // Add the new Comparison option 'Date Range' back.
-							document.rdForm.rdAgFilterOperator.appendChild(rdFilterNewComparisonOptionsArray.pop());
-						}  
-					}
-					document.rdForm.rdAgFilterColumn.value = "Date Range"           
-				}
-			   else if(document.rdForm.rdAgFilterOperator.lastChild.value != 'Contains'){   // Code path executed for putting the original options back.
-					if(document.rdForm.rdAgFilterOperator.lastChild.value == 'Date Range'){
-						for(i=1;i<=1;i++){
-							rdFilterNewComparisonOptionsArray.push(document.rdForm.rdAgFilterOperator.lastChild);    // remove the new Comparison option.
-							document.rdForm.rdAgFilterOperator.removeChild(document.rdForm.rdAgFilterOperator.lastChild); 
-						}  
-						if(document.rdForm.rdAgFilterOperator.lastChild.value != 'Contains'){    //Add the original options back.
-						    for (i = 0; i <= 1; i++) {
-						        if (rdFilterOldComparisonOptionsArray.length > 0) {
-						            document.rdForm.rdAgFilterOperator.appendChild(rdFilterOldComparisonOptionsArray.pop());
-                                    //22860 - Existance check to prevent trying to pop an empty array
-						        }
-							}
-						}
+					for(i=1;i<=1;i++){ // Add the new Comparison option 'Date Range' back.
+						document.rdForm.rdAgFilterOperator.appendChild(rdFilterNewComparisonOptionsArray.pop());
 					}  
 				}
+				else{
+					if(document.rdForm.rdAgFilterOperator.lastChild.value == 'Contains'){    //remove the options 'Starts With' and 'Contains'.
+						for (i=0;i<=1;i++){
+							rdFilterOldComparisonOptionsArray.push(document.rdForm.rdAgFilterOperator.lastChild);
+							document.rdForm.rdAgFilterOperator.removeChild(document.rdForm.rdAgFilterOperator.lastChild); 
+						}
+					}
+					for(i=1;i<=1;i++){ // Add the new Comparison option 'Date Range' back.
+						document.rdForm.rdAgFilterOperator.appendChild(rdFilterNewComparisonOptionsArray.pop());
+					}  
+				}
+				document.rdForm.rdAgFilterColumn.value = "Date Range"
+			}
+			else if(document.rdForm.rdAgFilterOperator.lastChild.value != 'Contains'){   // Code path executed for putting the original options back.
+				if(document.rdForm.rdAgFilterOperator.lastChild.value == 'Date Range'){
+					for(i=1;i<=1;i++){
+						rdFilterNewComparisonOptionsArray.push(document.rdForm.rdAgFilterOperator.lastChild);    // remove the new Comparison option.
+						document.rdForm.rdAgFilterOperator.removeChild(document.rdForm.rdAgFilterOperator.lastChild); 
+					}  
+					if(document.rdForm.rdAgFilterOperator.lastChild.value != 'Contains'){    //Add the original options back.
+						for (i = 0; i <= 1; i++) {
+						    if (rdFilterOldComparisonOptionsArray.length > 0) {
+						        document.rdForm.rdAgFilterOperator.appendChild(rdFilterOldComparisonOptionsArray.pop());
+                                //22860 - Existance check to prevent trying to pop an empty array
+						    }
+						}
+					}
+				}  
 			}   
 		},
 		
@@ -1106,6 +1126,8 @@ YUI.add('analysis-grid', function(Y) {
 			                node: pnlNode
 			            });
 			            var pnlDrop = pnlNode.plug(Y.Plugin.Drop);
+                        //25557
+			            pnlNode.addClass('dragHandleOnly');
 
 			            var pnlDragged = null;
 			            var originalPanelPosition = [0, 0];
@@ -1403,7 +1425,10 @@ function PickGaugeGoalColor(colColor){
 /* --- Helper functions to change drop down lists for AG aggregate as well as y-axis columns.--- */
 function rdchangeList(rdEleId, aNewAggrList, aLabel, sDataColumnType, aAggrGroupLabel, aAggrGroupLabelClass) {
     var rdAggrList = document.getElementById(rdEleId);
-    var sSelectedValue = rdAggrList.options[rdAggrList.selectedIndex].text;
+    var sSelectedValue
+    if (rdAggrList.selectedIndex != -1) {
+        sSelectedValue = rdAggrList.options[rdAggrList.selectedIndex].text;
+    }
     rdemptyList(rdEleId);    
     rdfillList(rdEleId, aNewAggrList, aLabel, sDataColumnType, sSelectedValue, aAggrGroupLabel, aAggrGroupLabelClass);
 }
@@ -1422,18 +1447,21 @@ function rdemptyList(rdEleId) {
 }
 
 function rdfillList(rdEleId, arr, aLabel, sDataColumnType, sSelectedValue, arrGroupLabel, arrGroupLabelClass) {
-    var rdAggrList = document.getElementById(rdEleId);    
-    if ( sDataColumnType && sDataColumnType != '' ) {
-        if (sDataColumnType.toLowerCase() == "text" || sDataColumnType.toLowerCase() == "date" || sDataColumnType.toLowerCase() == "datetime") {
-            arr = ["COUNT", "DISTINCTCOUNT"];
-            aLabel = ["Count", "Distinct Count"];
-        }
-        else {
-            arr = ["SUM", "AVERAGE", "STDEV", "COUNT", "DISTINCTCOUNT", "MIN", "MAX"];
-            aLabel = ["Sum", "Average", "Standard Deviation", "Count", "Distinct Count", "Minimum", "Maximum"];
-        }
+    if ( !sDataColumnType || sDataColumnType == '' ) {
+        return
     }
 
+        if (sDataColumnType.toLowerCase() == "text" || sDataColumnType.toLowerCase() == "date" || sDataColumnType.toLowerCase() == "datetime") {
+        arr = ["COUNT", "DISTINCTCOUNT"];
+        aLabel = ["Count", "Distinct Count"];
+    }
+    else {
+        arr = ["SUM", "AVERAGE", "STDEV", "COUNT", "DISTINCTCOUNT", "MIN", "MAX"];
+        aLabel = ["Sum", "Average", "Standard Deviation", "Count", "Distinct Count", "Minimum", "Maximum"];
+    }
+
+
+    var rdAggrList = document.getElementById(rdEleId);    
     var arrList = arr;
     var arrLabel = aLabel;
     var group = null;
