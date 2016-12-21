@@ -96,8 +96,8 @@
 								ID="evtOnChange"
 								>
 								<Action
-									ElementID="divReport"
-									ID="panel-body-detail-Scorecard"
+									ElementID="panel-body-detail-Scorecard"
+									ID="action-refresh-report"
 									Type="RefreshElement"
 								/>
 							</EventHandler>
@@ -157,16 +157,18 @@
 										/>
 									</DataLayer>
 									<DataTableColumn
-										Header="MetricDesc"
+										Header="Metric"
 										ID="colMetricDesc"
 										>
 										<Label
 											Caption="@Data.Location Metric~"
 											ID="lblMeasureDesc"
 										/>
-										<DataColumnSort
-											DataColumn="MetricDesc"
-										/>
+										<Remark>
+											<DataColumnSort
+												DataColumn="MetricDesc"
+											/>
+										</Remark>
 									</DataTableColumn>
 									<DataTableColumn
 										ID="colMetricId"
@@ -205,10 +207,12 @@
 											Format="@Data.NumberFormat~"
 											ID="lblBudget_Min"
 										/>
-										<DataColumnSort
-											DataColumn="Budget_Min"
-											DataType="Number"
-										/>
+										<Remark>
+											<DataColumnSort
+												DataColumn="Budget_Min"
+												DataType="Number"
+											/>
+										</Remark>
 									</DataTableColumn>
 									<DataTableColumn
 										Header="Max"
@@ -219,10 +223,12 @@
 											Format="@Data.NumberFormat~"
 											ID="lblBudget_Max"
 										/>
-										<DataColumnSort
-											DataColumn="Budget_Max"
-											DataType="Number"
-										/>
+										<Remark>
+											<DataColumnSort
+												DataColumn="Budget_Max"
+												DataType="Number"
+											/>
+										</Remark>
 									</DataTableColumn>
 									<DataTableColumn
 										Header="Target"
@@ -233,10 +239,12 @@
 											Format="@Data.NumberFormat~"
 											ID="lblBudget_Target"
 										/>
-										<DataColumnSort
-											DataColumn="Budget_Target"
-											DataType="Number"
-										/>
+										<Remark>
+											<DataColumnSort
+												DataColumn="Budget_Target"
+												DataType="Number"
+											/>
+										</Remark>
 									</DataTableColumn>
 									<DataTableColumn
 										Header="Actual"
@@ -247,10 +255,12 @@
 											Format="@Data.NumberFormat~"
 											ID="lblActual_Performance"
 										/>
-										<DataColumnSort
-											DataColumn="Actual_Performance"
-											DataType="Number"
-										/>
+										<Remark>
+											<DataColumnSort
+												DataColumn="Actual_Performance"
+												DataType="Number"
+											/>
+										</Remark>
 									</DataTableColumn>
 									<DataTableColumn
 										Header="Notes"
@@ -260,9 +270,11 @@
 											Caption="@Data.Notes~"
 											ID="lblNotes"
 										/>
-										<DataColumnSort
-											DataColumn="Notes"
-										/>
+										<Remark>
+											<DataColumnSort
+												DataColumn="Notes"
+											/>
+										</Remark>
 									</DataTableColumn>
 								</DataTable>
 							</ResponsiveColumn>
