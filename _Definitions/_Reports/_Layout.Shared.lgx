@@ -2,14 +2,6 @@
 <Report
 	ID="_Layout.Shared"
 	>
-	<SetSessionVariables
-		SetFirstTimeOnly="True"
-		>
-		<SessionParams
-			Report="@Request.rdReport~"
-			User="@Request.rdUserName~"
-		/>
-	</SetSessionVariables>
 	<SharedElement
 		ID="shrHeader"
 		>
@@ -57,6 +49,7 @@
 		width: 300px;
 	}
   &lt;/style&gt;
+
 "
 		/>
 		<Division
@@ -153,12 +146,12 @@
 									<Spaces
 										Size="25"
 									/>
-									
+									<Remark>
 										<Label
 											Caption="*****FOR INTERNAL TESTING PURPOSES ONLY*****"
 											Class="ThemeErrorText"
 										/>
-									
+									</Remark>
 									<LineBreak/>
 								</Division>
 							</Division>
@@ -958,6 +951,113 @@
 				</Division>
 			</Division>
 		</Division>
+		<PopupPanel
+			Draggable="False"
+			Height="250px"
+			ID="pnlWish"
+			PopupModal="True"
+			PopupPanelLocation="Center"
+			Width="300px"
+			>
+			<Division
+				Class="panel panel-default"
+				HtmlDiv="True"
+				ID="divPopup"
+				>
+				<Division
+					Class="panel-heading"
+					HtmlDiv="True"
+					ID="divPopupHeader"
+					>
+					<Label
+						Caption="Make A Wish"
+					/>
+				</Division>
+				<Division
+					Class="panel-body"
+					HtmlDiv="True"
+					ID="divPopupBody"
+					>
+					<Rows>
+						<Row>
+							<Column
+								ColSpan="2"
+								>
+								<Label
+									Caption="Please tell us what you would like to see on this page..."
+								/>
+								<LineBreak/>
+								<InputTextArea
+									ID="iptWish"
+									InputColumns="50"
+									InputRows="10"
+								/>
+							</Column>
+						</Row>
+						<Row>
+							<Column/>
+							<Column
+								Class="ThemeAlignRight"
+								>
+								<Button
+									Caption="Submit"
+									Class="btn btn-default"
+									ID="btnSendWish"
+									>
+									<Action
+										ID="onClick"
+										Javascript="var wish = document.getElementById(&quot;iptWish&quot;);
+if (wish.value == &quot;&quot;) {
+	alert(&quot;Please enter a wish for this page or click Cancel to close.&quot;);
+	wish.focus();
+}
+else {
+	document.getElementById(&quot;btnDummy&quot;).click();
+}
+
+"
+										Type="Javascript"
+									/>
+								</Button>
+								<Spaces
+									Size="2"
+								/>
+								<Button
+									Caption="Cancel"
+									Class="btn btn-default"
+									ID="btnCancel"
+									>
+									<Action
+										Display="Hide"
+										ElementID="pnlWish"
+										ID="hidePopup"
+										Type="ShowElement"
+									/>
+								</Button>
+								<Button
+									Class="ThemeHidden"
+									ID="btnDummy"
+									>
+									<Action
+										ID="procWishEmail"
+										Process="SQLTasks"
+										TaskID="WishEmail"
+										Type="Process"
+										>
+										<LinkParams
+											Report="@Request.rdReport~"
+											User="@Request.rdUserName~"
+											Wish="@Input.iptWish~"
+										/>
+										<WaitPage/>
+									</Action>
+								</Button>
+							</Column>
+						</Row>
+					</Rows>
+				</Division>
+			</Division>
+		</PopupPanel>
 		<PrintablePaging
 			MarginBottom="0.5"
 			MarginLeft="0.5"
@@ -1002,15 +1102,7 @@
 							>
 							<Rows>
 								<Row>
-									<Column>
-										<InputText
-											Class="mac-style clearfix"
-											Format="HTML"
-											ID="iptWish"
-											InputSize="120px"
-											Placeholder="I wish this page would..."
-										/>
-									</Column>
+									<Column/>
 									<Column>
 										<Button
 											Caption="Make A Wish"
@@ -1018,34 +1110,15 @@
 											ID="btnWish"
 											>
 											<Action
-												ID="procWishEmail"
-												Process="SQLTasks"
-												TaskID="WishEmail"
-												Type="Process"
-												>
-												<LinkParams
-													Report="@Request.rdReport~"
-													User="@Session.User~"
-													Wish="@Input.iptWish~"
-												/>
-												<WaitPage/>
-											</Action>
+												Display="Show"
+												ElementID="pnlWish"
+												ID="showPopup"
+												Type="ShowElement"
+											/>
 										</Button>
 									</Column>
 								</Row>
 							</Rows>
-							<IncludeHtml
-								Html="&lt;script type=&quot;text/javascript&quot;&gt;
-$(&quot;#iptWish&quot;).keyup(function(event){
-    if(event.keyCode == 13){
-        $(&quot;#btnWish&quot;).click();		
-    }
-});
-
-&lt;/script&gt;
-
-"
-							/>
 						</Division>
 					</ResponsiveColumn>
 				</ResponsiveRow>
