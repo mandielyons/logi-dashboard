@@ -11,14 +11,12 @@ IMG.rdDataCalendarImage
 .rdDataCalendar
 {
 	font-size: 11px;
-	font-family: arial, sans-serif;
 	background-color: #CCCCCC;
 	text-decoration:none;
 }
 .rdDataCalendar TABLE
 {
 	font-size: 11px;
-	font-family: arial, sans-serif;
 	text-decoration:none;
 }
 
@@ -92,8 +90,6 @@ IMG.rdDataCalendarImage
 .rdDataCalendarDayLabelHighlight
 {
 	background-color:#D8D8D8;
-	/*padding:-5px;	//#13600.
-	border-width:-5px;*/
 	padding:3px;
 	width:22px;
 	vertical-align:top;
@@ -105,14 +101,12 @@ IMG.rdDataCalendarImage
 {
 	background-color:#FDFDFD;
 	font-size: 11px;
-	font-family: arial, sans-serif;
 	color:#555555;
 }
 
 .rdDataCalendarPopUp
 {
 	font-size: 11px;
-	font-family: arial, sans-serif;
 	white-space:nowrap;
 	color:#555555;
 }

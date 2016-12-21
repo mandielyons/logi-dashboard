@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Report ID="BookmarkOrganizer.rdBookmarkOrganizerTemplate" rdBookmarkOrganizerVersion="0.0" SavedBy="FELIPE-SURFACE\fblanco" SavedAt="9/17/2014 3:51:17 PM" EngineVersion="11.4.002-T">
+<Report ID="BookmarkOrganizer.rdBookmarkOrganizerTemplate" rdBookmarkOrganizerVersion="0.0">
   <Label Caption="My Items" ID="lblMyFolders" />
   <Label Caption="Shared with Me" ID="lblSharedWithMe" />
   <Body ID="bodyMain">
@@ -239,7 +239,8 @@
                             <InputText ID="rdFolderNameText" Value="Caption" InputSize="20">
                               <Validation Type="Required" ErrorMsg="The Folder Name cannot be blank." />
                             </InputText>
-                          </Column>
+							  <LineBreak LineCount="2" />
+						  </Column>
                         </Row>
                         <Row>
                           <Column Width="100" WidthScale="%">

@@ -55,16 +55,19 @@
 			tabNode.setData(CLASS_KEY, this);
 			
 			//Init values for hidden inputs
-			var activeIndex = _tabs.get('activeIndex');
-			document.getElementById('rdActiveTabIndex_' + thisid).value = activeIndex;			 
-			document.getElementById('rdActiveTabId_' + thisid).value = _tabs.getTab(activeIndex).get('id');			
-			
-			//Set tab index and attach event			
+//Set tab index and attach event			
 			_tabs.addListener('activeTabChange', this.rdSaveActiveTabIndex);
 			_tabs.addListener('activeTabChange', this.rdTabsShowTabContents);
 			_tabs.addListener('activeTabChange', this.rdTabsSetMinWidth);
 
-			var isiPad = navigator.userAgent.match(/iPad/i) != null;        //#21530
+			var activeIndex = _tabs.get('activeIndex');
+		    if (!activeIndex) {
+		        activeIndex = 0;
+		        _tabs.set("activeTab", _tabs.getTab(activeIndex), false);
+		    }
+		    document.getElementById('rdActiveTabIndex_' + thisid).value = activeIndex;
+		    document.getElementById('rdActiveTabId_' + thisid).value = _tabs.getTab(activeIndex).get('id');		    
+		    var isiPad = navigator.userAgent.match(/iPad/i) != null;        //#21530
 			var isiPod = navigator.userAgent.match(/iPod/i) != null;
 			var isiPhone = navigator.userAgent.match(/iPhone/i) != null;
 			if (isiPad || isiPhone || isiPod) {

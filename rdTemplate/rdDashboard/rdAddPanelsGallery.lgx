@@ -12,39 +12,57 @@
 											<Division ID="divAddPanelsSearch" HtmlDiv="True" Class="rdAddPanelSearch">
                         <Label Caption="Find " ID="lblAddPanelsFind" Class="rdDashboardTitleCaption"/>
                         <InputText ID="rdInputAddPanelFind" Placeholder="Type to search...">
-                          <EventHandler DhtmlEvent="onkeyup" >
+                          <EventHandler DhtmlEvent="onkeyup" ThrottleTimeout="1">
                             <Action Type="RefreshElement"  ElementID="rdAddPanelsList" ID="actAddPanelFind" >
-                              <LinkParams  EnterKeyDefault="True" rdRefreshDashboard="True" rdRefreshAddPanelsList="True"/>
+                              <LinkParams rdRefreshDashboard="True" rdRefreshAddPanelsList="True"/>
                             </Action>
                           </EventHandler>
-                        </InputText>              
-												<Label Caption="Sort By " ID="lblAddPanelsSort" Class="rdDashboardTitleCaption"/>
-												<InputSelectList ID="rdInputAddPanelSort" OptionValueColumn="SortColumn" OptionCaptionColumn="SortDescription" DefaultValue="SaveTime">
-													<DataLayer Type="Static">
-														<StaticDataRow SortColumn="SaveTime" SortDirection="Descending" SortDescription="Newest" />
-														<StaticDataRow SortColumn="SaveTime-" SortDirection="Ascending" SortDescription="Oldest" />
-														<StaticDataRow SortColumn="Caption" SortDirection="Ascending" SortDescription="Title" />
-													</DataLayer>
-													<EventHandler DhtmlEvent="onchange">
-														<Action Type="RefreshElement" ElementID="dtPanelList" ID="actAddPanelSort" >
-															<LinkParams rdRefreshDashboard="True" rdRefreshAddPanelsList="True" />
-														</Action>
-													</EventHandler>
-												</InputSelectList>
+                        </InputText>
+												<Division ID="divGalleryFilter" Condition="false">
+													<Spaces Size="3"/>
+													<Label Caption="Gallery " ID="lblGalleryFilter" Class="rdDashboardTitleCaption"/>
+													<InputSelectList ID="rdInputGalleryFilter" OptionValueColumn="GalleryCaption" OptionCaptionColumn="GalleryCaption" IncludeBlank="True" >
+														<DataLayer ID="dlGalleryFileFilter" Type="Static">
+															<SortFilter SortColumn="GalleryCaption" />
+														</DataLayer>
+														<EventHandler DhtmlEvent="onchange">
+															<Action Type="RefreshElement" ElementID="rdAddPanelsList" ID="actGalleryFilter" >
+																<LinkParams rdRefreshDashboard="True" rdRefreshAddPanelsList="True" />
+															</Action>
+														</EventHandler>
+													</InputSelectList>
+												</Division>
+
+											<Spaces Size="3"/>
+											<Label Caption="Sort By " ID="lblAddPanelsSort" Class="rdDashboardTitleCaption"/>
+											<InputSelectList ID="rdInputAddPanelSort" OptionValueColumn="SortColumn" OptionCaptionColumn="SortDescription" DefaultValue="SaveTime">
+												<DataLayer Type="Static">
+													<StaticDataRow SortColumn="SaveTime" SortDirection="Descending" SortDescription="Newest" />
+													<StaticDataRow SortColumn="SaveTime-" SortDirection="Ascending" SortDescription="Oldest" />
+													<StaticDataRow SortColumn="Caption" SortDirection="Ascending" SortDescription="Title" />
+												</DataLayer>
+												<EventHandler DhtmlEvent="onchange">
+													<Action Type="RefreshElement" ElementID="dtPanelList" ID="actAddPanelSort" >
+														<LinkParams rdRefreshDashboard="True" rdRefreshAddPanelsList="True" />
+													</Action>
+												</EventHandler>
+											</InputSelectList>
 											</Division>
+											<LineBreak LineCount="1"/>
 
 											<Division HtmlDiv="True" Class="rdScrollableList" ID="rdAddPanelsList">
 												<Division Condition="0@Data.PanelListRowCount~ == 0">
-													<LineBreak LineCount="2"/>
+													<LineBreak LineCount="1"/>
 													<Label Caption="No panels." />
 												</Division>
 												<DataMultiColumnList ID="dtPanelList" CellSpacing="15" Width="100" WidthScale="%" MultiListColumns="1" MultiListDirection="Across" Layout="Fixed">
 													<DataLayer Type="Static" ID="rdPanelListDataLayer">
 														<CompareFilter DataColumn="Caption" ID="compareIsFind" CompareType="Contains" DataType="Text" CaseSensitive="False" CompareValue="@Request.rdInputAddPanelFind~" IncludeCondition="&quot;@Request.rdInputAddPanelFind~&quot;.length &gt; 0" />
+														<CompareFilter DataColumn="GalleryCaption" ID="compareIsGallery" CompareType="=" DataType="Text" CaseSensitive="True" CompareValue="@Request.rdInputGalleryFilter~" IncludeCondition="&quot;@Request.rdInputGalleryFilter~&quot;.length &gt; 0" />
 														<SwitchColumn DataColumn="SaveTime" ID="SaveTime">
 															<SwitchIf NewValue="1999-01-01" />
 														</SwitchColumn>
-														<AggregateColumn AggregateFunction="Count" AggregateColumn="Caption" ID="PanelListRowCount" />
+														<AggregateColumn AggregateFunction="Count" AggregateColumn="PanelID" ID="PanelListRowCount" />
 														<SortFilter ID="rdPanelListSortFilter" SortColumn="SaveTime" SortSequence="Descending"/>
 													</DataLayer>
 													<Rows WidthScale="%" Width="100">
@@ -95,7 +113,7 @@
 																</Division>
 																<Spaces Size="5"/>
 																<Label Caption="Delete from List" ID="lblDeletePanel" Class="rdDashboardCommand">
-																	<ConditionalClass Condition="&quot;@Data.rdCustomDashboardPanel~&quot; = &quot;False&quot;" Class="rdDashboardHidden" />
+																	<ConditionalClass Condition="&quot;@Data.rdPreventUpdate~&quot; = &quot;True&quot;" Class="rdDashboardHidden" />
 																	<Action Type="Javascript" ConfirmMessage="Delete?  Are you sure?"
 																			Javascript="rdRemoveBookmark('np', document.getElementById('rdDashboardDefinition').value, '@Data.BookmarksCollection~', '@Data.BookmarkId~');
 						LogiXML.Dashboard.pageDashboard.rdDeleteCustomDashboardPanel('@Data.PanelID~','@Function.RowNumber~');"
@@ -157,7 +175,7 @@
 																	<InputHidden ID="hiddenMultiInstance" DefaultValue="@Data.PanelMultiInstance~"/>
 																</Division>
 																<Division ID="divDeletePanel" >
-																	<ConditionalClass Condition="&quot;@Data.rdCustomDashboardPanel~&quot; = &quot;False&quot;" Class="rdDashboardHidden" />
+																	<ConditionalClass Condition="&quot;@Data.rdPreventUpdate~&quot; = &quot;True&quot;" Class="rdDashboardHidden" />
 																	<LineBreak LineCount="2" />
 																	<Label Caption="Delete from List" ID="lblDeletePanel" Class="rdDashboardCommand">
 																		<Action Type="Link" ID="actionDeletePanel" ConfirmMessage="Delete?  Are you sure?">

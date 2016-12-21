@@ -16,14 +16,16 @@ YUI.add('rdAutoComplete', function (Y) {
         configNode: null,
         id: null,
 		values: [],
-		multiselect: "",
+		multiSelect: false,
 		delimiter: null,
 		rdEventOnAutoComplete: "",
 		
         initializer: function (config) {
             var self = this;
+
             this._parseHTMLConfig();
             this.configNode.setData(TRIGGER, this);
+            var btnComboDropdown = Y.one("#" + this.configNode.getAttribute('id') + "_rdDropdown");
 
             var inputNode = this.configNode
 
@@ -31,35 +33,79 @@ YUI.add('rdAutoComplete', function (Y) {
             if (parent)
                 parent.addClass('yui3-skin-sam');
 				
-			var EventOnAutoComplete = this.rdEventOnAutoComplete;
-			
+            var EventOnAutoComplete = this.rdEventOnAutoComplete;
+            var multiSelect = this.multiSelect;
+
+            var sOnChange = this.configNode.getAttribute('data-event-onchange');
+            var sOnBlur = this.configNode.getAttribute('data-event-onblur');
+            var sOnFocus = this.configNode.getAttribute('data-event-onfocus');
+
 			this._handlers.AutCompletePlugin = this.configNode.plug(Y.Plugin.AutoComplete, {
 				allowTrailingDelimiter: true,
 				minQueryLength: 0,
 				queryDelay: 0,
 				// queryDelimiter: ',',
 				queryDelimiter: this.delimiter,
+				scrollIntoView: true,
 				resultHighlighter: 'startsWith',
 				source: this.values,
-				
+				render: (btnComboDropdown) ? false:true,
+
 				//24592
 				after : {
-					select : function() {
-						eval(EventOnAutoComplete);
-					}
+				    select: function () {
+
+				        if (sOnChange != "") {
+				            eval(sOnChange);
+				        }
+				        
+                        //25730
+					    if (multiSelect && this._inputNode) {
+					        this._inputNode.ac.sendRequest(''); 
+					    }
+				    }
 				},
 				
 				resultFilters: ['startsWith', function (query, results) {
 					// var selected = this._inputNode.get('value').split(/\s*,\s*/);
 					var selected = inputNode.get('value').split(/\s*,\s*/);
-										
 					selected = Y.Array.hash(selected);
-					
 					return Y.Array.filter(results, function (result) {
 						return !selected.hasOwnProperty(result.text);
 					  });
 					}]									
 			});
+
+			
+			if (sOnChange != "") {
+			    inputNode.on('change', function () { eval(sOnChange); });
+			}
+
+			if (sOnBlur != "") {
+			    inputNode.on('blur', function () { eval(sOnBlur); });
+			}
+
+			if (sOnFocus) {  
+			    inputNode.on('focus', function () { eval(sOnFocus); });
+			}
+
+			if (btnComboDropdown) {
+			    //This is an InputComboList element. 
+			    //Put the arrow inside the control.
+			    var eleButton = btnComboDropdown.getDOMNode()
+			    eleButton.style.display = '';
+			    eleButton.style.cursor = 'default';
+			    //Setup rendering.
+			    inputNode.ac.sendRequest('');
+			    inputNode.ac.render();
+			    btnComboDropdown.on('click', function (e) {
+			        inputNode.ac.sendRequest('');
+			        inputNode.getDOMNode().focus();
+			    });
+			} else {
+                //InputText with AutoComplete.
+			    inputNode.ac.render = true;
+			}
 
             //23862 23865
 			if (inputNode.getDOMNode().value && inputNode.getDOMNode().value.length > 0 && this.delimiter != "") {
@@ -68,11 +114,14 @@ YUI.add('rdAutoComplete', function (Y) {
 			    for (var i = 0; i < inputArray.length; i++) {
 			        inputArray[i] = inputArray[i].trim();
 			    }
-			    inputNode.getDOMNode().value = inputArray.join(this.delimiter + ' ');
+			    inputNode.set('value', inputArray.join(this.delimiter + ' '));
+			    inputNode.ac.set('value', inputNode.get('value'));
 			}
 
-			if (inputNode.getDOMNode().value && inputNode.getDOMNode().value.length > 0 && inputNode.getDOMNode().value.trim().lastIndexOf(this.delimiter) != inputNode.getDOMNode().value.trim().length - 1)
-			    inputNode.getDOMNode().value = inputNode.getDOMNode().value + this.delimiter;				
+			if (inputNode.getDOMNode().value && inputNode.getDOMNode().value.length > 0 && inputNode.getDOMNode().value.trim().lastIndexOf(this.delimiter) != inputNode.getDOMNode().value.trim().length - 1) {
+			    inputNode.set('value', inputNode.getDOMNode().value + this.delimiter + ' ');
+			    inputNode.ac.set('value', inputNode.get('value'));
+			}
             
         },
 				
@@ -81,8 +130,8 @@ YUI.add('rdAutoComplete', function (Y) {
             this.id = this.configNode.getAttribute('id');
             // this.values = this.configNode.getAttribute('data-values').split(',');
 			this.values = this.configNode.getAttribute('data-values').split('||');
-			this.multiselect = this.configNode.getAttribute('data-multiselect');
-			if (this.multiselect == "True") {
+			this.multiSelect = this.configNode.getAttribute('data-multiSelect') == "True" ? true : false;
+			if (this.multiSelect) {
 					this.delimiter = this.configNode.getAttribute('data-delimiter');		
 				} else {
 					this.delimiter = "";

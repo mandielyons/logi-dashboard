@@ -11,14 +11,12 @@ IMG.rdTimePickerImage
 .rdTimePicker
 {
 	font-size: 11px;
-	font-family: arial, sans-serif;
 	background-color: #CCCCCC;
 	text-decoration:none;
 }
 .rdTimePicker TABLE
 {
 	font-size: 11px;
-	font-family: arial, sans-serif;
 	text-decoration:none;
 }
 
@@ -71,7 +69,6 @@ IMG.rdTimePickerImage
 .rdTimePickerPopup
 {
 	font-size: 11px;
-	font-family: arial, sans-serif;
 	white-space:nowrap;
 	color:#555555;
 }

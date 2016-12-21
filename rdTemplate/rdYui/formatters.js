@@ -424,6 +424,30 @@ LogiXML.Formatter = {
                 {
                     return num.toExponential(6).toLowerCase().replace(".", LogiXML.Localization.NumFormatInfo.numberDecimalSeparator);
                 }
+            case "True/False":
+            {
+                if (num > 0) {
+                    return "True";
+                } else {
+                    return "False";
+                }
+            }
+            case "Yes/No":
+            {
+                if (num > 0) {
+                    return "Yes";
+                } else {
+                    return "No";
+                }
+            }
+            case "On/Off":
+            {
+                if (num > 0) {
+                    return "On";
+                } else {
+                    return "Off";
+                }
+            }
 
         }
 
@@ -516,7 +540,10 @@ LogiXML.Formatter = {
         }
 
         // special case for percentages
-        if (suffix.indexOf('%') !== -1) {
+        //25741 - specific percent format to avoid multiplying the value by 100
+        if(suffix.indexOf('\\%') !== -1){
+            suffix = suffix.replace('\\%', '%');
+        }else if (suffix.indexOf('%') !== -1) {
             number = number * 100;
         }
 
@@ -652,6 +679,8 @@ LogiXML.Formatter = {
                     return str.replace(/\r|\n/g, "<br />");
                 }
 
+            case "Yes/No":
+                return str.replace(/True/gi, "Yes").replace(/False/gi, "No");
         }
 
         return str;
@@ -692,7 +721,16 @@ LogiXML.Formatter.Helpers = {
             //if (number < 0) {
             //    dsindex = Math.ceil(Math.log(Math.abs(number)) / Math.log(ibase));
             //} else {
-                dsindex = Math.floor(Math.log(Math.abs(number)) / Math.log(ibase));
+            if (Math.trunc) {
+                dsindex = Math.trunc(Math.log(Math.abs(number)) / Math.log(ibase));
+            } else {
+                var tmp = Math.log(Math.abs(number)) / Math.log(ibase);
+                if (tmp >= 0) {
+                    dsindex = Math.floor(tmp);
+                } else {
+                    dsindex = Math.ceil(tmp);
+                }
+            }
             //}
             dmag_fact = Math.pow(ibase, dsindex);
         }

@@ -52,33 +52,33 @@ function rdOgBatchCommand(sCommand, sOgTableID, sDimension, sGUID) {
 
 	switch (sCommand) {
 		case 'DimAddLeft':
-			eleClickedLink.href = eleClickedLink.href.replace("DimAddLeft","DimDelLeft")
-			eleClickedImage.src = "rdTemplate/rdOlapGrid/rdOlapDelDim.gif"
+		    eleClickedLink.href = eleClickedLink.href.replace("DimAddLeft", "DimDelLeft")
+		    eleClickedImage.src = eleClickedImage.src.replace("AddLeft", "DelDim").replace("AddTop", "DelDim")
 			eleClickedImage.title = "Remove this Dimension from the table."
 			break;
 		case 'DimAddTop':
 			eleClickedLink.href = eleClickedLink.href.replace("DimAddTop","DimDelTop")
-			eleClickedImage.src = "rdTemplate/rdOlapGrid/rdOlapDelDim.gif"
+			eleClickedImage.src = eleClickedImage.src.replace("AddLeft", "DelDim").replace("AddTop", "DelDim")
 			eleClickedImage.title = "Remove this Dimension from the table."
 			break;
 		case 'DimDelLeft':
 			eleClickedLink.href = eleClickedLink.href.replace("DimDelLeft","DimAddLeft")
-			eleClickedImage.src = "rdTemplate/rdOlapGrid/rdOlapAddLeft.gif"
+			eleClickedImage.src = eleClickedImage.src.replace("DelDim", "AddLeft").replace("AddTop", "AddLeft")
 			eleClickedImage.title = "Move this Dimension to the Left axis."
 			break;
 		case 'DimDelTop':
 			eleClickedLink.href = eleClickedLink.href.replace("DimDelTop","DimAddTop")
-			eleClickedImage.src = "rdTemplate/rdOlapGrid/rdOlapAddTop.gif"
+			eleClickedImage.src = eleClickedImage.src.replace("DelDim", "AddTop").replace("AddLeft", "AddTop")
 			eleClickedImage.title = "Move this Dimension to the Top axis."
 			break;
 		case 'MeasureAdd':
 			eleClickedLink.href = eleClickedLink.href.replace("Add","Del")
-			eleClickedImage.src = "rdTemplate/rdOlapGrid/rdOlapDelDim.gif"
+			eleClickedImage.src = eleClickedImage.src.replace("AddMeasure", "DelDim")
 			eleClickedImage.title = "Remove this Measure from the table."
 			break;
 		case 'MeasureDel':
 			eleClickedLink.href = eleClickedLink.href.replace("Del","Add")
-			eleClickedImage.src = "rdTemplate/rdOlapGrid/rdOlapAddMeasure.gif"
+			eleClickedImage.src = eleClickedImage.src.replace("DelDim", "AddMeasure")
 			eleClickedImage.title = "Add this Measure to the table."
 			break;
 	}
@@ -101,11 +101,11 @@ function rdOgBatchCommand(sCommand, sOgTableID, sDimension, sGUID) {
 			elePartnerLink.href = elePartnerLink.href.replace("DimDel","DimAdd")
 			switch (sCommand) {
 				case 'DimAddLeft':
-					elePartnerImage.src = elePartnerImage.src.replace("DelDim.gif","AddTop.gif")
+					elePartnerImage.src = elePartnerImage.src.replace("DelDim","AddTop")
 					elePartnerImage.title = "Move this Dimension to the Top axis."
 					break;
 				case 'DimAddTop':
-					elePartnerImage.src = elePartnerImage.src.replace("DelDim.gif","AddLeft.gif")
+					elePartnerImage.src = elePartnerImage.src.replace("DelDim","AddLeft")
 					elePartnerImage.title = "Move this Dimension to the Left axis."
 					break;
 			}

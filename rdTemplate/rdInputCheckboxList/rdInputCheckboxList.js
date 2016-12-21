@@ -19,6 +19,8 @@ YUI.add('rd-inputCheckList-plugin', function (Y) {
 		_checkAllIsVisible: false,
 		_maxLevel: 0,
 		_leafNodes: 0,
+		_listCaptionsElementId: "",
+		_onchangeHandlers: [],
 		_actions: [],
         //constructor
 		initializer: function () {
@@ -91,6 +93,20 @@ YUI.add('rd-inputCheckList-plugin', function (Y) {
 		        this._actions.push(action.replace(/'/g,"\""));
 		    }
 
+		    //ListCaptionsElementId
+		    var listCaptionsElementId = this._container.getAttribute("data-list-captions-element-id");
+		    if (listCaptionsElementId && listCaptionsElementId.value !== "") {
+		        this._listCaptionsElementId = listCaptionsElementId;
+		        var inputListElement = Y.one("#" + this._id);
+		        var checkAllCaptureId = "#" + this._id + "_check_all";
+		        var checkboxSelector = "input[type=\"checkbox\"]:not(" + checkAllCaptureId + ")";
+		        var handler = this.populateHiddenCaption;
+		        var sID = this._id
+		        this._onchangeHandlers.push(inputListElement.delegate("change", function () { handler(sID) }, checkboxSelector));
+		        // initialize the list Captions element.
+		        this.populateHiddenCaption(this._id);
+            }
+
 		    //Hierarchical
 		    var changeHistory = document.getElementById(this._id + "_rdExpandedCollapsedHistory").value;
 		    if (changeHistory != "")
@@ -138,6 +154,13 @@ YUI.add('rd-inputCheckList-plugin', function (Y) {
 				this._docClickHandle.detach();
 				this._docClickHandle = null;
 			}
+			if (this._onchangeHandlers) {
+			    var i = 0; length = this._onchangeHandlers.length;
+			    for (; i < length; i++) {
+			        this._onchangeHandlers[i].detach();
+			    }
+			    this._onchangeHandlers = null;
+			}
         },
         
         setCheckboxOpacity: function (eleChk, alpha) {
@@ -148,10 +171,18 @@ YUI.add('rd-inputCheckList-plugin', function (Y) {
         },
 		onCheckAllClicked: function (e) {
 		    var isChecked = e.currentTarget.get("checked");
+		    var isHiddenCaptionPresented = this._listCaptionsElementId !== "";
+		    var hiddenCaptionId = this._listCaptionsElementId;
+
+		    if (isHiddenCaptionPresented) {
+		        Y.one("#" + this._listCaptionsElementId).set("value", "");
+		       
+		    }
+
 		    this._inputs.each(function (node) {
 		        var rdLevel = node.getAttribute("rdLevel");
-			    node.set("checked", isChecked);
-			    if (rdLevel != "") {
+		        node.set("checked", isChecked);
+		        if (rdLevel != "") {
 			        if (isChecked) {
 			            node.set("rdChecked", "all");
 			            Y.one(node).setStyle('opacity', '1.0');
@@ -161,7 +192,10 @@ YUI.add('rd-inputCheckList-plugin', function (Y) {
 			            Y.one(node).setStyle('opacity', '1.0');
 			        }
 			    }
-			});
+		    });
+
+		    this.populateHiddenCaption(this._id);
+
 			this.onCheckboxClicked({ checkall: true });
             
 
@@ -226,6 +260,60 @@ YUI.add('rd-inputCheckList-plugin', function (Y) {
 				this.close();
 			}
 		},
+
+		populateHiddenCaption: function (sInputListID) {
+		    var inputListElement = Y.one("#" + sInputListID);
+		    var hiddenCaptionField = Y.one("#" + inputListElement.getAttribute("data-list-captions-element-id"));
+
+		    if (hiddenCaptionField) {
+		        var tempSelectedValues = "";
+
+		        var checkAllCaptureId = "#" + sInputListID + "_check_all";
+		        var checkboxSelector = "input[type=\"checkbox\"]:not(" + checkAllCaptureId + ")";
+
+		        var items = inputListElement.all(checkboxSelector);
+		        if (items && items.size() > 0) {
+		            for (var i = 0; i < items.size() ; i++) {
+		                if (items.item(i).get("checked")) {
+		                    if (!(items.item(i).hasAttribute("rdExpanded"))) { // ignore non leaf nodes.
+		                        var listItem = items.item(i).ancestor();
+		                        tempSelectedValues += LogiXML.decodeHtml(listItem.one("span").get("innerHTML"), true).concat(", ")
+		                    }
+                        }
+		            }
+		            tempSelectedValues = tempSelectedValues.substring(0, tempSelectedValues.length - 2);
+		        }
+		        hiddenCaptionField.set("value", tempSelectedValues);
+		    }
+		},
+
+		populateHiddenInput: function (sInputListID) {
+		    var inputListElement = Y.one("#" + sInputListID);
+		    var hiddenCaptionField = Y.one("#" + "rdICL-" + sInputListID );
+
+		    var tempSelectedValues = "";
+		    var selectedVals = [];
+
+		    var checkAllCaptureId = "#" + sInputListID + "_check_all";
+		    var checkboxSelector = "input[type=\"checkbox\"]:not(" + checkAllCaptureId + ")";
+
+		    var items = inputListElement.all(checkboxSelector);
+		    if (items && items.size() > 0) {
+		        for (var i = 0; i < items.size() ; i++) {
+		            if (items.item(i).get("checked")) {	
+		                if (!(items.item(i).hasAttribute("rdExpanded"))) {
+		                    var sVal = items.item(i).get("value");
+		                    if (selectedVals.indexOf(sVal) == -1) {
+		                        selectedVals.push(sVal)
+		                    }
+		                }		                
+		            }
+		        }		        
+		        tempSelectedValues = selectedVals.join(",");
+		    }
+		    hiddenCaptionField.set("value", tempSelectedValues);
+		},
+
 
         //***Hierarchical Checkbox Functions
 		uncheckAllChildren: function(currentNode) {
@@ -635,7 +723,11 @@ YUI.add('rd-inputCheckList-plugin', function (Y) {
 				}
 				this.setCaption(caption, checked);
 			}
+
+			this.populateHiddenInput(this._id);
+
 			if (e && this._actions.length > 0) {
+			    this.populateHiddenCaption(this._id); //popluate this before any user defined action.
 			    for (i = 0; i < this._actions.length; i++) {
 					eval(this._actions[i]);
 				}
@@ -646,32 +738,37 @@ YUI.add('rd-inputCheckList-plugin', function (Y) {
 				this._caption.set('text', this._noneSelectedText);
 				return;
 			}
-			this._dropDownHandler.setStyle('position', 'absolute');
-			//measure caption length
-		    //	this._caption.hide();
-		    //	var mSpan = Y.Node.create('<span style="visibility: hidden;">0</span>');
-			//this._dropDownHandler.append(mSpan);
-			//var oldHeight = mSpan.get('offsetHeight');
-			//mSpan.set('text', caption);
-			//var textWidth = mSpan.get('offsetWidth');
-			//var newHeight = mSpan.get('offsetHeight');
-			//this._dropDownHandler.removeChild(mSpan);
-			//mSpan.destroy();
-			//mSpan.get('parentNode').removeChild(mSpan);
-			//this._caption.show();
-			////calculate space for caption
-			//var allowedWidth = this._dropDownHandler.get('offsetWidth') - this._img.get('offsetWidth');
-			//var padding = this._caption.getX() - this._dropDownHandler.getX();
-			//allowedWidth -= padding * 2;
-			//if (allowedWidth > textWidth && oldHeight == newHeight) {
-			//	this._caption.set('text', caption);
-			//} else {
-			//	this._caption.set('text', this._selectedText.replace("#", checked.length).replace("#", this._inputs._nodes.length));
-			//}
-			if (LogiXML.layout.getTextDimensions(caption, {}).width < LogiXML.layout.getTextDimensions("", {}, this._dropDownHandler.getAttribute("class")).width) {
-			    this._caption.set('text', caption);
+			this._dropDownHandler.setStyle('position', 'absolute');			
+
+			var currWidth = getCustomCssProperty(this._dropDownHandler.getAttribute('style'), "width");        
+			if (currWidth) {
+			    //measure caption length
+			    this._caption.hide();
+			    var mSpan = Y.Node.create('<span style="visibility: hidden;">0</span>');
+			    this._dropDownHandler.append(mSpan);
+			    var oldHeight = mSpan.get('offsetHeight');
+			    mSpan.set('text', caption);
+			    var textWidth = mSpan.get('offsetWidth');
+			    var newHeight = mSpan.get('offsetHeight');
+			    this._dropDownHandler.removeChild(mSpan);
+			    mSpan.destroy();
+			    //mSpan.get('parentNode').removeChild(mSpan);
+			    this._caption.show();
+			    //calculate space for caption
+			    var allowedWidth = this._dropDownHandler.get('offsetWidth') - this._img.get('offsetWidth');
+			    var padding = this._caption.getX() - this._dropDownHandler.getX();
+			    allowedWidth -= padding * 2;
+			    if (allowedWidth > textWidth && oldHeight == newHeight) {
+			        this._caption.set('text', caption);
+			    } else {
+			        this._caption.set('text', this._selectedText.replace("#", checked.length).replace("#", this._inputs._nodes.length));
+			    }			    
 			} else {
-			    this._caption.set('text', this._selectedText.replace("#", checked.length).replace("#", this._inputs._nodes.length));
+			    if (LogiXML.layout.getTextDimensions(caption, {}).width < LogiXML.layout.getTextDimensions("", {}, this._dropDownHandler.getAttribute("class")).width) {
+			        this._caption.set('text', caption);
+			    } else {
+			        this._caption.set('text', this._selectedText.replace("#", checked.length).replace("#", this._inputs._nodes.length));
+			    }
 			}
 			this._dropDownHandler.setStyle('position', 'relative');
 		}

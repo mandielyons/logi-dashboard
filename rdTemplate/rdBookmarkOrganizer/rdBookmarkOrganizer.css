@@ -49,3 +49,54 @@ width: 400px !important;
 a, a:link {
 text-decoration: none !important;
 }
+
+#dtBookmarkSharedWith a, #dtBookmarkSharedWith a:hover,
+#rdDivBookmarkShareTemplate a, #rdDivBookmarkShareTemplate a:hover{
+  text-decoration: none;
+}
+
+#frameShareFolder {
+background-color: transparent;
+}
+
+
+.iconAddUser{
+  background: transparent url("rdBookmarkSharingAdd.png") top left no-repeat; 
+  height: 24px;
+  display: block;
+  width: 24px;
+}
+
+.iconAddGroup{
+  background: transparent url("rdBookmarkGroupSharingAdd.png") top left no-repeat; 
+  height: 24px;
+  display: block;
+  width: 24px;
+}
+
+/* ingoGo - Table for Share Bookmarks list */
+
+table #dtBookmarkSharedWith a{
+  display: inline-block;
+  line-height: 28px;
+  padding-right: 25px;
+  background: transparent url("rdDelete.png") top right no-repeat; 
+}
+
+#rowBookmarkSharedWith {
+  min-height: 185px;
+  height: 185px;
+}
+
+table #dtBookmarkSharedWith td:first-of-type > span{
+  display: inline-block;
+  line-height: 28px;
+  padding-left: 25px;
+  background: transparent url("rdBookmarkSharingOn.png") top left no-repeat; 
+}
+
+
+#dtBookmarkSharedWith a, #dtBookmarkSharedWith a:hover,
+#rdDivBookmarkShareTemplate a, #rdDivBookmarkShareTemplate a:hover{
+    text-decoration: none;
+}

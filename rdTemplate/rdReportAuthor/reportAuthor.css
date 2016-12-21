@@ -13,10 +13,6 @@ div.container-fluid + div {
     border-collapse: collapse;
 }
 
-.rdReportAuthorHeader {
-    background-color: #86CAC3;
-}
-
 .rdReportAuthorHeaderButton {
     background-color: white;
     border: 1px solid #d4d5d6;
@@ -43,7 +39,7 @@ div.container-fluid + div {
 .rdReportAuthorToolboxItem {
     border: 1px solid #D4D5D6;
     background-color: white;
-    margin: 10px;
+    margin: 6px;
     cursor: move;
 }
 
@@ -96,7 +92,6 @@ div.container-fluid + div {
     height: 26px;
 }
 .rdReportAuthor_BackgroundMenu{
-    background: lightgray;
     min-height: 22px;
 }
 .rdReportAuthor_HeaderMenu{
@@ -121,20 +116,11 @@ div.container-fluid + div {
 }
  .rdReportAuthor_Command {
   color: #363B42 !important;
-  font-family: 'Segoe UI', 'Avenir Next', 'Avenir', 'Helvetica Neue', Helvetica, 'Arial', 'sans-serif';
   font-weight: normal;
 /*    text-shadow:1px 1px 0px #ffffff;*/
   background-image: none;
 background: #ffffff; /* Old browsers */
-/* IE9 SVG, needs conditional override of 'filter' to 'none' */
-background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2ZmZmZmZiIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNmZmZmZmYiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
-background: -moz-linear-gradient(top,  #ffffff 0%, #ffffff 100%); /* FF3.6+ */
-background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(100%,#ffffff)); /* Chrome,Safari4+ */
-background: -webkit-linear-gradient(top,  #ffffff 0%,#ffffff 100%); /* Chrome10+,Safari5.1+ */
-background: -o-linear-gradient(top,  #ffffff 0%,#ffffff 100%); /* Opera 11.10+ */
-background: -ms-linear-gradient(top,  #ffffff 0%,#ffffff 100%); /* IE10+ */
-background: linear-gradient(to bottom,  #ffffff 0%,#ffffff 100%); /* W3C */
-filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ffffff',GradientType=0 ); /* IE6-8 */
+
   border: none;
 /*  border-radius: 2px;*/
   text-decoration: none;
@@ -165,6 +151,22 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
     border-style: solid !important;
     border-radius: 0 !important;
 }
+
+/*-----------------AnalysisGrid Specific--------------*/
+.rdAgAlignCenter {
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
+.rdAgAlignLeft {
+  text-align: left;
+}
+
+.rdAgAlignRight {
+  text-align: right;
+}
+
 /*-----------------------------------Color picker-----------------------------------*/
 .rdAgKPIColor1 {
     background-color: #A61C00;
@@ -241,16 +243,13 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
         margin-bottom: auto;
     }
 /*-----------------Editor Template---------------*/
-/*.rd-settings-popup .rdPopupPanelTitle,.rd-settings-popup  .rdPopupPanelControl, .light-gray {
-    background-color: #f8f8f8 !important;
-}*/
+
 .rd-editable {
     position: relative;
 }
  
 .rd-editable:hover
 {
- /*background: url("pencilEdior.png") no-repeat scroll right top #FFFFE0;*/
  background: #FFFFE0;
  cursor: text;
 }
@@ -271,12 +270,12 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
     margin: 2px;
 }
 
-    .rd-element-editor:hover {
-        border-color: #4B4B4B;
-    }
+.rd-element-editor:hover {
+    border-color: #4B4B4B;
+}
 
 .rd-element-editor-header {
-    background-color: #f8f8f8;
+    background-color: #CCCCCC;
 }
 
 .rd-element-editor-droppable {
@@ -327,8 +326,8 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
 }
 
 .rd-element-editor-header-droppable {
-    background-color: #DAEFED;
-    border-right: 1px solid #AFDCD7;
+    background-color: #cccccc;
+    border-right: 1px solid #cccccc;
 }
 
 .rd-drag-block {
@@ -385,27 +384,12 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
     cursor: pointer;
 }
 
-/*.rd-settings-popup .rd-ok-button {
-    background-color: #444;
-    border: none;
-    color: #ddd;
-    padding: 5px;
-    padding-left: 10px;
-    padding-right: 10px;
-    margin-right: -2px;
-}*/
-
 .rd-settings-popup .rd-text-input {
     border: solid 2px rgb(180,180,180);
     -ms-border-radius: 0;
     border-radius: 0;
 }
 
-/*.rd-settings-popup #rdPopupPanelX {
-    border: none;
-    font-weight: bolder;
-    font-size: 14px;
-}*/
 
 .rd-report-author-element {
     padding: 2px;
@@ -434,11 +418,6 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
     text-align: right;
 }
 
-/*.rd-settings-popup span.rdPopupPanelTitleCaption {
-    font-size: 13px;
-    color: #666;
-}*/
-
 .rd-settings-popup .rdPopupPanel {
     padding: 0px;
 }
@@ -447,20 +426,9 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
     margin: 5px;
 }
 
-/*.rdPopupPanelCommand {
-    background-color: inherit;
-}*/
-
 .ThemeAlignTop {
     vertical-align: top;
 }
-
-
-/*.rd-settings-popup .rdPopupPanelTitle,
-.rd-settings-popup .rdPopupPanelTitle td,
-.rd-settings-popup .rdPopupPanelTitle span {
-    background-color: #f8f8f8;
-}*/
 
 /*----------------support classes-----------------*/
 .separator-horizontal {
@@ -503,27 +471,6 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
     text-overflow: ellipsis;
 }
 
-/*.rd-input-file {
-    max-width: 140px;
-}*/
-
-/*.rdRaCommand {
-    font-weight: normal;
-    color: #555555;
-    text-decoration: none;
-    background-color: #DDDDDD;
-    border-top: 1px solid #DDDDDD;
-    border-bottom: 1px solid #777777;
-    border-right: 1px solid #777777;
-    border-left: 1px solid #DDDDDD;
-    margin-left: 3px;
-    line-height: 10px;
-    height: 20px;
-    vertical-align: bottom;
-    cursor: pointer;
-    white-space: nowrap;
-}*/
-
 /*----------------------Toolbox---------------------*/
 .rd-toolbox-element {
     margin-left: 15px;
@@ -558,7 +505,6 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
 
     .rd-toolbox-element-text.rd-text-row {
         width: 80px;
-        /*margin-left: -15px;*/
         margin-left: 0px;
         margin-top: 6.5%;
     }
@@ -605,7 +551,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
 
 /*buttom menu*/
 .reportAuthorHeightMenu{
-   /*padding: 3px 0px!important;*/
+   padding: 3px 0px!important;
    min-height: 24px!important;
 }
 .rdAcCommandHighlight {
@@ -704,16 +650,6 @@ text-decoration: none!important;
 text-align: right;
 padding-right: 8px;
 }
-
-.rd-toolbox-container{
-   position: fixed;
-  z-index: 1;
-  left: 5px;
-  background-color: #ffffff;
-  margin-left:-5px;
-  margin-top:3px;
-  padding-left: 5px;
-  }
   
  #yui_3_1_1433439973255_693 {
  margin-left: 10px;
@@ -728,6 +664,28 @@ padding-right: 8px;
  padding-left:8px;
  }
  
-.rdColorPanelHolder {
-width: 0px !important;
+ #divUndoEnabled,
+#divRedoEnabled {
+	cursor: pointer;
+}
+
+#colUndoRedo IMG {
+position:relative;
+top:5px;
+}
+
+#divUndo{
+margin-left:10px;
+}
+
+#divRedo{
+margin-left:5px;
+}
+
+.viewPortDisplayMessage {
+    font-weight: bold;
+    font-size: 1.3em;
+    /*text-align: center;*/
+    display: block;
+    margin-top: .8em;
 }

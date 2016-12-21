@@ -15,6 +15,12 @@ YUI.add('rd-embedded-plugin', function (Y) {
 
         //constructor
         initializer: function () {
+            /* Infogo always resizing. fix for 25633 */
+            var infoGo = Y.one('link[href="_SupportFiles/InfoGo.GO.css"]');
+            if (infoGo) {
+                document.getElementsByTagName('html')[0].style.height = 'auto';
+            }
+            /* Infogo always resizing. fix for 25633 */
             this._handleLoad = this.get("host").on("load", function (e) {
                 //var tgt = e.currentTarget;
                 this._frameId = this.getUriParameter("rdframeid");
@@ -86,7 +92,6 @@ YUI.add('rd-embedded-plugin', function (Y) {
 				            }
 				        }
 				    }
-
 					response.prms = { "resetFrame": resetFrame, "docHeight": docHeight, "docWidth": docWidth, "winHeight": winHeight, "winWidth": winWidth, "region": region, "modalHeight" : height };
 					break;
 	            case "rdExecEmbeddedFunction":
@@ -126,7 +131,7 @@ YUI.add('rd-embedded-plugin', function (Y) {
                 return false;
 			}
             var sMessage = Y.JSON.stringify(message);
-            evt.source.postMessage(sMessage, evt.origin);
+            evt.source.postMessage(sMessage, evt.origin!=="null"?evt.origin:"*");
             return true;
         },
 

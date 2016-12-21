@@ -5,7 +5,6 @@
         window.LogiXML = {};
     }
     LogiXML.features = {};
-
     var tests = {},
 		features = LogiXML.features,
 		junk = 'junk',
@@ -112,6 +111,10 @@ var YUI_config = {
                     path: 'rdInputCheckboxList/rdInputCheckboxList.js',
                     requires: ['base', 'plugin', 'json']
                 },
+                'rd-inputSelectList-plugin': {
+                    path: 'rdInputSelectList/rdInputSelectList.js',
+                    requires: ['base', 'plugin', 'json']
+                },
                 'rd-script-full': {
                     path: 'rdScript.min.js',
                     requires: []
@@ -121,22 +124,27 @@ var YUI_config = {
                     requires: ['rd-script-full', 'dom-base', 'node-base', 'base', 'event', 'image-utils', 'node-custom-destroy', 'quicktip']
                 },
                 'rd-animated-charts': {
+				    async: false,
                     path: 'rdAnimatedChart/FusionCharts.js',
                     requires: ['dom-base', 'node-base', 'base', 'event']
                 },
                 'rd-animated-charts-jquery': {
+				    async: false,
                     path: 'rdAnimatedChart/jquery.min.js',
                     requires: []
                 },
                 'rd-animated-charts-hc': {
+				    async: false,
                     path: 'rdAnimatedChart/FusionCharts.HC.js',
                     requires: ['rd-animated-charts-jquery']
                 },
                 'rd-animated-charts-hc-charts': {
+				    async: false,
                     path: 'rdAnimatedChart/FusionCharts.HC.Charts.js',
                     requires: ['rd-animated-charts-jquery']
                 },
                 'rd-animated-charts-hc-widgets': {
+				    async: false,
                     path: 'rdAnimatedChart/FusionCharts.HC.Widgets.js',
                     requires: ['rd-animated-charts-jquery']
                 }

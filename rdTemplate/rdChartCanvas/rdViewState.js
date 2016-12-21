@@ -216,7 +216,7 @@ var restoreLegendState = function(chart) {
         var currentItem = stJson[i];
         if (currentItem === null || currentItem === undefined)
             continue;
-        if (currentItem === true) {
+        if (currentItem.value === true) {
             chart.series[i].setVisible(false);
         }
         if (Array.isArray(currentItem)) {

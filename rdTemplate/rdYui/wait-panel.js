@@ -62,13 +62,12 @@ YUI.add('waitpanel', function (Y) {
 		},
 	
 		showWaitPanel : function(waitCfg) {
-	
 			if (this.isWaitCanceled()) {				
 				return;			
 			}
 			else if (Y.Cookie.exists('rdFileDownloadComplete')) {
 				Y.Cookie.remove('rdFileDownloadComplete', {path: '/'});
-				return;
+				return; //25599
 			}
 			
 			var waitMessage, waitClass, waitCaptionClass;
@@ -85,9 +84,10 @@ YUI.add('waitpanel', function (Y) {
 			else
 				waitCaptionClass = '';
 					
-			if (!Y.Lang.isValue(document.getElementById('rdWait')))
+			if (!Y.Lang.isValue(document.getElementById('rdWait'))) 
 				document.body.insertBefore(this.createWaitContent(waitMessage, waitClass, waitCaptionClass).getDOMNode(), document.body.children[0]);
-						
+
+			
 			if (!Y.Lang.isValue(this._pnlWait)) {
 				this._pnlWait = new Y.Panel({
 					srcNode			: '#rdWait',								
@@ -198,6 +198,7 @@ YUI.add('waitpanel', function (Y) {
 		},
 		
 		hideFrameWait : function(e) {		
+		
 			var nodeFrame = e.target;
 			var frameSibling = nodeFrame.previous();
 			

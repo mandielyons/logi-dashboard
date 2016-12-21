@@ -84,6 +84,10 @@ function rdAjaxRequest(commandParams, bValidate, sConfirm, bProcess, fnCallback,
     //Show ajax wait panel
     var tTimeout;
     if (waitCfg != null) {
+        //25599
+        if (Y.Cookie.exists('rdFileDownloadComplete')) {
+            Y.Cookie.remove('rdFileDownloadComplete', { path: '/' });
+        }
         //22236
         if (Y.Lang.isValue(LogiXML.WaitPanel.pageWaitPanel)) {
             LogiXML.WaitPanel.pageWaitPanel.readyWait();
@@ -177,10 +181,33 @@ function Timeout(fn, nInterval) {
     };
 }
 
-function rdAjaxRequestWithFormVars(commandURL, bValidate, sConfirm, bFromOnClick, bProcess, fnCallback, waitCfg) {
+function getParameterByName(url, name) {
+    name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+        results = regex.exec(url);
+    return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+}
+
+function rdAjaxRequestWithFormVars(commandURL, bValidate, sConfirm, bFromOnClick, bProcess, fnCallback, waitCfg, copyQueryString) {
     //Build the request URL.
     if (commandURL.indexOf("RequestRealTimeAnimatedChartData") > 0)
         commandURL = commandURL + "&rdAnimatedChartRenderer=" + FusionCharts.getCurrentRenderer(); //19845.
+
+    if (copyQueryString) {
+        var refreshElementIDs = getParameterByName(commandURL, "rdRefreshElementID");
+        if (refreshElementIDs) {
+            var regex = new RegExp(/(\$Request\.)([^~]*)(~)/g);
+            var match = regex.exec(refreshElementIDs);
+            while (match != null) {
+                var id = match[2];
+                var value = getParameterByName(location.search, id);
+                if (value)
+                    commandURL += "&" + id + "=" + value;
+
+                match = regex.exec(refreshElementIDs);
+            }
+        }
+    }
 
     if (bFromOnClick) 
         commandURL = decodeURIComponent(commandURL)  //onClick and other events need decoding.#6549 and 	
@@ -196,14 +223,15 @@ function rdAjaxRequestWithFormVars(commandURL, bValidate, sConfirm, bFromOnClick
 
 	var checkboxChildrenIndexes = [];
     
-	for (var i=0; i < frm.elements.length; i++) { 
+	for (var i = 0; i < frm.elements.length; i++) {	   
 	    var ele = frm.elements[i]
 	    
-	    if (checkboxChildrenIndexes.indexOf(i) >= 0)
-	        continue;
-
 	    if (!ele.type) {
             continue;  //Not an input element.
+	    }
+
+	    if (ele.type == "checkbox" && (ele.id.indexOf("_check_all") != -1 || ele.id.indexOf("_rdList") != -1)) {
+	        continue;
 	    }
         
 	    if (ele.type == "file" && ele.getAttribute("data-ajax-upload") == "True") {
@@ -245,6 +273,10 @@ function rdAjaxRequestWithFormVars(commandURL, bValidate, sConfirm, bFromOnClick
 
 	        var sInputValue = rdGetInputValues(ele)
 
+	        if (sInputValue.indexOf("rdICL-") != "-1") {
+                sInputValue = sInputValue.replace("rdICL-","")	        
+	        }
+
 	        if (ele.type == "checkbox" && sInputValue.indexOf("rdNotSent") != -1) {
 	            sInputValue = ""
 	        }
@@ -252,23 +284,10 @@ function rdAjaxRequestWithFormVars(commandURL, bValidate, sConfirm, bFromOnClick
 	        //Sometimes there may be duplicate parameters in the command.  This prevents duplicates. 21117
 	        //22591 - Refactored. rdGetInputValues cannot be run twice in a row without changes. The second run will return Null.
 	        if (commandURL.indexOf(sInputValue) == -1)
-	            commandURL += sInputValue;
-
-            //24111 24167
-	        if (ele.id && ele.id != "" && Y.Lang.isValue(Y.one("#" + ele.id))){
-	            if(Y.Lang.isValue(Y.one("#" + ele.id).ancestor("div")) && Y.one("#" + ele.id).ancestor("div").getAttribute("data-checkboxlist")) {
-	                var id = Y.one("#" + ele.id).ancestor("div").getAttribute("id");
-	                for (var j = 0; j < frm.elements.length; j++) {
-	                    if (frm.elements[j].id.indexOf(id + "_rdList") >= 0) {
-	                        checkboxChildrenIndexes.push(j);
-	                    }
-	                }
-	            }
-	        }
-
+	            commandURL += sInputValue;           
 	    }
 	}
-
+    	
 	if (isUpload) {
 	    commandURL = uploadUrlParams;
 	}
@@ -276,7 +295,36 @@ function rdAjaxRequestWithFormVars(commandURL, bValidate, sConfirm, bFromOnClick
 	sPrevRadioId = "";
 
 	commandURL = commandURL.replace("rdRequestForwarding=Form","")  //Don't come back here.
-	
+
+    try { //25197: ChartCanvas: WaitPage Not Showing with RefreshElement
+        if (commandURL.indexOf("RefreshElement") > -1 && commandURL.indexOf("rdReportAuthorAction")<0) {
+            for (var k = 0; k < Highcharts.charts.length; k++) {
+                var chart = Highcharts.charts[k];
+                if (chart != null) {
+                    var _node = chart.renderTo;
+                    var _yNode = Y.one(_node);
+                    var startIndex = commandURL.indexOf("rdRefreshElementID");
+                    var endIndex;
+                    if (startIndex != -1) {
+                        startIndex += 19;
+                        endIndex = commandURL.indexOf("&", startIndex);
+                        var id = commandURL.substring(startIndex, endIndex);
+                        var _ancestors = _yNode.ancestors("#" + id);
+                        if (_ancestors != null && _ancestors.getDOMNodes().length) {
+                            chart.showLoading('<img src="rdTemplate/rdWait.gif" alt="loading..."></img>');
+                        }
+                    }
+
+                }
+            }
+
+        }
+    } catch (e) {
+
+    } 
+
+
+
 	rdAjaxRequest(commandURL, bValidate, sConfirm, bProcess, fnCallback, waitCfg,isUpload)
 }
 
@@ -288,8 +336,7 @@ function rdAjaxEncodeValue(sValue){
     return sValue
 }
 
-function rdUpdatePage(xmlResponse, sResponse) {	
-            
+function rdUpdatePage(xmlResponse, sResponse) {
     if (sResponse.length != 0) {
 	    if (sResponse.indexOf("rdDebugUrl=")!=-1) { 
 	        rdReportResponseError(sResponse)
@@ -523,8 +570,19 @@ function rdUpdatePage(xmlResponse, sResponse) {
 				    ShowElement(null,xmlResponse.documentElement.getAttribute("ElementID"),xmlResponse.documentElement.getAttribute("Action"));
 					break;
 
-		    case 'ShowStatus':
-		        window.status = xmlResponse.documentElement.getAttribute("Status")
+	        case 'ShowStatus':
+	            
+	            if (xmlResponse.documentElement.getAttribute("RdTsBookmarkID")) {
+	                var bookmarkUrl = "rdPage.aspx?rdLoadBookmark=True&rdReport=" + xmlResponse.documentElement.getAttribute("RdReport") + "&rdBookmarkCollection=" + xmlResponse.documentElement.getAttribute("RdBookmarkCollection") + "&rdBookmarkUserName=" + xmlResponse.documentElement.getAttribute("RdBookmarkUserName") + "&rdBookmarkID=" + xmlResponse.documentElement.getAttribute("RdTsBookmarkID") + "&rdSharedBookmarkID=" + xmlResponse.documentElement.getAttribute("RdSharedBookmarkID");
+                    
+                    if (xmlResponse.documentElement.getAttribute("IsNewSave") == "True") {
+                        window.location.href = bookmarkUrl;
+                    } else if (xmlResponse.documentElement.getAttribute("IsOverwrite") == "False") {
+                        window.history.pushState("", "", bookmarkUrl);
+                    }
+	            }
+	            
+	            window.status = xmlResponse.documentElement.getAttribute("Status")
 
                 if (xmlResponse.documentElement.getAttribute("Alert")) {
 		            alert(xmlResponse.documentElement.getAttribute("Alert"));

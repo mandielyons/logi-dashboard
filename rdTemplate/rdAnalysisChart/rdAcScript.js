@@ -1,5 +1,4 @@
 function rdAcUpdateControls(bRefresh, sReport, sAcId, bInit) {
-
     var eleBatchSelection = document.getElementById('rowBatchSelection_' + sAcId)
     if (!eleBatchSelection && !bInit) {  //When not batch selection, update the visualization with every control change.
         bRefresh = true
@@ -47,13 +46,13 @@ function rdAcUpdateControls(bRefresh, sReport, sAcId, bInit) {
 			case 'Pie':
 			case 'Bar':
 			    ShowElement(this.id, 'lblChartXLabelColumn_' + sAcId, 'Show');
-				ShowElement(this.id,'lblChartYDataColumn_'+sAcId,'Show');
-				ShowElement(this.id,'rowChartXColumn_' + sAcId, 'Show');
+				ShowElement(this.id, 'lblChartYDataColumn_'+sAcId,'Show');
+				ShowElement(this.id, 'rowChartXColumn_' + sAcId, 'Show');
 				ShowElement(this.id, 'rdAcChartXLabelColumn_' + sAcId, 'Show');
 				ShowElement(this.id, 'rdAcChartYColumn_' + sAcId, 'Show');
-				ShowElement(this.id, 'rdChartYShowValues_' + sAcId, 'Show');
-				ShowElement(this.id,'rdAcChartYAggrLabel_'+sAcId,'Show');
-				ShowElement(this.id,'rdAcChartYAggrList_'+sAcId,'Show');
+				ShowElement(this.id, 'rdChartYShowValues_' + sAcId, 'Show'); 
+				ShowElement(this.id, 'rdAcChartYAggrLabel_'+sAcId,'Show');
+				ShowElement(this.id, 'rdAcChartYAggrList_'+sAcId,'Show');
 
 				if (sCurrChartType == "Bar") {
 				    ShowElement(this.id, 'rowChartOrientation_' + sAcId, 'Show');
@@ -67,7 +66,6 @@ function rdAcUpdateControls(bRefresh, sReport, sAcId, bInit) {
 				                ShowElement(this.id, 'rdAcStacking_' + sAcId, 'Hide');
 				            } else {
 				                ShowElement(this.id, 'rdAcStacking_' + sAcId, 'Show');
-				                ShowElement(this.id, 'rdChartYShowValues_' + sAcId, 'Hide');
 				            }
 				        }
 				    }
@@ -114,6 +112,7 @@ function rdAcUpdateControls(bRefresh, sReport, sAcId, bInit) {
 	        ShowElement(this.id, 'rowChartXColumn_' + sAcId, 'Show');
 	        ShowElement(this.id, 'rdAcChartXDataColumn_' + sAcId, 'Show');
 	        ShowElement(this.id, 'rdAcChartYColumn_' + sAcId, 'Show');
+	        ShowElement(this.id, 'rdChartYShowValues_' + sAcId, 'Show');
 	        rdAcSetAggrOptions(document.getElementById('rdAcChartXDataColumn_' + sAcId).value, sAcId);
 
 	        var sColumn = document.getElementById('rdAcChartXDataColumn_' + sAcId).value
@@ -149,11 +148,12 @@ function rdAcUpdateControls(bRefresh, sReport, sAcId, bInit) {
 
 
 	    case 'Scatter':
-				ShowElement(this.id,'lblChartXAxisColumn_'+sAcId,'Show');
-				ShowElement(this.id,'lblChartYAxisColumn_'+sAcId,'Show');
-				ShowElement(this.id,'rowChartXColumn_' + sAcId, 'Show');
-				ShowElement(this.id,'rdAcChartXDataColumn_'+sAcId,'Show');
-				ShowElement(this.id,'rdAcChartYColumn_'+sAcId,'Show');
+				ShowElement(this.id, 'lblChartXAxisColumn_'+sAcId,'Show');
+				ShowElement(this.id, 'lblChartYAxisColumn_'+sAcId,'Show');
+				ShowElement(this.id, 'rowChartXColumn_' + sAcId, 'Show');
+				ShowElement(this.id, 'rdAcChartXDataColumn_'+sAcId,'Show');
+				ShowElement(this.id, 'rdAcChartYColumn_'+sAcId,'Show');
+				ShowElement(this.id, 'rdChartYShowValues_' + sAcId, 'Show');
 
 				////if(bForecast) rdAcHideForecast(sAcId);
 				document.getElementById('rdAcChartsDateGroupBy_'+sAcId).style.display = 'none';
@@ -162,15 +162,15 @@ function rdAcUpdateControls(bRefresh, sReport, sAcId, bInit) {
 				break;
 
 			case 'Heatmap':
-				ShowElement(this.id,'lblChartXLabelColumn_'+sAcId,'Show');
-				ShowElement(this.id,'lblChartSizeColumn_'+sAcId,'Show');
-				ShowElement(this.id,'rdAcChartSizeAggrLabel_'+sAcId,'Show');
-				ShowElement(this.id,'rowChartXColumn_' + sAcId, 'Show');
-				ShowElement(this.id,'rdAcChartXLabelColumn_' + sAcId, 'Show');
-				ShowElement(this.id,'rdAcChartYColumn_'+sAcId,'Show');
-				ShowElement(this.id,'rdAcChartYAggrList_'+sAcId,'Show');
-				ShowElement(this.id,'rowChartExtraDataColumn_'+sAcId,'Show');
-				ShowElement(this.id,'rowChartExtraAggrList_'+sAcId,'Show');
+				ShowElement(this.id, 'lblChartXLabelColumn_'+sAcId,'Show');
+				ShowElement(this.id, 'lblChartSizeColumn_'+sAcId,'Show');
+				ShowElement(this.id, 'rdAcChartSizeAggrLabel_'+sAcId,'Show');
+				ShowElement(this.id, 'rowChartXColumn_' + sAcId, 'Show');
+				ShowElement(this.id, 'rdAcChartXLabelColumn_' + sAcId, 'Show');
+				ShowElement(this.id, 'rdAcChartYColumn_'+sAcId,'Show');
+				ShowElement(this.id, 'rdAcChartYAggrList_'+sAcId,'Show');
+				ShowElement(this.id, 'rowChartExtraDataColumn_'+sAcId,'Show');
+				ShowElement(this.id, 'rowChartExtraAggrList_'+sAcId,'Show');
 
 				document.getElementById('rdAcChartsDateGroupBy_'+sAcId).style.display = 'none';
 				document.getElementById('rdAcChartsDateGroupBy_'+sAcId + '-Caption').style.display = 'none';
@@ -203,6 +203,26 @@ function rdAcUpdateControls(bRefresh, sReport, sAcId, bInit) {
 	if (sCrosstabColumn != '' && (sCurrChartType == 'Bar' || sCurrChartType == 'Line')) {
 	    rdAcHideForecast(sAcId)
 	}
+
+    //ShowValues Percentage only for Pies.
+	var eleShowValuesDropdown = document.getElementById("rdAcShowValues_" + sAcId)
+	if (sCurrChartType == "Pie") {
+	    if (eleShowValuesDropdown.length < 3) {
+	        if (eleShowValuesDropdown.hasAttribute("rdPercentageCaption")) {
+	            var eleOptionPercentage = document.createElement("option")
+	            eleOptionPercentage.value = eleShowValuesDropdown.getAttribute("Percent")
+	            eleOptionPercentage.text = eleShowValuesDropdown.getAttribute("rdPercentageCaption")
+	            eleShowValuesDropdown.add(eleOptionPercentage)
+            }
+	    }
+	} else {  //Remove "Percentage"
+	    if (eleShowValuesDropdown.length == 3) {
+	        eleShowValuesDropdown.setAttribute("rdPercentageCaption", eleShowValuesDropdown.options[2].text)
+	        eleShowValuesDropdown.options.remove(2)
+	    }
+	}
+	
+
 	
 	rdAcSetButtonStyle(sAcId,sCurrChartType,'Pie')
 	rdAcSetButtonStyle(sAcId,sCurrChartType,'Bar')
@@ -219,17 +239,46 @@ function rdAcUpdateControls(bRefresh, sReport, sAcId, bInit) {
         sElementIDs += ',lblHeadingAnalChart_' + sAcId;  //This is the AG's panel heading, when running AG.
 	    var sAjaxUrl = "rdAjaxCommand=RefreshElement&rdAcRefresh=True&rdRefreshElementID=" + sElementIDs + '&rdReport=' + sReport + '&rdAcId=' + sAcId;
 	    sAjaxUrl = sAjaxUrl + '&rdAcNewCommand=True';
-	    rdAjaxRequestWithFormVars(sAjaxUrl);
+
+        //Parse out WaitPage configuration
+	    var waitCfg = ['', '', '']
+	    var eleWaitCfg = document.getElementById("rdWaitCfg")
+	    if (eleWaitCfg) {
+	        try {
+	            var sScript = eleWaitCfg.parentElement.href
+	            sScript = sScript.substr(sScript.indexOf("["))
+	            waitCfg = eval(sScript.substr(0, sScript.indexOf("]") + 1))
+	        }
+	        catch (e) { }
+	    }
+
+	    rdAjaxRequestWithFormVars(sAjaxUrl, 'false', '', true, null, null, waitCfg);
+
 	}
 }
 
+function rdAcShowAddToDashboard(sAcId) {
+    if (typeof LogiXML.AnalysisGrid.rdAgToggleChartPanel === "function") {
+        //Under the AnalysisGrid
+        var eleAddToDashboard = document.getElementById("colAnalChartAddDashboard_" + sAcId)
+        if (eleAddToDashboard) {
+            eleAddToDashboard.style.display = ''
+        }
+    } else {
+        //Under the AC.
+        var eleAddToDashboard = document.getElementById("divAddToDashboardPanel_" + sAcId)
+        if (eleAddToDashboard) {
+            eleAddToDashboard.style.display = ''
+        }
+    }
+}
 
 function rdAcLoadDropdowns(sCurrChartType, sAcId) {
     //These column dropdowns are set dynamically, client-side, based on chart type and data type.
     if (sCurrChartType == 'Pie' || sCurrChartType == 'Heatmap') {
-        rdAcSetDropdownColumns(sAcId, "rdAcChartXLabelColumn", "Text")
+        rdAcSetDropdownColumns(sAcId, "rdAcChartXLabelColumn", "Text,Boolean")
     } else {
-        rdAcSetDropdownColumns(sAcId, "rdAcChartXLabelColumn", "Text,Date,DateTime")
+        rdAcSetDropdownColumns(sAcId, "rdAcChartXLabelColumn", "Text,Date,DateTime,Boolean")
     }
 
     if (sCurrChartType == 'Line' || sCurrChartType == 'Spline' || sCurrChartType == 'Scatter') {
@@ -346,7 +395,7 @@ function rdAcSetButtonStyle(sAcId,sCurrChartType,sButtonType) {
 function rdShowForecast(sColumn, sAcId){
     if(document.getElementById('rdAcForecastType_' + sAcId) == null) return;
     var sColumnDataType = rdAcGetColumnDataType(sColumn, sAcId) //#15892.
-    if (sColumnDataType.toLowerCase() == "text") {
+    if (sColumnDataType.toLowerCase() == "text" || sColumnDataType.toLowerCase() == "boolean") {
         rdAcHideForecast();
         return;
     }
@@ -421,7 +470,7 @@ function rdSetForecastOptions(sColumn, sAcId){
     var aForecastValues = ['None', 'TimeSeriesDecomposition', 'Regression']; 
     var aForecastOptions = ['', 'Time Series', 'Regression']; 
     var sDataColumnType = rdAcGetColumnDataType(sColumn, sAcId);
-    if (sDataColumnType.toLowerCase() == "text") {
+    if (sDataColumnType.toLowerCase() == "text" || sDataColumnType.toLowerCase() == "boolean") {
         rdAcHideForecast(sAcId);
         return;
     }
@@ -549,7 +598,7 @@ function rdModifyTimeSeriesCycleLengthOptions(sColumnGroupByDropdown, sAcId){
                 document.getElementById('rdAcTimeSeriesCycle_' + sAcId + '-Caption').style.display = '';
             }
             break;
-        case 'Date':
+        case 'Date': case 'DateTime':
             for(i=0;i<7;i++){
                 var eleTimeSeriesCycleLengthOption = eleTimeSeriesCycleLengthDropdown.options[j]
                 if(eleTimeSeriesCycleLengthOption != null){

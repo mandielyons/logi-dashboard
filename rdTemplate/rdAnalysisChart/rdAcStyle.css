@@ -1,12 +1,12 @@
 .rdAc
 { 
 	font-size: 11px;
-	font-family: arial, sans-serif;
+	white-space: nowrap;
 }
 .rdAc TABLE
 { 
 	font-size: 11px;
-	font-family: arial, sans-serif;
+	white-space: nowrap;
 }
 
 .rdAc IMG 	{
@@ -32,10 +32,6 @@
 	border: 1px solid #C1C1C1;
 }
 
-.rdAcControlsLeft {
-	vertical-align: top;
-}
-
 .rdAcAlignRight
 {
 	float: right;
@@ -57,7 +53,6 @@
 	padding-top: 2px;
 	padding-bottom: 2px;
 	line-height:24px;
-	white-space: nowrap;
 }
 
 .rdAcCommandIdle {
@@ -66,7 +61,6 @@
 	cursor: pointer;
 	text-decoration: none;
 	vertical-align: baseline;
-	white-space: nowrap;
 	font-size: 15px;
 	border-bottom: 3px solid gray;
 	border-top: none;
@@ -85,7 +79,6 @@
 	cursor: pointer;
 	text-decoration: none;
 	vertical-align: baseline;
-	white-space: nowrap;
 	font-size: 15px;
 	border-bottom: 3px solid black;
 	border-top: none;
@@ -104,7 +97,6 @@
 	cursor: pointer;
 	text-decoration: none;
 	vertical-align: baseline;
-	white-space: nowrap;
 	font-size: 15px;
 	border-bottom: 3px solid gray;
 	border-top: none;
@@ -122,7 +114,6 @@
 	cursor: pointer;
 	text-decoration: none;
 	vertical-align: baseline;
-	white-space: nowrap;
 	font-size: 15px;
 	border-bottom: 3px solid gray;
 	border-top: none;

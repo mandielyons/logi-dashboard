@@ -2,6 +2,7 @@
 <Report ID="Dashboard.rdDashboard2Template">
 	<StyleSheet StyleSheet="rdTemplate/rdDashboard/rdDashboard2.css"/>
 	<Body>
+
 		<Tabs ID="rdDashboardTabs" TabbingStyle="RefreshPage" Class="rdDashboard rdDashboardTabs" ActiveTabBackgroundColor="#EEEEEE" BorderColor="#888888" Width="100" WidthScale="%">
 			<TabPanel ID="rdTabTemplate" Caption="" Class="rdDashboardTab" rdNewTabCaption="New Tab">
 			</TabPanel>
@@ -36,17 +37,57 @@
 										<Label ID="lblAjaxFeedback" Caption="Working..." />
 									</Division>
 								</Column>
-							</Row>
+              </Row>
 						</Rows>
 					</Column>
 				</Row>
 				<Row ID="rdDashboardPanels">
-					<Column Class="rdDashboard">
+          <InputHidden DefaultValue="None" ID="lblAutoBookmark" />
+          <Column Class="rdDashboard">
+            
+            
 						<Division ID="rdAddTabCog" ShowModes="None">
 							<Image Caption="../rdTemplate/rdDashboard/rdAddNewTab.png" AltText="Add Tab" Tooltip="Add Tab" ID="rdAddNewTabCog" Width="24" Height="24">
 								<Action Type="Javascript" ID="actRenamethisTab" Javascript="LogiXML.Dashboard.pageDashboard.rdAddNewTab();" />
 							</Image>
-
+              <Division ID="divUndoRedo">
+                <Division ID="divUndo">
+                  <Division ShowModes="None" ID="divUndoEnabled">
+                    <EventHandler DhtmlEvent="onclick">
+                      <Action Type="Report" ID="actUndo">
+                        <Target Type="Report" ID="tgtUndo" >
+                          <WaitPage />
+                        </Target>
+                        <LinkParams rdCommand="Undo" rdDbCommandID="@Function.GUID~" />
+                      </Action>
+                    </EventHandler>
+                    <Division>
+                      <Image Caption="rdTemplate/rdUndo.png" ID="imgUndoEnabled" AltText="Undo." Tooltip="Undo. Ctrl+Z" />
+                    </Division>
+                  </Division>
+                  <Division ShowModes="None" ID="divUndoDisabled">
+                    <Image Caption="rdTemplate/rdUndoDisable.png" ID="imgUndoDisabled" AltText="Undo." Tooltip="Undo. Ctrl+Z" />
+                  </Division>
+                </Division>
+                <Division ID="divRedo">
+                  <Division ShowModes="None" ID="divRedoEnabled">
+                    <EventHandler DhtmlEvent="onclick">
+                      <Action Type="Report" ID="actRedo">
+                        <Target Type="Report" ID="tgtRedo" >
+                          <WaitPage />
+                        </Target>
+                        <LinkParams rdCommand="Redo" rdDbCommandID="@Function.GUID~" />
+                      </Action>
+                    </EventHandler>
+                    <Division>
+                      <Image Caption="rdTemplate/rdRedo.png" ID="imgRedoEnabled" AltText="Redo." Tooltip="Redo. Ctrl+Y" />
+                    </Division>
+                  </Division>
+                  <Division ShowModes="None" ID="divRedoDisabled">
+                    <Image Caption="rdTemplate/rdRedoDisable.png" ID="imgRedoDisabled" AltText="Redo." Tooltip="Redo. Ctrl+Y" />
+                  </Division>
+                </Division>
+              </Division>
 						</Division>
 						<Division ID="rdRenameTabDiv" ShowModes="None">
 							<InputText ID="txtRenameTab" Class="rdDashboardText" >
@@ -89,12 +130,12 @@
 														<Rows CellSpacing="10">
 															<Row ShowModes="None">
 																<Column>
-                                                                   <Label ID="lblRenameTabSave" Caption="Rename this Tab:" Class="rdDashboardText" For="txtRenameTab" />
+                                  <Label ID="lblRenameTabSave" Caption="Rename this Tab:" Class="rdDashboardText" For="txtRenameTab" />
 																</Column>
 															</Row>
 															<Row ID="rowTabColumnCount">
 																<Column>
-                                                                   <Label ID="lblColumnCount" Caption="Number of Panel Columns: " Class="rdDashboardText" For="lstColumnCount" />
+                                  <Label ID="lblColumnCount" Caption="Number of Panel Columns: " Class="rdDashboardText" For="lstColumnCount" />
 																</Column>
 																<Column>
 																	<InputSelectList ID="lstColumnCount" OptionValueColumn="ColumnCount" OptionCaptionColumn="ColumnCount">
@@ -157,6 +198,7 @@
 								</Rows>
 							</PopupPanel>
 						</Division>
+            
 						<Division HtmlDiv="True" ID="rdDivDashboardPanelTable" Class="dashboardPanelContainer">
 							<Rows TableBorder="0" ID="rdDashboardPanelTable" CellSpacing="0" Width="100" WidthScale="%">
 								<Row ID="rowPanels">

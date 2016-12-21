@@ -1,11 +1,9 @@
 .rdAg
 {
-	font-family: arial, sans-serif;
 	font-size: 11px;
 }
 .rdAg TABLE
 {
-	font-family: arial, sans-serif;
 	font-size: 11px;
 }
 
@@ -18,7 +16,7 @@
 	margin-top: 0px;
 	margin-left: 0px;
 	margin-right: 0px;
-	margin-bottom: 7px;
+	margin-bottom: 0px;
 	}
 
 .rdAg A:link
@@ -28,9 +26,9 @@
 
 .rdAgCaptionRow
 {
-		background-image: url(rd666666.png);
-		font-size: 14px;
-		font-weight:bold;
+	background-image: url(rd666666.png);
+	font-size: 14px;
+	font-weight:bold;
 	color: #FFFFFF;
 	height:26px;
 }
@@ -69,16 +67,10 @@
 	background-color: #CCCCCC;
 }
 
-.rdAgDataTable A:hover
-{
-	text-decoration:underline;
-}
-
-
 TABLE.rdAgDataTable TD
 {
 		background-color: #F8F8F8;
-		padding: 4px;
+		padding: 2px;
 }
 TABLE.rdAgDataTable TH
 {
@@ -86,7 +78,7 @@ TABLE.rdAgDataTable TH
 		background-repeat:repeat-x;
 		background-color: #ECECEC;
 		border-width: 0px;
-	padding: 4px;
+	    padding: 2px;
 }
 
 TR.rdAgHeaderRow TH
@@ -164,27 +156,7 @@ TR.rdAgGroup4HeaderRow TD {background-color: #F0F0F0;}
 	filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
 }
 
-.rdAgEditOff {
-	background-image: url(rdAgEditCogOff.png);
-	background-repeat: no-repeat;
-	background-position: center;
-	height: 22px;
-    border-radius: 2px;
-    cursor: pointer;
-}
-
-.rdAgEditOn {
-	background-image: url(rdAgEditCogOn.png);
-	background-repeat: no-repeat;
-	background-position: center;
-	background-color: #e1e1e1;
-	height: 22px;
-    border-radius: 2px;
-    cursor: pointer;
-}
-
-.rdAgTabHeading
-{
+.rdAgTabHeading, #colPagingContainer {
 	white-space: nowrap;
 }
 
@@ -292,10 +264,7 @@ TR.rdAgGroup4HeaderRow TD {background-color: #F0F0F0;}
 
 .rdAgPickDistinct
 {
-	margin-bottom : 0px;
-	margin-left : 0px;
-	margin-right : 0px;
-	margin-top : 0px;
+	margin: auto;
 }
 
 .rdAgError
@@ -325,7 +294,7 @@ TR.rdAgGroup4HeaderRow TD {background-color: #F0F0F0;}
 	white-space: pre-wrap;
 	word-wrap: break-word;
 	vertical-align:top;
-	width:300px;
+	width:400px;
 }
 
 .rdCrosstabDropdownColumn
@@ -487,20 +456,32 @@ width: 100%;
 	white-space: nowrap;
 }
 
-#lstFilter{
+
+#lstFilter {
     width: 90%;
 	color: gray;
-	border: none;
+	background-color: transparent;
+	border-color: transparent;
 }
-
-#lstFilter ul li{
-	color: gray;
-}
-
-#dtFilter a {
-	color: gray;
-}
-
 #dtFilter {
-	border: none;
+	background-color: transparent;
+	border-color: transparent;
+}	
+
+#divUndoEnabled,
+#divRedoEnabled {
+	cursor: pointer;
+}
+
+#colUndoRedo IMG {
+position:relative;
+top:5px;
+}
+
+#divUndo{
+margin-left:10px;
+}
+
+#divRedo{
+margin-left:5px;
 }

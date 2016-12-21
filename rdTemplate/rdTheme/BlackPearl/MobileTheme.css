@@ -9,7 +9,7 @@ BODY {
 .rdTimePicker, .rdTimePicker TABLE,
 .rdPopupPanelTitleCaption
 {
-	font-size: 100%;	
+	font-size: 100%;		
 }
 
  .rdAcCommand,  .rdAcCommandHighlight { font-size: 120%; }

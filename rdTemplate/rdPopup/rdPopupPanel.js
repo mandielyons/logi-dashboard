@@ -43,7 +43,6 @@ Y.use('dd-plugin', 'dd-scroll', 'escape', function(Y){
             var eleDashboardPanelTable = document.getElementById("rdDivDashboardPanelTable")
             // Get the Dashboard Panel Table(Div) and add the Modal and the Popup Panel to the Table.
             if (eleDashboardPanelTable != null && bMovePanelInDashboard) {
-                console.log(elePopupPanel);
                 var eleModalPanel = elePopupPanel.previousSibling;
                 if (eleModalPanel) {
                     if (eleModalPanel.id) {

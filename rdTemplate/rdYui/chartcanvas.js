@@ -36,7 +36,8 @@ YUI.add('chartCanvas', function (Y) {
         mask: null,
         restoreSelectionForSeriesIndex: null,
         maxVisiblePoints: null,
-        refreshTimers: [], 
+        refreshTimers: [],
+        oldBrowserWidth: null,
 
         initializer: function(config) {
             this._parseHTMLConfig();
@@ -47,6 +48,50 @@ YUI.add('chartCanvas', function (Y) {
             this._handlers.chartError = Highcharts.addEvent(this.configNode.getDOMNode(), 'error', Y.LogiXML.ChartCanvas.handleError);
             this._handlers.setSize = this.configNode.on('setSize', this.resized, this);
             this.initChart(chartOptions);
+            if (this.isResponsive()) {
+                this.subscribeToWindowResize();
+            }
+        },
+
+        isResponsive: function () {
+            if (!this.configNode.ancestor('td')) {
+                return false;
+            }
+            var styleAttribute = this.configNode.getAttribute('style'),
+                actualWidth = this.configNode.getStyle('width');
+            if (styleAttribute.indexOf('width') > -1) {
+                if (actualWidth.indexOf('%') > -1) {
+                    return true;
+                }
+                return false;
+            }
+            return true;
+        },
+
+        subscribeToWindowResize: function() {
+            this.oldBrowserWidth = document.body.clientWidth;
+            var self = this;
+            this._handlers.onwindowresize = Y.on('windowresize', function () { self.responsiveResize(self) });
+        },
+
+        responsiveResize: function (self) {
+            var newBrowserWidth = document.body.clientWidth;
+            var currWidth = this.configNode.getStyle('width');
+            if (self.oldBrowserWidth > newBrowserWidth) {
+                    self.configNode.hide();
+                    self.configNode.setStyle('width', "10px");
+                    self.chart.reflow();
+                    self.configNode.show();
+                    if (currWidth.indexOf('%') > -1) {
+                        self.configNode.setStyle('width', currWidth);
+                    } else {
+                        self.configNode.setStyle('width', "100%");
+                    }
+                    setTimeout(function () {
+                        self.chart.reflow();
+                    }, 500);
+            }
+            self.oldBrowserWidth = newBrowserWidth;
         },
 
         extractOptionsFromHtmlNode: function (chartNode) {
@@ -172,6 +217,9 @@ YUI.add('chartCanvas', function (Y) {
                                                 }
                                             }
                                         }
+                                    }
+                                    if (this.chart.xAxis && this.chart.xAxis[0]) {
+                                        this.chart.xAxis[0].minRange = null;
                                     }
                                     this.chart.redraw();
                                 }
@@ -322,7 +370,11 @@ YUI.add('chartCanvas', function (Y) {
             }
 
             if (chartOptions.title && chartOptions.title.text) {
-                chartOptions.title.text = LogiXML.decodeHtml(chartOptions.title.text);
+                chartOptions.title.text = LogiXML.decodeHtml(chartOptions.title.text, chartOptions.title.useHTML);
+            }
+
+            if (chartOptions.legend && chartOptions.legend.title && chartOptions.legend.title.text) {
+                chartOptions.legend.title.text = LogiXML.decodeHtml(chartOptions.legend.title.text, chartOptions.legend.labelFormat == 'HTML');
             }
 
             if (chartOptions.legend && chartOptions.legend.title && chartOptions.legend.title.text) {
@@ -330,7 +382,35 @@ YUI.add('chartCanvas', function (Y) {
             }
 
             if (chartOptions.subtitle && chartOptions.subtitle.text) {
-                chartOptions.subtitle.text = LogiXML.decodeHtml(chartOptions.subtitle.text);
+                chartOptions.subtitle.text = LogiXML.decodeHtml(chartOptions.subtitle.text, chartOptions.subtitle.useHTML);
+            }
+
+            if (chartOptions.series && chartOptions.series.length > 0) {
+                for (i = 0; i < chartOptions.series.length; i++) {
+                    var series = chartOptions.series[i];
+                    if (series.name) {
+                        series.name = LogiXML.decodeHtml(series.name, true);
+                    }
+                    var data = series.data;
+                    for (var j = 0; data && j < data.length; j++) {
+                        if (data[j].name) {
+                            if (series.xAxis) {
+                                var xAxis;
+                                for (var k = 0; k < chartOptions.xAxis.length; k++) {
+                                    if (chartOptions.xAxis[k].id == series.xAxis) {
+                                        xAxis = chartOptions.xAxis[k];
+                                        break;
+                                    }
+                                }
+
+                                data[j].name = LogiXML.decodeHtml(data[j].name, xAxis && xAxis.labels && xAxis.labels.format === 'HTML');
+                            }
+                            else {
+                                data[j].name = LogiXML.decodeHtml(data[j].name, chartOptions.xAxis[0] && chartOptions.xAxis[0].labels && chartOptions.xAxis[0].labels.format === 'HTML');
+                            }
+                        }
+                    }
+                }
             }
 
             if (chartOptions.series && chartOptions.series.length > 0) {
@@ -478,6 +558,8 @@ YUI.add('chartCanvas', function (Y) {
                     }
                 }
             }
+
+            chartOptions.isChartCanvas = true;
 
             this.chart = new Highcharts.Chart(chartOptions);
 
@@ -674,16 +756,85 @@ YUI.add('chartCanvas', function (Y) {
         },
 
         pointsSelected: function (series, fireEvent) {
-            var point, idx, value, values = [],
-                i = 0, length = series.points.length,
-                selection = series.options.selection,
-                valueElement, changeFlagElement, oldValue, newValue;
+            var selection = series.options.selection,
+                valueElement,
+                changeFlagElement,
+                oldValue,
+                newValue;
 
             if (!selection) {
                 return;
             }
+            var isTreemap = series.type === 'treemap';
+            var values = isTreemap ? {} : [];
+            if (isTreemap) {
+                this.getSelectedValuesForTreemap(series, values);
+                var valuesCount = values.length;
 
-            for (; i < length; i++) {
+                for (var valuesString in values) {
+                    var valuesArray = values[valuesString];
+                    valueElement = this.getOrCreateInputElement(valuesString);
+                    oldValue = this.getInputElementValue(valueElement);
+                    //TODO do encoding for commas in values
+                    newValue = valuesArray.join(',');
+
+                    if (oldValue != newValue) {
+                        this.setInputElementValue(valueElement, newValue);
+                        if (selection.changeFlagElementId && selection.changeFlagElementId.length > 0) {
+                            changeFlagElement = this.getOrCreateInputElement(selection.changeFlagElementId);
+                            changeFlagElement.set('value', 'True');
+                        }
+
+                        if (fireEvent) {
+                            HighchartsAdapter.fireEvent(series, 'selectionChange', null);
+
+                            //if (selection.selectionType != "ClickSinglePoint" && selection.selectionType != "ClickMultiplePoints") {
+                            if (newValue == '') {
+                                HighchartsAdapter.fireEvent(series, 'selectionCleared', null);
+                            } else {
+                                HighchartsAdapter.fireEvent(series, 'selectionMade', null);
+                            }
+                            //}
+                        }
+
+                    }
+                }
+            } else {
+                this.getSelectedValues(series, values);
+                if (selection.valueElementId && selection.valueElementId.length > 0) {
+                    valueElement = this.getOrCreateInputElement(selection.valueElementId);
+                    oldValue = this.getInputElementValue(valueElement);
+                    //TODO do encoding for commas in values
+                    newValue = values.join(',');
+                    if (oldValue != newValue) {
+                        this.setInputElementValue(valueElement, newValue);
+                        if (selection.changeFlagElementId && selection.changeFlagElementId.length > 0) {
+                            changeFlagElement = this.getOrCreateInputElement(selection.changeFlagElementId);
+                            changeFlagElement.set('value', 'True');
+                        }
+
+                        if (fireEvent) {
+                            HighchartsAdapter.fireEvent(series, 'selectionChange', null);
+
+                            //if (selection.selectionType != "ClickSinglePoint" && selection.selectionType != "ClickMultiplePoints") {
+                            if (newValue == '') {
+                                HighchartsAdapter.fireEvent(series, 'selectionCleared', null);
+                            } else {
+                                HighchartsAdapter.fireEvent(series, 'selectionMade', null);
+                            }
+                            //}
+                        }
+
+                    }
+                }
+            }
+        },
+
+        getSelectedValues: function (series, values) {
+            var point, idx, value, i,
+                length = series.points.length;
+
+            for (i = 0; i < length; i++) {
                 point = series.points[i];
                 if (point.selected) {
                     value = point.id || '';
@@ -693,31 +844,33 @@ YUI.add('chartCanvas', function (Y) {
                     }
                 }
             }
+        },
 
-            if (selection.valueElementId && selection.valueElementId.length > 0) {
-                valueElement = this.getOrCreateInputElement(selection.valueElementId);
-                oldValue = this.getInputElementValue(valueElement);
-                //TODO do encoding for commas in values
-                newValue = values.join(',');
-                if (oldValue != newValue) {
-                    this.setInputElementValue(valueElement, newValue);
-                    if (selection.changeFlagElementId && selection.changeFlagElementId.length > 0) {
-                        changeFlagElement = this.getOrCreateInputElement(selection.changeFlagElementId);
-                        changeFlagElement.set('value', 'True');
+        getSelectedValuesForTreemap: function (series, values) {
+            var point, i, level = 0,
+                length = series.points.length;
+            for (i = 0; i < length; i++) {
+                point = series.points[i];
+                this.getSelectedValuesForTreemapPoint(point, values);
+            }
+        },
+
+        getSelectedValuesForTreemapPoint: function (point, values) {
+            var idx, value;
+            for (var j = 0; j < point.children.length; j++) {
+                this.getSelectedValuesForTreemapPoint(point.children[j], values);
+            }
+            if (point.selectable) {
+                if (point.selected) {
+                    value = point.id || '';
+                    idx = values[point.selectionId];
+                    if (idx === undefined || values[point.selectionId][0] === '') {
+                        values[point.selectionId] = [value];
+                    } else {
+                        values[point.selectionId].push(value);
                     }
-
-                    if (fireEvent) {
-                        HighchartsAdapter.fireEvent(series, 'selectionChange', null);
-
-                        //if (selection.selectionType != "ClickSinglePoint" && selection.selectionType != "ClickMultiplePoints") {
-                        if (newValue == '') {
-                            HighchartsAdapter.fireEvent(series, 'selectionCleared', null);
-                        } else {
-                            HighchartsAdapter.fireEvent(series, 'selectionMade', null);
-                        }
-                        //}
-                    }
-
+                } else if (!values[point.selectionId] || !values[point.selectionId].length) {
+                    values[point.selectionId] = [''];
                 }
             }
         },
@@ -1253,42 +1406,54 @@ YUI.add('chartCanvas', function (Y) {
                 }
             }
         },
+        updateChartOptions: function(response,callback,arg){
+            this.chart.userOptions = response;
+            this[callback](arg);
 
+        },
         resized: function (e) {
             if (this.chart && this.chart.options) {
-                var width = e.width > 0 ? e.width : this.chart.chartWidth,
-                    height = e.height > 0 ? e.height : this.chart.chartHeight;
-                var isGauge = this.chart.userOptions.series[0].type.indexOf("gauge") > -1;
-                if (this.chart.userOptions.series[0].type.indexOf("bulletgauge")> -1) {
-                    this.chart.animation = !this.chart.animation;
+                //25753 if series undefined, try to request chart data from server
+                if (!this.chart.userOptions.series) {
+                    this.requestChartData(null, "updateChartOptions", "resized", e);
                 }
-                this.chart.setSize(width, height);
+                else {
+                    var width = e.width > 0 ? e.width : this.chart.chartWidth,
+                        height = e.height > 0 ? e.height : this.chart.chartHeight;
+                    var isGauge = this.chart.userOptions.series[0].type.indexOf("gauge") > -1;
+                    if (this.chart.userOptions.series[0].type.indexOf("bulletgauge") > -1) {
+                        this.chart.animation = !this.chart.animation;
+                    }
+                    width = parseInt(width, 10); //25355
+                    height = parseInt(height, 10);
+                    this.chart.setSize(width, height);
 
-                if (e.finished) {
-                    if (isGauge) {
-                        this.chart.animation = true;
-                        var tempUserOptions = this.chart.userOptions;
-                        tempUserOptions.chart.width = width;
-                        tempUserOptions.chart.height = height;
-                        //tempUserOptions.chart.animation = null;
-                        this.createChart(tempUserOptions);
-                        this.chart.setSize(width, height);
-                    }
-                    var requestUrl = null;
-                    if (this.refreshAfterResize == true) {
-                        this.requestChartData(this.jsonUrl + '&rdResizerNewWidth=' + width + '&rdResizerNewHeight=' + height + "&rdResizer=True","createChart");
-                        //return;
-                        requestUrl = 'rdAjaxCommand=rdAjaxNotify&rdNotifyCommand=SetElementSize&rdWidth=' + width + '&rdHeight=' + height + '&rdElementId=' + this.id + '&rdReport=' + this.reportName + '&rdRequestForwarding=Form';
-                    } else if (this.refreshAfterResize) {
-                        requestUrl = 'rdAjaxCommand=RefreshElement&rdRefreshElementID=' + this.id + '&rdWidth=' + width + '&rdHeight=' + height + '&rdReport=' + this.reportName + '&rdResizeRequest=True&rdRequestForwarding=Form';
-                    } else if (e.notify === undefined || (e.notify == true)) {
-                        requestUrl = 'rdAjaxCommand=rdAjaxNotify&rdNotifyCommand=SetElementSize&rdWidth=' + width + '&rdHeight=' + height + '&rdElementId=' + this.id + '&rdReport=' + this.reportName + '&rdRequestForwarding=Form';
-                    }
-                    if (requestUrl !== null) {
-                        if (this.isUnderSE === "True") {
-                            requestUrl += "&rdUnderSuperElement=True";
+                    if (e.finished) {
+                        if (isGauge) {
+                            this.chart.animation = true;
+                            var tempUserOptions = this.chart.userOptions;
+                            tempUserOptions.chart.width = width;
+                            tempUserOptions.chart.height = height;
+                            //tempUserOptions.chart.animation = null;
+                            this.createChart(tempUserOptions);
+                            this.chart.setSize(width, height);
                         }
-                        rdAjaxRequest(requestUrl);
+                        var requestUrl = null;
+                        if (this.refreshAfterResize == true) {
+                            this.requestChartData(this.jsonUrl + '&rdResizerNewWidth=' + width + '&rdResizerNewHeight=' + height + "&rdResizer=True", "createChart");
+                            //return;
+                            requestUrl = 'rdAjaxCommand=rdAjaxNotify&rdNotifyCommand=SetElementSize&rdWidth=' + width + '&rdHeight=' + height + '&rdElementId=' + this.id + '&rdReport=' + this.reportName + '&rdRequestForwarding=Form';
+                        } else if (this.refreshAfterResize) {
+                            requestUrl = 'rdAjaxCommand=RefreshElement&rdRefreshElementID=' + this.id + '&rdWidth=' + width + '&rdHeight=' + height + '&rdReport=' + this.reportName + '&rdResizeRequest=True&rdRequestForwarding=Form';
+                        } else if (e.notify === undefined || (e.notify == true)) {
+                            requestUrl = 'rdAjaxCommand=rdAjaxNotify&rdNotifyCommand=SetElementSize&rdWidth=' + width + '&rdHeight=' + height + '&rdElementId=' + this.id + '&rdReport=' + this.reportName + '&rdRequestForwarding=Form';
+                        }
+                        if (requestUrl !== null) {
+                            if (this.isUnderSE === "True") {
+                                requestUrl += "&rdUnderSuperElement=True";
+                            }
+                            rdAjaxRequest(requestUrl);
+                        }
                     }
                 }
             }
@@ -1428,7 +1593,7 @@ YUI.add('chartCanvas', function (Y) {
         }
     });
 
-}, '1.0.0', { requires: ['base', 'node', 'event', 'node-custom-destroy', 'json-parse', 'io-xdr', 'chartCanvasRangeSelection'] });
+}, '1.0.0', { requires: ['base', 'node', 'event', 'node-custom-destroy', 'json-parse', 'io-xdr', 'chartCanvasRangeSelection', 'event-resize'] });
 
 function rdGetChartCanvasObject(chartId) {
     if (!chartId || chartId == '') {
