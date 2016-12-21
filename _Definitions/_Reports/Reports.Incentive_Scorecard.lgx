@@ -58,12 +58,7 @@
 			/>
 		</Remark>
 		<ResponsiveRow>
-			<ResponsiveColumn
-				ColspanExtraSmallScreen="2"
-				ColspanLargeScreen="2"
-				ColspanMediumScreen="2"
-				ColspanSmallScreen="2"
-				>
+			<ResponsiveColumn>
 				<Division
 					Class="panel panel-default"
 					HtmlDiv="True"
@@ -75,7 +70,7 @@
 						ID="panel-heading-PODs"
 						>
 						<Label
-							Caption="Scorecard PODs"
+							Caption="Incentive Plan Scorecard"
 						/>
 					</Division>
 					<Division
@@ -83,54 +78,95 @@
 						HtmlDiv="True"
 						ID="panel-body-PODs"
 						>
-						<InputSelectList
-							DefaultValue="@Request.PodLocation~"
-							ID="PodLocation"
-							InputRows="17"
-							MultiSelect="False"
-							OptionCaptionColumn="LocDesc"
-							OptionValueColumn="PODLocGLStr"
-							>
-							<EventHandler
-								DhtmlEvent="onchange"
-								ID="evtOnChange"
-								>
-								<Action
-									ElementID="panel-body-detail-Scorecard"
-									ID="action-refresh-report"
-									Type="RefreshElement"
-								/>
-							</EventHandler>
-							<DataLayer
-								ColumnNamesRow="1"
-								ExcelFile="@Request.ExcelFileLocation~"
-								ExcelWorksheet="PODLookup"
-								ID="dlExcel-PODs"
-								Type="Excel"
-								>
-								<SortFilter
-									DataType="Text"
-									SortColumn="LocDesc"
-								/>
-							</DataLayer>
-						</InputSelectList>
-					</Division>
-				</Division>
-			</ResponsiveColumn>
-			<ResponsiveColumn>
-				<Division
-					HtmlDiv="True"
-					ID="panel-detail-container"
-					>
-					<Division
-						Class="panel-body"
-						HtmlDiv="True"
-						ID="panel-body-detail-Scorecard"
-						>
 						<ResponsiveRow>
-							<ResponsiveColumn>
+							<ResponsiveColumn
+								ColspanLargeScreen="2"
+								ColspanSmallScreen="2"
+								>
+								<InputSelectList
+									Caption="PODs:"
+									DefaultValue="@Request.PodLocation~"
+									ID="PodLocation"
+									InputRows="17"
+									MultiSelect="False"
+									OptionCaptionColumn="LocDesc"
+									OptionValueColumn="PODLocGLStr"
+									>
+									<EventHandler
+										DhtmlEvent="onchange"
+										ID="evtOnChange"
+										>
+										<Action
+											ElementID="dtScorecard"
+											ID="action-refresh-report"
+											Type="RefreshElement"
+											>
+											<WaitPage/>
+										</Action>
+									</EventHandler>
+									<DataLayer
+										ColumnNamesRow="1"
+										ExcelFile="@Request.ExcelFileLocation~"
+										ExcelWorksheet="PODLookup"
+										ID="dlExcel-PODs"
+										Type="Excel"
+										>
+										<SortFilter
+											DataType="Text"
+											SortColumn="LocDesc"
+										/>
+									</DataLayer>
+								</InputSelectList>
+								<LineBreak/>
+								<LineBreak/>
+								<Remark>
+									<Label
+										Class="fa fa-print fa-2x"
+										>
+										<Remark>
+											<Action
+												ID="jsPrint"
+												Javascript="PrintPreview();
+
+function PrintPreview() {
+ printWindow = window.open(&quot;&quot;, &quot;&quot;, &quot;location=1,status=1,scrollbars=1,width=650,height=600&quot;);
+// printWindow.document.write(&apos;&lt;html&gt;&lt;head&gt;&apos;);
+printWindow.document.write(&apos;&lt;style type=&quot;text/css&quot;&gt;&apos;);
+printWindow.document.write(&apos;@media print{.no-print, .no-print *{display: none !important;}&apos;);
+printWindow.document.write(&apos;&lt;/style&gt;&apos;);
+// printWindow.document.write(&apos;&lt;/head&gt;&lt;body&gt;&apos;);
+// printWindow.document.write(&apos;&lt;div style=&quot;width:100%;text-align:right&quot;&gt;&apos;);
+
+  //Print and cancel button
+// printWindow.document.write(&apos;&lt;input type=&quot;button&quot; id=&quot;btnPrint&quot; value=&quot;Print&quot; class=&quot;no-print&quot; style=&quot;width:100px&quot; onclick=&quot;window.print()&quot; /&gt;&apos;);
+// printWindow.document.write(&apos;&lt;input type=&quot;button&quot; id=&quot;btnCancel&quot; value=&quot;Cancel&quot; class=&quot;no-print&quot;  style=&quot;width:100px&quot; onclick=&quot;window.close()&quot; /&gt;&apos;);
+
+// printWindow.document.write(&apos;&lt;/div&gt;&apos;);
+
+ //You can include any data this way.
+// printWindow.document.write(&apos;&lt;table&gt;&lt;tr&gt;&lt;td&gt;Contractor name:&apos;+ Contractor +&apos;&lt;/td&gt;&lt;/tr&gt;you can include any info here&lt;/table&gt;&apos;);
+
+ printWindow.document.write(document.getElementById(&apos;dtScorecard&apos;).innerHTML);
+ //here &apos;forPrintPreview&apos; is the id of the &apos;div&apos; in current page(aspx).
+// printWindow.document.write(&apos;&lt;/body&gt;&lt;/html&gt;&apos;);
+ printWindow.document.close();
+ printWindow.focus();
+}
+
+
+"
+												Type="Javascript"
+											/>
+										</Remark>
+									</Label>
+								</Remark>
+							</ResponsiveColumn>
+							<ResponsiveColumn
+								Class="ThemeTextSmall"
+								>
 								<DataTable
-									ID="DataTable"
+									Caption="Scorecard YTD"
+									ID="dtScorecard"
 									>
 									<DataLayer
 										CellRange="A1:S300"
