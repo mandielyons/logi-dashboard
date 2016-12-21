@@ -37,7 +37,7 @@ td.progress .text { position: relative; }
 td.progress span { position: absolute; top: 0px; right: 0px; }
 div.progressBar, div.previousElapsed { background-color: #d4e4a4; float: left; clear: right; } /* Clear right is for IE7 */
 div.previousElapsed { background-color: #efffbf; }
-a.generateProgressBars { color: #0000EE; }
+/* a.generateProgressBars { color: #0000EE; } */
 td,th {
 	font-size:11px;
 	/*border: 1px solid black;*/
@@ -74,7 +74,7 @@ h3 {text-align:left;}
                       <th style="width:20%">Event</th>
                       <th style="width:20%;">Event Detail</th>
                       <th style="width:52%;">Value</th>
-                      <th style="width:08%;text-align:center;"><a href="javascript:void(0);" class="generateProgressBars">Time</a> *</th>
+                      <th style="width:08%;text-align:center;">Time</th>
                    </tr>
                    <tr id="rdCurrentPosition" style="display: none;"></tr>
              </table>
@@ -100,28 +100,29 @@ h3 {text-align:left;}
                  */
                 if ( typeof YUI !== 'undefined' ) {
                 
-                    var RENDER_PROGRESS_BARS = 'alwaysRenderProgressBars',
-                        rd = LogiXML.rd,
-                        progressBarsRendered = false;
+                    // var RENDER_PROGRESS_BARS = 'alwaysRenderProgressBars',
+                    //     rd = LogiXML.rd,
+                    //     progressBarsRendered = false;
                 
                     Y.on('domready', function() {
                         // User always want bars rendered
-                        if ( rd.getLocalStorage( RENDER_PROGRESS_BARS ) === 'true' ) {
-                            progressBarsRendered = true;
+                        // REPDEV-19433 - Always show bars
+                        // if ( rd.getLocalStorage( RENDER_PROGRESS_BARS ) === 'true' ) {
+                        //    progressBarsRendered = true;
                             buildProgressBars();
-                        }
+                        //}
                     
-                        Y.one('.generateProgressBars').on('click', function(e) {
+                        //Y.one('.generateProgressBars').on('click', function(e) {
                         
-                            if ( rd.getLocalStorage( RENDER_PROGRESS_BARS ) === 'true' ) {
-                                rd.setLocalStorage( RENDER_PROGRESS_BARS, false );
-                                removeProgressBars();
-                            }
-                            else {
-                                rd.setLocalStorage( RENDER_PROGRESS_BARS, true );
-                                buildProgressBars();
-                            }
-                        });
+                        //    if ( rd.getLocalStorage( RENDER_PROGRESS_BARS ) === 'true' ) {
+                        //        rd.setLocalStorage( RENDER_PROGRESS_BARS, false );
+                        //        removeProgressBars();
+                        //    }
+                        //    else {
+                        //        rd.setLocalStorage( RENDER_PROGRESS_BARS, true );
+                        //        buildProgressBars();
+                        //    }
+                        //});
 		            });
 		            
 		            removeProgressBars = function() {

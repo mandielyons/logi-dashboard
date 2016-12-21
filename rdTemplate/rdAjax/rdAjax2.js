@@ -5,7 +5,7 @@ var bSubmitFormAfterAjax = false
 //20295
 var sPrevRadioId
 
-function rdAjaxRequest(commandParams, bValidate, sConfirm, bProcess, fnCallback, waitCfg,isUpload) {
+function rdAjaxRequest(commandParams, bValidate, sConfirm, bProcess, fnCallback, waitCfg, isUpload) {
 	if (commandParams.search("rdRequestForwarding=Form") != -1) {
 		rdAjaxRequestWithFormVars(commandParams, bValidate, sConfirm, bProcess);
 		return;
@@ -42,6 +42,7 @@ function rdAjaxRequest(commandParams, bValidate, sConfirm, bProcess, fnCallback,
             }
         }
 	}
+
 	if (sConfirm) {
 		if (sConfirm.length != 0) {
 			if (!confirm(sConfirm)) {
@@ -57,8 +58,8 @@ function rdAjaxRequest(commandParams, bValidate, sConfirm, bProcess, fnCallback,
         } else {
             sUrl = "../../" + sUrl;
         }
-    }
-
+	}
+   
 	if (bProcess) {
 		if (bProcess.length != 0) {
 	        if (bProcess == "true") {
@@ -73,7 +74,7 @@ function rdAjaxRequest(commandParams, bValidate, sConfirm, bProcess, fnCallback,
         } else {
             //21216
             setTimeout(function () {
-                rdAjaxRequest(commandParams, bValidate, sConfirm, bProcess, fnCallback, waitCfg)
+                rdAjaxRequest(commandParams, bValidate, null, bProcess, fnCallback, waitCfg)
             }, Math.floor(Math.random() * 1000));  //Wait a random amount of time between 0 and 1 second.
             return;    
         }
@@ -84,6 +85,10 @@ function rdAjaxRequest(commandParams, bValidate, sConfirm, bProcess, fnCallback,
     //Show ajax wait panel
     var tTimeout;
     if (waitCfg != null) {
+        //25599
+        if (Y.Cookie.exists('rdFileDownloadComplete')) {
+            Y.Cookie.remove('rdFileDownloadComplete', { path: '/' });
+        }
         //22236
         if (Y.Lang.isValue(LogiXML.WaitPanel.pageWaitPanel)) {
             LogiXML.WaitPanel.pageWaitPanel.readyWait();
@@ -99,7 +104,13 @@ function rdAjaxRequest(commandParams, bValidate, sConfirm, bProcess, fnCallback,
         wrappedSuccess = handleSuccess;
     }
 
-	try {		
+    //Special for MetadataBuilder
+    if (commandParams.indexOf("rdTemplate/rdMetadata/rdUiService.aspx?") == 0) {
+        sUrl = commandParams.substring(0, commandParams.indexOf("?"))
+        commandParams = commandParams.substring(commandParams.indexOf("?") + 1)
+    }
+
+    try {
 	    /* Configuration object for POST transaction */
 
 		var cfg = {
@@ -147,7 +158,7 @@ var handleSuccess = function(id, o, args){
         rdUpdatePage(o.responseXML, o.responseText);
             var fnCallback = arguments[arguments.length - 1];
             if ( typeof fnCallback === 'function' ) {
-                fnCallback();
+                fnCallback(o);
             }
     }
     if (Y.Lang.isValue(args.timeoutID)) {
@@ -166,6 +177,22 @@ var handleFailure = function (id, o, args) {
     }
 }
 
+var bCurrentIFrameResized = false;
+function rdResizeCurrentIFrame(optionalParam) {
+    //More special IFrame handling.  If this page is in a frame,
+    //the frame needs to be resized from the parent window.
+    if (frameElement && frameElement.contentWindow && parent && parent.iframeResize) {
+        try {
+            if (optionalParam)
+                parent.iframeResize(frameElement, optionalParam)  //#12347.
+            else
+                parent.iframeResize(frameElement)
+        }
+        catch (e) { }
+    }
+    bCurrentIFrameResized = true;
+}
+
 //21896 & 22052 - Refresh with wait panel hangs forever
 //Wrapped refresh and call the clear() on handleSuccess and handleFailure in order to clear it.
 function Timeout(fn, nInterval) {
@@ -177,10 +204,33 @@ function Timeout(fn, nInterval) {
     };
 }
 
-function rdAjaxRequestWithFormVars(commandURL, bValidate, sConfirm, bFromOnClick, bProcess, fnCallback, waitCfg) {
+function getParameterByName(url, name) {
+    name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+        results = regex.exec(url);
+    return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+}
+
+function rdAjaxRequestWithFormVars(commandURL, bValidate, sConfirm, bFromOnClick, bProcess, fnCallback, waitCfg, copyQueryString) {
     //Build the request URL.
     if (commandURL.indexOf("RequestRealTimeAnimatedChartData") > 0)
         commandURL = commandURL + "&rdAnimatedChartRenderer=" + FusionCharts.getCurrentRenderer(); //19845.
+
+    if (copyQueryString) {
+        var refreshElementIDs = getParameterByName(commandURL, "rdRefreshElementID");
+        if (refreshElementIDs) {
+            var regex = new RegExp(/(\$Request\.)([^~]*)(~)/g);
+            var match = regex.exec(refreshElementIDs);
+            while (match != null) {
+                var id = match[2];
+                var value = getParameterByName(location.search, id);
+                if (value)
+                    commandURL += "&" + id + "=" + value;
+
+                match = regex.exec(refreshElementIDs);
+            }
+        }
+    }
 
     if (bFromOnClick) 
         commandURL = decodeURIComponent(commandURL)  //onClick and other events need decoding.#6549 and 	
@@ -196,14 +246,15 @@ function rdAjaxRequestWithFormVars(commandURL, bValidate, sConfirm, bFromOnClick
 
 	var checkboxChildrenIndexes = [];
     
-	for (var i=0; i < frm.elements.length; i++) { 
+	for (var i = 0; i < frm.elements.length; i++) {	   
 	    var ele = frm.elements[i]
 	    
-	    if (checkboxChildrenIndexes.indexOf(i) >= 0)
-	        continue;
-
 	    if (!ele.type) {
             continue;  //Not an input element.
+	    }
+
+	    if (ele.type == "checkbox" && (ele.id.indexOf("_check_all") != -1 || ele.id.indexOf("_rdList") != -1)) {
+	        continue;
 	    }
         
 	    if (ele.type == "file" && ele.getAttribute("data-ajax-upload") == "True") {
@@ -226,6 +277,9 @@ function rdAjaxRequestWithFormVars(commandURL, bValidate, sConfirm, bFromOnClick
                     continue;  //Don't forward elements in tables for RefreshElements.
                 }
             }*/
+	        if (ele.getAttribute("rdAjaxDontSubmit") == "True") {
+	            continue;
+	        }
 
 	        if (ele.name.lastIndexOf("-PageNr") != -1)
 	            if (ele.name.lastIndexOf("-PageNr") == ele.name.length - 7)
@@ -245,6 +299,10 @@ function rdAjaxRequestWithFormVars(commandURL, bValidate, sConfirm, bFromOnClick
 
 	        var sInputValue = rdGetInputValues(ele)
 
+	        if (sInputValue.indexOf("rdICL-") != "-1") {
+                sInputValue = sInputValue.replace("rdICL-","")	        
+	        }
+
 	        if (ele.type == "checkbox" && sInputValue.indexOf("rdNotSent") != -1) {
 	            sInputValue = ""
 	        }
@@ -252,23 +310,10 @@ function rdAjaxRequestWithFormVars(commandURL, bValidate, sConfirm, bFromOnClick
 	        //Sometimes there may be duplicate parameters in the command.  This prevents duplicates. 21117
 	        //22591 - Refactored. rdGetInputValues cannot be run twice in a row without changes. The second run will return Null.
 	        if (commandURL.indexOf(sInputValue) == -1)
-	            commandURL += sInputValue;
-
-            //24111 24167
-	        if (ele.id && ele.id != "" && Y.Lang.isValue(Y.one("#" + ele.id))){
-	            if(Y.Lang.isValue(Y.one("#" + ele.id).ancestor("div")) && Y.one("#" + ele.id).ancestor("div").getAttribute("data-checkboxlist")) {
-	                var id = Y.one("#" + ele.id).ancestor("div").getAttribute("id");
-	                for (var j = 0; j < frm.elements.length; j++) {
-	                    if (frm.elements[j].id.indexOf(id + "_rdList") >= 0) {
-	                        checkboxChildrenIndexes.push(j);
-	                    }
-	                }
-	            }
-	        }
-
+	            commandURL += sInputValue;           
 	    }
 	}
-
+    	
 	if (isUpload) {
 	    commandURL = uploadUrlParams;
 	}
@@ -276,10 +321,59 @@ function rdAjaxRequestWithFormVars(commandURL, bValidate, sConfirm, bFromOnClick
 	sPrevRadioId = "";
 
 	commandURL = commandURL.replace("rdRequestForwarding=Form","")  //Don't come back here.
-	
+
+    try { //25197: ChartCanvas: WaitPage Not Showing with RefreshElement
+        if (commandURL.indexOf("RefreshElement") > -1 && commandURL.indexOf("rdReportAuthorAction")<0) {
+            for (var k = 0; k < Highcharts.charts.length; k++) {
+                var chart = Highcharts.charts[k];
+                if (chart != null) {
+                    var _node = chart.renderTo;
+                    var _yNode = Y.one(_node);
+                    var startIndex = commandURL.indexOf("rdRefreshElementID");
+                    var endIndex;
+                    if (startIndex != -1) {
+                        startIndex += 19;
+                        endIndex = commandURL.indexOf("&", startIndex);
+                        var id = commandURL.substring(startIndex, endIndex);
+                        var _ancestors = _yNode.ancestors("#" + id);
+                        if (_ancestors != null && _ancestors.getDOMNodes().length) {
+                            chart.showLoading('<img src="rdTemplate/rdWait.gif" alt="loading..."></img>');
+                        }
+                    }
+
+                }
+            }
+
+        }
+    } catch (e) {
+
+    } 
+
+
+
 	rdAjaxRequest(commandURL, bValidate, sConfirm, bProcess, fnCallback, waitCfg,isUpload)
 }
 
+function rdAjaxRefreshElements(idArray, rdReport, callback) {
+    if (!idArray || !idArray.length) {
+        if (callback)
+            callback();
+
+        return;
+    }
+    
+    var id = idArray.shift();
+
+    var commandUrl = "rdAjaxCommand=RefreshElement"
+        + "&rdRefreshElementID=" + encodeURIComponent(id)
+        + "&rdReport=" + encodeURIComponent(rdReport);
+    
+    rdAjaxRequestWithFormVars(commandUrl, "false", "", null, null,
+        function () {
+            rdAjaxRefreshElements(idArray, rdReport, callback);
+        },
+        null, true);
+}
 
 function rdAjaxEncodeValue(sValue){
     sValue = encodeURI(sValue)
@@ -288,8 +382,96 @@ function rdAjaxEncodeValue(sValue){
     return sValue
 }
 
-function rdUpdatePage(xmlResponse, sResponse) {	
-            
+function rdAjaxGetUrlParameters(url) {
+    var params = [];
+
+    var i = url.indexOf("?");
+
+    if (i < 0)
+        return params;
+
+    var sParams;
+    
+    if (i < 0)
+        sParams = url;
+    else
+        sParams = url.substr(i + 1);
+
+    var aParams = sParams.split("&");
+
+    for (i = 0; i < aParams.length; i++) {
+        var kvp = aParams[i].split("=");
+
+        if (kvp[0]) { //RD20049
+            kvp[0] = kvp[0].replace(/\+/g, "%20");
+        } else { // if undefined, ignore it.
+            continue;
+        }
+
+        if (kvp[1]) {
+            kvp[1] = kvp[1].replace(/\+/g, "%20");
+        }
+        
+        params.push({
+            name: decodeURIComponent(kvp[0]), 
+            value: decodeURIComponent(kvp[1])
+        });
+    }
+
+    return params;
+}
+
+function rdAjaxSetUrlParameter(url, name, value) {
+    var params = rdAjaxGetUrlParameters(url);
+    var kvp, i;
+    var bFound = false;
+
+    for (i = 0; i < params.length; i++) {
+        kvp = params[i];
+
+        if (kvp.name == name) {
+            kvp.value = value;
+            bFound = true;
+            break;
+        }
+    }
+
+    if (!bFound)
+        params.push({
+            name: name,
+            value: value
+        });
+
+    i = url.indexOf("?");
+
+    if (i > 0)
+        url = url.substr(0, i);
+
+    kvp = params[0];
+
+    url += "?" + encodeURIComponent(kvp.name) + "=" + encodeURIComponent(kvp.value);
+
+    for (i = 1; i < params.length; i++) {
+        kvp = params[i];
+        url += "&" + encodeURIComponent(kvp.name) + "=" + encodeURIComponent(kvp.value);
+    }
+
+    return url;
+}
+
+function rdUpdatePage(xmlResponse, sResponse) {
+    bCurrentIFrameResized = false;
+
+    var ret = __rdUpdatePage.apply(this, arguments);
+
+    if (!bCurrentIFrameResized)
+        rdResizeCurrentIFrame();
+
+    return ret;
+}
+
+function __rdUpdatePage(xmlResponse, sResponse) {
+
     if (sResponse.length != 0) {
 	    if (sResponse.indexOf("rdDebugUrl=")!=-1) { 
 	        rdReportResponseError(sResponse)
@@ -319,7 +501,18 @@ function rdUpdatePage(xmlResponse, sResponse) {
 	        sResp = sResp.replace("True", "");
 	        window.document.write(sResp);
 	        return;
-	    } 
+	    }
+
+        //Special for Metadata Editor.
+	    if (sResponse.substring(0, 15) == "JoinRelationID=") {
+	        rdMetadataReturnedJoinRelationID = sResponse.substring(15)
+	    } else if (sResponse.substring(0, 13) == "ConnectionID=") {
+	        rdMetadataReturnedConnectionID = sResponse.substring(13)
+	    } else if (sResponse.substring(0, 10) == "TableName=") {
+	        rdMetadataReturnedTableName = sResponse.substring(10)
+	    } else if (sResponse.substring(0, 11) == "MetadataID=") {
+	        rdMetadataReturnedMetadataID = sResponse.substring(11)
+	    }
 	    
 	    if (!xmlResponse) {
 	        rdReportResponseError(sResponse)
@@ -334,10 +527,12 @@ function rdUpdatePage(xmlResponse, sResponse) {
 	        rdReportResponseError(sResponse)
 	        return
 	    }
-        //18808 19450 put all & back in the string response
-	    sResponse = sResponse.replace(/_rdamp_/g, "&");
-	    sResponse = sResponse.replace(/_rdlt_/g, "<");
-	    sResponse = sResponse.replace(/_rdgt_/g, ">");
+	    if (xmlResponse.documentElement.getAttribute("rdAjaxCommand") != 'RefreshElement') {
+	        //18808 19450 put all & back in the string response
+	        sResponse = sResponse.replace(/_rdamp_/g, "&");
+	        sResponse = sResponse.replace(/_rdlt_/g, "<");
+	        sResponse = sResponse.replace(/_rdgt_/g, ">");
+	    }
 	    window.status = ""
 
         //chartPartialUpdate (used in realtime ChartCanvas)
@@ -521,10 +716,29 @@ function rdUpdatePage(xmlResponse, sResponse) {
 					
 				case 'ShowElement':
 				    ShowElement(null,xmlResponse.documentElement.getAttribute("ElementID"),xmlResponse.documentElement.getAttribute("Action"));
-					break;
+				    break;
 
-		    case 'ShowStatus':
-		        window.status = xmlResponse.documentElement.getAttribute("Status")
+	        case 'ShowPopup':
+	            var sPopupId = xmlResponse.documentElement.getAttribute("PopupID");
+	            var sTitle = xmlResponse.documentElement.getAttribute("PopupTitle");
+	            var sContent = xmlResponse.documentElement.getAttribute("PopupContent");
+	            rdShowPopup(sPopupId, sTitle, sContent);
+	            break;
+
+	        case 'ShowStatus':
+	            
+	            if (xmlResponse.documentElement.getAttribute("RdTsBookmarkID")) {
+	                var bookmarkUrl = "rdPage.aspx?rdLoadBookmark=True&rdReport=" + xmlResponse.documentElement.getAttribute("RdReport") + "&rdBookmarkCollection=" + xmlResponse.documentElement.getAttribute("RdBookmarkCollection") + "&rdBookmarkUserName=" + xmlResponse.documentElement.getAttribute("RdBookmarkUserName") + "&rdBookmarkID=" + xmlResponse.documentElement.getAttribute("RdTsBookmarkID") + "&rdSharedBookmarkID=" + xmlResponse.documentElement.getAttribute("RdSharedBookmarkID");
+	                //We need to suppress refreshing page when we're in the middle of thinkspace visualization editing
+	                var isInThinkspaceEdit = (window.location.href.toLowerCase().indexOf("rdeditthinkspace=true") > 0 || (Y && Y.one('#rdEditThinkspace') && Y.one('#rdEditThinkspace').get('value').toString().toLowerCase() == 'true'))	                
+                    if (xmlResponse.documentElement.getAttribute("IsNewSave") == "True" && !isInThinkspaceEdit) {
+                        window.location.href = bookmarkUrl;
+                    } else if (xmlResponse.documentElement.getAttribute("IsOverwrite") == "False") {
+                        window.history.pushState("", "", bookmarkUrl);
+                    }
+	            }
+	            
+	            window.status = xmlResponse.documentElement.getAttribute("Status")
 
                 if (xmlResponse.documentElement.getAttribute("Alert")) {
 		            alert(xmlResponse.documentElement.getAttribute("Alert"));
@@ -559,6 +773,13 @@ function rdUpdatePage(xmlResponse, sResponse) {
 	            rdRepositionSliders()
 	        }
 	    }
+
+        //REPDEV-19948
+	    if (document.getElementById("rdKillPageCache")) {
+	        var url = rdAjaxSetUrlParameter(location.href, "rdKillPageCache", Math.floor(Math.random() * 100000));
+	        history.replaceState({}, null, url);
+	    }
+
     }
 
     //23492
@@ -579,12 +800,13 @@ function rdUpdatePage(xmlResponse, sResponse) {
 	}
 	
     //Manage feedback.
-
-	if (xmlResponse.documentElement.getAttribute("rdAjaxCommand")){
-	    if (xmlResponse.documentElement.getAttribute("rdAjaxCommand").indexOf("Request")!=-1) { 
-	        //Keep feedback going if we're making another request with RequestRefreshElement or RequestRefreshPage.
-	        bStopFeedback = false
-        }
+	if (sResponse.length != 0) {
+	    if (xmlResponse.documentElement.getAttribute("rdAjaxCommand")) {
+	        if (xmlResponse.documentElement.getAttribute("rdAjaxCommand").indexOf("Request") != -1) {
+	            //Keep feedback going if we're making another request with RequestRefreshElement or RequestRefreshPage.
+	            bStopFeedback = false
+	        }
+	    }
 	}
 
     if (bStopFeedback) 
@@ -646,7 +868,10 @@ function replaceHTMLElement(eleOld, sResponse, newElementID) {
         nEleEnd = sNewHtml.indexOf(">", nNextClose) + 1;
     }
     sNewHtml = sNewHtml.substring(0,nEleEnd)
-	
+    sNewHtml = sNewHtml.replace(/_rdamp_/g, "&");
+    sNewHtml = sNewHtml.replace(/_rdlt_/g, "<");
+    sNewHtml = sNewHtml.replace(/_rdgt_/g, ">");
+
 	//Create a YUI node and insert into the DOM.
     newYuiNode = Y.Node.create(sNewHtml);	
     if (newYuiNode) {
@@ -657,7 +882,7 @@ function replaceHTMLElement(eleOld, sResponse, newElementID) {
             var linkedObjectType = newYuiNode.getAttribute('data-linked-object-type'),
                 linkedObject = oldYuiNode.getData(linkedObjectType);
             if (linkedObject && linkedObject[linkedObjectCallback]) {
-                linkedObject[linkedObjectCallback](newYuiNode);
+                linkedObject[linkedObjectCallback](newYuiNode,sResponse);
                 newYuiNode.remove(true);
                 return;
             }
@@ -1037,4 +1262,27 @@ return getElementsByClassName(className, tag, elm);
 function isIE() {
     var myNav = navigator.userAgent.toLowerCase();
     return (myNav.indexOf('msie') != -1) ? parseInt(myNav.split('msie')[1]) : false;
+}
+
+function rdRemoveQueryStringParameter(sHref, sParam) {
+    if (!sHref || !sParam)
+        return sHref;
+
+    // find the parameter
+    var i = sHref.indexOf("&" + sParam + "=");
+
+    if (i < 0) {
+        i = sHref.indexOf("?" + sParam + "=");
+
+        if (i < 0)
+            return sHref;
+    }
+
+    // see if we need to save anything after this parameter
+    var j = sHref.indexOf("&", i + 1);
+
+    if (j >= 0)
+        return sHref.substr(0, i) + sHref.substr(j);
+
+    return sHref.substr(0, i);
 }

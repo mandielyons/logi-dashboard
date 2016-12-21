@@ -3,6 +3,7 @@
 <script src="rdChartCanvas/highcharts.src.js" ></script>
 <script src="rdChartCanvas/modules/funnel.src.js" ></script>
 <script src="rdChartCanvas/highcharts-more.js" ></script> 
+<script src="rdChartCanvas/modules/exporting.src.js" ></script>
 <script src="rdChartCanvas/rdHighchartRangeSelection.js" ></script>
 <script src="rdChartCanvas/rdHighchartsLocalization.js" ></script>
 <script src="rdChartCanvas/rdHighchartsFormatters.js" ></script>

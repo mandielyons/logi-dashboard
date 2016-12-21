@@ -18,15 +18,21 @@
         callback: null,
         maskType: null,
         fillColor: null,
+        isReadOnly: false,
 
         initializer: function (config) {
             this.configNode = config.configNode;
             this.callback = config.callback;
             this.maskType = config.maskType;
             this.fillColor = config.fillColor;
+            this.isReadOnly = config.isReadOnly;
             this.configNode.setData(TRIGGER, this);
             this.createConstrainDiv(config.constrainRect);
             this.createMaskDiv(config.maskRect);
+            //remove handlers
+            this.configNode.all('.yui3-resize-handle-inner').each(function (node) {
+                node.setAttribute('class', '');
+            });
         },
 
         destructor: function () {
@@ -86,9 +92,16 @@
                 backgroundColor: fillColor,
                 opacity: opacity
             });
+
+            if (this.isReadOnly !== true) {
+                this.maskDiv.setStyle('cursor', 'move');
+            }
+
             this.configNode.appendChild(this.maskDiv);
-            this.createMaskDraggable();
-            this.createResizer();
+            if (this.isReadOnly !== true) {
+                this.createMaskDraggable();
+                this.createResizer();
+            }
         },
 
         createMaskDraggable: function () {

@@ -56,58 +56,39 @@ function SubmitForm(sPage, sTarget, bValidate, sConfirm, bFromOnClick, waitCfg) 
 
 	var aCheckBoxIds = new Array(0);
 	var aCheckBoxListIds = new Array(0);
+	var iOrigCount = document.rdForm.elements.length;
     //23862 23865
-	for (var i = 0; i < document.rdForm.elements.length; i++) {
+   for (var i = 0; i < document.rdForm.elements.length; i++) {
 	    var ele = document.rdForm.elements[i]
         
 	    if (!ele.type) {
 	        continue;  //Not an input element.
 	    }
 
-	    else if ((ele.type == 'checkbox') && (ele.name != "") && (aCheckBoxIds.indexOf(ele.name) == -1) && (aCheckBoxListIds.indexOf(ele.name) == -1)) { //21555,25311
-	        var sCheckboxValue = rdGetInputValues(ele);
-	        var sCBId = sCheckboxValue.substring(1, sCheckboxValue.lastIndexOf("="));	        
-	        sCheckboxValue = decodeURIComponent(sCheckboxValue.substring(sCheckboxValue.lastIndexOf("=") + 1))
-	        aCheckBoxListIds.push(sCBId);
-	       	       
-	        if (sCheckboxValue != "rdNotSent" && aCheckBoxIds.indexOf(sCBId) == -1) {
-	            if ((sCheckboxValue == "") || (sCheckboxValue == ele.getAttribute("rdUncheckedValue"))) {
-
-	                var inputNodes = Y.all('#' + sCBId);
-	                var found = false;
-	                inputNodes.each(function (inputNode) {
-	                    var domNode = inputNode.getDOMNode();
-	                    var nodeType = domNode.type;
-	                    if (nodeType && nodeType.toLowerCase() === "hidden") {
-	                        found = true;
-	                    }
-	                });
-	                if (!found) {
-	                    var hiddenCBV = document.createHiddenInput(sCBId, sCheckboxValue);
-	                    document.rdForm.appendChild(hiddenCBV);
-	                }
-	                aCheckBoxIds.push(sCBId);
-	            } else {
-
-	                var inputNodes = Y.all('#' + sCBId);
-
-	                inputNodes.each(function (inputNode) {
-	                    var domNode = inputNode.getDOMNode();
-	                    var nodeType = domNode.type;
-	                    if (nodeType && nodeType.toLowerCase() === "hidden" )  {
-	                        domNode.parentNode.removeChild(domNode);
-	                    }
-	                });
-	             }
+	    else if ((ele.type == "hidden") && (ele.getAttribute("rdHiddenCreatedForUncheckedValue"))) { // RD19759
+	        if ((i < iOrigCount) && (aCheckBoxIds.indexOf(ele.name) == -1 )) {
+	            ele.parentNode.removeChild(ele);
+	            aCheckBoxIds.push(ele.name);
+	            i = i - 1;
+	            iOrigCount = iOrigCount - 1;
+	            continue;
+	        }	       
+	    }
+            
+	    else if ( (ele.type == 'checkbox') && (ele.getAttribute("rdUncheckedValue")) ) {
+	        if ((ele.checked == false) && ele.getAttribute("rdUncheckedValue") != "rdNotSent") {
+	            var hiddenCBV = document.createHiddenInput(ele.name, ele.getAttribute("rdUncheckedValue"));
+	            hiddenCBV.setAttribute("rdHiddenCreatedForUncheckedValue","true");
+	            document.rdForm.appendChild(hiddenCBV);
 	        }
-	    }    
-	    
+	    }
+
 	    else {
-            if(ele.type == 'text')
+	         if(ele.type == 'text')
 	            rdFixupInputs(ele);
 	    }
 
-        
+	    
 	}
 	
     var eleRemoved = new Array(0)
@@ -185,11 +166,19 @@ function SubmitForm(sPage, sTarget, bValidate, sConfirm, bFromOnClick, waitCfg) 
 	    eval(sPage)
 	}else{		
 			
-	    document.rdForm.action=sPage;
+        document.rdForm.action = sPage;
+        
+        if (Y && Y.LogiInfo && Y.LogiInfo.AnalysisGrid && Y.LogiInfo.AnalysisGrid.rdSaveColumnWidths)
+            Y.LogiInfo.AnalysisGrid.rdSaveColumnWidths();
+
 	    document.rdForm.submit();
 		
 		//Show wait panel
-		if (waitCfg != null) {
+	    if (waitCfg != null && sTarget != "new") {
+	        //25599
+	        if (Y.Cookie.exists('rdFileDownloadComplete')) {
+	            Y.Cookie.remove('rdFileDownloadComplete', { path: '/' });
+	        }
 			LogiXML.WaitPanel.pageWaitPanel.readyWait();
 			setTimeout(function() {LogiXML.WaitPanel.pageWaitPanel.showWaitPanel(waitCfg)}, 1000);
 		}
@@ -239,7 +228,7 @@ function SubmitSort(sPage, RowCnt, SortRowLimit, SortRowLimitMsg) {
 	SubmitForm(sPage,'')
 }
 
-function NavigateLink2(sUrl, sTarget, bValidate, sFeatures, sConfirm, waitCfg) {
+function NavigateLink2(sUrl, sTarget, bValidate, sFeatures, sConfirm, waitCfg, bFromOnClick) {
 
 	if (bValidate == "true") {
 		var sErrorMsg = rdValidateForm()
@@ -273,7 +262,11 @@ function NavigateLink2(sUrl, sTarget, bValidate, sFeatures, sConfirm, waitCfg) {
 	//sUrl = sUrl.replace(pattern,"%20");
 	//Replace # with %23.
 	var pattern = /\#/ig;
-	sUrl = sUrl.replace(pattern,"%23");
+	sUrl = sUrl.replace(pattern, "%23");
+    
+	if (bFromOnClick) {
+	    sUrl = decodeURIComponent(sUrl)  //If called by a DHTML event, the url needs to be decoded.INFOGO385
+	}
 
 	if (typeof rdSaveInputCookies != 'undefined'){rdSaveInputCookies()}
 	if (typeof rdSaveInputsToLocalStorage != 'undefined'){rdSaveInputsToLocalStorage()}
@@ -291,17 +284,32 @@ function NavigateLink2(sUrl, sTarget, bValidate, sFeatures, sConfirm, waitCfg) {
 		case '':
 			window.location.assign(sUrl);
 			
-			//Show wait panel
-			if (waitCfg != null) {
-				LogiXML.WaitPanel.pageWaitPanel.readyWait();
-				setTimeout(function() {LogiXML.WaitPanel.pageWaitPanel.showWaitPanel(waitCfg)}, 1000);				
-			}	
-			
+			rdShowWaitPanel(waitCfg);
+
 			break;
 		default:
 			window.open(sUrl,sTarget,sFeatures)
 			break;
 	}
+}
+
+function rdShowWaitPanel(waitCfg) {
+    //Show wait panel
+    if (waitCfg != null) {
+        //25599
+        if (Y.Cookie.exists('rdFileDownloadComplete')) {
+            Y.Cookie.remove('rdFileDownloadComplete', { path: '/' });
+        }
+        LogiXML.WaitPanel.pageWaitPanel.readyWait();
+
+        var timeOut = waitCfg[3] || 1000;
+
+        setTimeout(function () { LogiXML.WaitPanel.pageWaitPanel.showWaitPanel(waitCfg) }, timeOut);
+    }
+}
+
+function rdHideWaitPanel() {
+    LogiXML.WaitPanel.pageWaitPanel.hideWaitPanel();
 }
 
 function SubmitFormCrawlerFriendly(sPage, sTarget, bValidate, sConfirm) {
@@ -318,8 +326,20 @@ function NavigateCrawlerFriendly(sUrl, sTarget, bValidate, sFeatures, sConfirm) 
 function rdBodyPressEnter(sID) {
 	var ele = document.getElementById(sID);
 	if (ele) {
-	    if (ele.tagName=="INPUT") {  //button
-	        ele.click();
+	    if (ele.tagName == "INPUT") {  //button
+	        // was focus on the input with default action already, dont process it twice...RD19810
+	        var target = window.event.target || window.event.srcElement;
+	        var id ,
+	          bclick = true;
+	        if (target) {
+	            id = target.id;
+	        }
+	        if (id && (id == sID)) {
+	            bclick = false;
+	        }
+	        if (bclick == true) {
+	            ele.click();
+	        }	       
 	        //button
 	    } else {
 	        //span or image

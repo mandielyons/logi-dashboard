@@ -1,5 +1,4 @@
 function rdAcUpdateControls(bRefresh, sReport, sAcId, bInit) {
-
     var eleBatchSelection = document.getElementById('rowBatchSelection_' + sAcId)
     if (!eleBatchSelection && !bInit) {  //When not batch selection, update the visualization with every control change.
         bRefresh = true
@@ -27,7 +26,6 @@ function rdAcUpdateControls(bRefresh, sReport, sAcId, bInit) {
     ShowElement(this.id, 'rdAcChartYAggrLabel_' + sAcId, 'Hide');
     ShowElement(this.id, 'rdAcChartYAggrList_' + sAcId, 'Hide');
     ShowElement(this.id, 'rowChartExtraDataColumn_' + sAcId, 'Hide');
-    ShowElement(this.id, 'rowChartExtraAggrList_' + sAcId, 'Hide');
     ShowElement(this.id, 'rowChartForecast_' + sAcId, 'Hide');
     ShowElement(this.id, 'rowChartOrientation_' + sAcId, 'Hide');
     ShowElement(this.id, 'rowChartRelevance_' + sAcId, 'Hide');
@@ -36,6 +34,7 @@ function rdAcUpdateControls(bRefresh, sReport, sAcId, bInit) {
     ShowElement(this.id, 'rowGaugeGoal1_' + sAcId, 'Hide');
     ShowElement(this.id, 'rowGaugeGoal2_' + sAcId, 'Hide');
     ShowElement(this.id, 'rowGaugeMax_' + sAcId, 'Hide');
+    ShowElement(this.id, 'rdAcChartExtraAggrListCompare_' + sAcId, 'Hide');
 
     var eleCrosstab = document.getElementById('rdAcChartCrosstabColumn_' + sAcId)
     var sCrosstabColumn = ''
@@ -47,13 +46,13 @@ function rdAcUpdateControls(bRefresh, sReport, sAcId, bInit) {
 			case 'Pie':
 			case 'Bar':
 			    ShowElement(this.id, 'lblChartXLabelColumn_' + sAcId, 'Show');
-				ShowElement(this.id,'lblChartYDataColumn_'+sAcId,'Show');
-				ShowElement(this.id,'rowChartXColumn_' + sAcId, 'Show');
+				ShowElement(this.id, 'lblChartYDataColumn_'+sAcId,'Show');
+				ShowElement(this.id, 'rowChartXColumn_' + sAcId, 'Show');
 				ShowElement(this.id, 'rdAcChartXLabelColumn_' + sAcId, 'Show');
 				ShowElement(this.id, 'rdAcChartYColumn_' + sAcId, 'Show');
-				ShowElement(this.id, 'rdChartYShowValues_' + sAcId, 'Show');
-				ShowElement(this.id,'rdAcChartYAggrLabel_'+sAcId,'Show');
-				ShowElement(this.id,'rdAcChartYAggrList_'+sAcId,'Show');
+				ShowElement(this.id, 'rdChartYShowValues_' + sAcId, 'Show'); 
+				ShowElement(this.id, 'rdAcChartYAggrLabel_'+sAcId,'Show');
+				ShowElement(this.id, 'rdAcChartYAggrList_'+sAcId,'Show');
 
 				if (sCurrChartType == "Bar") {
 				    ShowElement(this.id, 'rowChartOrientation_' + sAcId, 'Show');
@@ -65,9 +64,11 @@ function rdAcUpdateControls(bRefresh, sReport, sAcId, bInit) {
 				            ShowElement(this.id, 'rowChartCrosstabColumn_' + sAcId, 'Show');
 				            if (sCrosstabColumn == '') {
 				                ShowElement(this.id, 'rdAcStacking_' + sAcId, 'Hide');
+				                rdHideShowComboAggregationDropDown(false, sAcId, this.id);
+				                
 				            } else {
 				                ShowElement(this.id, 'rdAcStacking_' + sAcId, 'Show');
-				                ShowElement(this.id, 'rdChartYShowValues_' + sAcId, 'Hide');
+				                rdHideShowComboAggregationDropDown(true, sAcId, this.id);				                
 				            }
 				        }
 				    }
@@ -114,10 +115,41 @@ function rdAcUpdateControls(bRefresh, sReport, sAcId, bInit) {
 	        ShowElement(this.id, 'rowChartXColumn_' + sAcId, 'Show');
 	        ShowElement(this.id, 'rdAcChartXDataColumn_' + sAcId, 'Show');
 	        ShowElement(this.id, 'rdAcChartYColumn_' + sAcId, 'Show');
+	        ShowElement(this.id, 'rdChartYShowValues_' + sAcId, 'Show');
 	        rdAcSetAggrOptions(document.getElementById('rdAcChartXDataColumn_' + sAcId).value, sAcId);
 
 	        var sColumn = document.getElementById('rdAcChartXDataColumn_' + sAcId).value
 	        var sDataColumnType = rdAcGetColumnDataType(sColumn, sAcId);
+
+	        if (sDataColumnType.toLowerCase().indexOf("number") != -1 || sDataColumnType.toLowerCase().indexOf("date") != -1) {
+	            rdAcSetDropdownColumns(sAcId, "rdAcChartCrosstabColumn", "Number,Text", true)
+	            ShowElement(this.id, 'rowChartCrosstabColumn_' + sAcId, 'Show');
+	            var eleCrosstabColumn = document.getElementById('rdAcChartCrosstabColumn_' + sAcId)
+	            if (eleCrosstabColumn) {
+	                if (eleCrosstabColumn.options.length > 1) {  //Hide when no column options.
+	                    ShowElement(this.id, 'rowChartCrosstabColumn_' + sAcId, 'Show');
+	                    if (sCrosstabColumn == '') {
+	                        ShowElement(this.id, 'rdAcStacking_' + sAcId, 'Hide');
+	                        rdHideShowComboAggregationDropDown(false, sAcId, this.id);
+	                    } else {
+	                        ShowElement(this.id, 'rdAcStacking_' + sAcId, 'Show');
+	                        rdHideShowComboAggregationDropDown(true, sAcId, this.id);
+	                    }
+	                }
+	            }
+	            if (sDataColumnType.toLowerCase().indexOf("date") != -1) {
+	                var sDateTimeAggregation = document.getElementById('rdAcChartsDateGroupBy_' + sAcId).value
+	                if (sDateTimeAggregation == '') {
+	                    var eleYAggregationDropDown = document.getElementById('rdAcChartYAggrList_' + sAcId)
+	                    var sYColumn = document.getElementById('rdAcChartYColumn_' + sAcId).value
+	                    var sYDataColumnType = rdAcGetColumnDataType(sYColumn, sAcId);
+	                    if (eleYAggregationDropDown && sYDataColumnType.toLowerCase().indexOf("number") != -1) {
+	                        eleYAggregationDropDown.value = "AVERAGE"
+	                        ShowElement(this.id, 'rdAcChartYAggrList_' + sAcId, 'Hide');
+	                    }	                    
+	                }
+	            }
+	        }
 
 	        //Crosstab column?
 	        if (sCurrChartType == "Line") {  //No crosstabs for splines. #24121
@@ -129,48 +161,86 @@ function rdAcUpdateControls(bRefresh, sReport, sAcId, bInit) {
 	                        ShowElement(this.id, 'rowChartCrosstabColumn_' + sAcId, 'Show');
 	                        if (sCrosstabColumn == '') {
 	                            ShowElement(this.id, 'rdAcStacking_' + sAcId, 'Hide');
+	                            rdHideShowComboAggregationDropDown(false, sAcId, this.id);
 	                        } else {
 	                            ShowElement(this.id, 'rdAcStacking_' + sAcId, 'Show');
+	                            rdHideShowComboAggregationDropDown(true, sAcId, this.id);
 	                        }
 	                    }
 	                }
 	            }
+
+	            ShowElement(this.id, 'rowChartOrientation_' + sAcId, 'Hide');
 	        }
 
 	        if (bForecast) {
-	            document.getElementById('rdAcForecastType_' + sAcId).style.display = '';
-	            document.getElementById('rdAcChartForecastLabel_' + sAcId).style.display = ''
-	            rdSetForecastOptions(document.getElementById('rdAcChartXDataColumn_' + sAcId).value, sAcId);
-	            rdModifyTimeSeriesCycleLengthOptions(document.getElementById('rdAcChartsDateGroupBy_' + sAcId), sAcId);
-	            rdShowForecast(sColumn, sAcId);
+	            if (document.getElementById('rdAcChartCrosstabColumn_' + sAcId) && document.getElementById('rdAcChartCrosstabColumn_' + sAcId).value != "") {
+	                rdAcHideForecast(sAcId);
+	            }
+	            else
+	            {
+	                document.getElementById('rdAcForecastType_' + sAcId).style.display = '';
+	                document.getElementById('rdAcChartForecastLabel_' + sAcId).style.display = ''
+	                rdSetForecastOptions(document.getElementById('rdAcChartXDataColumn_' + sAcId).value, sAcId);
+	                rdModifyTimeSeriesCycleLengthOptions(document.getElementById('rdAcChartsDateGroupBy_' + sAcId), sAcId);
+	                rdShowForecast(sColumn, sAcId);
+	            }	            
 	        }
 	        rdAcGetGroupByDateOperatorDiv(document.getElementById('rdAcChartXDataColumn_' + sAcId).value, sAcId);
 	        break;
 
 
 	    case 'Scatter':
-				ShowElement(this.id,'lblChartXAxisColumn_'+sAcId,'Show');
-				ShowElement(this.id,'lblChartYAxisColumn_'+sAcId,'Show');
-				ShowElement(this.id,'rowChartXColumn_' + sAcId, 'Show');
-				ShowElement(this.id,'rdAcChartXDataColumn_'+sAcId,'Show');
-				ShowElement(this.id,'rdAcChartYColumn_'+sAcId,'Show');
+				ShowElement(this.id, 'lblChartXAxisColumn_'+sAcId,'Show');
+				ShowElement(this.id, 'lblChartYAxisColumn_'+sAcId,'Show');
+				ShowElement(this.id, 'rowChartXColumn_' + sAcId, 'Show');
+				ShowElement(this.id, 'rdAcChartXDataColumn_'+sAcId,'Show');
+				ShowElement(this.id, 'rdAcChartYColumn_'+sAcId,'Show');
+				ShowElement(this.id, 'rdChartYShowValues_' + sAcId, 'Show');
+				ShowElement(this.id, 'rowChartForecast_' + sAcId, 'Show');
+                
+				var sColumn = document.getElementById('rdAcChartXDataColumn_' + sAcId).value
+				var sDataColumnType = rdAcGetColumnDataType(sColumn, sAcId);
+
+				if (sDataColumnType.toLowerCase().indexOf("number") != -1 || sDataColumnType.toLowerCase().indexOf("date") != -1) {
+				    rdAcSetDropdownColumns(sAcId, "rdAcChartCrosstabColumn", "Number,Text", true)
+				    ShowElement(this.id, 'rowChartCrosstabColumn_' + sAcId, 'Show');
+				    var eleCrosstabColumn = document.getElementById('rdAcChartCrosstabColumn_' + sAcId)
+				    if (eleCrosstabColumn) {
+				        if (eleCrosstabColumn.options.length > 1) {  //Hide when no column options.
+				            ShowElement(this.id, 'rowChartCrosstabColumn_' + sAcId, 'Show');
+				            if (sCrosstabColumn == '') {
+				                ShowElement(this.id, 'rdAcStacking_' + sAcId, 'Hide');
+				                rdHideShowComboAggregationDropDown(false, sAcId, this.id);
+				            } else {
+				                ShowElement(this.id, 'rdAcStacking_' + sAcId, 'Show');
+				                rdHideShowComboAggregationDropDown(true, sAcId, this.id);
+				            }
+				        }
+				    }
+				}
 
 				////if(bForecast) rdAcHideForecast(sAcId);
 				document.getElementById('rdAcChartsDateGroupBy_'+sAcId).style.display = 'none';
 				document.getElementById('rdAcChartsDateGroupBy_'+sAcId + '-Caption').style.display = 'none';
 //                document.getElementById('rdAcChartsDateGroupBy_'+sAcId).value = '';	
+
+				if (bForecast) {
+				    var sColumn = document.getElementById('rdAcChartXDataColumn_' + sAcId).value;
+				    rdSetForecastOptions(sColumn, sAcId);
+				    rdShowForecast(sColumn, sAcId);
+				}
 				break;
 
 			case 'Heatmap':
-				ShowElement(this.id,'lblChartXLabelColumn_'+sAcId,'Show');
-				ShowElement(this.id,'lblChartSizeColumn_'+sAcId,'Show');
-				ShowElement(this.id,'rdAcChartSizeAggrLabel_'+sAcId,'Show');
-				ShowElement(this.id,'rowChartXColumn_' + sAcId, 'Show');
-				ShowElement(this.id,'rdAcChartXLabelColumn_' + sAcId, 'Show');
-				ShowElement(this.id,'rdAcChartYColumn_'+sAcId,'Show');
-				ShowElement(this.id,'rdAcChartYAggrList_'+sAcId,'Show');
-				ShowElement(this.id,'rowChartExtraDataColumn_'+sAcId,'Show');
-				ShowElement(this.id,'rowChartExtraAggrList_'+sAcId,'Show');
+				ShowElement(this.id, 'lblChartXLabelColumn_'+sAcId,'Show');
+				ShowElement(this.id, 'lblChartSizeColumn_'+sAcId,'Show');
+				ShowElement(this.id, 'rdAcChartSizeAggrLabel_'+sAcId,'Show');
+				ShowElement(this.id, 'rowChartXColumn_' + sAcId, 'Show');
+				ShowElement(this.id, 'rdAcChartXLabelColumn_' + sAcId, 'Show');
+				ShowElement(this.id, 'rdAcChartYColumn_'+sAcId,'Show');
+				ShowElement(this.id, 'rdAcChartYAggrList_'+sAcId,'Show');
+				ShowElement(this.id, 'rowChartExtraDataColumn_'+sAcId,'Show');
 
 				document.getElementById('rdAcChartsDateGroupBy_'+sAcId).style.display = 'none';
 				document.getElementById('rdAcChartsDateGroupBy_'+sAcId + '-Caption').style.display = 'none';
@@ -203,6 +273,26 @@ function rdAcUpdateControls(bRefresh, sReport, sAcId, bInit) {
 	if (sCrosstabColumn != '' && (sCurrChartType == 'Bar' || sCurrChartType == 'Line')) {
 	    rdAcHideForecast(sAcId)
 	}
+
+    //ShowValues Percentage only for Pies.
+	var eleShowValuesDropdown = document.getElementById("rdAcShowValues_" + sAcId)
+	if (sCurrChartType == "Pie") {
+	    if (eleShowValuesDropdown.length < 3) {
+	        if (eleShowValuesDropdown.hasAttribute("rdPercentageCaption")) {
+	            var eleOptionPercentage = document.createElement("option")
+	            eleOptionPercentage.value = eleShowValuesDropdown.getAttribute("Percent")
+	            eleOptionPercentage.text = eleShowValuesDropdown.getAttribute("rdPercentageCaption")
+	            eleShowValuesDropdown.add(eleOptionPercentage)
+            }
+	    }
+	} else {  //Remove "Percentage"
+	    if (eleShowValuesDropdown.length == 3) {
+	        eleShowValuesDropdown.setAttribute("rdPercentageCaption", eleShowValuesDropdown.options[2].text)
+	        eleShowValuesDropdown.options.remove(2)
+	    }
+	}
+	
+
 	
 	rdAcSetButtonStyle(sAcId,sCurrChartType,'Pie')
 	rdAcSetButtonStyle(sAcId,sCurrChartType,'Bar')
@@ -213,44 +303,135 @@ function rdAcUpdateControls(bRefresh, sReport, sAcId, bInit) {
 	rdAcSetButtonStyle(sAcId, sCurrChartType, 'Gauge')
 
 	rdAcLoadDropdowns(sCurrChartType, sAcId)
-    	
+        
 	if (bRefresh) {
+	    //fix for extra aggregation and series
+	    var extraAggrDD = document.getElementById("rdAcChartExtraAggrListCompare_" + sAcId);
+	    if (extraAggrDD && extraAggrDD.style.display.toLowerCase() == "none") {
+	        extraAggrDD.value = "";
+	    }
+	    var crosstabColumnRow = document.getElementById("rowChartCrosstabColumn_" + sAcId);
+	    if (crosstabColumnRow && crosstabColumnRow.style.display.toLowerCase() == "none") {
+	        var crosstabColumnDD = document.getElementById("rdAcChartCrosstabColumn_" + sAcId);
+	        crosstabColumnDD.value = "";
+	    }
+	    var stackingDD = document.getElementById("rdAcStacking_" + sAcId);
+	    if (stackingDD && stackingDD.style.display.toLowerCase() == "none") {	        
+	        stackingDD.value = "";
+	    }
+	    var forecastRow = document.getElementById("rowChartForecast_" + sAcId);
+	    if (forecastRow && forecastRow.style.display.toLowerCase() == "none") {
+	        var forecastTypeDD = document.getElementById("rdAcForecastType_" + sAcId);
+	        forecastTypeDD.value = "none";
+	    }
         //Refresh the aggregation type lists.
         sElementIDs += ',lblHeadingAnalChart_' + sAcId;  //This is the AG's panel heading, when running AG.
 	    var sAjaxUrl = "rdAjaxCommand=RefreshElement&rdAcRefresh=True&rdRefreshElementID=" + sElementIDs + '&rdReport=' + sReport + '&rdAcId=' + sAcId;
 	    sAjaxUrl = sAjaxUrl + '&rdAcNewCommand=True';
-	    rdAjaxRequestWithFormVars(sAjaxUrl);
+
+        //Parse out WaitPage configuration
+	    var waitCfg = ['', '', '']
+	    var eleWaitCfg = document.getElementById("rdWaitCfg")
+	    if (eleWaitCfg) {
+	        try {
+	            var sScript = eleWaitCfg.parentElement.href
+	            sScript = sScript.substr(sScript.indexOf("["))
+	            waitCfg = eval(sScript.substr(0, sScript.indexOf("]") + 1))
+	        }
+	        catch (e) { }
+	    }
+
+	    rdAjaxRequestWithFormVars(sAjaxUrl, 'false', '', true, null, null, waitCfg);
+
 	}
 }
 
+function rdHideShowComboAggregationDropDown(bShow, sAcId, majorID)
+{
+    if (bShow) {
+        var stackingType = document.getElementById('rdAcStacking_' + sAcId).value;
+        if (stackingType == "") {
+            rdAcSetAvailableStacking(sAcId, "rdAcChartCrosstabColumn", "rdAcStacking");
+            stackingType = document.getElementById('rdAcStacking_' + sAcId).value;
+        }
+        /*if (stackingType.indexOf("Combo_") == -1) {
+            bShow = false;
+        }*/
+        else
+        {
+            rdSetOrientationToVerticalIfLine(sAcId);
+        }
+        var extraStackingType = document.getElementById('rdAcChartYAggrList_' + sAcId);
+        if (extraStackingType && extraStackingType.style.display == "none") {
+            bShow = false;
+        }
+    }
+    if (bShow) {
+        ShowElement(majorID, 'rdAcChartExtraAggrListCompare_' + sAcId, 'Show');
+    } else {
+        ShowElement(majorID, 'rdAcChartExtraAggrListCompare_' + sAcId, 'Hide');
+    }
+}
+
+function rdAcShowAddToDashboard(sAcId) {
+    if (typeof LogiXML.AnalysisGrid.rdAgToggleChartPanel === "function") {
+        //Under the AnalysisGrid
+        var eleAddToDashboard = document.getElementById("colAnalChartAddDashboard_" + sAcId)
+        if (eleAddToDashboard) {
+            eleAddToDashboard.style.display = ''
+        }
+    } else {
+        //Under the AC.
+        var eleAddToDashboard = document.getElementById("divAddToDashboardPanel_" + sAcId)
+        if (eleAddToDashboard) {
+            eleAddToDashboard.style.display = ''
+        }
+    }
+}
 
 function rdAcLoadDropdowns(sCurrChartType, sAcId) {
     //These column dropdowns are set dynamically, client-side, based on chart type and data type.
     if (sCurrChartType == 'Pie' || sCurrChartType == 'Heatmap') {
-        rdAcSetDropdownColumns(sAcId, "rdAcChartXLabelColumn", "Text")
+        rdAcSetDropdownColumns(sAcId, "rdAcChartXLabelColumn", "Text,Boolean")
     } else {
-        rdAcSetDropdownColumns(sAcId, "rdAcChartXLabelColumn", "Text,Date,DateTime")
+        rdAcSetDropdownColumns(sAcId, "rdAcChartXLabelColumn", "Text,Date,DateTime,Boolean")
     }
 
-    if (sCurrChartType == 'Line' || sCurrChartType == 'Spline' || sCurrChartType == 'Scatter') {
+    if (sCurrChartType == 'Scatter') {
         rdAcSetDropdownColumns(sAcId, "rdAcChartYColumn", "Number")
+    } else if (sCurrChartType == 'Line' || sCurrChartType == 'Spline') {
+        var bHaveXAggregation = false;
+        var sColumn = document.getElementById('rdAcChartXDataColumn_' + sAcId).value
+        var sDataColumnType = rdAcGetColumnDataType(sColumn, sAcId);
+        var sDateTimeAggregation = document.getElementById('rdAcChartsDateGroupBy_' + sAcId).value
+        if (sDataColumnType.toLowerCase().indexOf("date") != -1 && sDateTimeAggregation != '') 
+            rdAcSetDropdownColumns(sAcId, "rdAcChartYColumn", "Text,Number")
+        else
+            rdAcSetDropdownColumns(sAcId, "rdAcChartYColumn", "Number")
     } else {
         rdAcSetDropdownColumns(sAcId, "rdAcChartYColumn", "Text,Number")
     }
 
     //Set the available aggregation types, depending on data types.
-    rdAcSetDropdownAggrs(sAcId, "rdAcChartYAggrList", "rdAcChartYColumn")
-    rdAcSetDropdownAggrs(sAcId, "rdAcChartExtraAggrList", "rdAcChartExtraDataColumn")
-
+    rdAcSetDropdownAggrs(sAcId, "rdAcChartYAggrList", "rdAcChartYColumn", null, false)
+    rdAcSetDropdownAggrs(sAcId, "rdAcChartExtraAggrList", "rdAcChartExtraDataColumn", null, false)
+    rdAcSetDropdownAggrs(sAcId, "rdAcChartExtraAggrListCompare", "rdAcChartCrosstabColumn", sCurrChartType, true)
+    rdAcSetAvailableStacking(sAcId, "rdAcChartCrosstabColumn", "rdAcStacking", sCurrChartType)
 }
 
-function rdAcSetDropdownColumns(sAcId, sSelectID, sDataTypes) {
+function rdAcSetDropdownColumns(sAcId, sSelectID, sDataTypes, bAddEmptyValue) {
     //Remove all existing columns.
     var eleSelect = document.getElementById(sSelectID + '_' + sAcId)
+    if (!eleSelect) {
+        return;
+    }
     var sSelectedValue = eleSelect.value
     for (var i = eleSelect.childNodes.length - 1; i>=0; i--) {
         var eleColumn = eleSelect.childNodes[i]
         if (eleColumn.tagName == "OPTION") {
+            if (bAddEmptyValue && eleColumn.value=="") {
+                continue;
+            }
             eleSelect.removeChild(eleColumn)
         }
     }
@@ -268,15 +449,18 @@ function rdAcSetDropdownColumns(sAcId, sSelectID, sDataTypes) {
     }
     //Reselect the previous value, or the first. (need to make sure there is at least one)
     eleSelect.value = sSelectedValue
-    if (eleSelect.value == "" && eleSelect.options[0]) {
+    if (!bAddEmptyValue && eleSelect.value == "" && eleSelect.options[0]) {
         eleSelect.value = eleSelect.options[0].value 
     }
 }
 
 
-function rdAcSetDropdownAggrs(sAcId, sAggrSelectID, sColumnSelectID) {
+function rdAcSetDropdownAggrs(sAcId, sAggrSelectID, sColumnSelectID, sCurrentChartType, allowBlank) {
     //Remove all existing aggrs.
     var eleAggrSelect = document.getElementById(sAggrSelectID + '_' + sAcId)
+    if (!eleAggrSelect) {
+        return;
+    }
     var sSelectedAggr = eleAggrSelect.value
     for (var i = eleAggrSelect.childNodes.length - 1; i >= 0; i--) {
         var eleAggr = eleAggrSelect.childNodes[i]
@@ -294,12 +478,24 @@ function rdAcSetDropdownAggrs(sAcId, sAggrSelectID, sColumnSelectID) {
     for (var i = 0; i < eleAllAggrs.childNodes.length; i++) {
         var eleAggr = eleAllAggrs.childNodes[i]
         if (eleAggr.tagName == "OPTION") {
-            if (sDataType == "Number" || eleAggr.value.toLowerCase().indexOf("count") != -1) {
+            if (sDataType == "Number") {
+                if (eleAggr.value != "") {
+                    eleAggrSelect.appendChild(eleAggr.cloneNode(true));
+                }
+            } else {
+                if (eleAggr.value.toLowerCase().indexOf("count") != -1 || (eleAggr.value == "" && sCurrentChartType != "Scatter" && allowBlank)) {
+                    eleAggrSelect.appendChild(eleAggr.cloneNode(true));
+
+                }
+            }
+            /*if ((sDataType == "Number" && eleAggr.value != "") || eleAggr.value.toLowerCase().indexOf("count") != -1 || (sDataType != "Number" && eleAggr.value == "")) {
                 //All aggregates for Numbers.  Other data types get Count and DistinctCount.
                 eleAggrSelect.appendChild(eleAggr.cloneNode(true))
-            }
+            }*/
         }
     }
+
+
     //Reselect the previous value, or the first.
     eleAggrSelect.value = sSelectedAggr
     if (eleAggrSelect.value == "") {
@@ -308,6 +504,60 @@ function rdAcSetDropdownAggrs(sAcId, sAggrSelectID, sColumnSelectID) {
 
 }
 
+function rdAcSetAvailableStacking(sAcId, sCompareColumnDDId, sStackingDDID, sChartType) {
+    var eleAggrSelect = document.getElementById(sStackingDDID + '_' + sAcId)
+    if (!eleAggrSelect) {
+        return;
+    }
+    var sSelectedAggr = eleAggrSelect.value
+    for (var i = eleAggrSelect.childNodes.length - 1; i >= 0; i--) {
+        var eleAggr = eleAggrSelect.childNodes[i]
+        if (eleAggr.tagName == "OPTION") {
+            eleAggrSelect.removeChild(eleAggr)
+        }
+    }
+
+    //Get the data type for the selected column
+    var eleDataColumn = document.getElementById(sCompareColumnDDId + '_' + sAcId)
+    if (eleDataColumn.value == "") {
+        return;
+    }
+    var sDataType = rdAcGetColumnDataType(eleDataColumn.value, sAcId)
+    var eleAggrDD = document.getElementById("rdAcChartExtraAggrListCompare" + '_' + sAcId)
+    //Add the columns that belong.
+    var eleAllAggrs = document.getElementById('rdAcAllStackingHidden_' + sAcId)
+    for (var i = 0; i < eleAllAggrs.childNodes.length; i++) {
+        var eleAggr = eleAllAggrs.childNodes[i]
+        if (eleAggr.tagName == "OPTION") {
+            if (sDataType == "Number") {                
+                if (eleAggr.value.toLowerCase().indexOf("combo") == -1) {
+                    continue;
+                }
+                eleAggrSelect.appendChild(eleAggr.cloneNode(true))
+            } else {
+                if (eleAggrDD.value == "" && eleAggr.value.toLowerCase().indexOf("combo") != -1) {
+                    continue;
+                }
+                if (eleAggrDD.value != "" && eleAggr.value.toLowerCase().indexOf("combo") == -1) {
+                    continue;
+                }
+                eleAggrSelect.appendChild(eleAggr.cloneNode(true))
+            }
+            
+        }
+    }
+    //Reselect the previous value, or the first.
+    eleAggrSelect.value = sSelectedAggr
+    if (eleAggrSelect.value == "") {
+        eleAggrSelect.value = eleAggrSelect.options[0].value
+    }
+    if (sChartType && sChartType=="Scatter" && sDataType != "Number") { //go with hierarchical chart
+        ShowElement(this.id, 'rdAcStacking_' + sAcId, 'Hide');
+        ShowElement(this.id, 'rowChartForecast_' + sAcId, 'Hide');
+    }
+
+    rdSetOrientationToVerticalIfLine(sAcId);
+}
 
 
 function rdAcSetButtonStyle(sAcId,sCurrChartType,sButtonType) {
@@ -346,8 +596,14 @@ function rdAcSetButtonStyle(sAcId,sCurrChartType,sButtonType) {
 function rdShowForecast(sColumn, sAcId){
     if(document.getElementById('rdAcForecastType_' + sAcId) == null) return;
     var sColumnDataType = rdAcGetColumnDataType(sColumn, sAcId) //#15892.
-    if (sColumnDataType.toLowerCase() == "text") {
-        rdAcHideForecast();
+    if (sColumnDataType.toLowerCase() == "text" || sColumnDataType.toLowerCase() == "boolean") {
+        rdAcHideForecast(sAcId);
+        return;
+    }
+
+    var stackingType = document.getElementById('rdAcStacking_' + sAcId).value;
+    if (stackingType && stackingType.indexOf("Combo_") != -1) {
+        rdAcHideForecast(sAcId);
         return;
     }
 
@@ -363,7 +619,9 @@ function rdShowForecast(sColumn, sAcId){
             document.getElementById('rdAcTimeSeriesCycle_' + sAcId + '-Caption').style.display = '';
         }
         document.getElementById('rdAcRegressionType_' + sAcId).style.display = 'none';
-        document.getElementById('rdAcRegressionType_' + sAcId + '-Caption').style.display = 'none';      
+        document.getElementById('rdAcRegressionType_' + sAcId + '-Caption').style.display = 'none';
+        document.getElementById('rdAcTrendLineType_' + sAcId).style.display = 'none';
+        document.getElementById('rdAcTrendLineType_' + sAcId + '-Caption').style.display = 'none';
         return;
     }
     else if(eleForecastType.value == 'Regression'){
@@ -372,13 +630,25 @@ function rdShowForecast(sColumn, sAcId){
         document.getElementById('rdAcRegressionType_' + sAcId + '-Caption').style.display = '';
         document.getElementById('rdAcTimeSeriesCycle_' + sAcId).style.display = 'none';
         document.getElementById('rdAcTimeSeriesCycle_' + sAcId + '-Caption').style.display = 'none';
+        document.getElementById('rdAcTrendLineType_' + sAcId).style.display = 'none';
+        document.getElementById('rdAcTrendLineType_' + sAcId + '-Caption').style.display = 'none';
         return;
+    }
+    else if (eleForecastType.value == 'TrendLine') {
+        document.getElementById('rdAcTimeSeriesCycle_' + sAcId).style.display = 'none';
+        document.getElementById('rdAcTimeSeriesCycle_' + sAcId + '-Caption').style.display = 'none';
+        document.getElementById('rdAcRegressionType_' + sAcId).style.display = 'none';
+        document.getElementById('rdAcRegressionType_' + sAcId + '-Caption').style.display = 'none';
+        document.getElementById('rdAcTrendLineType_' + sAcId).style.display = '';
+        document.getElementById('rdAcTrendLineType_' + sAcId + '-Caption').style.display = '';
     }
     else{
         document.getElementById('rdAcTimeSeriesCycle_' + sAcId).style.display = 'none';
         document.getElementById('rdAcTimeSeriesCycle_' + sAcId + '-Caption').style.display = 'none';
         document.getElementById('rdAcRegressionType_' + sAcId).style.display = 'none';
         document.getElementById('rdAcRegressionType_' + sAcId + '-Caption').style.display = 'none';
+        document.getElementById('rdAcTrendLineType_' + sAcId).style.display = 'none';
+        document.getElementById('rdAcTrendLineType_' + sAcId + '-Caption').style.display = 'none';
     }
    
 }
@@ -418,38 +688,54 @@ function rdSetForecastOptions(sColumn, sAcId){
     var eleDataForecastDropdown = document.getElementById('rdAcForecastType_' + sAcId);
     var sForecastValue = eleDataForecastDropdown.value;
     var eleDateGroupByDropdown = document.getElementById('rdAcChartsDateGroupBy_' + sAcId);
-    var aForecastValues = ['None', 'TimeSeriesDecomposition', 'Regression']; 
-    var aForecastOptions = ['', 'Time Series', 'Regression']; 
+    var aForecastValues = ['None', 'TimeSeriesDecomposition', 'Regression', 'TrendLine'];
+    var aForecastOptions = ['Off', 'Time Series', 'Regression', 'Trend Line']; 
     var sDataColumnType = rdAcGetColumnDataType(sColumn, sAcId);
-    if (sDataColumnType.toLowerCase() == "text") {
+    var sCurrChartType = document.getElementById('rdAcChartType_' + sAcId).value;
+    
+    if (sDataColumnType.toLowerCase() == "text" || sDataColumnType.toLowerCase() == "boolean") {
         rdAcHideForecast(sAcId);
         return;
     }
-    if(sDataColumnType.toLowerCase() != "date" && sDataColumnType.toLowerCase() != "datetime"){
-        if(eleDataForecastDropdown.options[1].value == 'TimeSeriesDecomposition'){
-            eleDataForecastDropdown.remove(1);
-            document.getElementById('rdAcTimeSeriesCycle_' + sAcId).style.display = 'none';
+    
+    if ((sDataColumnType.toLowerCase() != "date" && sDataColumnType.toLowerCase() != "datetime") ||
+        sCurrChartType.toLowerCase() == "scatter") {
+        var indexTimeSeriesValue = aForecastValues.indexOf('TimeSeriesDecomposition');
+        if (indexTimeSeriesValue > 0)
+            aForecastValues.removeAt(indexTimeSeriesValue);
+
+        var indexTimeSeriesOptions = aForecastOptions.indexOf('Time Series');
+        if (indexTimeSeriesOptions > 0)
+            aForecastOptions.removeAt(indexTimeSeriesOptions);
+
+        document.getElementById('rdAcTimeSeriesCycle_' + sAcId).style.display = 'none';
+    }
+
+    if (sCurrChartType.toLowerCase() == "scatter") {
+        var indexRegressionValue = aForecastValues.indexOf('Regression');
+        if (indexRegressionValue > 0)
+            aForecastValues.removeAt(indexRegressionValue);
+
+        var indexRegressionOptions = aForecastOptions.indexOf('Regression');
+        if (indexRegressionOptions > 0)
+            aForecastOptions.removeAt(indexRegressionOptions);
+    }
+
+    var j;
+    for (j = 0; j < 4; j++) {
+        if (eleDataForecastDropdown.options.length > 0) {
+            eleDataForecastDropdown.remove(0);
         }
-    }else{
-        if(eleDataForecastDropdown.options.length < 3){ 
-            var j;
-            for(j=0;j<4;j++){
-                if(eleDataForecastDropdown.options.length > 0){
-                    eleDataForecastDropdown.remove(0);
-                }
-            }
-            var k;
-            for(k=0;k<aForecastOptions.length;k++){
-                var eleForecastOption = document.createElement('option');
-                eleForecastOption.text = aForecastOptions[k];
-                eleForecastOption.value = aForecastValues[k];
-                eleDataForecastDropdown.add(eleForecastOption);
-            }
-            if(sForecastValue.length > 0){
-                eleDataForecastDropdown.value = sForecastValue;
-            }
-            return;
-        }
+    }
+    var k;
+    for (k = 0; k < aForecastOptions.length; k++) {
+        var eleForecastOption = document.createElement('option');
+        eleForecastOption.text = aForecastOptions[k];
+        eleForecastOption.value = aForecastValues[k];
+        eleDataForecastDropdown.add(eleForecastOption);
+    }
+    if (sForecastValue.length > 0) {
+        eleDataForecastDropdown.value = sForecastValue;
     }
 }
 
@@ -463,6 +749,23 @@ function rdResetOrientation(sAcId) {
         eleOrientation.value = "Vertical"
     }else{
         eleOrientation.value = "Horizontal"    
+    }
+}
+
+function rdSetOrientationToVerticalIfLine(sAcId) {
+    var eleStacking = document.getElementById('rdAcStacking_' + sAcId);
+    if (!eleStacking)
+        return;
+
+    var value = eleStacking.value;
+    if (value == "Combo_Line" || value == "Combo_Spline") {
+        var eleOrientation = document.getElementById('rdAcOrientation_' + sAcId);
+        if (eleOrientation == null)
+            return;
+
+        eleOrientation.value = "Vertical";
+        
+        ShowElement(this.id, 'rowChartOrientation_' + sAcId, 'Hide');
     }
 }
 
@@ -549,7 +852,7 @@ function rdModifyTimeSeriesCycleLengthOptions(sColumnGroupByDropdown, sAcId){
                 document.getElementById('rdAcTimeSeriesCycle_' + sAcId + '-Caption').style.display = '';
             }
             break;
-        case 'Date':
+        case 'Date': case 'DateTime':
             for(i=0;i<7;i++){
                 var eleTimeSeriesCycleLengthOption = eleTimeSeriesCycleLengthDropdown.options[j]
                 if(eleTimeSeriesCycleLengthOption != null){
@@ -624,4 +927,30 @@ function rdAcGetGroupByDateOperatorDiv(sDataColumn,sAcId){
 	    document.getElementById('rdAcChartsDateGroupBy_'+sAcId + '-Caption').style.display = 'none';
     }
 }
+function rdAcSetComboType(sAcId) {
+    var sCurrChartType = document.getElementById('rdAcChartType_' + sAcId).value
+    rdAcSetAvailableStacking(sAcId, "rdAcChartCrosstabColumn", "rdAcStacking", sCurrChartType)
+    var eleAggrDD = document.getElementById("rdAcChartExtraAggrListCompare" + '_' + sAcId)
+    var eleAggrSelect = document.getElementById("rdAcStacking" + '_' + sAcId)    
+    if (!eleAggrSelect || !eleAggrDD) {
+        return;
+    }   
+    if (eleAggrDD.value == "") {
+        eleAggrSelect.value = "stacked";
+    } else if (eleAggrDD.value.toLowerCase().indexOf("count") != -1) {
+        eleAggrSelect.value = "Combo_" + sCurrChartType;
+    }    
+}
 
+function rdAcSetStackingType(sAcId) {
+    var eleExtraColumnDD = document.getElementById("rdAcChartCrosstabColumn" + '_' + sAcId);
+    var eleAggrSelect = document.getElementById("rdAcChartExtraAggrListCompare" + '_' + sAcId);
+    if (!eleAggrSelect || !eleExtraColumnDD || eleExtraColumnDD.value == "") {
+        return;
+    }
+    var columnType = rdAcGetColumnDataType(eleExtraColumnDD.value, sAcId);
+    if (columnType.toLowerCase() == "text") {
+        eleAggrSelect.value = "";
+    }
+    rdAcSetComboType(sAcId);
+}

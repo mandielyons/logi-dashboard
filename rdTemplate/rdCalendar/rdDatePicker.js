@@ -317,14 +317,6 @@
            sElementID = sElementID;    
          }
          rdAjaxRequestWithFormVars('rdAjaxCommand=CalendarRefreshElement&rdCalendarRefreshElementID=' + sInputDateID + ',' + sDatePickerID+ '&rdInputDateValue=' + document.getElementById(sElementID).value  + '&rdReport=' + sReportID);        
-//         if (typeof rdUseFadeIn == "undefined") {   //#11723.
-//             sID =  sDatePickerID.substring(sDatePickerID.indexOf('_'), sDatePickerID.lastIndexOf('_rdInputDateElement'))
-//             sPPID = 'PPDatePickerForInputDate' + sID
-//             if(document.getElementById(sPPID)){ //#11208.
-//                 ShowElement(this.id, sPPID,'Hide')
-//                 setTimeout("ShowElement('" + this.id + "', '" + sPPID + "', 'Show')", 250)
-//             } 
-//        }
     }
     
     // function called on click for a calendar for InputDate.

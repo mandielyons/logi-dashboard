@@ -9,7 +9,7 @@ var bInputTimeSecondsDisplay;
 
 function rdClockPickHours(sHourCell){
     var eleHourCellAnchor = document.getElementById(sHourCell);
-    rdRemoveHighlight('Hours');
+    rdRemoveHighlight('HourCell');
     rdHighlightCell(eleHourCellAnchor);
     var eleHourCell = eleHourCellAnchor.getElementsByTagName('Input')[0]
     aHours[sInputTimeId + rdInputTimeRowIdentifier] = eleHourCell.value.split(':')[0];
@@ -21,7 +21,7 @@ function rdClockPickHours(sHourCell){
 
 function rdClockPickMinutes(sMinuteCell){
     var eleMinuteCellAnchor = document.getElementById(sMinuteCell);
-    rdRemoveHighlight('Minutes');
+    rdRemoveHighlight('MinutesCell');
     rdHighlightCell(eleMinuteCellAnchor);
     var eleMinuteCell = eleMinuteCellAnchor.firstChild;
     aMinutes [sInputTimeId + rdInputTimeRowIdentifier] = eleMinuteCell.innerHTML;
@@ -30,7 +30,7 @@ function rdClockPickMinutes(sMinuteCell){
 
 function rdClockPickSeconds(sSecondCell){
     var eleSecondCellAnchor = document.getElementById(sSecondCell);
-    rdRemoveHighlight('Seconds');
+    rdRemoveHighlight('SecondsCell');
     bInputTimeSecondsDisplay = true;
     rdHighlightCell(eleSecondCellAnchor);
     var eleSecondCell = eleSecondCellAnchor.firstChild;
@@ -59,23 +59,16 @@ function rdGetInputTimeRowIdentifier(sRowIdentifiervalue){
 }
 
 function rdHighlightCell(eleCell){
-    if(eleCell.getAttribute('class'))
-        eleCell.setAttribute("class", "rdTimePickerLabelHighlight");
-    else 
-        eleCell.setAttribute("className", "rdTimePickerLabelHighlight");
+    eleCell.className = eleCell.className = "rdTimePickerLabelHighlight"
 }
 
-function rdRemoveHighlight(sCellType){
-    var eleTimePickerTable = document.getElementById(sInputTimeTableId);
-    var eleTimeCellsTable = document.getElementById(sInputTimeIdWithoutDashboardId + '_rdTimePicker_' + sCellType + 'Table');
-    var aTimeCells = eleTimeCellsTable.getElementsByTagName('td')
-    for(var i=0; i<aTimeCells.length; i++){
-    var eleCell = aTimeCells[i];
-        if(eleCell.getAttribute('class')){
-            eleCell.setAttribute('class', eleCell.getAttribute('class').replace('rdTimePickerLabelHighlight','rdTimePickerCell'));
-        }
-        else{ 
-            eleCell.setAttribute('className', eleCell.getAttribute('className').replace('rdTimePickerLabelHighlight','rdTimePickerCell'));
+function rdRemoveHighlight(sCellType) {
+    var eleTimeTable = Y.one('#' + sInputTimeTableId)
+    var aTimeCells = eleTimeTable.all(".rdTimePickerLabelHighlight")._nodes
+    for (var i = 0; i < aTimeCells.length; i++) {
+        var eleCell = aTimeCells[i];
+        if (eleCell.id.indexOf(sCellType) != -1) {
+            eleCell.className = eleCell.className.replace('rdTimePickerLabelHighlight', 'rdTimePickerCell')
         }
     }
 }
@@ -93,15 +86,22 @@ function rdFormatTimeString(sOptional){
             if(sTimeString.match('PM')) sAMPM = ' PM';
         }
     }
-    var sDefaultHours = document.getElementById(sInputTimeIdWithoutDashboardId + '_rdTimePicker_HourCell_00').firstChild.innerHTML == '12' ? '12' : '00';
-    document.getElementById(sInputTimeId  + rdInputTimeRowIdentifier).value = (typeof aHours[sInputTimeId + rdInputTimeRowIdentifier] == 'undefined' ? sDefaultHours : aHours[sInputTimeId + rdInputTimeRowIdentifier]) + 
+
+    var eleHourCell00 = document.getElementById(sInputTimeIdWithoutDashboardId + '_rdTimePicker_HourCell_00')
+    if (!eleHourCell00) {
+        eleHourCell00 = document.getElementById(sInputTimeId + '_rdTimePicker_HourCell_00')
+    }
+    var sDefaultHours = eleHourCell00.firstChild.innerHTML == '12' ? '12' : '00';
+
+    document.getElementById(sInputTimeId + rdInputTimeRowIdentifier).value = (typeof aHours[sInputTimeId + rdInputTimeRowIdentifier] == 'undefined' ? sDefaultHours : aHours[sInputTimeId + rdInputTimeRowIdentifier]) +
                                                                               (typeof aMinutes[sInputTimeId + rdInputTimeRowIdentifier] == 'undefined' ? ':00' : (':'+ aMinutes[sInputTimeId + rdInputTimeRowIdentifier])) + 
                                                                               ((bInputTimeSecondsDisplay) ? (typeof aSeconds[sInputTimeId + rdInputTimeRowIdentifier] == 'undefined' ? ':00' : (':' + aSeconds[sInputTimeId + rdInputTimeRowIdentifier])): '') + 
                                                                                sAMPM;
-    if(document.getElementById(sInputTimeId  + rdInputTimeRowIdentifier).onchange)
-        document.getElementById(sInputTimeId  + rdInputTimeRowIdentifier).onchange(); //#14348.
-    if(document.getElementById(sInputTimeId  + rdInputTimeRowIdentifier).onblur)
-        document.getElementById(sInputTimeId  + rdInputTimeRowIdentifier).onblur(); //15703
+
+    if(document.getElementById(sInputTimeId + rdInputTimeRowIdentifier).onchange)
+        document.getElementById(sInputTimeId + rdInputTimeRowIdentifier).onchange(); //#14348.
+    if(document.getElementById(sInputTimeId + rdInputTimeRowIdentifier).onblur)
+        document.getElementById(sInputTimeId + rdInputTimeRowIdentifier).onblur(); //15703
 }
 
 function rdNeedForSecondsDisplay(){

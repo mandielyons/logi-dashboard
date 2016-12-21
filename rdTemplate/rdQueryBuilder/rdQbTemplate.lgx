@@ -20,7 +20,7 @@
 												<Target Type="Report" ID="tgtUpdateQueryBuilder">
 													<WaitPage Class="rdThemeWaitPanel" CaptionClass="rdThemeWaitCaption" />
 												</Target>
-												<LinkParams rdQbCommand="UpdateQb" rdAgCommand="UpdateAgFromQb" rdAgCommandID="@Function.GUID~" rdQbControlNr="0" />
+												<LinkParams rdQbCommand="UpdateQb" rdAgCommand="UpdateAgFromQb" rdAgCommandID="@Function.GUID~" rdQbControlNr="0" rdBookmarkCollection="@Request.rdBookmarkCollection~" rdBookmarkID="@Request.rdBookmarkID~"		rdBookmarkUserName="@Request.rdBookmarkUserName~" rdContentDivID="@Request.rdContentDivID~"		rdDashPanelId="@Request.rdDashPanelId~" rdEditThinkspace="@Request.rdEditThinkspace~"	rdResetThinkspace="True"/>
 											</Action>
 										</EventHandler>
 									</InputSelectList>
@@ -45,7 +45,7 @@
 												<Target Type="Report" ID="tgtUpdateQueryBuilder">
 													<WaitPage Class="rdThemeWaitPanel" CaptionClass="rdThemeWaitCaption" />
 												</Target>
-												<LinkParams rdQbCommand="UpdateQb" rdAgCommand="UpdateAgFromQb" rdAgCommandID="@Function.GUID~" rdQbControlNr="1" />
+												<LinkParams rdQbCommand="UpdateQb" rdAgCommand="UpdateAgFromQb" rdAgCommandID="@Function.GUID~" rdQbControlNr="1" rdBookmarkCollection="@Request.rdBookmarkCollection~" rdBookmarkID="@Request.rdBookmarkID~"		rdBookmarkUserName="@Request.rdBookmarkUserName~" rdContentDivID="@Request.rdContentDivID~"		rdDashPanelId="@Request.rdDashPanelId~" rdEditThinkspace="@Request.rdEditThinkspace~"	rdResetThinkspace="True"/>
 											</Action>
 										</EventHandler>
 									</InputSelectList>
@@ -57,25 +57,12 @@
 
 				<Row ID="rowOk" ShowModes="None">
 					<Column>
-						<Label Caption="Apply Column Selection" ID="lblQbOk" Class="rdAgCommand">
+						<Label Caption="Apply Column Selection" BatchSelectionCaption="OK" ID="lblQbOk" Class="rdAgCommand">
 							<Action Type="Report" ID="actQbOk">
 								<Target Type="Report" ID="tgtQbOk">
 									<WaitPage Class="rdThemeWaitPanel" CaptionClass="rdThemeWaitCaption" />
 								</Target>
-								<LinkParams rdAgCommand="UpdateAgFromQb" rdQbCommand="UpdateQb" rdAgCommandID="@Function.GUID~" />
-							</Action>
-						</Label>
-					</Column>
-					<Column Class="rdAgAlignRight">
-						<Label Caption="Select: " ID="lblColumnSelect"/>
-						<Label Caption="All" ID="lblLayoutSelectAll" Class="rdAgCommand">
-							<Action Type="Link">
-								<Target Type="Link" Link="javascript: LogiXML.AnalysisGrid.rdQbColumnSelect('All')" />
-							</Action>
-						</Label>
-						<Label Caption="None" ID="lblColumnSelectNone" Class="rdAgCommand">
-							<Action Type="Link">
-								<Target Type="Link" Link="javascript: LogiXML.AnalysisGrid.rdQbColumnSelect('None')" />
+								<LinkParams rdAgCommand="UpdateAgFromQb" rdQbCommand="UpdateQb" rdAgCommandID="@Function.GUID~" rdBookmarkCollection="@Request.rdBookmarkCollection~" rdBookmarkID="@Request.rdBookmarkID~"		rdBookmarkUserName="@Request.rdBookmarkUserName~" rdContentDivID="@Request.rdContentDivID~"		rdDashPanelId="@Request.rdDashPanelId~" rdEditThinkspace="@Request.rdEditThinkspace~"	rdResetThinkspace="True"/>
 							</Action>
 						</Label>
 					</Column>
@@ -97,7 +84,7 @@
 												<Action Type="Report" ID="actUpdateQueryBuilderJoin">
 													<Target Type="Report" ID="tgtUpdateQueryBuilderJoin">
 													</Target>
-													<LinkParams rdQbCommand="UpdateQb" rdAgCommand="UpdateAgFromQb" rdAgCommandID="@Function.GUID~" rdQbControlNr="rdVariable" />
+													<LinkParams rdQbCommand="UpdateQb" rdAgCommand="UpdateAgFromQb" rdAgCommandID="@Function.GUID~" rdQbControlNr="rdVariable" rdBookmarkCollection="@Request.rdBookmarkCollection~" rdBookmarkID="@Request.rdBookmarkID~"		rdBookmarkUserName="@Request.rdBookmarkUserName~" rdContentDivID="@Request.rdContentDivID~"		rdDashPanelId="@Request.rdDashPanelId~" rdEditThinkspace="@Request.rdEditThinkspace~"	rdResetThinkspace="True"/>
 												</Action>
 											</EventHandler>
 										</InputSelectList>
@@ -109,13 +96,10 @@
 				</ElementTemplate>
 
 				<ElementTemplate ID="templateQbColumns">
-					<DataMultiColumnList ID="mclQbColumns" MultiListColumns="4" MultiListDirection="Down">
+					<LineBreak/>
+					<InputCheckboxList ID="iclQbColumns" CheckboxListDropdown="False" MultiSelect="True" OptionCaptionColumn="ColumnFriendlyName" OptionValueColumn="ColumnName" ColumnCount="4" CheckAllCaption="(All)">
 						<DataLayer Type="Static" ID="dlQbColumns" />
-						<InputCheckbox ID="chkQbColumn" DefaultValue="@Data.ColumnChecked~" CheckedValue="True" Class="rdAgColSelect"/>
-						<Label Caption="@Data.ColumnFriendlyName~" ID="lblColFriendlyName" For="chkQbColumn_0_Row@Function.RowNumber~"/>
-						<InputHidden ID="hidQbColumn" DefaultValue="@Data.ColumnName~" />
-					</DataMultiColumnList>
-				
+					</InputCheckboxList>
 				</ElementTemplate>
 
 				

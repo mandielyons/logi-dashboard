@@ -1,3 +1,13 @@
+function canAccessIFrame(iframe) {
+    var html = null;
+    try {
+      var doc = iframe.contentDocument || iframe.contentWindow.document;
+      html = doc.body.innerHTML;
+    } catch(err){}
+
+    return(html !== null);
+}
+
 function iframeResize(o, sOptionalParam) {
 
     if (o.src != "") {
@@ -5,31 +15,38 @@ function iframeResize(o, sOptionalParam) {
         if (o.contentWindow === null) //21313
             return;
 
-        var iframeNode = Y.one(o),
-            documentNode = Y.one(o.contentWindow.document),
-			bodyNode = documentNode.one('body'),
-			htmlNode = documentNode.one('html'),
-			width, height, fixedWidth, fixedHeight;
+        var canAccess = canAccessIFrame(o);
+            
+        var iframeNode = Y.one(o);
+        
+        if (canAccess) {
+            var documentNode = Y.one(o.contentWindow.document),
+                bodyNode = documentNode.one('body'),
+                htmlNode = documentNode.one('html'),
+                width, height, fixedWidth, fixedHeight;
+        }
 
         //iframe MUST have display set for the size settings to take effect
         iframeNode.setStyle('display', '');
 
         iframeNode.setStyle('overflow', 'hidden');
-        // An onload will fire with the initial page load even though the iframes are essentially empty.
-        if (bodyNode.get('scrollWidth') == 0 && bodyNode.get('scrollHeight') == 0) {
-            return;
-        }
+        if (canAccess) {
+            // An onload will fire with the initial page load even though the iframes are essentially empty.
+            if (bodyNode.get('scrollWidth') == 0 && bodyNode.get('scrollHeight') == 0) {
+                return;
+            }
 
-        htmlNode.setStyles({
-            'margin': 0,
-            'width': '100%',
-            'height': '100%'
-        });
-        bodyNode.setStyles({
-            'margin': 0,
-            'width': '100%',
-            'height': '100%'
-        });
+            htmlNode.setStyles({
+                'margin': 0,
+                'width': '100%',
+                'height': '100%'
+            });
+            bodyNode.setStyles({
+                'margin': 0,
+                'width': '100%',
+                'height': '100%'
+            });
+        }
 
         //19377 - Save current position on page
         var currentHeight = document.documentElement.scrollTop > document.body.scrollTop ? document.documentElement.scrollTop : document.body.scrollTop;
@@ -45,7 +62,6 @@ function iframeResize(o, sOptionalParam) {
         if (fixedWidth) {
             o.style.width = o.width;
 
-
             switch (iframeNode.getAttribute("Scrolling")) {
                 case 'yes':
                     iframeNode.setStyles({ 'overflowX': 'visible' });
@@ -59,14 +75,13 @@ function iframeResize(o, sOptionalParam) {
             }
         }
         else {
-            width = htmlNode.get('scrollWidth');
+            width = canAccess ? htmlNode.get('scrollWidth') : 400;
             o.style.width = width + 'px';
             o.width = width + 'px';
         }
 
         // User defined Height, px or % based
         if (fixedHeight) {
-
             o.style.height = o.height;
 
             // If user didn't set a fixedWidth we need to enable scroll bars, works great except for IE7
@@ -80,7 +95,7 @@ function iframeResize(o, sOptionalParam) {
                 o.width = scrollbarWidth + 'px';
             }
         }
-        else {
+        else if (canAccess) {
             //reset the iframe so that it can determine the appropriate height if the content has shrunk
             o.style.height = '1px';
             o.height = '1px';
@@ -90,6 +105,21 @@ function iframeResize(o, sOptionalParam) {
 
             if (bodyNode.get('scrollHeight') > htmlNode.get('scrollHeight') && height == 1)
                 height = bodyNode.get('scrollHeight');
+
+			//AH-730 fix unnecessarily  scrolls for crosstab drilldowns
+			o.style.height = "";
+			o.height="";
+			
+            o.style.height = height + 'px';
+            o.height = height + 'px';
+        }
+        else {
+            //reset the iframe so that it can determine the appropriate height if the content has shrunk
+            o.style.height = '1px';
+            o.height = '1px';
+
+            //now get the iframe height based on the scrollable area
+            height = 400;
 
             o.style.height = height + 'px';
             o.height = height + 'px';

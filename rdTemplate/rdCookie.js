@@ -20,6 +20,11 @@ function rdSaveInputCookie(sElementId, sExpiration, sPath)
 	if (!ele) { return false }
     //rdGetInputValues defined in rdAjax2.js
 	sValue = rdGetInputValues(ele, false);
+    // radio button group? special case.26249
+	if (ele.id.indexOf("rdRadioButtonGroup") == 0) {
+	    sValue = rdGetFormFieldValue(ele);
+	    sElementId = sElementId.substring(18);
+	}
 	if(sPath == '') sPath = '/';    // This makes the cookie available on a Server level rather than Application level if left empty.
 	SetCookie(sElementId,sValue,expireString,sPath)
 }

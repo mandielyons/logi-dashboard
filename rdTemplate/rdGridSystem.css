@@ -816,3 +816,10 @@
 .container:after, .container-fluid:after, .row:after {
     clear: both;
 }
+
+@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+   input[type="radio"], input[type="checkbox"]{
+      background-color: transparent; !important;
+      border-color: transparent; !important;
+   }
+}

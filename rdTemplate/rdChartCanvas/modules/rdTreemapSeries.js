@@ -272,7 +272,7 @@ Array.prototype.flattern = function(fnChildren) {
             var start = 0;
             var end = 0;
             var isVertical = rectWidth > rectHeight;
-            var aspectCurr = 99999;
+            var aspectCurr = Number.MAX_VALUE;
             var aspectLast = 0;
 
             while (end != cells.length) {
@@ -307,7 +307,7 @@ Array.prototype.flattern = function(fnChildren) {
                     isVertical = rectWidth > rectHeight;
 
                     start = end;
-                    aspectCurr = 99999;
+                    aspectCurr = Number.MAX_VALUE;
                     continue;
                 } else {
                     for (i = start; i <= end; i++) {
@@ -401,7 +401,7 @@ Array.prototype.flattern = function(fnChildren) {
                 point.getLabelConfig = parentPrototype.getLabelConfig;
                 point.setState = parentPrototype.setState;
                 point.onMouseOut = parentPrototype.onMouseOut;
-                point.select = parentPrototype.select;
+                point.select = point.selectable ? parentPrototype.select : function (){};
                 point.options = {};
 
                 point.series = series;
@@ -432,7 +432,7 @@ Array.prototype.flattern = function(fnChildren) {
                 point.style.cellBorderColor = point.isGroup ? point.style.cellBorderColor : options.cellBorderColor;
                 point.style.cellBorderThickness = point.isGroup ? point.style.cellBorderThickness : options.cellBorderThickness;
                 // #23585 - ChartCanvas: Heatmap label must have "hand" cursor when action under series
-                point.style.cursor = point.isGroup ? point.style.cursor : options.cursor;
+                point.style.cursor = point.isGroup ? (point.selectable ? 'pointer' : 'default') : options.cursor;
                 point.getColor = function () {
                     return this.isGroup ? this.style.backgroundColor : point.Color;
                 };
@@ -466,8 +466,7 @@ Array.prototype.flattern = function(fnChildren) {
                         point.value = new Date(point.name);
                     }
                 else {
-                    var isFloat = !/^\s*$/.test(point.name) && !isNaN(point.name);
-                        
+                    var isFloat = LogiXML.isNumeric(point.name) && point.name % 1 !== 0;   
                     point.value = isFloat ? parseFloat(point.name) : point.name;    
                 }
                 
@@ -605,8 +604,9 @@ Array.prototype.flattern = function(fnChildren) {
                 color: point.label.color(point),
                 fontSize: style.fontSize,
                 "font-weight": style.fontWeight,
-                "font-family": style.fontFamily
-            };
+                "font-family": style.fontFamily,
+                cursor: style.cursor
+        };
             var position = series.alignDataLabel(point);
             if (point.dataLabel) {
                 var element = point.dataLabel.element;

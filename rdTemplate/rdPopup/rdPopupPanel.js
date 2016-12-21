@@ -43,7 +43,6 @@ Y.use('dd-plugin', 'dd-scroll', 'escape', function(Y){
             var eleDashboardPanelTable = document.getElementById("rdDivDashboardPanelTable")
             // Get the Dashboard Panel Table(Div) and add the Modal and the Popup Panel to the Table.
             if (eleDashboardPanelTable != null && bMovePanelInDashboard) {
-                console.log(elePopupPanel);
                 var eleModalPanel = elePopupPanel.previousSibling;
                 if (eleModalPanel) {
                     if (eleModalPanel.id) {
@@ -84,9 +83,6 @@ Y.use('dd-plugin', 'dd-scroll', 'escape', function(Y){
        
         if(elePopupPanel.id.match('PPDatePickerForInputDate')){     //#10957.
             rdCurrPopupPanel.style.whiteSpace='nowrap';
-            if(elePopupPanel.id.match('rdAgFilterValueDate')){  //#11116.            
-                rdCurrPopupPanel.style.width='625px';   
-            }
         } 
            
         try{  //#11804.  
@@ -275,17 +271,21 @@ function rdPositionPopupPanel(elePopupPanel){
 
     switch (sLocation.toLowerCase()) {
         case 'center':
-            nLeft = (nClientWidth/2) - (elePopupPanel.offsetWidth / 2) + nScrollLeft
-            if(navigator.appName.indexOf("Microsoft Internet") == -1){  //Mozilla.
-                if(!document.doctype){  // Without DocType
-                    nTop = (document.body.clientHeight / 2) - (elePopupPanel.offsetHeight / 2) + nScrollTop 
-                }else{ 
-                    nTop = (document.documentElement.clientHeight / 2) - (elePopupPanel.offsetHeight / 2) + nScrollTop
+            nLeft = (nClientWidth / 2) - (elePopupPanel.offsetWidth / 2) + nScrollLeft
+            if (window.LogiXML.isRdEmbedded && elePopupPanel.getAttribute("rdModal") == "True") {
+                nTop = 100;
+                elePopupPanel.style.position = "fixed";
+            } else {
+                if (navigator.appName.indexOf("Microsoft Internet") == -1) {  //Mozilla.
+                    if (!document.doctype) {  // Without DocType
+                        nTop = (document.body.clientHeight / 2) - (elePopupPanel.offsetHeight / 2) + nScrollTop
+                    } else {
+                        nTop = (document.documentElement.clientHeight / 2) - (elePopupPanel.offsetHeight / 2) + nScrollTop
+                    }
+                } else {  //IE.
+                    nTop = (document.documentElement.offsetHeight / 2) - (elePopupPanel.offsetHeight / 2) + nScrollTop
                 }
-            }else{  //IE.
-                nTop = (document.documentElement.offsetHeight / 2) - (elePopupPanel.offsetHeight / 2) + nScrollTop
             }
-
             break;
         case 'mouse':
             var nParentOffsetLeft  = 0; var nParentOffsetTop = 0;
@@ -463,7 +463,7 @@ function rdHidePopupPanelAndModalShade(elePanelElement) {
 function rdHidePopupPanelOnEscKeyPress(e){
     if(e && e.keyCode == 27){
         rdHidePopupPanelAndModalShade(rdCurrPopupPanel);
-        if (rdCurrPopupPanel.id.indexOf('ppAddPanels') > -1 || rdCurrPopupPanel.id.indexOf('ppEditBookmarks_actionEditBookmark') > -1
+        if (rdCurrPopupPanel.id.indexOf('ppChangeDashboard') > -1 || rdCurrPopupPanel.id.indexOf('ppEditBookmarks_actionEditBookmark') > -1
             || rdCurrPopupPanel.id.indexOf('ppTableCustomization') > -1) {
             ShowElement(null, 'ppChangeDashboard', 'Show');
         }

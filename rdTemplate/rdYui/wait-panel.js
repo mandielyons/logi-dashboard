@@ -34,12 +34,17 @@ YUI.add('waitpanel', function (Y) {
 				imgPath += 'rdWait.gif';
 			else
 			    imgPath += 'rdWaitAll.gif';
-			
-		    //18934
-			if (waitMessage.indexOf("\\x") != -1 || waitMessage.indexOf("%20") != -1) {   //19096 We only want to decode if it has been encoded
+		 
+			var origWaitMessage = waitMessage
+		    // RD19320 - encoded international character sets like cyrlic are not decoded back. 
+		    // The fix for alex19096 was to look for certain characters, so added this as a global fix, includes alex18934.          
+			try {
 			    waitMessage = waitMessage.replace(/\\x/g, "%"); //Had to convert \x to % for YUI's decode function
 			    waitMessage = Y.HistoryHash.decode(waitMessage);
-			}
+		    }
+		    catch (e) {
+                waitMessage = origWaitMessage
+		    }
 			
 			var sWaitKey = '';
 			var sSetStyle = '';
@@ -62,13 +67,12 @@ YUI.add('waitpanel', function (Y) {
 		},
 	
 		showWaitPanel : function(waitCfg) {
-	
 			if (this.isWaitCanceled()) {				
 				return;			
 			}
 			else if (Y.Cookie.exists('rdFileDownloadComplete')) {
 				Y.Cookie.remove('rdFileDownloadComplete', {path: '/'});
-				return;
+				return; //25599
 			}
 			
 			var waitMessage, waitClass, waitCaptionClass;
@@ -85,9 +89,10 @@ YUI.add('waitpanel', function (Y) {
 			else
 				waitCaptionClass = '';
 					
-			if (!Y.Lang.isValue(document.getElementById('rdWait')))
+			if (!Y.Lang.isValue(document.getElementById('rdWait'))) 
 				document.body.insertBefore(this.createWaitContent(waitMessage, waitClass, waitCaptionClass).getDOMNode(), document.body.children[0]);
-						
+
+			
 			if (!Y.Lang.isValue(this._pnlWait)) {
 				this._pnlWait = new Y.Panel({
 					srcNode			: '#rdWait',								
@@ -198,6 +203,7 @@ YUI.add('waitpanel', function (Y) {
 		},
 		
 		hideFrameWait : function(e) {		
+		
 			var nodeFrame = e.target;
 			var frameSibling = nodeFrame.previous();
 			
@@ -213,9 +219,9 @@ YUI.add('waitpanel', function (Y) {
 		            this.showFrameWait(nodeFrame);
                 var sib = nodeFrame.previous();
                 //node before iframe (waitdiv or not)
-                if (sib != null && sib._node != null && (sib._node.nodeName == 'DIV' || sib._node.nodeName == 'div') && sib._node.id.indexOf('rdWait_' > -1)) { //this is waitdiv
+                if (sib != null && sib._node != null && (sib._node.nodeName == 'DIV' || sib._node.nodeName == 'div') && sib._node.id.indexOf('rdWait_') > -1) { //this is waitdiv 
 		            sib = sib.previous();
-		            if (sib != null && sib._node != null && (sib._node.nodeName == 'DIV' || sib._node.nodeName == 'div') && sib._node.id.indexOf('rdWait_' > -1)) {//this is another one waitdiv, deleting
+		            if (sib != null && sib._node != null && (sib._node.nodeName == 'DIV' || sib._node.nodeName == 'div') && sib._node.id.indexOf('rdWait_') > -1) {//this is another one waitdiv, deleting, #26251
 		                sib._node.parentNode.removeChild(sib._node);
 		            }
 		        }

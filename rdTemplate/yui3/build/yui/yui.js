@@ -23089,7 +23089,7 @@ YUI.add('transition', function (Y) {
                 computed = node.ownerDocument.defaultView.getComputedStyle(node),
                 attrs = Transition._nodeAttrs[uid],
                 cssText = '',
-                cssTransition = computed[Transition._toCamel(TRANSITION_PROPERTY)],
+                cssTransition = computed?computed[Transition._toCamel(TRANSITION_PROPERTY)]:"",
 
                 transitionText = TRANSITION_PROPERTY + ': ',
                 duration = TRANSITION_DURATION + ': ',
@@ -23102,9 +23102,9 @@ YUI.add('transition', function (Y) {
             // preserve existing transitions
             if (cssTransition !== 'all') {
                 transitionText += cssTransition + ',';
-                duration += computed[Transition._toCamel(TRANSITION_DURATION)] + ',';
-                easing += computed[Transition._toCamel(TRANSITION_TIMING_FUNCTION)] + ',';
-                delay += computed[Transition._toCamel(TRANSITION_DELAY)] + ',';
+                duration += computed ? computed[Transition._toCamel(TRANSITION_DURATION)] + ',':'';
+                easing += computed ? computed[Transition._toCamel(TRANSITION_TIMING_FUNCTION)] + ',':'';
+                delay += computed ? computed[Transition._toCamel(TRANSITION_DELAY)] + ',':'';
 
             }
 

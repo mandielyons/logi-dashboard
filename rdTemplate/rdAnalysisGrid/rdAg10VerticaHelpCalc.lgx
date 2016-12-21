@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Report ID="VerticaAghelp" SavedBy="LOGIXML\hari" SavedAt="2/4/2014 10:26:48 AM" EngineVersion="11.1.033">
+<Report ID="VerticaAghelp">
 	<StyleSheet StyleSheet="rdTemplate/rdAnalysisGrid/rdAg10Style.css" />
 	<Remark>
 		<StyleSheet StyleSheet="@Request.rdAgStyleSheet~" />

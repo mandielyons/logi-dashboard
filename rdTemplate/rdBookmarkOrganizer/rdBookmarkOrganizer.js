@@ -295,8 +295,6 @@
 
                     toggleNode.className += " " + className;
                 }
-                
-                rdAjaxRequestWithFormVars('rdAjaxCommand=rdAjaxNotify&rdNotifyCommand=SelectFolder&rdDataTableID=' + dataTableID + '&FolderID=' + sFolderID + '&SharedFolderID=' + sSharedFolderID + '&SharedParentFolderID=' + sSharedParentFolderID + '&rdReport=' + sReportID, 'false', '', null, null, null, null);
             }
             else {
 
@@ -319,7 +317,7 @@
                     this.selectFolder(null, "", "", "");
             }
 
- 
+            rdAjaxRequestWithFormVars('rdAjaxCommand=rdAjaxNotify&rdNotifyCommand=SelectFolder&rdDataTableID=' + dataTableID + '&FolderID=' + sFolderID + '&SharedFolderID=' + sSharedFolderID + '&SharedParentFolderID=' + sSharedParentFolderID + '&rdReport=' + sReportID, 'false', '', null, null, null, null); 
         },
         toggleImage: function (tableRow, val) {
 

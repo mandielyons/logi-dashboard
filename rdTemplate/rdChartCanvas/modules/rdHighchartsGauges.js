@@ -15,7 +15,15 @@
         pointPadding: 0.25,
         pointPlacement: -3,
         stickyTracking: true,
-        pointRange: 0
+        pointRange: 0,
+        states: {
+            hover: {
+                lineColor: "transparent"
+            },
+            select: {
+                lineColor: "transparent"
+            }
+        }
     });
 
     defaultPlotOptions.arcgauge = merge(defaultPlotOptions.pie, {
@@ -733,7 +741,7 @@
                     'stroke-width': this.userOptions.arcBorderThickness || 1
                 }).add(graphic);
                 renderer.path(['M', triangleCenterX - triangleWidth / 2 + (this.userOptions.arcBorderThickness || 1) * 1.5, this.shapeArgs.y - this.userOptions.arcBorderThickness || 1, 'L', triangleCenterX + triangleWidth / 2 - (this.userOptions.arcBorderThickness || 1) * 1.5, this.shapeArgs.y - this.userOptions.arcBorderThickness || 1, triangleCenterX + triangleWidth / 2 - (this.userOptions.arcBorderThickness || 1) * 1.5, this.shapeArgs.y, triangleCenterX, this.shapeArgs.y + triangleHeight - (this.userOptions.arcBorderThickness || 1) / 2, triangleCenterX - triangleWidth / 2 + (this.userOptions.arcBorderThickness || 1) * 1.5, this.shapeArgs.y, 'Z']).attr({
-                    fill: this.getColorsInRangesByValue(currentValue, this.chart.xAxis[0].userOptions.stops) || this.userOptions.arcColor,
+                    fill: this.getColorsInRangesByValue(currentValue, this.chart.xAxis[0].userOptions.stops) || this.userOptions.arcColor
                 }).add(graphic);
             }
             point.graphic = graphic;
@@ -998,6 +1006,15 @@
             axis.options.holdLastTick = true;
             axis.isDirty = true;
             //this.chart.setSize(this.chart.chartWidth + 1, this.chart.chartHeight + 1, false);
+        },
+
+        getAttribs: function () {
+            var prevColor = this.color;
+            this.color = "transparent";
+
+            H.Series.prototype.getAttribs.call(this);
+
+            this.color = prevColor;
         },
 
         drawPoints: function () {

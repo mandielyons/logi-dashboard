@@ -53,13 +53,24 @@
 				var attributesArray = [];
 				var tableCount = 0;
 				var rowCount = 0;
+				var bFormatted = true;
 				
-				if(xhr.responseXML.documentElement.nodeName != "rdData"){
-					window.location.replace(fileURL);
+				if (xhr.responseXML.documentElement.nodeName != "rdData") {
+				    var div = document.createElement("div");
+				    var textNode = document.createTextNode("Data is not formatted for the tabular view.  ");
+				    var linkNode = document.createElement('a');
+				    var linkText = document.createTextNode("View raw xml.");
+				    linkNode.appendChild(linkText);
+				    linkNode.title = "View raw xml.";
+				    linkNode.href = fileURL;
+				    div.appendChild(textNode);
+				    div.appendChild(linkNode);
+				    body.appendChild(div);
+				    bFormatted = false;
 				}
 				
 				var rows = xhr.responseXML.documentElement.childNodes;
-				
+
 				if(rows.length == 0){
 					var div = document.createElement("div");
 					var textNode = document.createTextNode("No data.");
@@ -69,138 +80,156 @@
 
 				var table;
 
-				for (var i = 0; i < rows.length; i++) {   
+				if (bFormatted) {
+				    for (var i = 0; i < rows.length; i++) {
 
-					var elementName = rows[i].nodeName;
-					
-					if(elementName != "#text"){
-						/*create the first table*/
-						if(!table){
-							rowCount = 0;
-							
-							elements[elements.length] = rows[i].nodeName;
-							table = document.createElement("table");
-							table.id = "table" + tableCount;
-							table.className = "DebugTable";
-							
-							
-							var div = document.createElement("div");
-							var textNode = document.createTextNode(rows[i].nodeName);
-							div.id = "title_table" + tableCount;
-							div.className = "title";
-							div.appendChild(textNode);
-							
-							body.appendChild(div);
-							tableCount += 1;
-						}
-						/*we ran into a new element name, so we break it into a different table*/
-						else if(elements[elements.length - 1] != rows[i].nodeName){
-							
-							/*set title for the previous table (do it here so we have row count)*/
-							var title = document.getElementById("title_table" + (tableCount - 1));
-							if(rowCount > 100)
-								title.innerHTML = title.innerHTML + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Rows: 100 of " + rowCount;
-							else
-								title.innerHTML = title.innerHTML + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Rows: " + rowCount;
-							
-							rowCount = 0;
-							var tr = document.createElement("tr");
-							
-							for( var x = 0; x < attributesArray.length; x++){
-								var th = document.createElement("th");
-								var textNode = document.createTextNode(attributesArray[x]);
-								th.appendChild(textNode);
-								tr.className = "HeaderRow";
-								tr.appendChild(th);
-							}
-							
-							table.id = "table" + tableCount;
-							
-							table.insertBefore(tr,table.firstChild);
-						
-							attributesArray = [];
-							elements[elements.length] = rows[i].nodeName;
-							
-							body.innerHTML = body.innerHTML + table.outerHTML;
-							
-							table = document.createElement("table");
-							table.className = "DebugTable";
+				        var elementName = rows[i].nodeName;
 
-							var div = document.createElement("div");
-							div.id = "title_table" + tableCount;
-							div.className = "title";
-							var textNode = document.createTextNode(rows[i].nodeName);
-							div.appendChild(textNode);
+				        if (elementName != "#text") {
 
-							body.appendChild(div);
-							tableCount += 1;
-						}
-					
-						var user = rows[i].nodeName;
+				            //This is a hierarchical document and should be shown raw
+				            if (rows[i].childNodes.length > 0) {
+				                var div = document.createElement("div");
+				                var textNode = document.createTextNode("Data is not formatted for the tabular view.  ");
+				                var linkNode = document.createElement('a');
+				                var linkText = document.createTextNode("View raw xml.");
+				                linkNode.appendChild(linkText);
+				                linkNode.title = "View raw xml.";
+				                linkNode.href = fileURL;
+				                div.appendChild(textNode);
+				                div.appendChild(linkNode);
+				                body.appendChild(div);
+				                break;
+				            }
 
-						/*add all the data*/
-						if(rows[i].attributes.length > 0 && rowCount < 100){
-							var tr = document.createElement("tr");
-							rowCount += 1;
-							var tdCount = 0;
-							
-							var attrToAdd = new Array();
-							
-							/*build hashtable of data*/
-							for (var j = 0; j < rows[i].attributes.length; j++){
-							
-								var attrName = rows[i].attributes[j].nodeName;
-								var attrValue = rows[i].attributes[j].nodeValue;
-								
-								attrToAdd[attrName] = attrValue;
-								
-								var bInArray = false;
-								
-								for(var n = 0; n < attributesArray.length; n++){
-									if(attributesArray[n] == rows[i].attributes[j].nodeName)
-										bInArray = true;
-								}
-							
-								if(!bInArray){
-									attributesArray.push(attrName);	
-								}       
-							}
-							
-							/*add data to html table in the right order*/
-							for (var k = 0; k < attributesArray.length; k++){
-							
-								var td = document.createElement("td");
-								
-								var attrName = attributesArray[k];
-								var attrValue = "";
-								
-								for(var x in attrToAdd){
-									if(x == attrName)
-										attrValue = attrToAdd[x];
-								}
-					
+				            /*create the first table*/
+				            if (!table) {
+				                rowCount = 0;
 
-								var textNode = document.createTextNode(attrValue);
-								
-								
-								td.appendChild(textNode);        
-								tr.appendChild(td);
-							}
-							
-							table.appendChild(tr);
-						}
-						else if(rows[i].attributes.length > 0){
-							rowCount += 1;
-						}
-					}
+				                elements[elements.length] = rows[i].nodeName;
+				                table = document.createElement("table");
+				                table.id = "table" + tableCount;
+				                table.className = "DebugTable";
+
+
+				                var div = document.createElement("div");
+				                var textNode = document.createTextNode(rows[i].nodeName);
+				                div.id = "title_table" + tableCount;
+				                div.className = "title";
+				                div.appendChild(textNode);
+
+				                body.appendChild(div);
+				                tableCount += 1;
+				            }
+				                /*we ran into a new element name, so we break it into a different table*/
+				            else if (elements[elements.length - 1] != rows[i].nodeName) {
+
+				                /*set title for the previous table (do it here so we have row count)*/
+				                var title = document.getElementById("title_table" + (tableCount - 1));
+				                if (rowCount > 1000)
+				                    title.innerHTML = title.innerHTML + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Rows: 1000 of " + rowCount;
+				                else
+				                    title.innerHTML = title.innerHTML + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Rows: " + rowCount;
+
+				                rowCount = 0;
+				                var tr = document.createElement("tr");
+
+				                for (var x = 0; x < attributesArray.length; x++) {
+				                    var th = document.createElement("th");
+				                    var textNode = document.createTextNode(attributesArray[x]);
+				                    th.appendChild(textNode);
+				                    tr.className = "HeaderRow";
+				                    tr.appendChild(th);
+				                }
+
+				                table.id = "table" + tableCount;
+
+				                table.insertBefore(tr, table.firstChild);
+
+				                attributesArray = [];
+				                elements[elements.length] = rows[i].nodeName;
+
+				                body.innerHTML = body.innerHTML + table.outerHTML;
+
+				                table = document.createElement("table");
+				                table.className = "DebugTable";
+
+				                var div = document.createElement("div");
+				                div.id = "title_table" + tableCount;
+				                div.className = "title";
+				                var textNode = document.createTextNode(rows[i].nodeName);
+				                div.appendChild(textNode);
+
+				                body.appendChild(div);
+				                tableCount += 1;
+				            }
+
+				            var user = rows[i].nodeName;
+
+				            /*add all the data*/
+				            if (rows[i].attributes.length > 0 && rowCount < 1000) {
+				                var tr = document.createElement("tr");
+				                rowCount += 1;
+				                var tdCount = 0;
+
+				                var attrToAdd = new Array();
+
+				                /*build hashtable of data*/
+				                for (var j = 0; j < rows[i].attributes.length; j++) {
+
+				                    var attrName = rows[i].attributes[j].nodeName;
+				                    var attrValue = rows[i].attributes[j].nodeValue;
+
+				                    attrToAdd[attrName] = attrValue;
+
+				                    var bInArray = false;
+
+				                    for (var n = 0; n < attributesArray.length; n++) {
+				                        if (attributesArray[n] == rows[i].attributes[j].nodeName)
+				                            bInArray = true;
+				                    }
+
+				                    if (!bInArray) {
+				                        attributesArray.push(attrName);
+				                    }
+				                }
+
+				                /*add data to html table in the right order*/
+				                for (var k = 0; k < attributesArray.length; k++) {
+
+				                    var td = document.createElement("td");
+
+				                    var attrName = attributesArray[k];
+				                    var attrValue = "";
+
+				                    for (var x in attrToAdd) {
+				                        if (x == attrName)
+				                            attrValue = attrToAdd[x];
+				                    }
+
+
+				                    var textNode = document.createTextNode(attrValue);
+
+
+				                    td.appendChild(textNode);
+				                    tr.appendChild(td);
+				                }
+
+				                table.appendChild(tr);
+				            }
+				            else if (rows[i].attributes.length > 0) {
+				                rowCount += 1;
+				            }
+				        }
+				    }
 				}
-				
+
 				/*set title and th for the last table to be processed*/
 				if(table){
 					var title = document.getElementById("title_table" + (tableCount - 1));
 					if(title){
-						if(rowCount > 100)
-							title.innerHTML = title.innerHTML + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Rows: 100 of " + rowCount;
+						if(rowCount > 1000)
+							title.innerHTML = title.innerHTML + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Rows: 1000 of " + rowCount;
 						else
 							title.innerHTML = title.innerHTML + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Rows: " + rowCount;
 					}
@@ -266,7 +295,7 @@ td.progress .text { position: relative; }
 td.progress span { position: absolute; top: 0px; right: 0px; }
 div.progressBar, div.previousElapsed { background-color: #d4e4a4; float: left; clear: right; } /* Clear right is for IE7 */
 div.previousElapsed { background-color: #efffbf; }
-a.generateProgressBars { color: #0000EE; }
+/* a.generateProgressBars { color: #0000EE; } */
 td,th {
 	font-size:11px;
 	/*border: 1px solid black;*/

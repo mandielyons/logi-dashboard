@@ -3,6 +3,8 @@ YUI.add('rdResize', function(Y) {
 
     Y.namespace('rdResize').AddYUIResizerHandles = function (sContentHolderID, eleAttrs) {
         
+        sContentHolderID = sContentHolderID.replace(/\./g, "\\.");
+
 		// Function includes the common code used to instantiate a YUI object and wrap YUI handles around the Container.		
 		var freeFormLayout = false;
 		if (sContentHolderID.indexOf('rdDashboardPanel-') == 0)
@@ -661,23 +663,34 @@ Y.use('rdResize', function(Y) {
 	    if (heightOnly) {
 	        if (height > 0) {
 	            yuiResize.get('wrapper').setStyles({
-	                height: height,
+	                height: sHeight,
                     width: null
 	            });
+
+	            if (sHeight.indexOf('%') > 0)
+	                eleContent.style.height = "";
 	        }
 	    } else if (widthOnly) {
 	        if (width > 0 ) {
 	            yuiResize.get('wrapper').setStyles({
-	                width: width,
+	                width: sWidth,
                     height: null
 	            });
+
+	            if (sWidth.indexOf('%') > 0)
+	                eleContent.style.width = "";
 	        }
 	    } else {
 	        if (width > 0 && height > 0) {
 	            yuiResize.get('wrapper').setStyles({
-	                width: width,
-	                height: height
+	                width: sWidth,
+	                height: sHeight
 	            });
+
+	            if (sWidth.indexOf('%') > 0)
+	                eleContent.style.width = "";
+	            if (sHeight.indexOf('%') > 0)
+	                eleContent.style.height = "";
 	        }
 	    }
 
@@ -717,6 +730,129 @@ Y.use('rdResize', function(Y) {
 	            width = e.info.offsetWidth;
 
 	        resizeChart(width, height, true);
+	        yuiResize.set('resizing', false);
+	        if (heightOnly) {
+	            var wrapper = resizeNode.ancestor('.chartfx-wrapper');
+	            if (wrapper) {
+	                setTimeout(function () { if (wrapper) { wrapper.setStyle('width', ''); }}, 100);
+	            }
+	        }
+	    });
+	};
+
+	LogiXML.Resize._rdInitVisualizationResizer = function (eleContent) {
+	    var resizeNode = Y.one(eleContent),
+			sIdForAttrs = eleContent.id,
+            sReportName = resizeNode.getAttribute('data-rdReport'),
+            width = eleContent.getAttribute('Width'),
+            height = eleContent.getAttribute('Height'),
+            timeout = 0;
+
+	    if (width == null || height == null) {
+	        var sWidth = resizeNode.getStyle('width');
+	        var sHeight = resizeNode.getStyle('height');
+	        if (sWidth != null && sHeight != null) {
+	            width = parseInt(sWidth.replace('px', ''));
+	            height = parseInt(sHeight.replace('px', ''));
+	        }
+	    }
+
+	    // Resize already created
+	    if (resizeNode.hasClass('yui3-resize')) {
+	        return;
+	    }
+
+	    var eleAttrs = document.getElementById("rdResizerAttrs_" + sIdForAttrs)
+	    if (!Y.Lang.isValue(eleAttrs))
+	        return;
+	    var heightOnly = eleAttrs.getAttribute("rdHeightOnly") == "True",
+            widthOnly = eleAttrs.getAttribute("rdWidthOnly") == "True";
+
+	    eleContent.removeAttribute('Height');
+	    eleContent.removeAttribute('Width');
+
+	    var yuiResize = Y.rdResize.AddYUIResizerHandles(eleContent.id, eleAttrs);
+	    if (heightOnly) {
+	        if (height > 0) {
+	            yuiResize.get('wrapper').setStyles({
+	                height: height,
+	                width: null
+	            });
+	        }
+	    } else if (widthOnly) {
+	        if (width > 0) {
+	            yuiResize.get('wrapper').setStyles({
+	                width: width,
+	                height: null
+	            });
+	        }
+	    } else {
+	        if (width > 0 && height > 0) {
+	            yuiResize.get('wrapper').setStyles({
+	                width: width,
+	                height: height
+	            });
+	        }
+	    }
+
+	    var resizeVisualization = function (width, height, finished) {
+	        var visualizationDiv = resizeNode.one('logi-visualization,logi-crosstab-table');
+	        if (!visualizationDiv || !Logi || !Logi.Platform || !Logi.Platform.select) {
+	            return;
+	        }
+	        var visualizationObject = Logi.Platform.select('#' + visualizationDiv.getAttribute('id'));
+	        if (!visualizationObject) {
+	            return;
+	        }
+	        var currSize = {height:100, width:100, wUnit:'%', hUnit:'%'};
+	        if (visualizationObject.getSize) {
+	            currSize = visualizationObject.getSize();
+	        } 
+            if (heightOnly) {
+                //visualizationObject.resize(currSize.width + currSize.wUnit, height);
+                Y.LogiXML.rdLogiVisualization.resize(visualizationDiv, currSize.width, height, currSize.wUnit, 'px');
+	        } else if (widthOnly) {
+	            //visualizationObject.resize(width, currSize.height + currSize.hUnit);
+	            Y.LogiXML.rdLogiVisualization.resize(visualizationDiv, width, currSize.height, 'px', currSize.hUnit);
+	        } else {
+	            //visualizationObject.resize(width + "px", height + "px");
+	            Y.LogiXML.rdLogiVisualization.resize(visualizationDiv, width, height, 'px', 'px');
+	        }
+	        /*var currSize = visualizationObject.getSize();
+	        if (heightOnly) {
+	            visualizationObject.resize(currSize.width + currSize.wUnit, height);
+	        } else if (widthOnly) {
+	            visualizationObject.resize(width, currSize.height + currSize.hUnit);
+	        } else {
+	            visualizationObject.resize(width + "px", height + "px");
+	        }*/
+            rdAjaxRequest('rdAjaxCommand=rdAjaxNotify&rdNotifyCommand=SetElementSize&rdWidth=' + width + '&rdHeight=' + height + '&rdElementId=' + sIdForAttrs + '&rdReport=' + sReportName +'&rdRequestForwarding=Form');
+	    }
+	    yuiResize.on('resize:resize', function (e) {
+	        if (timeout) {
+	            clearTimeout(timeout);
+	        }
+	        timeout = setTimeout(function () {
+	            var height = e.info.offsetHeight,
+                   width = e.info.offsetWidth;
+	            resizeVisualization(width, height, false);
+	            if (isIE() === 7) {
+	                resizeVisualization(width, height, false);
+	            }
+	        }, 50);
+	    });
+
+	    yuiResize.on('resize:end', function (e) {
+	        if (isIE() === 7) {
+	            return;
+	        }
+	        if (timeout) {
+	            clearTimeout(timeout);
+	        }
+	        var height = e.info.offsetHeight,
+	            width = e.info.offsetWidth;
+
+	        resizeVisualization(width, height, true);
 	        yuiResize.set('resizing', false);
 
 	    });
@@ -759,6 +895,12 @@ function rdInitHighChartsResizer(eleContent) {
         LogiXML.Resize._rdInitHighChartsResizer(eleContent);
     else
         setTimeout(function () { rdInitHighChartsResizer(eleContent); }, 100);
+}
+function rdInitVisualizationResizer(eleContent) {
+    if (Y.Lang.isValue(LogiXML.Resize._rdInitVisualizationResizer))
+        LogiXML.Resize._rdInitVisualizationResizer(eleContent);
+    else
+        setTimeout(function () { rdInitVisualizationResizer(eleContent); }, 100);
 }
 
 //Supporting external functions

@@ -67,14 +67,16 @@ var EmbeddedReport = function (container, options) {
 
     if (options == null) {
         options = this.parseContainerParams();
-    }
+    }    
     this.applicationUrl = options.applicationUrl == null ? null : options.applicationUrl;
     this.report = options.report == null ? null : options.report;
     this.secureKey = options.secureKey == null ? null : options.secureKey;
     this.autoSizing = options.autoSizing == null ? 'none' : options.autoSizing.toLowerCase();
     this.linkParams = options.linkParams == null ? {} : options.linkParams;
     this.requestMethod = options.requestMethod == null ? 'post' : options.requestMethod;
-    this.heightOffset = null;
+    this.heightOffsetPadding = options.heightOffset == null ? 20 : parseInt(options.heightOffset);
+    this.widthOffsetPadding = options.widthOffset == null ? 20 : parseInt(options.widthOffset);
+    this.heightOffset = null;  
     this.widthOffset = null;
 	//if(EmbeddedReporting.pingIsEstablished) {
 	//	this.show();
@@ -88,7 +90,9 @@ EmbeddedReport.prototype.parseContainerParams = function () {
 		secureKey : this.container.getAttribute('data-secureKey'),
 		autoSizing: this.container.getAttribute('data-autoSizing'),
 		linkParams: this.parseInitParams(),
-		requestMethod: this.container.getAttribute('data-requestMethod')
+		requestMethod: this.container.getAttribute('data-requestMethod'),
+		widthOffset: this.container.getAttribute('data-widthOffset'),
+		heightOffset: this.container.getAttribute('data-heightOffset')
     };
 	options.autoSizing = options.autoSizing == null ? 'none' : options.autoSizing.toLowerCase();
     return options;
@@ -208,7 +212,7 @@ EmbeddedReport.prototype.genFrame = function () {
             if (this.linkParams.hasOwnProperty(name) && this.linkParams[name] != null) {
 				//24657
 				if (name == "rdShowWait") { 
-					frmPost.action = frmPost.action + "&rdShowWait=" + this.linkParams[name] ;
+				    frmPost.action = frmPost.action + "&rdShowWait=" + this.linkParams[name];
 				} else {
 					var hiddenLinkParam = docFrame.createElement("INPUT");
 					hiddenLinkParam.type = "HIDDEN";
@@ -236,8 +240,12 @@ EmbeddedReport.prototype.processMessage = function (evt) {
 	if (evt == null || evt.data == null) {
         return;
 	}
-    var message = JSON.parse(evt.data, null, 2);
-    if (message == null && message.command == null) {
+	var message =null;
+    try {
+        message = JSON.parse(evt.data, null, 2);
+    } catch (e) {
+    }
+    if (message == null || message.command == null) {
         return;
 	}
     if (this.iframeId == null || message.iframeId !== this.iframeId) {
@@ -253,12 +261,12 @@ EmbeddedReport.prototype.processMessage = function (evt) {
     switch (message.command) {
         case "rdGetWindowSize_response":
 		if (this.heightOffset == null) {
-			var heightOffset = message.prms.docHeight - message.prms.region.height;
-			this.heightOffset = heightOffset > 0 ? heightOffset + 4 : 20;
+		    var heightOffset = message.prms.docHeight - message.prms.region.height;
+		    this.heightOffset = heightOffset > 0 ? heightOffset + this.heightOffsetPadding : this.heightOffsetPadding;
 		}
 		if (this.widthOffset == null) {
 			var widthOffset = message.prms.docWidth - message.prms.region.width;
-			this.widthOffset = widthOffset > 0 ? widthOffset + 4 : 20;
+		    this.widthOffset = widthOffset > 0 ? widthOffset + this.widthOffsetPadding : this.widthOffsetPadding;
 		}
 
 		if (this.autoSizing === "all" || this.autoSizing === "width") {
@@ -273,16 +281,19 @@ EmbeddedReport.prototype.processMessage = function (evt) {
 		    if (message.prms.docHeight !== message.prms.winHeight && message.prms.docHeight !== (message.prms.winHeight + 1) && (message.prms.docHeight + 1) !== message.prms.winHeight) {
 				this.iframe.setAttribute("height", message.prms.docHeight + "px");
 			}
-			else if (message.prms.region &&  (message.prms.docHeight > (message.prms.region.height + this.heightOffset) || message.prms.modalHeight > 0)) {
+		    else if (message.prms.region && (message.prms.docHeight > (message.prms.region.height + this.heightOffset) || message.prms.modalHeight > 0)) {
 
-			    if (message.prms.modalHeight > (message.prms.region.height + this.heightOffset)) { //20343 Modal heights are not included in body height, so must be considered after the fact
-			        if (message.prms.modalHeight > message.prms.docHeight)
-			            this.iframe.setAttribute("height", (message.prms.modalHeight) + "px");
-			    }
-			    else
-			        this.iframe.setAttribute("height", (message.prms.region.height + this.heightOffset) + "px");
+		        if (message.prms.modalHeight > (message.prms.region.height + this.heightOffset)) { //20343 Modal heights are not included in body height, so must be considered after the fact
+		            if (message.prms.modalHeight > message.prms.docHeight)
+		                this.iframe.setAttribute("height", (message.prms.modalHeight) + "px");
+		        }
+		        else
+		            this.iframe.setAttribute("height", (message.prms.region.height + this.heightOffset) + "px");
 
-			}
+		    }
+		    else //25717,25682 - chrome specific. for scrollbars.
+		        if (navigator.userAgent.toLowerCase().indexOf('chrome') > -1 )
+		            this.iframe.setAttribute("height", (message.prms.region.height + this.heightOffset) + "px");		        
 		}
 		break;
     case "rdExecEmbeddedFunction_response":
@@ -383,7 +394,6 @@ EmbeddedReport.prototype.frameLoaded = function () {
     //'use strict;
     if (this.iframe && this.iframe.contentWindow != null) {
         EmbeddedReporting.frameLoaded(this.guid);
-
         if (this.autoSizing !== undefined && this.autoSizing !== "none") {
             this.postMessage("rdGetWindowSize", []);
             //20343

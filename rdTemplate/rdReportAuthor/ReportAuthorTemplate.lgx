@@ -1,19 +1,20 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Report ID="ReportAuthorDev.Templates.ReportAuthorTemplate" SavedBy="AGILEENGINE-39\dzhangirov" SavedAt="01/09/2014 11:45:21" EngineVersion="8.2.26">
+<Report ID="ReportAuthorDev.Templates.ReportAuthorTemplate">
   <StyleSheet StyleSheet="rdTemplate/rdReportAuthor/reportAuthor.css" Theme="Clarity" />
   <Body>
     <Division HtmlDiv="True" ID="rdReportAuthor" Class="rdReportAuthor" ReportAuthorTemplate="True">
       <Rows Width="100" WidthScale="%">
         <Row ID="rowReportAuthorHeader" ShowModes="rdBrowser" Class="rdReportAuthor_BackgroundMenu">
-          <Column ID="colReportAuthorHeader" ColSpan="2"  Class="rdAgPanel reportAuthorHeightMenu reportAuthorbgcmenu">
+          <Column ID="colReportAuthorHeader" ColSpan="2"  Class="reportAuthorHeightMenu reportAuthorbgcmenu">
             <Division>
               <Division ID="divSwitchToDesignModeTrue_rdReportAuthorID">
+                <Spaces Size="4" />
                 <Label Caption="Design" ID="lblSwitchToDesignModeTrue" Class="rdAcCommandHighlight" />
               </Division>
               <Division ID="divSwitchToDesignModeFalse_rdReportAuthorID">
                 <Label Caption="Design" ID="lblSwitchToDesignModeFalse" Class="rdAcCommandIdle">
                   <Action Type="Report" ID="actSwitchToDesign">
-                    <LinkParams rdReportAuthorViewMode="DesignEdit" />
+                    <LinkParams rdReportAuthorViewMode="DesignEdit" rdBookmarkUserName="@Request.rdBookmarkUserName~" />
                     <Target Type="Report">
                       <WaitPage />
                     </Target>
@@ -26,19 +27,55 @@
               <Division ID="divSwitchToPreviewModeFalse_rdReportAuthorID">
                 <Label Caption="View" ID="lblSwitchToPreviewModeFalse" Class="rdAcCommandIdle">
                   <Action Type="Report" ID="actSwitchToView">
-                    <LinkParams rdReportAuthorViewMode="ViewEdit" />
+                    <LinkParams rdReportAuthorViewMode="ViewEdit" rdBookmarkUserName="@Request.rdBookmarkUserName~" />
                     <Target Type="Report">
                       <WaitPage />
                     </Target>
                   </Action>
                 </Label>
               </Division>
+
+              <Division ID="divUndo">
+                <Division ShowModes="None" ID="divUndoEnabled">
+                  <EventHandler DhtmlEvent="onclick">
+                    <Action Type="Report" ID="actUndo">
+                      <Target Type="Report" ID="tgtUndo" >
+                        <WaitPage />
+                      </Target>
+                      <LinkParams rdCommand="Undo" rdRaCommandID="@Function.GUID~" />
+                    </Action>
+                  </EventHandler>
+                  <Division>
+                    <Image Caption="rdTemplate/rdUndo.png" ID="imgUndoEnabled" AltText="Undo." Tooltip="Undo. Ctrl+Z" />
+                  </Division>
+                </Division>
+                <Division ShowModes="None" ID="divUndoDisabled">
+                  <Image Caption="rdTemplate/rdUndoDisable.png" ID="imgUndoDisabled" AltText="Undo." Tooltip="Undo. Ctrl+Z" />
+                </Division>
+              </Division>
+              <Division ID="divRedo">
+                <Division ShowModes="None" ID="divRedoEnabled">
+                  <EventHandler DhtmlEvent="onclick">
+                    <Action Type="Report" ID="actRedo">
+                      <Target Type="Report" ID="tgtRedo" >
+                        <WaitPage />
+                      </Target>
+                      <LinkParams rdCommand="Redo" rdRaCommandID="@Function.GUID~" />
+                    </Action>
+                  </EventHandler>
+                  <Division>
+                    <Image Caption="rdTemplate/rdRedo.png" ID="imgRedoEnabled" AltText="Redo." Tooltip="Redo. Ctrl+Y" />
+                  </Division>
+                </Division>
+                <Division ShowModes="None" ID="divRedoDisabled">
+                  <Image Caption="rdTemplate/rdRedoDisable.png" ID="imgRedoDisabled" AltText="Redo." Tooltip="Redo. Ctrl+Y" />
+                </Division>
+              </Division>
             </Division>
           </Column>
         </Row>
         <Row ID="rowReportAuthorMainContainer">
           <Column ID="colReportAuthorToolbox" Width="190" WidthScale="px" Class="ThemeAlignCenter ThemeAlignTop">
-		      <Spaces Size="45" />
 		    <Division Class="rd-toolbox-container">
 					<DraggableDivision ID="dragAddRow" Class="rdReportAuthorToolboxItem" DropStubID="ReportAuthorDropStub" DragGroup="PDFHeaderFooter,WorkArea">
 					  <Division Class="rd-toolbox-element" HtmlDiv="True" IdeDisplayStatus="Collapsed">
@@ -90,7 +127,7 @@
 						  <Division Class="clear-both" HtmlDiv="True" />
 						</Division>
 					  </ProxyDivision>
-					  <LinkedParams action="rdAjaxRequestWithFormVars('rdAjaxCommand=RefreshElement&amp;rdRefreshElementID=rdReportAuthorID,rdReturnElementID&amp;rdReportAuthorAction=add&amp;rdElementType=Space&amp;rdReportAuthorElementID=rdElementID&amp;rdReportAuthorParentID=rdNewParentID&amp;rdReportAuthorSiblingElementID=rdSiblingID&amp;rdReportAuthorRefreshElementID=rdReturnElementID&amp;rdReport=rdCurrentReport','false','',null,null,null,['','',''])" />
+					  <LinkedParams action="setEditActionCause('False');rdAjaxRequestWithFormVars('rdAjaxCommand=RefreshElement&amp;rdRefreshElementID=rdReportAuthorID,rdReturnElementID&amp;rdReportAuthorAction=add&amp;rdElementType=Space&amp;rdReportAuthorElementID=rdElementID&amp;rdReportAuthorParentID=rdNewParentID&amp;rdReportAuthorSiblingElementID=rdSiblingID&amp;rdReportAuthorRefreshElementID=rdReturnElementID&amp;rdReport=rdCurrentReport','false','',null,null,null,['','',''])" />
 					</DraggableDivision>
 					<DraggableDivision ID="dragVisualGallery" Class="rdReportAuthorToolboxItem" PreventCloneNode="True" IdeDisplayStatus="Collapsed" DropStubID="ReportAuthorDropStub" DragGroup="WorkArea">
 					  <Division HtmlDiv="True" Class="rd-toolbox-gallery-text" IdeDisplayStatus="Collapsed">
@@ -136,7 +173,7 @@
 						  <Division Class="clear-both" HtmlDiv="True" />
 						</Division>
 					  </ProxyDivision>
-					  <LinkedParams action="rdAjaxRequestWithFormVars('rdAjaxCommand=RefreshElement&amp;rdRefreshElementID=rdReportAuthorID,rdReturnElementID&amp;rdReportAuthorAction=add&amp;rdElementType=Label&amp;rdReportAuthorElementID=rdElementID&amp;rdReportAuthorParentID=rdNewParentID&amp;rdReportAuthorSiblingElementID=rdSiblingID&amp;rdReportAuthorRefreshElementID=rdReturnElementID&amp;rdReport=rdCurrentReport','false','',null,null,null,null)" />
+					  <LinkedParams action="setEditActionCause('False');rdAjaxRequestWithFormVars('rdAjaxCommand=RefreshElement&amp;rdRefreshElementID=rdReportAuthorID,rdReturnElementID&amp;rdReportAuthorAction=add&amp;rdElementType=Label&amp;rdReportAuthorElementID=rdElementID&amp;rdReportAuthorParentID=rdNewParentID&amp;rdReportAuthorSiblingElementID=rdSiblingID&amp;rdReportAuthorRefreshElementID=rdReturnElementID&amp;rdReport=rdCurrentReport','false','',null,null,null,null)" />
 					</DraggableDivision>
 					<DraggableDivision ID="dragAddImage" Class="rdReportAuthorToolboxItem" DropStubID="ReportAuthorDropStub"  DragGroup="PDFHeaderFooter,WorkArea">
 					  <Division Class="rd-toolbox-element" HtmlDiv="True" IdeDisplayStatus="Collapsed">
@@ -162,7 +199,7 @@
 						  <Division Class="clear-both" HtmlDiv="True" />
 						</Division>
 					  </ProxyDivision>
-					  <LinkedParams action="rdAjaxRequestWithFormVars('rdAjaxCommand=RefreshElement&amp;rdRefreshElementID=rdReportAuthorID,rdReturnElementID&amp;rdReportAuthorAction=add&amp;rdElementType=Image&amp;rdReportAuthorElementID=rdElementID&amp;rdReportAuthorParentID=rdNewParentID&amp;rdReportAuthorSiblingElementID=rdSiblingID&amp;rdReportAuthorRefreshElementID=rdReturnElementID&amp;rdReport=rdCurrentReport','false','',null,null,null,['','',''])" />
+					  <LinkedParams action="setEditActionCause('False');rdAjaxRequestWithFormVars('rdAjaxCommand=RefreshElement&amp;rdRefreshElementID=rdReportAuthorID,rdReturnElementID&amp;rdReportAuthorAction=add&amp;rdElementType=Image&amp;rdReportAuthorElementID=rdElementID&amp;rdReportAuthorParentID=rdNewParentID&amp;rdReportAuthorSiblingElementID=rdSiblingID&amp;rdReportAuthorRefreshElementID=rdReturnElementID&amp;rdReport=rdCurrentReport','false','',null,null,null,['','',''])" />
 					</DraggableDivision>
 					<DraggableDivision ID="dragAddLink" Class="rdReportAuthorToolboxItem" DropStubID="ReportAuthorDropStub" DragGroup="WorkArea">
 					  <Division Class="rd-toolbox-element" HtmlDiv="True" IdeDisplayStatus="Collapsed">
@@ -188,7 +225,7 @@
 						  <Division Class="clear-both" HtmlDiv="True" />
 						</Division>
 					  </ProxyDivision>
-					  <LinkedParams action="rdAjaxRequestWithFormVars('rdAjaxCommand=RefreshElement&amp;rdRefreshElementID=rdReportAuthorID,rdReturnElementID&amp;rdReportAuthorAction=add&amp;rdElementType=Link&amp;rdReportAuthorElementID=rdElementID&amp;rdReportAuthorParentID=rdNewParentID&amp;rdReportAuthorSiblingElementID=rdSiblingID&amp;rdReportAuthorRefreshElementID=rdReturnElementID&amp;rdReport=rdCurrentReport','false','',null,null,null,['','',''])" />
+					  <LinkedParams action="setEditActionCause('False');rdAjaxRequestWithFormVars('rdAjaxCommand=RefreshElement&amp;rdRefreshElementID=rdReportAuthorID,rdReturnElementID&amp;rdReportAuthorAction=add&amp;rdElementType=Link&amp;rdReportAuthorElementID=rdElementID&amp;rdReportAuthorParentID=rdNewParentID&amp;rdReportAuthorSiblingElementID=rdSiblingID&amp;rdReportAuthorRefreshElementID=rdReturnElementID&amp;rdReport=rdCurrentReport','false','',null,null,null,['','',''])" />
 					</DraggableDivision>
 					<DraggableDivision ID="dragAddPdfButton" Class="rdReportAuthorToolboxItem" DropStubID="ReportAuthorDropStub" DragGroup="WorkArea">
 					  <Division Class="rd-toolbox-element" HtmlDiv="True" IdeDisplayStatus="Collapsed">
@@ -214,7 +251,7 @@
 						  <Division Class="clear-both" HtmlDiv="True" />
 						</Division>
 					  </ProxyDivision>
-					  <LinkedParams action="rdAjaxRequestWithFormVars('rdAjaxCommand=RefreshElement&amp;rdRefreshElementID=rdReportAuthorID,rdReturnElementID&amp;rdReportAuthorAction=add&amp;rdElementType=PdfButton&amp;rdReportAuthorElementID=rdElementID&amp;rdReportAuthorParentID=rdNewParentID&amp;rdReportAuthorSiblingElementID=rdSiblingID&amp;rdReportAuthorRefreshElementID=rdReturnElementID&amp;rdReport=rdCurrentReport','false','',null,null,null,['','',''])" />
+					  <LinkedParams action="setEditActionCause('False');rdAjaxRequestWithFormVars('rdAjaxCommand=RefreshElement&amp;rdRefreshElementID=rdReportAuthorID,rdReturnElementID&amp;rdReportAuthorAction=add&amp;rdElementType=PdfButton&amp;rdReportAuthorElementID=rdElementID&amp;rdReportAuthorParentID=rdNewParentID&amp;rdReportAuthorSiblingElementID=rdSiblingID&amp;rdReportAuthorRefreshElementID=rdReturnElementID&amp;rdReport=rdCurrentReport','false','',null,null,null,['','',''])" />
 					</DraggableDivision>
 			 </Division>
           </Column>
@@ -232,6 +269,7 @@
       </Rows>
       <InputHidden DefaultValue="rdCurrentReport" ID="hiddenCurrentReport" />
       <InputHidden ID="rdReportAuthorViewMode" />
+      <InputHidden ID="rdSetSettingsFromUser" />
       <IncludeSharedElement ID="includeSharedAddPanelsGallery" DefinitionFile="rdDashboard/rdAddPanelsGallery.lgx" SharedElementID="AddPanelsGallery" />
       <Division Class="rdDropStub" ID="ReportAuthorDropStub" HtmlDiv="True" ShowModes="None">
         <Image Caption="rdTemplate/rdWait.gif" />

@@ -1,3 +1,4 @@
+<script src="rdYui/fixIe.js"></script>
 <script src="rdYui/yui-config.js" ></script>
 <script src="yui3/build/yui/yui.js" ></script>
 <script src="yui3/build/loader/loader.js" ></script>

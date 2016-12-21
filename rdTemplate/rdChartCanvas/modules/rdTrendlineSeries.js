@@ -31,7 +31,9 @@
                 }
             }
             
-            data = this.extractXYDataFromSeries(parentOptions);
+            //25275
+            if (parentOptions.data.length > 0 && parentOptions.dataInfo)
+                data = this.extractXYDataFromSeries(parentOptions);
             if (data && data.data && data.data.length >= 2) {
                 lineAlgorithm = lineAlgorithm.toLowerCase().replace('regression', '');
                 regressionData = this.methods[lineAlgorithm](data.data);
@@ -196,6 +198,29 @@
                         break;
                 }
             }
+
+            if (seriesOptions.type.toLowerCase() == "scatter") {
+                // group elements
+                var groups = {};
+                ret.data.forEach(function (value) {
+                    var group = value[0];
+
+                    if (group) {
+                        if (groups[group])
+                            groups[group] = { sum: groups[group].sum + value[1], count: ++groups[group].count };
+                        else
+                            groups[group] = { sum: value[1], count: 1 };
+                    }
+                });
+                // average of Y values
+                ret.data = Object.keys(groups).map(function (group) {
+                    return [+group, groups[group].sum / groups[group].count];
+                });
+                ret.data.sort(function (a, b) {
+                    return a[0] - b[0];
+                });
+            }
+
             return ret;
         }
 

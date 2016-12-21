@@ -1,3 +1,8 @@
+//SavedCustomFormats
+//SavedCustomAlignments
+//SavedPanelState
+//AnalysisGridColumn
+
 //InputSelectList/DataLayer[@ID='dlCalcDataColumns']
 //DataTable/DataLayer[@ID='dlCalcColumns']
 
@@ -19,3 +24,5 @@
 //InteractivePaging[@IDnotSupportedHere='pagingTable']
 //InteractivePaging[@IDnotSupportedHere='pagingTableFalse']
 //InteractivePaging[@IDnotSupportedHere='pagingTableNumbered']
+
+//InputCheckbox[@ID='rdAgHideFunctionNamesCheckbox']

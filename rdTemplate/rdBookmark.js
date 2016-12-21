@@ -1,5 +1,5 @@
-function rdAddBookmark(sActionId, sReport, sBookmarkReqIds, sBookmarkSessionIds, sCollection, sBookmarkName, sCust1, sCust2, sDescription, sDescriptionMessage, nRowNr, sBookmarkId) {
-
+function rdAddBookmark(sActionId, sReport, sBookmarkReqIds, sBookmarkSessionIds, sCollection, sBookmarkName, sCust1, sCust2, sDescription, sDescriptionMessage, nRowNr, sBookmarkId, bIsNgpBookmark) {
+    
     rdValidationRowNrFilter = nRowNr
 	var sErrorMsg = rdValidateForm()
 	if (sErrorMsg) {
@@ -25,6 +25,12 @@ function rdAddBookmark(sActionId, sReport, sBookmarkReqIds, sBookmarkSessionIds,
     sReqParams += "&rdBookmarkCustomColumn2=" + encodeURIComponent(sCust2)
     sReqParams += "&rdBookmarkDescription=" + encodeURIComponent(sDesc)
     sReqParams += "&rdBookmarkID=" + encodeURIComponent(Y.Lang.isValue(sBookmarkId) ? sBookmarkId : '')
+    if (bIsNgpBookmark) {
+        var rdBookmarkUserName = document.getElementsByName("rdBookmarkUserName")[0];
+        if(rdBookmarkUserName) {
+            sReqParams += "&rdBookmarkUserName=" + rdBookmarkUserName.value;
+        }
+    }
 	
 	
 	// This is added specifically for radio buttons. #23741
@@ -45,6 +51,9 @@ function rdAddBookmark(sActionId, sReport, sBookmarkReqIds, sBookmarkSessionIds,
 			if (sReqParams.indexOf(sInputValue) == -1)
 	            sReqParams += sInputValue;	
 		}
+		else if (ele.type == "select-one" && ele.options[ele.selectedIndex]) {
+		    sReqParams += "&" + ele.id + "=" + ele.options[ele.selectedIndex].value;
+		}
 	}
 	
     var aIds = sBookmarkReqIds.split(",")
@@ -54,7 +63,10 @@ function rdAddBookmark(sActionId, sReport, sBookmarkReqIds, sBookmarkSessionIds,
             var ele = document.getElementById(sId);
             if (ele) {    //#12959.
                 //Changed to rdGetInputValues (defined in rdAjax2.js)
-                sReqParams += rdGetInputValues(ele);
+                var sReqAdd = rdGetInputValues(ele); //RD19046, value might have already been added to the request, dont duplicate it.
+                if (sReqParams.indexOf(sReqAdd) == -1) {
+                    sReqParams += rdGetInputValues(ele);
+                }               
             }
             else if ((sReqParams.indexOf("&" + sId + "=") == -1) && document.getElementById("rdBookmarkReqId_" + sId)) {   //20099
 				sReqParams += "&" + sId + "=" + document.getElementById("rdBookmarkReqId_" + sId).innerHTML;
@@ -134,15 +146,8 @@ function rdCopyBookmark(sActionId, sReport, SourceBookmarkCollection, SourceBook
 
 }
 
-function rdRemoveBookmark(sActionId, sReport, BookmarkCollection, sBookmarkUserName, BookmarkID, sConfirm, eleRemoveId, sReportCenterID, nRowNr, sChildActionScript) {
+function rdRemoveBookmark(sActionId, sReport, BookmarkCollection, sBookmarkUserName, BookmarkID, sConfirm, eleRemoveId, sReportCenterID, nRowNr) {
 
-    if (sConfirm) {
-        if(sChildActionScript){ // show the confirm only when there is a child actionscript(a child action element to the action.RemoveBookmark) #15350, #15314.
-		    if (!confirm(sConfirm)) {
-			    return
-		    }
-		}
-    }
     if (!(Y.Lang.isValue(BookmarkCollection) && BookmarkCollection != '')) {
         return; //Do not do anything when the bookmark collection is not provided, #19472.
     }
@@ -159,16 +164,6 @@ function rdRemoveBookmark(sActionId, sReport, BookmarkCollection, sBookmarkUserN
     if (eleRemoveId) {
          rdAjaxRequest('rdAjaxCommand=RefreshElement&rdReport=' + sReport + '&rdRefreshElementID=' + sReportCenterID) 
     }
-    if (sChildActionScript) {
-		if (sChildActionScript.length != 0) {
-			if (sChildActionScript.toLowerCase().indexOf("javascript:") == 0) {
-		        sChildActionScript = new Function(sChildActionScript.substr(11))    //Label
-		    }else{
-		        sChildActionScript = new Function(sChildActionScript)   //Button
-		    }
-		    sChildActionScript()
-		}
-	}
 }
 
 
@@ -216,9 +211,9 @@ function rdShareBookmarkOrFolder(sActionId, sReport, BookmarkCollection, Bookmar
 
 	//BookmarkID or FolderID ?
 	if (BookmarkID != ''){
-		rdAjaxRequestWithFormVars("rdAjaxCommand=rdAjaxNotify&rdNotifyCommand=ShareBookmark" + sReqParams)
+	    rdAjaxRequestWithFormVars("rdAjaxCommand=rdAjaxNotify&rdNotifyCommand=ShareBookmark" + sReqParams, null, null, null, null, null, ['', '', ''], null)
 	} else {
-		rdAjaxRequestWithFormVars("rdAjaxCommand=rdAjaxNotify&rdNotifyCommand=ShareBookmarkFolder" + sReqParams)
+	    rdAjaxRequestWithFormVars("rdAjaxCommand=rdAjaxNotify&rdNotifyCommand=ShareBookmarkFolder" + sReqParams, null, null, null, null, null, ['', '', ''], null)
 	}
 
 	//Clear out the input text box	
@@ -237,7 +232,7 @@ function rdShareBookmarkOrFolder(sActionId, sReport, BookmarkCollection, Bookmar
 	sRefreshParams += "&rdBookmarkID=" + BookmarkID;
 	sRefreshParams += "&rdFolderID=" + FolderID;
 	
-	rdAjaxRequestWithFormVars("rdAjaxCommand=RefreshElement&rdRefreshElementID=rowBookmarkSharedWith" + sRefreshParams);
+	rdAjaxRequestWithFormVars("rdAjaxCommand=RefreshElement&rdRefreshElementID=rowBookmarkSharedWith" + sRefreshParams, null, null, null, null, null, ['', '', ''], null);
 
 
 }
@@ -262,9 +257,9 @@ function rdUnShareBookmarkOrFolder(sActionId, sReport, BookmarkCollection, Bookm
 	
 	//BookmarkID or FolderID
 	if (BookmarkID != ''){
-	    rdAjaxRequest("rdAjaxCommand=rdAjaxNotify&rdNotifyCommand=UnShareBookmark" + sReqParams);
+	    rdAjaxRequest("rdAjaxCommand=rdAjaxNotify&rdNotifyCommand=UnShareBookmark" + sReqParams, null, null, null, null, ['', '', ''], null);
 	} else {
-	    rdAjaxRequest("rdAjaxCommand=rdAjaxNotify&rdNotifyCommand=UnShareBookmarkFolder" + sReqParams);
+	    rdAjaxRequest("rdAjaxCommand=rdAjaxNotify&rdNotifyCommand=UnShareBookmarkFolder" + sReqParams, null, null, null, null, ['', '', ''], null);
 	} 
 	
 	var sRefreshParams = "";
@@ -273,9 +268,19 @@ function rdUnShareBookmarkOrFolder(sActionId, sReport, BookmarkCollection, Bookm
 	sRefreshParams += "&rdBookmarkID=" + BookmarkID;
 	sRefreshParams += "&rdFolderID=" + FolderID;
 
-	rdAjaxRequestWithFormVars("rdAjaxCommand=RefreshElement&rdRefreshElementID=rowBookmarkSharedWith" + sRefreshParams);	
+	rdAjaxRequestWithFormVars("rdAjaxCommand=RefreshElement&rdRefreshElementID=rowBookmarkSharedWith" + sRefreshParams, null, null, null, null, null, ['','',''], null);	
 }
 
+function rdAddBookmarkNgpSave(sActionId, sReport, sBookmarkReqIds, sBookmarkSessionIds, sCollection, sBookmarkName, sCust1, sCust2, sDescription, sDescriptionMessage, nRowNr, sBookmarkId){
+    var rdSaveASNewHiddenInput = Y.one('#rdSaveASNew');
+
+    if (rdSaveASNewHiddenInput) {
+        rdSaveASNewHiddenInput.set('value', 'saveAsNew');
+    }
+    
+    rdAddBookmark(sActionId, sReport, sBookmarkReqIds, sBookmarkSessionIds, sCollection, sBookmarkName, sCust1, sCust2, sDescription, sDescriptionMessage, nRowNr, sBookmarkId, true);
+
+}
 
 
 

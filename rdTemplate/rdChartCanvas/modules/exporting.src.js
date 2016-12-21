@@ -81,8 +81,16 @@ defaultOptions.navigation = {
 		height: 22,
 		// text: null,
 		theme: {
-			fill: 'white', // capture hover
-			stroke: 'none'
+		    zIndex: 20,
+		    //LOGIFIX
+		    // 21379 Zoom Chart pointer
+		    states: {
+		        hover: {
+		            style: {
+		                cursor: "pointer"
+		            }
+		        }
+		    }
 		},
 		verticalAlign: 'top',
 		width: 24
@@ -101,6 +109,7 @@ defaultOptions.exporting = {
 	//scale: 2
 	buttons: {
 		contextButton: {
+	        enabled: false,
 			menuClassName: PREFIX + 'contextmenu',
 			//x: -10,
 			symbol: 'menu',
@@ -578,6 +587,11 @@ extend(Chart.prototype, {
 
 		delete attr.states;
 
+		if (onclick && typeof (onclick) == "string") {
+		    var fBodyCopy = onclick.toString();
+		    onclick = function () { eval(fBodyCopy); }
+		}
+
 		if (onclick) {
 			callback = function () {
 				onclick.apply(chart, arguments);
@@ -611,10 +625,25 @@ extend(Chart.prototype, {
 		}
 
 		button = renderer.button(btnOptions.text, 0, 0, callback, attr, hover, select)
-			.attr({
-				title: chart.options.lang[btnOptions._titleKey],
+			.attr({			    
 				'stroke-linecap': 'round'
 			});
+		var titleNode = button.element.getElementsByTagName('title')[0];
+		if (!titleNode) {
+		    titleNode = doc.createElementNS('http://www.w3.org/2000/svg', 'title');
+		    button.element.appendChild(titleNode);
+		}
+		var titleString = btnOptions.title || chart.options.lang[btnOptions._titleKey] || '';
+		if (titleString !== "") {
+		    var titleLines = titleString.split(/\/r\/n/gi)
+		    for (var i = 0; i < titleLines.length; i++) {
+		        titleNode.appendChild(doc.createTextNode(titleLines[i]));
+		        if (i !== titleLines.length - 1) {
+		            titleNode.appendChild(doc.createElement("br"))
+		        }
+		    }
+		}	
+		
 		button.menuClassName = options.menuClassName || PREFIX + 'menu-' + chart.btnCount++;
 
 		if (btnOptions.symbol) {
@@ -638,7 +667,7 @@ extend(Chart.prototype, {
 			}), true, 'spacingBox');
 
 		buttonOffset += (button.width + btnOptions.buttonSpacing) * (btnOptions.align === 'right' ? -1 : 1);
-
+        button.element.id = btnOptions.id
 		chart.exportSVGElements.push(button, symbol);
 
 	},

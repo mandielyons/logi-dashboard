@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Report ID="BookmarkOrganizer.rdBookmarkOrganizerTemplate" rdBookmarkOrganizerVersion="0.0" SavedBy="FELIPE-SURFACE\fblanco" SavedAt="9/17/2014 3:51:17 PM" EngineVersion="11.4.002-T">
+<Report ID="BookmarkOrganizer.rdBookmarkOrganizerTemplate" rdBookmarkOrganizerVersion="0.0">
   <Label Caption="My Items" ID="lblMyFolders" />
   <Label Caption="Shared with Me" ID="lblSharedWithMe" />
   <Body ID="bodyMain">
@@ -35,10 +35,10 @@
                 <DraggableDivision HtmlDiv="True" ID="drag_@Data.ID~" Ignore="@Data.ShortcutChild~" DragGroup="@Data.AllowedGroups~" PreventCloneNode="True">                
                   <ProxyDivision MoveOnEnd="False" HideOnEnd="True" HideOnStart="False" />
                   <LinkedParams action="LogiXML.BookmarkOrganizer.rdBookmarkOrganizer.rdAddFolderToFolder('@Data.ID~','rdTargetID');" />
-                  <Image Caption="../rdTemplate/rdPlus.gif" Condition="@Data.HasChildren~" AltText="Show/Hide Children" Tooltip="Expand" ID="rdToggleChildrenShow" Width="12" Height="12">
+                  <Image Caption="../rdTemplate/rdArrowRight.gif" Condition="@Data.HasChildren~" AltText="Show/Hide Children" Tooltip="Expand" ID="rdToggleChildrenShow" >
                     <Action Type="Javascript" ID="actToggleChildrenShow" Javascript="LogiXML.BookmarkOrganizer.rdBookmarkOrganizer.toggleNode(this, null, false);" />
                   </Image>
-                  <Image Caption="../rdTemplate/rdMinus.gif" Condition="@Data.HasChildren~" AltText="Show/Hide Children" Tooltip="Collapse" ID="rdToggleChildrenHide" Width="12" Height="12">
+                  <Image Caption="../rdTemplate/rdArrowDown.gif" Condition="@Data.HasChildren~" AltText="Show/Hide Children" Tooltip="Collapse" ID="rdToggleChildrenHide" >
                     <Action Type="Javascript" ID="actToggleChildrenHide" Javascript="LogiXML.BookmarkOrganizer.rdBookmarkOrganizer.toggleNode(this, null, false);" />
                   </Image>
                   <Image Caption="../rdTemplate/rdBlank.gif" Condition="!@Data.HasChildren~" AltText="" Tooltip="" ID="rdBlank" Width="12" Height="12" />
@@ -61,10 +61,10 @@
               <Division HtmlDiv="True" ID="dragDivisionWrapper" Condition="'@Data.ID~' == '' or '@Data.ID~' == 'sharedFolder'">
                 <ProxyDivision MoveOnEnd="False" HideOnEnd="True" HideOnStart="False" />
                 <LinkedParams action="LogiXML.BookmarkOrganizer.rdBookmarkOrganizer.rdAddFolderToFolder('@Data.ID~','rdTargetID');" />
-                <Image Caption="../rdTemplate/rdPlus.gif" Condition="@Data.HasChildren~" AltText="Show/Hide Children" Tooltip="Expand" ID="rdToggleChildrenShow" Width="12" Height="12">
+                <Image Caption="../rdTemplate/rdArrowRight.gif" Condition="@Data.HasChildren~" AltText="Show/Hide Children" Tooltip="Expand" ID="rdToggleChildrenShow" >
                   <Action Type="Javascript" ID="actToggleChildrenShow" Javascript="LogiXML.BookmarkOrganizer.rdBookmarkOrganizer.toggleNode(this, null, false);" />
                 </Image>
-                <Image Caption="../rdTemplate/rdMinus.gif" Condition="@Data.HasChildren~" AltText="Show/Hide Children" Tooltip="Collapse" ID="rdToggleChildrenHide" Width="12" Height="12">
+                <Image Caption="../rdTemplate/rdArrowDown.gif" Condition="@Data.HasChildren~" AltText="Show/Hide Children" Tooltip="Collapse" ID="rdToggleChildrenHide" >
                   <Action Type="Javascript" ID="actToggleChildrenHide" Javascript="LogiXML.BookmarkOrganizer.rdBookmarkOrganizer.toggleNode(this, null, false);" />
                 </Image>
                 <Image Caption="../rdTemplate/rdBlank.gif" Condition="!@Data.HasChildren~" AltText="" Tooltip="" ID="rdBlank" Width="12" Height="12" />
@@ -151,10 +151,10 @@
             <DraggableDivision HtmlDiv="True" ID="drag_@Data.ID~" DragGroup="@Data.AllowedGroups~" PreventCloneNode="True">
               <ProxyDivision MoveOnEnd="False" HideOnEnd="True" HideOnStart="False" />
               <LinkedParams action="LogiXML.BookmarkOrganizer.rdBookmarkOrganizer.rdCreateFolderShortcut('@Data.ID~','@Data.BookmarkUserName~','@Data.FolderOwner~','@Data.Name~','rdTargetID');" />
-              <Image Caption="../rdTemplate/rdPlus.gif" Condition="@Data.HasChildren~" AltText="Show/Hide Children" Tooltip="Expand" ID="rdToggleChildrenShow" Width="12" Height="12">
+              <Image Caption="../rdTemplate/rdArrowRight.gif" Condition="@Data.HasChildren~" AltText="Show/Hide Children" Tooltip="Expand" ID="rdToggleChildrenShow" >
                 <Action Type="Javascript" ID="actToggleNodeShow" Javascript="LogiXML.BookmarkOrganizer.rdBookmarkOrganizer.toggleNode(this, null, false);" />
               </Image>
-              <Image Caption="../rdTemplate/rdMinus.gif" Condition="@Data.HasChildren~" AltText="Show/Hide Children" Tooltip="Collapse" ID="rdToggleChildrenHide" Width="12" Height="12">
+              <Image Caption="../rdTemplate/rdArrowDown.gif" Condition="@Data.HasChildren~" AltText="Show/Hide Children" Tooltip="Collapse" ID="rdToggleChildrenHide">
                 <Action Type="Javascript" ID="actToggleNodeHide" Javascript="LogiXML.BookmarkOrganizer.rdBookmarkOrganizer.toggleNode(this, null, false);" />
               </Image>
               <Image Caption="../rdTemplate/rdBlank.gif" Condition="!@Data.HasChildren~" AltText="" Tooltip="" ID="rdBlank" Width="12" Height="12" />
@@ -239,7 +239,8 @@
                             <InputText ID="rdFolderNameText" Value="Caption" InputSize="20">
                               <Validation Type="Required" ErrorMsg="The Folder Name cannot be blank." />
                             </InputText>
-                          </Column>
+							  <LineBreak LineCount="2" />
+						  </Column>
                         </Row>
                         <Row>
                           <Column Width="100" WidthScale="%">

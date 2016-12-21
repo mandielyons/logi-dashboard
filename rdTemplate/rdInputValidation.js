@@ -144,31 +144,41 @@ function rdValidateRequired(sFieldId, sErrorMsg, sErrorClass) {
 }
 
 function rdValidateLength(sFieldId, MinLength, MaxLength, sErrorMsg, sErrorClass) {
-	var eleInput = document.getElementById(sFieldId)
-	if (eleInput) {
-		if (rdIsInputVisible(sFieldId)) {
-			rdRestoreNonErrorClass(eleInput)
-			var sValue = rdGetInputValue(sFieldId)
-			if (sValue.length < MinLength || sValue.length > MaxLength ) {
-				rdSetErrorClass(eleInput,sErrorClass)
-				return sErrorMsg
-			}
-		}
-	} else {
-		//Element not found.  Look to see if it's in a DataTable.
-		if (sFieldId.indexOf("_Row") == -1) {  //Be sure not already checking a Row.
-			for (var i = 1; i < 10000; i++) {
-				eleInput = document.getElementById(sFieldId + "_Row" + i)
-				if (!eleInput) {
-					break
-				}
-				var sRowErrorMsg = rdValidateLength(sFieldId + "_Row" + i, MinLength, MaxLength, sErrorMsg, sErrorClass)
-				if (sRowErrorMsg) {
-					return sErrorMsg
-				}
-			}  
-		}
-	}
+    var eleInput = document.getElementById(sFieldId)
+    if (eleInput) {
+        if (rdIsInputVisible(sFieldId)) {
+            rdRestoreNonErrorClass(eleInput)
+            var sValue = rdGetInputValue(sFieldId)
+            if (sValue.length < MinLength || sValue.length > MaxLength) {
+                rdSetErrorClass(eleInput, sErrorClass)
+                return sErrorMsg
+            }
+        }
+    } else {
+        //Element not found.  Look to see if it's in a DataTable.
+        if (sFieldId.indexOf("_Row") == -1) {  //Be sure not already checking a Row.
+            for (var i = 1; i < 10000; i++) {
+                eleInput = document.getElementById(sFieldId + "_Row" + i)
+                if (!eleInput) {
+                    break
+                }
+                var sRowErrorMsg = rdValidateLength(sFieldId + "_Row" + i, MinLength, MaxLength, sErrorMsg, sErrorClass)
+                if (sRowErrorMsg) {
+                    return sErrorMsg
+                }
+            }
+        }
+    }
+}
+
+function rdValidateJavascript(sFieldId, funcValidate, sErrorMsg, sErrorClass) {
+    try {
+        eval(funcValidate)
+    }
+    catch (e) {
+        sErrorMsg = sErrorMsg.replace("{error}",e)
+        return sErrorMsg
+    }
 }
 
 function rdValidateTelePhoneNumber(sFieldId, sAllowedChar, sErrorMsg, sErrorClass) {
@@ -336,71 +346,97 @@ function rdIsTimeInRange(sTimeString, sStartTime, sEndTime){
     if(sStartTime == '' || sEndTime == '')  return true;
     if(!rdIsValidTime(sStartTime)) return true;
     if(!rdIsValidTime(sEndTime)) return true;
-    
+
     var regTimeValidation = /^(\d{1,2}):(\d{2})(:(\d{2}))?(\s?(AM|am|PM|pm))?$/;
     var aTimeArray = sTimeString.match(regTimeValidation);
     var aStartTimeArray = sStartTime.match(regTimeValidation);
     var aEndTimeArray = sEndTime.match(regTimeValidation);
+
+    if (aTimeArray == null) return false;
+    var nHours = parseFloat(aTimeArray[1]);
+    var nMinutes = parseFloat(aTimeArray[2]);
+    var nSeconds = parseFloat((aTimeArray[4] == '' ? 0 : aTimeArray[4]));
+	var sAMPM = aTimeArray[6];
+	var bAMPM = true;
+    if (sAMPM == undefined) {
+	   bAMPM = false;
+    }		
     
     if (aStartTimeArray == null) return true;
     var nStartTimeHours = parseFloat(aStartTimeArray[1]);
     var nStartTimeMinutes = parseFloat(aStartTimeArray[2]);
     var nStartTimeSeconds = parseFloat((aStartTimeArray[4] == ''? 0 : aStartTimeArray[4]));
     var sStartTimeAMPM = aStartTimeArray[6];    
-    
+	if (bAMPM == true && sStartTimeAMPM == undefined) {
+		if (nEndTimeHours > 12) {
+			nStartTimeHours = nStartTimeHours -12;
+			sStartTimeAMPM = "pm";
+		}
+		else {
+			sStartTimeAMPM = "am";
+		}	
+	}
+
     if (aEndTimeArray == null) return true;
     var nEndTimeHours = parseFloat(aEndTimeArray[1]);
     var nEndTimeMinutes = parseFloat(aEndTimeArray[2]);
     var nEndTimeSeconds = parseFloat((aEndTimeArray[4] == '' ? 0 : aEndTimeArray[4]));
     var sEndTimeAMPM = aEndTimeArray[6];    
-    
-    if (aTimeArray == null) return false;
-    var nHours = parseFloat(aTimeArray[1]);
-    var nMinutes = parseFloat(aTimeArray[2]);
-    var nSeconds = parseFloat((aTimeArray[4] == '' ? 0 : aTimeArray[4]));
-    var sAMPM = aTimeArray[6];
-    // 12hr format.
-    if(sAMPM.toLowerCase() == 'am' || sAMPM.toLowerCase() == 'pm'){
-        if(sAMPM.toLowerCase() == 'am'  && (sStartTimeAMPM.toLowerCase() == 'pm')) return false;
-        if(sAMPM.toLowerCase() == 'pm' && sEndTimeAMPM.toLowerCase() == 'am') return false;
-        if(nStartTimeHours == 12) nStartTimeHours = 0; if(nEndTimeHours == 12) nEndTimeHours = 0; if(nHours == 12) nHours = 0;
-        if(sAMPM.toLowerCase() == 'am'){
-            if(nHours < nStartTimeHours) return false;
-            if(nHours == nStartTimeHours){
-                if(nMinutes < nStartTimeMinutes) return false;
-                    if(nMinutes == nStartTimeMinutes){
-                         if(nSeconds < nStartTimeSeconds) return false;
-                    }
-                }
-            if(sEndTimeAMPM.toLowerCase() == 'am'){
-                if(nHours > nEndTimeHours) return false;
-                if(nHours == nEndTimeHours){
-                    if(nMinutes > nEndTimeMinutes) return false;
-                    if(nMinutes == nEndTimeMinutes){
-                         if(nSeconds > nEndTimeSeconds) return false;
-                    }
-                }
-            }   
-        } 
-        if(sAMPM.toLowerCase() == 'pm'){
-            if(nHours > nEndTimeHours) return false;
-            if(nHours == nEndTimeHours){
-                if(nMinutes > nEndTimeMinutes) return false;
-                    if(nMinutes == nEndTimeMinutes){
-                         if(nSeconds > nEndTimeSeconds) return false;
-                    }
-                } 
-            if(sStartTimeAMPM.toLowerCase() == 'pm'){
-                if(nHours < nStartTimeHours) return false;
-                if(nHours == nStartTimeHours){
-                if(nMinutes < nStartTimeMinutes) return false;
-                    if(nMinutes == nStartTimeMinutes){
-                        if(nSeconds < nStartTimeSeconds) return false;
-                    }
-                }
-            }    
-        } 
-    }else{  //24hr format.
+	if (bAMPM == true && sEndTimeAMPM == undefined) {
+		if (nEndTimeHours > 12) {
+			nEndTimeHours = nEndTimeHours -12;
+			sEndTimeAMPM = "pm";
+		}
+		else {
+			sEndTimeAMPM = "am";
+		}	
+	}
+
+	if (bAMPM == true) {
+		if (sAMPM.toLowerCase() == 'am' || sAMPM.toLowerCase() == 'pm') {
+			if(sAMPM.toLowerCase() == 'am'  && (sStartTimeAMPM.toLowerCase() == 'pm')) return false;
+			if(sAMPM.toLowerCase() == 'pm' && sEndTimeAMPM.toLowerCase() == 'am') return false;
+			if(nStartTimeHours == 12) nStartTimeHours = 0; if(nEndTimeHours == 12) nEndTimeHours = 0; if(nHours == 12) nHours = 0;
+			if(sAMPM.toLowerCase() == 'am'){
+				if(nHours < nStartTimeHours) return false;
+				if(nHours == nStartTimeHours){
+					if(nMinutes < nStartTimeMinutes) return false;
+						if(nMinutes == nStartTimeMinutes){
+							if(nSeconds < nStartTimeSeconds) return false;
+						}
+					}
+				if(sEndTimeAMPM.toLowerCase() == 'am'){
+					if(nHours > nEndTimeHours) return false;
+					if(nHours == nEndTimeHours){
+						if(nMinutes > nEndTimeMinutes) return false;
+						if(nMinutes == nEndTimeMinutes){
+							if(nSeconds > nEndTimeSeconds) return false;
+						}
+					}
+				}   
+			} 
+			if(sAMPM.toLowerCase() == 'pm'){
+			if(nHours > nEndTimeHours) return false;
+				if(nHours == nEndTimeHours){
+					if(nMinutes > nEndTimeMinutes) return false;
+						if(nMinutes == nEndTimeMinutes){
+							if(nSeconds > nEndTimeSeconds) return false;
+						}
+					} 
+				//}	
+				if(sStartTimeAMPM.toLowerCase() == 'pm'){
+					if(nHours < nStartTimeHours) return false;
+					if(nHours == nStartTimeHours){
+					if(nMinutes < nStartTimeMinutes) return false;
+						if(nMinutes == nStartTimeMinutes){
+							if(nSeconds < nStartTimeSeconds) return false;
+						}
+					}
+				} 
+			} 
+		}
+	}	
+	if (bAMPM == false) { //24hr format.
         if(nHours > nEndTimeHours || nHours < nStartTimeHours) return false;
         if(nHours == nEndTimeHours){
             if(nMinutes > nEndTimeMinutes) return false;
@@ -505,19 +541,48 @@ function rdRestoreNonErrorClass(eleInput) {
 	}
 }
 
-function rdConfirmAndValidateActionJavascript(sConfirmationMsg, bValidate){
-    if(typeof(bValidate) != 'undefined'){
+function rdConfirmAndValidateActionJavascript(e, sConfirmationMsg, bValidate, onSuccess, onCancel) {
+    var rdCancelEvent = function (e) {
+        if (!e)
+            return;
+
+        e.cancelBubble = true;
+
+        if (e.stopPropagation)
+            e.stopPropagation();
+
+        if (e.preventDefault)
+            e.preventDefault();
+    }
+
+    if (typeof (bValidate) != 'undefined') {
         var sErrorMsg = rdValidateForm();
         if(sErrorMsg){
-            alert(sErrorMsg); 
+            alert(sErrorMsg);
+
+            if (onCancel)
+                onCancel.bind(this)();
+
+            rdCancelEvent(e);
+
             return false;
         }
-    }   
-    if(sConfirmationMsg != null){
-        if(!confirm(sConfirmationMsg)){
-            return false;
-        } 
     }
+
+    if(sConfirmationMsg != null){
+        if (!confirm(sConfirmationMsg)) {
+            if (onCancel)
+                onCancel.bind(this)();
+
+            rdCancelEvent(e);
+
+            return false;
+        }
+    }
+
+    if (onSuccess)
+        onSuccess.bind(this)();
+
     return true;
 }
 

@@ -26,18 +26,13 @@
 .rdDgCaptionRow
 {
     background-image: url(rd666666.png);
-    font-size: 14px; 
+    font-size: 11px; 
     font-weight:bold;	
 	color: #FFFFFF;
 	height:26px;
 }
 .rdDgCaptionRow TD {
 	background-color: #666666;
-}
-
-#lblOgTitle
-{
-	padding:5px;
 }
 
 .rdDgPanel {

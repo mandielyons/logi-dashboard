@@ -28,8 +28,20 @@
 			LogiXML.SubReport.initSubReports();
 			this.TabsTarget().fire('selectedTabChanged');
 			
-			//Attach Ajax refresh
-			LogiXML.Ajax.AjaxTarget().on('reinitialize', Y.bind(Y.LogiXML.Tabs.prototype.initializeTabs, this));			
+            //Attach Ajax refresh
+			if (LogiXML.StartupScripts && LogiXML.StartupScripts.tabsInit) {
+			    LogiXML.Ajax.AjaxTarget().detach('reinitialize', LogiXML.StartupScripts.tabsInit);
+			}
+
+			function tabsInit(thisPointer) {
+			    Y.bind(Y.LogiXML.Tabs.prototype.initializeTabs, thisPointer)
+			}
+			
+			LogiXML.Ajax.AjaxTarget().on('reinitialize', tabsInit(this));
+
+			if (LogiXML.StartupScripts) {
+			    LogiXML.StartupScripts.tabsInit = tabsInit;
+			}
 			
 		},		
 		destructor: function() {
@@ -55,16 +67,19 @@
 			tabNode.setData(CLASS_KEY, this);
 			
 			//Init values for hidden inputs
-			var activeIndex = _tabs.get('activeIndex');
-			document.getElementById('rdActiveTabIndex_' + thisid).value = activeIndex;			 
-			document.getElementById('rdActiveTabId_' + thisid).value = _tabs.getTab(activeIndex).get('id');			
-			
-			//Set tab index and attach event			
+//Set tab index and attach event			
 			_tabs.addListener('activeTabChange', this.rdSaveActiveTabIndex);
 			_tabs.addListener('activeTabChange', this.rdTabsShowTabContents);
 			_tabs.addListener('activeTabChange', this.rdTabsSetMinWidth);
 
-			var isiPad = navigator.userAgent.match(/iPad/i) != null;        //#21530
+			var activeIndex = _tabs.get('activeIndex');
+		    if (!activeIndex) {
+		        activeIndex = 0;
+		        _tabs.set("activeTab", _tabs.getTab(activeIndex), false);
+		    }
+		    document.getElementById('rdActiveTabIndex_' + thisid).value = activeIndex;
+		    document.getElementById('rdActiveTabId_' + thisid).value = _tabs.getTab(activeIndex).get('id');		    
+		    var isiPad = navigator.userAgent.match(/iPad/i) != null;        //#21530
 			var isiPod = navigator.userAgent.match(/iPod/i) != null;
 			var isiPhone = navigator.userAgent.match(/iPhone/i) != null;
 			if (isiPad || isiPhone || isiPod) {
@@ -238,7 +253,7 @@
 				ShowElement(this.get('id'), 'pnlMobileDashboardTabs', 'Show');
 				return false;
 			}
-						
+							
 			var id = this.get('id');
 			var elementID = id.substring(id.indexOf('-') + 1);			
 			
@@ -247,12 +262,14 @@
 
 			var activeTab = this.get('activeTab');
 			var sActiveTabId = activeTab.get('id');
+            var breflowCharts = true;
 						
 			//The tab's contents may need to come from a RefreshElement.
 			var eleActiveTab = document.getElementById("rdTabPanel_" + sActiveTabId)
 			if (eleActiveTab.innerHTML.indexOf("SubmitForm(") == 0) {
 				var sRefreshPageFunction = eleActiveTab.innerHTML;
 				sRefreshPageFunction = sRefreshPageFunction.replace("&amp;rdRequestForwarding","&rdRequestForwarding"); //12458
+				breflowCharts = false;
 				eleActiveTab.innerHTML = "";
 				eval(sRefreshPageFunction);
 				return;
@@ -269,7 +286,11 @@
 					}
 				}
 			}
-			
+
+			if (eleTabs.parentNode.id == "rdTabs-rdDashboardTabs") {
+			    breflowCharts = false;
+			}
+            			
 			//In some cases, deselected tab panels don't get shown/hidden. Fix this.    
 			for (var i=0; i < eleTabs.childNodes.length; i++) {
 				if (eleTabs.childNodes[i].id == eleActiveTab.id) {
@@ -284,6 +305,20 @@
 			
 			//18897 An event is needed for other JS libs to attach to.
 			tabInstance.TabsTarget().fire('selectedTabChanged');
+			
+            //Resize charts in tabs that are not currently selected.
+			if (breflowCharts == true) {
+			    var eleTabBody = Y.one('#' + eleActiveTab.id);
+			    var listCharts = eleTabBody.all(".rdChartCanvas");
+			    for (var i = 0; i < (listCharts.size()) ; i++) {
+			        var eleChart = listCharts.item(i);
+			        var chartcanvasObject = eleChart.getData("rdChartCanvas");
+			        if (chartcanvasObject) {
+			            chartcanvasObject.chart.reflow();
+			        }
+			    }
+			}
+			
 		},
 		TabsTarget : function() {
 			if ( Y.LogiXML.Tabs._tabTarget === undefined )

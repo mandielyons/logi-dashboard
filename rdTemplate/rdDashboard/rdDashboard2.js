@@ -1,3 +1,4 @@
+var rdNewPanelCnt = 0
 
 YUI.add('dashboard', function (Y) {
     var FreeForm = Y.LogiXML.Dashboard.FreeForm;
@@ -20,6 +21,9 @@ YUI.add('dashboard', function (Y) {
                 this.set('bIsFreeformLayout', true);
             if (!eleAdjustable) return;  //11475 - Does dashboard exist?
 
+            //Setup global filter highlighting.
+            rdDbEnableGlobalFilterHighlighting()
+
             //Initilize free form locations one time since the user can't change it
             if (eleAdjustable.innerHTML == 'False') {
                 this.set("bDashboardAdjustable", false);
@@ -27,141 +31,167 @@ YUI.add('dashboard', function (Y) {
                 if (this.get('bIsFreeformLayout')) {
                     this.rdSizeUnAdjustablePanels(sClassSelector);
                     FreeForm.rdResizeDashboardContainer();
-                    return;
-                }
-                else {
-                    return;
                 }
             }
 
-            var i;
-            //Make the panels draggable.
-            if (typeof (rdMobileReport) == 'undefined') { //Not for mobile. 13676
+            if (eleAdjustable.innerHTML != 'False') {
+                //Init interactivity.
 
-                var elePanels = Y.all('div.rdDashboardPanel'),
-					numberOfPanels = elePanels.size();
-
-                if (numberOfPanels > 0) {
-                    // Currently click event changes z-index of panels
-                    FreeForm.addPanelClickEvents();
+                if (LogiXML.Ajax.AjaxTarget) {
+                    LogiXML.Ajax.AjaxTarget().on('reinitialize', function () { rdSetUndoRedoVisibility(); }, this);
                 }
-                //Destroy the registered drag/drop nodes if any.
-                for (i = 0; i < numberOfPanels; i++) {
-                    Y.DD.DDM.getNode(elePanels.item(i)).destroy();
-                }
-                for (i = 0; i < numberOfPanels; i++) {
-                    var elePanel = elePanels.item(i).getDOMNode();
-                    if (elePanel.className.indexOf('yui-resize') != -1 || elePanel.id.indexOf('rdDashboardPanel-') != 0) continue //11516,11518,11524.
 
-                    // Don't unreg the YUI Resize handles.
-                    var dashTitleID = elePanel.id.replace("rdDashboardPanel-", "rdDashboardPanelTitle-");
-                    var panelNode = Y.one(elePanel);
-                    var drag = new Y.DD.Drag({
-                        node: panelNode
-                    })
-                    if (this.get('bIsFreeformLayout')) {
-                        drag.plug(Y.Plugin.DDConstrained, {
-                            tickX: 10,
-                            tickY: 10,
-                            constrain: []   //#21229.
-                        });
+                rdSetUndoRedoVisibility();
+
+                var i;
+                //Make the panels draggable.
+                if (typeof (rdMobileReport) == 'undefined') { //Not for mobile. 13676
+
+                    var elePanels = Y.all('div.rdDashboardPanel'),
+					    numberOfPanels = elePanels.size();
+
+                    if (numberOfPanels > 0) {
+                        // Currently click event changes z-index of panels
+                        FreeForm.addPanelClickEvents();
                     }
+                    //Destroy the registered drag/drop nodes if any.
+                    for (i = 0; i < numberOfPanels; i++) {
+                        Y.DD.DDM.getNode(elePanels.item(i)).destroy();
+                    }
+                    for (i = 0; i < numberOfPanels; i++) {
+                        var elePanel = elePanels.item(i).getDOMNode();
+                        if (elePanel.className.indexOf('yui-resize') != -1 || elePanel.id.indexOf('rdDashboardPanel-') != 0) continue //11516,11518,11524.
 
-                    var pnlContent;
-                    var pnlDivs = panelNode.all('div');
-                    for (var j = 0; j < pnlDivs.size() ; j++) {
-                        if (pnlDivs.item(j).get('id').indexOf('rdDashboard2PanelContent_') == 0) {
-                            pnlContent = pnlDivs.item(j);
-                            break;
+                        // Don't unreg the YUI Resize handles.
+                        var dashTitleID = elePanel.id.replace("rdDashboardPanel-", "rdDashboardPanelTitle-");
+                        var panelNode = Y.one(elePanel);
+                        var drag = new Y.DD.Drag({
+                            node: panelNode
+                        })
+                        //25557
+                        panelNode.addClass('dragHandleOnly');
+
+                        if (this.get('bIsFreeformLayout')) {
+                            drag.plug(Y.Plugin.DDConstrained, {
+                                tickX: 10,
+                                tickY: 10,
+                                constrain: []   //#21229.
+                            });
                         }
-                    }
 
-                    if (this.get('bIsFreeformLayout')) {
-                        FreeForm.initializePanelResizer(panelNode);
-                        FreeForm.rdResizeDashboardContainer();
-                        //Set the panel's position and size so it's snapped to the grid.
-                        panelNode.setStyle("left", FreeForm.rdRoundTo10(panelNode.getStyle("left")))
-                        panelNode.setStyle("top", FreeForm.rdRoundTo10(panelNode.getStyle("top")))
-                    }
-                    //Attach drag-drop events
-                    drag.on('drag:start', this.DashboardPanel_onDragStart, this);
-                    drag.on('drag:end', this.DashboardPanel_onDragEnd, this);
-                    drag.on('drag:over', this.DashboardPanel_onDragOver, this);
+                        var pnlContent;
+                        var pnlDivs = panelNode.all('div');
+                        for (var j = 0; j < pnlDivs.size() ; j++) {
+                            if (pnlDivs.item(j).get('id').indexOf('rdDashboard2PanelContent_') == 0) {
+                                pnlContent = pnlDivs.item(j);
+                                break;
+                            }
+                        }
 
-                    //Now you can only drag it from the panel title
-                    var hndNode = panelNode.one('tr[id="' + dashTitleID + '"]');
-                    panelNode.dd.addHandle(hndNode);
-                    if (this.get('bIsFreeformLayout')) panelNode.dd.plug(Y.Plugin.DDWinScroll, { scrollDelay: 100 });
-                    hndNode.setStyle('cursor', 'move');
-                    panelNode.setStyle('opacity', '.92');
-                }
-            }
+                        if (this.get('bIsFreeformLayout')) {
+                            FreeForm.initializePanelResizer(panelNode);
+                            FreeForm.rdResizeDashboardContainer();
+                            //Set the panel's position and size so it's snapped to the grid.
+                            panelNode.setStyle("left", FreeForm.rdRoundTo10(panelNode.getStyle("left")))
+                            panelNode.setStyle("top", FreeForm.rdRoundTo10(panelNode.getStyle("top")))
+                        }
+                        //Attach drag-drop events
+                        drag.on('drag:start', this.DashboardPanel_onDragStart, this);
+                        drag.on('drag:end', this.DashboardPanel_onDragEnd, this);
+                        drag.on('drag:over', this.DashboardPanel_onDragOver, this);
 
-            //Make the columns droppable.
-            var eleCols = document.getElementsByTagName("TD");
-            for (i = 0; i < eleCols.length; i++) {
-                var eleCol = eleCols[i];
-                if (eleCol.id.indexOf("rdDashboardColumn") == 0) {
-                    var drop = Y.one(eleCol).plug(Y.Plugin.Drop);
-                    drop.drop.on('drop:hit', this.DashboardColumn_onDropHit, this);
-                }
-            }
+                        //Now you can only drag it from the panel title
+                        var hndNode = panelNode.one('tr[id="' + dashTitleID + '"]');
+                        panelNode.dd.addHandle(hndNode).plug(Y.Plugin.DDWinScroll, { scrollDelay: 100 });
+                        //25556
+                        //if (this.get('bIsFreeformLayout')) panelNode.dd.plug(Y.Plugin.DDWinScroll, { scrollDelay: 100 });
+                        hndNode.setStyle('cursor', 'move');
 
-            //Make the Tabs droppable.
-            var eleTabs = document.getElementsByTagName("LI");
-            for (i = 0; i < eleTabs.length; i++) {
-                var eleTab = eleTabs[i];
-                if (eleTab.parentNode.parentNode.id.indexOf("rdTabs-") == 0) {
-                    if (eleTab.title != "active") {
-                        if (eleTab.id != "rdTabAddNewTab") {
-                            var drop = Y.one('li[id="' + eleTab.id + '"]').plug(Y.Plugin.Drop);
-                            drop.drop.on('drop:hit', this.Tab_onDropHit, this);
+                        //25623
+                        if (this.get('bIsFreeformLayout')) {
+                            panelNode.setStyle('opacity', '.92');
+                        }
+                        else {
+                            panelNode.setStyle('opacity', '1');
                         }
                     }
                 }
-            }
 
-            this.rdSetAddPanelsPopupSize();
-            this.rdAddRefreshEventForAddPanelsPopupCloseButton();
+                //Make the columns droppable.
+                var eleCols = document.getElementsByTagName("TD");
+                for (i = 0; i < eleCols.length; i++) {
+                    var eleCol = eleCols[i];
+                    if (eleCol.id.indexOf("rdDashboardColumn") == 0) {
+                        var drop = Y.one(eleCol).plug(Y.Plugin.Drop);
+                        drop.drop.on('drop:hit', this.DashboardColumn_onDropHit, this);
+                    }
+                }
 
-            if (numberOfPanels < 1) {
-                ShowElement(null, 'ppChangeDashboard', 'Show');
-            }
-            FreeForm.rdResizeDashboardContainer();
+                //Make the Tabs droppable.
+                var eleTabs = document.getElementsByTagName("LI");
+                for (i = 0; i < eleTabs.length; i++) {
+                    var eleTab = eleTabs[i];
+                    if (eleTab.parentNode.parentNode.id.indexOf("rdTabs-") == 0) {
+                        if (eleTab.title != "active") {
+                            if (eleTab.id != "rdTabAddNewTab") {
+                                var drop = Y.one('li[id="' + eleTab.id + '"]').plug(Y.Plugin.Drop);
+                                drop.drop.on('drop:hit', this.Tab_onDropHit, this);
+                            }
+                        }
+                    }
+                }
 
-            //Settings Cog (mobile reports resize the tab, so no need to do this twice)
-            if (typeof (rdMobileReport) === 'undefined') {
-                this.rdPositiontabSettingsCog(true);
-                Y.on('windowresize', function (e) {
-                    LogiXML.Dashboard.pageDashboard.rdPositiontabSettingsCog();
-                });
-            }
+                this.rdSetAddPanelsPopupSize();
+                this.rdAddRefreshEventForAddPanelsPopupCloseButton();
 
-            //Make the Add New Tab look like a button instead of a tab.
-            var nodeNewTab = Y.one("#rdTabAddNewTab")
-            if (Y.Lang.isValue(nodeNewTab)) {
-                if (typeof (rdMobileReport) == 'undefined') {
-                    var nodeA = nodeNewTab.one('a');
-                    nodeA.addClass('hide-tab');
-                    var nodeSpan = nodeA.one('span')
-                    nodeSpan.addClass('rdDashboardCommand');
-                } else {
-                    // Shrink the Tab size to 50% of the screen size.
-                    //eleNewTab.parentNode.style.whiteSpace=''; This needs to be set in VB.
-                    var eleMobileDashboardTab = nodeNewTab.getDOMNode().previousSibling;
-                    var nTabWidth = 175;
-                    eleMobileDashboardTab.style.width = nTabWidth + 'px';
-                    eleMobileDashboardTab.style.wordWrap = 'break-word';
-                    eleMobileDashboardTab.firstChild.style.paddingLeft = 2 + 'px';  // anchor tag
-                    eleMobileDashboardTab.firstChild.style.paddingRight = 2 + 'px';
-                    eleMobileDashboardTab.firstChild.style.width = (nTabWidth - 4) + 'px';
-                    eleMobileDashboardTab.firstChild.style.wordWrap = 'break-word';
-                    eleMobileDashboardTab.firstChild.style.backgroundRepeat = 'repeat-x';
-                    eleMobileDashboardTab.firstChild.firstChild.style.paddingLeft = 2 + 'px';  // em tag
-                    eleMobileDashboardTab.firstChild.firstChild.style.paddingRight = 2 + 'px';
-                    eleMobileDashboardTab.firstChild.firstChild.style.width = (nTabWidth - 8) + 'px';
-                    eleMobileDashboardTab.firstChild.firstChild.style.wordWrap = 'break-word';
-                    this.rdPositiontabSettingsCog(false);
+                if (numberOfPanels < 1) {
+                    ShowElement(null, 'ppChangeDashboard', 'Show');
+                }
+                FreeForm.rdResizeDashboardContainer();
+
+                //Settings Cog (mobile reports resize the tab, so no need to do this twice)
+                if (typeof (rdMobileReport) === 'undefined') {
+                    this.rdPositiontabSettingsCog(true);
+                }
+
+                //Make the Add New Tab look like a button instead of a tab.
+                var nodeNewTab = Y.one("#rdTabAddNewTab")
+                if (Y.Lang.isValue(nodeNewTab)) {
+                    if (typeof (rdMobileReport) == 'undefined') {
+                        var nodeA = nodeNewTab.one('a');
+                        nodeA.addClass('hide-tab');
+                        var nodeSpan = nodeA.one('span')
+                        nodeSpan.addClass('rdDashboardCommand');
+                    } else {
+                        // Shrink the Tab size to 50% of the screen size.
+                        //eleNewTab.parentNode.style.whiteSpace=''; This needs to be set in VB.
+                        var eleMobileDashboardTab = nodeNewTab.getDOMNode().previousSibling;
+                        var nTabWidth = 175;
+                        eleMobileDashboardTab.style.width = nTabWidth + 'px';
+                        eleMobileDashboardTab.style.wordWrap = 'break-word';
+                        eleMobileDashboardTab.firstChild.style.paddingLeft = 2 + 'px';  // anchor tag
+                        eleMobileDashboardTab.firstChild.style.paddingRight = 2 + 'px';
+                        eleMobileDashboardTab.firstChild.style.width = (nTabWidth - 4) + 'px';
+                        eleMobileDashboardTab.firstChild.style.wordWrap = 'break-word';
+                        eleMobileDashboardTab.firstChild.style.backgroundRepeat = 'repeat-x';
+                        eleMobileDashboardTab.firstChild.firstChild.style.paddingLeft = 2 + 'px';  // em tag
+                        eleMobileDashboardTab.firstChild.firstChild.style.paddingRight = 2 + 'px';
+                        eleMobileDashboardTab.firstChild.firstChild.style.width = (nTabWidth - 8) + 'px';
+                        eleMobileDashboardTab.firstChild.firstChild.style.wordWrap = 'break-word';
+                        this.rdPositiontabSettingsCog(false);
+                    }
+                }
+
+            }  //End init interactivity.
+
+
+        },
+
+        rdClientSideEnableUndo: function () {
+            var eleAutoBookmark = document.getElementById("lblAutoBookmark");
+            if (eleAutoBookmark) {
+                if (eleAutoBookmark.value == "") {
+                    rdSetUndoRedoVisibility();
                 }
             }
         },
@@ -183,6 +213,12 @@ YUI.add('dashboard', function (Y) {
                 });
             }
             this.rdSetAppletVisibility("hidden");
+
+            //REPDEV-19786
+            var dashboardPanelContainer = Y.one(".rdDashboardPanelContainer");
+            if (dashboardPanelContainer) {
+                dashboardPanelContainer.simulate("mousedown");
+            }
         },
 
         DashboardPanel_onDragEnd: function (e) {
@@ -209,7 +245,9 @@ YUI.add('dashboard', function (Y) {
             }
             var posDashboardPanelFinalCoOrds = pnlDragged.getXY();
             if (this.get('bIsTouchDevice'))
-                setTimeout(function () { this.rdResetDashboardPanelAfterDDScroll(pnlDragged.getDOMNode(), posDashboardPanelFinalCoOrds) }, 1000);  // Do this for the Tablet only, #15478.
+                setTimeout(function () {
+                    Y.LogiInfo.Dashboard.rdResetDashboardPanelAfterDDScroll(pnlDragged.getDOMNode(), posDashboardPanelFinalCoOrds);
+                }, 1000);  // Do this for the Tablet only, #15478.
 
             this.rdSetDropZone(null);
             this.rdSetAppletVisibility("");
@@ -328,7 +366,9 @@ YUI.add('dashboard', function (Y) {
         /* ---Methods--- */
 
         rdAddDashboardPanel: function (sPanelID, nRowNr, eleEventOriginationPopup) {
-
+			if (sPanelID.indexOf('NGPviz') >= 0) {
+				bIsNgpViz = true;
+			}
             var rdFreeformLayout = document.getElementById('rdFreeformLayout');
             if (rdFreeformLayout != null) {
                 if (rdFreeformLayout.id.toLowerCase() == 'rdhiddenrequestforwarding') {
@@ -347,13 +387,11 @@ YUI.add('dashboard', function (Y) {
             if (rdFreeformLayout) {
                 rdParams += "&rdFreeformLayout=True";
                 rdParams += "&rdNewFreeformLayoutPanel=True";
+                rdParams += "&rdFreeformLayoutStyle=Position:absolute;" + "Left:" + (rdNewPanelCnt * 25) + "px;Top:" + (rdNewPanelCnt * 25) + "px;z-index:" + this.get('zIndex') + ';';
 
-                //if( this.get('nNewAddedPanelCount') === 0 && this.get('zIndex') === 0 ) {
-                //    rdParams += "&rdFreeformLayoutStyle=Position:absolute;Left:0px;Top:0px;z-index:1;";
-                //    this.set('zIndex', 1);
-                //} else {
-                rdParams += "&rdFreeformLayoutStyle=Position:absolute;" + "Left:" + (this.get('nNewAddedPanelCount') * 25) + "px;Top:" + (this.get('nNewAddedPanelCount') * 25) + "px;z-index:" + this.get('zIndex') + ';';
-                //}
+                if (bIsNgpViz) {
+                    rdParams += "height:400px;";
+                }
                 rdParams += ("&rdDashboardTabStyle=Width:" + Y.DOM.winWidth() + "px;Height:" + (Y.DOM.winHeight() - Y.DOM.region(Y.DOM.byId('rdDashboardList')).top - 50) + 'px;');
             }
             else {
@@ -362,7 +400,8 @@ YUI.add('dashboard', function (Y) {
                 var panelContainer = Y.one('.rdDashboardPanelContainer');
                 rdParams += "&rdDashboardTabStyle=Width:" + panelContainer.get('offsetWidth') + "px;";
             }
-            this.set('nNewAddedPanelCount', this.get('nNewAddedPanelCount') + 1)
+            rdNewPanelCnt += 1
+            this.rdClientSideEnableUndo();
             rdAjaxRequestWithFormVars('rdAjaxCommand=rdAjaxNotify&rdNotifyCommand=AddDashboardPanel' + rdParams)
             //Update the count.
             if (typeof eleEventOriginationPopup === 'undefined') {
@@ -415,7 +454,7 @@ YUI.add('dashboard', function (Y) {
             for (i = 0; i < numberofPanels; i++) {
                 panel = dashboardPanels.item(i);
                 var nPanelzIndex = panel.getComputedStyle('zIndex');
-                if (this.get('zIndex') < nPanelzIndex) {
+                if (this.get('zIndex') <= nPanelzIndex) {
                     this.set('zIndex', parseInt(nPanelzIndex) + 1);
                 }
             }
@@ -450,6 +489,7 @@ YUI.add('dashboard', function (Y) {
                     rdPanelParams += "&rdFreeformLayout=True";
                 }
                 rdPanelParams += '&DashboardID=' + document.getElementById("DashboardIdentifier").value;
+                this.rdClientSideEnableUndo();
                 rdAjaxRequestWithFormVars('rdAjaxCommand=rdAjaxNotify&rdNotifyCommand=RemoveDashboardPanel' + rdPanelParams)
             }
         },
@@ -512,6 +552,7 @@ YUI.add('dashboard', function (Y) {
             }
             var rdPanelParams = "&rdReport=" + document.getElementById("rdDashboardDefinition").value
             window.status = "Saving dashboard panel positions."
+            this.rdClientSideEnableUndo();
             rdAjaxRequestWithFormVars('rdAjaxCommand=rdAjaxNotify&rdNotifyCommand=UpdateDashboardPanelOrder' + rdPanelParams)
         },
 
@@ -694,8 +735,11 @@ YUI.add('dashboard', function (Y) {
                         if (eleCurr.getAttribute) {   //#14917.
                             if (eleCurr.getAttribute("type") == 'rdRadioButtonGroup') {
                                 var sValue = rdGetFormFieldValue(eleCurr);
-                                panelParameters.parameters += '&' + eleCurr.getAttribute("name") + "=" + rdAjaxEncodeValue(sValue);
-                                panelParameters.ids += ":" + eleCurr.getAttribute("name");
+                                //RD19598. dont add duplicated radio button values...
+                                if (panelParameters.ids.indexOf(eleCurr.getAttribute("name")) < 0) {
+                                    panelParameters.parameters += '&' + eleCurr.getAttribute("name") + "=" + rdAjaxEncodeValue(sValue);
+                                    panelParameters.ids += ":" + eleCurr.getAttribute("name");
+                                }
                                 break;
                             } else {
                                 panelParameters = this.rdGetRecursiveInputValues(eleCurr, panelParameters);
@@ -748,6 +792,7 @@ YUI.add('dashboard', function (Y) {
             rdParams += "&TabID=" + sTabID
             rdParams += "&NewName=" + rdAjaxEncodeValue(sNewName)
             bSubmitFormAfterAjax = true //13690
+            this.rdClientSideEnableUndo();
             rdAjaxRequest('rdAjaxCommand=rdAjaxNotify&rdNotifyCommand=RenameDashboardTab' + rdParams);
             LogiXML.Dashboard.pageDashboard.rdPositiontabSettingsCog();
         },
@@ -851,6 +896,7 @@ YUI.add('dashboard', function (Y) {
                 var rdParams = "&rdReport=" + document.getElementById("rdDashboardDefinition").value
                 rdParams += "&TabID=" + sTabID
                 rdParams += "&Direction=" + sDirection
+                this.rdClientSideEnableUndo();
                 rdAjaxRequest('rdAjaxCommand=rdAjaxNotify&rdNotifyCommand=MoveDashboardTab' + rdParams)
             }
 
@@ -874,6 +920,7 @@ YUI.add('dashboard', function (Y) {
                 var rdParams = "&rdReport=" + document.getElementById("rdDashboardDefinition").value
                 rdParams += '&PanelInstanceID=' + this.rdGetPanelInstanceId(elePanel)
                 rdParams += "&TabID=" + sTabID
+                this.rdClientSideEnableUndo();
                 rdAjaxRequest('rdAjaxCommand=rdAjaxNotify&rdNotifyCommand=MoveDashboardPanelToTab' + rdParams)
             }
         },
@@ -895,6 +942,9 @@ YUI.add('dashboard', function (Y) {
                 nodeActiveTab.get("firstChild").setStyle("cursor", "move");
             }
 
+            //Get Add Tab element to define DashboardTabs mode
+            var nodeAddNewTabCog = Y.one('#rdAddTabCog');
+
             //Set positions for the cog and add-tab icons.
             var nRegionTop
             if (!Y.Lang.isNull(nodeActiveTab)) {
@@ -915,11 +965,20 @@ YUI.add('dashboard', function (Y) {
                         eleImg.setAttribute('rdExtraMarginLeft', nExtraMarginLeft)
                     }
 
-                    nodeSettingsCog.setStyles({
-                        'margin-left': regionActiveTab.left + regionActiveTab.width - regionTab.left - nExtraMarginLeft - nodeSettingsCogRegion.width - 4,
-                        'margin-top': regionActiveTab.top - nRegionTop + 4,
-                        position: 'absolute',
-                    });
+                    //if DashboardTabs is disabled, set static position for node setting element
+                    if (Y.Lang.isNull(nodeAddNewTabCog)) {
+                        nodeSettingsCog.setStyles({
+                            'margin-left': 5,
+                            'margin-top': 0,
+                            position: 'absolute',
+                        });
+                    } else {
+                        nodeSettingsCog.setStyles({
+                            'margin-left': regionActiveTab.left + regionActiveTab.width - regionTab.left - nExtraMarginLeft - nodeSettingsCogRegion.width - 4,
+                            'margin-top': regionActiveTab.top - nRegionTop + 4,
+                            position: 'absolute',
+                        });
+                    }
 
                 }
                 else {
@@ -933,7 +992,6 @@ YUI.add('dashboard', function (Y) {
             }
             //Add Tab icon.
             var TabsUl = Y.one('#rdTabs ul');
-            var nodeAddNewTabCog = Y.one('#rdAddTabCog');
             if (!Y.Lang.isNull(nodeAddNewTabCog)) {
                 nodeAddNewTabCog.setStyles({
                     display: ''
@@ -968,15 +1026,28 @@ YUI.add('dashboard', function (Y) {
             if (!Y.Lang.isNull(dashboardTabs)) {
                 rdAjaxRequest('rdAjaxCommand=RefreshElement&rdRefreshElementID=' + nodeDashboardId.get("value") + ',rdDashboardTabs' + '&rdRefreshDashboard=True&rdReport=' + document.getElementById("rdDashboardDefinition").value + '&rdRequestForwarding=Form');
             } else {  //When no tabs.
-                rdAjaxRequest('rdAjaxCommand=RefreshElement&rdRefreshElementID=' + nodeDashboardId.get("value") + ',rdDashboardPanels' + '&rdRefreshDashboard=True&rdReport=' + document.getElementById("rdDashboardDefinition").value + '&rdRequestForwarding=Form');
+                rdAjaxRequest('rdAjaxCommand=RefreshElement&rdRefreshElementID=' + nodeDashboardId.get("value") + ',rdDivDashboardpanels' + '&rdRefreshDashboard=True&rdReport=' + document.getElementById("rdDashboardDefinition").value + '&rdRequestForwarding=Form');
             }
+
+            // should be revisited , if NGP platform, refresh after adding panel
+		    //if (window.Logi !== undefined)
+		    if ((bIsNgpViz !== undefined && bIsNgpViz == true) && !window.Logi) {
+		        var href = window.location.href;
+				if (href && href.indexOf && href.indexOf('&rdNewBookmark=True' != -1)) {
+					href = href.replace('&rdNewBookmark=True', '');
+					window.location.replace(href);
+				} else {
+					window.location = window.location;
+				}
+		    }
         },
 
         rdAddDashboardPanels: function () {
-            if (LogiXML.Dashboard.pageDashboard.get('nNewAddedPanelCount') > 0) {
+            if (rdNewPanelCnt > 0) {
+                rdNewPanelCnt = 0
                 LogiXML.Dashboard.pageDashboard.rdRefreshDashboard();
             }
-            ShowElement(null, 'ppChangeDashboard,ppAddPanels', 'Hide');
+            ShowElement(null, 'ppChangeDashboard', 'Hide');
         },
 
         rdAddRefreshEventForAddPanelsPopupCloseButton: function () {
@@ -1330,12 +1401,6 @@ YUI.add('dashboard', function (Y) {
                 var eleApplet = eleApplets[i]
                 eleApplet.style.visibility = sVis
             }
-        },
-
-        rdResetDashboardPanelAfterDDScroll: function (elePnlDragged, posDashboardPanelFinalCoOrds) {
-
-            var pnlDragged = Y.one(elePnlDragged);
-            pnlDragged.setXY(posDashboardPanelFinalCoOrds);
         }
 
     }, {
@@ -1364,10 +1429,7 @@ YUI.add('dashboard', function (Y) {
         ATTRS: {
             //Id of the current drop zone
             rdDropZoneId: {},
-            //Count of new panels
-            nNewAddedPanelCount: {
-                value: 0
-            },
+
             //Is this a freeform dashboard
             bIsFreeformLayout: {
                 value: false
@@ -1382,6 +1444,11 @@ YUI.add('dashboard', function (Y) {
             zIndex: {
                 value: 0
             }
+        },
+        rdResetDashboardPanelAfterDDScroll: function (elePnlDragged, posDashboardPanelFinalCoOrds) {
+
+            var pnlDragged = Y.one(elePnlDragged);
+            pnlDragged.setXY(posDashboardPanelFinalCoOrds);
         }
     });
 
@@ -1393,6 +1460,7 @@ var sColorPicker = '1';
 var sPanelInstanceId = '';
 var elePanel = null;
 var eleParamsPopup = null;
+var bIsNgpViz = false;
 
 function GetColorPicker(sColorPickerValue, objImg) {
     sColorPicker = sColorPickerValue;
@@ -1412,27 +1480,215 @@ function PickGaugeGoalColor(colColor) {
 
 //End region
 
-YUI.add('dashboard-freeform', function (Y) {
-    //"use strict";
+function rdDbSetGlobalFilterFromChart(sPanelInstanceID, sSelectionType, sDataColumnID, sDataColumnYID) {
+    var sGlobalAfId = 'rdGlobalAf_' + document.getElementById('ActiveTabIdentifier').value
 
-    /*
-	 * This code assumes you're working with FreeFrom Dashboard panels laid out like so
-	 * <DIV id="rdDashboardPanel-..." class="rdDashboardPanel">
-	 *   <TABLE id="rdDashboardPanelInnerTable" clas="panelInnerTable" > Yes, same id for all panels -_-
-	 *     <TBODY>
-	 *       <TR id="rdDashboardPanelTitle-..." class="panelTitle">
-	 *       <TR id="rdDashboard2PanelParams-..." class="rdDashboardParams">
-	 *       <TR id="Dashboard2PanelContent" class="rdDashboardContent">
-	 *         <TD>
-	 *            <DIV id="rdDashboard2PanelContent_...">
-	 *              <content>
-	 *
-	 * -------------------------------------------------------------
-	 *
-	 * Dashboards as a whole could be rewritten in much simpler HTML.  I tried but the server side xpath mess
-	 * was too much to work through in the time available.  For now I'm just cleaning up the code, but
-	 * some ground work has been laid to reduce code duplication.
-	 */
+    switch (sSelectionType) {
+        case "Categorized":
+            //Categorized list of values.
+            var eleValue = document.getElementById("rdFilteredXAxis_" + sPanelInstanceID)
+            var sValue = eleValue.value
+            rdAfSetGlobalFilter(true, sGlobalAfId, sPanelInstanceID, sDataColumnID, sValue, "In List")
+            break
+        case "Date Range":
+            var eleValue = document.getElementById("rdFilteredXAxis_" + sPanelInstanceID)
+            var aValues = eleValue.value.split(",")  //There may be any number of entries. Just want the first and last.
+            var sValueMin = aValues[0]
+            var sValueMax = aValues[aValues.length-1]
+            rdAfSetGlobalFilter(true, sGlobalAfId, sPanelInstanceID, sDataColumnID, sValueMin + "|" + sValueMax, "Date Range")
+            break
+        case "LinearX":
+        case "LinearDate":
+            var eleValueMin = document.getElementById("rdFilteredXAxisMin_" + sPanelInstanceID)
+            var eleValueMax = document.getElementById("rdFilteredXAxisMax_" + sPanelInstanceID)
+            if (eleValueMin && eleValueMax) {
+                var sValueMin = eleValueMin.value
+                var sValueMax = eleValueMax.value
+                var sOperator = "Range"
+                if (sSelectionType == 'LinearDate') {
+                    sOperator = "Date Range"
+                }
+                rdAfSetGlobalFilter(true, sGlobalAfId, sPanelInstanceID, sDataColumnID, sValueMin + "|" + sValueMax, sOperator)
+            }
+            break
+        case "LinearXY":
+            var eleValueMin = document.getElementById("rdFilteredXAxisMin_" + sPanelInstanceID)
+            var eleValueMax = document.getElementById("rdFilteredXAxisMax_" + sPanelInstanceID)
+            if (eleValueMin && eleValueMax) {
+                var sValueMin = eleValueMin.value
+                var sValueMax = eleValueMax.value
+                var sFilterOperator = "Range"
+                if (sValueMin.indexOf("T") == 10) {sFilterOperator = "Date Range"}
+                rdAfSetGlobalFilter(true, sGlobalAfId, sPanelInstanceID, sDataColumnID, sValueMin + "|" + sValueMax, sFilterOperator)
+            }
+            eleValueMin = document.getElementById("rdFilteredYAxisMin_" + sPanelInstanceID)
+            eleValueMax = document.getElementById("rdFilteredYAxisMax_" + sPanelInstanceID)
+            if (eleValueMin && eleValueMax) {
+                var sValueMin = eleValueMin.value
+                var sValueMax = eleValueMax.value
+                setTimeout(function () { rdAfSetGlobalFilter(true, sGlobalAfId, sPanelInstanceID, sDataColumnYID, sValueMin + "|" + sValueMax, "Range") }, 1)  //REPDEV-20056
+            }
+            break
+    }
+
+}
+
+function rdDbEnableGlobalFilterHighlighting() {
+    var eleGlobalFilterCaption = document.getElementById("rdGlobalFilterCaption")
+
+    //Get the list of Filter columns 'span' elements already created, avoid replication.
+    var listCurrentSpanNodes
+    var aGlobalFilterCaptions
+    if (eleGlobalFilterCaption) {
+        listCurrentSpanNodes = eleGlobalFilterCaption.parentNode.getElementsByTagName("SPAN");        
+        aGlobalFilterCaptions = eleGlobalFilterCaption.innerText.split(",")
+    }    
+    var bSpanAlreadyExists = false;
+
+    var listGlobaFilterDataColumns = Y.all("span[id^='lblFilterDataColumn_rdGlobalAf']");
+    var listGlobalFilterCaptions = Y.all("span[id^='lblFilterCaption_rdGlobalAf']");
+    var listGlobalFilterCheckBoxes = Y.all("input[id^='rdAfFilterDisabled_rdGlobalAf']");
+    var j = 0;
+    //Each is the data column for a global filter.
+    for (var i = 0; i < listGlobaFilterDataColumns.size() ; i++) {
+        var eleFilterDataColumn = listGlobaFilterDataColumns.item(i)._node
+        var sDataColumn = eleFilterDataColumn.innerText
+        var eleFilterFromPanelID = document.getElementById(eleFilterDataColumn.id.replace("lblFilterDataColumn_", "lblFilterDashboardPanelID_"))
+        var sFilterFromPanelID = eleFilterFromPanelID.innerText
+        
+        var eleFilterCaption = listGlobalFilterCaptions.item(i)._node
+        eleFilterCaption.setAttribute('rdFilterColumn', sDataColumn)
+        eleFilterCaption.setAttribute('rdFilterPanelID', sFilterFromPanelID)
+        eleFilterCaption.onmouseover = function () { rdDbHighlightFilteredPanel(this) }
+        eleFilterCaption.onmouseout = function () { rdDbUnHighlightFilteredPanels(this) }   
+
+        bSpanAlreadyExists = rdDoesSpanExist(eleFilterCaption.innerText, listCurrentSpanNodes)
+
+        // is a filter being removed? dont add the caption element
+        var eleGlobalFilterCheckbox
+        if (listGlobalFilterCheckBoxes && listGlobalFilterCheckBoxes.item(i)) {
+            eleGlobalFilterCheckbox = listGlobalFilterCheckBoxes.item(i)._node
+            if (eleGlobalFilterCheckbox && !(eleGlobalFilterCheckbox.checked)) {
+                bSpanAlreadyExists = true;
+            }
+        }
+
+        // dont add a span if the column already exists in the global filter. the filter list gets replicated everytime otherwise.
+        if (bSpanAlreadyExists == false) {
+
+            var sCondSeperator = ""
+
+            //Rewrite the global filter caption so that each filter in the caption highlights panels.  Each part becomes a span.
+            if (j > 0) {
+                var eleSeperator = eleGlobalFilterCaption.parentNode.appendChild(document.createElement("SPAN"))
+                eleSeperator.innerText = ", "
+                // add the conditional seperator like 'or' if it exists.
+                if (aGlobalFilterCaptions && aGlobalFilterCaptions[i]) {
+                    sCondSeperator = aGlobalFilterCaptions[i].substring(0, aGlobalFilterCaptions[i].indexOf("["))
+                    eleSeperator.innerText += sCondSeperator;
+                }
+            }
+
+            var eleFilterCaption = eleGlobalFilterCaption.parentNode.appendChild(document.createElement("SPAN"))
+            var sFilterCaption = listGlobaFilterDataColumns.item(i).get('parentNode').all("span[id^='lblFilterCaption_rdGlobalAf']").item(0)._node.innerText
+            eleFilterCaption.innerText = sFilterCaption
+            eleFilterCaption.setAttribute('rdFilterColumn', sDataColumn)
+            eleFilterCaption.setAttribute('rdFilterPanelID', sFilterFromPanelID)
+            eleFilterCaption.onmouseover = function () { rdDbHighlightFilteredPanel(this) }
+            eleFilterCaption.onmouseout = function () { rdDbUnHighlightFilteredPanels(this) }
+
+            //Add the global filters' text to each panel.
+            var listPanels = Y.all("div[id^='rdDashboardPanel-']");  //Get all the panels.
+            for (var k = 0; k < listPanels.size() ; k++) {
+                var elePanel = listPanels.item(k)._node
+                var elePanelFilterColumns = listPanels.item(k).one("span[class='rdGlobalFilterColumnIDsClass']")  //Get columns for the current panel.
+                if (elePanelFilterColumns) {
+                    elePanelFilterColumns = elePanelFilterColumns._node
+                    var sPanelColumns = elePanelFilterColumns.innerText
+                    var aPanelColumns = sPanelColumns.split(",")
+                    if (aPanelColumns.indexOf(sDataColumn) != -1) {
+                        if (sFilterFromPanelID == "" || elePanel.id.indexOf(sFilterFromPanelID) == -1) {
+                            //Filtered.
+                            var elePanelGlobalFilterCaption = document.getElementById("rdPanelGlobalFilterCaption_" + Y.LogiInfo.Dashboard.prototype.rdGetPanelInstanceId(elePanel))
+                            var sSeperator = ""
+                            if (elePanelGlobalFilterCaption.innerText.length > 0) {
+                                sSeperator = ", "
+                            }
+                            elePanelGlobalFilterCaption.innerText += sSeperator + sCondSeperator + sFilterCaption
+                            elePanelGlobalFilterCaption.parentNode.parentNode.style.display = ""
+                        }
+                    }
+                }
+            }
+            //Done with setting global filter text.
+
+            j += 1; // increment the FilterCaption count.
+        }      
+
+        //Reset the already exists tag
+        bSpanAlreadyExists = false
+    }
+
+    if (eleGlobalFilterCaption) {
+        setTimeout(function () { eleGlobalFilterCaption.innerText = "" }, 1);
+    }       
+}
+
+function rdDoesSpanExist(sCurrentFilterCaption, listCurrentSpanNodes) {    
+    for (var i = 0; i < listCurrentSpanNodes.length ; i++) {
+        if (listCurrentSpanNodes[i].getAttribute('id') == "rdGlobalFilterCaption") {
+            continue;
+        }
+        var eleSpanCaption = listCurrentSpanNodes[i].getAttribute('innerText')
+        var sSpanInnerText = listCurrentSpanNodes[i].innerText
+        if (eleSpanCaption == sCurrentFilterCaption) {
+            return true;
+        }
+        //this is to account for panel filter interaction, keeps doubling the global filter caption every time the cog is clicked.
+        if (sSpanInnerText && sSpanInnerText == sCurrentFilterCaption) {
+            return true;
+        }
+    }
+    return false;
+}
+
+function rdDbHighlightFilteredPanel(eleHovered) {
+    eleHovered.style.transition = "border-color 0.2s"
+    eleHovered.className = "rdDashboardCaptionGlobalFiltered"
+    //Make unrelated filters semi-transparent.
+    var sHoveredFilterColumn = eleHovered.getAttribute('rdFilterColumn')
+    var sHoveredFilterPanelID = eleHovered.getAttribute('rdFilterPanelID')
+    var listPanels = Y.all("div[id^='rdDashboardPanel-']");  //Get all the panels.
+    for (var i = 0; i < listPanels.size() ; i++) {
+        var elePanel = listPanels.item(i)._node
+        var elePanelFilterColumns = listPanels.item(i).one("span[class='rdGlobalFilterColumnIDsClass']")  //Get columns for the current panel.
+        if (elePanelFilterColumns) {
+            elePanelFilterColumns = elePanelFilterColumns._node
+            var sPanelColumns = elePanelFilterColumns.innerText
+            var aPanelColumns = sPanelColumns.split(",")
+            if (aPanelColumns.indexOf(sHoveredFilterColumn) != -1) {
+                if (sHoveredFilterPanelID == "" || elePanel.id.indexOf(sHoveredFilterPanelID) == -1) {
+                    //Filtered.
+                    elePanel.style.transition = "border-color 0.2s"
+                    elePanel.className += " rdDashboardPanelGlobalFiltered"
+                }
+            }
+        }
+    }
+}
+
+function rdDbUnHighlightFilteredPanels(eleHovered) {
+    eleHovered.className = ""
+
+    var listPanels = Y.all("div[id^='rdDashboardPanel-']");
+    for (var i = 0; i < listPanels.size() ; i++) {
+        var elePanel = listPanels.item(i)._node
+        elePanel.className = elePanel.className.replace(" rdDashboardPanelGlobalFiltered","")
+    }
+}
+ 
+
+YUI.add('dashboard-freeform', function (Y) {
 
     var FreeForm = Y.namespace('LogiXML.Dashboard.FreeForm'),
         DASHBOARD_CHART_MARKER = 'dashboardChart',
@@ -1513,6 +1769,11 @@ YUI.add('dashboard-freeform', function (Y) {
             //#18513 The chart needs to initialize after ajax refresh
             LogiXML.Ajax.AjaxTarget().on('reinitialize', Y.bind(FreeForm._reinitializeChart, this, '#' + chartNode.get('id'), '#' + panelNode.get('id')));
         }, this);
+
+        var ngpVisualization = panelNode.one('.rdLogiVisualization logi-visualization,.rdLogiVisualization logi-crosstab-table');
+        if (ngpVisualization) {
+            FreeForm.resizeVisualizationToFitPanel(panelNode, ngpVisualization);
+        }
     };
 
     FreeForm._reinitializeChart = function (chartPointer, panelPointer) {
@@ -1685,6 +1946,15 @@ YUI.add('dashboard-freeform', function (Y) {
             if (Y.Lang.isValue(debugNode) && debugNode.get('tagName') === 'IMG')
                 availableHeight = availableHeight - 30;
 
+            var lstElementsToExclude = ['.rdBookmarkLinkbackContainer'],
+                elementToExclude;
+            for (var i = 0; i < lstElementsToExclude.length; i++) {
+                elementToExclude = panel.one(lstElementsToExclude[i]);
+                if (elementToExclude) {
+                    availableHeight -= elementToExclude.get('clientHeight');
+                }
+            }
+
             //Set chart minimums in case the area is very small
             if (availableHeight <= 5)
                 availableHeight = 5;
@@ -1708,8 +1978,8 @@ YUI.add('dashboard-freeform', function (Y) {
 
             //Add scrollbars
             panelBody.setStyle('overflow', 'scroll');
-
             availableHeight = availableHeight - (panelBody.get('scrollHeight') - panelBody.get('clientHeight'));
+
 
             if (availableHeight <= 5)
                 availableHeight = 5;
@@ -1775,6 +2045,83 @@ YUI.add('dashboard-freeform', function (Y) {
         }
     };
 
+    FreeForm.resizeVisualizationToFitPanel = function (panel, chart) {
+        var chartNode = Y.one(chart),
+			panelNode = Y.one(panel),
+            panelBody = panelNode.one('.panelBody'), availableWidth, availableHeight;
+
+        var bIsNgpViz = (panel.get('id') || "").indexOf('NGPviz') >= 0;
+
+        //Get debug image node if there is one
+        var debugNode = Y.one('#rdDebugChart');
+
+        //Make chart size of entire panel to start -- sets correctly if the chart is the only content in panel, but too big otherwise
+        //This is to allow us to find out how much space the other content occupies in the panel
+        availableHeight = panelBody.get('clientHeight');
+        availableWidth = panelBody.get('clientWidth');
+
+        //Have to manually adjust for debug image if it is present (due to its absolute positioning)
+        if (Y.Lang.isValue(debugNode) && debugNode.get('tagName') === 'IMG')
+            availableHeight = availableHeight - 30;
+
+        //Set chart minimums in case the area is very small
+        if (availableHeight <= 5)
+            availableHeight = 5;
+        if (availableWidth <= 5)
+            availableWidth = 5;
+
+        //24513 - 1 hide highcharts tooltips before measuring (it may adds not necessary width for scrolls)
+        FreeForm.hideOrShoeChartCanvasTooltips(panelBody, false);
+
+        //Resize chart -- set width and height to match offset width/height (have to do both)
+        chart.set('width', availableWidth);
+        chart.set('height', availableHeight);
+        chart.set('offsetWidth', availableWidth);
+        chart.set('offsetHeight', availableHeight);
+
+        //Add scrollbars
+        panelBody.setStyle('overflow', 'scroll');
+
+        if (!bIsNgpViz)
+            availableHeight = availableHeight - (panelBody.get('scrollHeight') - panelBody.get('clientHeight'));
+
+        if (availableHeight <= 5)
+            availableHeight = 5;
+
+        chart.set('height', availableHeight);
+        chart.set('offsetHeight', availableHeight);
+
+        if (!bIsNgpViz)
+            availableWidth = availableWidth - (panelBody.get('scrollWidth') - panelBody.get('clientWidth'));
+
+        if (availableWidth <= 5)
+            availableWidth = 5;
+        if (chart.get('tagName') === 'LOGI-VISUALIZATION' || chart.get('tagName') === 'LOGI-CROSSTAB-TABLE') {
+
+            Y.LogiXML.rdLogiVisualization.resize(chart, availableWidth, availableHeight, 'px', 'px');
+            //set flag to parend node (avoid double resizing for panelFitToChart
+            chart.get('parentNode').setAttribute('data-skip-initial-resizing', 'true');
+
+            if (bIsNgpViz) {
+                chart.get('parentNode').setStyle('width', availableWidth);
+                chart.get('parentNode').setStyle('height', availableHeight);
+
+                chart.get('parentNode').get('parentNode').setStyle('width', availableWidth);
+                chart.get('parentNode').get('parentNode').setStyle('height', availableHeight);
+
+                var visualizationId = chart.get("id");
+                if (window.Logi && window.Logi.Platform && visualizationId) {
+                    var visualization = window.Logi.Platform.select("#" + visualizationId);
+                    if (visualization && visualization.setSize)
+                        visualization.setSize(availableWidth, availableHeight);
+                }
+            }
+        }
+        //Get rid of the scroll bars
+        panelBody.setStyle('overflow', 'hidden');
+        FreeForm.hideOrShoeChartCanvasTooltips(panelBody, true);
+    };
+
     FreeForm.hideOrShoeChartCanvasTooltips = function (panel, show) {
         if (!panel) {
             return;
@@ -1813,7 +2160,6 @@ YUI.add('dashboard-freeform', function (Y) {
             availableWidth = panelNode.get('clientWidth') - (innerTable.get('offsetWidth') - getContentWidth(tdBody));
             panelBody.set('offsetWidth', availableWidth);
 
-
             // Set Height
             // Height of Panel - margin of table - height of all other content - padding of panel Body containers - bottom margin of Panel Body
             availableHeight = panelNode.get('clientHeight') - parseInt(innerTable.getComputedStyle('marginTop'), 10) - parseInt(innerTable.getComputedStyle('marginBottom'), 10)
@@ -1825,6 +2171,15 @@ YUI.add('dashboard-freeform', function (Y) {
 			    - parseInt(tdBody.getComputedStyle('paddingTop'), 10) - parseInt(tdBody.getComputedStyle('paddingBottom'), 10)
 			    // Margin of Panel Body
 			    - parseInt(panelBody.getComputedStyle('marginBottom'), 10);
+
+            var lstElements = ['.rdDashboardFilterCaption', '.rdDashboardGlobalFilterCaption'],
+                elementToExclude;
+            for (var i = 0; i < lstElements.length; i++) {
+                elementToExclude = panel.one(lstElements[i]);
+                if (elementToExclude) {
+                    availableHeight = availableHeight - elementToExclude.get('clientHeight') - parseInt(elementToExclude.getComputedStyle('paddingTop'), 10) - parseInt(elementToExclude.getComputedStyle('paddingBottom'), 10)
+                }
+            }
 
             panelBody.set('offsetHeight', availableHeight);
         }
@@ -1940,9 +2295,12 @@ YUI.add('dashboard-freeform', function (Y) {
         if (panelNode.getData("oneChart")) {
             chart = panel.one('img.dashboardChart,div.rdChartCanvas');
             FreeForm.resizeChartToFitPanel(panel, chart);
-
+        } else {
+            var ngpVisualization = panelNode.one('logi-visualization,logi-crosstab-table');
+            if (ngpVisualization) {
+                FreeForm.resizeVisualizationToFitPanel(panel, ngpVisualization);
+            }
         }
-
     };
 
     /*
@@ -2119,6 +2477,35 @@ YUI.add('dashboard-freeform', function (Y) {
         dashContainer.setStyle('position', 'relative');
     }
 
+    FreeForm.panelFitToChart = function () {
+        var panels = Y.all('div.rdDashboardPanel');
+        panels.each(function (panel) {
+            var panelBody = panel.one('div.panelBody');
+            var charts = panelBody.all("div.rdLogiVisualization");
+            if (charts.size() !== 1) {
+                var additionalHeight = 0;
+                charts.each(function (chart) {
+                    additionalHeight += parseInt(chart.get('clientHeight'));
+                });
+                if (additionalHeight > 0) {
+                    panelBody.setStyle('height', additionalHeight);
+                    FreeForm.resizePanelBodytoFitPanel(panel);
+                }
+            } else {
+                var ngpVisualization = panel.one('logi-visualization,logi-crosstab-table');
+                if (ngpVisualization) {
+                    if (ngpVisualization.get('parentNode').getAttribute('data-skip-initial-resizing') != 'true') {
+                        FreeForm.resizeVisualizationToFitPanel(panel, ngpVisualization);
+                    }
+                }
+            }
+        });
+        FreeForm.rdResizeDashboardContainer();
+		
+    }
+
     LogiXML.Dashboard.FreeForm = FreeForm;
 
 }, '1.0.0', { requires: ['node-base', 'rdResize', 'querystring', 'dd-constrain', 'dd-proxy', 'dd-drop-plugin', 'dd-plugin', 'dd-scroll'] });
+
+

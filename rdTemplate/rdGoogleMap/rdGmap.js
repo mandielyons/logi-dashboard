@@ -1,5 +1,8 @@
 var gMaps = []
 var ie7Processed = false
+var userMarkers = [];
+var userClusterers = [];
+
 function rdGmapLoad(sMapID) {
     var spanMap = document.getElementById(sMapID)
     var mapContainer = Y.one('#' + sMapID);
@@ -204,12 +207,14 @@ function rdGmapLoad(sMapID) {
         else {
             markers.push(marker)
         }
+        userMarkers.push(marker);
         //Add the marker to the bounds, extending the bounds.
         bounds.extend(point)
     }
     var markerCluster = null
     if (bUseClustering == true) {
         markerCluster = new MarkerClusterer(map, markers)
+        userClusterers.push(markerCluster);
     }
 
     var nMinLat; var nMaxLat; var nMinLon; var nMaxLon;
@@ -325,8 +330,125 @@ function rdGmapLoad(sMapID) {
     }
     catch (e) { }
 
+    var markersElement = Y.one("rdmapmarkers");
+    markersElement.realoadMarkers = this.realoadMarkers;
+    mapContainer.setData("rdmapmarkers", markersElement);
+   
     mapContainer.setData("rdGMap", map);
     mapContainer.fire('rdCreated', { map: map, id: sMapID, mapOptions: mapOptions, container: mapContainer });
+}
+
+function realoadMarkers(newMarkers,sOriginResponse) {
+    var sMapID = newMarkers.get("id");
+    var originResponseDocument = Y.Node.create(sOriginResponse);
+    var mapContainer = Y.one("#" + sMapID);
+    var map = mapContainer.getData("rdGMap");
+    clearAllMarkers();
+    var oldMarkers = Y.one("rdmapmarkers");
+    var updatedMarkers = newMarkers.one("rdmapmarkers");
+    oldMarkers.insert(updatedMarkers, "replace");
+    var markersList = document.getElementsByTagName(sMapID + "_rdmapmarker");
+    var infowindow = new google.maps.InfoWindow({ content: "" });
+    var bUseClustering = mapContainer.getAttribute("UseClustering") == "" ? false : true
+    var markers = [];
+    for (var i = 0; i < markersList.length; i++) {
+        var eleMapMarkerRow = markersList[i]
+
+        //Validate the marker.
+        var lat
+        var lng
+        if (eleMapMarkerRow.getAttribute("rdCoordinates").length != 0) {
+            //For KML files.
+            lat = parseFloat(eleMapMarkerRow.getAttribute("rdCoordinates").split(",")[1])
+            lng = parseFloat(eleMapMarkerRow.getAttribute("rdCoordinates").split(",")[0])
+        } else {
+            lat = parseFloat(eleMapMarkerRow.getAttribute("Latitude"))
+            lng = parseFloat(eleMapMarkerRow.getAttribute("Longitude"))
+        }
+        if (isNaN(lat) || isNaN(lng)) { continue }
+        if (lat == 0 && lng == 0) { continue }
+
+        var options = new Object()  //GMarkerOptions object
+        var point = new google.maps.LatLng(lat, lng)
+        options.position = point
+
+        var sMarkerId = eleMapMarkerRow.getAttribute("rdMarkerID")
+        var eleMarkerImage = originResponseDocument.one("#rdMapMarkerImage_" + sMapID + "_" + sMarkerId) //"+"_Row" + (i + 1))
+        if (eleMarkerImage) {
+            var widthImage = parseInt(eleMarkerImage.getAttribute("width"))
+            var heightImage = parseInt(eleMarkerImage.getAttribute("height"))
+            if (widthImage == 0) { //IE
+                if (eleMarkerImage.currentStyle) {
+                    widthImage = parseInt(eleMarkerImage.currentStyle.width)
+                    heightImage = parseInt(eleMarkerImage.currentStyle.height)
+                }
+                else {//19546. If not IE/Opera, then do this
+                    widthImage = 1;
+                    heightImage = 1;
+                }
+            }
+            var icon = new google.maps.MarkerImage()
+            icon.url = eleMarkerImage.getAttribute("src")
+            icon.size = new google.maps.Size(widthImage, heightImage)
+            icon.scaledSize = new google.maps.Size(widthImage, heightImage)
+            icon.anchor = new google.maps.Point(widthImage / 2, heightImage) //bottom middle.
+            options.icon = icon
+            //Tooltip
+            if (eleMarkerImage.title) {
+                options.title = eleMarkerImage.title
+            }
+            //Don't want this to appear in the Info bubble.
+            eleMarkerImage.get('parentNode').removeChild(eleMarkerImage)
+        }
+
+        if (eleMapMarkerRow.getAttribute("Tooltip").length != 0) {
+            options.title = eleMapMarkerRow.getAttribute("Tooltip")
+        }
+        var marker = null
+        if (eleMapMarkerRow.getAttribute("rdMarkerLabel") != null) {
+            options.labelContent = eleMapMarkerRow.getAttribute("rdMarkerLabel")
+            options.labelAnchor = options.icon == undefined ? new google.maps.Point(22, 0) : options.icon.anchor
+            options.labelClass = eleMapMarkerRow.getAttribute("rdMarkerClass")
+            marker = new MarkerWithLabel(options)
+        }
+        else {
+            marker = new google.maps.Marker(options)
+        }
+        marker.isMarker = true
+        var eleMarker = originResponseDocument.one('#' + eleMapMarkerRow.getAttribute("rdMarkerID")).getDOMNode()
+        rdCreateMarkerAction(map, marker, eleMarker, eleMapMarkerRow.getAttribute("rdActionSpanID"), infowindow)
+        if (!bUseClustering) {
+            marker.setMap(map)
+        }
+        else {
+            markers.push(marker)
+        }
+        userMarkers.push(marker);
+    }
+    var markerCluster = null
+    if (bUseClustering == true) {
+        markerCluster = new MarkerClusterer(map, markers)
+        userClusterers.push(markerCluster);
+    }
+}
+
+function setMapOnAll(map) {
+    for (var i = 0; i < userMarkers.length; i++) {
+        userMarkers[i].setMap(map);
+    }
+}
+
+function cleanAllClusterers() {
+    for (var i = 0; i < userClusterers.length; i++) {
+        userClusterers[i].clearMarkers();
+    }
+}
+
+function clearAllMarkers() {
+    setMapOnAll(null);
+    userMarkers = [];
+    cleanAllClusterers();
+    userClusterers = [];
 }
 
 function rdCreateMarkerAction(map, marker, eleMarker, sMarkerActionSpanID, infowindow) {

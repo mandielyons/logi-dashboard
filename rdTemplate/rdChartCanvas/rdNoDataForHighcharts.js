@@ -87,7 +87,8 @@
             
             if (chart.xAxis && chart.xAxis.length > 0) {
                 var axis = chart.xAxis[0];
-                if (axis.labelGroup) {
+                axis.destroy();
+                /*if (axis.labelGroup) {
                     axis.labelGroup.css({ display: 'none' });
                 }
                 if (axis.gridGroup) {
@@ -96,12 +97,13 @@
                 if (axis.axisGroup) {
                     axis.axisGroup.css({ display: 'none' });
                 }
-                
+                */
             }
 
             if (chart.yAxis && chart.yAxis.length > 0) {
                 var axis = chart.yAxis[0];
-                if (axis.labelGroup) {
+                axis.destroy();
+                /*if (axis.labelGroup) {
                     axis.labelGroup.css({ display: 'none' });
                 }
                 if (axis.gridGroup) {
@@ -110,6 +112,7 @@
                 if (axis.axisGroup) {
                     axis.axisGroup.css({ display: 'none' });
                 }
+                */
             }
 
         }

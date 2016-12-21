@@ -80,18 +80,18 @@ month
 day
 hour
 minute "/>
-							<StaticDataRow Name="DateDiff" Description="PostgreSQL does not include a datediff function.  Instead just use a standard operator and define the date part to work with." Syntax="date_part(&apos;day&apos;, [ShippedDate]-[OrderDate])" Notes="Interval may be:
-year
-month
-day
-hour
-minute "/>
-							<StaticDataRow Name="date_part" Description="Returns part of a date." Syntax="date_part(interval, date)" Notes="Interval may be:
-year
-month
-day
-hour
-minute "/>
+							<StaticDataRow Name="DateDiff" Description="PostgreSQL does not include a datediff function.  Instead just use a standard operator and define the date part to work with." Syntax="date_part(&apos;day&apos;, [ShippedDate]-[OrderDate])" Notes="Interval may be one of the following quoted values:
+&apos;year&apos;
+&apos;month&apos;
+&apos;day&apos;
+&apos;hour&apos;
+&apos;minute&apos; "/>
+							<StaticDataRow Name="date_part" Description="Returns part of a date." Syntax="date_part(interval, date)" Notes="Interval may be one of the following quoted values:
+&apos;year&apos;
+&apos;month&apos;
+&apos;day&apos;
+&apos;hour&apos;
+&apos;minute&apos; "/>
 							<StaticDataRow Name="DateValue" Description="Returns a date from a date string.  The function can convert dates from different formats." Syntax="date &apos;2001-09-28&apos;" Notes="date_string is a string value which represents a date or date/time."/>
 							<StaticDataRow Name="Day" Description="Returns the day of the month.  Possible return values are from 1-31." Syntax="extract(day from [OrderDate])" Notes=""/>
 							<StaticDataRow Name="FormatCurrency" Description="Format a number value into currency." Syntax="to_char([Freight],'L9G999G999D99')" Notes=""/>

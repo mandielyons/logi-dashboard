@@ -10,7 +10,7 @@ YUI.add('popupmenu', function(Y) {
 			LogiXML.Ajax.AjaxTarget().on('reinitialize', Y.bind(this.initializePopupMenus, this));
 		},
 		
-		initializePopupMenus: function() {
+		initializePopupMenus: function () {
 			var menulinks = Y.all('.rdPopupMenuActivate');
 			
 			menulinks.each( function(initLink) {			
@@ -19,18 +19,33 @@ YUI.add('popupmenu', function(Y) {
 				var dhtmlEvent = 'click';
 				if (Y.Lang.isValue(initLink.getData('dhtmlevent')))
 					dhtmlEvent = initLink.getData('dhtmlevent')
-					
+				initLink.setData('ppObject', this);
 				initLink.on(dhtmlEvent, Y.bind(this.rdShowPopupMenu, this, initLink.get('id'), initLink.getData('popuplocation')));
+
+				var sMenuId = initLink.get('id');
+				var sPopupId; //Add rdPopup to the ID. For tables, it goes befor _Row#, For crosstabs, it needs to go before _Ct#
+				if (sMenuId.indexOf("_CtCol") != -1) {
+				    sPopupId = sMenuId.replace("_CtCol", "_rdPopup_CtCol");
+				}
+				else if (sMenuId.indexOf("_Row") != -1) {
+				    sPopupId = sMenuId.replace("_Row", "_rdPopup_Row");
+				}
+				else {
+				    sPopupId = sMenuId + "_rdPopup";
+				}
+				var popup = Y.one('#' + sPopupId);
+				if (popup) {
+				    popup.setStyle('left', '-9999.33');
+				    popup.setStyle('top', '-10000');
+				}
+
 			}, this);
 		},
 		rdShowPopupMenu: function(sMenuId, sPopupLocation) {
-
 		    if (Y.Lang.isValue(this._menu)) {
 				this._menu.hide(this._menu);
 				YAHOO.widget.MenuManager.removeMenu(this._menu);    //#12703.
 		    }
-
-
 
 			var sPopupId  //Add rdPopup to the ID. For tables, it goes befor _Row#, For crosstabs, it needs to go before _Ct# 
 			if (sMenuId.indexOf("_CtCol") !=-1) { 

@@ -30,10 +30,10 @@ Multiply two data columns, UnitPrice and Quantity, to make an ExtendedPrice colu
 [UnitPrice] * .04
 Multiply a data column by an constant value to calculate the tax applied to the price.
 
-DateDiff(&quot;d&quot;, [OrderDate], [ShippedDate] )
+DateDiff( d, [OrderDate], [ShippedDate] )
 Get the number of days from the order to the shipment.
 
-DateDiff(&quot;w&quot;, [ShippedDate], Now )
+DateDiff( w, [ShippedDate], Now )
 Get the number of weekdays since the shipment date.
 
 DateName( dw, ShippedDate )
@@ -71,7 +71,7 @@ Case [Color]
   Else &apos;gray&apos;
   End" />
 							<StaticDataRow Name="Date" Description="Returns the current date." Syntax="Getdate()" Notes=""/>
-							<StaticDataRow Name="DateAdd" Description="Adds or subtracts some interval of time from a date or time." Syntax="DateAdd(interval, number, date)" Notes="Interval may be:
+							<StaticDataRow Name="DateAdd" Description="Adds or subtracts some interval of time from a date or time." Syntax="DateAdd(interval, number, date)" Notes="Interval must be one of the following unquoted values:
 yyyy=year
 q=quarter
 m=month
@@ -82,7 +82,7 @@ ww=week of year
 hh=hour
 n=minute
 s=second "/>
-							<StaticDataRow Name="DateDiff" Description="Computes the difference between two dates." Syntax="DateDiff(interval, date1, date2)" Notes="Interval may be:
+							<StaticDataRow Name="DateDiff" Description="Computes the difference between two dates." Syntax="DateDiff(interval, date1, date2)" Notes="Interval must be one of the following unquoted values:
 yyyy=year
 q=quarter
 m=month
@@ -93,7 +93,7 @@ ww=week of year
 hh=hour
 n=minute
 s=second "/>
-							<StaticDataRow Name="DatePart" Description="Returns part of a date." Syntax="DatePart(interval, date)" Notes="Interval may be:
+							<StaticDataRow Name="DatePart" Description="Returns part of a date." Syntax="DatePart(interval, date)" Notes="Interval must be one of the following unquoted values:
 yyyy=year
 q=quarter
 m=month

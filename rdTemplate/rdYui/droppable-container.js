@@ -114,6 +114,24 @@
                     chartNode.show();
                     charts.item(i).getData('rdChartCanvas').resized({ width: parentWidth - 16, height: null, finished: false });
                 }
+                /*
+                var visualizations = node.all('.logi-visualization-container'), z = 0, zlength = visualizations.size(),
+                    visualizationNode, visualizationInstance, visualizationParentWidth;
+                for (; z < zlength; z++) {
+                    visualizationNode = visualizations.item(z);
+                    visualizationNode.hide();
+                    parentWidth = visualizationNode.ancestor('.rdDroppableContainer').get('offsetWidth');
+                    visualizationNode.show();
+                    if (!Logi || !Logi.Platform || !Logi.Platform.select) {
+                        return;
+                    }
+                    var visualizationObject = Logi.Platform.select('#' + visualizationNode.getAttribute('id'));
+                    if (!visualizationObject) {
+                        return;
+                    }
+                    visualizationObject.setWidth(parentWidth - 16);
+                }
+                */
             }
             this.dropObject.sizeShim();
         },

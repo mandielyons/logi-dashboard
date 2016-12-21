@@ -1,7 +1,6 @@
 <script src="rdYui/global.js" ></script>
 <script src="rdYui/attribute-helpers.js" ></script>
 <script src="rdYui/auto-complete.js" ></script>
-<script src="rdYui/bookmarkManager.js" ></script>
 <script src="rdYui/canvas-utils.js" ></script>
 <script src="rdYui/chartfx-canvas-screen.js" ></script>
 <script src="rdYui/chartfx-highlight.js" ></script>
@@ -53,8 +52,10 @@
 <script src="rdPopup/rdPopupPanel.js" ></script>
 <script src="rdAutoSizer.js" ></script>
 <script src="rdScroll.js" ></script>
+<script src="rdSchedule/rdScheduleScript.js" ></script>
 
 <script src="rdAnalysisChart/rdAcScript.js" ></script>
+<script src="rdAnalysisFilter/rdAfScript.js" ></script>
 <script src="rdAnalysisCrosstab/rdAxScript.js" ></script>
 <script src="rdGroupDrillthrough/rdDrillthrough.js" ></script>
 <script src="rdBookmarkOrganizer/rdBookmarkOrganizer.js" ></script>
@@ -67,7 +68,9 @@
 <script src="rdZoomChart/rdZoomChart.js" ></script>
 <script src="rdInputSlider/rdInputSlider.js" ></script>
 <script src="rdInputCheckboxList/rdInputCheckboxList.js" ></script>
+<script src="rdInputSelectList/rdInputSelectList.js"></script>
+<script src="rdYui/colorHelper.js" ></script>
 <script src="rdYui/rdInputColorPicker.js" ></script>
-
+<script src="rdYui/logi-visualization.js" ></script>
 
 

@@ -1,12 +1,10 @@
 .rdOg
 { 
 	font-size: 11px;
-	font-family: arial, sans-serif;
 }
 .rdOg TABLE
 { 
 	font-size: 11px;
-	font-family: arial, sans-serif;
 }
 
 .rdOg IMG 	{
@@ -276,4 +274,13 @@
 }
 .yuimenuitem-selected A:hover	{
 	text-decoration:none;
+}
+
+
+/*Olap Images*/
+#imgTableOG, #imgChartOG, #imgHeatmapOG{
+  vertical-align: text-bottom !important;
+}
+#imgDimensionOG, #imgMeasureOG, #imgCalculatedMeasureOG, #imgFilterOG{
+  vertical-align: baseline !important;
 }

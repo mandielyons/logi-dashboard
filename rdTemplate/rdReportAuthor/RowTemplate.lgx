@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Report ID="ReportAuthorDev.Templates.RowTemplate" SavedBy="LOGIXML\dima" SavedAt="8/6/2014 3:01:46 PM" EngineVersion="8.2.26">
+<Report ID="ReportAuthorDev.Templates.RowTemplate">
   <Body>
     <ResponsiveRow rdReportAuthorElementType="Row" ID="rdElementID">
       <ResponsiveColumn ID="rdElementID_rdColumnID" Class="col-xs-6" />

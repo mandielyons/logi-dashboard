@@ -36,7 +36,9 @@ YUI.add('chartCanvas', function (Y) {
         mask: null,
         restoreSelectionForSeriesIndex: null,
         maxVisiblePoints: null,
-        refreshTimers: [], 
+        refreshTimers: [],
+        drillTo: null,
+        currentDrillTo: null,
 
         initializer: function(config) {
             this._parseHTMLConfig();
@@ -47,6 +49,38 @@ YUI.add('chartCanvas', function (Y) {
             this._handlers.chartError = Highcharts.addEvent(this.configNode.getDOMNode(), 'error', Y.LogiXML.ChartCanvas.handleError);
             this._handlers.setSize = this.configNode.on('setSize', this.resized, this);
             this.initChart(chartOptions);
+            if (this.isResponsive()) {
+                this.subscribeToWindowResize();
+            }
+        },
+
+        isResponsive: function () {
+            var styleAttribute = this.configNode.getAttribute('style'),
+                actualWidth = this.configNode.getStyle('width');
+            if (styleAttribute.indexOf('width') > -1) {
+                if (actualWidth.indexOf('%') > -1) {
+                    return true;
+                }
+                return false;
+            }
+            return true;
+        },
+
+        subscribeToWindowResize: function () {
+            if (!window.LogiXML.chartCanvasWindowResize) {
+                window.LogiXML.chartCanvasWindowResize = Y.on('windowresize', function () { Y.LogiXML.ChartCanvas.reflowAllCharts(); });
+            }
+        },
+
+        responsiveResize: function (self, bForce) {
+            if (self.chart && self.chart.container && self.chart.options && self.chart.options.chart) {
+                var container = Y.one(self.chart.container);
+                container.hide();
+                var width = self.configNode.get('offsetWidth');
+                container.show();
+                self.chart.options.chart.width = width;
+                self.chart.reflow();
+            }
         },
 
         extractOptionsFromHtmlNode: function (chartNode) {
@@ -173,6 +207,9 @@ YUI.add('chartCanvas', function (Y) {
                                             }
                                         }
                                     }
+                                    if (this.chart.xAxis && this.chart.xAxis[0]) {
+                                        this.chart.xAxis[0].minRange = null;
+                                    }
                                     this.chart.redraw();
                                 }
                             }
@@ -293,7 +330,7 @@ YUI.add('chartCanvas', function (Y) {
         initChart: function(chartOptions) {
             //what about resizer?
             if (this.id) {
-                var idForResizer = this.id.replace(/_Row[0-9]+$/g, "");
+                var idForResizer = this.id.replace(/_Row[0-9]+$/g, "").replace(/\./g, "\\.");
                 if (Y.one('#rdResizerAttrs_' + idForResizer) && rdInitHighChartsResizer) {
                     rdInitHighChartsResizer(this.configNode.getDOMNode());
                 }
@@ -322,7 +359,11 @@ YUI.add('chartCanvas', function (Y) {
             }
 
             if (chartOptions.title && chartOptions.title.text) {
-                chartOptions.title.text = LogiXML.decodeHtml(chartOptions.title.text);
+                chartOptions.title.text = LogiXML.decodeHtml(chartOptions.title.text, chartOptions.title.useHTML);
+            }
+
+            if (chartOptions.legend && chartOptions.legend.title && chartOptions.legend.title.text) {
+                chartOptions.legend.title.text = LogiXML.decodeHtml(chartOptions.legend.title.text, chartOptions.legend.labelFormat == 'HTML');
             }
 
             if (chartOptions.legend && chartOptions.legend.title && chartOptions.legend.title.text) {
@@ -330,7 +371,35 @@ YUI.add('chartCanvas', function (Y) {
             }
 
             if (chartOptions.subtitle && chartOptions.subtitle.text) {
-                chartOptions.subtitle.text = LogiXML.decodeHtml(chartOptions.subtitle.text);
+                chartOptions.subtitle.text = LogiXML.decodeHtml(chartOptions.subtitle.text, chartOptions.subtitle.useHTML);
+            }
+
+            if (chartOptions.series && chartOptions.series.length > 0) {
+                for (i = 0; i < chartOptions.series.length; i++) {
+                    var series = chartOptions.series[i];
+                    if (series.name) {
+                        series.name = LogiXML.decodeHtml(series.name, true);
+                    }
+                    var data = series.data;
+                    for (var j = 0; data && j < data.length; j++) {
+                        if (data[j].name) {
+                            if (series.xAxis) {
+                                var xAxis;
+                                for (var k = 0; k < chartOptions.xAxis.length; k++) {
+                                    if (chartOptions.xAxis[k].id == series.xAxis) {
+                                        xAxis = chartOptions.xAxis[k];
+                                        break;
+                                    }
+                                }
+
+                                data[j].name = LogiXML.decodeHtml(data[j].name, xAxis && xAxis.labels && xAxis.labels.format === 'HTML');
+                            }
+                            else {
+                                data[j].name = LogiXML.decodeHtml(data[j].name, chartOptions.xAxis[0] && chartOptions.xAxis[0].labels && chartOptions.xAxis[0].labels.format === 'HTML');
+                            }
+                        }
+                    }
+                }
             }
 
             if (chartOptions.series && chartOptions.series.length > 0) {
@@ -346,6 +415,17 @@ YUI.add('chartCanvas', function (Y) {
                         }
                     }
                 }
+            }
+
+            if (chartOptions.chart.type = 'gauge' && chartOptions.yAxis && chartOptions.yAxis.length > 0 && chartOptions.yAxis[0].lineColor && chartOptions.yAxis[0].plotBands && chartOptions.yAxis[0].plotBands.length > 0) {
+                var newPlotband = {};
+                var axis = chartOptions.yAxis[0];
+                newPlotband.color = axis.lineColor;
+                newPlotband.from = axis.min;
+                newPlotband.to = axis.max;
+                newPlotband.thickness = axis.lineWidth;
+                axis.lineColor = 'transparent';
+                axis.plotBands.unshift(newPlotband);
             }
 
             if (chartOptions.xAxis && chartOptions.xAxis.length > 0) {
@@ -420,12 +500,17 @@ YUI.add('chartCanvas', function (Y) {
             }
 
             LogiXML.HighchartsFormatters.setFormatters(chartOptions);
+
+            this.preProcessDrillTo(chartOptions);
         },
 
         postProcessChartOptions: function (chartOptions) {
             if (chartOptions.quicktips) {
                 this.setQuicktipsData(chartOptions.quicktips);
             }
+            this.disableSelectionForExcludedPoints();
+            this.setCursorForAreaSelection();
+            this.disableSelectionForExcludedDrillTo();
         },
 
         createChart: function (chartOptions, fromPostProcessing) {
@@ -455,6 +540,7 @@ YUI.add('chartCanvas', function (Y) {
             this.preProcessChartOptions(chartOptions);
 
             this.setSelection(chartOptions);
+
             var shouldSetPrevValue = this.setRefreshTimerInitialDateRange(chartOptions);
 
             if (chartOptions.chart.options3d) {
@@ -478,6 +564,8 @@ YUI.add('chartCanvas', function (Y) {
                     }
                 }
             }
+
+            chartOptions.isChartCanvas = true;
 
             this.chart = new Highcharts.Chart(chartOptions);
 
@@ -524,8 +612,63 @@ YUI.add('chartCanvas', function (Y) {
                     }
                 }
             }
+
+            //hide or show buttons on chartcanvas
+
+            var zoomButton = Y.one(this.chart.container).one('#customButton_ResetZoom');
+            if (zoomButton) {
+                zoomButton.setStyle("display", "none");
+            }
+
+            var drillBackButton = Y.one(this.chart.container).one('#customButton_DrillBack');
+            if (drillBackButton) {
+                drillBackButton.setStyle("display", "none");
+            }
+            if (this.drillTo && this.drillTo.drilledToStates && this.drillTo.drilledToStates.length > 0) {
+                drillBackButton.setStyle("display", "");
+            }
+
             if (typeof restoreChartState != 'undefined') {
                 restoreChartState(this.chart);
+            }
+
+           
+            this.chart.chartCanvas = this;
+
+            if (this.chart.angular &&
+                this.chart.panes && this.chart.panes.length > 0 &&
+                this.chart.options.series.length > 0 && this.chart.options.series[0].events) {
+                var dials = Y.one(this.chart.renderTo).all("path");
+                var dialOptions = this.chart.panes[0].options;
+
+                if (dialOptions.background && dialOptions.background.length > 0) {
+                    var dialBackgroundOptions = dialOptions.background[0];
+
+                    if (dialBackgroundOptions.backgroundColor)
+                        dials = dials.filter(function () {
+                            return Y.one(this).getAttribute('fill').toLowerCase() == dialBackgroundOptions.backgroundColor.toLowerCase();
+                        });
+                    if (dialBackgroundOptions.borderColor)
+                        dials = dials.filter(function () {
+                            return Y.one(this).getAttribute('stroke').toLowerCase() == dialBackgroundOptions.borderColor.toLowerCase();
+                        });
+                    if (dialBackgroundOptions.borderWidth)
+                        dials = dials.filter("[stroke-width='" + dialBackgroundOptions.borderWidth + "']");
+
+                    if (dials && dials._nodes && dials._nodes.length == 1 &&
+                        this.chart.series && this.chart.series.length > 0 &&
+                        this.chart.series[0].points && this.chart.series[0].points.length > 0) {
+                        var chart = this.chart;
+                        var dial = dials._nodes[0];
+
+                        Highcharts.addEvent(dial, "click", function (event) {
+                            chart.hoverPoint = chart.series[0].points[0];
+                            Y.one(chart.series[0].group.element).simulate("click", event);
+                            chart.hoverPoint = null;
+                        });
+                        dial.style.cursor = "pointer";
+                    }
+                }
             }
 
             //export 
@@ -612,7 +755,7 @@ YUI.add('chartCanvas', function (Y) {
                 series = chartOptions.series[i];
                 if (series.selection) {
                     selection = series.selection;
-
+                    
                     //turn on markers for point selection
                     if (selection.mode != "Range") {
                         series.marker.enabled = true;
@@ -621,103 +764,361 @@ YUI.add('chartCanvas', function (Y) {
                     if (!series.events) {
                         series.events = {};
                     }
-
+                    var cursor;
                     switch (selection.selectionType) {
-                    case "ClickSinglePoint":
-                    case "ClickMultiplePoints":
-                        series.allowPointSelect = true;
-                        series.accumulate = selection.selectionType == "ClickMultiplePoints";
-                        this.syncSelectedValues(series);
-                        series.events.pointselection = function(e) {
-                            self.pointsSelected(e.target, true);
-                            return false
-                        };
-                        break;
-                    case "Area":
-                    case "AreaXAxis":
-                    case "AreaYAxis":
-                        switch (selection.selectionType) {
-                        case "AreaXAxis":
-                            chartOptions.chart.zoomType = "x";
-                            break;
-                        case "AreaYAxis":
-                            chartOptions.chart.zoomType = "y";
-                            break;
-                        default:
-                            chartOptions.chart.zoomType = "xy";
-                            break;
-                        }
-
-                        series.accumulate = true;
-                        chartOptions.chart.events.selection = function(e) {
-                            self.selectionDrawn(e, true);
-                            return false;
-                        };
-                        chartOptions.chart.events.redraw = function(e) { self.chartRedrawn(e); };
-                        chartOptions.chart.events.selectionStarted = function(e) { self.destroySelection(); };
-
-                        if (selection.mode == "Point") {
+                        case "ClickSinglePoint":
+                        case "ClickMultiplePoints":
+                        case "ClickRangePoints":
+                            series.allowPointSelect = selection.isReadOnly !== true;
+                            series.accumulate = selection.selectionType != "ClickSinglePoint";
                             this.syncSelectedValues(series);
-                        } else {
-                            this.restoreSelectionForSeriesIndex = i;
-                        }
-                        chartOptions.chart.customSelection = true;
+                            if (series.allowPointSelect) {
+                                series.events.pointselection = function (e) {
+                                    self.pointsSelected(e.target, true, e);
+                                    return false
+                                };
+                                chartOptions.chart.events.click = function (e) { self.destroySelection(e, true); };
+                            }
+                            break;
+                        case "Area":
+                        case "AreaXAxis":
+                        case "AreaYAxis":
+                            if (selection.isReadOnly !== true) {
+                                switch (selection.selectionType) {
+                                    case "AreaXAxis":
+                                        chartOptions.chart.zoomType = "x";
+                                        cursor = 'ew-resize';
+                                        break;
+                                    case "AreaYAxis":
+                                        chartOptions.chart.zoomType = "y";
+                                        cursor = 'ns-resize';
+                                        break;
+                                    default:
+                                        chartOptions.chart.zoomType = "xy";
+                                        cursor = 'crosshair';
+                                        break;
+                                }
 
-                        if (!selection.disableClearSelection) {
-                            chartOptions.chart.events.click = function(e) { self.destroySelection(e, true); };
-                        }
+                                series.accumulate = true;
 
-                        break;
+                                chartOptions.chart.events.selection = function (e) {
+                                    self.selectionDrawn(e, true);
+                                    return false;
+                                };
+                                chartOptions.chart.events.redraw = function (e) { self.chartRedrawn(e); };
+                                chartOptions.chart.events.selectionStarted = function (e) {
+                                    e.selectionMarker.attr({ cursor: cursor });
+                                    self.chart.plotBackground.element.style.cursor = cursor;
+                                    self.destroySelection();
+                                };
+                            }
+                            if (selection.mode == "Point") {
+                                this.syncSelectedValues(series, i);
+                            } else {
+                                this.restoreSelectionForSeriesIndex = i;
+                            }
+                            chartOptions.chart.customSelection = true;
+
+                            if (!selection.disableClearSelection) {
+                                chartOptions.chart.events.click = function(e) { self.destroySelection(e, true); };
+                            }
+
+                            break;
+                    }
+                }
+            }
+        },
+        setCursorForAreaSelection: function () {
+            if (!this.chart.series || this.chart.series.length == 0) {
+                return;
+            }
+            var series,
+                i = 0,
+                length = this.chart.series.length;
+
+            for (; i < length; i++) {
+                series = this.chart.series[i];
+                if (series.options.selection && series.options.selection.selectionType.indexOf('Area') != -1 && series.options.cursor) {
+                    this.chart.plotBackground.element.style.cursor = series.options.cursor;
+                    this.plotBackgroundCursor = series.options.cursor;
+                }
+            }
+        },
+
+        disableSelectionForExcludedPoints: function () {
+            if (!this.chart.series || this.chart.series.length == 0) {
+                return;
+            }
+            var series,
+                selection,
+                i = 0,
+                length = this.chart.series.length,
+                y = 0, yLength = 0;
+            
+            for (; i < length; i++) {
+                series = this.chart.series[i];
+                if (series.options.selection && series.options.selection.excludedPointValues && series.options.selection.excludedPointValues.length > 0) {
+                    selection = series.options.selection;
+                    y = 0; yLength = series.data.length;
+                    for (; y < yLength; y++) {
+                        if (series.data[y].graphic && selection.excludedPointValues.indexOf(series.data[y].id) != -1) {
+                            series.data[y].graphic.attr({
+                                cursor: 'default'
+                            });
+                        }
                     }
                 }
             }
         },
 
-        pointsSelected: function (series, fireEvent) {
-            var point, idx, value, values = [],
-                i = 0, length = series.points.length,
-                selection = series.options.selection,
-                valueElement, changeFlagElement, oldValue, newValue;
+        disableSelectionForExcludedDrillTo: function () {
+            if (!this.chart.series || this.chart.series.length == 0 || !this.chart.options.drillTo) {
+                return;
+            }           
+            var series,
+                selection,
+                i = 0,
+                length = this.chart.series.length,
+                y = 0, yLength = 0;
+
+            for (; i < length; i++) {
+                series = this.chart.series[i];
+                if (this.chart.options.drillTo.excludedPointValues && this.chart.options.drillTo.excludedPointValues.length > 0) {                
+                    
+                    y = 0; yLength = series.data.length;
+                    for (; y < yLength; y++) {
+                        if (series.data[y].graphic && this.chart.options.drillTo.excludedPointValues.indexOf(series.data[y].name ? series.data[y].name : series.data[y].x) != -1) {
+                            series.data[y].graphic.attr({
+                                cursor: 'default'
+                            });
+                        }
+                    }
+                }
+            }
+        },
+
+        pointsSelected: function (series, fireEvent, e, force) {
+            var selection = series.options.selection,
+                valueElement,
+                changeFlagElement,
+                oldValue,
+                newValue;
 
             if (!selection) {
                 return;
             }
+            if (this.disableNestedEvents) {
+                return;
+            }
 
-            for (; i < length; i++) {
+            if (selection.excludedPointValues && selection.excludedPointValues.length > 0)
+            {
+                if (e && selection.excludedPointValues.indexOf(e.id) != -1) {
+                    var selected = !e.selected;
+                    e.selected = e.options.selected = selected;
+                    e.setState(selected && 'select');
+                    return;
+                }
+            }
+
+            if (fireEvent && selection.deffered && !force) {
+                var selected = !e.selected;
+                e.selected = e.options.selected = selected;
+                e.setState(selected && 'select');
+                this.defferedSelectedPoint = e;
+                return;
+            } else if (fireEvent && selection.deffered && force && this.defferedSelectedPoint) {
+                var selected = !this.defferedSelectedPoint.selected;
+                this.defferedSelectedPoint.selected = this.defferedSelectedPoint.options.selected = selected;
+                this.defferedSelectedPoint.setState(selected && 'select');
+            }
+
+            var isTreemap = series.type === 'treemap';
+            var values = isTreemap ? {} : [];
+            if (isTreemap) {
+                this.getSelectedValuesForTreemap(series, values);
+                var valuesCount = values.length;
+
+                for (var valuesString in values) {
+                    var valuesArray = values[valuesString];
+                    valueElement = this.getOrCreateInputElement(valuesString);
+                    oldValue = this.getInputElementValue(valueElement);
+                    //TODO do encoding for commas in values
+                    newValue = valuesArray.join(',');
+
+                    if (oldValue != newValue) {
+                        this.setInputElementValue(valueElement, newValue);
+                        if (selection.changeFlagElementId && selection.changeFlagElementId.length > 0) {
+                            changeFlagElement = this.getOrCreateInputElement(selection.changeFlagElementId);
+                            changeFlagElement.set('value', 'True');
+                        }
+
+                        if (fireEvent) {
+                            HighchartsAdapter.fireEvent(series, 'selectionChange', null);
+
+                            //if (selection.selectionType != "ClickSinglePoint" && selection.selectionType != "ClickMultiplePoints") {
+                            if (newValue == '') {
+                                HighchartsAdapter.fireEvent(series, 'selectionCleared', null);
+                            } else {
+                                HighchartsAdapter.fireEvent(series, 'selectionMade', null);
+                            }
+                            //}
+                        }
+
+                    }
+                }
+            } else {
+                this.getSelectedValues(series, values);
+                if (selection.valueElementId && selection.valueElementId.length > 0) {
+                    valueElement = this.getOrCreateInputElement(selection.valueElementId);
+                    oldValue = this.getInputElementValue(valueElement);
+                    //TODO do encoding for commas in values
+                    newValue = values.join(',');
+                    var lastPoint = null;
+                    if (oldValue != newValue) {
+                        this.setInputElementValue(valueElement, newValue);
+                        if (selection.changeFlagElementId && selection.changeFlagElementId.length > 0) {
+                            changeFlagElement = this.getOrCreateInputElement(selection.changeFlagElementId);
+                            changeFlagElement.set('value', 'True');
+                        }
+
+                       
+                        var minPoint = values[0];
+                        var maxPoint = values[values.length - 1];
+
+                        if (e && selection.selectionType == "ClickRangePoints" && minPoint != maxPoint) {
+                            this.disableNestedEvents = true;
+
+                            // deselect points
+                            if (!e.selected &&
+                                series.points[e.index - 1] && series.points[e.index - 1].selected &&
+                                series.points[e.index + 1] && series.points[e.index + 1].selected) {
+                                var lastClickedValue = window.LogiXML['chart_' + this.id + '_clickedValue'];
+                                if (lastClickedValue) {
+                                    lastPoint = this.getPointById(series, lastClickedValue);
+                                } 
+                                if (!lastPoint) {
+                                     lastPoint = this.getPointById(series, maxPoint);
+                                }
+
+                                if (lastPoint.index > e.index) {
+                                    this.changeSelection(series, minPoint, e.id, true);
+                                } else {
+                                    this.changeSelection(series, e.id, maxPoint, true);
+                                }
+
+                                values = [];
+                                this.getSelectedValues(series, values);
+                            }
+
+                            // select points between start and end
+                            minPoint = values[0];
+                            maxPoint = values[values.length - 1];
+                            if (minPoint != maxPoint)
+                                this.changeSelection(series, minPoint, maxPoint, true);
+
+                            // update actual values
+                            values = [];
+                            this.getSelectedValues(series, values);
+                            newValue = values.join(',');
+                            this.setInputElementValue(valueElement, newValue);
+
+                            this.disableNestedEvents = false;
+                        }
+                        if (e) {
+                            window.LogiXML['chart_' + this.id + '_clickedValue'] = e.id;
+                        }
+
+                        if (fireEvent) {
+                            HighchartsAdapter.fireEvent(series, 'selectionChange', null);
+                            if (newValue == '') {
+                                HighchartsAdapter.fireEvent(series, 'selectionCleared', null);
+                            } else {
+                                HighchartsAdapter.fireEvent(series, 'selectionMade', null);
+                            }
+                        }
+
+                    }
+                }
+            }
+        },
+
+        pointSelectedDeffered: function (series) {
+
+        },
+
+        getPointById: function (series, id) {
+            for (var i = 0; i < series.points.length; i++) {
+                if (series.points[i].id == id)
+                    return series.points[i];
+            }
+
+            return null;
+        },
+
+        changeSelection: function (series, minPoint, maxPoint) {
+            var select = false;
+            for (var i = 0; i < series.points.length; i++) {
+                var point = series.points[i];
+                if (point.id == minPoint) {
+                    select = true;
+                }
+                point.selected = select;
+                point.setState(select && 'select');
+
+                if (point.id == maxPoint) {
+                    select = false;
+                }
+            }
+        },
+
+        getSelectedValues: function (series, values) {
+            var point, idx, value, i,
+                length = series.points.length,
+                selection = series.options.selection,
+                excludedPointValues = [];
+
+            if (selection && selection.excludedPointValues && selection.excludedPointValues.length > 0) {
+                excludedPointValues = selection.excludedPointValues;
+            }
+
+            for (i = 0; i < length; i++) {
                 point = series.points[i];
                 if (point.selected) {
                     value = point.id || '';
                     idx = values.indexOf(value);
-                    if (idx == -1) {
+                    if (idx == -1 && excludedPointValues.indexOf(value) == -1) {
                         values.push(value);
                     }
                 }
             }
+        },
 
-            if (selection.valueElementId && selection.valueElementId.length > 0) {
-                valueElement = this.getOrCreateInputElement(selection.valueElementId);
-                oldValue = this.getInputElementValue(valueElement);
-                //TODO do encoding for commas in values
-                newValue = values.join(',');
-                if (oldValue != newValue) {
-                    this.setInputElementValue(valueElement, newValue);
-                    if (selection.changeFlagElementId && selection.changeFlagElementId.length > 0) {
-                        changeFlagElement = this.getOrCreateInputElement(selection.changeFlagElementId);
-                        changeFlagElement.set('value', 'True');
+        getSelectedValuesForTreemap: function (series, values) {
+            var point, i, level = 0,
+                length = series.points.length;
+            for (i = 0; i < length; i++) {
+                point = series.points[i];
+                this.getSelectedValuesForTreemapPoint(point, values);
+            }
+        },
+
+        getSelectedValuesForTreemapPoint: function (point, values) {
+            var idx, value;
+            for (var j = 0; j < point.children.length; j++) {
+                this.getSelectedValuesForTreemapPoint(point.children[j], values);
+            }
+            if (point.selectable) {
+                if (point.selected) {
+                    value = point.id || '';
+                    idx = values[point.selectionId];
+                    if (idx === undefined || values[point.selectionId][0] === '') {
+                        values[point.selectionId] = [value];
+                    } else {
+                        values[point.selectionId].push(value);
                     }
-
-                    if (fireEvent) {
-                        HighchartsAdapter.fireEvent(series, 'selectionChange', null);
-
-                        //if (selection.selectionType != "ClickSinglePoint" && selection.selectionType != "ClickMultiplePoints") {
-                        if (newValue == '') {
-                            HighchartsAdapter.fireEvent(series, 'selectionCleared', null);
-                        } else {
-                            HighchartsAdapter.fireEvent(series, 'selectionMade', null);
-                        }
-                        //}
-                    }
-
+                } else if (!values[point.selectionId] || !values[point.selectionId].length) {
+                    values[point.selectionId] = [''];
                 }
             }
         },
@@ -726,23 +1127,37 @@ YUI.add('chartCanvas', function (Y) {
             var point,
                 i = 0, length = series.points.length,
                 selection = series.options.selection,
-                valueElement;
+                valueElement,
+                pointValue,
+                excludedPointValues = [];
 
             if (!selection) {
                 return;
             }
 
             if (selection.mode == 'Point') {
+                if (selection && selection.excludedPointValues && selection.excludedPointValues.length > 0) {
+                    excludedPointValues = selection.excludedPointValues;
+                }
 
                 for (; i < length; i++) {
                     point = series.points[i];
-                    //TODO: check selection mode (if x only, y only, xy. Now is xy)
-                    if (point.x >= xMin && point.x <= xMax && point.y >= yMin && point.y <= yMax) {
-                        point.select(true, true);
+
+                    if ((selection.selectionType == "AreaXAxis" && point.x >= xMin && point.x <= xMax) ||
+                        (selection.selectionType == "AreaYAxis" && point.y >= yMin && point.y <= yMax) ||
+                        (point.x >= xMin && point.x <= xMax && point.y >= yMin && point.y <= yMax)) {
+
+                        pointValue = point.id || '';
+                        if (excludedPointValues.indexOf(pointValue) == -1) {
+                            point.selected = true;
+                            point.setState(true && 'select');
+                        } 
                     } else {
-                        point.select(false, true);
+                        point.selected = false;
+                        point.setState(false && 'select');
                     }
                 }
+
                 this.pointsSelected(series, fireEvent);
                 return;
             }
@@ -763,6 +1178,10 @@ YUI.add('chartCanvas', function (Y) {
                         xMax = series.xAxis.names[xMax];
                     }
                 }
+            } else if (xMin != null && xMax != null) {
+                //Round the value to the nearest 3 significant digits
+                xMin = parseFloat(xMin.toPrecision(3));
+                xMax = parseFloat(xMax.toPrecision(3));
             }
 
             if (series.yAxis.isDatetimeAxis) {
@@ -781,6 +1200,10 @@ YUI.add('chartCanvas', function (Y) {
                         yMax = series.yAxis.names[yMax];
                     }
                 }
+            } else if (yMin != null && yMax != null) {
+                //Round the value to the nearest 3 significant digits
+                yMin = parseFloat(yMin.toPrecision(3));
+                yMax = parseFloat(yMax.toPrecision(3));
             }
 
             if (xMin === null) {
@@ -881,10 +1304,8 @@ YUI.add('chartCanvas', function (Y) {
                         if (selectedValues.indexOf(inputNode.get('value')) != -1) {
                             inputNode.set('checked', true);
                         } else {
-                            
                             inputNode.set('checked', false);
                         }
-                        console.log(inputNode.get('value'));
                     });
                     break;
                 default:
@@ -895,7 +1316,6 @@ YUI.add('chartCanvas', function (Y) {
                             } else {
                                 inputNode.set('selected', false);
                             }
-                            console.log(inputNode.get('value'));
                         });
                     } else {
                         return inputElement.set('value', value);
@@ -904,7 +1324,7 @@ YUI.add('chartCanvas', function (Y) {
             }
             return "";
         },
-
+        
         destroySelection: function (e, fireEvent) {
             var i = 0, y = 0,
                 length = this.chart.series.length, dataLength,
@@ -927,24 +1347,24 @@ YUI.add('chartCanvas', function (Y) {
                             notClearSelection = true;
                         }
                         if (!notClearSelection) {
-                            this.rangeSelected(series, null, null, null, null);
                             if (wasSelected && fireEvent) {
-                                HighchartsAdapter.fireEvent(series, 'selectionChange', null);
+                                this.rangeSelected(series, null, null, null, null, null, fireEvent);
                                 HighchartsAdapter.fireEvent(series, 'selectionCleared', null);
                             }
                         }
                         break;
 
                     default:
-                        if (wasSelected && fireEvent) {
+                        if (fireEvent) {
                             y = 0; dataLength = series.points.length;
                             for (; y < dataLength; y++) {
                                 point = series.points[y];
                                 if (point.selected) {
-                                    point.select(false, true);
+                                    point.selected = false;
+                                    point.setState(false && 'select');
                                 }
                             }
-                            this.pointsSelected(series, fireEvent);
+                            this.pointsSelected(series, fireEvent, e);
                         }
                         break;
                 }
@@ -956,21 +1376,25 @@ YUI.add('chartCanvas', function (Y) {
             }
         },
 
-        selectionDrawn: function (e, fireEvent) {
+        selectionDrawn: function (e, fireEvent, skipCreateRange) {
             var self = this,
                 zoomType = this.chart.options.chart.zoomType;
             if (this.chart.inverted) {
                 zoomType = zoomType == 'x' ? 'y' : zoomType == 'y' ? 'x' : zoomType;
             }
-            this.rangeSelection = new Y.LogiXML.ChartCanvasRangeSelection(
-            {
-                callback: function (rect) { self.selectionChanged(rect, true) },
-                configNode: this.configNode,
-                maskRect: e.selectionBox,
-                constrainRect: this.chart.plotBox,
-                maskType: zoomType,
-                fillColor: this.chart.options.chart.selectionMarkerFill || 'rgba(69,114,167,0.25)'
-            });
+            if (!skipCreateRange) {
+                this.chart.plotBackground.element.style.cursor = this.plotBackgroundCursor;
+                this.rangeSelection = new Y.LogiXML.ChartCanvasRangeSelection(
+                {
+                    callback: function (rect) { self.selectionChanged(rect, true) },
+                    configNode: this.configNode,
+                    maskRect: e.selectionBox,
+                    constrainRect: this.chart.plotBox,
+                    maskType: zoomType,
+                    fillColor: this.chart.options.chart.selectionMarkerFill || 'rgba(69,114,167,0.25)',
+                    isReadOnly: e.isReadOnly
+                });
+            }
             this.selectionChanged(e.selectionBox, fireEvent);
             return false;
         },
@@ -1007,7 +1431,7 @@ YUI.add('chartCanvas', function (Y) {
                     if (selection.mode == 'Range') {
                         this.syncSelectedValues(series);
                     } else if (selection.mode == 'Point' &&
-                        (selection.selectionType == "ClickSinglePoint" || selection.selectionType == "ClickMultiplePoints") && this.rangeSelection) {
+                        (selection.selectionType == "ClickSinglePoint" || selection.selectionType == "ClickMultiplePoints" || selection.selectionType == "ClickRangePoints") && this.rangeSelection) {
                         this.destroySelection();
                     }
                 }
@@ -1037,53 +1461,55 @@ YUI.add('chartCanvas', function (Y) {
                 //TODO: check if series has x/y axis
                 if (this.chart.inverted) {
                     switch (selection.selectionType) {
-                    case 'AreaXAxis':
-                        xMin = series.xAxis.toValue(rect.x);
-                        xMax = series.xAxis.toValue(rect.x + rect.width);
-                        yMin = null;
-                        yMax = null;
-                        break;
-                    case 'AreaYAxis':
-                        xMin = null;
-                        xMax = null;
-                        yMin = series.yAxis.toValue(rect.y + rect.height);
-                        yMax = series.yAxis.toValue(rect.y);
-                        break;
-                    default:
-                        xMin = series.xAxis.toValue(rect.y + rect.height);
-                        xMax = series.xAxis.toValue(rect.y);
-                        yMin = series.yAxis.toValue(rect.x);
-                        yMax = series.yAxis.toValue(rect.x + rect.width);
+                        case 'AreaXAxis':
+                            xMin = series.xAxis.toValue(rect.y + rect.height);
+                            xMax = series.xAxis.toValue(rect.y);
+                            yMin = null;
+                            yMax = null;
+                            break;
+                        case 'AreaYAxis':
+                            xMin = null;
+                            xMax = null;
+                            yMin = series.yAxis.toValue(rect.x);
+                            yMax = series.yAxis.toValue(rect.x + rect.width);
+                            break;
+                        default:
+                            xMin = series.xAxis.toValue(rect.y + rect.height);
+                            xMax = series.xAxis.toValue(rect.y);
+                            yMin = series.yAxis.toValue(rect.x);
+                            yMax = series.yAxis.toValue(rect.x + rect.width);
                     }
                 } else {
                     switch (selection.selectionType) {
-                    case 'AreaXAxis':
-                        xMin = series.xAxis.toValue(rect.x);
-                        xMax = series.xAxis.toValue(rect.x + rect.width);
-                        yMin = null;
-                        yMax = null;
-                        break;
-                    case 'AreaYAxis':
-                        xMin = null;
-                        xMax = null;
-                        yMin = series.yAxis.toValue(rect.y + rect.height);
-                        yMax = series.yAxis.toValue(rect.y);
-                        break;
-                    default:
-                        xMin = series.xAxis.toValue(rect.x);
-                        xMax = series.xAxis.toValue(rect.x + rect.width);
-                        yMin = series.yAxis.toValue(rect.y + rect.height);
-                        yMax = series.yAxis.toValue(rect.y);
+                        case 'AreaXAxis':
+                            xMin = series.xAxis.toValue(rect.x);
+                            xMax = series.xAxis.toValue(rect.x + rect.width);
+                            yMin = null;
+                            yMax = null;
+                            break;
+                        case 'AreaYAxis':
+                            xMin = null;
+                            xMax = null;
+                            yMin = series.yAxis.toValue(rect.y + rect.height);
+                            yMax = series.yAxis.toValue(rect.y);
+                            break;
+                        default:
+                            xMin = series.xAxis.toValue(rect.x);
+                            xMax = series.xAxis.toValue(rect.x + rect.width);
+                            yMin = series.yAxis.toValue(rect.y + rect.height);
+                            yMax = series.yAxis.toValue(rect.y);
                     }
                 }
                 this.rangeSelected(series, xMin, xMax, yMin, yMax, rect, fireEvent);
             }
         },
 
-        syncSelectedValues: function (series) {
+        syncSelectedValues: function (series, seriesIndex) {
             var selection = series.options ? series.options.selection : series.selection,
                 valueElement, value, values, id,
-                i = 0, length, minX, maxX, minY, maxY, selectionBox;
+                i = 0, length, minX, maxX, minY, maxY, selectionBox, 
+                minPointValueElement, maxPointValueElement,
+                minPointValue, maxPointValue;
             if (!selection) {
                 return;
             }
@@ -1096,20 +1522,65 @@ YUI.add('chartCanvas', function (Y) {
                 if (!valueElement) {
                     return;
                 }
+                
                 value = this.getInputElementValue(valueElement);
                 if (!value || value.length == 0) {
                     return;
                 }
+
                 values = value.split(',');
-                length = series.data ? series.data.length : 0;
-                for (; i < length; i++) {
-                    id = series.data[i].id;
-                    if (values.indexOf(id) != -1) {
-                        series.data[i].selected = true;
-                        if (series.type == "pie") {
-                            series.data[i].sliced = true;
+
+                switch (selection.selectionType) {
+                    case "ClickSinglePoint":
+                    case "ClickMultiplePoints":
+                        length = series.data ? series.data.length : 0;
+                        i = 0;
+                        for (; i < length; i++) {
+                            id = series.data[i].id;
+                            if (values.indexOf(id) != -1) {
+                                series.data[i].selected = true;
+                                if (series.type == "pie") {
+                                    series.data[i].sliced = true;
+                                }
+                            }
                         }
-                    }
+                        break;
+
+                    case "ClickRangePoints":
+                        if (values.length > 0) {
+                            minX = values[0];
+                            maxX = values[values.length - 1];
+                            if (minX && minX != '' && maxX && maxX != '') {
+                                if (!series.xAxis) {
+                                    //chart is not created yes, so we can't restore selection
+                                    //lets re-run it when chart created
+                                    this.restoreSelectionForSeriesIndex = i;
+                                    return;
+                                }
+                                selectionBox = this.getSelectionBox(series, minX, maxX, null, null);
+                            }
+                            this.selectionDrawn({ selectionBox: selectionBox, isReadOnly: selection.isReadOnly }, false, true);
+                        }
+                        break;
+
+                    case "Area":
+                    case "AreaXAxis":
+                    case "AreaYAxis":
+                        if (values.length > 0) {
+                            minX = values[0];
+                            maxX = values[values.length - 1];
+                            if (minX && minX != '' && maxX && maxX != '') {
+                                if (!series.xAxis) {
+                                    //chart is not created yes, so we can't restore selection
+                                    //lets re-run it when chart created
+                                    this.restoreSelectionForSeriesIndex = i;
+                                    return;
+                                }
+                                selectionBox = this.getSelectionBox(series, minX, maxX, null, null);
+                            }
+                            this.selectionDrawn({ selectionBox: selectionBox, isReadOnly: selection.isReadOnly }, false);
+                        }
+                        break;
                 }
             }
 
@@ -1150,23 +1621,34 @@ YUI.add('chartCanvas', function (Y) {
                         valueElement = this.getOrCreateInputElement(selection.maxYElementId);
                         maxY = valueElement.get('value');
                     }
+                    if (selection.mode == 'Range' && selection.selectionType == 'Area' && ((!minX || minX == "") || (!minY || minY == "") || (!maxX || maxX == "") || (!maxY || maxY == ""))) {
+                        return;
+                    }
+
                     if ((minX && minX != "") || (minY && minY != "")) {
                         selectionBox = this.getSelectionBox(series, minX, maxX, minY, maxY);
                         if (this.rangeSelection) {
                             this.destroySelection();
                         }
-                        this.selectionDrawn({ selectionBox: selectionBox }, false);
+                        this.selectionDrawn({ selectionBox: selectionBox, isReadOnly: selection.isReadOnly }, false);
                     }
                 }
             }
+        },
+
+        checkDateStringForTimeZone: function (sDate) {
+		    if (sDate && sDate.length == 19 && sDate.indexOf('Z') == -1) {
+		        sDate = sDate + 'Z'
+		    }
+		    return sDate;
         },
 
         getSelectionBox: function(series, minX, maxX, minY, maxY) {
             var selectionBox = {},
                 x1, x2, y1, y2, dt, tmp;
             if (series.xAxis.isDatetimeAxis) {
-                minX = minX && minX != "" ? new Date(minX) : null;
-                maxX = maxX && maxX != "" ? new Date(maxX) : null;
+                minX = minX && minX != "" ? new Date(this.checkDateStringForTimeZone(minX)) : null;
+                maxX = maxX && maxX != "" ? new Date(this.checkDateStringForTimeZone(maxX)) : null;
             } else if (series.xAxis.categories === true) {
                 minX = series.xAxis.names.indexOf(minX);
                 minX = minX == -1 ? null : minX;
@@ -1201,14 +1683,6 @@ YUI.add('chartCanvas', function (Y) {
             }
             if (isNaN(y2) || y2 < series.yAxis.toPixels(series.yAxis.getExtremes().max)) {
                 y2 = series.yAxis.toPixels(series.yAxis.getExtremes().max);
-            }
-
-            if (y1 < y2 + 15) {
-                y1 = y2 + 15;
-            }
-
-            if (x1 > x2 - 15) {
-                x1 = x2 - 15;
             }
 
             if (this.chart.inverted) {
@@ -1254,41 +1728,73 @@ YUI.add('chartCanvas', function (Y) {
             }
         },
 
+        updateChartOptions: function(response,callback,arg){
+            this.chart.userOptions = response;
+            this[callback](arg);
+
+        },
+
         resized: function (e) {
             if (this.chart && this.chart.options) {
-                var width = e.width > 0 ? e.width : this.chart.chartWidth,
-                    height = e.height > 0 ? e.height : this.chart.chartHeight;
-                var isGauge = this.chart.userOptions.series[0].type.indexOf("gauge") > -1;
-                if (this.chart.userOptions.series[0].type.indexOf("bulletgauge")> -1) {
-                    this.chart.animation = !this.chart.animation;
+                //25753 if series undefined, try to request chart data from server
+                if (!this.chart.userOptions.series) {
+                    this.requestChartData(null, "updateChartOptions", "resized", e);
                 }
-                this.chart.setSize(width, height);
+                else {
+                    var heightOnly = e.width == null;
+                    var widthOnly = e.height == null;
 
-                if (e.finished) {
-                    if (isGauge) {
-                        this.chart.animation = true;
-                        var tempUserOptions = this.chart.userOptions;
-                        tempUserOptions.chart.width = width;
-                        tempUserOptions.chart.height = height;
-                        //tempUserOptions.chart.animation = null;
-                        this.createChart(tempUserOptions);
+                    var width = e.width > 0 ? e.width : this.chart.chartWidth,
+                        height = e.height > 0 ? e.height : this.chart.chartHeight;
+                    var isGauge = this.chart.userOptions.series[0].type.indexOf("gauge") > -1;
+                    if (this.chart.userOptions.series[0].type.indexOf("bulletgauge") > -1) {
+                        this.chart.animation = !this.chart.animation;
+                    }
+
+                    width = parseInt(width, 10); //25355
+                    height = parseInt(height, 10);
+
+                    if (heightOnly) {
+                        this.chart.options.chart.height = height;
+                        this.chart.reflow();
+                    } else {
                         this.chart.setSize(width, height);
                     }
-                    var requestUrl = null;
-                    if (this.refreshAfterResize == true) {
-                        this.requestChartData(this.jsonUrl + '&rdResizerNewWidth=' + width + '&rdResizerNewHeight=' + height + "&rdResizer=True","createChart");
-                        //return;
-                        requestUrl = 'rdAjaxCommand=rdAjaxNotify&rdNotifyCommand=SetElementSize&rdWidth=' + width + '&rdHeight=' + height + '&rdElementId=' + this.id + '&rdReport=' + this.reportName + '&rdRequestForwarding=Form';
-                    } else if (this.refreshAfterResize) {
-                        requestUrl = 'rdAjaxCommand=RefreshElement&rdRefreshElementID=' + this.id + '&rdWidth=' + width + '&rdHeight=' + height + '&rdReport=' + this.reportName + '&rdResizeRequest=True&rdRequestForwarding=Form';
-                    } else if (e.notify === undefined || (e.notify == true)) {
-                        requestUrl = 'rdAjaxCommand=rdAjaxNotify&rdNotifyCommand=SetElementSize&rdWidth=' + width + '&rdHeight=' + height + '&rdElementId=' + this.id + '&rdReport=' + this.reportName + '&rdRequestForwarding=Form';
-                    }
-                    if (requestUrl !== null) {
-                        if (this.isUnderSE === "True") {
-                            requestUrl += "&rdUnderSuperElement=True";
+
+                    if (e.finished) {
+                        if (isGauge) {
+                            this.chart.animation = true;
+                            var tempUserOptions = this.chart.userOptions;
+                            tempUserOptions.chart.width = width;
+                            tempUserOptions.chart.height = height;
+                            //tempUserOptions.chart.animation = null;
+                            this.createChart(tempUserOptions);
+
+                            if (!this.chart.angular) {
+                                if (heightOnly) {
+                                    this.chart.options.chart.height = height;
+                                    this.chart.reflow();
+                                } else {
+                                    this.chart.setSize(width, height);
+                                }
+                            }
                         }
-                        rdAjaxRequest(requestUrl);
+                        var requestUrl = null;
+                        if (this.refreshAfterResize == true) {
+                            this.requestChartData(this.jsonUrl + '&rdResizerNewWidth=' + width + '&rdResizerNewHeight=' + height + "&rdResizer=True", "createChart");
+                            //return;
+                            requestUrl = 'rdAjaxCommand=rdAjaxNotify&rdNotifyCommand=SetElementSize&rdWidth=' + width + '&rdHeight=' + height + '&rdElementId=' + this.id + '&rdReport=' + this.reportName + '&rdRequestForwarding=Form';
+                        } else if (this.refreshAfterResize) {
+                            requestUrl = 'rdAjaxCommand=RefreshElement&rdRefreshElementID=' + this.id + '&rdWidth=' + width + '&rdHeight=' + height + '&rdReport=' + this.reportName + '&rdResizeRequest=True&rdRequestForwarding=Form';
+                        } else if (e.notify === undefined || (e.notify == true)) {
+                            requestUrl = 'rdAjaxCommand=rdAjaxNotify&rdNotifyCommand=SetElementSize&rdWidth=' + width + '&rdHeight=' + height + '&rdElementId=' + this.id + '&rdReport=' + this.reportName + '&rdRequestForwarding=Form';
+                        }
+                        if (requestUrl !== null) {
+                            if (this.isUnderSE === "True") {
+                                requestUrl += "&rdUnderSuperElement=True";
+                            }
+                            rdAjaxRequest(requestUrl);
+                        }
                     }
                 }
             }
@@ -1317,6 +1823,240 @@ YUI.add('chartCanvas', function (Y) {
                 aLink.appendChild(imgError)
                 this.configNode.append(aLink);
             }
+        },
+
+        preProcessDrillTo: function (chartOptions) {
+            if (!chartOptions.drillTo) {
+                return;
+            }
+            this.drillTo = chartOptions.drillTo;
+
+            //show drillup button
+            //if (this.drillTo.drilledToStates && this.drillTo.drilledToStates.length > 0) {
+            //    this.chart.showdrillUpButton();
+            //    //chartOptions.exporting.buttons.drillupButton.enabled = true;
+            //    //if (!chartOptions.exporting.buttons.drillupButton.onclick) {
+            //    //    chartOptions.exporting.buttons.drillupButton.onclick = function () { this.chartCanvas.drillupClick() };
+            //    //}
+            //} else {
+            //    //chartOptions.exporting.buttons.drillupButton.enabled = false;
+            //}
+
+            //hide columns in use
+            var columnsInUse = [];
+            var i;
+            if (this.drillTo.usedColumnIndexes.length > 0) {
+                for (i = 0; i < this.drillTo.usedColumnIndexes.length; i++) {
+                    if (this.drillTo.usedColumnIndexes[i] == -1) {
+                        continue;
+                    }
+                    if (i == 0) {
+                        this.addDateGroupingIntoDrilledColumn(this.drillTo.drillToColumns[this.drillTo.usedColumnIndexes[i]].DataColumn, this.drillTo.currentDateGrouping, columnsInUse);
+                    } else {
+                        this.addDateGroupingIntoDrilledColumn(this.drillTo.drillToColumns[this.drillTo.usedColumnIndexes[i]].DataColumn, null, columnsInUse);
+                    }
+                }
+            }
+            
+            for (i = 0; i < this.drillTo.drilledToStates.length; i++) {
+                this.addDateGroupingIntoDrilledColumn(this.drillTo.drilledToStates[i].DrilledFilterColumn, this.drillTo.drilledToStates[i].DrilledFilterDateGrouping, columnsInUse);
+                this.addDateGroupingIntoDrilledColumn(this.drillTo.drilledToStates[i].DrilledColumn, this.drillTo.drilledToStates[i].DrilledColumnDateGrouping, columnsInUse);
+            }
+
+            var options = Y.all('#' + this.drillTo.popupId + ' option');
+            options.each(function (node) {
+                if (columnsInUse.indexOf(node.get('value')) != -1) {
+                    node.setAttribute('disabled', "disabled");
+                    node.setStyle('color', '#cccccc');
+                } else {
+                    node.removeAttribute('disabled');
+                    node.setStyle('color', '');
+                }
+            }, this);
+
+            var columnSelect = Y.one('#' + this.drillTo.columnDropDownId);
+            if (columnSelect) {
+                var existedEvent = columnSelect.getData('drillToAction');
+                if (existedEvent) {
+                    existedEvent.detach();
+                    existedEvent = null;
+                    columnSelect.set('value', '');
+                }
+                columnSelect.setData('drillToAction', columnSelect.on('change', function () { this.doDrillTo(columnSelect.get('value')) }, this));
+                this.highlightJoinedColumns();
+            }
+        },             
+
+        addDateGroupingIntoDrilledColumn: function (dataColumnName, dateGrouping, columnsInUse) {
+            var dataColumn = null;
+                i = 0;
+            for (; i < this.drillTo.drillToColumns.length; i++) {
+                if (this.drillTo.drillToColumns[i].DataColumn == dataColumnName) {
+                    dataColumn = this.drillTo.drillToColumns[i];
+                    break;
+                }
+            }
+
+            if (dateGrouping && dateGrouping.length > 0) {
+                if (this.drillTo.usedColumnIndexes[0] != -1 && this.drillTo.drillToColumns[this.drillTo.usedColumnIndexes[0]].DataColumn != dataColumnName) {
+                    columnsInUse.push(dataColumnName + '!timeperiod!FirstDayOfYear');
+                    columnsInUse.push(dataColumnName + '!timeperiod!FirstDayOfQuarter');
+                    columnsInUse.push(dataColumnName + '!timeperiod!FirstDayOfMonth');
+                    columnsInUse.push(dataColumnName);
+                } else {
+                    switch (dateGrouping) {
+                        case 'FirstDayOfYear':
+                            columnsInUse.push(dataColumnName + '!timeperiod!FirstDayOfYear');
+                            break;
+                        case 'FirstDayOfQuarter':
+                            columnsInUse.push(dataColumnName + '!timeperiod!FirstDayOfYear');
+                            columnsInUse.push(dataColumnName + '!timeperiod!FirstDayOfQuarter');
+                            break;
+                        case 'FirstDayOfMonth':
+                            columnsInUse.push(dataColumnName + '!timeperiod!FirstDayOfYear');
+                            columnsInUse.push(dataColumnName + '!timeperiod!FirstDayOfQuarter');
+                            columnsInUse.push(dataColumnName + '!timeperiod!FirstDayOfMonth');
+                            break;
+                    }
+                }
+            } else if (dataColumn.DataType == 'DateTime') {
+                columnsInUse.push(dataColumnName + '!timeperiod!FirstDayOfYear');
+                columnsInUse.push(dataColumnName + '!timeperiod!FirstDayOfQuarter');
+                columnsInUse.push(dataColumnName + '!timeperiod!FirstDayOfMonth');
+                columnsInUse.push(dataColumnName);
+            } else {
+                columnsInUse.push(dataColumnName);
+            }
+
+        },
+
+        drillBackClick: function () {
+            var inpName = this.id + '_' + "drillTo";
+            var inp = this.getOrCreateInputElement(inpName);
+            this.drillTo.drilledToStates.pop();
+            inp.set('value', JSON.stringify(this.drillTo.drilledToStates));
+            var requestUrl = 'rdAjaxCommand=RefreshElement&rdRefreshElementID=' + this.id + '&rdReport=' + this.reportName + '&rdRequestForwarding=Form';
+            rdAjaxRequest(requestUrl);
+        },
+
+        pointClick: function (point) {
+            if (this.drillTo.excludedPointValues && this.drillTo.excludedPointValues.length > 0) {
+                var excludedPointValues = this.drillTo.excludedPointValues;
+                var clickedValue = point.name ? point.name : point.x;
+                if (excludedPointValues.indexOf(clickedValue) != -1) {
+                    return;
+                }
+            }
+            //multiple actions available
+            //show associated popup
+            ShowElement(this.id, this.drillTo.popupId, '', '');
+            if (!this.drillTo.current) {
+                this.drillTo.current = {};
+            }
+            this.drillTo.current.DrilledFilterColumn = this.drillTo.drillToColumns[this.drillTo.usedColumnIndexes[0]].DataColumn;
+            this.drillTo.current.DrilledFilterValue = point.originalName;
+
+            var drillDataType = this.drillTo.drillToColumns[this.drillTo.usedColumnIndexes[0]].DataType;
+
+            if (!point.name && drillDataType == 'Text') {
+                this.drillTo.current.DrilledFilterValue = '';
+            } else if (drillDataType == 'DateTime' || drillDataType == 'Date') {
+                var isoDateString = new Date(this.drillTo.current.DrilledFilterValue).toISOString();
+                this.drillTo.current.DrilledFilterValue = isoDateString;
+                this.drillTo.current.DrilledFilterDateGrouping = this.drillTo.currentDateGrouping;
+            }
+        },
+
+        doDrillTo: function (dataColumn) {
+            var timePeriod = '';
+            if (dataColumn.indexOf('!timeperiod!') != -1) {
+                var splittedColumn = dataColumn.split('!timeperiod!');
+                timePeriod = splittedColumn[1];
+                dataColumn = splittedColumn[0];
+            }
+            if (dataColumn == '') {
+                this.drillTo.drilledToStates = [];
+            } else {
+                this.drillTo.current.DrilledColumn = dataColumn;
+                this.drillTo.current.DrilledColumnDateGrouping = timePeriod;
+                this.drillTo.drilledToStates.push(this.drillTo.current);
+            }
+
+            // persist types
+            for (var i = 0; i < this.drillTo.drilledToStates.length; i++) {
+                var drilledToState = this.drillTo.drilledToStates[i];
+
+                for (var j = 0; j < this.drillTo.drillToColumns.length; j++) {
+                    var drillToColumn = this.drillTo.drillToColumns[j];
+
+                    if (drillToColumn.DataColumn == drilledToState.DrilledFilterColumn) {
+                        drilledToState.DrilledFilterColumnType = drillToColumn.DataType;
+                        break;
+                    }
+                }
+            }
+
+            var inpName = this.id + '_' + "drillTo";
+            var inp = this.getOrCreateInputElement(inpName);
+            inp.set('value', JSON.stringify(this.drillTo.drilledToStates));
+            var requestUrl = 'rdAjaxCommand=RefreshElement&rdRefreshElementID=' + this.id + '&rdReport=' + this.reportName + '&rdRequestForwarding=Form';
+            rdAjaxRequest(requestUrl);
+            ShowElement(this.id, this.drillTo.popupId, 'False', 'False');
+        },
+
+        highlightJoinedColumns: function () {
+            var joinedOptgroups = Y.all('#' + this.drillTo.popupId + '  optgroup');
+            if (joinedOptgroups && joinedOptgroups.size() > 1) {
+                var i = 0;
+                for (; i < joinedOptgroups.size(); i++) {
+                    joinedOptgroups.item(i).addClass("rdAgQbColor" + ((i%6)+1))
+                }
+            }
+        },
+
+        showPopupMenu: function (e, ppId) {
+            if (e && e.point && e.point.series && e.point.series.options && e.point.series.options.selection
+                && e.point.series.options.selection.excludedPointValues && e.point.series.options.selection.excludedPointValues.length > 0
+                && e.point.series.options.selection.excludedPointValues.indexOf(e.point.name) != -1) {
+                return;
+            }
+
+            if (this.id && this.id.indexOf('_Row') != -1) {
+                var sRowNum = this.id.substring(this.id.indexOf('_Row'));
+                ppId = ppId + sRowNum;
+            }
+            this.e = e;
+            var lbl = Y.one('#' + ppId);
+            var rdDpDiv = lbl.ancestor('div.rdDashboardPanel'),
+                rdDpContainerDiv;
+            if (rdDpDiv) {
+                var rdDpContainerDiv = rdDpDiv.ancestor();
+
+                if (rdDpDiv && rdDpDiv.getAttribute('style').indexOf('position') > -1) {
+                    rdDpDiv.setStyle('position', '');
+                }
+            }
+
+            lbl.setStyle('position', 'absolute');
+
+            if (rdDpContainerDiv && rdDpContainerDiv.getAttribute("class").indexOf('freeformPanelContainer') > -1) {
+                lbl.setStyle('left', (e.chartX + 10) + 'px');
+                lbl.setStyle('top', e.chartY  + 'px');
+            } else {
+                lbl.setStyle('left', e.pageX + 'px');
+                lbl.setStyle('top', e.pageY + 'px');
+            }
+
+            lbl.setStyle('visibility', 'hidden');
+            lbl.getData('ppObject').rdShowPopupMenu(ppId, '');
+           
+        },
+
+        execPopupMnuAction: function (actionIndex) {
+            var sAction = this.e.point.series.options.events.popupMenus[actionIndex];
+            window.rdActionToFunction = new Function('e', sAction);
+            window.rdActionToFunctionArg = this.e;
+            window.setTimeout(function () { window.rdActionToFunction(window.rdActionToFunctionArg);}, 100);
         }
 
     }, {
@@ -1425,10 +2165,35 @@ YUI.add('chartCanvas', function (Y) {
                     chart.resized(e);
                 }
             });
+        },
+
+        reflowAllCharts: function () {
+            var allCharts = Y.all('.' + TRIGGER);
+            allCharts.each(function (node) {
+                chart = node.getData(TRIGGER);
+                if (chart && chart.chart && chart.chart.container) {
+                    Y.one(chart.chart.container).hide();
+                }
+            });
+
+            allCharts.each(function (node) {
+                chart = node.getData(TRIGGER);
+                if (chart) {
+                    console.log('reflow all charts');
+                    chart.responsiveResize.call(chart, chart, true);
+                }
+            });
+
+            allCharts.each(function (node) {
+                chart = node.getData(TRIGGER);
+                if (chart && chart.chart && chart.chart.container) {
+                    Y.one(chart.chart.container).show();
+                }
+            });
         }
     });
 
-}, '1.0.0', { requires: ['base', 'node', 'event', 'node-custom-destroy', 'json-parse', 'io-xdr', 'chartCanvasRangeSelection'] });
+}, '1.0.0', { requires: ['base', 'node', 'event', 'node-custom-destroy', 'json-parse', 'io-xdr', 'chartCanvasRangeSelection', 'event-resize'] });
 
 function rdGetChartCanvasObject(chartId) {
     if (!chartId || chartId == '') {

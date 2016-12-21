@@ -68,45 +68,39 @@ Formulas are evaluated through VBScript." Format="Preserve Line Feeds"/>
 						<DataLayer Type="Static" ID="dlFunctions">
 							<StaticDataRow Name="Abs" Description="Returns the absolute value of a number." Syntax="Abs(number)" Notes="The absolute value of -5 is 5."/>
 							<StaticDataRow Name="Date" Description="Returns the current date." Syntax="Date()" Notes=""/>
-							<StaticDataRow Name="DateAdd" Description="Adds or subtracts some interval of time from a date or time." Syntax="DateAdd(interval, number, date)" Notes="Interval may be:
-yyyy=year
-q=quarter
-m=month
-y=day of year
-d=day
-w=weekday
-ww=week of year
-h=hour
-n=minute
-s=second
-
-Intervals must be quoted."/>
-							<StaticDataRow Name="DateDiff" Description="Computes the difference between two dates." Syntax="DateDiff(interval, date1, date2)" Notes="Interval may be:
-yyyy=year
-q=quarter
-m=month
-y=day of year
-d=day
-w=weekday
-ww=week of year
-h=hour
-n=minute
-s=second
-
-Intervals must be quoted."/>
-							<StaticDataRow Name="DatePart" Description="Returns part of a date." Syntax="DatePart(interval, date)" Notes="Interval may be:
-yyyy=year
-q=quarter
-m=month
-y=day of year
-d=day
-w=weekday
-ww=week of year
-h=hour
-n=minute
-s=second
-
-Intervals must be quoted."/>
+							<StaticDataRow Name="DateAdd" Description="Adds or subtracts some interval of time from a date or time." Syntax="DateAdd(interval, number, date)" Notes="Interval must be one of the following quoted values:
+&quot;yyyy&quot;=year
+&quot;q&quot;=quarter
+&quot;m&quot;=month
+&quot;y&quot;=day of year
+&quot;d&quot;=day
+&quot;w&quot;=weekday
+&quot;ww&quot;=week of year
+&quot;h&quot;=hour
+&quot;n&quot;=minute
+&quot;s&quot;=second"/>
+							<StaticDataRow Name="DateDiff" Description="Computes the difference between two dates." Syntax="DateDiff(interval, date1, date2)" Notes="Interval must be one of the following quoted values:
+&quot;yyyy&quot;=year
+&quot;q&quot;=quarter
+&quot;m&quot;=month
+&quot;y&quot;=day of year
+&quot;d&quot;=day
+&quot;w&quot;=weekday
+&quot;ww&quot;=week of year
+&quot;h&quot;=hour
+&quot;n&quot;=minute
+&quot;s&quot;=second"/>
+							<StaticDataRow Name="DatePart" Description="Returns part of a date." Syntax="DatePart(interval, date)" Notes="Interval must be one of the following quoted values:
+&quot;yyyy&quot;=year
+&quot;q&quot;=quarter
+&quot;m&quot;=month
+&quot;y&quot;=day of year
+&quot;d&quot;=day
+&quot;w&quot;=weekday
+&quot;ww&quot;=week of year
+&quot;h&quot;=hour
+&quot;n&quot;=minute
+&quot;s&quot;=second"/>
 							<StaticDataRow Name="DateSerial" Description="Combines date parts together to make a date." Syntax="DateSerial(year, month, day)" Notes=""/>
 							<StaticDataRow Name="DateValue" Description="Returns a date from a date string.  The function can convert dates from many different formats." Syntax="DateValue(text)" Notes="DateValue(&quot;April 2, 1962&quot;)"/>
 							<StaticDataRow Name="Day" Description="Returns the day of the month.  Possible return values are from 1-31." Syntax="Day(date)" Notes=""/>

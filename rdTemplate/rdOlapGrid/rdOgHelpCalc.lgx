@@ -221,5 +221,4 @@ Formulas are evaluated through VBScript."/>
 			</Row>
 		</Rows>
 	</Body>
-	<ideTestParams rdAgPaging="" rdAgChartName="" rdAgChartType="" rdAgChartLabelColumn="" rdAgChartDataColumn="" rdAgCalcName="" rdAgCalcFormula="" rdAgChartXLabelColumn="" rdAgChartXDataColumn="" rdAgChartXNumberColumn="" rdAgChartYColumn="" rdAgGroupColumn="" rdAgAggrColumn="" rdAgChartYAggr="" rdAgChartYAggrList="" rdAgCrosstabHeaderColumn="" rdAgCrosstabLabelColumn="" rdAgCrosstabAggrColumn="" rdAgCrosstabAggrFunction="" rdAgFilterColumn="" rdAgFilterOperator="" rdAgFilterValue="" rdAgCalcDataTypes="" rdAgCalcFormats="" rdAgStyleSheet="Og.css" rdOgStyleSheet=""/>
 </Report>

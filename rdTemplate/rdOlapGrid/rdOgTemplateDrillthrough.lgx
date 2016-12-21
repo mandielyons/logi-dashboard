@@ -32,14 +32,14 @@
 							<Row ID="rowExport">
 								<Column Width="20"/>
 								<Column>
-									<Label Caption="Export: " ID="lblExport"/>
+									<Label Caption="" ID="lblExport"/>
 								</Column>
 								<Column>
-									<Label Caption="Excel" ID="lblExportExcel" Class="rdOgCommand">
+									<Image ID="lblExportExcel" Caption="rdTemplate/rdExport.png" Tooltip="Export to Excel">
 										<Action Type="NativeExcel">
 											<Target Type="NativeExcel" ExportDataTableID="dtDrillthrough"/>
 										</Action>
-									</Label>
+									</Image>
 								</Column>
 							</Row>
 						</Rows>

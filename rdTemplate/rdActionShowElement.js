@@ -1,6 +1,13 @@
 var rdParentPopupPanel;    // Variable to hold the parent PopUp object. Used in case of a Calendar and AddBookmark.
 
 function ShowElement(sParentId,sElementId,sAction,sEffect) {
+
+    var rdSaveASNewHiddenInput = Y.one('#rdSaveASNew');
+
+    if (rdSaveASNewHiddenInput) {
+        rdSaveASNewHiddenInput.set('value', '');
+    }
+
     if(sElementId == null) return;
     if(sElementId.tagName) {
         // sElementId is actually an element object.
@@ -54,22 +61,24 @@ function ShowElement(sParentId,sElementId,sAction,sEffect) {
                     if (sElementId.indexOf('ppAddToDashboardPrompt_')==0) {
                         //Get the suggested dashboard panel's caption from the AG or AC panel's heading.
                         if (sAction.toLowerCase() != 'hide') {
-                            var eleAction = document.getElementById(sElementId.replace('ppAddToDashboardPrompt_', ''));
-                            var eleActionParent = eleAction.parentNode;
-                            var sHeadingID = eleActionParent.id;
-                            sHeadingID = sHeadingID.replace('colAnalChartAddDashboard_', 'lblHeadingAnalChart_');  //AG Chart
-                            sHeadingID = sHeadingID.replace('colAnalCrosstabAddDashboard_', 'lblHeadingAnalCrosstab_');  //AG Crosstab
-                            sHeadingID = sHeadingID.replace('colTableAddDashboard', 'lblHeadingTable');  //AG Table
-                            sHeadingID = sHeadingID.replace('divAddToDashboardPanel_', 'lblHeadingAnalChart_');  //AC Chart
-                            if (sHeadingID.indexOf("lblHeading") != -1) {  //Test for AG.
-                                var eleHeading = document.getElementById(sHeadingID);
-                                if (eleHeading) {
-                                    var sTitle = eleHeading.innerHTML;
-                                    var sInputTitleID = sElementId.replace('ppAddToDashboardPrompt_', 'rdPanelTitle_');
-                                    var eleInputTitle = document.getElementById(sInputTitleID);
-                                    eleInputTitle.value = sTitle;
+                            var eleAction = document.getElementById(sElementId.replace('ppAddToDashboardPrompt_', ''));                            
+                            if (eleAction) {   //25650 - when under another popup panel.
+                                var eleActionParent = eleAction.parentNode;
+                                var sHeadingID = eleActionParent.id;
+                                sHeadingID = sHeadingID.replace('colAnalChartAddDashboard_', 'lblHeadingAnalChart_');  //AG Chart
+                                sHeadingID = sHeadingID.replace('colAnalCrosstabAddDashboard_', 'lblHeadingAnalCrosstab_');  //AG Crosstab
+                                sHeadingID = sHeadingID.replace('colAddToDashboardDataTable', 'lblHeadingTable');  //AG Table
+                                sHeadingID = sHeadingID.replace('divAddToDashboardPanel_', 'lblHeadingAnalChart_');  //Dashbboard
+                                if (sHeadingID.indexOf("lblHeading") != -1) {  //Test for AG.
+                                    var eleHeading = document.getElementById(sHeadingID);
+                                    if (eleHeading) {
+                                        var sTitle = eleHeading.innerHTML;
+                                        var sInputTitleID = sElementId.replace('ppAddToDashboardPrompt_', 'rdPanelTitle_');
+                                        var eleInputTitle = document.getElementById(sInputTitleID);
+                                        eleInputTitle.value = sTitle;
+                                    }
                                 }
-                            }
+                            }                            
                         }
                     }else if(!sElementId.match('PPDatePickerForInputDate') && !sElementId.match('PPTimePickerForInputTime')){
                         if(c.getAttribute('rdPopupPanel') == 'True') 
@@ -133,6 +142,35 @@ function ShowElement(sParentId,sElementId,sAction,sEffect) {
 		//Move CellColorSliders, if there are any.
 		rdRepositionSliders()
 	}
+}
+
+function rdShowPopup(sPopupId, sTitle, sContent) {
+    var popup = document.getElementById(sPopupId);
+
+    if (!popup)
+        return;
+
+    if (sTitle) {
+        var titleSpans = popup.getElementsByClassName("rdPopupPanelTitleCaption");
+
+        if (titleSpans && titleSpans.length) {
+            titleSpans[0].innerText = sTitle;
+        }
+    }
+
+    if (sContent) {
+        var contentTrs = popup.getElementsByClassName("rdPopupContent");
+
+        if (contentTrs && contentTrs.length) {
+            var contentSpans = contentTrs[0].getElementsByTagName("SPAN");
+
+            if (contentSpans && contentSpans.length) {
+                contentSpans[0].innerText = sContent;
+            }
+        }
+    }
+
+    ShowElement(null, sPopupId, "Show", null);
 }
 
 function rdShowSingleElement(c,sAction,sId,sEffect) {
@@ -217,11 +255,11 @@ function _rdShowSingleElement(c,sAction,sId,sEffect) {
 			if (LogiXML.isNodeVisible(nodeFrame)) {						
 				var sSrc = nodeFrame.getData("hiddensource");
 				if (Y.Lang.isValue(sSrc) 
-				&& (nodeFrame.getDOMNode().getAttribute("src") != sSrc)) {
+				&& rdIFrameChanged(nodeFrame, sSrc)) {
 					if (Y.Lang.isValue(LogiXML.WaitPanel.pageWaitPanel))
 							LogiXML.WaitPanel.pageWaitPanel.showFrameWait(nodeFrame);
-							
-					nodeFrame.set('src', sSrc + '&rdRnd=' + Math.floor(Math.random() * 100000));				
+					
+					rdPostToIFrame(nodeFrame, sSrc);
 				}				 				
 			}
 		});
@@ -259,22 +297,123 @@ function _rdShowSingleElement(c,sAction,sId,sEffect) {
 	}
 
 	//More special IFrame handling.  If this page is in a frame,
-	//the frame needs to be resized from the parent window.
-	try {
-	    if (frameElement) {
-		    if (frameElement.contentWindow) {
-			    if (parent.iframeResize) {
-			        if(c.style.display == 'none'){
-			            parent.iframeResize(frameElement, "OptionalParam")  //#12347.
-			        }else{
-			            parent.iframeResize(frameElement)
-			        }				    
-			    }
-		    }
-	    }
-    }
-    catch(e){}
+    //the frame needs to be resized from the parent window.
+	if (c.style.display == 'none')
+	    rdResizeCurrentIFrame("OptionalParam");
+	else
+	    rdResizeCurrentIFrame();
+}
 
+function rdPostToIFrame(nodeFrame, sSrc) {
+    var iFrameName = nodeFrame.getAttribute("name");
+
+    var forms = document.getElementsByTagName("form");
+    var form = null;
+
+    for (var i = 0; i < forms.length; i++) {
+        form = forms[i];
+
+        if (form.target == iFrameName)
+            break;
+
+        form = null;
+    }
+
+    if (!form) {
+        form = document.createElement("form");
+        form.target = iFrameName;
+        document.body.appendChild(form);
+    }
+    else
+        form.innerHTML = "";
+
+    form.method = "post";
+
+    var i = sSrc.indexOf("?");
+
+    if (i > 0) {
+        form.action = sSrc.substr(0, i);
+
+        var qParams = rdAjaxGetUrlParameters(sSrc);
+
+        if (qParams && qParams.length) {
+            for (i = 0; i < qParams.length; i++) {
+                var kvp = qParams[i];
+
+                var input = document.createElement("input");
+                input.type = "hidden";
+                input.name = kvp.name;
+                input.value = kvp.value;
+
+                form.appendChild(input);
+            }
+        }
+    }
+    else
+        form.action = sSrc;
+
+    setTimeout(function () {
+        form.submit();
+    }, 1);
+}
+
+function rdIFrameChanged(nodeFrame, sSrc) {
+    var iFrameName = nodeFrame.getAttribute("name");
+
+    var forms = document.getElementsByTagName("form");
+    var form = null;
+
+    for (var i = 0; i < forms.length; i++) {
+        form = forms[i];
+
+        if (form.target == iFrameName)
+            break;
+
+        form = null;
+    }
+
+    if (!form)
+        return true;
+
+    if (form.method != "post")
+        return true;
+
+    var i = sSrc.indexOf("?");
+    var inputs = form.getElementsByTagName("input");
+
+    if (i >= 0 && i < (sSrc.length - 1)) {
+        var qsParms = sSrc.substr(i + 1).split("&");
+
+        if (qsParms.length != inputs.length)
+            return true;
+
+        for (var j = 0; j < qsParms.length; j++) {
+            var qsParm = qsParms[j];
+
+            var kvp = qsParm.split("=");
+
+            var found = false;
+
+            for (var k = 0; k < inputs.length; k++) {
+                var input = inputs[k];
+
+                if (input.name == kvp[0]) {
+                    if (input.value != decodeURIComponent(kvp[1]))
+                        return true;
+
+                    found = true;
+                    break;
+                }
+            }
+
+            if (!found)
+                return true;
+        }
+    }
+    else if (inputs.length)
+        return true;
+
+    return false;
 }
 
 function rdShowElementsFromHistory() {
@@ -283,7 +422,11 @@ function rdShowElementsFromHistory() {
 		var sHistory = hiddenShowElementHistory.value
 		var sEvents = sHistory.split(",")
 		for (var i=0; i < sEvents.length; i++) {
-			var sElementID = sEvents[i].split("=")[0]
+		    var sElementID = sEvents[i].split("=")[0];
+
+		    if (!sElementID)
+		        continue;
+
 			var sAction = sEvents[i].split("=")[1]
 			if (document.getElementById(sElementID)) {
 			    if (document.getElementById(sElementID).className.indexOf("rdDataCalendarPopUp") == -1) {

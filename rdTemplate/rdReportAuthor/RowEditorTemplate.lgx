@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Report ID="ReportAuthorDev.Templates.RowEditorTemplate" SavedBy="FELIPE-SURFACE\fblanco" SavedAt="9/22/2014 1:03:05 AM" EngineVersion="11.4.002-T">
+<Report ID="ReportAuthorDev.Templates.RowEditorTemplate">
   <StyleSheet StyleSheet="rdTemplate/rdReportAuthor/reportauthor.css" />
   <Body>
     <DraggableDivision HtmlDiv="True" ID="RowEditorTemplate" rdReportAuthorEditorFor="Row" Class="rd-element-editor" DragHandlerElementID="imgDragHandler_rdElementID">
