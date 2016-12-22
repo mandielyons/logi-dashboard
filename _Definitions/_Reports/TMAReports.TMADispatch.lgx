@@ -47,7 +47,8 @@
 ,REMAINING_BU
 FROM Agtrax_Staging..DM_OpenContracts
 WHERE CONTRACT_TYPE=2
-  AND (BRANCH_NUMBER IN(@Request.Branch~) OR &apos;@Request.Branch~&apos;=&apos;0&apos;)"
+  AND (BRANCH_NUMBER IN(@Request.Branch~) OR &apos;@Request.Branch~&apos;=&apos;0&apos;)
+"
 			Type="SQL"
 			>
 			<DataLayerLink
@@ -89,6 +90,9 @@ WHERE CONTRACT_TYPE=2
 								<Label
 									Caption="Use CRTL+click to select multiple values"
 									Class="ThemeTextSmall"
+								/>
+								<Note
+									Note="**All branches are shown here. Security is set for TMA Dashboard and MKC Dashboard.**"
 								/>
 								<InputSelectList
 									Caption="Locations:"
@@ -145,10 +149,10 @@ ORDER BY BRANCH_NAME"
 									</DataLayer>
 									<EventHandler
 										DhtmlEvent="onchange"
-										ID="evtOnChange"
+										ID="evtOnChangeBranch"
 										>
 										<Action
-											ElementID="TMAContracts"
+											ElementID="ALLContracts"
 											ID="actRefreshReport"
 											Type="RefreshElement"
 											>
@@ -156,11 +160,14 @@ ORDER BY BRANCH_NAME"
 										</Action>
 									</EventHandler>
 								</InputSelectList>
+								<Note
+									Note="**OC branches show here. Security set to OC.**"
+								/>
 								<InputSelectList
 									Caption="Locations:"
 									DefaultValue="@Request.Branch~"
 									GroupCaptionColumn="REGION"
-									ID="OC_Branch"
+									ID="Branch"
 									InputRows="12"
 									MultiSelect="True"
 									OptionCaptionColumn="BRANCH_NAME"
@@ -215,7 +222,7 @@ ORDER BY BRANCH_NAME"
 									</DataLayer>
 									<EventHandler
 										DhtmlEvent="onchange"
-										ID="evtOnChange"
+										ID="evtOnChangeOCBranch"
 										>
 										<Action
 											ElementID="TMAContracts"
@@ -226,48 +233,9 @@ ORDER BY BRANCH_NAME"
 										</Action>
 									</EventHandler>
 								</InputSelectList>
-								<Remark>
-									<InputSelectList
-										Caption="Locations:"
-										DefaultValue="@Request.Branch~"
-										ID="Branch"
-										IncludeBlank="True"
-										IncludeBlankCaption="All Locations"
-										IncludeBlankValue="0"
-										InputRows="12"
-										MultiSelect="True"
-										OptionCaptionColumn="BRANCH_LIST"
-										OptionValueColumn="BRANCH_NUMBER"
-										>
-										<DataLayer
-											ConnectionID="connProdGP"
-											ID="sqlBranchList"
-											Source="SELECT DISTINCT CAST(BRANCH_NUMBER AS VARCHAR(20))+&apos; - &apos;+BRANCH_DESC BRANCH_LIST,BRANCH_NUMBER,BRANCH_DESC
-FROM Agtrax_Staging..DM_OpenContracts
-WHERE CONTRACT_TYPE=2
-ORDER BY BRANCH_DESC
-"
-											Type="SQL"
-										/>
-									</InputSelectList>
-								</Remark>
 								<LineBreak
 									LineCount="1"
 								/>
-								<Remark>
-									<Button
-										Caption="Update Report"
-										ID="buttonLocations"
-										>
-										<Action
-											ElementID="TMAContracts"
-											ID="actRefresh"
-											Type="RefreshElement"
-											>
-											<WaitPage/>
-										</Action>
-									</Button>
-								</Remark>
 								<Button
 									Caption="Reset"
 									ID="btnReset"
@@ -323,10 +291,13 @@ ORDER BY BRANCH_DESC
 								Class="ThemeTextSmall"
 								>
 								<DataTable
+									AjaxPaging="True"
+									AltRowClass="ThemeAlternatingRow"
 									Caption="TMA Branch Dispatch Details"
-									ID="TMAContracts"
+									ID="ALLContracts"
 									Layout="Fixed"
 									RememberSort="True"
+									SecurityRightID="TMA Dashboard,MKC Dashboard"
 									SortArrows="True"
 									>
 									<InteractivePaging
@@ -366,6 +337,320 @@ ORDER BY BRANCH_DESC
 												Type="Linked"
 											/>
 										</Join>
+									</DataLayer>
+									<DataTableColumn
+										Header="Type"
+										ID="colSHPMTTYP_CODE"
+										Width="5"
+										WidthScale="%"
+										>
+										<Label
+											Caption="@Data.SHPMTTYP_CODE~"
+											ID="lblSHPMTTYP_CODE"
+										/>
+										<DataColumnSort
+											DataColumn="SHPMTTYP_CODE"
+											DataType="Number"
+										/>
+									</DataTableColumn>
+									<DataTableColumn
+										Header="Account"
+										ID="colAccount"
+										Width="12"
+										WidthScale="%"
+										>
+										<Label
+											Caption="@Data.Account~"
+											ID="lblAccount"
+										/>
+										<DataColumnSort
+											DataColumn="SHPMTTYP_CODE"
+											DataType="Number"
+										/>
+									</DataTableColumn>
+									<DataTableColumn
+										Header="Contract"
+										ID="colCONTRACT_NUMBER"
+										Width="8"
+										WidthScale="%"
+										>
+										<Label
+											Caption="@Data.CONTRACT_NUMBER~"
+											ID="lblCONTRACT_NUMBER"
+										/>
+										<DataColumnSort
+											DataColumn="CONTRACT_NUMBER"
+											DataType="Number"
+										/>
+									</DataTableColumn>
+									<Remark>
+										<DataTableColumn
+											Header="Account Contract"
+											ID="colTHEIR_CONTRACT_NUMBER"
+											>
+											<Label
+												Caption="@Data.THEIR_CONTRACT_NUMBER~"
+												ID="lblTHEIR_CONTRACT_NUMBER"
+											/>
+											<DataColumnSort
+												DataColumn="THEIR_CONTRACT_NUMBER"
+												DataType="Text"
+											/>
+										</DataTableColumn>
+									</Remark>
+									<DataTableColumn
+										Header="Commodity"
+										ID="colCommodity"
+										Width="8"
+										WidthScale="%"
+										>
+										<Label
+											Caption="@Data.Commodity~"
+											ID="lblCommodity"
+										/>
+										<DataColumnSort
+											DataColumn="SHPMTTYP_CODE"
+											DataType="Number"
+										/>
+									</DataTableColumn>
+									<DataTableColumn
+										Header="Location"
+										ID="colLocation"
+										Width="12"
+										WidthScale="%"
+										>
+										<Label
+											Caption="@Data.Location~"
+											ID="lblLocation"
+										/>
+										<DataColumnSort
+											DataColumn="SHPMTTYP_CODE"
+											DataType="Number"
+										/>
+									</DataTableColumn>
+									<DataTableColumn
+										Header="Delivery Start/End"
+										ID="colDELIVERY_START_END"
+										Width="8"
+										WidthScale="%"
+										>
+										<Label
+											Caption="@Data.DELIVERY_START_DATE~"
+											Format="Short Date"
+											ID="lblDELIVERY_START_DATE"
+										/>
+										<LineBreak/>
+										<Label
+											Caption="@Data.DELIVERY_END_DATE~"
+											Format="Short Date"
+											ID="lblDELIVERY_END_DATE"
+										/>
+										<DataColumnSort
+											DataColumn="DELIVERY_START_DATE"
+											DataType="Date"
+										/>
+									</DataTableColumn>
+									<Remark>
+										<DataTableColumn
+											Header="Delivery Start/End"
+											ID="colDELIVERY_END_DATE"
+											>
+											<Label
+												Caption="@Data.DELIVERY_END_DATE~"
+												Format="Short Date"
+												ID="lblDELIVERY_END_DATE"
+											/>
+											<DataColumnSort
+												DataColumn="DELIVERY_END_DATE"
+												DataType="Date"
+											/>
+										</DataTableColumn>
+									</Remark>
+									<DataTableColumn
+										Class="ThemeMargin, ThemeAlignRight"
+										ColumnHeaderClass="ThemeAlignCenter"
+										Header="Remaining BU"
+										ID="colREMAINING_BU"
+										Width="8"
+										WidthScale="%"
+										>
+										<Label
+											Caption="@Data.REMAINING_BU~"
+											Format="###,###,##0.00"
+											ID="lblREMAINING_BU"
+										/>
+										<DataColumnSort
+											DataColumn="REMAINING_BU"
+											DataType="Number"
+										/>
+										<DataColumnSummary
+											DataColumn="REMAINING_BU"
+											DataType="Number"
+											Function="Sum"
+											ID="dcsRemainingBU"
+										/>
+									</DataTableColumn>
+									<DataTableColumn
+										Class="ThemeAlignCenter"
+										Header="Dest Code"
+										ID="colDEST_CODE"
+										Width="5"
+										WidthScale="%"
+										>
+										<Label
+											Caption="@Data.DEST_CODE~"
+											ID="lblDEST_CODE"
+										/>
+										<DataColumnSort
+											DataColumn="DEST_CODE"
+											DataType="Number"
+										/>
+									</DataTableColumn>
+									<DataTableColumn
+										Header="Shipper Description"
+										ID="colSHIPR_DESC"
+										Width="10"
+										WidthScale="%"
+										>
+										<Label
+											Caption="@Data.SHIPR_DESC~"
+											ID="lblSHIPR_DESC"
+										/>
+										<DataColumnSort
+											DataColumn="SHIPR_DESC"
+											DataType="Text"
+										/>
+									</DataTableColumn>
+									<DataTableColumn
+										Header="Shipper Number Trucks"
+										ID="colSHIPR_NUMTRCS"
+										Width="8"
+										WidthScale="%"
+										>
+										<Label
+											Caption="@Data.SHIPR_NUMTRCS~"
+											ID="lblSHIPR_NUMTRCS"
+										/>
+									</DataTableColumn>
+									<DataTableColumn
+										Header="Shipper Load Description"
+										ID="colSHIPR_LDDESC"
+										Width="8"
+										WidthScale="%"
+										>
+										<Label
+											Caption="@Data.SHIPR_LDDESC~"
+											ID="lblSHIPR_LDDESC"
+										/>
+									</DataTableColumn>
+									<Remark>
+										<DataTableColumn
+											Header="Rate"
+											ID="colSHIPR_RATE"
+											>
+											<Label
+												Caption="@Data.SHIPR_RATE~"
+												ID="lblSHIPR_RATE"
+											/>
+										</DataTableColumn>
+									</Remark>
+									<Remark>
+										<DataTableColumn
+											Header="PAR"
+											ID="colSHIPR_PAR"
+											>
+											<Label
+												Caption="@Data.SHIPR_PAR~"
+												ID="lblSHIPR_PAR"
+											/>
+										</DataTableColumn>
+									</Remark>
+									<DataTableColumn
+										Header="Notes"
+										ID="colTMANOTES"
+										>
+										<Label
+											Caption="@Data.TMANOTES~"
+											ID="lblTMANOTES"
+										/>
+									</DataTableColumn>
+									<SummaryRow
+										Caption="Total: "
+										ID="srSummary"
+										LastPageOnly="False"
+									/>
+								</DataTable>
+								<DataTable
+									AjaxPaging="True"
+									AltRowClass="ThemeAlternatingRow"
+									Caption="TMA Branch Dispatch Details"
+									ID="TMAContracts"
+									Layout="Fixed"
+									RememberSort="True"
+									SecurityRightID="OC"
+									SortArrows="True"
+									>
+									<InteractivePaging
+										CaptionType="Image"
+										Class="ThemeTextSmall"
+										Location="Top"
+										PageNrCaption=" "
+										PageRowCount="12"
+										ShowPageNumber="True"
+									/>
+									<DataLayer
+										ID="dlsqlTMAContracts"
+										LinkedDataLayerID="sqlTMAContracts"
+										Type="Linked"
+										>
+										<Join
+											ID="joinSqlToXl"
+											JoinType="LeftOuterJoin"
+											SortLeftSide="True"
+											SortRightSide="True"
+											>
+											<MatchCondition
+												DataType="Number"
+												ID="joinCustomer"
+												LeftDataColumn="jCUSTOMER"
+												RightDataColumn="CUSTOMER"
+											/>
+											<MatchCondition
+												DataType="Number"
+												ID="joinContract"
+												LeftDataColumn="jCONTRACT_NUMBER"
+												RightDataColumn="CONTRACT_NUMBER"
+											/>
+											<DataLayer
+												ID="dlxlTmaCntrtShipr"
+												LinkedDataLayerID="xlTmaCntrtShipr"
+												Type="Linked"
+											/>
+										</Join>
+										<Join
+											ID="joinSqlToExcelBranch"
+											JoinType="LeftOuterJoin"
+											SortLeftSide="True"
+											SortRightSide="True"
+											>
+											<DataLayer
+												ColumnNamesRow="1"
+												ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\LocationData.xlsx"
+												ExcelWorksheet="TMALocations"
+												ID="excelTMALocations"
+												Type="Excel"
+											/>
+											<MatchCondition
+												DataType="Number"
+												ID="matchBRANCH_NUMBER"
+												LeftDataColumn="BRANCH_NUMBER"
+												RightDataColumn="BRANCH_NUMBER"
+											/>
+										</Join>
+										<ConditionFilter
+											Condition="&quot;@Data.REGION~&quot; &lt;&gt; &quot;MKC&quot;"
+											ID="ifOCBranch"
+										/>
 									</DataLayer>
 									<DataTableColumn
 										Header="Type"
