@@ -47,7 +47,8 @@
 ,REMAINING_BU
 FROM Agtrax_Staging..DM_OpenContracts
 WHERE CONTRACT_TYPE=2
-  AND (BRANCH_NUMBER IN(@Request.Branch~) OR &apos;@Request.Branch~&apos;=&apos;0&apos;)"
+  AND (BRANCH_NUMBER IN(@Request.Branch~) OR &apos;@Request.Branch~&apos;=&apos;0&apos;)
+"
 			Type="SQL"
 			>
 			<DataLayerLink
@@ -290,6 +291,8 @@ ORDER BY BRANCH_NAME"
 								Class="ThemeTextSmall"
 								>
 								<DataTable
+									AjaxPaging="True"
+									AltRowClass="ThemeAlternatingRow"
 									Caption="TMA Branch Dispatch Details"
 									ID="ALLContracts"
 									Layout="Fixed"
@@ -578,6 +581,8 @@ ORDER BY BRANCH_NAME"
 									/>
 								</DataTable>
 								<DataTable
+									AjaxPaging="True"
+									AltRowClass="ThemeAlternatingRow"
 									Caption="TMA Branch Dispatch Details"
 									ID="TMAContracts"
 									Layout="Fixed"
