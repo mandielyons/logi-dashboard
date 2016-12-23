@@ -483,10 +483,10 @@
 										/>
 									</Division>
 								</Remark>
-								<Remark>
+								
 									<Division
 										ID="maps-container"
-										SecurityRightID="MKC"
+										SecurityRightID="TMA Dashboard,MKC Dashboard"
 										>
 										<Division
 											Class="dropdown"
@@ -570,7 +570,7 @@
 											ID="pipe-spacer"
 										/>
 									</Division>
-								</Remark>
+								
 								<Division
 									ID="tma-apps-container"
 									SecurityRightID="TMA Dashboard,MKC Dashboard"
