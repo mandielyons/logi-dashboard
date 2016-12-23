@@ -11,45 +11,6 @@
   &lt;script src=&quot;https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js&quot;&gt;&lt;/script&gt;
   &lt;script src=&quot;http://smtpjs.com/smtp.js&quot;&gt;&lt;/script&gt;
 
-  &lt;style&gt;
-  /* Popover */
-  .popover {
-      border: 2px dotted red;
-	  position: fixed;
-  }
-  /* Popover Header */
-  .popover-title {
-      background-color: #73AD21;
-      color: dark grey;
-      font-size: 14px;
-	  font-weight: bold;
-  }
-  /* Popover Body */
-  .popover-content {
-      background-color: #73AD21;
-      color: #FFFFFF;
-  }
-  /* Popover Arrow */
-  .arrow {
-      border-right-color: coral !important;
-  }
-  /* Wish Div */
-  .wish-div {
-  	position: relative;
-  }
-	.mac-style {
-		width: 180px;
-		-webkit-transition: width 1s ease-in-out;
-		-moz-transition:width 1s ease-in-out;
-		-o-transition: width 1s ease-in-out;
-		transition: width 1s ease-in-out;
-	}
-	
-	.mac-style:focus{
-		width: 300px;
-	}
-  &lt;/style&gt;
-
 "
 		/>
 		<Division
@@ -57,6 +18,10 @@
 			ID="Header"
 			ShowModes="rdBrowser"
 			>
+			<InputHidden
+				DefaultValue="@Request.StatusMsg~"
+				ID="iptStatus"
+			/>
 			<Division
 				HtmlDiv="True"
 				ID="Header-inner"
@@ -957,6 +922,7 @@
 			ID="pnlWish"
 			PopupModal="True"
 			PopupPanelLocation="Center"
+			ShowOnPageLoad="False"
 			Width="300px"
 			>
 			<Division
@@ -1046,11 +1012,84 @@ else {
 										>
 										<LinkParams
 											Report="@Request.rdReport~"
-											User="@Request.rdUserName~"
+											User="@Function.UserName~"
 											Wish="@Input.iptWish~"
 										/>
 										<WaitPage/>
 									</Action>
+								</Button>
+							</Column>
+						</Row>
+					</Rows>
+				</Division>
+			</Division>
+		</PopupPanel>
+		<PopupPanel
+			Draggable="False"
+			Height="250px"
+			ID="pnlThanks"
+			PopupModal="True"
+			PopupPanelLocation="Center"
+			ShowOnPageLoad="False"
+			Width="300px"
+			>
+			<Division
+				Class="panel panel-default"
+				HtmlDiv="True"
+				ID="divThanks"
+				>
+				<Division
+					Class="panel-heading"
+					HtmlDiv="True"
+					ID="divThanksHeader"
+					>
+					<Label
+						Caption="Make A Wish"
+					/>
+				</Division>
+				<Division
+					Class="panel-body"
+					HtmlDiv="True"
+					ID="divThanksBody"
+					>
+					<Rows>
+						<Row>
+							<Column
+								ColSpan="2"
+								>
+								<Label
+									Caption="Thank you for your wish!"
+								/>
+								<Label
+									Caption=" We appreciate your ideas. "
+								/>
+								<LineBreak/>
+								<Label
+									Caption="We want you to know that we take all of your wishes into consideration! "
+								/>
+								<LineBreak/>
+								<LineBreak/>
+							</Column>
+						</Row>
+						<Row>
+							<Column/>
+							<Column
+								Class="ThemeAlignRight"
+								>
+								<Spaces
+									Size="2"
+								/>
+								<Button
+									Caption="Close"
+									Class="btn btn-default"
+									ID="btnClose"
+									>
+									<Action
+										Display="Hide"
+										ElementID="pnlThanks"
+										ID="hidePopup"
+										Type="ShowElement"
+									/>
 								</Button>
 							</Column>
 						</Row>
@@ -1116,6 +1155,18 @@ else {
 												Type="ShowElement"
 											/>
 										</Button>
+										<Button
+											Caption="Thanks"
+											Class="ThemeHidden"
+											ID="btnThanks"
+											>
+											<Action
+												Display="Show"
+												ElementID="pnlThanks"
+												ID="showPopup"
+												Type="ShowElement"
+											/>
+										</Button>
 									</Column>
 								</Row>
 							</Rows>
@@ -1124,8 +1175,23 @@ else {
 				</ResponsiveRow>
 			</Division>
 		</Division>
+		<IncludeScript
+			IncludedScript="
+$(document).ready(function() {
+	var str = document.getElementById(&quot;iptStatus&quot;).value;
+	var n = str.search(&quot;alert&quot;);
+	
+	if (n &gt; -1) {
+		$(&quot;#btnThanks&quot;).click();
+		document.getElementById(&quot;iptStatus&quot;).value = &quot;&quot;;
+	}
+	else {
+		$(&quot;#btnClose&quot;).click();	
+	}
+ });"
+		/>
 	</SharedElement>
 	<ideTestParams
-		rdUserName=""
+		StatusMsg=""
 	/>
 </Report>

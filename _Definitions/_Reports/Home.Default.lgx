@@ -3,6 +3,7 @@
 	ID="Home.Default"
 	SecurityReportRightID="MKC Dashboard,TMA Dashboard,OC"
 	>
+	<SetSessionVariables/>
 	<IncludeSharedElement
 		DefinitionFile="_Layout.Shared"
 		SharedElementID="shrHeader"
