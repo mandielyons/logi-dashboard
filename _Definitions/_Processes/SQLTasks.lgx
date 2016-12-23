@@ -408,6 +408,9 @@ Thanks!"
 					>
 					<WaitPage/>
 				</Target>
+				<LinkParams
+					StatusMsg="alert"
+				/>
 			</Response>
 		</Procedure>
 		<Response
@@ -419,6 +422,9 @@ Thanks!"
 				>
 				<WaitPage/>
 			</Target>
+			<LinkParams
+				StatusMsg="alert"
+			/>
 		</Response>
 	</Task>
 	<ideTestParams
