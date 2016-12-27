@@ -99,7 +99,7 @@
 									HideForMediumScreen="True"
 									HideForSmallScreen="True"
 								/>
-								<Division
+								<Remark><Division
 									Condition=""
 									ID="title"
 									>
@@ -116,7 +116,7 @@
 										/>
 									
 									<LineBreak/>
-								</Division>
+								</Division></Remark>
 							</Division>
 						</Division>
 						<Division
