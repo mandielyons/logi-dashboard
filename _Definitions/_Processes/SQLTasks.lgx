@@ -260,7 +260,7 @@ WHERE EMAIL = &apos;@Request.iptEmail~&apos;"
 Thank you!&lt;br&gt;
 &lt;a href=&quot;http://info.tmagrain.com&quot;&gt;info.tmagrain.com&lt;/a&gt;
 "
-						EmailBodyType="PlainText"
+						EmailBodyType="HTML"
 						EmailSubject="TMA Dashboard Password Reset"
 						FromEmailAddress="noreply-support@tmagrain.com"
 						ID="sendResetEmail"
@@ -345,12 +345,9 @@ Thank you!&lt;br&gt;
 		<Procedure
 			ConnectionID="connSMTP"
 			EmailBody="Sent from Report: @Request.Report~
-&lt;br&gt;
 From User: @Request.User~
-&lt;br&gt;
 I wish this page would:
 @Request.iptWish~
-&lt;br&gt;
 Processed: @Function.DateTime~"
 			EmailBodyType="PlainText"
 			EmailSubject="Dashboard Wish"
