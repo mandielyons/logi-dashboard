@@ -1123,12 +1123,12 @@ else {
 					>
 					<ResponsiveColumn>
 						<Label
-							Caption="© Copyright 2015 - MKC. Shared growth. Shared success. All rights reserved."
+							Caption="© Copyright 2016-2017 MKC. Shared growth. Shared success. All rights reserved. V1.1.12.27.2016."
 							Format="HTML"
 							SecurityRightID="MKC Dashboard"
 						/>
 						<Label
-							Caption="© Copyright 2015 - Team Marketing Alliance. All rights reserved."
+							Caption="© Copyright 2016-2017 Team Marketing Alliance. All rights reserved. V1.1.12.27.2016."
 							Format="HTML"
 							SecurityRightID="TMA Dashboard,OC"
 						/>
@@ -1180,13 +1180,20 @@ else {
 $(document).ready(function() {
 	var str = document.getElementById(&quot;iptStatus&quot;).value;
 	var n = str.search(&quot;alert&quot;);
+	var x = str.search(&quot;timed&quot;);
 	
-	if (n &gt; -1) {
-		$(&quot;#btnThanks&quot;).click();
-		document.getElementById(&quot;iptStatus&quot;).value = &quot;&quot;;
+	if (x &gt; -1) {
+		alert(&quot;Your request timed out. Please try again later.&quot;);
 	}
 	else {
-		$(&quot;#btnClose&quot;).click();	
+	
+		if (n &gt; -1) {
+			$(&quot;#btnThanks&quot;).click();
+			document.getElementById(&quot;iptStatus&quot;).value = &quot;&quot;;
+		}
+		else {
+			$(&quot;#btnClose&quot;).click();	
+		}
 	}
  });"
 		/>
