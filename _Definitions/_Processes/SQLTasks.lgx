@@ -345,11 +345,14 @@ Thank you!&lt;br&gt;
 		<Procedure
 			ConnectionID="connSMTP"
 			EmailBody="Sent from Report: @Request.Report~
+&lt;br&gt;
 From User: @Request.User~
+&lt;br&gt;
 I wish this page would:
 @Request.iptWish~
+&lt;br&gt;
 Processed: @Function.DateTime~"
-			EmailBodyType="PlainText"
+			EmailBodyType="HTML"
 			EmailSubject="Dashboard Wish"
 			FromEmailAddress="noreply-support@tmagrain.com"
 			ID="sendWishEmail"
