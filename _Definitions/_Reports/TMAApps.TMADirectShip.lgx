@@ -125,6 +125,7 @@
 						<LineBreak/>
 						<Label
 							Caption="@Request.StatusMsg~"
+							Class="ThemeHidden"
 							ID="lblStatus"
 							>
 							<ConditionalClass
@@ -132,7 +133,7 @@
 								Condition="InStr(&quot;@Request.StatusMsg~&quot;,&quot;Error:&quot;) &gt; 0"
 							/>
 							<ConditionalClass
-								Class="ThemeTextNegative"
+								Class="ThemeTextPositive"
 								Condition="InStr(&quot;@Request.StatusMsg~&quot;,&quot;Success:&quot;) &gt; 0"
 							/>
 						</Label>
