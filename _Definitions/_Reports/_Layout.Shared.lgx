@@ -474,7 +474,7 @@
 								</Remark>
 								<Division
 									ID="maps-container"
-									SecurityRightID="TMA Dashboard,MKC Dashboard"
+									SecurityRightID="LogiUserAdmin"
 									>
 									<Division
 										Class="dropdown"
