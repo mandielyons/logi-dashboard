@@ -15,294 +15,143 @@
 		HarvestEndDate="2017-02-28"
 	/>
 	<Body>
-		<IncludeScript
-			IncludedScript="&lt;script&gt;
-  (function(i,s,o,g,r,a,m){i[&apos;GoogleAnalyticsObject&apos;]=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,&apos;script&apos;,&apos;https://www.google-analytics.com/analytics.js&apos;,&apos;ga&apos;);
-
-  ga(&apos;create&apos;, &apos;UA-76860562-1&apos;, &apos;auto&apos;);
-  ga(&apos;send&apos;, &apos;pageview&apos;);
-
-&lt;/script&gt;
-
-&lt;script type=&quot;text/javascript&quot;&gt;
-
-  var _gaq = _gaq || [];
-  _gaq.push([&apos;_setAccount&apos;, &apos;UA-76860562-1&apos;]);
-  _gaq.push([&apos;_trackPageview&apos;]);
-
-  (function() {
-    var ga = document.createElement(&apos;script&apos;); ga.type = &apos;text/javascript&apos;; ga.async = true;
-    ga.src = (&apos;https:&apos; == document.location.protocol ? &apos;https://ssl&apos; : &apos;http://www&apos;) + &apos;.google-analytics.com/ga.js&apos;;
-    var s = document.getElementsByTagName(&apos;script&apos;)[0]; s.parentNode.insertBefore(ga, s);
-  })();
-
-&lt;/script&gt;
-
-&lt;script type=&quot;text/javascript&quot;&gt;
- function tableToExcel(table, name) {
-    var uri = &apos;data:application/vnd.ms-excel;base64,&apos;
-          , template = &apos;&lt;html xmlns:o=&quot;urn:schemas-microsoft-com:office:office&quot; xmlns:x=&quot;urn:schemas-microsoft-com:office:excel&quot; xmlns=&quot;http://www.w3.org/TR/REC-html40&quot;&gt;&lt;head&gt;&lt;!--[if gte mso 9]&gt;&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;yes&quot;?&gt;&lt;x:ExcelWorkbook&gt;&lt;x:ExcelWorksheets&gt;&lt;x:ExcelWorksheet&gt;&lt;x:Name&gt;{worksheet}&lt;/x:Name&gt;&lt;x:WorksheetOptions&gt;&lt;x:DisplayGridlines/&gt;&lt;/x:WorksheetOptions&gt;&lt;/x:ExcelWorksheet&gt;&lt;/x:ExcelWorksheets&gt;&lt;/x:ExcelWorkbook&gt;&lt;/xml&gt;&lt;![endif]--&gt;&lt;/head&gt;&lt;body&gt;&lt;table&gt;{table}&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;&apos;
-          , base64 = function (s) { return window.btoa(unescape(encodeURIComponent(s))); }
-          , format = function (s, c) { return s.replace(/{(\w+)}/g, function (m, p) { return c[p]; }); };
-        if (!table.nodeType) table = document.getElementById(table);
-        var ctx = { worksheet: name || &apos;Worksheet&apos;, table: table.innerHTML };
-        window.location.href = uri + base64(format(template, ctx));
-
-}
-&lt;/script&gt;
-
-"
-		/>
-		<Division
-			ID="divBackToSummary"
-			>
-			<ResponsiveRow>
-				<ResponsiveColumn>
-					<Label
-						Caption="Back to Harvest Summary"
-					/>
-					<Action
-						ID="actionReport"
-						Type="Report"
+		<ResponsiveRow>
+			<ResponsiveColumn>
+				<Division
+					Class="panel panel-default"
+					HtmlDiv="True"
+					ID="panel-receipts"
+					>
+					<Division
+						Class="panel-heading"
+						HtmlDiv="True"
+						ID="panel-header-receipts"
 						>
-						<Target
-							FrameID="Self"
-							ID="rptTgtSummary"
-							Report="TMAReports.TMAHarvestSummary"
-							Type="Report"
-							>
-							<WaitPage/>
-						</Target>
-					</Action>
-					<LineBreak/>
-					<LineBreak/>
-				</ResponsiveColumn>
-			</ResponsiveRow>
-		</Division>
-		<Division
-			ID="divSelections"
-			>
-			<Label
-				Caption="Use Ctrl or Shift + click to select multiple items"
-				Class="ThemeTextSmall"
-			/>
-			<ResponsiveRow
-				ID="rowSelectionHeaders"
-				>
-				<ResponsiveColumn>
-					<Label
-						Caption="Locations"
-						Class="ThemeBold"
-					/>
-				</ResponsiveColumn>
-				<ResponsiveColumn>
-					<Label
-						Caption="Commodity"
-						Class="ThemeBold"
-					/>
-				</ResponsiveColumn>
-				<ResponsiveColumn/>
-				<ResponsiveColumn/>
-				<ResponsiveColumn/>
-				<ResponsiveColumn>
-					<Label
-						Class="ThemeAlignRight, fa fa-file-excel-o fa-2x"
-						HtmlTag="Div"
-						ID="lnkExcel"
-						Tooltip="Export to Excel"
-						>
-						<Action
-							Type="NativeExcel"
-							>
-							<Target
-								ExcelOutputFormat="Excel2007"
-								FrameID="NewWindow"
-								Report="CurrentReport"
-								RequestForwarding="True"
-								Type="NativeExcel"
-							/>
-						</Action>
-						<EventHandler
-							DhtmlEvent="onclick"
+						<Label
+							Caption=" "
+							Class="fa fa-undo"
+							Tooltip="Return to Summary"
 							>
 							<Action
-								Javascript="_gaq.push([&apos;_trackEvent&apos;, &apos;HarvestDetailExcel&apos;, &apos;clicked&apos;])"
-								Type="Javascript"
-							/>
-						</EventHandler>
-					</Label>
-				</ResponsiveColumn>
-			</ResponsiveRow>
-			<ResponsiveRow
-				ID="rowSelectionDetails"
-				>
-				<ResponsiveColumn>
-					<InputSelectList
-						DefaultValue="@Request.Branch~"
-						GroupCaptionColumn="REGION"
-						ID="Branch"
-						InputRows="8"
-						MultiSelect="True"
-						OptionCaptionColumn="BRANCH_NAME"
-						OptionValueColumn="BRANCH_NUMBER"
-						>
-						<DataLayer
-							ConnectionID="connProdGP"
-							ID="sqlLocations"
-							Source="SELECT DISTINCT BRANCH_NUMBER, BRANCH_NAME
-FROM AgTrax_Staging..IV_BRANCH_MASTER
-WHERE BRANCH_NUMBER IN(SELECT DISTINCT BRANCH_NUMBER FROM AgTrax_Staging..DM_HarvestSummary)
-ORDER BY BRANCH_NAME"
-							Type="SQL"
-							>
-							<Join
-								ID="joinSqlToExcelBranch"
-								JoinType="LeftOuterJoin"
-								SortLeftSide="True"
-								SortRightSide="True"
+								ID="actionReport"
+								Type="Report"
 								>
-								<DataLayer
-									ColumnNamesRow="1"
-									ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\LocationData.xlsx"
-									ExcelWorksheet="TMALocations"
-									ID="excelTMALocations"
-									Type="Excel"
-								/>
-								<MatchCondition
-									DataType="Number"
-									ID="matchBRANCH_NUMBER"
-									LeftDataColumn="BRANCH_NUMBER"
-									RightDataColumn="BRANCH_NUMBER"
-								/>
-							</Join>
-							<SortFilter
-								DataType="Text"
-								ID="sortREGION,BRANCH"
-								SortColumn="REGION, BRANCH_NAME"
-							/>
-							<GroupFilter
-								DataType="Text"
-								GroupColumn="REGION"
-								Hierarchical="True"
-								ID="groupREGION"
-								KeepGroupedRows="True"
-							/>
-						</DataLayer>
-						<EventHandler
-							DhtmlEvent="onchange"
-							ID="evtOnChange"
-							>
-							<Action
-								ElementID="divHarvest"
-								ID="actRefreshReport"
-								Type="RefreshElement"
-							/>
-						</EventHandler>
-					</InputSelectList>
-				</ResponsiveColumn>
-				<ResponsiveColumn>
-					<InputSelectList
-						DefaultValue="@Request.Commodity~"
-						ID="Commodity"
-						InputRows="8"
-						MultiSelect="False"
-						OptionCaptionColumn="COMMODITY_DESC"
-						OptionValueColumn="COMMODITY_CODE"
+								<Target
+									FrameID="Self"
+									ID="rptTgtSummary"
+									Report="TMAReports.TMAHarvestSummary"
+									Type="Report"
+									>
+									<WaitPage/>
+								</Target>
+							</Action>
+						</Label>
+						<Spaces
+							Size="3"
+						/>
+						<Label
+							Caption="Harvest Receipts Detail"
+						/>
+					</Division>
+					<Division
+						Class="panel-body"
+						HtmlDiv="True"
+						ID="panel-body-receipts"
 						>
-						<DataLayer
-							ID="staticCOMMODITY"
-							Type="Static"
+						<ResponsiveRow>
+							<ResponsiveColumn>
+								<Label
+									Caption="Select location(s) and commodity."
+									Class="ThemeTextSmall"
+								/>
+							</ResponsiveColumn>
+							<ResponsiveColumn
+								Class="ThemeAlignRight"
+								>
+								<Label
+									Class="fa fa-file-excel-o fa-2x "
+									HtmlTag="Span"
+									ID="lnkExcel"
+									Tooltip="Export to Excel"
+									>
+									<Action
+										Javascript="tableToExcel(&quot;CrosstabTable1&quot;,&quot;Harvest Receipts&quot;);"
+										Type="Javascript"
+									/>
+								</Label>
+							</ResponsiveColumn>
+						</ResponsiveRow>
+						<ResponsiveRow
+							ID="rowSelectionHeaders"
 							>
-							<StaticDataRow
-								COMMODITY_CODE="01"
-								COMMODITY_DESC="WHEAT"
-							/>
-							<StaticDataRow
-								COMMODITY_CODE="02"
-								COMMODITY_DESC="MILO"
-							/>
-							<StaticDataRow
-								COMMODITY_CODE="03"
-								COMMODITY_DESC="SOYBEANS"
-							/>
-							<StaticDataRow
-								COMMODITY_CODE="04"
-								COMMODITY_DESC="CORN"
-							/>
-						</DataLayer>
-						<EventHandler
-							DhtmlEvent="onchange"
-							ID="evtOnChange"
-							>
-							<Action
-								ElementID="divHarvest"
-								ID="actRefreshReport"
-								Type="RefreshElement"
-							/>
-						</EventHandler>
-					</InputSelectList>
-				</ResponsiveColumn>
-				<ResponsiveColumn/>
-				<ResponsiveColumn/>
-				<ResponsiveColumn/>
-				<ResponsiveColumn/>
-			</ResponsiveRow>
-			<ResponsiveRow
-				ID="rowSelectionReset"
-				>
-				<ResponsiveColumn>
-					<LineBreak/>
-					<Button
-						Caption="Reset"
-						ID="btnReset"
-						Tooltip="Clear all selections"
-						>
-						<Action
-							ElementID="divHarvest, divSelections"
-							ID="actReport"
-							RequestForwarding="True"
-							Type="RefreshElement"
-							>
-							<WaitPage/>
-							<LinkParams
-								Branch="0"
-								Commodity="00"
-							/>
-						</Action>
-					</Button>
-				</ResponsiveColumn>
-			</ResponsiveRow>
-			<LineBreak/>
-			<LineBreak/>
-		</Division>
-		<Division
-			ID="divHarvest"
-			>
-			<Rows>
-				<Row>
-					<Column>
-						<CrosstabTable
-							AccessibleSummary="AnalysisGrid CrossTabTable"
-							AjaxPaging="True"
-							DraggableColumns="True"
-							ID="CrosstabTable1"
-							ResizableColumns="True"
-							SortArrows="True"
-							>
-							<InteractivePaging
-								CaptionType="Image"
+							<ResponsiveColumn
+								ColspanLargeScreen="2"
+								ColspanMediumScreen="2"
+								>
+								<IncludeSharedElement
+									DefinitionFile="_Layout.Shared"
+									SharedElementID="shrBranchSelect"
+									>
+									<SharedElementParams
+										BranchElementToRefresh="CrosstabTable1"
+									/>
+								</IncludeSharedElement>
+								<LineBreak/>
+								<IncludeSharedElement
+									DefinitionFile="_Layout.Shared"
+									SharedElementID="shrCommoditySelect"
+									>
+									<SharedElementParams
+										CommodityElementToRefresh="CrosstabTable1"
+									/>
+								</IncludeSharedElement>
+								<LineBreak/>
+								<Button
+									Caption="Reset"
+									ID="btnReset"
+									Tooltip="Clear all selections"
+									>
+									<Action
+										ElementID="Branch,Commodity,CrosstabTable1"
+										ID="actReport"
+										RequestForwarding="True"
+										Type="RefreshElement"
+										>
+										<WaitPage/>
+										<LinkParams
+											Branch="0"
+											Commodity="00"
+										/>
+									</Action>
+								</Button>
+								<LineBreak/>
+								<LineBreak/>
+							</ResponsiveColumn>
+							<ResponsiveColumn
 								Class="ThemeTextSmall"
-								Location="Top"
-								PageRowCount="12"
-								ShowPageNumber="True"
-							/>
-							<DataLayer
-								ConnectionID="connProdGP"
-								ID="sqlDM_HarvestStaging"
-								Source="SELECT CAST(POSTING_DATE AS DATE) DATE1, COMMODITY_CODE, BRANCH_NUMBER, MAX(BRANCH_NAME) BRANCH_NAME, ROUND(SUM(BU),0) BU 
+								>
+								<LineBreak/>
+								<LineBreak/>
+								<CrosstabTable
+									AccessibleSummary="AnalysisGrid CrossTabTable"
+									AjaxPaging="True"
+									AltRowClass="ThemeAlternatingRow"
+									DraggableColumns="True"
+									ID="CrosstabTable1"
+									ResizableColumns="True"
+									SortArrows="True"
+									>
+									<InteractivePaging
+										CaptionType="Image"
+										Class="ThemeTextSmall"
+										Location="Top"
+										PageRowCount="25"
+										ShowPageNumber="True"
+									/>
+									<DataLayer
+										ConnectionID="connProdGP"
+										ID="sqlDM_HarvestStaging"
+										Source="SELECT CAST(POSTING_DATE AS DATE) DATE1, COMMODITY_CODE, BRANCH_NUMBER, MAX(BRANCH_NAME) BRANCH_NAME, ROUND(SUM(BU),0) BU 
 FROM DM_HarvestStaging
 WHERE BRANCH_NUMBER IN(@Request.Branch~) AND COMMODITY_CODE=&apos;@Request.Commodity~&apos; 
   AND POSTING_DATE BETWEEN &apos;@Request.HarvestBeginDate~&apos; AND &apos;@Request.HarvestEndDate~&apos;
@@ -310,121 +159,104 @@ GROUP BY POSTING_DATE, COMMODITY_CODE, BRANCH_NUMBER
 ORDER BY POSTING_DATE DESC, BRANCH_NAME
 
 "
-								Type="SQL"
-								>
-								<TimePeriodColumn
-									DataColumn="DATE1"
-									DataType="Date"
-									DateGroupByOperator="Date"
-									Format="Short Date"
-									ID="DATE1_By_Date"
-									TimePeriod="Date"
-								/>
-								<CrosstabFilter
-									CrosstabColumn="BRANCH_NAME"
-									CrosstabLabelColumn="DATE1_By_Date"
-									CrosstabValueColumn="BU"
-									CrosstabValueFunction="SUM"
-									>
-									<CrosstabRowSummaryColumn
-										Function="Sum"
-										ID="crsTotal"
+										Type="SQL"
+										>
+										<TimePeriodColumn
+											DataColumn="DATE1"
+											DataType="Date"
+											DateGroupByOperator="Date"
+											Format="Short Date"
+											ID="DATE1_By_Date"
+											TimePeriod="Date"
+										/>
+										<CrosstabFilter
+											CrosstabColumn="BRANCH_NAME"
+											CrosstabLabelColumn="DATE1_By_Date"
+											CrosstabValueColumn="BU"
+											CrosstabValueFunction="SUM"
+											>
+											<CrosstabRowSummaryColumn
+												Function="Sum"
+												ID="crsTotal"
+											/>
+										</CrosstabFilter>
+									</DataLayer>
+									<CrosstabTableLabelColumn
+										Header="RECEIPT DATE"
+										ID="colAxLabel"
+										Width="150"
+										WidthScale="px"
+										>
+										<Label
+											Caption="@Data.DATE1_By_Date~"
+											Format="Short Date"
+											ID="lblAxLabl"
+										/>
+										<DataColumnSort
+											DataColumn="DATE1_By_Date"
+											DataType="Date"
+										/>
+									</CrosstabTableLabelColumn>
+									<CrosstabTableValueColumns
+										Header="@Data.rdCrosstabColumn~"
+										ID="colAxValue"
+										Width="150"
+										WidthScale="px"
+										>
+										<Label
+											Caption="=iif(@Data.rdCrosstabValCount~=0,&quot;&quot;,&quot;@Data.rdCrosstabValue~&quot;)"
+											Format="###,###,##0"
+											ID="lblAxValue"
+										/>
+										<CrosstabValueColumnSort
+											DataType="Number"
+											FirstSortSequence="Descending"
+											ReverseSortSequence="Ascending"
+										/>
+										<DataColumnSummary
+											DataColumn="rdCrosstabValue"
+											DataType="Number"
+											Function="Sum"
+											ID="sumTotal"
+										/>
+									</CrosstabTableValueColumns>
+									<CrosstabTableLabelColumn
+										Class="ThemeAlignRight, ThemeBold"
+										Header="TOTAL"
+										ID="colTotal"
+										Width="150"
+										WidthScale="px"
+										>
+										<Label
+											Caption="@Data.crsTotal~"
+											Format="###,###,##0"
+											ID="lblTotal"
+										/>
+										<DataColumnSort
+											DataColumn="DATE1_By_Date"
+											DataType="Date"
+											FirstSortSequence="Descending"
+											ReverseSortSequence="Ascending"
+										/>
+										<DataColumnSummary
+											DataColumn="crsTotal"
+											DataType="Number"
+											Function="Sum"
+											ID="sumGrandTotal"
+										/>
+									</CrosstabTableLabelColumn>
+									<SummaryRow
+										Caption="TOTAL"
+										ID="rowTotal"
+										LastPageOnly="True"
 									/>
-								</CrosstabFilter>
-							</DataLayer>
-							<CrosstabTableLabelColumn
-								Header="RECEIPT DATE"
-								ID="colAxLabel"
-								Width="150"
-								WidthScale="px"
-								>
-								<Label
-									Caption="@Data.DATE1_By_Date~"
-									Format="Short Date"
-									ID="lblAxLabl"
-								/>
-								<DataColumnSort
-									DataColumn="DATE1_By_Date"
-									DataType="Date"
-								/>
-							</CrosstabTableLabelColumn>
-							<CrosstabTableValueColumns
-								Header="@Data.rdCrosstabColumn~"
-								ID="colAxValue"
-								Width="150"
-								WidthScale="px"
-								>
-								<Label
-									Caption="=iif(@Data.rdCrosstabValCount~=0,&quot;&quot;,&quot;@Data.rdCrosstabValue~&quot;)"
-									Format="###,###,##0"
-									ID="lblAxValue"
-								/>
-								<CrosstabValueColumnSort
-									DataType="Number"
-									FirstSortSequence="Descending"
-									ReverseSortSequence="Ascending"
-								/>
-								<DataColumnSummary
-									DataColumn="rdCrosstabValue"
-									DataType="Number"
-									Function="Sum"
-									ID="sumTotal"
-								/>
-							</CrosstabTableValueColumns>
-							<CrosstabTableLabelColumn
-								Class="ThemeAlignRight, ThemeBold"
-								Header="TOTAL"
-								ID="colTotal"
-								Width="150"
-								WidthScale="px"
-								>
-								<Label
-									Caption="@Data.crsTotal~"
-									Format="###,###,##0"
-									ID="lblTotal"
-								/>
-								<DataColumnSort
-									DataColumn="DATE1_By_Date"
-									DataType="Date"
-									FirstSortSequence="Descending"
-									ReverseSortSequence="Ascending"
-								/>
-								<DataColumnSummary
-									DataColumn="crsTotal"
-									DataType="Number"
-									Function="Sum"
-									ID="sumGrandTotal"
-								/>
-							</CrosstabTableLabelColumn>
-							<SummaryRow
-								Caption="TOTAL"
-								ID="rowTotal"
-								LastPageOnly="True"
-							/>
-						</CrosstabTable>
-					</Column>
-					<Column/>
-					<Column/>
-					<Column/>
-					<Column/>
-					<Column>
-						<Spaces
-							Size="20"
-						/>
-					</Column>
-				</Row>
-				<Row>
-					<Note
-						Note="This row exists because of a flaw with the screen rendering of the report footer. The footer will overlay the internal body objects rendered."
-					/>
-					<Column>
-						<Label
-							Caption="."
-						/>
-					</Column>
-				</Row>
-			</Rows>
-		</Division>
+								</CrosstabTable>
+							</ResponsiveColumn>
+						</ResponsiveRow>
+					</Division>
+				</Division>
+			</ResponsiveColumn>
+		</ResponsiveRow>
 	</Body>
 	<ReportFooter>
 		<IncludeSharedElement

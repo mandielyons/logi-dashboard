@@ -22,1006 +22,1484 @@
 		Commodity="00"
 	/>
 	<Body>
-		<IncludeScript
-			IncludedScript="&lt;script&gt;
-  (function(i,s,o,g,r,a,m){i[&apos;GoogleAnalyticsObject&apos;]=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,&apos;script&apos;,&apos;https://www.google-analytics.com/analytics.js&apos;,&apos;ga&apos;);
-
-  ga(&apos;create&apos;, &apos;UA-76860562-1&apos;, &apos;auto&apos;);
-  ga(&apos;send&apos;, &apos;pageview&apos;);
-
-&lt;/script&gt;
-
-&lt;script type=&quot;text/javascript&quot;&gt;
-
-  var _gaq = _gaq || [];
-  _gaq.push([&apos;_setAccount&apos;, &apos;UA-76860562-1&apos;]);
-  _gaq.push([&apos;_trackPageview&apos;]);
-
-  (function() {
-    var ga = document.createElement(&apos;script&apos;); ga.type = &apos;text/javascript&apos;; ga.async = true;
-    ga.src = (&apos;https:&apos; == document.location.protocol ? &apos;https://ssl&apos; : &apos;http://www&apos;) + &apos;.google-analytics.com/ga.js&apos;;
-    var s = document.getElementsByTagName(&apos;script&apos;)[0]; s.parentNode.insertBefore(ga, s);
-  })();
-
-&lt;/script&gt;
-
-&lt;script type=&quot;text/javascript&quot;&gt;
- function tableToExcel(table, name) {
-    var uri = &apos;data:application/vnd.ms-excel;base64,&apos;
-          , template = &apos;&lt;html xmlns:o=&quot;urn:schemas-microsoft-com:office:office&quot; xmlns:x=&quot;urn:schemas-microsoft-com:office:excel&quot; xmlns=&quot;http://www.w3.org/TR/REC-html40&quot;&gt;&lt;head&gt;&lt;!--[if gte mso 9]&gt;&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;yes&quot;?&gt;&lt;x:ExcelWorkbook&gt;&lt;x:ExcelWorksheets&gt;&lt;x:ExcelWorksheet&gt;&lt;x:Name&gt;{worksheet}&lt;/x:Name&gt;&lt;x:WorksheetOptions&gt;&lt;x:DisplayGridlines/&gt;&lt;/x:WorksheetOptions&gt;&lt;/x:ExcelWorksheet&gt;&lt;/x:ExcelWorksheets&gt;&lt;/x:ExcelWorkbook&gt;&lt;/xml&gt;&lt;![endif]--&gt;&lt;/head&gt;&lt;body&gt;&lt;table&gt;{table}&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;&apos;
-          , base64 = function (s) { return window.btoa(unescape(encodeURIComponent(s))); }
-          , format = function (s, c) { return s.replace(/{(\w+)}/g, function (m, p) { return c[p]; }); };
-        if (!table.nodeType) table = document.getElementById(table);
-        var ctx = { worksheet: name || &apos;Worksheet&apos;, table: table.innerHTML };
-        window.location.href = uri + base64(format(template, ctx));
-
-}
-&lt;/script&gt;
-
-"
-		/>
 		<Division
-			ID="divBtnExportExcel"
+			Class="panel panel-default"
+			HtmlDiv="True"
+			ID="panel-summary"
 			>
-			<ResponsiveRow
-				ID="rrExportToExcel"
+			<Division
+				Class="panel-heading"
+				HtmlDiv="True"
+				ID="panel-summary-heading"
 				>
-				<ResponsiveColumn
-					ColspanExtraSmallScreen="1"
-					ColspanLargeScreen="1"
-					ColspanMediumScreen="1"
-					ColspanSmallScreen="1"
+				<Label
+					Caption="Harvest Summary"
 				/>
-				<ResponsiveColumn
-					ColspanExtraSmallScreen="1"
-					ColspanLargeScreen="1"
-					ColspanMediumScreen="1"
-					ColspanSmallScreen="1"
-				/>
-				<ResponsiveColumn
-					ColspanExtraSmallScreen="1"
-					ColspanLargeScreen="1"
-					ColspanMediumScreen="1"
-					ColspanSmallScreen="1"
-				/>
-				<ResponsiveColumn
-					ColspanExtraSmallScreen="1"
-					ColspanLargeScreen="1"
-					ColspanMediumScreen="1"
-					ColspanSmallScreen="1"
-				/>
-				<ResponsiveColumn
-					ColspanExtraSmallScreen="1"
-					ColspanLargeScreen="1"
-					ColspanMediumScreen="1"
-					ColspanSmallScreen="1"
-				/>
-				<ResponsiveColumn
-					ColspanExtraSmallScreen="1"
-					ColspanLargeScreen="1"
-					ColspanMediumScreen="1"
-					ColspanSmallScreen="1"
-				/>
-				<ResponsiveColumn
-					ColspanExtraSmallScreen="1"
-					ColspanLargeScreen="1"
-					ColspanMediumScreen="1"
-					ColspanSmallScreen="1"
-				/>
-				<ResponsiveColumn
-					ColspanExtraSmallScreen="1"
-					ColspanLargeScreen="1"
-					ColspanMediumScreen="1"
-					ColspanSmallScreen="1"
-				/>
-				<ResponsiveColumn
-					ColspanExtraSmallScreen="1"
-					ColspanLargeScreen="1"
-					ColspanMediumScreen="1"
-					ColspanSmallScreen="1"
-				/>
-				<ResponsiveColumn
-					ColspanExtraSmallScreen="1"
-					ColspanLargeScreen="1"
-					ColspanMediumScreen="1"
-					ColspanSmallScreen="1"
-				/>
-				<ResponsiveColumn
-					ColspanExtraSmallScreen="1"
-					ColspanLargeScreen="1"
-					ColspanMediumScreen="1"
-					ColspanSmallScreen="1"
-				/>
-				<ResponsiveColumn
-					ColspanExtraSmallScreen="1"
-					ColspanLargeScreen="1"
-					ColspanMediumScreen="1"
-					ColspanSmallScreen="1"
+			</Division>
+			<Division
+				Class="panel-body"
+				HtmlDiv="True"
+				ID="panel-summary-body"
+				>
+				<Division
+					ID="divSelections"
 					>
-					<Label
-						Class="ThemeAlignRight, fa fa-file-excel-o fa-2x"
-						HtmlTag="Div"
-						Tooltip="Export to Excel"
-						>
-						<Action
-							Type="NativeExcel"
-							>
-							<Target
-								ExcelOutputFormat="Excel2007"
-								FrameID="NewWindow"
-								Report="CurrentReport"
-								RequestForwarding="True"
-								Type="NativeExcel"
+					<ResponsiveRow>
+						<ResponsiveColumn>
+							<Label
+								Caption="Select location(s) and commodity."
+								Class="ThemeTextSmall"
 							/>
-						</Action>
-						<EventHandler
-							DhtmlEvent="onclick"
+						</ResponsiveColumn>
+						<ResponsiveColumn
+							Class="ThemeAlignRight"
 							>
-							<Action
-								Javascript="_gaq.push([&apos;_trackEvent&apos;, &apos;HarvestSummaryExcel&apos;, &apos;clicked&apos;])"
-								Type="Javascript"
-							/>
-						</EventHandler>
-					</Label>
-				</ResponsiveColumn>
-			</ResponsiveRow>
-		</Division>
-		<Division
-			ID="divSelections"
-			>
-			<Label
-				Caption="Use Ctrl or Shift + click to select multiple items"
-				Class="ThemeTextSmall"
-			/>
-			<ResponsiveRow
-				ID="rowSelectionHeaders"
-				>
-				<ResponsiveColumn>
-					<Label
-						Caption="Locations"
-						Class="ThemeBold"
-					/>
-				</ResponsiveColumn>
-				<ResponsiveColumn>
-					<Label
-						Caption="Commodities"
-						Class="ThemeBold"
-					/>
-				</ResponsiveColumn>
-				<ResponsiveColumn/>
-				<ResponsiveColumn/>
-				<ResponsiveColumn/>
-				<ResponsiveColumn/>
-			</ResponsiveRow>
-			<ResponsiveRow
-				ID="rowSelectionDetails"
-				>
-				<ResponsiveColumn>
-					<InputSelectList
-						DefaultValue="@Request.Branch~"
-						GroupCaptionColumn="REGION"
-						ID="Branch"
-						InputRows="8"
-						MultiSelect="True"
-						OptionCaptionColumn="BRANCH_NAME"
-						OptionValueColumn="BRANCH_NUMBER"
+							<Label
+								Class="fa fa-file-excel-o fa-2x "
+								HtmlTag="Span"
+								ID="lnkExcel"
+								Tooltip="Export to Excel"
+								>
+								<Action
+									Javascript="tableToExcel(&quot;dtHarvest&quot;,&quot;Harvest Receipts&quot;);"
+									SecurityRightID="MKC Dashboard,TMA Dashboard"
+									Type="Javascript"
+								/>
+								<Action
+									Javascript="tableToExcel(&quot;dtHarvestTMA&quot;,&quot;Harvest Receipts&quot;);"
+									SecurityRightID="OC"
+									Type="Javascript"
+								/>
+							</Label>
+						</ResponsiveColumn>
+					</ResponsiveRow>
+					<ResponsiveRow
+						ID="rowSelectionDetails"
 						>
-						<DataLayer
-							ConnectionID="connProdGP"
-							ID="sqlLocations"
-							Source="SELECT DISTINCT BRANCH_NUMBER, BRANCH_NAME
-FROM AgTrax_Staging..IV_BRANCH_MASTER
-WHERE BRANCH_NUMBER IN(SELECT DISTINCT BRANCH_NUMBER FROM AgTrax_Staging..DM_HarvestSummary)
-ORDER BY BRANCH_NAME"
-							Type="SQL"
+						<ResponsiveColumn
+							ColspanLargeScreen="2"
+							ColspanMediumScreen="2"
 							>
-							<Join
-								ID="joinSqlToExcelBranch"
-								JoinType="LeftOuterJoin"
-								SortLeftSide="True"
-								SortRightSide="True"
+							<IncludeSharedElement
+								DefinitionFile="_Layout.Shared"
+								SharedElementID="shrBranchSelect"
+								>
+								<SharedElementParams
+									BranchElementToRefresh="divHarvest"
+								/>
+							</IncludeSharedElement>
+							<LineBreak/>
+							<LineBreak/>
+							<Label
+								Caption="Use CTRL+click to select multiple values"
+								Class="ThemeTextSmall"
+							/>
+							<InputSelectList
+								Caption="Commodity:"
+								DefaultValue="@Request.Commodity~"
+								ID="Commodity"
+								InputRows="5"
+								MultiSelect="True"
+								OptionCaptionColumn="COMMODITY_DESC"
+								OptionValueColumn="COMMODITY_CODE"
 								>
 								<DataLayer
-									ColumnNamesRow="1"
-									ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\LocationData.xlsx"
-									ExcelWorksheet="TMALocations"
-									ID="excelTMALocations"
-									Type="Excel"
-								/>
-								<MatchCondition
-									DataType="Number"
-									ID="matchBRANCH_NUMBER"
-									LeftDataColumn="BRANCH_NUMBER"
-									RightDataColumn="BRANCH_NUMBER"
-								/>
-							</Join>
-							<SortFilter
-								DataType="Text"
-								ID="sortREGION,BRANCH"
-								SortColumn="REGION, BRANCH_NAME"
-							/>
-							<GroupFilter
-								DataType="Text"
-								GroupColumn="REGION"
-								Hierarchical="True"
-								ID="groupREGION"
-								KeepGroupedRows="True"
-							/>
-						</DataLayer>
-						<EventHandler
-							DhtmlEvent="onchange"
-							ID="evtOnChange"
-							>
-							<Action
-								ElementID="divHarvest"
-								ID="actRefreshReport"
-								Type="RefreshElement"
-							/>
-						</EventHandler>
-					</InputSelectList>
-				</ResponsiveColumn>
-				<ResponsiveColumn>
-					<InputSelectList
-						DefaultValue="@Request.Commodity~"
-						ID="Commodity"
-						InputRows="8"
-						MultiSelect="True"
-						OptionCaptionColumn="COMMODITY_DESC"
-						OptionValueColumn="COMMODITY_CODE"
-						>
-						<DataLayer
-							ID="staticCOMMODITY"
-							Type="Static"
-							>
-							<StaticDataRow
-								COMMODITY_CODE="01"
-								COMMODITY_DESC="WHEAT"
-							/>
-							<StaticDataRow
-								COMMODITY_CODE="02"
-								COMMODITY_DESC="MILO"
-							/>
-							<StaticDataRow
-								COMMODITY_CODE="03"
-								COMMODITY_DESC="SOYBEANS"
-							/>
-							<StaticDataRow
-								COMMODITY_CODE="04"
-								COMMODITY_DESC="CORN"
-							/>
-						</DataLayer>
-						<EventHandler
-							DhtmlEvent="onchange"
-							ID="evtOnChange"
-							>
-							<Action
-								ElementID="divHarvest, divSelections"
-								ID="actRefreshReport"
-								Type="RefreshElement"
+									ID="staticCOMMODITY"
+									Type="Static"
+									>
+									<StaticDataRow
+										COMMODITY_CODE="01"
+										COMMODITY_DESC="WHEAT"
+									/>
+									<StaticDataRow
+										COMMODITY_CODE="02"
+										COMMODITY_DESC="MILO"
+									/>
+									<StaticDataRow
+										COMMODITY_CODE="03"
+										COMMODITY_DESC="SOYBEANS"
+									/>
+									<StaticDataRow
+										COMMODITY_CODE="04"
+										COMMODITY_DESC="CORN"
+									/>
+								</DataLayer>
+								<EventHandler
+									DhtmlEvent="onchange"
+									ID="evtOnChange"
+									>
+									<Action
+										ElementID="divHarvest, divSelections"
+										ID="actRefreshReport"
+										Type="RefreshElement"
+										>
+										<WaitPage/>
+									</Action>
+								</EventHandler>
+							</InputSelectList>
+							<LineBreak/>
+							<Button
+								Caption="Reset"
+								ID="btnReset"
+								Tooltip="Clear all selections"
 								>
-								<WaitPage/>
-							</Action>
-						</EventHandler>
-					</InputSelectList>
-				</ResponsiveColumn>
-				<ResponsiveColumn/>
-				<ResponsiveColumn/>
-				<ResponsiveColumn/>
-				<ResponsiveColumn/>
-			</ResponsiveRow>
-			<ResponsiveRow
-				ID="rowSelectionReset"
-				>
-				<ResponsiveColumn>
-					<LineBreak/>
-					<Button
-						Caption="Reset"
-						ID="btnReset"
-						Tooltip="Clear all selections"
-						>
-						<Action
-							ElementID="divHarvest, divSelections"
-							ID="actReport"
-							RequestForwarding="True"
-							Type="RefreshElement"
+								<Action
+									ElementID="divHarvest, divSelections"
+									ID="actReport"
+									RequestForwarding="True"
+									Type="RefreshElement"
+									>
+									<WaitPage/>
+									<LinkParams
+										Branch="-1"
+										Commodity="00"
+									/>
+								</Action>
+							</Button>
+						</ResponsiveColumn>
+						<ResponsiveColumn
+							Class="ThemeTextSmall"
 							>
-							<WaitPage/>
-							<LinkParams
-								Branch="-1"
-								Commodity="00"
-							/>
-						</Action>
-					</Button>
-				</ResponsiveColumn>
-			</ResponsiveRow>
-			<LineBreak/>
-			<LineBreak/>
-		</Division>
-		<Division
-			ID="divHarvest"
-			>
-			<Rows>
-				<Row>
-					<Column>
-						<DataTable
-							AccessibleHeaders="True"
-							AccessibleSummary="AnalysisGrid DataTable"
-							AjaxPaging="True"
-							ID="dtHarvest"
-							KeepScrollPosition="True"
-							Layout="Auto"
-							ResizableColumns="True"
-							SortArrows="True"
-							TableBorder="0"
-							>
-							<InteractivePaging
-								CaptionType="Image"
-								Class="ThemeTextSmall"
-								Location="Top"
-								PageRowCount="12"
-								ShowPageNumber="True"
-							/>
-							<DataLayer
-								ConnectionID="connProdGP"
-								ID="sqlDMHarvest"
-								Source="SELECT HARVESTYEAR, BRANCH_NUMBER, BRANCH_NAME, ROUND(WHEAT_CBU,0) WHEAT_CBU, ROUND(WHEAT_PBU,0) WHEAT_PBU, ROUND(MILO_CBU,0) MILO_CBU, ROUND(MILO_PBU,0) MILO_PBU, ROUND(SOYBEANS_CBU,0) SOYBEANS_CBU, ROUND(SOYBEANS_PBU,0) SOYBEANS_PBU, ROUND(CORN_CBU,0) CORN_CBU, ROUND(CORN_PBU,0) CORN_PBU, ROUND(TOTAL_CBU,0) TOTAL_CBU, ROUND(TOTAL_PBU,0) TOTAL_PBU, ROUND(WHEAT_AVG,0) WHEAT_AVG, ROUND(MILO_AVG,0) MILO_AVG, ROUND(SOYBEANS_AVG,0) SOYBEANS_AVG, ROUND(CORN_AVG,0) CORN_AVG, ROUND(TOTAL_AVG,0) TOTAL_AVG
+							<Division
+								ID="divHarvest"
+								>
+								<DataTable
+									AccessibleHeaders="True"
+									AccessibleSummary="AnalysisGrid DataTable"
+									AjaxPaging="True"
+									ID="dtHarvest"
+									KeepScrollPosition="True"
+									Layout="Auto"
+									ResizableColumns="True"
+									SecurityRightID="MKC Dashboard,TMA Dashboard"
+									SortArrows="True"
+									TableBorder="0"
+									>
+									<InteractivePaging
+										CaptionType="Image"
+										Class="ThemeTextSmall"
+										Location="Top"
+										PageRowCount="14"
+										ShowPageNumber="True"
+									/>
+									<DataLayer
+										ConnectionID="connProdGP"
+										ID="sqlDMHarvest"
+										Source="SELECT HARVESTYEAR, BRANCH_NUMBER, BRANCH_NAME, ROUND(WHEAT_CBU,0) WHEAT_CBU, ROUND(WHEAT_PBU,0) WHEAT_PBU, ROUND(MILO_CBU,0) MILO_CBU, ROUND(MILO_PBU,0) MILO_PBU, ROUND(SOYBEANS_CBU,0) SOYBEANS_CBU, ROUND(SOYBEANS_PBU,0) SOYBEANS_PBU, ROUND(CORN_CBU,0) CORN_CBU, ROUND(CORN_PBU,0) CORN_PBU, ROUND(TOTAL_CBU,0) TOTAL_CBU, ROUND(TOTAL_PBU,0) TOTAL_PBU, ROUND(WHEAT_AVG,0) WHEAT_AVG, ROUND(MILO_AVG,0) MILO_AVG, ROUND(SOYBEANS_AVG,0) SOYBEANS_AVG, ROUND(CORN_AVG,0) CORN_AVG, ROUND(TOTAL_AVG,0) TOTAL_AVG
 FROM AgTrax_Staging..DM_HarvestSummary
 WHERE BRANCH_NUMBER IN(@Request.Branch~) OR &apos;@Request.Branch~&apos;=&apos;-1&apos;"
-								Type="SQL"
-								>
-								<Join
-									ID="joinSqlToExcel"
-									JoinType="LeftOuterJoin"
-									SortLeftSide="True"
-									SortRightSide="True"
-									>
-									<DataLayer
-										ColumnNamesRow="1"
-										ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\LocationData.xlsx"
-										ExcelWorksheet="TMALocations"
-										ID="excelTMALocations"
-										Type="Excel"
-									/>
-									<MatchCondition
-										DataType="Number"
-										ID="matchBranchNumber"
-										LeftDataColumn="BRANCH_NUMBER"
-										RightDataColumn="BRANCH_NUMBER"
-									/>
-								</Join>
-								<CalculatedColumn
-									Formula="IIF(((&quot;@Request.Commodity~&quot; = &quot;00&quot;) or InStr(&quot;@Request.Commodity~&quot;, &quot;1&quot;) &gt; 0),IIF(&quot;@Data.WHEAT_CBU~&quot; = &quot;&quot;,&quot;0&quot;,&quot;@Data.WHEAT_CBU~&quot;),&quot;0&quot;)
+										Type="SQL"
+										>
+										<Join
+											ID="joinSqlToExcel"
+											JoinType="LeftOuterJoin"
+											SortLeftSide="True"
+											SortRightSide="True"
+											>
+											<DataLayer
+												ColumnNamesRow="1"
+												ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\LocationData.xlsx"
+												ExcelWorksheet="TMALocations"
+												ID="excelTMALocations"
+												Type="Excel"
+											/>
+											<MatchCondition
+												DataType="Number"
+												ID="matchBranchNumber"
+												LeftDataColumn="BRANCH_NUMBER"
+												RightDataColumn="BRANCH_NUMBER"
+											/>
+										</Join>
+										<CalculatedColumn
+											Formula="IIF(((&quot;@Request.Commodity~&quot; = &quot;00&quot;) or InStr(&quot;@Request.Commodity~&quot;, &quot;1&quot;) &gt; 0),IIF(&quot;@Data.WHEAT_CBU~&quot; = &quot;&quot;,&quot;0&quot;,&quot;@Data.WHEAT_CBU~&quot;),&quot;0&quot;)
 "
-									ID="calcWHEAT"
-								/>
-								<CalculatedColumn
-									Formula="IIF(((&quot;@Request.Commodity~&quot; = &quot;00&quot;) or InStr(&quot;@Request.Commodity~&quot;, &quot;2&quot;) &gt; 0),IIF(&quot;@Data.MILO_CBU~&quot; = &quot;&quot;,&quot;0&quot;,&quot;@Data.MILO_CBU~&quot;),&quot;0&quot;)
+											ID="calcWHEAT"
+										/>
+										<CalculatedColumn
+											Formula="IIF(((&quot;@Request.Commodity~&quot; = &quot;00&quot;) or InStr(&quot;@Request.Commodity~&quot;, &quot;2&quot;) &gt; 0),IIF(&quot;@Data.MILO_CBU~&quot; = &quot;&quot;,&quot;0&quot;,&quot;@Data.MILO_CBU~&quot;),&quot;0&quot;)
 "
-									ID="calcMILO"
-								/>
-								<CalculatedColumn
-									Formula="IIF(((&quot;@Request.Commodity~&quot; = &quot;00&quot;) or InStr(&quot;@Request.Commodity~&quot;, &quot;3&quot;) &gt; 0),IIF(&quot;@Data.SOYBEANS_CBU~&quot; = &quot;&quot;,&quot;0&quot;,&quot;@Data.SOYBEANS_CBU~&quot;),&quot;0&quot;)
+											ID="calcMILO"
+										/>
+										<CalculatedColumn
+											Formula="IIF(((&quot;@Request.Commodity~&quot; = &quot;00&quot;) or InStr(&quot;@Request.Commodity~&quot;, &quot;3&quot;) &gt; 0),IIF(&quot;@Data.SOYBEANS_CBU~&quot; = &quot;&quot;,&quot;0&quot;,&quot;@Data.SOYBEANS_CBU~&quot;),&quot;0&quot;)
 "
-									ID="calcSOYBEANS"
-								/>
-								<CalculatedColumn
-									Formula="IIF(((&quot;@Request.Commodity~&quot; = &quot;00&quot;) or InStr(&quot;@Request.Commodity~&quot;, &quot;4&quot;) &gt; 0),IIF(&quot;@Data.CORN_CBU~&quot; = &quot;&quot;,&quot;0&quot;,&quot;@Data.CORN_CBU~&quot;),&quot;0&quot;)
+											ID="calcSOYBEANS"
+										/>
+										<CalculatedColumn
+											Formula="IIF(((&quot;@Request.Commodity~&quot; = &quot;00&quot;) or InStr(&quot;@Request.Commodity~&quot;, &quot;4&quot;) &gt; 0),IIF(&quot;@Data.CORN_CBU~&quot; = &quot;&quot;,&quot;0&quot;,&quot;@Data.CORN_CBU~&quot;),&quot;0&quot;)
 "
-									ID="calcCORN"
-								/>
-								<CalculatedColumn
-									Formula="@Data.calcWHEAT~ + @Data.calcMILO~ + @Data.calcSOYBEANS~ + @Data.calcCORN~"
-									ID="calcTOTAL"
-								/>
-								<CalculatedColumn
-									Formula="IIF(&quot;@Data.WHEAT_CBU~&quot; = &quot;&quot;,&quot;0&quot;,&quot;@Data.WHEAT_CBU~&quot;-&quot;@Data.WHEAT_AVG~&quot;)"
-									ID="calcDiffWHEAT"
-								/>
-								<CalculatedColumn
-									Formula="IIF(&quot;@Data.MILO_CBU~&quot; = &quot;&quot;,&quot;0&quot;,&quot;@Data.MILO_CBU~&quot;-&quot;@Data.MILO_AVG~&quot;)"
-									ID="calcDiffMILO"
-								/>
-								<CalculatedColumn
-									Formula="IIF(&quot;@Data.SOYBEANS_CBU~&quot; = &quot;&quot;,&quot;0&quot;,&quot;@Data.SOYBEANS_CBU~&quot;-&quot;@Data.SOYBEANS_AVG~&quot;)"
-									ID="calcDiffSOYBEANS"
-								/>
-								<CalculatedColumn
-									Formula="IIF(&quot;@Data.CORN_CBU~&quot; = &quot;&quot;,&quot;0&quot;,&quot;@Data.CORN_CBU~&quot;-&quot;@Data.CORN_AVG~&quot;)"
-									ID="calcDiffCORN"
-								/>
-								<CalculatedColumn
-									Formula="IIF(IsNumeric(&quot;@Data.calcTOTAL~&quot;),&quot;@Data.calcTOTAL~&quot;-&quot;@Data.TOTAL_AVG~&quot;,&quot;0&quot;)
+											ID="calcCORN"
+										/>
+										<CalculatedColumn
+											Formula="@Data.calcWHEAT~ + @Data.calcMILO~ + @Data.calcSOYBEANS~ + @Data.calcCORN~"
+											ID="calcTOTAL"
+										/>
+										<CalculatedColumn
+											Formula="IIF(&quot;@Data.WHEAT_CBU~&quot; = &quot;&quot;,&quot;0&quot;,&quot;@Data.WHEAT_CBU~&quot;-&quot;@Data.WHEAT_AVG~&quot;)"
+											ID="calcDiffWHEAT"
+										/>
+										<CalculatedColumn
+											Formula="IIF(&quot;@Data.MILO_CBU~&quot; = &quot;&quot;,&quot;0&quot;,&quot;@Data.MILO_CBU~&quot;-&quot;@Data.MILO_AVG~&quot;)"
+											ID="calcDiffMILO"
+										/>
+										<CalculatedColumn
+											Formula="IIF(&quot;@Data.SOYBEANS_CBU~&quot; = &quot;&quot;,&quot;0&quot;,&quot;@Data.SOYBEANS_CBU~&quot;-&quot;@Data.SOYBEANS_AVG~&quot;)"
+											ID="calcDiffSOYBEANS"
+										/>
+										<CalculatedColumn
+											Formula="IIF(&quot;@Data.CORN_CBU~&quot; = &quot;&quot;,&quot;0&quot;,&quot;@Data.CORN_CBU~&quot;-&quot;@Data.CORN_AVG~&quot;)"
+											ID="calcDiffCORN"
+										/>
+										<CalculatedColumn
+											Formula="IIF(IsNumeric(&quot;@Data.calcTOTAL~&quot;),&quot;@Data.calcTOTAL~&quot;-&quot;@Data.TOTAL_AVG~&quot;,&quot;0&quot;)
 "
-									ID="calcDiffTOTAL"
-								/>
-								<CalculatedColumn
-									Formula="IIF(&quot;@Data.WHEAT_CBU~&quot; = &quot;&quot;,&quot;0&quot;,&quot;@Data.WHEAT_CBU~&quot;) / IIF(&quot;@Data.WHEAT_AVG~&quot; = &quot;&quot;,&quot;1&quot;,&quot;@Data.WHEAT_AVG~&quot;)
+											ID="calcDiffTOTAL"
+										/>
+										<CalculatedColumn
+											Formula="IIF(&quot;@Data.WHEAT_CBU~&quot; = &quot;&quot;,&quot;0&quot;,&quot;@Data.WHEAT_CBU~&quot;) / IIF(&quot;@Data.WHEAT_AVG~&quot; = &quot;&quot;,&quot;1&quot;,&quot;@Data.WHEAT_AVG~&quot;)
 "
-									ID="calcPctWHEAT"
-								/>
-								<CalculatedColumn
-									Formula="IIF(&quot;@Data.MILO_CBU~&quot; = &quot;&quot;,&quot;0&quot;,&quot;@Data.MILO_CBU~&quot;) / IIF(&quot;@Data.MILO_AVG~&quot; = &quot;&quot;,&quot;1&quot;,&quot;@Data.MILO_AVG~&quot;)"
-									ID="calcPctMILO"
-								/>
-								<CalculatedColumn
-									Formula="IIF(&quot;@Data.SOYBEANS_CBU~&quot; = &quot;&quot;,&quot;0&quot;,&quot;@Data.SOYBEANS_CBU~&quot;) / IIF(&quot;@Data.SOYBEANS_AVG~&quot; = &quot;&quot;,&quot;1&quot;,&quot;@Data.SOYBEANS_AVG~&quot;)"
-									ID="calcPctSOYBEANS"
-								/>
-								<CalculatedColumn
-									Formula="IIF(&quot;@Data.CORN_CBU~&quot; = &quot;&quot;,&quot;0&quot;,&quot;@Data.CORN_CBU~&quot;) / IIF(&quot;@Data.CORN_AVG~&quot; = &quot;&quot;,&quot;1&quot;,&quot;@Data.CORN_AVG~&quot;)"
-									ID="calcPctCORN"
-								/>
-								<CalculatedColumn
-									Formula="@Data.calcTOTAL~ / IIF(&quot;@Data.TOTAL_AVG~&quot; = &quot;&quot;,&quot;1&quot;,&quot;@Data.TOTAL_AVG~&quot;)
+											ID="calcPctWHEAT"
+										/>
+										<CalculatedColumn
+											Formula="IIF(&quot;@Data.MILO_CBU~&quot; = &quot;&quot;,&quot;0&quot;,&quot;@Data.MILO_CBU~&quot;) / IIF(&quot;@Data.MILO_AVG~&quot; = &quot;&quot;,&quot;1&quot;,&quot;@Data.MILO_AVG~&quot;)"
+											ID="calcPctMILO"
+										/>
+										<CalculatedColumn
+											Formula="IIF(&quot;@Data.SOYBEANS_CBU~&quot; = &quot;&quot;,&quot;0&quot;,&quot;@Data.SOYBEANS_CBU~&quot;) / IIF(&quot;@Data.SOYBEANS_AVG~&quot; = &quot;&quot;,&quot;1&quot;,&quot;@Data.SOYBEANS_AVG~&quot;)"
+											ID="calcPctSOYBEANS"
+										/>
+										<CalculatedColumn
+											Formula="IIF(&quot;@Data.CORN_CBU~&quot; = &quot;&quot;,&quot;0&quot;,&quot;@Data.CORN_CBU~&quot;) / IIF(&quot;@Data.CORN_AVG~&quot; = &quot;&quot;,&quot;1&quot;,&quot;@Data.CORN_AVG~&quot;)"
+											ID="calcPctCORN"
+										/>
+										<CalculatedColumn
+											Formula="@Data.calcTOTAL~ / IIF(&quot;@Data.TOTAL_AVG~&quot; = &quot;&quot;,&quot;1&quot;,&quot;@Data.TOTAL_AVG~&quot;)
   "
-									ID="calcPctTOTAL"
-								/>
-								<SortFilter
-									DataType="Text"
-									ID="sortBranchName"
-									SortColumn="BRANCH_NAME"
-								/>
-							</DataLayer>
-							<DataTableColumn
-								Header="LOCATION"
-								ID="colBRANCH_NAME"
-								Width="250"
-								WidthScale="px"
-								>
-								<Label
-									Caption="@Data.BRANCH_NAME~"
-									ID="lblBRANCH_NAME"
-								/>
-								<DataColumnSort
-									DataColumn="BRANCH_NAME"
-									DataType="Text"
-								/>
-							</DataTableColumn>
-							<DataTableColumn
-								Header="REGION"
-								ID="colRegion"
-								Width="100"
-								WidthScale="px"
-								>
-								<Label
-									Caption="@Data.REGION~"
-									ID="lblRegion"
-								/>
-								<DataColumnSort
-									DataColumn="REGION, BRANCH_NAME"
-									DataType="Text"
-								/>
-							</DataTableColumn>
-							<DataTableColumn
-								Class="ThemeAlignRight"
-								ColumnHeaderClass="ThemeAlignRight"
-								Condition="(&quot;@Request.Commodity~&quot; = &quot;00&quot;) or InStr(&quot;@Request.Commodity~&quot;, &quot;1&quot;) &gt; 0
+											ID="calcPctTOTAL"
+										/>
+										<SortFilter
+											DataType="Text"
+											ID="sortBranchName"
+											SortColumn="BRANCH_NAME"
+										/>
+									</DataLayer>
+									<DataTableColumn
+										Header="LOCATION"
+										ID="colBRANCH_NAME"
+										Width="250"
+										WidthScale="px"
+										>
+										<Label
+											Caption="@Data.BRANCH_NAME~"
+											ID="lblBRANCH_NAME"
+										/>
+										<DataColumnSort
+											DataColumn="BRANCH_NAME"
+											DataType="Text"
+										/>
+									</DataTableColumn>
+									<DataTableColumn
+										Header="REGION"
+										ID="colRegion"
+										Width="100"
+										WidthScale="px"
+										>
+										<Label
+											Caption="@Data.REGION~"
+											ID="lblRegion"
+										/>
+										<DataColumnSort
+											DataColumn="REGION, BRANCH_NAME"
+											DataType="Text"
+										/>
+									</DataTableColumn>
+									<DataTableColumn
+										Class="ThemeAlignRight"
+										ColumnHeaderClass="ThemeAlignRight"
+										Condition="(&quot;@Request.Commodity~&quot; = &quot;00&quot;) or InStr(&quot;@Request.Commodity~&quot;, &quot;1&quot;) &gt; 0
 "
-								Header="@Local.HARVESTYEAR_CY~ WHEAT"
-								ID="colWHEAT_CBU"
-								Width="150"
-								WidthScale="px"
-								>
-								<Label
-									Caption="@Data.WHEAT_CBU~"
-									Format=" ###,###,##0 "
-									ID="lblWHEAT_CBU"
-									>
-									<Action
-										Type="Report"
+										Header="@Local.HARVESTYEAR_CY~ WHEAT"
+										ID="colWHEAT_CBU"
+										Width="150"
+										WidthScale="px"
 										>
-										<LinkParams
-											Branch="@Data.BRANCH_NUMBER~"
-											Commodity="01"
-											HarvestBeginDate="@Local.HARVESTBEGINDT~"
-											HarvestEndDate="@Local.HARVESTENDDT~"
-										/>
-										<Target
-											FrameID="Self"
-											ID="rptTMAHarvestDetailByDay"
-											Report="TMAReports.TMAHarvestDetailByDay"
-											RequestForwarding="True"
-											Type="Report"
+										<Label
+											Caption="@Data.WHEAT_CBU~"
+											Format=" ###,###,##0 "
+											ID="lblWHEAT_CBU"
 											>
-											<WaitPage/>
-										</Target>
-									</Action>
-								</Label>
-								<Division
-									Condition="&quot;@Data.calcDiffWHEAT~&quot; &lt; &quot;0&quot;"
-									ID="divDownWHEAT"
-									>
-									<Image
-										Caption="arrow-down-red-x10.png"
-									/>
-								</Division>
-								<Division
-									Condition="&quot;@Data.calcDiffWHEAT~&quot;&gt;&quot;0&quot;"
-									ID="divUpWHEAT"
-									>
-									<Image
-										Caption="arrow-up-green-x10.png"
-									/>
-								</Division>
-								<DataColumnSort
-									DataColumn="WHEAT_CBU"
-									DataType="Number"
-									FirstSortSequence="Descending"
-									ReverseSortSequence="Ascending"
-								/>
-								<DataColumnSummary
-									DataColumn="WHEAT_CBU"
-									DataType="Number"
-									Function="Sum"
-									ID="sumWHEAT_CBU"
-								/>
-							</DataTableColumn>
-							<DataTableColumn
-								Class="ThemeAlignRight"
-								ColumnHeaderClass="ThemeAlignRight"
-								Condition="(&quot;@Request.Commodity~&quot; = &quot;00&quot;) or InStr(&quot;@Request.Commodity~&quot;, &quot;2&quot;) &gt; 0"
-								Header="@Local.HARVESTYEAR_CY~ MILO"
-								ID="colMILO_CBU"
-								Width="150"
-								WidthScale="px"
-								>
-								<Label
-									Caption="@Data.MILO_CBU~"
-									Format="###,###,##0"
-									ID="lblMILO_CBU"
-									>
-									<Action
-										Type="Report"
+											<Action
+												Type="Report"
+												>
+												<LinkParams
+													Branch="@Data.BRANCH_NUMBER~"
+													Commodity="01"
+													HarvestBeginDate="@Local.HARVESTBEGINDT~"
+													HarvestEndDate="@Local.HARVESTENDDT~"
+												/>
+												<Target
+													FrameID="Self"
+													ID="rptTMAHarvestDetailByDay"
+													Report="TMAReports.TMAHarvestDetailByDay"
+													RequestForwarding="True"
+													Type="Report"
+													>
+													<WaitPage/>
+												</Target>
+											</Action>
+										</Label>
+										<Division
+											Condition="&quot;@Data.calcDiffWHEAT~&quot; &lt; &quot;0&quot;"
+											ID="divDownWHEAT"
+											>
+											<Image
+												Caption="arrow-down-red-x10.png"
+											/>
+										</Division>
+										<Division
+											Condition="&quot;@Data.calcDiffWHEAT~&quot;&gt;&quot;0&quot;"
+											ID="divUpWHEAT"
+											>
+											<Image
+												Caption="arrow-up-green-x10.png"
+											/>
+										</Division>
+										<DataColumnSort
+											DataColumn="WHEAT_CBU"
+											DataType="Number"
+											FirstSortSequence="Descending"
+											ReverseSortSequence="Ascending"
+										/>
+										<DataColumnSummary
+											DataColumn="WHEAT_CBU"
+											DataType="Number"
+											Function="Sum"
+											ID="sumWHEAT_CBU"
+										/>
+									</DataTableColumn>
+									<DataTableColumn
+										Class="ThemeAlignRight"
+										ColumnHeaderClass="ThemeAlignRight"
+										Condition="(&quot;@Request.Commodity~&quot; = &quot;00&quot;) or InStr(&quot;@Request.Commodity~&quot;, &quot;2&quot;) &gt; 0"
+										Header="@Local.HARVESTYEAR_CY~ MILO"
+										ID="colMILO_CBU"
+										Width="150"
+										WidthScale="px"
 										>
-										<LinkParams
-											Branch="@Data.BRANCH_NUMBER~"
-											Commodity="02"
-										/>
-										<Target
-											FrameID="Self"
-											ID="rptTMAHarvestDetailByDay"
-											Report="TMAReports.TMAHarvestDetailByDay"
-											RequestForwarding="True"
-											Type="Report"
+										<Label
+											Caption="@Data.MILO_CBU~"
+											Format="###,###,##0"
+											ID="lblMILO_CBU"
 											>
-											<WaitPage/>
-										</Target>
-									</Action>
-								</Label>
-								<Division
-									Condition="&quot;@Data.calcDiffMILO~&quot;&gt;&quot;0&quot;"
-									ID="divUpMILO"
-									>
-									<Image
-										Caption="arrow-up-green-x10.png"
-									/>
-								</Division>
-								<Division
-									Condition="&quot;@Data.calcDiffMILO~&quot;&lt;&quot;0&quot;"
-									ID="divDownMILO"
-									>
-									<Image
-										Caption="arrow-down-red-x10.png"
-									/>
-								</Division>
-								<DataColumnSort
-									DataColumn="MILO_CBU"
-									DataType="Number"
-									FirstSortSequence="Descending"
-									ReverseSortSequence="Ascending"
-								/>
-								<DataColumnSummary
-									DataColumn="MILO_CBU"
-									DataType="Number"
-									Function="Sum"
-									ID="sumMILO_CBU"
-								/>
-							</DataTableColumn>
-							<DataTableColumn
-								Class="ThemeAlignRight"
-								ColumnHeaderClass="ThemeAlignRight"
-								Condition="(&quot;@Request.Commodity~&quot; = &quot;00&quot;) or InStr(&quot;@Request.Commodity~&quot;, &quot;3&quot;) &gt; 0"
-								Header="@Local.HARVESTYEAR_CY~ SOYBEANS"
-								ID="colSOYBEANS_CBU"
-								Width="150"
-								WidthScale="px"
-								>
-								<Label
-									Caption="@Data.SOYBEANS_CBU~"
-									Format="###,###,##0"
-									ID="lblSOYBEANS_CBU"
-									>
-									<Action
-										Type="Report"
+											<Action
+												Type="Report"
+												>
+												<LinkParams
+													Branch="@Data.BRANCH_NUMBER~"
+													Commodity="02"
+												/>
+												<Target
+													FrameID="Self"
+													ID="rptTMAHarvestDetailByDay"
+													Report="TMAReports.TMAHarvestDetailByDay"
+													RequestForwarding="True"
+													Type="Report"
+													>
+													<WaitPage/>
+												</Target>
+											</Action>
+										</Label>
+										<Division
+											Condition="&quot;@Data.calcDiffMILO~&quot;&gt;&quot;0&quot;"
+											ID="divUpMILO"
+											>
+											<Image
+												Caption="arrow-up-green-x10.png"
+											/>
+										</Division>
+										<Division
+											Condition="&quot;@Data.calcDiffMILO~&quot;&lt;&quot;0&quot;"
+											ID="divDownMILO"
+											>
+											<Image
+												Caption="arrow-down-red-x10.png"
+											/>
+										</Division>
+										<DataColumnSort
+											DataColumn="MILO_CBU"
+											DataType="Number"
+											FirstSortSequence="Descending"
+											ReverseSortSequence="Ascending"
+										/>
+										<DataColumnSummary
+											DataColumn="MILO_CBU"
+											DataType="Number"
+											Function="Sum"
+											ID="sumMILO_CBU"
+										/>
+									</DataTableColumn>
+									<DataTableColumn
+										Class="ThemeAlignRight"
+										ColumnHeaderClass="ThemeAlignRight"
+										Condition="(&quot;@Request.Commodity~&quot; = &quot;00&quot;) or InStr(&quot;@Request.Commodity~&quot;, &quot;3&quot;) &gt; 0"
+										Header="@Local.HARVESTYEAR_CY~ SOYBEANS"
+										ID="colSOYBEANS_CBU"
+										Width="150"
+										WidthScale="px"
 										>
-										<LinkParams
-											Branch="@Data.BRANCH_NUMBER~"
-											Commodity="03"
-										/>
-										<Target
-											FrameID="Self"
-											ID="rptTMAHarvestDetailByDay"
-											Report="TMAReports.TMAHarvestDetailByDay"
-											RequestForwarding="True"
-											Type="Report"
+										<Label
+											Caption="@Data.SOYBEANS_CBU~"
+											Format="###,###,##0"
+											ID="lblSOYBEANS_CBU"
 											>
-											<WaitPage/>
-										</Target>
-									</Action>
-								</Label>
-								<Division
-									Condition="&quot;@Data.calcDiffSOYBEANS~&quot;&gt;&quot;0&quot;"
-									ID="divUpSOYBEANS"
-									>
-									<Image
-										Caption="arrow-up-green-x10.png"
-									/>
-								</Division>
-								<Division
-									Condition="&quot;@Data.calcDiffSOYBEANS~&quot;&lt;&quot;0&quot;"
-									ID="divDownSOYBEANS"
-									>
-									<Image
-										Caption="arrow-down-red-x10.png"
-									/>
-								</Division>
-								<DataColumnSort
-									DataColumn="SOYBEANS_CBU"
-									DataType="Number"
-									FirstSortSequence="Descending"
-									ReverseSortSequence="Ascending"
-								/>
-								<DataColumnSummary
-									DataColumn="SOYBEANS_CBU"
-									DataType="Number"
-									Function="Sum"
-									ID="sumSOYBEANS_CBU"
-								/>
-							</DataTableColumn>
-							<DataTableColumn
-								Class="ThemeAlignRight"
-								ColumnHeaderClass="ThemeAlignRight"
-								Condition="(&quot;@Request.Commodity~&quot; = &quot;00&quot;) or InStr(&quot;@Request.Commodity~&quot;, &quot;4&quot;) &gt; 0"
-								Header="@Local.HARVESTYEAR_CY~ CORN"
-								ID="colCORN_CBU"
-								Width="150"
-								WidthScale="px"
-								>
-								<Label
-									Caption="@Data.CORN_CBU~"
-									Format="###,###,##0"
-									ID="lblCORN_CBU"
-									>
-									<Action
-										Type="Report"
+											<Action
+												Type="Report"
+												>
+												<LinkParams
+													Branch="@Data.BRANCH_NUMBER~"
+													Commodity="03"
+												/>
+												<Target
+													FrameID="Self"
+													ID="rptTMAHarvestDetailByDay"
+													Report="TMAReports.TMAHarvestDetailByDay"
+													RequestForwarding="True"
+													Type="Report"
+													>
+													<WaitPage/>
+												</Target>
+											</Action>
+										</Label>
+										<Division
+											Condition="&quot;@Data.calcDiffSOYBEANS~&quot;&gt;&quot;0&quot;"
+											ID="divUpSOYBEANS"
+											>
+											<Image
+												Caption="arrow-up-green-x10.png"
+											/>
+										</Division>
+										<Division
+											Condition="&quot;@Data.calcDiffSOYBEANS~&quot;&lt;&quot;0&quot;"
+											ID="divDownSOYBEANS"
+											>
+											<Image
+												Caption="arrow-down-red-x10.png"
+											/>
+										</Division>
+										<DataColumnSort
+											DataColumn="SOYBEANS_CBU"
+											DataType="Number"
+											FirstSortSequence="Descending"
+											ReverseSortSequence="Ascending"
+										/>
+										<DataColumnSummary
+											DataColumn="SOYBEANS_CBU"
+											DataType="Number"
+											Function="Sum"
+											ID="sumSOYBEANS_CBU"
+										/>
+									</DataTableColumn>
+									<DataTableColumn
+										Class="ThemeAlignRight"
+										ColumnHeaderClass="ThemeAlignRight"
+										Condition="(&quot;@Request.Commodity~&quot; = &quot;00&quot;) or InStr(&quot;@Request.Commodity~&quot;, &quot;4&quot;) &gt; 0"
+										Header="@Local.HARVESTYEAR_CY~ CORN"
+										ID="colCORN_CBU"
+										Width="150"
+										WidthScale="px"
 										>
-										<LinkParams
-											Branch="@Data.BRANCH_NUMBER~"
-											Commodity="04"
-										/>
-										<Target
-											FrameID="Self"
-											ID="rptTMAHarvestDetailByDay"
-											Report="TMAReports.TMAHarvestDetailByDay"
-											RequestForwarding="True"
-											Type="Report"
+										<Label
+											Caption="@Data.CORN_CBU~"
+											Format="###,###,##0"
+											ID="lblCORN_CBU"
 											>
-											<WaitPage/>
-										</Target>
-									</Action>
-								</Label>
-								<Division
-									Condition="&quot;@Data.calcDiffCORN~&quot;&lt;&quot;0&quot;"
-									ID="divDownCORN"
-									>
-									<Image
-										Caption="arrow-down-red-x10.png"
+											<Action
+												Type="Report"
+												>
+												<LinkParams
+													Branch="@Data.BRANCH_NUMBER~"
+													Commodity="04"
+												/>
+												<Target
+													FrameID="Self"
+													ID="rptTMAHarvestDetailByDay"
+													Report="TMAReports.TMAHarvestDetailByDay"
+													RequestForwarding="True"
+													Type="Report"
+													>
+													<WaitPage/>
+												</Target>
+											</Action>
+										</Label>
+										<Division
+											Condition="&quot;@Data.calcDiffCORN~&quot;&lt;&quot;0&quot;"
+											ID="divDownCORN"
+											>
+											<Image
+												Caption="arrow-down-red-x10.png"
+											/>
+										</Division>
+										<Division
+											Condition="&quot;@Data.calcDiffCORN~&quot;&gt;&quot;0&quot;"
+											ID="divUpCORN"
+											>
+											<Image
+												Caption="arrow-up-green-x10.png"
+											/>
+										</Division>
+										<DataColumnSort
+											DataColumn="CORN_CBU"
+											DataType="Number"
+											FirstSortSequence="Descending"
+											ReverseSortSequence="Ascending"
+										/>
+										<DataColumnSummary
+											DataColumn="CORN_CBU"
+											DataType="Number"
+											Function="Sum"
+											ID="sumCORN_CBU"
+										/>
+									</DataTableColumn>
+									<DataTableColumn
+										Class="ThemeAlignRight, ThemeBold"
+										ColumnHeaderClass="ThemeAlignRight"
+										Header="@Local.HARVESTYEAR_CY~ TOTAL"
+										ID="colTOTAL_CBU"
+										Width="150"
+										WidthScale="px"
+										>
+										<Label
+											Caption="@Data.calcTOTAL~"
+											Format="###,###,##0"
+											ID="lblTOTAL_CBU"
+										/>
+										<Division
+											Condition="&quot;@Data.calcDiffTOTAL~&quot;&lt;&quot;0&quot;"
+											ID="divDownTOTAL"
+											>
+											<Image
+												Caption="arrow-down-red-x10.png"
+											/>
+										</Division>
+										<Division
+											Condition="&quot;@Data.calcDiffTOTAL~&quot;&gt;&quot;0&quot;"
+											ID="divUpTOTAL"
+											>
+											<Image
+												Caption="arrow-up-green-x10.png"
+											/>
+										</Division>
+										<DataColumnSort
+											DataColumn="TOTAL_CBU"
+											DataType="Number"
+											FirstSortSequence="Descending"
+											ReverseSortSequence="Ascending"
+										/>
+										<DataColumnSummary
+											DataColumn="TOTAL_CBU"
+											DataType="Number"
+											Function="Sum"
+											ID="sumTOTAL_CBU"
+										/>
+									</DataTableColumn>
+									<DataTableColumn
+										Class="ThemeAlignRight"
+										ColumnHeaderClass="ThemeAlignRight"
+										Header="CAPACITY 90%"
+										ID="colCapacity"
+										Width="150"
+										WidthScale="px"
+										>
+										<Label
+											Caption="@Data.CAPACITY~"
+											Format="###,###,##0"
+											ID="lblCapacity"
+										/>
+										<DataColumnSort
+											DataColumn="CAPACITY"
+											DataType="Number"
+											FirstSortSequence="Descending"
+											ReverseSortSequence="Ascending"
+										/>
+										<DataColumnSummary
+											DataColumn="CAPACITY"
+											DataType="Number"
+											Function="Sum"
+											ID="sumCAPACITY"
+										/>
+									</DataTableColumn>
+									<DataTableColumn
+										Class="ThemeAlignRight"
+										ColumnHeaderClass="ThemeAlignRight"
+										Condition="(&quot;@Request.Commodity~&quot; = &quot;00&quot;) or InStr(&quot;@Request.Commodity~&quot;, &quot;1&quot;) &gt; 0"
+										Header="WHEAT % of AVG"
+										ID="colWHEAT_Pct"
+										Width="150"
+										WidthScale="px"
+										>
+										<Label
+											Caption="@Data.calcPctWHEAT~"
+											Format="0%"
+											ID="lblWHEAT_Pct"
+										/>
+										<DataColumnSort
+											DataColumn="@Data.calcPctWHEAT~"
+											DataType="Number"
+											FirstSortSequence="Descending"
+											ReverseSortSequence="Ascending"
+										/>
+									</DataTableColumn>
+									<DataTableColumn
+										Class="ThemeAlignRight"
+										ColumnHeaderClass="ThemeAlignRight"
+										Condition="(&quot;@Request.Commodity~&quot; = &quot;00&quot;) or InStr(&quot;@Request.Commodity~&quot;, &quot;1&quot;) &gt; 0"
+										Header="WHEAT 5 YR AVG"
+										ID="colWHEAT_AVG"
+										Width="150"
+										WidthScale="px"
+										>
+										<Label
+											Caption="@Data.WHEAT_AVG~"
+											Format="###,###,##0"
+											ID="lblWHEAT_AVG"
+										/>
+										<DataColumnSort
+											DataColumn="WHEAT_AVG"
+											DataType="Number"
+											FirstSortSequence="Descending"
+											ReverseSortSequence="Ascending"
+										/>
+										<DataColumnSummary
+											DataColumn="WHEAT_AVG"
+											DataType="Number"
+											Function="Sum"
+											ID="sumWHEAT_AVG"
+										/>
+									</DataTableColumn>
+									<DataTableColumn
+										Class="ThemeAlignRight"
+										ColumnHeaderClass="ThemeAlignRight"
+										Condition="(&quot;@Request.Commodity~&quot; = &quot;00&quot;) or InStr(&quot;@Request.Commodity~&quot;, &quot;2&quot;) &gt; 0"
+										Header="MILO % of AVG"
+										ID="colMILO_Pct"
+										Width="150"
+										WidthScale="px"
+										>
+										<Label
+											Caption="@Data.calcPctMILO~"
+											Format="0%"
+											ID="lblMILO_Pct"
+										/>
+										<DataColumnSort
+											DataColumn="@Data.calcPctMILO~"
+											DataType="Number"
+											FirstSortSequence="Descending"
+											ReverseSortSequence="Ascending"
+										/>
+									</DataTableColumn>
+									<DataTableColumn
+										Class="ThemeAlignRight"
+										ColumnHeaderClass="ThemeAlignRight"
+										Condition="(&quot;@Request.Commodity~&quot; = &quot;00&quot;) or InStr(&quot;@Request.Commodity~&quot;, &quot;2&quot;) &gt; 0"
+										Header="MILO 5 YR AVG"
+										ID="colMILO_AVG"
+										Width="150"
+										WidthScale="px"
+										>
+										<Label
+											Caption="@Data.MILO_AVG~"
+											Format="###,###,##0"
+											ID="lblMILO_AVG"
+										/>
+										<DataColumnSort
+											DataColumn="MILO_AVG"
+											DataType="Number"
+											FirstSortSequence="Descending"
+											ReverseSortSequence="Ascending"
+										/>
+										<DataColumnSummary
+											DataColumn="MILO_AVG"
+											DataType="Number"
+											Function="Sum"
+											ID="sumMILO_AVG"
+										/>
+									</DataTableColumn>
+									<DataTableColumn
+										Class="ThemeAlignRight"
+										ColumnHeaderClass="ThemeAlignRight"
+										Condition="(&quot;@Request.Commodity~&quot; = &quot;00&quot;) or InStr(&quot;@Request.Commodity~&quot;, &quot;3&quot;) &gt; 0"
+										Header="SOYBEANS % of AVG"
+										ID="colSOYBEANS_Pct"
+										Width="150"
+										WidthScale="px"
+										>
+										<Label
+											Caption="@Data.calcPctSOYBEANS~"
+											Format="0%"
+											ID="lblSOYBEANS_Pct"
+										/>
+										<DataColumnSort
+											DataColumn="@Data.calcPctSOYBEANS~"
+											DataType="Number"
+											FirstSortSequence="Descending"
+											ReverseSortSequence="Ascending"
+										/>
+									</DataTableColumn>
+									<DataTableColumn
+										Class="ThemeAlignRight"
+										ColumnHeaderClass="ThemeAlignRight"
+										Condition="(&quot;@Request.Commodity~&quot; = &quot;00&quot;) or InStr(&quot;@Request.Commodity~&quot;, &quot;3&quot;) &gt; 0"
+										Header="SOYBEANS 5 YR AVG"
+										ID="colSOYBEANS_AVG"
+										Width="150"
+										WidthScale="px"
+										>
+										<Label
+											Caption="@Data.SOYBEANS_AVG~"
+											Format="###,###,##0"
+											ID="lblSOYBEANS_AVG"
+										/>
+										<DataColumnSort
+											DataColumn="SOYBEANS_AVG"
+											DataType="Number"
+											FirstSortSequence="Descending"
+											ReverseSortSequence="Ascending"
+										/>
+										<DataColumnSummary
+											DataColumn="SOYBEANS_AVG"
+											DataType="Number"
+											Function="Sum"
+											ID="sumSOYBEANS_AVG"
+										/>
+									</DataTableColumn>
+									<DataTableColumn
+										Class="ThemeAlignRight"
+										ColumnHeaderClass="ThemeAlignRight"
+										Condition="(&quot;@Request.Commodity~&quot; = &quot;00&quot;) or InStr(&quot;@Request.Commodity~&quot;, &quot;4&quot;) &gt; 0"
+										Header="CORN % of AVG"
+										ID="colCORN_Pct"
+										Width="150"
+										WidthScale="px"
+										>
+										<Label
+											Caption="@Data.calcPctCORN~"
+											Format="0%"
+											ID="lblCORN_Pct"
+										/>
+										<DataColumnSort
+											DataColumn="@Data.calcPctCORN~"
+											DataType="Number"
+											FirstSortSequence="Descending"
+											ReverseSortSequence="Ascending"
+										/>
+									</DataTableColumn>
+									<DataTableColumn
+										Class="ThemeAlignRight"
+										ColumnHeaderClass="ThemeAlignRight"
+										Condition="(&quot;@Request.Commodity~&quot; = &quot;00&quot;) or InStr(&quot;@Request.Commodity~&quot;, &quot;4&quot;) &gt; 0"
+										Header="CORN 5 YR AVG"
+										ID="colCORN_AVG"
+										Width="150"
+										WidthScale="px"
+										>
+										<Label
+											Caption="@Data.CORN_AVG~"
+											Format="###,###,##0"
+											ID="lblCORN_AVG"
+										/>
+										<DataColumnSort
+											DataColumn="CORN_AVG"
+											DataType="Number"
+											FirstSortSequence="Descending"
+											ReverseSortSequence="Ascending"
+										/>
+										<DataColumnSummary
+											DataColumn="CORN_AVG"
+											DataType="Number"
+											Function="Sum"
+											ID="sumCORN_AVG"
+										/>
+									</DataTableColumn>
+									<SummaryRow
+										Caption="Totals:"
+										Class="ThemeBold"
+										ID="sumTotals"
+										LastPageOnly="True"
 									/>
-								</Division>
-								<Division
-									Condition="&quot;@Data.calcDiffCORN~&quot;&gt;&quot;0&quot;"
-									ID="divUpCORN"
+								</DataTable>
+								<DataTable
+									AccessibleHeaders="True"
+									AccessibleSummary="AnalysisGrid DataTable"
+									AjaxPaging="True"
+									ID="dtHarvestTMA"
+									KeepScrollPosition="True"
+									Layout="Auto"
+									ResizableColumns="True"
+									SecurityRightID="OC"
+									SortArrows="True"
+									TableBorder="0"
 									>
-									<Image
-										Caption="arrow-up-green-x10.png"
+									<InteractivePaging
+										CaptionType="Image"
+										Class="ThemeTextSmall"
+										Location="Top"
+										PageRowCount="14"
+										ShowPageNumber="True"
 									/>
-								</Division>
-								<DataColumnSort
-									DataColumn="CORN_CBU"
-									DataType="Number"
-									FirstSortSequence="Descending"
-									ReverseSortSequence="Ascending"
-								/>
-								<DataColumnSummary
-									DataColumn="CORN_CBU"
-									DataType="Number"
-									Function="Sum"
-									ID="sumCORN_CBU"
-								/>
-							</DataTableColumn>
-							<DataTableColumn
-								Class="ThemeAlignRight, ThemeBold"
-								ColumnHeaderClass="ThemeAlignRight"
-								Header="@Local.HARVESTYEAR_CY~ TOTAL"
-								ID="colTOTAL_CBU"
-								Width="150"
-								WidthScale="px"
-								>
-								<Label
-									Caption="@Data.calcTOTAL~"
-									Format="###,###,##0"
-									ID="lblTOTAL_CBU"
-								/>
-								<Division
-									Condition="&quot;@Data.calcDiffTOTAL~&quot;&lt;&quot;0&quot;"
-									ID="divDownTOTAL"
-									>
-									<Image
-										Caption="arrow-down-red-x10.png"
+									<DataLayer
+										ConnectionID="connProdGP"
+										ID="sqlDMHarvest"
+										Source="SELECT HARVESTYEAR, BRANCH_NUMBER, BRANCH_NAME, ROUND(WHEAT_CBU,0) WHEAT_CBU, ROUND(WHEAT_PBU,0) WHEAT_PBU, ROUND(MILO_CBU,0) MILO_CBU, ROUND(MILO_PBU,0) MILO_PBU, ROUND(SOYBEANS_CBU,0) SOYBEANS_CBU, ROUND(SOYBEANS_PBU,0) SOYBEANS_PBU, ROUND(CORN_CBU,0) CORN_CBU, ROUND(CORN_PBU,0) CORN_PBU, ROUND(TOTAL_CBU,0) TOTAL_CBU, ROUND(TOTAL_PBU,0) TOTAL_PBU, ROUND(WHEAT_AVG,0) WHEAT_AVG, ROUND(MILO_AVG,0) MILO_AVG, ROUND(SOYBEANS_AVG,0) SOYBEANS_AVG, ROUND(CORN_AVG,0) CORN_AVG, ROUND(TOTAL_AVG,0) TOTAL_AVG
+FROM AgTrax_Staging..DM_HarvestSummary
+WHERE BRANCH_NUMBER IN(@Request.Branch~) OR &apos;@Request.Branch~&apos;=&apos;-1&apos;"
+										Type="SQL"
+										>
+										<Join
+											ID="joinSqlToExcel"
+											JoinType="LeftOuterJoin"
+											SortLeftSide="True"
+											SortRightSide="True"
+											>
+											<DataLayer
+												ColumnNamesRow="1"
+												ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\LocationData.xlsx"
+												ExcelWorksheet="TMALocations"
+												ID="excelTMALocations"
+												Type="Excel"
+											/>
+											<MatchCondition
+												DataType="Number"
+												ID="matchBranchNumber"
+												LeftDataColumn="BRANCH_NUMBER"
+												RightDataColumn="BRANCH_NUMBER"
+											/>
+										</Join>
+										<ConditionFilter
+											Condition="&quot;@Data.REGION~&quot; &lt;&gt; &quot;MKC&quot;"
+											ID="ifOCBranch"
+										/>
+										<CalculatedColumn
+											Formula="IIF(((&quot;@Request.Commodity~&quot; = &quot;00&quot;) or InStr(&quot;@Request.Commodity~&quot;, &quot;1&quot;) &gt; 0),IIF(&quot;@Data.WHEAT_CBU~&quot; = &quot;&quot;,&quot;0&quot;,&quot;@Data.WHEAT_CBU~&quot;),&quot;0&quot;)
+"
+											ID="calcWHEAT"
+										/>
+										<CalculatedColumn
+											Formula="IIF(((&quot;@Request.Commodity~&quot; = &quot;00&quot;) or InStr(&quot;@Request.Commodity~&quot;, &quot;2&quot;) &gt; 0),IIF(&quot;@Data.MILO_CBU~&quot; = &quot;&quot;,&quot;0&quot;,&quot;@Data.MILO_CBU~&quot;),&quot;0&quot;)
+"
+											ID="calcMILO"
+										/>
+										<CalculatedColumn
+											Formula="IIF(((&quot;@Request.Commodity~&quot; = &quot;00&quot;) or InStr(&quot;@Request.Commodity~&quot;, &quot;3&quot;) &gt; 0),IIF(&quot;@Data.SOYBEANS_CBU~&quot; = &quot;&quot;,&quot;0&quot;,&quot;@Data.SOYBEANS_CBU~&quot;),&quot;0&quot;)
+"
+											ID="calcSOYBEANS"
+										/>
+										<CalculatedColumn
+											Formula="IIF(((&quot;@Request.Commodity~&quot; = &quot;00&quot;) or InStr(&quot;@Request.Commodity~&quot;, &quot;4&quot;) &gt; 0),IIF(&quot;@Data.CORN_CBU~&quot; = &quot;&quot;,&quot;0&quot;,&quot;@Data.CORN_CBU~&quot;),&quot;0&quot;)
+"
+											ID="calcCORN"
+										/>
+										<CalculatedColumn
+											Formula="@Data.calcWHEAT~ + @Data.calcMILO~ + @Data.calcSOYBEANS~ + @Data.calcCORN~"
+											ID="calcTOTAL"
+										/>
+										<CalculatedColumn
+											Formula="IIF(&quot;@Data.WHEAT_CBU~&quot; = &quot;&quot;,&quot;0&quot;,&quot;@Data.WHEAT_CBU~&quot;-&quot;@Data.WHEAT_AVG~&quot;)"
+											ID="calcDiffWHEAT"
+										/>
+										<CalculatedColumn
+											Formula="IIF(&quot;@Data.MILO_CBU~&quot; = &quot;&quot;,&quot;0&quot;,&quot;@Data.MILO_CBU~&quot;-&quot;@Data.MILO_AVG~&quot;)"
+											ID="calcDiffMILO"
+										/>
+										<CalculatedColumn
+											Formula="IIF(&quot;@Data.SOYBEANS_CBU~&quot; = &quot;&quot;,&quot;0&quot;,&quot;@Data.SOYBEANS_CBU~&quot;-&quot;@Data.SOYBEANS_AVG~&quot;)"
+											ID="calcDiffSOYBEANS"
+										/>
+										<CalculatedColumn
+											Formula="IIF(&quot;@Data.CORN_CBU~&quot; = &quot;&quot;,&quot;0&quot;,&quot;@Data.CORN_CBU~&quot;-&quot;@Data.CORN_AVG~&quot;)"
+											ID="calcDiffCORN"
+										/>
+										<CalculatedColumn
+											Formula="IIF(IsNumeric(&quot;@Data.calcTOTAL~&quot;),&quot;@Data.calcTOTAL~&quot;-&quot;@Data.TOTAL_AVG~&quot;,&quot;0&quot;)
+"
+											ID="calcDiffTOTAL"
+										/>
+										<CalculatedColumn
+											Formula="IIF(&quot;@Data.WHEAT_CBU~&quot; = &quot;&quot;,&quot;0&quot;,&quot;@Data.WHEAT_CBU~&quot;) / IIF(&quot;@Data.WHEAT_AVG~&quot; = &quot;&quot;,&quot;1&quot;,&quot;@Data.WHEAT_AVG~&quot;)
+"
+											ID="calcPctWHEAT"
+										/>
+										<CalculatedColumn
+											Formula="IIF(&quot;@Data.MILO_CBU~&quot; = &quot;&quot;,&quot;0&quot;,&quot;@Data.MILO_CBU~&quot;) / IIF(&quot;@Data.MILO_AVG~&quot; = &quot;&quot;,&quot;1&quot;,&quot;@Data.MILO_AVG~&quot;)"
+											ID="calcPctMILO"
+										/>
+										<CalculatedColumn
+											Formula="IIF(&quot;@Data.SOYBEANS_CBU~&quot; = &quot;&quot;,&quot;0&quot;,&quot;@Data.SOYBEANS_CBU~&quot;) / IIF(&quot;@Data.SOYBEANS_AVG~&quot; = &quot;&quot;,&quot;1&quot;,&quot;@Data.SOYBEANS_AVG~&quot;)"
+											ID="calcPctSOYBEANS"
+										/>
+										<CalculatedColumn
+											Formula="IIF(&quot;@Data.CORN_CBU~&quot; = &quot;&quot;,&quot;0&quot;,&quot;@Data.CORN_CBU~&quot;) / IIF(&quot;@Data.CORN_AVG~&quot; = &quot;&quot;,&quot;1&quot;,&quot;@Data.CORN_AVG~&quot;)"
+											ID="calcPctCORN"
+										/>
+										<CalculatedColumn
+											Formula="@Data.calcTOTAL~ / IIF(&quot;@Data.TOTAL_AVG~&quot; = &quot;&quot;,&quot;1&quot;,&quot;@Data.TOTAL_AVG~&quot;)
+  "
+											ID="calcPctTOTAL"
+										/>
+										<SortFilter
+											DataType="Text"
+											ID="sortBranchName"
+											SortColumn="BRANCH_NAME"
+										/>
+									</DataLayer>
+									<DataTableColumn
+										Header="LOCATION"
+										ID="colBRANCH_NAME"
+										Width="250"
+										WidthScale="px"
+										>
+										<Label
+											Caption="@Data.BRANCH_NAME~"
+											ID="lblBRANCH_NAME"
+										/>
+										<DataColumnSort
+											DataColumn="BRANCH_NAME"
+											DataType="Text"
+										/>
+									</DataTableColumn>
+									<DataTableColumn
+										Header="REGION"
+										ID="colRegion"
+										Width="100"
+										WidthScale="px"
+										>
+										<Label
+											Caption="@Data.REGION~"
+											ID="lblRegion"
+										/>
+										<DataColumnSort
+											DataColumn="REGION, BRANCH_NAME"
+											DataType="Text"
+										/>
+									</DataTableColumn>
+									<DataTableColumn
+										Class="ThemeAlignRight"
+										ColumnHeaderClass="ThemeAlignRight"
+										Condition="(&quot;@Request.Commodity~&quot; = &quot;00&quot;) or InStr(&quot;@Request.Commodity~&quot;, &quot;1&quot;) &gt; 0
+"
+										Header="@Local.HARVESTYEAR_CY~ WHEAT"
+										ID="colWHEAT_CBU"
+										Width="150"
+										WidthScale="px"
+										>
+										<Label
+											Caption="@Data.WHEAT_CBU~"
+											Format=" ###,###,##0 "
+											ID="lblWHEAT_CBU"
+											>
+											<Action
+												Type="Report"
+												>
+												<LinkParams
+													Branch="@Data.BRANCH_NUMBER~"
+													Commodity="01"
+													HarvestBeginDate="@Local.HARVESTBEGINDT~"
+													HarvestEndDate="@Local.HARVESTENDDT~"
+												/>
+												<Target
+													FrameID="Self"
+													ID="rptTMAHarvestDetailByDay"
+													Report="TMAReports.TMAHarvestDetailByDay"
+													RequestForwarding="True"
+													Type="Report"
+													>
+													<WaitPage/>
+												</Target>
+											</Action>
+										</Label>
+										<Division
+											Condition="&quot;@Data.calcDiffWHEAT~&quot; &lt; &quot;0&quot;"
+											ID="divDownWHEAT"
+											>
+											<Image
+												Caption="arrow-down-red-x10.png"
+											/>
+										</Division>
+										<Division
+											Condition="&quot;@Data.calcDiffWHEAT~&quot;&gt;&quot;0&quot;"
+											ID="divUpWHEAT"
+											>
+											<Image
+												Caption="arrow-up-green-x10.png"
+											/>
+										</Division>
+										<DataColumnSort
+											DataColumn="WHEAT_CBU"
+											DataType="Number"
+											FirstSortSequence="Descending"
+											ReverseSortSequence="Ascending"
+										/>
+										<DataColumnSummary
+											DataColumn="WHEAT_CBU"
+											DataType="Number"
+											Function="Sum"
+											ID="sumWHEAT_CBU"
+										/>
+									</DataTableColumn>
+									<DataTableColumn
+										Class="ThemeAlignRight"
+										ColumnHeaderClass="ThemeAlignRight"
+										Condition="(&quot;@Request.Commodity~&quot; = &quot;00&quot;) or InStr(&quot;@Request.Commodity~&quot;, &quot;2&quot;) &gt; 0"
+										Header="@Local.HARVESTYEAR_CY~ MILO"
+										ID="colMILO_CBU"
+										Width="150"
+										WidthScale="px"
+										>
+										<Label
+											Caption="@Data.MILO_CBU~"
+											Format="###,###,##0"
+											ID="lblMILO_CBU"
+											>
+											<Action
+												Type="Report"
+												>
+												<LinkParams
+													Branch="@Data.BRANCH_NUMBER~"
+													Commodity="02"
+												/>
+												<Target
+													FrameID="Self"
+													ID="rptTMAHarvestDetailByDay"
+													Report="TMAReports.TMAHarvestDetailByDay"
+													RequestForwarding="True"
+													Type="Report"
+													>
+													<WaitPage/>
+												</Target>
+											</Action>
+										</Label>
+										<Division
+											Condition="&quot;@Data.calcDiffMILO~&quot;&gt;&quot;0&quot;"
+											ID="divUpMILO"
+											>
+											<Image
+												Caption="arrow-up-green-x10.png"
+											/>
+										</Division>
+										<Division
+											Condition="&quot;@Data.calcDiffMILO~&quot;&lt;&quot;0&quot;"
+											ID="divDownMILO"
+											>
+											<Image
+												Caption="arrow-down-red-x10.png"
+											/>
+										</Division>
+										<DataColumnSort
+											DataColumn="MILO_CBU"
+											DataType="Number"
+											FirstSortSequence="Descending"
+											ReverseSortSequence="Ascending"
+										/>
+										<DataColumnSummary
+											DataColumn="MILO_CBU"
+											DataType="Number"
+											Function="Sum"
+											ID="sumMILO_CBU"
+										/>
+									</DataTableColumn>
+									<DataTableColumn
+										Class="ThemeAlignRight"
+										ColumnHeaderClass="ThemeAlignRight"
+										Condition="(&quot;@Request.Commodity~&quot; = &quot;00&quot;) or InStr(&quot;@Request.Commodity~&quot;, &quot;3&quot;) &gt; 0"
+										Header="@Local.HARVESTYEAR_CY~ SOYBEANS"
+										ID="colSOYBEANS_CBU"
+										Width="150"
+										WidthScale="px"
+										>
+										<Label
+											Caption="@Data.SOYBEANS_CBU~"
+											Format="###,###,##0"
+											ID="lblSOYBEANS_CBU"
+											>
+											<Action
+												Type="Report"
+												>
+												<LinkParams
+													Branch="@Data.BRANCH_NUMBER~"
+													Commodity="03"
+												/>
+												<Target
+													FrameID="Self"
+													ID="rptTMAHarvestDetailByDay"
+													Report="TMAReports.TMAHarvestDetailByDay"
+													RequestForwarding="True"
+													Type="Report"
+													>
+													<WaitPage/>
+												</Target>
+											</Action>
+										</Label>
+										<Division
+											Condition="&quot;@Data.calcDiffSOYBEANS~&quot;&gt;&quot;0&quot;"
+											ID="divUpSOYBEANS"
+											>
+											<Image
+												Caption="arrow-up-green-x10.png"
+											/>
+										</Division>
+										<Division
+											Condition="&quot;@Data.calcDiffSOYBEANS~&quot;&lt;&quot;0&quot;"
+											ID="divDownSOYBEANS"
+											>
+											<Image
+												Caption="arrow-down-red-x10.png"
+											/>
+										</Division>
+										<DataColumnSort
+											DataColumn="SOYBEANS_CBU"
+											DataType="Number"
+											FirstSortSequence="Descending"
+											ReverseSortSequence="Ascending"
+										/>
+										<DataColumnSummary
+											DataColumn="SOYBEANS_CBU"
+											DataType="Number"
+											Function="Sum"
+											ID="sumSOYBEANS_CBU"
+										/>
+									</DataTableColumn>
+									<DataTableColumn
+										Class="ThemeAlignRight"
+										ColumnHeaderClass="ThemeAlignRight"
+										Condition="(&quot;@Request.Commodity~&quot; = &quot;00&quot;) or InStr(&quot;@Request.Commodity~&quot;, &quot;4&quot;) &gt; 0"
+										Header="@Local.HARVESTYEAR_CY~ CORN"
+										ID="colCORN_CBU"
+										Width="150"
+										WidthScale="px"
+										>
+										<Label
+											Caption="@Data.CORN_CBU~"
+											Format="###,###,##0"
+											ID="lblCORN_CBU"
+											>
+											<Action
+												Type="Report"
+												>
+												<LinkParams
+													Branch="@Data.BRANCH_NUMBER~"
+													Commodity="04"
+												/>
+												<Target
+													FrameID="Self"
+													ID="rptTMAHarvestDetailByDay"
+													Report="TMAReports.TMAHarvestDetailByDay"
+													RequestForwarding="True"
+													Type="Report"
+													>
+													<WaitPage/>
+												</Target>
+											</Action>
+										</Label>
+										<Division
+											Condition="&quot;@Data.calcDiffCORN~&quot;&lt;&quot;0&quot;"
+											ID="divDownCORN"
+											>
+											<Image
+												Caption="arrow-down-red-x10.png"
+											/>
+										</Division>
+										<Division
+											Condition="&quot;@Data.calcDiffCORN~&quot;&gt;&quot;0&quot;"
+											ID="divUpCORN"
+											>
+											<Image
+												Caption="arrow-up-green-x10.png"
+											/>
+										</Division>
+										<DataColumnSort
+											DataColumn="CORN_CBU"
+											DataType="Number"
+											FirstSortSequence="Descending"
+											ReverseSortSequence="Ascending"
+										/>
+										<DataColumnSummary
+											DataColumn="CORN_CBU"
+											DataType="Number"
+											Function="Sum"
+											ID="sumCORN_CBU"
+										/>
+									</DataTableColumn>
+									<DataTableColumn
+										Class="ThemeAlignRight, ThemeBold"
+										ColumnHeaderClass="ThemeAlignRight"
+										Header="@Local.HARVESTYEAR_CY~ TOTAL"
+										ID="colTOTAL_CBU"
+										Width="150"
+										WidthScale="px"
+										>
+										<Label
+											Caption="@Data.calcTOTAL~"
+											Format="###,###,##0"
+											ID="lblTOTAL_CBU"
+										/>
+										<Division
+											Condition="&quot;@Data.calcDiffTOTAL~&quot;&lt;&quot;0&quot;"
+											ID="divDownTOTAL"
+											>
+											<Image
+												Caption="arrow-down-red-x10.png"
+											/>
+										</Division>
+										<Division
+											Condition="&quot;@Data.calcDiffTOTAL~&quot;&gt;&quot;0&quot;"
+											ID="divUpTOTAL"
+											>
+											<Image
+												Caption="arrow-up-green-x10.png"
+											/>
+										</Division>
+										<DataColumnSort
+											DataColumn="TOTAL_CBU"
+											DataType="Number"
+											FirstSortSequence="Descending"
+											ReverseSortSequence="Ascending"
+										/>
+										<DataColumnSummary
+											DataColumn="TOTAL_CBU"
+											DataType="Number"
+											Function="Sum"
+											ID="sumTOTAL_CBU"
+										/>
+									</DataTableColumn>
+									<DataTableColumn
+										Class="ThemeAlignRight"
+										ColumnHeaderClass="ThemeAlignRight"
+										Header="CAPACITY 90%"
+										ID="colCapacity"
+										Width="150"
+										WidthScale="px"
+										>
+										<Label
+											Caption="@Data.CAPACITY~"
+											Format="###,###,##0"
+											ID="lblCapacity"
+										/>
+										<DataColumnSort
+											DataColumn="CAPACITY"
+											DataType="Number"
+											FirstSortSequence="Descending"
+											ReverseSortSequence="Ascending"
+										/>
+										<DataColumnSummary
+											DataColumn="CAPACITY"
+											DataType="Number"
+											Function="Sum"
+											ID="sumCAPACITY"
+										/>
+									</DataTableColumn>
+									<DataTableColumn
+										Class="ThemeAlignRight"
+										ColumnHeaderClass="ThemeAlignRight"
+										Condition="(&quot;@Request.Commodity~&quot; = &quot;00&quot;) or InStr(&quot;@Request.Commodity~&quot;, &quot;1&quot;) &gt; 0"
+										Header="WHEAT % of AVG"
+										ID="colWHEAT_Pct"
+										Width="150"
+										WidthScale="px"
+										>
+										<Label
+											Caption="@Data.calcPctWHEAT~"
+											Format="0%"
+											ID="lblWHEAT_Pct"
+										/>
+										<DataColumnSort
+											DataColumn="@Data.calcPctWHEAT~"
+											DataType="Number"
+											FirstSortSequence="Descending"
+											ReverseSortSequence="Ascending"
+										/>
+									</DataTableColumn>
+									<DataTableColumn
+										Class="ThemeAlignRight"
+										ColumnHeaderClass="ThemeAlignRight"
+										Condition="(&quot;@Request.Commodity~&quot; = &quot;00&quot;) or InStr(&quot;@Request.Commodity~&quot;, &quot;1&quot;) &gt; 0"
+										Header="WHEAT 5 YR AVG"
+										ID="colWHEAT_AVG"
+										Width="150"
+										WidthScale="px"
+										>
+										<Label
+											Caption="@Data.WHEAT_AVG~"
+											Format="###,###,##0"
+											ID="lblWHEAT_AVG"
+										/>
+										<DataColumnSort
+											DataColumn="WHEAT_AVG"
+											DataType="Number"
+											FirstSortSequence="Descending"
+											ReverseSortSequence="Ascending"
+										/>
+										<DataColumnSummary
+											DataColumn="WHEAT_AVG"
+											DataType="Number"
+											Function="Sum"
+											ID="sumWHEAT_AVG"
+										/>
+									</DataTableColumn>
+									<DataTableColumn
+										Class="ThemeAlignRight"
+										ColumnHeaderClass="ThemeAlignRight"
+										Condition="(&quot;@Request.Commodity~&quot; = &quot;00&quot;) or InStr(&quot;@Request.Commodity~&quot;, &quot;2&quot;) &gt; 0"
+										Header="MILO % of AVG"
+										ID="colMILO_Pct"
+										Width="150"
+										WidthScale="px"
+										>
+										<Label
+											Caption="@Data.calcPctMILO~"
+											Format="0%"
+											ID="lblMILO_Pct"
+										/>
+										<DataColumnSort
+											DataColumn="@Data.calcPctMILO~"
+											DataType="Number"
+											FirstSortSequence="Descending"
+											ReverseSortSequence="Ascending"
+										/>
+									</DataTableColumn>
+									<DataTableColumn
+										Class="ThemeAlignRight"
+										ColumnHeaderClass="ThemeAlignRight"
+										Condition="(&quot;@Request.Commodity~&quot; = &quot;00&quot;) or InStr(&quot;@Request.Commodity~&quot;, &quot;2&quot;) &gt; 0"
+										Header="MILO 5 YR AVG"
+										ID="colMILO_AVG"
+										Width="150"
+										WidthScale="px"
+										>
+										<Label
+											Caption="@Data.MILO_AVG~"
+											Format="###,###,##0"
+											ID="lblMILO_AVG"
+										/>
+										<DataColumnSort
+											DataColumn="MILO_AVG"
+											DataType="Number"
+											FirstSortSequence="Descending"
+											ReverseSortSequence="Ascending"
+										/>
+										<DataColumnSummary
+											DataColumn="MILO_AVG"
+											DataType="Number"
+											Function="Sum"
+											ID="sumMILO_AVG"
+										/>
+									</DataTableColumn>
+									<DataTableColumn
+										Class="ThemeAlignRight"
+										ColumnHeaderClass="ThemeAlignRight"
+										Condition="(&quot;@Request.Commodity~&quot; = &quot;00&quot;) or InStr(&quot;@Request.Commodity~&quot;, &quot;3&quot;) &gt; 0"
+										Header="SOYBEANS % of AVG"
+										ID="colSOYBEANS_Pct"
+										Width="150"
+										WidthScale="px"
+										>
+										<Label
+											Caption="@Data.calcPctSOYBEANS~"
+											Format="0%"
+											ID="lblSOYBEANS_Pct"
+										/>
+										<DataColumnSort
+											DataColumn="@Data.calcPctSOYBEANS~"
+											DataType="Number"
+											FirstSortSequence="Descending"
+											ReverseSortSequence="Ascending"
+										/>
+									</DataTableColumn>
+									<DataTableColumn
+										Class="ThemeAlignRight"
+										ColumnHeaderClass="ThemeAlignRight"
+										Condition="(&quot;@Request.Commodity~&quot; = &quot;00&quot;) or InStr(&quot;@Request.Commodity~&quot;, &quot;3&quot;) &gt; 0"
+										Header="SOYBEANS 5 YR AVG"
+										ID="colSOYBEANS_AVG"
+										Width="150"
+										WidthScale="px"
+										>
+										<Label
+											Caption="@Data.SOYBEANS_AVG~"
+											Format="###,###,##0"
+											ID="lblSOYBEANS_AVG"
+										/>
+										<DataColumnSort
+											DataColumn="SOYBEANS_AVG"
+											DataType="Number"
+											FirstSortSequence="Descending"
+											ReverseSortSequence="Ascending"
+										/>
+										<DataColumnSummary
+											DataColumn="SOYBEANS_AVG"
+											DataType="Number"
+											Function="Sum"
+											ID="sumSOYBEANS_AVG"
+										/>
+									</DataTableColumn>
+									<DataTableColumn
+										Class="ThemeAlignRight"
+										ColumnHeaderClass="ThemeAlignRight"
+										Condition="(&quot;@Request.Commodity~&quot; = &quot;00&quot;) or InStr(&quot;@Request.Commodity~&quot;, &quot;4&quot;) &gt; 0"
+										Header="CORN % of AVG"
+										ID="colCORN_Pct"
+										Width="150"
+										WidthScale="px"
+										>
+										<Label
+											Caption="@Data.calcPctCORN~"
+											Format="0%"
+											ID="lblCORN_Pct"
+										/>
+										<DataColumnSort
+											DataColumn="@Data.calcPctCORN~"
+											DataType="Number"
+											FirstSortSequence="Descending"
+											ReverseSortSequence="Ascending"
+										/>
+									</DataTableColumn>
+									<DataTableColumn
+										Class="ThemeAlignRight"
+										ColumnHeaderClass="ThemeAlignRight"
+										Condition="(&quot;@Request.Commodity~&quot; = &quot;00&quot;) or InStr(&quot;@Request.Commodity~&quot;, &quot;4&quot;) &gt; 0"
+										Header="CORN 5 YR AVG"
+										ID="colCORN_AVG"
+										Width="150"
+										WidthScale="px"
+										>
+										<Label
+											Caption="@Data.CORN_AVG~"
+											Format="###,###,##0"
+											ID="lblCORN_AVG"
+										/>
+										<DataColumnSort
+											DataColumn="CORN_AVG"
+											DataType="Number"
+											FirstSortSequence="Descending"
+											ReverseSortSequence="Ascending"
+										/>
+										<DataColumnSummary
+											DataColumn="CORN_AVG"
+											DataType="Number"
+											Function="Sum"
+											ID="sumCORN_AVG"
+										/>
+									</DataTableColumn>
+									<SummaryRow
+										Caption="Totals:"
+										Class="ThemeBold"
+										ID="sumTotals"
+										LastPageOnly="True"
 									/>
-								</Division>
-								<Division
-									Condition="&quot;@Data.calcDiffTOTAL~&quot;&gt;&quot;0&quot;"
-									ID="divUpTOTAL"
-									>
-									<Image
-										Caption="arrow-up-green-x10.png"
-									/>
-								</Division>
-								<DataColumnSort
-									DataColumn="TOTAL_CBU"
-									DataType="Number"
-									FirstSortSequence="Descending"
-									ReverseSortSequence="Ascending"
-								/>
-								<DataColumnSummary
-									DataColumn="TOTAL_CBU"
-									DataType="Number"
-									Function="Sum"
-									ID="sumTOTAL_CBU"
-								/>
-							</DataTableColumn>
-							<DataTableColumn
-								Class="ThemeAlignRight"
-								ColumnHeaderClass="ThemeAlignRight"
-								Header="CAPACITY 90%"
-								ID="colCapacity"
-								Width="150"
-								WidthScale="px"
-								>
-								<Label
-									Caption="@Data.CAPACITY~"
-									Format="###,###,##0"
-									ID="lblCapacity"
-								/>
-								<DataColumnSort
-									DataColumn="CAPACITY"
-									DataType="Number"
-									FirstSortSequence="Descending"
-									ReverseSortSequence="Ascending"
-								/>
-								<DataColumnSummary
-									DataColumn="CAPACITY"
-									DataType="Number"
-									Function="Sum"
-									ID="sumCAPACITY"
-								/>
-							</DataTableColumn>
-							<DataTableColumn
-								Class="ThemeAlignRight"
-								ColumnHeaderClass="ThemeAlignRight"
-								Condition="(&quot;@Request.Commodity~&quot; = &quot;00&quot;) or InStr(&quot;@Request.Commodity~&quot;, &quot;1&quot;) &gt; 0"
-								Header="WHEAT % of AVG"
-								ID="colWHEAT_Pct"
-								Width="150"
-								WidthScale="px"
-								>
-								<Label
-									Caption="@Data.calcPctWHEAT~"
-									Format="0%"
-									ID="lblWHEAT_Pct"
-								/>
-								<DataColumnSort
-									DataColumn="@Data.calcPctWHEAT~"
-									DataType="Number"
-									FirstSortSequence="Descending"
-									ReverseSortSequence="Ascending"
-								/>
-							</DataTableColumn>
-							<DataTableColumn
-								Class="ThemeAlignRight"
-								ColumnHeaderClass="ThemeAlignRight"
-								Condition="(&quot;@Request.Commodity~&quot; = &quot;00&quot;) or InStr(&quot;@Request.Commodity~&quot;, &quot;1&quot;) &gt; 0"
-								Header="WHEAT 5 YR AVG"
-								ID="colWHEAT_AVG"
-								Width="150"
-								WidthScale="px"
-								>
-								<Label
-									Caption="@Data.WHEAT_AVG~"
-									Format="###,###,##0"
-									ID="lblWHEAT_AVG"
-								/>
-								<DataColumnSort
-									DataColumn="WHEAT_AVG"
-									DataType="Number"
-									FirstSortSequence="Descending"
-									ReverseSortSequence="Ascending"
-								/>
-								<DataColumnSummary
-									DataColumn="WHEAT_AVG"
-									DataType="Number"
-									Function="Sum"
-									ID="sumWHEAT_AVG"
-								/>
-							</DataTableColumn>
-							<DataTableColumn
-								Class="ThemeAlignRight"
-								ColumnHeaderClass="ThemeAlignRight"
-								Condition="(&quot;@Request.Commodity~&quot; = &quot;00&quot;) or InStr(&quot;@Request.Commodity~&quot;, &quot;2&quot;) &gt; 0"
-								Header="MILO % of AVG"
-								ID="colMILO_Pct"
-								Width="150"
-								WidthScale="px"
-								>
-								<Label
-									Caption="@Data.calcPctMILO~"
-									Format="0%"
-									ID="lblMILO_Pct"
-								/>
-								<DataColumnSort
-									DataColumn="@Data.calcPctMILO~"
-									DataType="Number"
-									FirstSortSequence="Descending"
-									ReverseSortSequence="Ascending"
-								/>
-							</DataTableColumn>
-							<DataTableColumn
-								Class="ThemeAlignRight"
-								ColumnHeaderClass="ThemeAlignRight"
-								Condition="(&quot;@Request.Commodity~&quot; = &quot;00&quot;) or InStr(&quot;@Request.Commodity~&quot;, &quot;2&quot;) &gt; 0"
-								Header="MILO 5 YR AVG"
-								ID="colMILO_AVG"
-								Width="150"
-								WidthScale="px"
-								>
-								<Label
-									Caption="@Data.MILO_AVG~"
-									Format="###,###,##0"
-									ID="lblMILO_AVG"
-								/>
-								<DataColumnSort
-									DataColumn="MILO_AVG"
-									DataType="Number"
-									FirstSortSequence="Descending"
-									ReverseSortSequence="Ascending"
-								/>
-								<DataColumnSummary
-									DataColumn="MILO_AVG"
-									DataType="Number"
-									Function="Sum"
-									ID="sumMILO_AVG"
-								/>
-							</DataTableColumn>
-							<DataTableColumn
-								Class="ThemeAlignRight"
-								ColumnHeaderClass="ThemeAlignRight"
-								Condition="(&quot;@Request.Commodity~&quot; = &quot;00&quot;) or InStr(&quot;@Request.Commodity~&quot;, &quot;3&quot;) &gt; 0"
-								Header="SOYBEANS % of AVG"
-								ID="colSOYBEANS_Pct"
-								Width="150"
-								WidthScale="px"
-								>
-								<Label
-									Caption="@Data.calcPctSOYBEANS~"
-									Format="0%"
-									ID="lblSOYBEANS_Pct"
-								/>
-								<DataColumnSort
-									DataColumn="@Data.calcPctSOYBEANS~"
-									DataType="Number"
-									FirstSortSequence="Descending"
-									ReverseSortSequence="Ascending"
-								/>
-							</DataTableColumn>
-							<DataTableColumn
-								Class="ThemeAlignRight"
-								ColumnHeaderClass="ThemeAlignRight"
-								Condition="(&quot;@Request.Commodity~&quot; = &quot;00&quot;) or InStr(&quot;@Request.Commodity~&quot;, &quot;3&quot;) &gt; 0"
-								Header="SOYBEANS 5 YR AVG"
-								ID="colSOYBEANS_AVG"
-								Width="150"
-								WidthScale="px"
-								>
-								<Label
-									Caption="@Data.SOYBEANS_AVG~"
-									Format="###,###,##0"
-									ID="lblSOYBEANS_AVG"
-								/>
-								<DataColumnSort
-									DataColumn="SOYBEANS_AVG"
-									DataType="Number"
-									FirstSortSequence="Descending"
-									ReverseSortSequence="Ascending"
-								/>
-								<DataColumnSummary
-									DataColumn="SOYBEANS_AVG"
-									DataType="Number"
-									Function="Sum"
-									ID="sumSOYBEANS_AVG"
-								/>
-							</DataTableColumn>
-							<DataTableColumn
-								Class="ThemeAlignRight"
-								ColumnHeaderClass="ThemeAlignRight"
-								Condition="(&quot;@Request.Commodity~&quot; = &quot;00&quot;) or InStr(&quot;@Request.Commodity~&quot;, &quot;4&quot;) &gt; 0"
-								Header="CORN % of AVG"
-								ID="colCORN_Pct"
-								Width="150"
-								WidthScale="px"
-								>
-								<Label
-									Caption="@Data.calcPctCORN~"
-									Format="0%"
-									ID="lblCORN_Pct"
-								/>
-								<DataColumnSort
-									DataColumn="@Data.calcPctCORN~"
-									DataType="Number"
-									FirstSortSequence="Descending"
-									ReverseSortSequence="Ascending"
-								/>
-							</DataTableColumn>
-							<DataTableColumn
-								Class="ThemeAlignRight"
-								ColumnHeaderClass="ThemeAlignRight"
-								Condition="(&quot;@Request.Commodity~&quot; = &quot;00&quot;) or InStr(&quot;@Request.Commodity~&quot;, &quot;4&quot;) &gt; 0"
-								Header="CORN 5 YR AVG"
-								ID="colCORN_AVG"
-								Width="150"
-								WidthScale="px"
-								>
-								<Label
-									Caption="@Data.CORN_AVG~"
-									Format="###,###,##0"
-									ID="lblCORN_AVG"
-								/>
-								<DataColumnSort
-									DataColumn="CORN_AVG"
-									DataType="Number"
-									FirstSortSequence="Descending"
-									ReverseSortSequence="Ascending"
-								/>
-								<DataColumnSummary
-									DataColumn="CORN_AVG"
-									DataType="Number"
-									Function="Sum"
-									ID="sumCORN_AVG"
-								/>
-							</DataTableColumn>
-							<SummaryRow
-								Caption="Totals:"
-								Class="ThemeBold, ThemeTextLarge"
-								ID="sumTotals"
-								LastPageOnly="True"
-							/>
-						</DataTable>
-					</Column>
-				</Row>
-				<Row>
-					<Note
-						Note="This row exists because of a flaw with the screen rendering of the report footer. The footer will overlay the internal body objects rendered."
-					/>
-					<Column>
-						<Label
-							Caption="."
-						/>
-					</Column>
-				</Row>
-			</Rows>
+								</DataTable>
+							</Division>
+						</ResponsiveColumn>
+					</ResponsiveRow>
+				</Division>
+			</Division>
 		</Division>
 	</Body>
 	<ReportFooter>
