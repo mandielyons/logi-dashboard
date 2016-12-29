@@ -1203,6 +1203,24 @@ ORDER BY CONTRACT_TYPE, DELIVERY_END_DATE
 							HtmlDiv="True"
 							ID="panel-detail-body"
 							>
+							<ResponsiveRow>
+								<ResponsiveColumn
+									Class="ThemeAlignRight"
+									>
+									<Label
+										Class="fa fa-file-excel-o fa-2x "
+										HtmlTag="Span"
+										ID="lnkExcel"
+										Tooltip="Export to Excel"
+										>
+										<Action
+											Javascript="tableToExcel(&quot;dtTMAContractsNetDetail&quot;,&quot;Contracts Detail&quot;);"
+											SecurityRightID="MKC Dashboard,TMA Dashboard"
+											Type="Javascript"
+										/>
+									</Label>
+								</ResponsiveColumn>
+							</ResponsiveRow>
 							<ResponsiveRow
 								Class="ThemeTextSmall"
 								>

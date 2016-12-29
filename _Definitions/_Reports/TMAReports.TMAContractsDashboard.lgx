@@ -33,234 +33,64 @@
 		</DataLayer>
 	</LocalData>
 	<Body>
-		<Division
-			Class="panel panel-default"
-			HtmlDiv="True"
-			ID="panel-contracts"
-			>
-			<Division
-				Class="panel-heading"
-				HtmlDiv="True"
-				ID="panel-contracts-heading"
-				>
-				<Label
-					Caption="TMA Contracts Dashboard"
-				/>
-			</Division>
-			<Division
-				Class="panel-body"
-				HtmlDiv="True"
-				ID="panel-contracts-body"
-				>
-				<Remark>
-					<ResponsiveRow>
-						<ResponsiveColumn>
-							<Division
-								ID="selContractType"
+		<ResponsiveRow>
+			<ResponsiveColumn>
+				<Division
+					Class="panel panel-default"
+					HtmlDiv="True"
+					ID="panel-contracts"
+					>
+					<Division
+						Class="panel-heading"
+						HtmlDiv="True"
+						ID="panel-contracts-heading"
+						>
+						<Label
+							Caption="TMA Contracts Dashboard"
+						/>
+					</Division>
+					<Division
+						Class="panel-body"
+						HtmlDiv="True"
+						ID="panel-contracts-body"
+						>
+						<ResponsiveRow
+							Class="ThemeTextSmall"
+							CollisionBehavior="Wrap"
+							>
+							<ResponsiveColumn
+								Class="ThemeAlignCenter"
+								ColspanExtraSmallScreen="12"
+								ColspanLargeScreen="6"
+								ColspanMediumScreen="6"
+								ColspanSmallScreen="12"
 								>
-								<Label
-									Caption="Contract Type:"
-									Class="ThemeTextSmall"
-								/>
-								<Spaces
-									Size="4"
-								/>
-								<InputRadioButtons
-									Class="ThemeTextSmall"
-									DefaultValue="@Request.ContractType~"
-									ID="ContractType"
-									OptionCaptionColumn="CONTRACT_TYPE_DESC"
-									OptionValueColumn="CONTRACT_TYPE_DESC"
-									RadioButtonDirection="Across"
+								<Division
+									ID="div-contracts-title"
 									>
-									<DataLayer
-										CacheKey="dlcachedLuContractTypeTMAContractsDashboard"
-										ExpirationTime="8:15"
-										Type="Cached"
+									<Label
+										Caption="Overshipped Sales Contracts"
+										Class="ThemeTextNormal,ThemeBold"
+									/>
+									<LineBreak/>
+								</Division>
+								<Division
+									ID="divContractsOvershipped"
+									>
+									<DataTable
+										AccessibleHeaders="True"
+										AccessibleSummary="AnalysisGrid DataTable"
+										AjaxPaging="True"
+										ID="ContractsOvershipped"
+										KeepScrollPosition="True"
+										RememberSort="True"
+										SortArrows="True"
+										Width="35%"
 										>
 										<DataLayer
 											ConnectionID="connProdGP"
-											ID="sqlContractType"
-											Source="SELECT DISTINCT CONTRACT_TYPE, CONTRACT_TYPE_DESC FROM Agtrax_Staging..DM_OpenContracts
-ORDER BY CONTRACT_TYPE DESC"
-											Type="SQL"
-										/>
-									</DataLayer>
-									<EventHandler
-										DhtmlEvent="onchange"
-										ID="evhOnChange"
-										>
-										<Action
-											ElementID="dviContractsbyCommodity"
-											ID="actrefBarGraph"
-											Type="RefreshElement"
-										/>
-									</EventHandler>
-								</InputRadioButtons>
-							</Division>
-						</ResponsiveColumn>
-						<ResponsiveColumn/>
-					</ResponsiveRow>
-				</Remark>
-				<ResponsiveRow
-					Class="ThemeTextSmall"
-					CollisionBehavior="Wrap"
-					>
-					<ResponsiveColumn
-						ColspanLargeScreen="5"
-						ColspanMediumScreen="5"
-						>
-						<Division
-							ID="dviSalesContractsbyCommodity"
-							>
-							<ChartCanvas
-								BorderColor="SlateGray"
-								BorderColorTransparency="7"
-								BorderRadius="1"
-								ChartBorderThickness="1"
-								ChartCaption="Past Due Sales Ending @Local.SHIP_PERIOD_DESC~"
-								ChartOrientation="Default"
-								Class="ThemeTextSmall"
-								ID="ContractsByCommodity"
-								>
-								<DataLayer
-									ConnectionID="connProdGP"
-									ID="SQLDataLayer-ContractsByCommodity"
-									Source="SELECT DPR_GROUP AS [COMMODITYCODE],
-  MAX(DPR_GROUP_DESC) AS [COMMODITYDESC],
-  CAST(SUM(REMAINING_BU) AS DECIMAL(19,2)) AS [REMAINING_BU]
-FROM [Agtrax_Staging]..[DM_OpenContracts] with(nolock) 
-WHERE CONTRACT_TYPE_DESC=&apos;Sale&apos;
-  AND DELIVERY_END_DATE&lt;=&apos;@Local.SHIP_PERIOD_DT~&apos;
-GROUP BY DPR_GROUP
-HAVING SUM(REMAINING_BU)&lt;&gt;0
-ORDER BY COMMODITYCODE
-"
-									Type="SQL"
-								/>
-								<Series
-									ChartXDataColumn="COMMODITYDESC"
-									ChartXDataColumnType="Text"
-									ChartYDataColumn="REMAINING_BU"
-									Type="Bar"
-									>
-									<Action
-										ID="actionReport.TMAContractsByShipDate"
-										Type="Report"
-										>
-										<LinkParams
-											paramCommodityCode="@Chart.COMMODITYCODE~"
-											paramCommodityDesc="@Chart.COMMODITYDESC~"
-											paramShipPeriodDesc="@Local.SHIP_PERIOD_DESC~"
-											paramShipPeriodDt="@Local.SHIP_PERIOD_DT~"
-										/>
-										<Target
-											Report="Unknown.SubReports.TMAContractsByShipDate"
-											RequestForwarding="True"
-											Type="Report"
-										/>
-									</Action>
-									<DataLabels
-										Format="###,###,##0.00"
-									/>
-								</Series>
-								<ChartXAxis
-									AxisCaption="Commodity"
-									>
-									<AxisLabelStyle
-										FontAngle="0"
-									/>
-								</ChartXAxis>
-								<ChartYAxis
-									AxisCaption="Remaining BU"
-								/>
-							</ChartCanvas>
-						</Division>
-						<Division
-							ID="dviContractsbyCommodity"
-							>
-							<ChartCanvas
-								BorderColor="AliceBlue"
-								ChartBorderThickness="1"
-								ChartCaption="Past Due Purchases Ending @Local.SHIP_PERIOD_DESC~"
-								ChartOrientation="Default"
-								Class="ThemeTextSmall"
-								ID="ContractsByCommodity"
-								>
-								<DataLayer
-									ConnectionID="connProdGP"
-									ID="SQLDataLayer-ContractsByCommodity"
-									Source="SELECT DPR_GROUP AS [COMMODITYCODE],
-  MAX(DPR_GROUP_DESC) AS [COMMODITYDESC],
-  CAST(SUM(REMAINING_BU) AS DECIMAL(19,2)) AS [REMAINING_BU]
-FROM [Agtrax_Staging]..[DM_OpenContracts] with(nolock) 
-WHERE CONTRACT_TYPE_DESC=&apos;Purchase&apos;
-  AND DELIVERY_END_DATE&lt;=&apos;@Local.SHIP_PERIOD_DT~&apos;
-GROUP BY DPR_GROUP
-HAVING SUM(REMAINING_BU)&lt;&gt;0
-ORDER BY COMMODITYCODE
-"
-									Type="SQL"
-								/>
-								<Series
-									ChartXDataColumn="COMMODITYDESC"
-									ChartXDataColumnType="Text"
-									ChartYDataColumn="REMAINING_BU"
-									Type="Bar"
-									>
-									<Action
-										ID="actionReport.TMAContractsByShipDate"
-										Type="Report"
-										>
-										<LinkParams
-											paramCommodityCode="@Chart.COMMODITYCODE~"
-											paramCommodityDesc="@Chart.COMMODITYDESC~"
-											paramShipPeriodDesc="@Local.SHIP_PERIOD_DESC~"
-											paramShipPeriodDt="@Local.SHIP_PERIOD_DT~"
-										/>
-										<Target
-											Report="Unknown.SubReports.TMAContractsByShipDate"
-											RequestForwarding="True"
-											Type="Report"
-										/>
-									</Action>
-									<DataLabels
-										Format="###,###,##0.00"
-									/>
-								</Series>
-								<ChartXAxis
-									AxisCaption="Commodity"
-									>
-									<AxisLabelStyle
-										FontAngle="0"
-									/>
-								</ChartXAxis>
-								<ChartYAxis
-									AxisCaption="Remaining BU"
-								/>
-							</ChartCanvas>
-						</Division>
-					</ResponsiveColumn>
-					<ResponsiveColumn
-						ColspanLargeScreen="6"
-						ColspanMediumScreen="6"
-						>
-						<Division
-							ID="divContractsOvershipped"
-							>
-							<DataTable
-								AccessibleHeaders="True"
-								AccessibleSummary="AnalysisGrid DataTable"
-								Caption="Overshipped Sales Contracts"
-								ID="ContractsOvershipped"
-								KeepScrollPosition="True"
-								RememberSort="True"
-								SortArrows="True"
-								>
-								<DataLayer
-									ConnectionID="connProdGP"
-									ID="SQLDataLayer-ContractsOvershipped"
-									Source="SELECT DATA_KEY as [KEY]
+											ID="SQLDataLayer-ContractsOvershipped"
+											Source="SELECT DATA_KEY as [KEY]
   , CONTRACT_MAIN AS [CONTRACTNMBR]
   , CUSTOMER AS [CUSTNMBR]
   , MAX(CUSTOMER_DESC) AS [CUSTDESC]
@@ -271,1148 +101,598 @@ FROM [AgTrax_Staging]..[DM_OpenContracts] with(nolock)
 GROUP BY DATA_KEY,CONTRACT_MAIN,CUSTOMER,COMMODITY_CODE
 HAVING SUM(REMAINING_BU)&lt;0
 "
-									Type="SQL"
-									>
-									<SortFilter
-										DataType="Number"
-										SortColumn="REMAINING_BU"
-										SortSequence="Ascending"
-									/>
-								</DataLayer>
-								<InteractivePaging
-									CaptionType="Image"
-									Class="ThemeTextSmall"
-									Location="Top"
-									PageRowCount="15"
-									ShowPageNumber="True"
-								/>
-								<DataTableColumn
-									Header="Contract"
-									ID="colCONTRACTNMBR"
-									Width="5"
-									WidthScale="%"
-									>
-									<Label
-										Caption="@Data.CONTRACTNMBR~"
-										ID="colCONTRACTNMBR"
-										>
-										<Action
-											ID="rptTMAContractOvershipped"
-											Type="Report"
+											Type="SQL"
 											>
-											<LinkParams
-												paramContractKey="@Data.KEY~"
+											<SortFilter
+												DataType="Number"
+												SortColumn="REMAINING_BU"
+												SortSequence="Ascending"
 											/>
-											<Target
-												Report="Unknown.SubReports.TMAContractsOvershipped"
-												RequestForwarding="True"
-												Type="Report"
+										</DataLayer>
+										<InteractivePaging
+											CaptionType="Image"
+											Class="ThemeTextSmall"
+											Location="Top"
+											PageRowCount="8"
+											ShowPageNumber="True"
+										/>
+										<DataTableColumn
+											Header="Contract"
+											ID="colCONTRACTNMBR"
+											Width="5"
+											WidthScale="%"
+											>
+											<Label
+												Caption="@Data.CONTRACTNMBR~"
+												ID="colCONTRACTNMBR"
+												>
+												<Remark>
+													<Action
+														ID="rptTMAContractOvershipped"
+														Type="Report"
+														>
+														<LinkParams
+															paramContractKey="@Data.KEY~"
+														/>
+														<Target
+															Report="Unknown.SubReports.TMAContractsOvershipped"
+															RequestForwarding="True"
+															Type="Report"
+														/>
+													</Action>
+												</Remark>
+												<Action
+													ElementID="panel-details"
+													Type="RefreshElement"
+													>
+													<LinkParams
+														paramContractKey="@Data.KEY~"
+													/>
+													<WaitPage/>
+												</Action>
+											</Label>
+											<DataColumnSort
+												DataColumn="CONTRACTNMBR"
+												DataType="Text"
 											/>
-										</Action>
-									</Label>
-									<DataColumnSort
-										DataColumn="CONTRACTNMBR"
-										DataType="Text"
-									/>
-								</DataTableColumn>
-								<DataTableColumn
-									Class="ThemeAlignCenter"
-									ColumnHeaderClass="ThemeAlignCenter"
-									Header="Account"
-									ID="colCUSTNMBR"
-									Width="15"
-									WidthScale="%"
+										</DataTableColumn>
+										<DataTableColumn
+											Class="ThemeAlignCenter"
+											ColumnHeaderClass="ThemeAlignCenter"
+											Header="Account"
+											ID="colCUSTNMBR"
+											Width="15"
+											WidthScale="%"
+											>
+											<Label
+												Caption="@Data.CUSTNMBR~"
+												ID="lblCUSTNMBR"
+											/>
+											<DataColumnSort
+												DataColumn="CUSTNMBR"
+											/>
+											<TooltipPanel
+												ID="tipCustomerDesc"
+												>
+												<Label
+													Caption="@Data.CUSTDESC~"
+													Class="ThemeTextSmaller, ThemeBold"
+												/>
+											</TooltipPanel>
+										</DataTableColumn>
+										<DataTableColumn
+											Header="Commodity"
+											ID="colCOMMODITYDESC"
+											Width="15"
+											WidthScale="%"
+											>
+											<Label
+												Caption="@Data.COMMODITYDESC~"
+												ID="colCOMMODITYDESC"
+											/>
+											<DataColumnSort
+												DataColumn="COMMODITYDESC"
+												DataType="Text"
+											/>
+										</DataTableColumn>
+										<DataTableColumn
+											Class="ThemeAlignRight"
+											ColumnHeaderClass="ThemeAlignCenter"
+											Header="Remaining BU"
+											ID="colREMAINING_BU"
+											Width="10"
+											WidthScale="%"
+											>
+											<Label
+												Caption="@Data.REMAINING_BU~"
+												Format="###,###,##0.00"
+												ID="colREMAINING_BU"
+											/>
+											<DataColumnSort
+												DataColumn="REMAINING_BU"
+												DataType="Number"
+											/>
+										</DataTableColumn>
+										<DataTableColumn
+											Class="ThemeAlignCenter"
+											ID="colKPI"
+											Width="25"
+											WidthScale="%"
+											>
+											<Label
+												ID="KPI"
+												>
+												<Note
+													Note="KPI Remaining Contract Balance Conditions: Green greater than 2500 BU; Yellow 0 to 2500; Red less than 0"
+												/>
+												<ConditionalClass
+													Class="fa fa-arrow-up fa-2x text-success"
+													Condition="@Data.REMAINING_BU~ &gt; 2500"
+													ID="Condition-Green&gt;2500"
+												/>
+												<ConditionalClass
+													Class="fa fa-minus fa-2x text-warning"
+													Condition="(@Data.REMAINING_BU~ &gt;=0) And (@Data.REMAINING_BU~ &lt;= 2500)"
+													ID="Condition-Yellow-0-2500"
+												/>
+												<ConditionalClass
+													Class="fa fa-arrow-down fa-2x text-danger"
+													Condition="@Data.REMAINING_BU~ &lt; 0"
+													ID="Condition-Red&lt;0"
+												/>
+											</Label>
+										</DataTableColumn>
+									</DataTable>
+								</Division>
+							</ResponsiveColumn>
+							<ResponsiveColumn
+								Class="ThemeAlignCenter"
+								ColspanExtraSmallScreen="12"
+								ColspanLargeScreen="6"
+								ColspanMediumScreen="6"
+								ColspanSmallScreen="12"
+								>
+								<Division
+									ID="div-chart-title"
 									>
 									<Label
-										Caption="@Data.CUSTNMBR~"
-										ID="lblCUSTNMBR"
+										Caption="Past Due Sales Ending @Local.SHIP_PERIOD_DESC~"
+										Class="ThemeTextNormal,ThemeBold"
 									/>
-									<DataColumnSort
-										DataColumn="CUSTNMBR"
-									/>
-									<TooltipPanel
-										ID="tipCustomerDesc"
+									<LineBreak/>
+								</Division>
+								<Division
+									ID="divContractsbyCommodity"
+									>
+									<Division
+										ID="selContractType"
 										>
 										<Label
-											Caption="@Data.CUSTDESC~"
-											Class="ThemeTextSmaller, ThemeBold"
+											Caption="Contract Type:"
+											Class="ThemeTextSmall"
 										/>
-									</TooltipPanel>
-								</DataTableColumn>
-								<DataTableColumn
-									Header="Commodity"
-									ID="colCOMMODITYDESC"
-									Width="15"
-									WidthScale="%"
-									>
-									<Label
-										Caption="@Data.COMMODITYDESC~"
-										ID="colCOMMODITYDESC"
-									/>
-									<DataColumnSort
-										DataColumn="COMMODITYDESC"
-										DataType="Text"
-									/>
-								</DataTableColumn>
-								<DataTableColumn
-									Class="ThemeAlignRight"
-									ColumnHeaderClass="ThemeAlignCenter"
-									Header="Remaining BU"
-									ID="colREMAINING_BU"
-									Width="10"
-									WidthScale="%"
-									>
-									<Label
-										Caption="@Data.REMAINING_BU~"
-										Format="###,###,##0.00"
-										ID="colREMAINING_BU"
-									/>
-									<DataColumnSort
-										DataColumn="REMAINING_BU"
-										DataType="Number"
-									/>
-								</DataTableColumn>
-								<DataTableColumn
-									Class="ThemeAlignCenter"
-									ID="colKPI"
-									Width="25"
-									WidthScale="%"
-									>
-									<Label
-										ID="KPI"
+										<Spaces
+											Size="4"
+										/>
+										<InputRadioButtons
+											Class="ThemeTextSmall"
+											DefaultValue="@Request.ContractType~"
+											ID="ContractType"
+											OptionCaptionColumn="CONTRACT_TYPE_DESC"
+											OptionValueColumn="CONTRACT_TYPE_DESC"
+											RadioButtonDirection="Across"
+											>
+											<DataLayer
+												CacheKey="dlcachedLuContractTypeTMAContractsDashboard"
+												ExpirationTime="8:15"
+												Type="Cached"
+												>
+												<DataLayer
+													ConnectionID="connProdGP"
+													ID="sqlContractType"
+													Source="SELECT DISTINCT CONTRACT_TYPE, CONTRACT_TYPE_DESC FROM Agtrax_Staging..DM_OpenContracts
+ORDER BY CONTRACT_TYPE DESC"
+													Type="SQL"
+												/>
+											</DataLayer>
+											<EventHandler
+												DhtmlEvent="onchange"
+												ID="evhOnChange"
+												>
+												<Action
+													ElementID="dviContractsbyCommodity"
+													ID="actrefBarGraph"
+													Type="RefreshElement"
+												/>
+											</EventHandler>
+										</InputRadioButtons>
+										<LineBreak/>
+									</Division>
+									<ChartCanvas
+										BorderColor="SlateGray"
+										BorderColorTransparency="7"
+										BorderRadius="1"
+										ChartBorderThickness="1"
+										ChartOrientation="Default"
+										ChartWidth="88%"
+										ID="ContractsByCommodity"
 										>
-										<Note
-											Note="KPI Remaining Contract Balance Conditions: Green greater than 2500 BU; Yellow 0 to 2500; Red less than 0"
+										<DataLayer
+											ConnectionID="connProdGP"
+											ID="SQLDataLayer-ContractsByCommodity"
+											Source="SELECT DPR_GROUP AS [COMMODITYCODE],
+  MAX(DPR_GROUP_DESC) AS [COMMODITYDESC],
+  CAST(SUM(REMAINING_BU) AS DECIMAL(19,2)) AS [REMAINING_BU]
+FROM [Agtrax_Staging]..[DM_OpenContracts] with(nolock) 
+WHERE CONTRACT_TYPE_DESC=&apos;@Request.ContractType~&apos;
+  AND DELIVERY_END_DATE&lt;=&apos;@Local.SHIP_PERIOD_DT~&apos;
+GROUP BY DPR_GROUP
+HAVING SUM(REMAINING_BU)&lt;&gt;0
+ORDER BY COMMODITYCODE
+"
+											Type="SQL"
 										/>
-										<ConditionalClass
-											Class="fa fa-arrow-up fa-2x text-success"
-											Condition="@Data.REMAINING_BU~ &gt; 2500"
-											ID="Condition-Green&gt;2500"
+										<Series
+											ChartXDataColumn="COMMODITYDESC"
+											ChartXDataColumnType="Text"
+											ChartYDataColumn="REMAINING_BU"
+											Type="Bar"
+											>
+											<Action
+												ID="actionReport.TMAContractsByShipDate"
+												Type="Report"
+												>
+												<LinkParams
+													paramCommodityCode="@Chart.COMMODITYCODE~"
+													paramCommodityDesc="@Chart.COMMODITYDESC~"
+													paramShipPeriodDesc="@Local.SHIP_PERIOD_DESC~"
+													paramShipPeriodDt="@Local.SHIP_PERIOD_DT~"
+												/>
+												<Target
+													Report="Unknown.SubReports.TMAContractsByShipDate"
+													RequestForwarding="True"
+													Type="Report"
+												/>
+											</Action>
+											<DataLabels
+												Format="###,###,##0.00"
+											/>
+										</Series>
+										<ChartXAxis
+											AxisCaption="Commodity"
+											>
+											<AxisLabelStyle
+												FontAngle="0"
+											/>
+										</ChartXAxis>
+										<ChartYAxis
+											AxisCaption="Remaining BU"
 										/>
-										<ConditionalClass
-											Class="fa fa-minus fa-2x text-warning"
-											Condition="(@Data.REMAINING_BU~ &gt;=0) And (@Data.REMAINING_BU~ &lt;= 2500)"
-											ID="Condition-Yellow-0-2500"
-										/>
-										<ConditionalClass
-											Class="fa fa-arrow-down fa-2x text-danger"
-											Condition="@Data.REMAINING_BU~ &lt; 0"
-											ID="Condition-Red&lt;0"
-										/>
-									</Label>
-								</DataTableColumn>
-							</DataTable>
-						</Division>
-					</ResponsiveColumn>
-				</ResponsiveRow>
-			</Division>
-		</Division>
-		<Remark>
-			<Division
-				ID="divCrosstab"
-				>
-				<Tabs
-					DefaultTab="tabWHEAT"
-					Height="100"
-					HeightScale="%"
-					ID="tabsCommodities"
-					Width="100"
-					WidthScale="%"
+									</ChartCanvas>
+								</Division>
+							</ResponsiveColumn>
+						</ResponsiveRow>
+					</Division>
+				</Division>
+			</ResponsiveColumn>
+		</ResponsiveRow>
+		<ResponsiveRow>
+			<ResponsiveColumn>
+				<Division
+					Class="ThemeHidden"
+					ID="panel-details"
 					>
-					<TabPanel
-						Caption="WHEAT"
-						Class="ThemeTextNormal"
-						ID="tabWHEAT"
+					<ConditionalClass
+						Condition="&quot;@Request.paramContractKey~&quot; != &quot;&quot;"
+					/>
+					<Division
+						Class="panel panel-default"
+						HtmlDiv="True"
+						ID="divContractsPopup"
 						>
-						<CrosstabTable
-							AjaxPaging="True"
-							ColumnHeaderClass="ThemeTextSmall, ThemeBold, ThemeAlignCenter, ThemeNoWrap"
-							ID="Crosstab-WHEAT"
-							TableBorder="2"
-							Width="100"
-							WidthScale="%"
+						<Division
+							Class="panel-heading"
+							HtmlDiv="True"
+							ID="divContractsPopupHeader"
 							>
-							<DataLayer
-								CacheKey="dlcacheCtWheatNetTMAContractsDashboard"
-								ExpirationTime="8:15"
-								Type="Cached"
-								>
-								<DataLayer
-									ConnectionID="connProdGP"
-									ID="SQL-WHEAT"
-									Source="SELECT CONTRACT_TYPE, CONTRACT_TYPE_DESC, DPR_GROUP, DPR_GROUP_DESC, DELIVERY_END_DATE, MONTHID_DESC, SUM(REMAINING_BU) REMAINING_BU
-FROM Agtrax_Staging..DM_OpenContractsNet with(nolock) 
-WHERE DPR_GROUP=1
-GROUP BY CONTRACT_TYPE, CONTRACT_TYPE_DESC, DPR_GROUP, DPR_GROUP_DESC, DELIVERY_END_DATE, MONTHID_DESC
-ORDER BY CONTRACT_TYPE, DELIVERY_END_DATE
-"
-									Type="SQL"
-									>
-									<CrosstabFilter
-										CrosstabColumn="MONTHID_DESC"
-										CrosstabLabelColumn="CONTRACT_TYPE_DESC"
-										CrosstabValueColumn="REMAINING_BU"
-										CrosstabValueFunction="SUM"
-										>
-										<ExtraCrosstabLabelColumn
-											CrosstabLabelColumn="DPR_GROUP"
-											ID="CommodityCode"
-										/>
-										<ExtraCrosstabLabelColumn
-											CrosstabLabelColumn="DPR_GROUP_DESC"
-											ID="CommodityDesc"
-										/>
-										<ExtraCrosstabLabelColumn
-											CrosstabLabelColumn="CONTRACT_TYPE_DESC"
-											ID="ContractTypeDesc"
-										/>
-										<CrosstabRowSummaryColumn
-											Function="Sum"
-											ID="crsTotal"
-										/>
-									</CrosstabFilter>
-								</DataLayer>
-							</DataLayer>
-							<CrosstabTableLabelColumn
-								Header="Contract Type"
-								ID="colContractType"
-								Width="1"
-								WidthScale="px"
-								>
-								<Label
-									Caption="@Data.ContractTypeDesc~"
-									Class="ThemeMargin, ThemeBold, ThemeTextSmall"
-									NoWrap="True"
-								/>
-							</CrosstabTableLabelColumn>
-							<CrosstabTableLabelColumn
-								Header="Commodity"
-								ID="colCommodityDesc"
-								Width="1"
-								WidthScale="px"
-								>
-								<Label
-									Caption="@Data.CommodityDesc~"
-									Class="ThemeMargin, ThemeBold, ThemeTextSmall"
-								/>
-							</CrosstabTableLabelColumn>
-							<CrosstabTableValueColumns
-								Header="@Data.rdCrosstabColumn~"
-								ID="colHeaderMonth"
-								Width="50"
-								WidthScale="px"
-								>
-								<Label
-									Caption="=IIf(@Data.rdCrosstabValCount~=0,&quot;&quot;,&quot;@Data.rdCrosstabValue~&quot;)"
-									Class="ThemeMargin, ThemeTextSmall"
-									Format="###,###,##0"
-									ID="lblValue"
-									NoWrap="True"
-									>
-									<Action
-										Type="Report"
-										>
-										<Target
-											Report="Unknown.SubReports.TMAContractsNetDetail"
-											RequestForwarding="True"
-											Type="Report"
-										/>
-										<LinkParams
-											paramCommodity="@Data.CommodityCode~"
-											paramContractType="@Data.ContractTypeDesc~"
-											paramDate="@Data.rdCrosstabColumn~"
-										/>
-									</Action>
-								</Label>
-								<DataColumnSummary
-									DataColumn="rdCrosstabColumn"
-									DataType="Number"
-									Function="Sum"
-									ID="fGrandTotal"
-								/>
-							</CrosstabTableValueColumns>
-							<CrosstabTableLabelColumn
-								Class="ThemeAlignRight"
-								Header="Total"
-								HeaderType="Text"
-								ID="GrandTotal"
-								Width="1"
-								WidthScale="px"
-								>
-								<Label
-									Caption="@Data.crsTotal~"
-									Class="ThemeAlignRight, ThemeMargin, ThemeTextSmall"
-									Format="###,###,##0"
-									ID="lblGrandTotal"
-								/>
-							</CrosstabTableLabelColumn>
-						</CrosstabTable>
-					</TabPanel>
-					<TabPanel
-						Caption="MILO"
-						Class="ThemeTextNormal"
-						ID="tabMILO"
-						>
-						<CrosstabTable
-							AjaxPaging="True"
-							ColumnHeaderClass="ThemeTextSmall, ThemeBold, ThemeAlignCenter, ThemeNoWrap"
-							ID="Crosstab-MILO"
-							TableBorder="2"
-							Width="100"
-							WidthScale="%"
+							<Label
+								Caption="Overshipped Contracts Detail"
+							/>
+						</Division>
+						<Division
+							Class="panel-body"
+							HtmlDiv="True"
+							ID="divContractsPopupBody"
 							>
-							<DataLayer
-								ConnectionID="connProdGP"
-								ID="SQL-MILO"
-								Source="SELECT CONTRACT_TYPE, CONTRACT_TYPE_DESC, DPR_GROUP, DPR_GROUP_DESC, DELIVERY_END_DATE, MONTHID_DESC, SUM(REMAINING_BU) REMAINING_BU
-FROM Agtrax_Staging..DM_OpenContractsNet with(nolock) 
-WHERE DPR_GROUP=2
-GROUP BY CONTRACT_TYPE, CONTRACT_TYPE_DESC, DPR_GROUP, DPR_GROUP_DESC, DELIVERY_END_DATE, MONTHID_DESC
-ORDER BY CONTRACT_TYPE, DELIVERY_END_DATE
-"
-								Type="SQL"
+							<Division
+								Class="ThemeTextSmall"
+								ID="divTable"
 								>
-								<CrosstabFilter
-									CrosstabColumn="MONTHID_DESC"
-									CrosstabLabelColumn="CONTRACT_TYPE_DESC"
-									CrosstabValueColumn="REMAINING_BU"
-									CrosstabValueFunction="SUM"
-									>
-									<ExtraCrosstabLabelColumn
-										CrosstabLabelColumn="DPR_GROUP"
-										ID="CommodityCode"
-									/>
-									<ExtraCrosstabLabelColumn
-										CrosstabLabelColumn="DPR_GROUP_DESC"
-										ID="CommodityDesc"
-									/>
-									<ExtraCrosstabLabelColumn
-										CrosstabLabelColumn="CONTRACT_TYPE_DESC"
-										ID="ContractTypeDesc"
-									/>
-									<CrosstabRowSummaryColumn
-										Function="Sum"
-										ID="crsTotal"
-									/>
-								</CrosstabFilter>
-							</DataLayer>
-							<CrosstabTableLabelColumn
-								Header="Contract Type"
-								ID="colContractType"
-								Width="1"
-								WidthScale="px"
-								>
-								<Label
-									Caption="@Data.ContractTypeDesc~"
-									Class="ThemeMargin, ThemeBold, ThemeTextSmall"
-									NoWrap="True"
-								/>
-							</CrosstabTableLabelColumn>
-							<CrosstabTableLabelColumn
-								Header="Commodity"
-								ID="colCommodityDesc"
-								Width="1"
-								WidthScale="px"
-								>
-								<Label
-									Caption="@Data.CommodityDesc~"
-									Class="ThemeMargin, ThemeBold, ThemeTextSmall"
-								/>
-							</CrosstabTableLabelColumn>
-							<CrosstabTableValueColumns
-								Header="@Data.rdCrosstabColumn~"
-								ID="colHeaderMonth"
-								Width="50"
-								WidthScale="px"
-								>
-								<Label
-									Caption="=IIf(@Data.rdCrosstabValCount~=0,&quot;&quot;,&quot;@Data.rdCrosstabValue~&quot;)"
-									Class="ThemeMargin, ThemeTextSmall"
-									Format="###,###,##0"
-									ID="lblValue"
-									NoWrap="True"
-									>
-									<Action
-										Type="Report"
-										>
-										<Target
-											Report="Unknown.SubReports.TMAContractsNetDetail"
-											RequestForwarding="True"
-											Type="Report"
-										/>
-										<LinkParams
-											paramCommodity="@Data.CommodityCode~"
-											paramContractType="@Data.ContractTypeDesc~"
-											paramDate="@Data.rdCrosstabColumn~"
-										/>
-									</Action>
-								</Label>
-								<DataColumnSummary
-									DataColumn="rdCrosstabColumn"
-									DataType="Number"
-									Function="Sum"
-									ID="fGrandTotal"
-								/>
-							</CrosstabTableValueColumns>
-							<CrosstabTableLabelColumn
-								Class="ThemeAlignRight"
-								Header="Total"
-								HeaderType="Text"
-								ID="GrandTotal"
-								Width="1"
-								WidthScale="px"
-								>
-								<Label
-									Caption="@Data.crsTotal~"
-									Class="ThemeAlignRight, ThemeMargin, ThemeTextSmall"
-									Format="###,###,##0"
-									ID="lblGrandTotal"
-								/>
-							</CrosstabTableLabelColumn>
-						</CrosstabTable>
-					</TabPanel>
-					<TabPanel
-						Caption="SOYBEANS"
-						Class="ThemeTextNormal"
-						ID="tabSOYBEANS"
-						>
-						<CrosstabTable
-							AjaxPaging="True"
-							ColumnHeaderClass="ThemeTextSmall, ThemeBold, ThemeAlignCenter, ThemeNoWrap"
-							ID="Crosstab-SOYBEANS"
-							TableBorder="2"
-							Width="100"
-							WidthScale="%"
-							>
-							<DataLayer
-								ConnectionID="connProdGP"
-								ID="SQL-SOYBEANS"
-								Source="SELECT CONTRACT_TYPE, CONTRACT_TYPE_DESC, DPR_GROUP, DPR_GROUP_DESC, DELIVERY_END_DATE, MONTHID_DESC, SUM(REMAINING_BU) REMAINING_BU
-FROM Agtrax_Staging..DM_OpenContractsNet with(nolock) 
-WHERE DPR_GROUP=3
-GROUP BY CONTRACT_TYPE, CONTRACT_TYPE_DESC, DPR_GROUP, DPR_GROUP_DESC, DELIVERY_END_DATE, MONTHID_DESC
-ORDER BY CONTRACT_TYPE, DELIVERY_END_DATE
-"
-								Type="SQL"
-								>
-								<CrosstabFilter
-									CrosstabColumn="MONTHID_DESC"
-									CrosstabLabelColumn="CONTRACT_TYPE_DESC"
-									CrosstabValueColumn="REMAINING_BU"
-									CrosstabValueFunction="SUM"
-									>
-									<ExtraCrosstabLabelColumn
-										CrosstabLabelColumn="DPR_GROUP"
-										ID="CommodityCode"
-									/>
-									<ExtraCrosstabLabelColumn
-										CrosstabLabelColumn="DPR_GROUP_DESC"
-										ID="CommodityDesc"
-									/>
-									<ExtraCrosstabLabelColumn
-										CrosstabLabelColumn="CONTRACT_TYPE_DESC"
-										ID="ContractTypeDesc"
-									/>
-									<CrosstabRowSummaryColumn
-										Function="Sum"
-										ID="crsTotal"
-									/>
-								</CrosstabFilter>
-							</DataLayer>
-							<CrosstabTableLabelColumn
-								Header="Contract Type"
-								ID="colContractType"
-								Width="1"
-								WidthScale="px"
-								>
-								<Label
-									Caption="@Data.ContractTypeDesc~"
-									Class="ThemeMargin, ThemeBold, ThemeTextSmall"
-									NoWrap="True"
-								/>
-							</CrosstabTableLabelColumn>
-							<CrosstabTableLabelColumn
-								Header="Commodity"
-								ID="colCommodityDesc"
-								Width="1"
-								WidthScale="px"
-								>
-								<Label
-									Caption="@Data.CommodityDesc~"
-									Class="ThemeMargin, ThemeBold, ThemeTextSmall"
-								/>
-							</CrosstabTableLabelColumn>
-							<CrosstabTableValueColumns
-								Header="@Data.rdCrosstabColumn~"
-								ID="colHeaderMonth"
-								Width="50"
-								WidthScale="px"
-								>
-								<Label
-									Caption="=IIf(@Data.rdCrosstabValCount~=0,&quot;&quot;,&quot;@Data.rdCrosstabValue~&quot;)"
-									Class="ThemeMargin, ThemeTextSmall"
-									Format="###,###,##0"
-									ID="lblValue"
-									NoWrap="True"
-									>
-									<Action
-										Type="Report"
-										>
-										<Target
-											Report="Unknown.SubReports.TMAContractsNetDetail"
-											RequestForwarding="True"
-											Type="Report"
-										/>
-										<LinkParams
-											paramCommodity="@Data.CommodityCode~"
-											paramContractType="@Data.ContractTypeDesc~"
-											paramDate="@Data.rdCrosstabColumn~"
-										/>
-									</Action>
-								</Label>
-								<DataColumnSummary
-									DataColumn="rdCrosstabColumn"
-									DataType="Number"
-									Function="Sum"
-									ID="fGrandTotal"
-								/>
-							</CrosstabTableValueColumns>
-							<CrosstabTableLabelColumn
-								Class="ThemeAlignRight"
-								Header="Total"
-								HeaderType="Text"
-								ID="GrandTotal"
-								Width="1"
-								WidthScale="px"
-								>
-								<Label
-									Caption="@Data.crsTotal~"
-									Class="ThemeAlignRight, ThemeMargin, ThemeTextSmall"
-									Format="###,###,##0"
-									ID="lblGrandTotal"
-								/>
-							</CrosstabTableLabelColumn>
-						</CrosstabTable>
-					</TabPanel>
-					<TabPanel
-						Caption="CORN"
-						Class="ThemeTextNormal"
-						ID="tabCORN"
-						>
-						<CrosstabTable
-							AjaxPaging="True"
-							ColumnHeaderClass="ThemeTextSmall, ThemeBold, ThemeAlignCenter, ThemeNoWrap"
-							ID="Crosstab-CORN"
-							TableBorder="2"
-							Width="100"
-							WidthScale="%"
-							>
-							<DataLayer
-								ConnectionID="connProdGP"
-								ID="SQL-CORN"
-								Source="SELECT CONTRACT_TYPE, CONTRACT_TYPE_DESC, DPR_GROUP, DPR_GROUP_DESC, DELIVERY_END_DATE, MONTHID_DESC, SUM(REMAINING_BU) REMAINING_BU
-FROM Agtrax_Staging..DM_OpenContractsNet with(nolock) 
-WHERE DPR_GROUP=4
-GROUP BY CONTRACT_TYPE, CONTRACT_TYPE_DESC, DPR_GROUP, DPR_GROUP_DESC, DELIVERY_END_DATE, MONTHID_DESC
-ORDER BY CONTRACT_TYPE, DELIVERY_END_DATE
-"
-								Type="SQL"
-								>
-								<CrosstabFilter
-									CrosstabColumn="MONTHID_DESC"
-									CrosstabLabelColumn="CONTRACT_TYPE_DESC"
-									CrosstabValueColumn="REMAINING_BU"
-									CrosstabValueFunction="SUM"
-									>
-									<ExtraCrosstabLabelColumn
-										CrosstabLabelColumn="DPR_GROUP"
-										ID="CommodityCode"
-									/>
-									<ExtraCrosstabLabelColumn
-										CrosstabLabelColumn="DPR_GROUP_DESC"
-										ID="CommodityDesc"
-									/>
-									<ExtraCrosstabLabelColumn
-										CrosstabLabelColumn="CONTRACT_TYPE_DESC"
-										ID="ContractTypeDesc"
-									/>
-									<CrosstabRowSummaryColumn
-										Function="Sum"
-										ID="crsTotal"
-									/>
-								</CrosstabFilter>
-							</DataLayer>
-							<CrosstabTableLabelColumn
-								Header="Contract Type"
-								ID="colContractType"
-								Width="1"
-								WidthScale="px"
-								>
-								<Label
-									Caption="@Data.ContractTypeDesc~"
-									Class="ThemeMargin, ThemeBold, ThemeTextSmall"
-									NoWrap="True"
-								/>
-							</CrosstabTableLabelColumn>
-							<CrosstabTableLabelColumn
-								Header="Commodity"
-								ID="colCommodityDesc"
-								Width="1"
-								WidthScale="px"
-								>
-								<Label
-									Caption="@Data.CommodityDesc~"
-									Class="ThemeMargin, ThemeBold, ThemeTextSmall"
-								/>
-							</CrosstabTableLabelColumn>
-							<CrosstabTableValueColumns
-								Header="@Data.rdCrosstabColumn~"
-								ID="colHeaderMonth"
-								Width="50"
-								WidthScale="px"
-								>
-								<Label
-									Caption="=IIf(@Data.rdCrosstabValCount~=0,&quot;&quot;,&quot;@Data.rdCrosstabValue~&quot;)"
-									Class="ThemeMargin, ThemeTextSmall"
-									Format="###,###,##0"
-									ID="lblValue"
-									NoWrap="True"
-									>
-									<Action
-										Type="Report"
-										>
-										<Target
-											Report="Unknown.SubReports.TMAContractsNetDetail"
-											RequestForwarding="True"
-											Type="Report"
-										/>
-										<LinkParams
-											paramCommodity="@Data.CommodityCode~"
-											paramContractType="@Data.ContractTypeDesc~"
-											paramDate="@Data.rdCrosstabColumn~"
-										/>
-									</Action>
-								</Label>
-								<DataColumnSummary
-									DataColumn="rdCrosstabColumn"
-									DataType="Number"
-									Function="Sum"
-									ID="fGrandTotal"
-								/>
-							</CrosstabTableValueColumns>
-							<CrosstabTableLabelColumn
-								Class="ThemeAlignRight"
-								Header="Total"
-								HeaderType="Text"
-								ID="GrandTotal"
-								Width="1"
-								WidthScale="px"
-								>
-								<Label
-									Caption="@Data.crsTotal~"
-									Class="ThemeAlignRight, ThemeMargin, ThemeTextSmall"
-									Format="###,###,##0"
-									ID="lblGrandTotal"
-								/>
-							</CrosstabTableLabelColumn>
-						</CrosstabTable>
-					</TabPanel>
-					<TabPanel
-						Caption="OATS"
-						Class="ThemeTextNormal"
-						ID="tabOATS"
-						>
-						<CrosstabTable
-							AjaxPaging="True"
-							ColumnHeaderClass="ThemeTextSmall, ThemeBold, ThemeAlignCenter, ThemeNoWrap"
-							ID="Crosstab-OATS"
-							TableBorder="2"
-							Width="100"
-							WidthScale="%"
-							>
-							<DataLayer
-								ConnectionID="connProdGP"
-								ID="SQL-OATS"
-								Source="SELECT CONTRACT_TYPE, CONTRACT_TYPE_DESC, DPR_GROUP, DPR_GROUP_DESC, DELIVERY_END_DATE, MONTHID_DESC, SUM(REMAINING_BU) REMAINING_BU
-FROM Agtrax_Staging..DM_OpenContractsNet with(nolock) 
-WHERE DPR_GROUP=5
-GROUP BY CONTRACT_TYPE, CONTRACT_TYPE_DESC, DPR_GROUP, DPR_GROUP_DESC, DELIVERY_END_DATE, MONTHID_DESC
-ORDER BY CONTRACT_TYPE, DELIVERY_END_DATE
-"
-								Type="SQL"
-								>
-								<CrosstabFilter
-									CrosstabColumn="MONTHID_DESC"
-									CrosstabLabelColumn="CONTRACT_TYPE_DESC"
-									CrosstabValueColumn="REMAINING_BU"
-									CrosstabValueFunction="SUM"
-									>
-									<ExtraCrosstabLabelColumn
-										CrosstabLabelColumn="DPR_GROUP"
-										ID="CommodityCode"
-									/>
-									<ExtraCrosstabLabelColumn
-										CrosstabLabelColumn="DPR_GROUP_DESC"
-										ID="CommodityDesc"
-									/>
-									<ExtraCrosstabLabelColumn
-										CrosstabLabelColumn="CONTRACT_TYPE_DESC"
-										ID="ContractTypeDesc"
-									/>
-									<CrosstabRowSummaryColumn
-										Function="Sum"
-										ID="crsTotal"
-									/>
-								</CrosstabFilter>
-							</DataLayer>
-							<CrosstabTableLabelColumn
-								Header="Contract Type"
-								ID="colContractType"
-								Width="1"
-								WidthScale="px"
-								>
-								<Label
-									Caption="@Data.ContractTypeDesc~"
-									Class="ThemeMargin, ThemeBold, ThemeTextSmall"
-									NoWrap="True"
-								/>
-							</CrosstabTableLabelColumn>
-							<CrosstabTableLabelColumn
-								Header="Commodity"
-								ID="colCommodityDesc"
-								Width="1"
-								WidthScale="px"
-								>
-								<Label
-									Caption="@Data.CommodityDesc~"
-									Class="ThemeMargin, ThemeBold, ThemeTextSmall"
-								/>
-							</CrosstabTableLabelColumn>
-							<CrosstabTableValueColumns
-								Header="@Data.rdCrosstabColumn~"
-								ID="colHeaderMonth"
-								Width="50"
-								WidthScale="px"
-								>
-								<Label
-									Caption="=IIf(@Data.rdCrosstabValCount~=0,&quot;&quot;,&quot;@Data.rdCrosstabValue~&quot;)"
-									Class="ThemeMargin, ThemeTextSmall"
-									Format="###,###,##0"
-									ID="lblValue"
-									NoWrap="True"
-									>
-									<Action
-										Type="Report"
-										>
-										<Target
-											Report="Unknown.SubReports.TMAContractsNetDetail"
-											RequestForwarding="True"
-											Type="Report"
-										/>
-										<LinkParams
-											paramCommodity="@Data.CommodityCode~"
-											paramContractType="@Data.ContractTypeDesc~"
-											paramDate="@Data.rdCrosstabColumn~"
-										/>
-									</Action>
-								</Label>
-								<DataColumnSummary
-									DataColumn="rdCrosstabColumn"
-									DataType="Number"
-									Function="Sum"
-									ID="fGrandTotal"
-								/>
-							</CrosstabTableValueColumns>
-							<CrosstabTableLabelColumn
-								Class="ThemeAlignRight"
-								Header="Total"
-								HeaderType="Text"
-								ID="GrandTotal"
-								Width="1"
-								WidthScale="px"
-								>
-								<Label
-									Caption="@Data.crsTotal~"
-									Class="ThemeAlignRight, ThemeMargin, ThemeTextSmall"
-									Format="###,###,##0"
-									ID="lblGrandTotal"
-								/>
-							</CrosstabTableLabelColumn>
-						</CrosstabTable>
-					</TabPanel>
-					<TabPanel
-						Caption="BARLEY"
-						Class="ThemeTextNormal"
-						ID="tabBARLEY"
-						>
-						<CrosstabTable
-							AjaxPaging="True"
-							ColumnHeaderClass="ThemeTextSmall, ThemeBold, ThemeAlignCenter, ThemeNoWrap"
-							ID="Crosstab-BARLEY"
-							TableBorder="2"
-							Width="100"
-							WidthScale="%"
-							>
-							<DataLayer
-								ConnectionID="connProdGP"
-								ID="SQL-BARLEY"
-								Source="SELECT CONTRACT_TYPE, CONTRACT_TYPE_DESC, DPR_GROUP, DPR_GROUP_DESC, DELIVERY_END_DATE, MONTHID_DESC, SUM(REMAINING_BU) REMAINING_BU
-FROM Agtrax_Staging..DM_OpenContractsNet with(nolock) 
-WHERE DPR_GROUP=6
-GROUP BY CONTRACT_TYPE, CONTRACT_TYPE_DESC, DPR_GROUP, DPR_GROUP_DESC, DELIVERY_END_DATE, MONTHID_DESC
-ORDER BY CONTRACT_TYPE, DELIVERY_END_DATE
-"
-								Type="SQL"
-								>
-								<CrosstabFilter
-									CrosstabColumn="MONTHID_DESC"
-									CrosstabLabelColumn="CONTRACT_TYPE_DESC"
-									CrosstabValueColumn="REMAINING_BU"
-									CrosstabValueFunction="SUM"
-									>
-									<ExtraCrosstabLabelColumn
-										CrosstabLabelColumn="DPR_GROUP"
-										ID="CommodityCode"
-									/>
-									<ExtraCrosstabLabelColumn
-										CrosstabLabelColumn="DPR_GROUP_DESC"
-										ID="CommodityDesc"
-									/>
-									<ExtraCrosstabLabelColumn
-										CrosstabLabelColumn="CONTRACT_TYPE_DESC"
-										ID="ContractTypeDesc"
-									/>
-									<CrosstabRowSummaryColumn
-										Function="Sum"
-										ID="crsTotal"
-									/>
-								</CrosstabFilter>
-							</DataLayer>
-							<CrosstabTableLabelColumn
-								Header="Contract Type"
-								ID="colContractType"
-								Width="1"
-								WidthScale="px"
-								>
-								<Label
-									Caption="@Data.ContractTypeDesc~"
-									Class="ThemeMargin, ThemeBold, ThemeTextSmall"
-									NoWrap="True"
-								/>
-							</CrosstabTableLabelColumn>
-							<CrosstabTableLabelColumn
-								Header="Commodity"
-								ID="colCommodityDesc"
-								Width="1"
-								WidthScale="px"
-								>
-								<Label
-									Caption="@Data.CommodityDesc~"
-									Class="ThemeMargin, ThemeBold, ThemeTextSmall"
-								/>
-							</CrosstabTableLabelColumn>
-							<CrosstabTableValueColumns
-								Header="@Data.rdCrosstabColumn~"
-								ID="colHeaderMonth"
-								Width="50"
-								WidthScale="px"
-								>
-								<Label
-									Caption="=IIf(@Data.rdCrosstabValCount~=0,&quot;&quot;,&quot;@Data.rdCrosstabValue~&quot;)"
-									Class="ThemeMargin, ThemeTextSmall"
-									Format="###,###,##0"
-									ID="lblValue"
-									NoWrap="True"
-									>
-									<Action
-										Type="Report"
-										>
-										<Target
-											Report="Unknown.SubReports.TMAContractsNetDetail"
-											RequestForwarding="True"
-											Type="Report"
-										/>
-										<LinkParams
-											paramCommodity="@Data.CommodityCode~"
-											paramContractType="@Data.ContractTypeDesc~"
-											paramDate="@Data.rdCrosstabColumn~"
-										/>
-									</Action>
-								</Label>
-								<DataColumnSummary
-									DataColumn="rdCrosstabColumn"
-									DataType="Number"
-									Function="Sum"
-									ID="fGrandTotal"
-								/>
-							</CrosstabTableValueColumns>
-							<CrosstabTableLabelColumn
-								Class="ThemeAlignRight"
-								Header="Total"
-								HeaderType="Text"
-								ID="GrandTotal"
-								Width="1"
-								WidthScale="px"
-								>
-								<Label
-									Caption="@Data.crsTotal~"
-									Class="ThemeAlignRight, ThemeMargin, ThemeTextSmall"
-									Format="###,###,##0"
-									ID="lblGrandTotal"
-								/>
-							</CrosstabTableLabelColumn>
-						</CrosstabTable>
-					</TabPanel>
-					<TabPanel
-						Caption="SUNFLOWERS"
-						Class="ThemeTextNormal"
-						ID="tabSUNFLOWERS"
-						>
-						<CrosstabTable
-							AjaxPaging="True"
-							ColumnHeaderClass="ThemeTextSmall, ThemeBold, ThemeAlignCenter, ThemeNoWrap"
-							ID="Crosstab-SUNFLOWERS"
-							TableBorder="2"
-							Width="100"
-							WidthScale="%"
-							>
-							<DataLayer
-								ConnectionID="connProdGP"
-								ID="SQL-SUNFLOWERS"
-								Source="SELECT CONTRACT_TYPE, CONTRACT_TYPE_DESC, DPR_GROUP, DPR_GROUP_DESC, DELIVERY_END_DATE, MONTHID_DESC, SUM(REMAINING_BU) REMAINING_BU
-FROM Agtrax_Staging..DM_OpenContractsNet with(nolock) 
-WHERE DPR_GROUP=11
-GROUP BY CONTRACT_TYPE, CONTRACT_TYPE_DESC, DPR_GROUP, DPR_GROUP_DESC, DELIVERY_END_DATE, MONTHID_DESC
-ORDER BY CONTRACT_TYPE, DELIVERY_END_DATE
-"
-								Type="SQL"
-								>
-								<CrosstabFilter
-									CrosstabColumn="MONTHID_DESC"
-									CrosstabLabelColumn="CONTRACT_TYPE_DESC"
-									CrosstabValueColumn="REMAINING_BU"
-									CrosstabValueFunction="SUM"
-									>
-									<ExtraCrosstabLabelColumn
-										CrosstabLabelColumn="DPR_GROUP"
-										ID="CommodityCode"
-									/>
-									<ExtraCrosstabLabelColumn
-										CrosstabLabelColumn="DPR_GROUP_DESC"
-										ID="CommodityDesc"
-									/>
-									<ExtraCrosstabLabelColumn
-										CrosstabLabelColumn="CONTRACT_TYPE_DESC"
-										ID="ContractTypeDesc"
-									/>
-									<CrosstabRowSummaryColumn
-										Function="Sum"
-										ID="crsTotal"
-									/>
-								</CrosstabFilter>
-							</DataLayer>
-							<CrosstabTableLabelColumn
-								Header="Contract Type"
-								ID="colContractType"
-								Width="1"
-								WidthScale="px"
-								>
-								<Label
-									Caption="@Data.ContractTypeDesc~"
-									Class="ThemeMargin, ThemeBold, ThemeTextSmall"
-									NoWrap="True"
-								/>
-							</CrosstabTableLabelColumn>
-							<CrosstabTableLabelColumn
-								Header="Commodity"
-								ID="colCommodityDesc"
-								Width="1"
-								WidthScale="px"
-								>
-								<Label
-									Caption="@Data.CommodityDesc~"
-									Class="ThemeMargin, ThemeBold, ThemeTextSmall"
-								/>
-							</CrosstabTableLabelColumn>
-							<CrosstabTableValueColumns
-								Header="@Data.rdCrosstabColumn~"
-								ID="colHeaderMonth"
-								Width="50"
-								WidthScale="px"
-								>
-								<Label
-									Caption="=IIf(@Data.rdCrosstabValCount~=0,&quot;&quot;,&quot;@Data.rdCrosstabValue~&quot;)"
-									Class="ThemeMargin, ThemeTextSmall"
-									Format="###,###,##0"
-									ID="lblValue"
-									NoWrap="True"
-									>
-									<Action
-										Type="Report"
-										>
-										<Target
-											Report="Unknown.SubReports.TMAContractsNetDetail"
-											RequestForwarding="True"
-											Type="Report"
-										/>
-										<LinkParams
-											paramCommodity="@Data.CommodityCode~"
-											paramContractType="@Data.ContractTypeDesc~"
-											paramDate="@Data.rdCrosstabColumn~"
-										/>
-									</Action>
-								</Label>
-								<DataColumnSummary
-									DataColumn="rdCrosstabColumn"
-									DataType="Number"
-									Function="Sum"
-									ID="fGrandTotal"
-								/>
-							</CrosstabTableValueColumns>
-							<CrosstabTableLabelColumn
-								Class="ThemeAlignRight"
-								Header="Total"
-								HeaderType="Text"
-								ID="GrandTotal"
-								Width="1"
-								WidthScale="px"
-								>
-								<Label
-									Caption="@Data.crsTotal~"
-									Class="ThemeAlignRight, ThemeMargin, ThemeTextSmall"
-									Format="###,###,##0"
-									ID="lblGrandTotal"
-								/>
-							</CrosstabTableLabelColumn>
-						</CrosstabTable>
-					</TabPanel>
-					<TabPanel
-						Caption="CANOLA"
-						Class="ThemeTextNormal"
-						ID="tabCANOLA"
-						>
-						<CrosstabTable
-							AjaxPaging="True"
-							ColumnHeaderClass="ThemeTextSmall, ThemeBold, ThemeAlignCenter, ThemeNoWrap"
-							ID="Crosstab-CANOLA"
-							TableBorder="2"
-							Width="100"
-							WidthScale="%"
-							>
-							<DataLayer
-								ConnectionID="connProdGP"
-								ID="SQL-CANOLA"
-								Source="SELECT CONTRACT_TYPE, CONTRACT_TYPE_DESC, DPR_GROUP, DPR_GROUP_DESC, DELIVERY_END_DATE, MONTHID_DESC, SUM(REMAINING_BU) REMAINING_BU
-FROM Agtrax_Staging..DM_OpenContractsNet with(nolock) 
-WHERE DPR_GROUP=27
-GROUP BY CONTRACT_TYPE, CONTRACT_TYPE_DESC, DPR_GROUP, DPR_GROUP_DESC, DELIVERY_END_DATE, MONTHID_DESC
-ORDER BY CONTRACT_TYPE, DELIVERY_END_DATE
-"
-								Type="SQL"
-								>
-								<CrosstabFilter
-									CrosstabColumn="MONTHID_DESC"
-									CrosstabLabelColumn="CONTRACT_TYPE_DESC"
-									CrosstabValueColumn="REMAINING_BU"
-									CrosstabValueFunction="SUM"
-									>
-									<ExtraCrosstabLabelColumn
-										CrosstabLabelColumn="DPR_GROUP"
-										ID="CommodityCode"
-									/>
-									<ExtraCrosstabLabelColumn
-										CrosstabLabelColumn="DPR_GROUP_DESC"
-										ID="CommodityDesc"
-									/>
-									<ExtraCrosstabLabelColumn
-										CrosstabLabelColumn="CONTRACT_TYPE_DESC"
-										ID="ContractTypeDesc"
-									/>
-									<CrosstabRowSummaryColumn
-										Function="Sum"
-										ID="crsTotal"
-									/>
-								</CrosstabFilter>
-							</DataLayer>
-							<CrosstabTableLabelColumn
-								Header="Contract Type"
-								ID="colContractType"
-								Width="1"
-								WidthScale="px"
-								>
-								<Label
-									Caption="@Data.ContractTypeDesc~"
-									Class="ThemeMargin, ThemeBold, ThemeTextSmall"
-									NoWrap="True"
-								/>
-							</CrosstabTableLabelColumn>
-							<CrosstabTableLabelColumn
-								Header="Commodity"
-								ID="colCommodityDesc"
-								Width="1"
-								WidthScale="px"
-								>
-								<Label
-									Caption="@Data.CommodityDesc~"
-									Class="ThemeMargin, ThemeBold, ThemeTextSmall"
-								/>
-							</CrosstabTableLabelColumn>
-							<CrosstabTableValueColumns
-								Header="@Data.rdCrosstabColumn~"
-								ID="colHeaderMonth"
-								Width="50"
-								WidthScale="px"
-								>
-								<Label
-									Caption="=IIf(@Data.rdCrosstabValCount~=0,&quot;&quot;,&quot;@Data.rdCrosstabValue~&quot;)"
-									Class="ThemeMargin, ThemeTextSmall"
-									Format="###,###,##0"
-									ID="lblValue"
-									NoWrap="True"
-									>
-									<Action
-										Type="Report"
-										>
-										<Target
-											Report="Unknown.SubReports.TMAContractsNetDetail"
-											RequestForwarding="True"
-											Type="Report"
-										/>
-										<LinkParams
-											paramCommodity="@Data.CommodityCode~"
-											paramContractType="@Data.ContractTypeDesc~"
-											paramDate="@Data.rdCrosstabColumn~"
-										/>
-									</Action>
-								</Label>
-								<DataColumnSummary
-									DataColumn="rdCrosstabColumn"
-									DataType="Number"
-									Function="Sum"
-									ID="fGrandTotal"
-								/>
-							</CrosstabTableValueColumns>
-							<CrosstabTableLabelColumn
-								Class="ThemeAlignRight"
-								Header="Total"
-								HeaderType="Text"
-								ID="GrandTotal"
-								Width="1"
-								WidthScale="px"
-								>
-								<Label
-									Caption="@Data.crsTotal~"
-									Class="ThemeAlignRight, ThemeMargin, ThemeTextSmall"
-									Format="###,###,##0"
-									ID="lblGrandTotal"
-								/>
-							</CrosstabTableLabelColumn>
-						</CrosstabTable>
-					</TabPanel>
-				</Tabs>
-				<LineBreak/>
-			</Division>
-		</Remark>
+								<ResponsiveRow>
+									<ResponsiveColumn>
+										<DataTable
+											ID="dtTMAHeader"
+											TableBorder="0"
+											Width="100"
+											WidthScale="%"
+											>
+											<DataLayer
+												ConnectionID="connProdGP"
+												ID="sqlTMAHeader"
+												Source="SELECT OC.DATA_KEY [KEY]
+  , OC.CUSTOMER_DESC [CUSTDESC]
+  , LTRIM(RTRIM(OC.CUSTOMER)) [CUSTNMBR]
+  , LTRIM(RTRIM(CM.ADDRESS_LINE_1)) [CUSTADDR1]
+  , LTRIM(RTRIM(CM.CITY)) [CUSTCITY]
+  , LTRIM(RTRIM(CM.[STATE])) [CUSTSTATE]
+  , LTRIM(RTRIM(CM.ZIP_CODE)) [CUSTZIPCODE]
+  , OC.CONTRACT_MAIN [MAINCONTRACT]
+  , OC.CONTRACT_SUB [SUBCONTRACT]
+  , OC.CONTRACT_NUMBER [CONTRACTNMBR]
+  , OC.THEIR_CONTRACT_NUMBER [ACCOUNTCONTRACT]
+  , OC.ISSUED_DATE [CONTRACTDT]
+  , OC.DELIVERY_START_DATE [DELIVERY_START_DATE]
+  , OC.DELIVERY_END_DATE [DELIVERY_END_DATE]
+  , OC.DPR_POSITION [DPRPOSITION]
+  , OC.DPR_POSITION_GROUP [DPRDESC]
+  , OC.BRANCH_NUMBER [LOCNMBR]
+  , OC.BRANCH_DESC [LOCDESC]
+  , OC.COMMODITY_CODE [COMMODITYCD]
+  , OC.COMMODITY_DESC [COMMODITYDESC]
+  , OC.REMAINING_BU
+FROM AgTrax_Staging..DM_OpenContracts OC 
+  INNER JOIN AgTrax_Staging..AR_CUSTOMER_MASTER_TMA CM ON OC.CUSTOMER=CM.CUSTOMER
+WHERE OC.DATA_KEY=&apos;@Request.paramContractKey~&apos;
+ORDER BY CONTRACTNMBR"
+												Type="SQL"
+												>
+												<AggregateColumn
+													AggregateColumn="REMAINING_BU"
+													AggregateFunction="Sum"
+													DataType="Number"
+													ID="SumRemainingBU"
+												/>
+												<GroupFilter
+													GroupColumn="MAINCONTRACT"
+													ID="fltrContract"
+												/>
+											</DataLayer>
+											<GroupHeaderRow
+												Class="ThemeAlternatingRow"
+												GroupFilterID="fltrContract"
+												>
+												<Column
+													ColSpan="1"
+													ID="colHeader1"
+													>
+													<Label
+														Caption="Contract: "
+														Class="ThemeTextSmall, ThemeBold"
+													/>
+													<Label
+														Caption="@Data.MAINCONTRACT~"
+														Class="ThemeTextSmall, ThemeBold"
+													/>
+													<LineBreak/>
+													<Label
+														Caption="Commodity: @Data.COMMODITYDESC~"
+														Class="ThemeTextSmall, ThemeBold"
+													/>
+													<LineBreak/>
+													<Label
+														Caption="Remaining BU: "
+														Class="ThemeTextSmall, ThemeBold"
+													/>
+													<Label
+														Caption="@Data.SumRemainingBU~"
+														Class="ThemeTextSmall, ThemeBold"
+														Format="###,###,##0.00"
+													/>
+												</Column>
+												<Column
+													ColSpan="4"
+													ID="colHeader2"
+													WidthScale="50%"
+													>
+													<Label
+														Caption="Shipment Period: @Data.DELIVERY_END_DATE~"
+														Class="ThemeTextSmall, ThemeBold"
+														Format="Short Date"
+													/>
+													<LineBreak/>
+													<Label
+														Caption="Account Name: @Data.CUSTDESC~"
+														Class="ThemeTextSmall, ThemeBold"
+													/>
+													<LineBreak/>
+													<Label
+														Caption="Account Number: @Data.CUSTNMBR~"
+														Class="ThemeTextSmall, ThemeBold"
+													/>
+												</Column>
+											</GroupHeaderRow>
+										</DataTable>
+										<DataTable
+											AccessibleHeaders="True"
+											AccessibleSummary="AnalysisGrid DataTable"
+											ID="dtTMAContracts"
+											RememberSort="True"
+											SortArrows="True"
+											TableBorder="0"
+											Width="100"
+											WidthScale="%"
+											>
+											<InteractivePaging
+												CaptionType="Image"
+												Class="ThemeTextSmall"
+												Location="Top"
+												PageRowCount="10"
+												ShowPageNumber="True"
+											/>
+											<DataLayer
+												ConnectionID="connProdGP"
+												ID="sqlTMAContract"
+												Source="SELECT OC.DATA_KEY [KEY]
+  , OC.CUSTOMER_DESC [CUSTDESC]
+  , LTRIM(RTRIM(OC.CUSTOMER)) [CUSTNMBR]
+  , LTRIM(RTRIM(CM.ADDRESS_LINE_1)) [CUSTADDR1]
+  , LTRIM(RTRIM(CM.CITY)) [CUSTCITY]
+  , LTRIM(RTRIM(CM.[STATE])) [CUSTSTATE]
+  , LTRIM(RTRIM(CM.ZIP_CODE)) [CUSTZIPCODE]
+  , OC.CONTRACT_MAIN [MAINCONTRACT]
+  , OC.CONTRACT_SUB [SUBCONTRACT]
+  , OC.CONTRACT_NUMBER [CONTRACTNMBR]
+  , OC.THEIR_CONTRACT_NUMBER [ACCOUNTCONTRACT]
+  , OC.ISSUED_DATE [CONTRACTDT]
+  , OC.DELIVERY_START_DATE [DELIVERY_START_DATE]
+  , OC.DELIVERY_END_DATE [DELIVERY_END_DATE]
+  , OC.DPR_POSITION [DPRPOSITION]
+  , OC.DPR_POSITION_GROUP [DPRDESC]
+  , OC.BRANCH_NUMBER [LOCNMBR]
+  , OC.BRANCH_DESC [LOCDESC]
+  , OC.COMMODITY_CODE [COMMODITYCD]
+  , OC.COMMODITY_DESC [COMMODITYDESC]
+  , OC.REMAINING_BU
+FROM AgTrax_Staging..DM_OpenContracts OC 
+  INNER JOIN AgTrax_Staging..AR_CUSTOMER_MASTER_TMA CM ON OC.CUSTOMER=CM.CUSTOMER
+WHERE OC.DATA_KEY=&apos;@Request.paramContractKey~&apos;
+ORDER BY CONTRACTNMBR"
+												Type="SQL"
+												>
+												<AggregateColumn
+													AggregateColumn="REMAINING_BU"
+													AggregateFunction="Sum"
+													DataType="Number"
+													ID="SumRemainingBU"
+												/>
+											</DataLayer>
+											<DataTableColumn
+												Header="Contract"
+												ID="colCONTRACTNMBR"
+												Width="10"
+												WidthScale="%"
+												>
+												<Label
+													Caption="@Data.CONTRACTNMBR~"
+													ID="colCONTRACTNMBR"
+												/>
+												<DataColumnSort
+													DataColumn="CONTRACTNMBR"
+													DataType="Text"
+												/>
+											</DataTableColumn>
+											<DataTableColumn
+												Header="Account Contract"
+												ID="colACCOUNTCONTRACT"
+												Width="10"
+												WidthScale="%"
+												>
+												<Label
+													Caption="@Data.ACCOUNTCONTRACT~"
+													ID="colACCOUNTCONTRACT"
+												/>
+												<DataColumnSort
+													DataColumn="CONTRACTNMBR"
+													DataType="Text"
+												/>
+											</DataTableColumn>
+											<DataTableColumn
+												Header="Location Number"
+												ID="colLOCNMBR"
+												Width="10"
+												WidthScale="%"
+												>
+												<Label
+													Caption="@Data.LOCNMBR~"
+													ID="colLOCNMBR"
+												/>
+												<DataColumnSort
+													DataColumn="LOCNMBR"
+													DataType="Text"
+												/>
+											</DataTableColumn>
+											<DataTableColumn
+												Header="Location Description"
+												ID="colLOCDESC"
+												Width="10"
+												WidthScale="%"
+												>
+												<Label
+													Caption="@Data.LOCDESC~"
+													ID="colLOCDESC"
+												/>
+												<DataColumnSort
+													DataColumn="LOCDESC"
+													DataType="Text"
+												/>
+											</DataTableColumn>
+											<DataTableColumn
+												Class="ThemeAlignRight"
+												ColumnHeaderClass="ThemeAlignCenter"
+												Header="Remaining BU"
+												ID="colREMAINING_BU"
+												Width="5"
+												WidthScale="%"
+												>
+												<Label
+													Caption="@Data.REMAINING_BU~"
+													Format="###,###,##0.00"
+													ID="colREMAINING_BU"
+												/>
+												<DataColumnSort
+													DataColumn="REMAINING_BU"
+													DataType="Number"
+												/>
+												<DataColumnSummary
+													DataColumn="REMAINING_BU"
+													DataType="Number"
+													Function="Sum"
+													ID="dcsRemainingBU"
+												/>
+											</DataTableColumn>
+											<DataTableColumn
+												Class="ThemeAlignCenter"
+												ID="colKPI"
+												Width="25"
+												WidthScale="%"
+												>
+												<Label
+													ID="KPI"
+													>
+													<Note
+														Note="KPI Remaining Contract Balance Conditions: Green greater than 2500 BU; Yellow 0 to 2500; Red less than 0"
+													/>
+													<ConditionalClass
+														Class="fa fa-arrow-up fa-2x text-success"
+														Condition="@Data.REMAINING_BU~ &gt; 2500"
+														ID="Condition-Green&gt;2500"
+													/>
+													<ConditionalClass
+														Class="fa fa-minus fa-2x text-warning"
+														Condition="(@Data.REMAINING_BU~ &gt;=0) And (@Data.REMAINING_BU~ &lt;= 2500)"
+														ID="Condition-Yellow-0-2500"
+													/>
+													<ConditionalClass
+														Class="fa fa-arrow-down fa-2x text-danger"
+														Condition="@Data.REMAINING_BU~ &lt; 0"
+														ID="Condition-Red&lt;0"
+													/>
+												</Label>
+											</DataTableColumn>
+											<SummaryRow
+												Caption="Total: "
+												ID="srTotal"
+												LastPageOnly="False"
+											/>
+										</DataTable>
+									</ResponsiveColumn>
+								</ResponsiveRow>
+							</Division>
+						</Division>
+					</Division>
+				</Division>
+			</ResponsiveColumn>
+		</ResponsiveRow>
 	</Body>
 	<ReportFooter>
 		<IncludeSharedElement
@@ -1420,5 +700,8 @@ ORDER BY CONTRACT_TYPE, DELIVERY_END_DATE
 			SharedElementID="shrFooter"
 		/>
 	</ReportFooter>
-	<ideTestParams/>
+	<ideTestParams
+		ContractType=""
+		paramContractKey=""
+	/>
 </Report>
