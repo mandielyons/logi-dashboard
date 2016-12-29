@@ -25,33 +25,63 @@
 			<ResponsiveColumn
 				Class="ThemeAlignCenter"
 				>
-				<LineBreak
-					LineCount="5"
-				/>
-				<Image
-					Caption="icon-klipstarts (1).png"
-					Height="200"
-					ID="imgMKCLogo2"
-					SecurityRightID="MKC Dashboard,TMA Dashboard,OC"
-					Width="350"
-				/>
-				<Image
-					Caption="icon-klipstarts.png"
-					Height="200"
-					ID="imgMKCLogo"
-					SecurityRightID="MKC Dashboard,TMA Dashboard,OC"
-					Width="350"
-				/>
-				<LineBreak
-					LineCount="2"
-				/>
-				<Image
-					Caption="dboard.png"
-					Height="300"
-					ID="imgTMALogo"
-					SecurityRightID="MKC Dashboard,TMA Dashboard,OC"
-					Width="300"
-				/>
+				<Division
+					ID="divHomeImages"
+					>
+					<ResponsiveVisibility
+						HideForExtraSmallScreen="True"
+						HideForLargeScreen="False"
+						HideForMediumScreen="False"
+						HideForSmallScreen="True"
+					/>
+					<LineBreak
+						LineCount="5"
+					/>
+					<Image
+						Caption="icon-klipstarts.png"
+						Height="200"
+						ID="imgDboard1"
+						SecurityRightID="MKC Dashboard,TMA Dashboard,OC"
+						Width="350"
+					/>
+					<Image
+						Caption="icon-klipstarts (1).png"
+						Height="200"
+						ID="imgDboard2"
+						SecurityRightID="MKC Dashboard,TMA Dashboard,OC"
+						Width="350"
+					/>
+					<LineBreak
+						LineCount="2"
+					/>
+					<Image
+						Caption="dboard.png"
+						Height="300"
+						ID="imgDboard"
+						SecurityRightID="MKC Dashboard,TMA Dashboard,OC"
+						Width="300"
+					/>
+				</Division>
+				<Division
+					ID="divResponsive"
+					>
+					<ResponsiveVisibility
+						HideForExtraSmallScreen="False"
+						HideForLargeScreen="True"
+						HideForMediumScreen="True"
+						HideForSmallScreen="False"
+					/>
+					<LineBreak
+						LineCount="5"
+					/>
+					<Image
+						Caption="icon-klipstarts (1).png"
+						Height="200"
+						ID="imgDboard2"
+						SecurityRightID="MKC Dashboard,TMA Dashboard,OC"
+						Width="350"
+					/>
+				</Division>
 			</ResponsiveColumn>
 		</ResponsiveRow>
 	</Body>
