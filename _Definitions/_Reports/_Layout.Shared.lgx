@@ -331,32 +331,10 @@ else {
 									</Division>
 								</ResponsiveColumn>
 								<ResponsiveColumn
-									ColspanExtraSmallScreen="5"
-									ColspanLargeScreen="2"
-									ColspanMediumScreen="2"
-									ColspanSmallScreen="5"
-									>
-									<Division
-										ID="div-rtest"
-										>
-										<ResponsiveVisibility
-											HideForExtraSmallScreen="False"
-											HideForLargeScreen="True"
-											HideForMediumScreen="True"
-											HideForSmallScreen="False"
-										/>
-										<Label
-											Caption="***FOR INTERNAL TESTING ONLY***"
-											Class="ThemeErrorText,ThemeTextSmaller"
-											HtmlTag="Span"
-										/>
-									</Division>
-								</ResponsiveColumn>
-								<ResponsiveColumn
-									ColspanExtraSmallScreen="3"
-									ColspanLargeScreen="8"
-									ColspanMediumScreen="8"
-									ColspanSmallScreen="3"
+									ColspanExtraSmallScreen="8"
+									ColspanLargeScreen="10"
+									ColspanMediumScreen="10"
+									ColspanSmallScreen="8"
 									>
 									<Division
 										Class="ThemeAlignRight"
@@ -366,6 +344,18 @@ else {
 										<Note
 											Note="*** build mobile navigation here - only for BELOW 1024*768 (1024*768 in portrait) ***"
 										/>
+										<Division
+											ID="div-rtest"
+											>
+											<Label
+												Caption="***FOR INTERNAL USE ONLY***"
+												Class="ThemeErrorText,ThemeTextSmallest"
+												HtmlTag="Span"
+											/>
+											<Spaces
+												Size="5"
+											/>
+										</Division>
 										<ResponsiveVisibility
 											HideForExtraSmallScreen="False"
 											HideForLargeScreen="True"
@@ -379,6 +369,7 @@ else {
 										<Image
 											AltText="Mobile Menu"
 											Caption="hamburger.png"
+											Class="pull-right"
 											ID="imgMobile"
 											>
 											<Action
@@ -478,13 +469,6 @@ else {
 												</PopupOption>
 											</Action>
 										</Image>
-										<Remark>
-											<Label
-												Caption="Menu"
-												Class="btn btn-default pull-right"
-												HtmlTag="Span"
-											/>
-										</Remark>
 									</Division>
 									<Division
 										Class="nav navbar-nav navbar-right"
@@ -512,55 +496,73 @@ else {
 												ColspanMediumScreen="12"
 												ColspanSmallScreen="12"
 												>
-												<Label
-													Caption="Home"
-													ID="MKCHome"
-													SecurityRightID="MKC Dashboard"
+												<Division
+													ID="div-test"
 													>
-													<Action
-														ID="actReport"
-														Type="Report"
+													<Label
+														Caption="***FOR INTERNAL USE ONLY***"
+														Class="ThemeErrorText,ThemeTextSmall"
+														HtmlTag="Span"
+													/>
+													<Spaces
+														Size="5"
+													/>
+												</Division>
+												<Remark>
+													<Label
+														Caption="Home"
+														ID="MKCHome"
+														SecurityRightID="MKC Dashboard"
 														>
-														<Target
-															ID="tgtReport"
-															Report="Home.Default"
+														<Action
+															ID="actReport"
 															Type="Report"
 															>
-															<WaitPage/>
-														</Target>
-													</Action>
-													<ConditionalClass
-														Class="selected-menu "
-														Condition="&quot;@Request.rdReport~&quot;==&quot;Home.MKCReport&quot; || &quot;@Request.rdReport~&quot;==&quot;&quot;"
-													/>
-												</Label>
-												<Label
-													Caption="Home"
-													ID="TMAHome"
-													SecurityRightID="TMA Dashboard,OC"
-													>
-													<Action
-														ID="actReport"
-														Type="Report"
+															<Target
+																ID="tgtReport"
+																Report="Home.Default"
+																Type="Report"
+																>
+																<WaitPage/>
+															</Target>
+														</Action>
+														<ConditionalClass
+															Class="selected-menu "
+															Condition="&quot;@Request.rdReport~&quot;==&quot;Home.MKCReport&quot; || &quot;@Request.rdReport~&quot;==&quot;&quot;"
+														/>
+													</Label>
+												</Remark>
+												<Remark>
+													<Label
+														Caption="Home"
+														ID="TMAHome"
+														SecurityRightID="TMA Dashboard,OC"
 														>
-														<Target
-															ID="tgtReport"
-															Report="Home.Default"
+														<Action
+															ID="actReport"
 															Type="Report"
 															>
-															<WaitPage/>
-														</Target>
-													</Action>
-													<ConditionalClass
-														Class="selected-menu "
-														Condition="&quot;@Request.rdReport~&quot;==&quot;Home.MKCReport&quot; || &quot;@Request.rdReport~&quot;==&quot;&quot;"
+															<Target
+																ID="tgtReport"
+																Report="Home.Default"
+																Type="Report"
+																>
+																<WaitPage/>
+															</Target>
+														</Action>
+														<ConditionalClass
+															Class="selected-menu "
+															Condition="&quot;@Request.rdReport~&quot;==&quot;Home.MKCReport&quot; || &quot;@Request.rdReport~&quot;==&quot;&quot;"
+														/>
+													</Label>
+												</Remark>
+												<Remark>
+													<Label
+														Caption="|"
+														Class="pipe-spacer"
+														ID="pipe-spacer"
 													/>
-												</Label>
-												<Label
-													Caption="|"
-													Class="pipe-spacer"
-													ID="pipe-spacer"
-												/>
+												</Remark>
 												<Division
 													ID="reports-container"
 													SecurityRightID="Dashboard Monthly Staff"
@@ -732,6 +734,148 @@ else {
 														Class="pipe-spacer"
 														ID="pipe-spacer"
 													/>
+												</Division>
+												<Division
+													Class="ThemeHidden"
+													ID="divOC"
+													>
+													<ConditionalClass
+														Condition="InStr(&quot;@Function.UserRoles~&quot;,&quot;OC&quot;) &gt; 0"
+													/>
+													<Remark>
+														<Division
+															ID="other-container"
+															SecurityRightID="OC,LogiUserAdmin"
+															>
+															<Label
+																Caption="Password Reset"
+																>
+																<Action
+																	ID="actReport"
+																	Type="Report"
+																	>
+																	<Target
+																		ID="tgtReport"
+																		Report="Other.PasswordReset"
+																		Type="Report"
+																		>
+																		<WaitPage/>
+																	</Target>
+																</Action>
+																<ConditionalClass
+																	Class="selected-menu"
+																	Condition="&quot;@Request.rdReport~&quot;==&quot;Other.PasswordReset&quot;"
+																/>
+															</Label>
+															<Remark>
+																<Label
+																	Caption="|"
+																	Class="pipe-spacer"
+																	ID="pipe-spacer"
+																/>
+															</Remark>
+														</Division>
+													</Remark>
+													<Division
+														ID="admin-container"
+														SecurityRightID="TMA Dashboard,MKC Dashboard,OC"
+														>
+														<Division
+															Class="dropdown"
+															HtmlDiv="True"
+															ID="admin"
+															>
+															<Label
+																Caption="Admin"
+																>
+																<Action
+																	ID="actBlank"
+																	Javascript="void(0)"
+																	Type="Javascript"
+																/>
+																<ConditionalClass
+																	Class="selected-menu"
+																	Condition="&quot;@Request.rdReport~&quot;.indexOf(&quot;Admin&quot;)&lt;&gt;&quot;-1&quot;"
+																/>
+															</Label>
+															<Label
+																Class="caret"
+																>
+																<Action
+																	ID="actBlank"
+																	Javascript="void(0)"
+																	Type="Javascript"
+																/>
+																<ConditionalClass
+																	Class="caret selected-menu"
+																	Condition="&quot;@Request.rdReport~&quot;.indexOf(&quot;Admin&quot;)&lt;&gt;&quot;-1&quot;"
+																/>
+															</Label>
+															<Division
+																Class="submenu"
+																HtmlDiv="True"
+																ID="submenu-admin"
+																>
+																<DataList
+																	ID="lstAdmin"
+																	>
+																	<DataLayer
+																		ID="dlNav-Admin"
+																		Type="DefinitionList"
+																		>
+																		<CompareFilter
+																			CaseSensitive="True"
+																			CompareType="="
+																			CompareValue="Admin"
+																			DataColumn="Folder1"
+																			DataType="Text"
+																			ID="fAdmin"
+																		/>
+																	</DataLayer>
+																	<ListItem>
+																		<Label
+																			Caption="@Data.Caption~"
+																			>
+																			<Action
+																				ID="actReport"
+																				Type="Report"
+																				>
+																				<Target
+																					Report="@Data.ID~"
+																					Type="Report"
+																					>
+																					<WaitPage/>
+																				</Target>
+																			</Action>
+																			<ConditionalClass
+																				Class="selected-menu"
+																				Condition="&quot;@Request.rdReport~&quot;==&quot;@Data.ID~&quot;"
+																			/>
+																		</Label>
+																	</ListItem>
+																</DataList>
+															</Division>
+														</Division>
+														<Label
+															Caption="|"
+															Class="pipe-spacer"
+															ID="pipe-spacer"
+														/>
+													</Division>
+													<Label
+														Caption="Logout"
+														>
+														<Action
+															ID="actLogout"
+															Type="Exit"
+															>
+															<Target
+																ID="tgtLogout"
+																Link="@Function.AppVirtualPath~"
+																Type="Link"
+															/>
+														</Action>
+													</Label>
 												</Division>
 												<Division
 													ID="maps-container"
@@ -906,37 +1050,15 @@ else {
 													/>
 												</Division>
 												<Division
-													ID="scorecard-container"
-													SecurityRightID="Dashboard Stategic Planning,LogiUserAdmin,Dashboard Sr Mgmt"
+													ID="divNotOC"
+													SecurityRightID="TMA Dashboard,MKC Dashboard"
 													>
-													<Label
-														Caption="Scorecard"
-														>
-														<Action
-															ID="actReport"
-															Type="Report"
-															>
-															<Target
-																ID="tgtReport"
-																Report="Scorecard.StrategicDashboard"
-																Type="Report"
-																>
-																<WaitPage/>
-															</Target>
-														</Action>
-														<ConditionalClass
-															Class="selected-menu"
-															Condition="&quot;@Request.rdReport~&quot;==&quot;Scorecard.StrategicDashboard&quot;"
-														/>
-													</Label>
-												</Division>
-												<Remark>
 													<Division
-														ID="other-container"
-														SecurityRightID="OC,LogiUserAdmin"
+														ID="scorecard-container"
+														SecurityRightID="Dashboard Stategic Planning,LogiUserAdmin,Dashboard Sr Mgmt"
 														>
 														<Label
-															Caption="Password Reset"
+															Caption="Scorecard"
 															>
 															<Action
 																ID="actReport"
@@ -944,7 +1066,7 @@ else {
 																>
 																<Target
 																	ID="tgtReport"
-																	Report="Other.PasswordReset"
+																	Report="Scorecard.StrategicDashboard"
 																	Type="Report"
 																	>
 																	<WaitPage/>
@@ -952,138 +1074,116 @@ else {
 															</Action>
 															<ConditionalClass
 																Class="selected-menu"
-																Condition="&quot;@Request.rdReport~&quot;==&quot;Other.PasswordReset&quot;"
+																Condition="&quot;@Request.rdReport~&quot;==&quot;Scorecard.StrategicDashboard&quot;"
 															/>
 														</Label>
-														<Remark>
-															<Label
-																Caption="|"
-																Class="pipe-spacer"
-																ID="pipe-spacer"
-															/>
-														</Remark>
+														<Label
+															Caption="|"
+															Class="pipe-spacer"
+															ID="pipe-spacer"
+														/>
 													</Division>
-												</Remark>
-											</ResponsiveColumn>
-											<ResponsiveColumn
-												Class="ThemeAlignRight"
-												ColspanExtraSmallScreen="12"
-												ColspanLargeScreen="12"
-												ColspanMediumScreen="12"
-												ColspanSmallScreen="12"
-												>
-												<Division
-													ID="div-test"
-													>
-													<Label
-														Caption="***FOR INTERNAL TESTING ONLY***"
-														Class="ThemeErrorText,ThemeTextSmall"
-														HtmlTag="Span"
-													/>
-													<Spaces
-														Size="25"
-													/>
-												</Division>
-												<Division
-													ID="admin-container"
-													SecurityRightID="TMA Dashboard,MKC Dashboard,OC"
-													>
 													<Division
-														Class="dropdown"
-														HtmlDiv="True"
-														ID="admin"
+														ID="admin-container"
+														SecurityRightID="TMA Dashboard,MKC Dashboard,OC"
 														>
-														<Label
-															Caption="Admin"
-															>
-															<Action
-																ID="actBlank"
-																Javascript="void(0)"
-																Type="Javascript"
-															/>
-															<ConditionalClass
-																Class="selected-menu"
-																Condition="&quot;@Request.rdReport~&quot;.indexOf(&quot;Admin&quot;)&lt;&gt;&quot;-1&quot;"
-															/>
-														</Label>
-														<Label
-															Class="caret"
-															>
-															<Action
-																ID="actBlank"
-																Javascript="void(0)"
-																Type="Javascript"
-															/>
-															<ConditionalClass
-																Class="caret selected-menu"
-																Condition="&quot;@Request.rdReport~&quot;.indexOf(&quot;Admin&quot;)&lt;&gt;&quot;-1&quot;"
-															/>
-														</Label>
 														<Division
-															Class="submenu"
+															Class="dropdown"
 															HtmlDiv="True"
-															ID="submenu-admin"
+															ID="admin"
 															>
-															<DataList
-																ID="lstAdmin"
+															<Label
+																Caption="Admin"
 																>
-																<DataLayer
-																	ID="dlNav-Admin"
-																	Type="DefinitionList"
+																<Action
+																	ID="actBlank"
+																	Javascript="void(0)"
+																	Type="Javascript"
+																/>
+																<ConditionalClass
+																	Class="selected-menu"
+																	Condition="&quot;@Request.rdReport~&quot;.indexOf(&quot;Admin&quot;)&lt;&gt;&quot;-1&quot;"
+																/>
+															</Label>
+															<Label
+																Class="caret"
+																>
+																<Action
+																	ID="actBlank"
+																	Javascript="void(0)"
+																	Type="Javascript"
+																/>
+																<ConditionalClass
+																	Class="caret selected-menu"
+																	Condition="&quot;@Request.rdReport~&quot;.indexOf(&quot;Admin&quot;)&lt;&gt;&quot;-1&quot;"
+																/>
+															</Label>
+															<Division
+																Class="submenu"
+																HtmlDiv="True"
+																ID="submenu-admin"
+																>
+																<DataList
+																	ID="lstAdmin"
 																	>
-																	<CompareFilter
-																		CaseSensitive="True"
-																		CompareType="="
-																		CompareValue="Admin"
-																		DataColumn="Folder1"
-																		DataType="Text"
-																		ID="fAdmin"
-																	/>
-																</DataLayer>
-																<ListItem>
-																	<Label
-																		Caption="@Data.Caption~"
+																	<DataLayer
+																		ID="dlNav-Admin"
+																		Type="DefinitionList"
 																		>
-																		<Action
-																			ID="actReport"
-																			Type="Report"
+																		<CompareFilter
+																			CaseSensitive="True"
+																			CompareType="="
+																			CompareValue="Admin"
+																			DataColumn="Folder1"
+																			DataType="Text"
+																			ID="fAdmin"
+																		/>
+																	</DataLayer>
+																	<ListItem>
+																		<Label
+																			Caption="@Data.Caption~"
 																			>
-																			<Target
-																				Report="@Data.ID~"
+																			<Action
+																				ID="actReport"
 																				Type="Report"
 																				>
-																				<WaitPage/>
-																			</Target>
-																		</Action>
-																		<ConditionalClass
-																			Class="selected-menu"
-																			Condition="&quot;@Request.rdReport~&quot;==&quot;@Data.ID~&quot;"
-																		/>
-																	</Label>
-																</ListItem>
-															</DataList>
+																				<Target
+																					Report="@Data.ID~"
+																					Type="Report"
+																					>
+																					<WaitPage/>
+																				</Target>
+																			</Action>
+																			<ConditionalClass
+																				Class="selected-menu"
+																				Condition="&quot;@Request.rdReport~&quot;==&quot;@Data.ID~&quot;"
+																			/>
+																		</Label>
+																	</ListItem>
+																</DataList>
+															</Division>
 														</Division>
+														<Label
+															Caption="|"
+															Class="pipe-spacer"
+															ID="pipe-spacer"
+														/>
 													</Division>
 													<Label
-														Caption="|"
-														Class="pipe-spacer"
-														ID="pipe-spacer"
-													/>
-												</Division>
-												<Label
-													Caption="Logout"
-													>
-													<Action
-														ID="actLogout"
-														Type="Exit"
+														Caption="Logout"
 														>
-														<Target
-															ID="tgtLogout"
-															Link="@Function.AppVirtualPath~"
-															Type="Link"
-														/>
-													</Action>
-												</Label>
+														<Action
+															ID="actLogout"
+															Type="Exit"
+															>
+															<Target
+																ID="tgtLogout"
+																Link="@Function.AppVirtualPath~"
+																Type="Link"
+															/>
+														</Action>
+													</Label>
+												</Division>
 											</ResponsiveColumn>
 										</ResponsiveRow>
 										<Remark>
