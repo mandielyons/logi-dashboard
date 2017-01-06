@@ -8,18 +8,6 @@
 		SharedElementID="shrHeader"
 	/>
 	<Body>
-		<IncludeScript
-			IncludedScript="&lt;script&gt;
-  (function(i,s,o,g,r,a,m){i[&apos;GoogleAnalyticsObject&apos;]=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,&apos;script&apos;,&apos;https://www.google-analytics.com/analytics.js&apos;,&apos;ga&apos;);
-
-  ga(&apos;create&apos;, &apos;UA-76860562-1&apos;, &apos;auto&apos;);
-  ga(&apos;send&apos;, &apos;pageview&apos;);
-
-&lt;/script&gt;"
-		/>
 		<ResponsiveRow>
 			<ResponsiveColumn>
 				<Division
@@ -193,7 +181,9 @@
 										>
 										<Action
 											ID="jsFinanceTabClick"
-											Javascript="$(&quot;li#tabFinance&quot;).click();console.log(&quot;clicked&quot;);"
+											Javascript="$(&quot;li#tabFinance&quot;).click();
+alert(&quot;clicked&quot;);
+console.log(&quot;clicked&quot;);"
 											Type="Javascript"
 										/>
 									</EventHandler>

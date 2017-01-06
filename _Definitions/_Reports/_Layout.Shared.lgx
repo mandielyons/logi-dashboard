@@ -47,10 +47,9 @@
 "
 		/>
 		<IncludeHtml
-			Html="  &lt;link href=&quot;//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css&quot; rel=&quot;stylesheet&quot;&gt;
-  &lt;script src=&quot;http://code.jquery.com/jquery-2.0.3.min.js&quot;&gt;&lt;/script&gt; 
-  &lt;script src=&quot;https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js&quot;&gt;&lt;/script&gt;
-  &lt;script src=&quot;http://smtpjs.com/smtp.js&quot;&gt;&lt;/script&gt;
+			Html="&lt;!--&lt;link rel=&quot;stylesheet&quot; href=&quot;https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css&quot;&gt;
+&lt;script src=&quot;https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js&quot;&gt;&lt;/script&gt;--&gt;
 
 "
 		/>
@@ -253,6 +252,10 @@ else {
 			<InputHidden
 				DefaultValue="@Request.StatusMsg~"
 				ID="iptStatus"
+			/>
+			<InputHidden
+				DefaultValue="@Request.rdReport~"
+				ID="iptReport"
 			/>
 			<Division
 				HtmlDiv="True"
@@ -1291,13 +1294,16 @@ else {
 		/>
 		<Label
 			Caption="Use CTRL+click to select multiple values"
-			Class="ThemeTextSmall"
+			Class="ThemeTextSmaller"
 		/>
+		<LineBreak/>
 		<Note
 			Note="**All branches are shown here. Security is set for TMA Dashboard and MKC Dashboard.**"
 		/>
 		<InputSelectList
 			Caption="Locations:"
+			CaptionClass="panel-title"
+			Class="ThemeTextSmall"
 			DefaultValue="@Request.Branch~"
 			GroupCaptionColumn="REGION"
 			ID="Branch"
@@ -1367,6 +1373,8 @@ ORDER BY BRANCH_NAME"
 		/>
 		<InputSelectList
 			Caption="Locations:"
+			CaptionClass="panel-title"
+			Class="ThemeTextSmall"
 			DefaultValue="@Request.Branch~"
 			GroupCaptionColumn="REGION"
 			ID="Branch"
@@ -1442,12 +1450,11 @@ ORDER BY BRANCH_NAME"
 		<Note
 			Note="**Pass in CommodityElementToRefresh in the Shared Element Params.**"
 		/>
-		<Label
-			Caption="Use CTRL+click to select multiple values"
-			Class="ThemeTextSmall"
-		/>
+		<LineBreak/>
 		<InputSelectList
 			Caption="Commodity:"
+			CaptionClass="panel-title"
+			Class="ThemeTextSmall"
 			DefaultValue="@Request.Commodity~"
 			ID="Commodity"
 			InputRows="5"
@@ -1489,6 +1496,93 @@ ORDER BY BRANCH_NAME"
 				</Action>
 			</EventHandler>
 		</InputSelectList>
+	</SharedElement>
+	<SharedElement
+		ID="shrCommodityMultiSelect"
+		>
+		<Note
+			Note="**Pass in CommodityElementToRefresh in the Shared Element Params.**"
+		/>
+		<Note
+			Note="**Pass in ShowMultiSelect with value of Y to show the CTRL + click message.**"
+		/>
+		<LineBreak/>
+		<Label
+			Caption="Use CTRL+click to select multiple values"
+			Class="ThemeTextSmaller"
+		/>
+		<LineBreak/>
+		<InputSelectList
+			Caption="Commodity:"
+			CaptionClass="panel-title"
+			Class="ThemeTextSmall"
+			DefaultValue="@Request.Commodity~"
+			ID="Commodity"
+			InputRows="5"
+			MultiSelect="True"
+			OptionCaptionColumn="COMMODITY_DESC"
+			OptionValueColumn="COMMODITY_CODE"
+			>
+			<DataLayer
+				ID="staticCOMMODITY"
+				Type="Static"
+				>
+				<StaticDataRow
+					COMMODITY_CODE="01"
+					COMMODITY_DESC="WHEAT"
+				/>
+				<StaticDataRow
+					COMMODITY_CODE="02"
+					COMMODITY_DESC="MILO"
+				/>
+				<StaticDataRow
+					COMMODITY_CODE="03"
+					COMMODITY_DESC="SOYBEANS"
+				/>
+				<StaticDataRow
+					COMMODITY_CODE="04"
+					COMMODITY_DESC="CORN"
+				/>
+			</DataLayer>
+			<EventHandler
+				DhtmlEvent="onchange"
+				ID="evtOnChange"
+				>
+				<Action
+					ElementID="@Shared.CommodityElementToRefresh~"
+					ID="actRefreshReport"
+					Type="RefreshElement"
+					>
+					<WaitPage/>
+				</Action>
+			</EventHandler>
+		</InputSelectList>
+	</SharedElement>
+	<SharedElement
+		ID="shrExcelExport"
+		>
+		<Note
+			Note="**Pass in DataTableID, ReportName and Security in the Shared Element Params.**"
+		/>
+		<Division
+			ID="divExcelExport"
+			SecurityRightID="@Shared.Security~"
+			>
+			<Label
+				Class="fa fa-file-excel-o fa-2x "
+				HtmlTag="Span"
+				ID="lnkExcel"
+				Tooltip="Export to Excel"
+				>
+				<Action
+					Javascript="tableToExcel(&quot;@Shared.DataTableID~&quot;,&quot;@Shared.ReportName~&quot;);"
+					Type="Javascript"
+				/>
+			</Label>
+			<LineBreak
+				LineCount="2"
+			/>
+		</Division>
 	</SharedElement>
 	<SharedElement
 		ID="shrFooter"
@@ -1613,9 +1707,10 @@ ORDER BY BRANCH_NAME"
 			IncludedScript="
 $(document).ready(function() {
 	var str = document.getElementById(&quot;iptStatus&quot;).value;
+	var report = document.getElementById(&quot;iptReport&quot;).value;
 	var n = str.search(&quot;alert&quot;);
 	var x = str.search(&quot;timed&quot;);
-	
+
 
 	if (x &gt; -1) {
 		var alerted = localStorage.getItem(&apos;alerted&apos;) || &apos;&apos;;
@@ -1638,6 +1733,12 @@ $(document).ready(function() {
 		else {
 			$(&quot;#btnClose&quot;).click();	
 		}
+	}
+	
+	//report specific functions
+	var r = report.search(&quot;ContractsDashboard&quot;);
+	if (r &gt; -1) {
+				
 	}
 
  });"
