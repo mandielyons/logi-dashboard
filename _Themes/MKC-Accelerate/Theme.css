@@ -948,7 +948,7 @@ color:#fff;
   border: none !important;
 }
 .yui-navset .yui-nav li {
-  background-color: #363b42;
+  background-color: #808080;
   padding: 6px 18px;
   border-radius: 2px 2px 0 0;
 }
@@ -956,7 +956,7 @@ color:#fff;
 .yui-navset .yui-nav li.selected:hover {
     background-color: #EFEFF1;
     border-radius: 2px;
-    border-top: 4px solid #777;
+    border-top: 4px solid #50C5B7;
 }
 .yui-navset .yui-nav li a {
   color: #fff;
@@ -968,7 +968,7 @@ color:#fff;
 	transition: color 0.20s ease-in-out 0s;
 }
 .yui-navset .yui-nav li:hover {
-  background-color: #454d59;
+  background-color: #F1A021;
 }
 
 .yui-navset div.yui-content {

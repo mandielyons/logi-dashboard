@@ -29,8 +29,8 @@
 						>
 						<Label
 							Caption=" "
-							Class="fa fa-undo"
-							Tooltip="Return to Summary"
+							Class="fa fa-chevron-left title"
+							Tooltip="Return to Harvest Summary"
 							>
 							<Action
 								ID="actionReport"
@@ -51,15 +51,17 @@
 						/>
 						<Label
 							Caption="Harvest Receipts Detail"
+							Class="panel-title"
 						/>
 					</Division>
 					<Division
-						Class="panel-body"
+						Class="panel-body "
 						HtmlDiv="True"
 						ID="panel-body-receipts"
 						>
 						<ResponsiveRow>
 							<ResponsiveColumn>
+								<LineBreak/>
 								<Label
 									Caption="Select location(s) and commodity."
 									Class="ThemeTextSmall"
@@ -68,90 +70,103 @@
 							<ResponsiveColumn
 								Class="ThemeAlignRight"
 								>
-								<Label
-									Class="fa fa-file-excel-o fa-2x "
-									HtmlTag="Span"
-									ID="lnkExcel"
-									Tooltip="Export to Excel"
+								<IncludeSharedElement
+									DefinitionFile="_Layout.Shared"
+									SharedElementID="shrExcelExport"
 									>
-									<Action
-										Javascript="tableToExcel(&quot;CrosstabTable1&quot;,&quot;Harvest Receipts&quot;);"
-										Type="Javascript"
+									<SharedElementParams
+										DataTableID="CrosstabTable1"
+										ReportName="Harvest Receipts"
+										Security=""
 									/>
-								</Label>
+								</IncludeSharedElement>
 							</ResponsiveColumn>
 						</ResponsiveRow>
 						<ResponsiveRow
 							ID="rowSelectionHeaders"
 							>
 							<ResponsiveColumn
-								ColspanLargeScreen="2"
-								ColspanMediumScreen="2"
+								ColspanExtraSmallScreen="4"
+								ColspanLargeScreen="3"
+								ColspanMediumScreen="3"
+								ColspanSmallScreen="4"
 								>
-								<IncludeSharedElement
-									DefinitionFile="_Layout.Shared"
-									SharedElementID="shrBranchSelect"
+								<Division
+									Class="well"
+									HtmlDiv="True"
+									ID="divFilters"
 									>
-									<SharedElementParams
-										BranchElementToRefresh="CrosstabTable1"
-									/>
-								</IncludeSharedElement>
-								<LineBreak/>
-								<IncludeSharedElement
-									DefinitionFile="_Layout.Shared"
-									SharedElementID="shrCommoditySelect"
-									>
-									<SharedElementParams
-										CommodityElementToRefresh="CrosstabTable1"
-									/>
-								</IncludeSharedElement>
-								<LineBreak/>
-								<Button
-									Caption="Reset"
-									ID="btnReset"
-									Tooltip="Clear all selections"
-									>
-									<Action
-										ElementID="Branch,Commodity,CrosstabTable1"
-										ID="actReport"
-										RequestForwarding="True"
-										Type="RefreshElement"
+									<IncludeSharedElement
+										DefinitionFile="_Layout.Shared"
+										SharedElementID="shrBranchSelect"
 										>
-										<WaitPage/>
-										<LinkParams
-											Branch="0"
-											Commodity="00"
+										<SharedElementParams
+											BranchElementToRefresh="CrosstabTable1"
 										/>
-									</Action>
-								</Button>
-								<LineBreak/>
-								<LineBreak/>
+									</IncludeSharedElement>
+									<IncludeSharedElement
+										DefinitionFile="_Layout.Shared"
+										SharedElementID="shrCommoditySelect"
+										>
+										<SharedElementParams
+											CommodityElementToRefresh="CrosstabTable1"
+										/>
+									</IncludeSharedElement>
+									<LineBreak/>
+									<Button
+										Caption="Reset"
+										ID="btnReset"
+										Tooltip="Clear all selections"
+										>
+										<Action
+											ElementID="Branch,Commodity,CrosstabTable1"
+											ID="actReport"
+											RequestForwarding="True"
+											Type="RefreshElement"
+											>
+											<WaitPage/>
+											<LinkParams
+												Branch="0"
+												Commodity="00"
+											/>
+										</Action>
+									</Button>
+									<LineBreak/>
+								</Division>
 							</ResponsiveColumn>
 							<ResponsiveColumn
 								Class="ThemeTextSmall"
 								>
-								<LineBreak/>
-								<LineBreak/>
-								<CrosstabTable
-									AccessibleSummary="AnalysisGrid CrossTabTable"
-									AjaxPaging="True"
-									AltRowClass="ThemeAlternatingRow"
-									DraggableColumns="True"
-									ID="CrosstabTable1"
-									ResizableColumns="True"
-									SortArrows="True"
+								<Division
+									ID="divDataTable"
 									>
-									<InteractivePaging
-										CaptionType="Image"
-										Class="ThemeTextSmall"
-										Location="Top"
-										PageRowCount="25"
-										ShowPageNumber="True"
-									/>
-									<DataLayer
-										ConnectionID="connProdGP"
-										ID="sqlDM_HarvestStaging"
-										Source="SELECT CAST(POSTING_DATE AS DATE) DATE1, COMMODITY_CODE, BRANCH_NUMBER, MAX(BRANCH_NAME) BRANCH_NAME, ROUND(SUM(BU),0) BU 
+									<Remark>
+										<ConditionalClass
+											Class="well"
+											Condition="&quot;@Request.Commodity~&quot; != &quot;0&quot; And &quot;@Request.Commodity~&quot; != &quot;ALL&quot;"
+										/>
+									</Remark>
+									<CrosstabTable
+										AccessibleSummary="AnalysisGrid CrossTabTable"
+										AjaxPaging="True"
+										AltRowClass="ThemeAlternatingRow"
+										DraggableColumns="True"
+										ID="CrosstabTable1"
+										ResizableColumns="True"
+										SortArrows="True"
+										>
+										<InteractivePaging
+											CaptionType="Image"
+											Class="ThemeTextSmall"
+											HideWhenOnePage="True"
+											Location="Top"
+											PageRowCount="25"
+											ShowPageNumber="True"
+										/>
+										<DataLayer
+											ConnectionID="connProdGP"
+											ID="sqlDM_HarvestStaging"
+											Source="SELECT CAST(POSTING_DATE AS DATE) DATE1, COMMODITY_CODE, BRANCH_NUMBER, MAX(BRANCH_NAME) BRANCH_NAME, ROUND(SUM(BU),0) BU 
 FROM DM_HarvestStaging
 WHERE BRANCH_NUMBER IN(@Request.Branch~) AND COMMODITY_CODE=&apos;@Request.Commodity~&apos; 
   AND POSTING_DATE BETWEEN &apos;@Request.HarvestBeginDate~&apos; AND &apos;@Request.HarvestEndDate~&apos;
@@ -159,98 +174,99 @@ GROUP BY POSTING_DATE, COMMODITY_CODE, BRANCH_NUMBER
 ORDER BY POSTING_DATE DESC, BRANCH_NAME
 
 "
-										Type="SQL"
-										>
-										<TimePeriodColumn
-											DataColumn="DATE1"
-											DataType="Date"
-											DateGroupByOperator="Date"
-											Format="Short Date"
-											ID="DATE1_By_Date"
-											TimePeriod="Date"
-										/>
-										<CrosstabFilter
-											CrosstabColumn="BRANCH_NAME"
-											CrosstabLabelColumn="DATE1_By_Date"
-											CrosstabValueColumn="BU"
-											CrosstabValueFunction="SUM"
+											Type="SQL"
 											>
-											<CrosstabRowSummaryColumn
-												Function="Sum"
-												ID="crsTotal"
+											<TimePeriodColumn
+												DataColumn="DATE1"
+												DataType="Date"
+												DateGroupByOperator="Date"
+												Format="Short Date"
+												ID="DATE1_By_Date"
+												TimePeriod="Date"
 											/>
-										</CrosstabFilter>
-									</DataLayer>
-									<CrosstabTableLabelColumn
-										Header="RECEIPT DATE"
-										ID="colAxLabel"
-										Width="150"
-										WidthScale="px"
-										>
-										<Label
-											Caption="@Data.DATE1_By_Date~"
-											Format="Short Date"
-											ID="lblAxLabl"
+											<CrosstabFilter
+												CrosstabColumn="BRANCH_NAME"
+												CrosstabLabelColumn="DATE1_By_Date"
+												CrosstabValueColumn="BU"
+												CrosstabValueFunction="SUM"
+												>
+												<CrosstabRowSummaryColumn
+													Function="Sum"
+													ID="crsTotal"
+												/>
+											</CrosstabFilter>
+										</DataLayer>
+										<CrosstabTableLabelColumn
+											Header="RECEIPT DATE"
+											ID="colAxLabel"
+											Width="150"
+											WidthScale="px"
+											>
+											<Label
+												Caption="@Data.DATE1_By_Date~"
+												Format="Short Date"
+												ID="lblAxLabl"
+											/>
+											<DataColumnSort
+												DataColumn="DATE1_By_Date"
+												DataType="Date"
+											/>
+										</CrosstabTableLabelColumn>
+										<CrosstabTableValueColumns
+											Header="@Data.rdCrosstabColumn~"
+											ID="colAxValue"
+											Width="150"
+											WidthScale="px"
+											>
+											<Label
+												Caption="=iif(@Data.rdCrosstabValCount~=0,&quot;&quot;,&quot;@Data.rdCrosstabValue~&quot;)"
+												Format="###,###,##0"
+												ID="lblAxValue"
+											/>
+											<CrosstabValueColumnSort
+												DataType="Number"
+												FirstSortSequence="Descending"
+												ReverseSortSequence="Ascending"
+											/>
+											<DataColumnSummary
+												DataColumn="rdCrosstabValue"
+												DataType="Number"
+												Function="Sum"
+												ID="sumTotal"
+											/>
+										</CrosstabTableValueColumns>
+										<CrosstabTableLabelColumn
+											Class="ThemeAlignRight, ThemeBold"
+											Header="TOTAL"
+											ID="colTotal"
+											Width="150"
+											WidthScale="px"
+											>
+											<Label
+												Caption="@Data.crsTotal~"
+												Format="###,###,##0"
+												ID="lblTotal"
+											/>
+											<DataColumnSort
+												DataColumn="DATE1_By_Date"
+												DataType="Date"
+												FirstSortSequence="Descending"
+												ReverseSortSequence="Ascending"
+											/>
+											<DataColumnSummary
+												DataColumn="crsTotal"
+												DataType="Number"
+												Function="Sum"
+												ID="sumGrandTotal"
+											/>
+										</CrosstabTableLabelColumn>
+										<SummaryRow
+											Caption="TOTAL"
+											ID="rowTotal"
+											LastPageOnly="True"
 										/>
-										<DataColumnSort
-											DataColumn="DATE1_By_Date"
-											DataType="Date"
-										/>
-									</CrosstabTableLabelColumn>
-									<CrosstabTableValueColumns
-										Header="@Data.rdCrosstabColumn~"
-										ID="colAxValue"
-										Width="150"
-										WidthScale="px"
-										>
-										<Label
-											Caption="=iif(@Data.rdCrosstabValCount~=0,&quot;&quot;,&quot;@Data.rdCrosstabValue~&quot;)"
-											Format="###,###,##0"
-											ID="lblAxValue"
-										/>
-										<CrosstabValueColumnSort
-											DataType="Number"
-											FirstSortSequence="Descending"
-											ReverseSortSequence="Ascending"
-										/>
-										<DataColumnSummary
-											DataColumn="rdCrosstabValue"
-											DataType="Number"
-											Function="Sum"
-											ID="sumTotal"
-										/>
-									</CrosstabTableValueColumns>
-									<CrosstabTableLabelColumn
-										Class="ThemeAlignRight, ThemeBold"
-										Header="TOTAL"
-										ID="colTotal"
-										Width="150"
-										WidthScale="px"
-										>
-										<Label
-											Caption="@Data.crsTotal~"
-											Format="###,###,##0"
-											ID="lblTotal"
-										/>
-										<DataColumnSort
-											DataColumn="DATE1_By_Date"
-											DataType="Date"
-											FirstSortSequence="Descending"
-											ReverseSortSequence="Ascending"
-										/>
-										<DataColumnSummary
-											DataColumn="crsTotal"
-											DataType="Number"
-											Function="Sum"
-											ID="sumGrandTotal"
-										/>
-									</CrosstabTableLabelColumn>
-									<SummaryRow
-										Caption="TOTAL"
-										ID="rowTotal"
-										LastPageOnly="True"
-									/>
-								</CrosstabTable>
+									</CrosstabTable>
+								</Division>
 							</ResponsiveColumn>
 						</ResponsiveRow>
 					</Division>

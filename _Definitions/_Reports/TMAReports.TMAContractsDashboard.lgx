@@ -11,6 +11,7 @@
 	<DefaultRequestParams
 		Account="ALL"
 		ContractType="Sale"
+		paramActiveTab=""
 		paramCommodityCode="01"
 		paramCommodityCT="01"
 		paramCommodityDesc="Corn"
@@ -47,10 +48,16 @@
 						>
 						<Label
 							Caption="TMA Contracts Dashboard"
+							Class="panel-title"
+						/>
+						<IncludeHtml
+							Html="&lt;span class=&quot;pull-right&quot;&gt;
+	&lt;a href=&quot;#panel-contracts-body&quot; data-toggle=&quot;collapse&quot; class=&quot;title&quot;&gt;&lt;i class=&quot;fa fa-chevron-down&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;&lt;/a&gt;
+&lt;/span&gt;"
 						/>
 					</Division>
 					<Division
-						Class="panel-body"
+						Class="collapse in panel-body"
 						HtmlDiv="True"
 						ID="panel-contracts-body"
 						>
@@ -71,40 +78,13 @@
 									>
 									<Label
 										Caption="Overshipped Sales Contracts"
-										Class="ThemeTextNormal,ThemeBold"
+										Class="ThemeTextSmall,ThemeBold"
 									/>
 									<LineBreak/>
 								</Division>
-							</ResponsiveColumn>
-							<ResponsiveColumn
-								Class="ThemeAlignCenter"
-								ColspanExtraSmallScreen="12"
-								ColspanLargeScreen="6"
-								ColspanMediumScreen="6"
-								ColspanSmallScreen="12"
-								>
 								<Division
-									ID="div-chart-title"
-									>
-									<Label
-										Caption="Past Due Sales Ending @Local.SHIP_PERIOD_DESC~"
-										Class="ThemeTextNormal,ThemeBold"
-									/>
-									<LineBreak/>
-								</Division>
-							</ResponsiveColumn>
-						</ResponsiveRow>
-						<ResponsiveRow
-							Class="ThemeTextSmall"
-							>
-							<ResponsiveColumn
-								Class="ThemeTextSmall"
-								ColspanExtraSmallScreen="12"
-								ColspanLargeScreen="6"
-								ColspanMediumScreen="5"
-								ColspanSmallScreen="12"
-								>
-								<Division
+									Class="well"
+									HtmlDiv="True"
 									ID="divContractsOvershipped"
 									>
 									<DataTable
@@ -142,6 +122,7 @@ HAVING SUM(REMAINING_BU)&lt;0
 										<InteractivePaging
 											CaptionType="Image"
 											Class="ThemeTextSmall"
+											HideWhenOnePage="True"
 											Location="Top"
 											PageRowCount="8"
 											ShowPageNumber="True"
@@ -172,10 +153,11 @@ HAVING SUM(REMAINING_BU)&lt;0
 													</Action>
 												</Remark>
 												<Action
-													ElementID="panel-details"
+													ElementID="panel-ship-details,panel-details,panel-contract-details"
 													Type="RefreshElement"
 													>
 													<LinkParams
+														paramActiveTab="tbOvershipDet"
 														paramContractKey="@Data.KEY~"
 													/>
 													<WaitPage/>
@@ -276,12 +258,24 @@ HAVING SUM(REMAINING_BU)&lt;0
 								</Division>
 							</ResponsiveColumn>
 							<ResponsiveColumn
+								Class="ThemeAlignCenter"
 								ColspanExtraSmallScreen="12"
 								ColspanLargeScreen="6"
 								ColspanMediumScreen="6"
 								ColspanSmallScreen="12"
 								>
 								<Division
+									ID="div-chart-title"
+									>
+									<Label
+										Caption="Past Due Sales Ending @Local.SHIP_PERIOD_DESC~"
+										Class="ThemeTextSmall,ThemeBold"
+									/>
+									<LineBreak/>
+								</Division>
+								<Division
+									Class="well"
+									HtmlDiv="True"
 									ID="divContractsbyCommodity"
 									>
 									<Division
@@ -334,7 +328,7 @@ ORDER BY CONTRACT_TYPE DESC"
 										BorderRadius="1"
 										ChartBorderThickness="1"
 										ChartOrientation="Default"
-										ChartWidth="88%"
+										ChartWidth="94%"
 										ID="ContractsByCommodity"
 										>
 										<DataLayer
@@ -356,6 +350,7 @@ ORDER BY COMMODITYCODE
 											ChartXDataColumn="COMMODITYDESC"
 											ChartXDataColumnType="Text"
 											ChartYDataColumn="REMAINING_BU"
+											Color="#F1A021"
 											Type="Bar"
 											>
 											<Remark>
@@ -380,10 +375,14 @@ ORDER BY COMMODITYCODE
 												Format="###,###,##0.00"
 											/>
 											<Action
-												ElementID="panel-contractsbyshipdt,"
+												ElementID="panel-ship-details,panel-details,panel-contract-details"
+												FeedbackShowElementID="panel-contractsbyshipdt"
+												ID="actRefShipDtTab"
 												Type="RefreshElement"
 												>
 												<LinkParams
+													Paging="10"
+													paramActiveTab="tbShipDet"
 													paramCommodityCode="@Chart.COMMODITYCODE~"
 													paramCommodityDesc="@Chart.COMMODITYDESC~"
 													paramShipPeriodDesc="@Local.SHIP_PERIOD_DESC~"
@@ -412,33 +411,31 @@ ORDER BY COMMODITYCODE
 		</ResponsiveRow>
 		<ResponsiveRow>
 			<ResponsiveColumn>
-				<Tabs
-					DefaultTab="tbOvership"
-					ID="tbContractDetails"
-					TabbingStyle="Ajax"
+				<Division
+					Class="ThemeHidden"
+					ID="panel-details"
 					>
-					<TabPanel
-						Caption="OVERSHIPMENT"
-						Class="ThemeTextSmall,ThemeTextPositive"
-						ID="tbOvership"
+					<ConditionalClass
+						Condition="&quot;@Request.paramActiveTab~&quot; == &quot;tbOvershipDet&quot;"
+					/>
+					<ConditionalClass
+						Class="ThemeHidden"
+						Condition="&quot;@Request.paramActiveTab~&quot; != &quot;tbOvershipDet&quot;"
+					/>
+					<Tabs
+						DefaultTab="tbOvership"
+						ID="tbOvershipDet"
 						>
-						<Division
-							Class="ThemeHidden"
-							ID="panel-details"
+						<TabPanel
+							Caption="Overshipment"
+							Class="ThemeBold,panel-title"
+							ID="tbOvership"
 							>
-							<ConditionalClass
-								Condition="&quot;@Request.paramContractKey~&quot; != &quot;&quot;"
-							/>
 							<Division
 								Class="panel panel-default"
 								HtmlDiv="True"
 								ID="divContractsPopup"
 								>
-								<Division
-									Class="panel-heading"
-									HtmlDiv="True"
-									ID="divContractsPopupHeader"
-								/>
 								<Division
 									Class="panel-body"
 									HtmlDiv="True"
@@ -449,7 +446,12 @@ ORDER BY COMMODITYCODE
 										ID="divTable"
 										>
 										<ResponsiveRow>
-											<ResponsiveColumn>
+											<ResponsiveColumn
+												ColspanExtraSmallScreen="12"
+												ColspanLargeScreen="12"
+												ColspanMediumScreen="12"
+												ColspanSmallScreen="12"
+												>
 												<DataTable
 													ID="dtTMAHeader"
 													TableBorder="0"
@@ -550,6 +552,34 @@ ORDER BY CONTRACTNMBR"
 																Class="ThemeTextSmall, ThemeBold"
 															/>
 														</Column>
+														<Column
+															Class="ThemeAlignRight"
+															ID="colHeader3"
+															>
+															<Remark>
+																<Label
+																	Class="fa fa-file-excel-o fa-2x "
+																	HtmlTag="Span"
+																	ID="lnkExcel"
+																	Tooltip="Export to Excel"
+																	>
+																	<Action
+																		Javascript="tableToExcel(&quot;dtTMAContracts&quot;,&quot;Overshipped Contracts&quot;);"
+																		Type="Javascript"
+																	/>
+																</Label>
+															</Remark>
+															<IncludeSharedElement
+																DefinitionFile="_Layout.Shared"
+																SharedElementID="shrExcelExport"
+																>
+																<SharedElementParams
+																	DataTableID="dtTMAContracts"
+																	ReportName="Overshipped Contracts"
+																	Security=""
+																/>
+															</IncludeSharedElement>
+														</Column>
 													</GroupHeaderRow>
 												</DataTable>
 												<DataTable
@@ -565,6 +595,7 @@ ORDER BY CONTRACTNMBR"
 													<InteractivePaging
 														CaptionType="Image"
 														Class="ThemeTextSmall"
+														HideWhenOnePage="True"
 														Location="Top"
 														PageRowCount="10"
 														ShowPageNumber="True"
@@ -730,30 +761,34 @@ ORDER BY CONTRACTNMBR"
 									</Division>
 								</Division>
 							</Division>
-						</Division>
-					</TabPanel>
-					<TabPanel
-						Caption="SHIP DATE DETAIL"
-						Class="ThemeTextSmall,ThemeTextPositive"
-						ID="tbShipDt"
+						</TabPanel>
+					</Tabs>
+				</Division>
+				<Division
+					Class="ThemeHidden"
+					ID="panel-ship-details"
+					>
+					<ConditionalClass
+						Class="ThemeHidden"
+						Condition="&quot;@Request.paramActiveTab~&quot; != &quot;tbShipDet&quot;"
+					/>
+					<ConditionalClass
+						Condition="&quot;@Request.paramActiveTab~&quot; == &quot;tbShipDet&quot;"
+					/>
+					<Tabs
+						DefaultTab="tbShipDt"
+						ID="tbShipDet"
 						>
-						<Division
-							Class="ThemeHidden"
-							ID="panel-contractsbyshipdt"
+						<TabPanel
+							Caption="Ship Date Detail"
+							Class="ThemeBold,panel-title"
+							ID="tbShipDt"
 							>
-							<ConditionalClass
-								Condition="&quot;@Request.paramShipPeriodDt~&quot; != &quot;2000-02-01&quot;"
-							/>
 							<Division
 								Class="panel panel-default"
 								HtmlDiv="True"
 								ID="divShipdtPopup"
 								>
-								<Division
-									Class="panel-heading"
-									HtmlDiv="True"
-									ID="divShipdtPopupHeader"
-								/>
 								<Division
 									Class="panel-body"
 									HtmlDiv="True"
@@ -764,7 +799,10 @@ ORDER BY CONTRACTNMBR"
 										ID="divHeader"
 										>
 										<ResponsiveRow>
-											<ResponsiveColumn>
+											<ResponsiveColumn
+												ColspanLargeScreen="2"
+												ColspanMediumScreen="3"
+												>
 												<Label
 													Caption="Contract Type: "
 													Class="ThemeBold"
@@ -782,7 +820,10 @@ ORDER BY CONTRACTNMBR"
 												/>
 												<LineBreak/>
 											</ResponsiveColumn>
-											<ResponsiveColumn>
+											<ResponsiveColumn
+												ColspanLargeScreen="2"
+												ColspanMediumScreen="3"
+												>
 												<Label
 													Caption="@Request.ContractType~"
 													Class="ThemeBold"
@@ -794,15 +835,27 @@ ORDER BY CONTRACTNMBR"
 												/>
 												<LineBreak/>
 												<Label
-													Caption="@Request.paramShipPeriodDt~"
+													Caption="@Local.SHIP_PERIOD_DESC~"
 													Class="ThemeBold"
 													Format="Short Date"
 												/>
 											</ResponsiveColumn>
 											<ResponsiveColumn
+												Class="ThemeAlignRight"
 												ColspanLargeScreen="8"
-												ColspanMediumScreen="8"
-											/>
+												ColspanMediumScreen="6"
+												>
+												<IncludeSharedElement
+													DefinitionFile="_Layout.Shared"
+													SharedElementID="shrExcelExport"
+													>
+													<SharedElementParams
+														DataTableID="dtTMAContractsByShipDate"
+														ReportName="Ship Date Detail"
+														Security=""
+													/>
+												</IncludeSharedElement>
+											</ResponsiveColumn>
 										</ResponsiveRow>
 										<ResponsiveRow>
 											<ResponsiveColumn
@@ -816,7 +869,7 @@ ORDER BY CONTRACTNMBR"
 										</ResponsiveRow>
 									</Division>
 									<Division
-										Class="ThemeTextSmall"
+										Class="ThemeHidden"
 										ID="divFilters"
 										>
 										<ResponsiveRow
@@ -826,11 +879,9 @@ ORDER BY CONTRACTNMBR"
 												<Division
 													ID="divSelCommodity"
 													>
-													<Label
-														Caption="Commodity: "
-													/>
 													<InputSelectList
-														DefaultValue="@Request.Commodity~"
+														Caption="Commodity:"
+														DefaultValue="@Request.paramCommodityCode~"
 														ID="Commodity"
 														IncludeBlank="True"
 														IncludeBlankCaption="All Commodities"
@@ -858,8 +909,11 @@ ORDER BY COMMODITY"
 															<Action
 																ElementID="divSelCommodity, divSelPosition, divSelAccount, divSelBranch, divDataTable"
 																ID="actRefreshTable-C"
+																RequestForwarding="True"
 																Type="RefreshElement"
-															/>
+																>
+																<WaitPage/>
+															</Action>
 														</EventHandler>
 													</InputSelectList>
 												</Division>
@@ -868,10 +922,8 @@ ORDER BY COMMODITY"
 												<Division
 													ID="divSelPosition"
 													>
-													<Label
-														Caption="Position: "
-													/>
 													<InputSelectList
+														Caption="Position:"
 														DefaultValue="@Request.Position~"
 														ID="Position"
 														IncludeBlank="True"
@@ -901,7 +953,9 @@ ORDER BY DPRDESC"
 																ElementID="divSelCommodity, divSelPosition, divSelAccount, divSelBranch, divDataTable"
 																ID="actRefreshTable-P"
 																Type="RefreshElement"
-															/>
+																>
+																<WaitPage/>
+															</Action>
 														</EventHandler>
 													</InputSelectList>
 												</Division>
@@ -910,10 +964,8 @@ ORDER BY DPRDESC"
 												<Division
 													ID="divSelAccount"
 													>
-													<Label
-														Caption="Account: "
-													/>
 													<InputSelectList
+														Caption="Account:"
 														DefaultValue="@Request.Account~"
 														ID="Account"
 														IncludeBlank="True"
@@ -943,7 +995,9 @@ ORDER BY CUSTDESC"
 																ElementID="divSelCommodity, divSelPosition, divSelAccount, divSelBranch, divDataTable"
 																ID="actRefreshTable-A"
 																Type="RefreshElement"
-															/>
+																>
+																<WaitPage/>
+															</Action>
 														</EventHandler>
 													</InputSelectList>
 												</Division>
@@ -952,10 +1006,8 @@ ORDER BY CUSTDESC"
 												<Division
 													ID="divSelBranch"
 													>
-													<Label
-														Caption="Branch: "
-													/>
 													<InputSelectList
+														Caption="Branch:"
 														DefaultValue="@Request.Branch~"
 														ID="Branch"
 														IncludeBlank="True"
@@ -985,7 +1037,9 @@ ORDER BY BRANCH"
 																ElementID="divSelCommodity, divSelPosition, divSelAccount, divSelBranch, divDataTable"
 																ID="actRefreshTable-B"
 																Type="RefreshElement"
-															/>
+																>
+																<WaitPage/>
+															</Action>
 														</EventHandler>
 													</InputSelectList>
 												</Division>
@@ -1002,13 +1056,71 @@ ORDER BY BRANCH"
 											</ResponsiveColumn>
 										</ResponsiveRow>
 									</Division>
+									<Remark>
+										<Division
+											HtmlDiv="True"
+											ID="divPaging"
+											>
+											<ResponsiveRow>
+												<ResponsiveColumn/>
+												<ResponsiveColumn
+													Class="ThemeAlignRight"
+													ColspanExtraSmallScreen="4"
+													ColspanLargeScreen="2"
+													ColspanMediumScreen="2"
+													ColspanSmallScreen="4"
+													>
+													<InputSelectList
+														Class="ThemeTextSmall"
+														DefaultValue="10"
+														ID="selPaging"
+														OptionCaptionColumn="NAME"
+														OptionValueColumn="VALUE"
+														>
+														<DataLayer
+															ColumnNamesRow="1"
+															ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\Paging.xlsx"
+															ExcelWorksheet="Paging"
+															ID="dlPaging"
+															Type="Excel"
+														/>
+														<EventHandler
+															DhtmlEvent="onchange"
+															ID="onSelPagingChange"
+															>
+															<Action
+																ElementID="dtTMAContractsByShipDate,divPaging"
+																ID="actRefreshShipDateShowAll"
+																RequestForwarding="True"
+																Type="RefreshElement"
+																>
+																<WaitPage/>
+																<LinkParams
+																	CustomPaging="@Request.selPaging~"
+																/>
+															</Action>
+														</EventHandler>
+													</InputSelectList>
+													<Label
+														Caption="@Request.selPaging~"
+													/>
+												</ResponsiveColumn>
+											</ResponsiveRow>
+											<LineBreak/>
+										</Division>
+									</Remark>
 									<Division
 										ID="divDataTable"
 										>
 										<ResponsiveRow
 											Class="ThemeTextSmall"
 											>
-											<ResponsiveColumn>
+											<ResponsiveColumn
+												ColspanExtraSmallScreen="12"
+												ColspanLargeScreen="12"
+												ColspanMediumScreen="12"
+												ColspanSmallScreen="12"
+												>
 												<DataTable
 													AccessibleHeaders="True"
 													AjaxPaging="True"
@@ -1035,7 +1147,7 @@ ORDER BY BRANCH"
 , DELIVERY_START_DATE, DELIVERY_END_DATE 
 , SUM(ISSUED_BU) [ISSUED_BU], SUM(REMAINING_BU) [REMAINING_BU]
 FROM AgTrax_Staging..DM_OpenContracts 
-WHERE DELIVERY_END_DATE &lt;= &apos;@Request.paramShipPeriodDt~&apos; 
+WHERE DELIVERY_END_DATE &lt;= &apos;@Local.SHIP_PERIOD_DT~&apos; 
   AND DPR_GROUP = @Request.paramCommodityCode~
   AND CONTRACT_TYPE_DESC = &apos;@Request.ContractType~&apos;
   AND (     (COMMODITY_CODE = &apos;@Request.Commodity~&apos; OR &apos;@Request.Commodity~&apos;=&apos;ALL&apos;)
@@ -1052,8 +1164,9 @@ ORDER BY CUSTDESC, MAINCONTRACT
 													<InteractivePaging
 														CaptionType="Image"
 														Class="ThemeTextSmall"
+														HideWhenOnePage="True"
 														Location="Top"
-														PageRowCount="10"
+														PageRowCount="15"
 														ShowPageNumber="True"
 													/>
 													<DataTableColumn
@@ -1092,11 +1205,13 @@ ORDER BY CUSTDESC, MAINCONTRACT
 																</Action>
 															</Remark>
 															<Action
-																ElementID="panel-contractsdet-body"
+																ElementID="panel-ship-details,panel-details,panel-contract-details"
+																FeedbackShowElementID="panel-contractsdet"
 																ID="actRefreshContractsDet"
 																Type="RefreshElement"
 																>
 																<LinkParams
+																	paramActiveTab="tbContractDet"
 																	paramContractMain="@Data.MAINCONTRACT~"
 																	paramCustomer="@Data.CUSTNMBR~"
 																/>
@@ -1216,39 +1331,43 @@ ORDER BY CUSTDESC, MAINCONTRACT
 									</Division>
 								</Division>
 							</Division>
-						</Division>
-					</TabPanel>
-					<TabPanel
-						Caption="CONTRACTS DETAIL"
-						Class="ThemeTextSmall,ThemeTextPositive"
-						ID="tbContractsDet"
+						</TabPanel>
+					</Tabs>
+				</Division>
+				<Division
+					Class="ThemeHidden"
+					ID="panel-contract-details"
+					>
+					<ConditionalClass
+						Condition="&quot;@Request.paramActiveTab~&quot; == &quot;tbContractDet&quot;"
+					/>
+					<ConditionalClass
+						Class="ThemeHidden"
+						Condition="&quot;@Request.paramActiveTab~&quot; != &quot;tbContractDet&quot;"
+					/>
+					<Tabs
+						DefaultTab="tbContractDt"
+						ID="tbContractDet"
 						>
-						<Division
-							Class="ThemeHidden"
-							ID="panel-contractsdet"
+						<TabPanel
+							Caption="Contract Detail"
+							Class="ThemeBold,panel-title"
+							ID="tbContractDt"
 							>
-							<ConditionalClass
-								Condition="&quot;@Request.paramContractMain~&quot; != &quot;&quot;"
-							/>
 							<Division
 								Class="panel panel-default"
 								HtmlDiv="True"
 								ID="panel-contracts-det"
 								>
 								<Division
-									Class="panel-heading"
-									HtmlDiv="True"
-									ID="panel-contractsdet-head"
-								/>
-								<Division
 									Class="panel-body"
 									HtmlDiv="True"
 									ID="panel-contractsdet-body"
 									>
-									<ResponsiveRow>
-										<ResponsiveColumn
-											Class="ThemeTextSmall"
-											>
+									<ResponsiveRow
+										Class="ThemeTextSmall"
+										>
+										<ResponsiveColumn>
 											<DataTable
 												AccessibleHeaders="True"
 												AccessibleSummary="AnalysisGrid DataTable"
@@ -1260,13 +1379,15 @@ ORDER BY CUSTDESC, MAINCONTRACT
 												Width="100"
 												WidthScale="%"
 												>
-												<InteractivePaging
-													CaptionType="Image"
-													Class="ThemeTextSmall"
-													Location="Top"
-													PageRowCount="10"
-													ShowPageNumber="True"
-												/>
+												<Remark>
+													<InteractivePaging
+														CaptionType="Image"
+														Class="ThemeTextSmall"
+														Location="Top"
+														PageRowCount="10"
+														ShowPageNumber="True"
+													/>
+												</Remark>
 												<DataLayer
 													ConnectionID="connProdGP"
 													ID="sqlTMAContract"
@@ -1439,9 +1560,9 @@ WHERE OC.DATA_KEY=&apos;@Request.paramContractKey~&apos; OR (OC.CONTRACT_MAIN=&a
 									</ResponsiveRow>
 								</Division>
 							</Division>
-						</Division>
-					</TabPanel>
-				</Tabs>
+						</TabPanel>
+					</Tabs>
+				</Division>
 			</ResponsiveColumn>
 		</ResponsiveRow>
 	</Body>
@@ -1456,6 +1577,7 @@ WHERE OC.DATA_KEY=&apos;@Request.paramContractKey~&apos; OR (OC.CONTRACT_MAIN=&a
 		Branch=""
 		Commodity=""
 		ContractType=""
+		paramActiveTab=""
 		paramCommodityCode=""
 		paramCommodityDesc=""
 		paramContractKey=""
