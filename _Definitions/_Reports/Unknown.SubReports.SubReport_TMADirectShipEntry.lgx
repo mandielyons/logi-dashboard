@@ -47,41 +47,39 @@ Where AGTRAX_STAGING.dbo.DM_DSTicketTracking.EntryID = &apos;@Request.EntryId~&a
 				ID="panel-ds-header"
 				>
 				<Label
+					Caption=" "
+					Class="fa fa-chevron-left title"
+					Tooltip="Return to Harvest Summary"
+					>
+					<Action
+						ID="actionReport"
+						Type="Report"
+						>
+						<Target
+							FrameID="Self"
+							ID="lnkEntry"
+							Report="TMAApps.TMADirectShip"
+							Type="Report"
+							>
+							<WaitPage/>
+						</Target>
+					</Action>
+				</Label>
+				<Spaces
+					Size="3"
+				/>
+				<Label
 					Caption="TMA Direct Ship Entry"
+					Class="panel-title"
 				/>
 			</Division>
 			<Division
-				Class="panel-body"
+				Class="panel-body ThemeTextSmall"
 				HtmlDiv="True"
 				ID="panel-ds-body"
 				>
-				<ResponsiveRow
-					Class="ThemeAlignRight"
-					>
-					<ResponsiveColumn>
-						<Label
-							Caption="View Report"
-							Tooltip="Click here to view report"
-							>
-							<Action
-								ID="lnkReportView"
-								Type="Report"
-								>
-								<Target
-									FrameID="Self"
-									ID="viewReport"
-									Report="TMAApps.TMADirectShip"
-									Type="Report"
-								/>
-							</Action>
-						</Label>
-						<LineBreak/>
-						<LineBreak/>
-					</ResponsiveColumn>
-				</ResponsiveRow>
 				<ResponsiveRow>
 					<ResponsiveColumn>
-						<LineBreak/>
 						<Label
 							Caption="@Request.StatusMsg~"
 							ID="lblStatus"
@@ -95,14 +93,18 @@ Where AGTRAX_STAGING.dbo.DM_DSTicketTracking.EntryID = &apos;@Request.EntryId~&a
 								Condition="InStr(&quot;@Request.StatusMsg~&quot;,&quot;Success:&quot;) &gt; 0"
 							/>
 						</Label>
-						<LineBreak/>
-						<LineBreak/>
-						<LineBreak/>
+						<LineBreak
+							LineCount="2"
+						/>
 					</ResponsiveColumn>
 				</ResponsiveRow>
 				<ResponsiveRow>
 					<ResponsiveColumn
 						Class="ThemeAlignLeft"
+						ColspanExtraSmallScreen="6"
+						ColspanLargeScreen="4"
+						ColspanMediumScreen="4"
+						ColspanSmallScreen="6"
 						>
 						<InputDate
 							CalendarCaptionFormat="MM/dd/yyyy"
@@ -120,14 +122,44 @@ Where AGTRAX_STAGING.dbo.DM_DSTicketTracking.EntryID = &apos;@Request.EntryId~&a
 								WidthScale="%"
 							/>
 						</InputDate>
-						<LineBreak/>
-						<LineBreak/>
-						<LineBreak/>
+						<LineBreak
+							LineCount="2"
+						/>
 					</ResponsiveColumn>
+					<ResponsiveColumn
+						ColspanExtraSmallScreen="6"
+						ColspanLargeScreen="4"
+						ColspanMediumScreen="4"
+						ColspanSmallScreen="6"
+						>
+						<InputSelectList
+							Caption="# of Tickets:"
+							DefaultValue="@Local.TotalTickets~"
+							ID="iptTickets"
+							IncludeBlank="True"
+							IncludeBlankCaption="Select a range"
+							OptionCaptionColumn="Option"
+							OptionTooltipColumn="Select a ticket range"
+							OptionValueColumn="Value"
+							>
+							<DataLayer
+								ColumnNamesRow="1"
+								ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\DSRange.xlsx"
+								ExcelWorksheet="Sheet1"
+								ID="dlTicketRange"
+								Type="Excel"
+							/>
+						</InputSelectList>
+					</ResponsiveColumn>
+					<ResponsiveColumn/>
 				</ResponsiveRow>
 				<ResponsiveRow>
 					<ResponsiveColumn
 						Class="ThemeAlignLeft"
+						ColspanExtraSmallScreen="6"
+						ColspanLargeScreen="4"
+						ColspanMediumScreen="4"
+						ColspanSmallScreen="6"
 						>
 						<InputSelectList
 							Caption="Customer:"
@@ -176,10 +208,11 @@ hiddenCust.value = customer.options[customer.selectedIndex].text;"
 							ID="iptAccount"
 						/>
 					</ResponsiveColumn>
-				</ResponsiveRow>
-				<ResponsiveRow>
 					<ResponsiveColumn
-						Class="ThemeAlignLeft"
+						ColspanExtraSmallScreen="6"
+						ColspanLargeScreen="4"
+						ColspanMediumScreen="4"
+						ColspanSmallScreen="6"
 						>
 						<InputSelectList
 							Caption="Commodity:"
@@ -216,39 +249,16 @@ hiddenCust.value = customer.options[customer.selectedIndex].text;"
 								/>
 							</EventHandler>
 						</InputSelectList>
-						<LineBreak/>
-						<LineBreak/>
 					</ResponsiveColumn>
+					<ResponsiveColumn/>
 				</ResponsiveRow>
 				<ResponsiveRow>
 					<ResponsiveColumn
 						Class="ThemeAlignLeft"
-						>
-						<InputSelectList
-							Caption="# of Tickets:"
-							DefaultValue="@Local.TotalTickets~"
-							ID="iptTickets"
-							IncludeBlank="True"
-							IncludeBlankCaption="Select a range"
-							OptionCaptionColumn="Option"
-							OptionTooltipColumn="Select a ticket range"
-							OptionValueColumn="Value"
-							>
-							<DataLayer
-								ColumnNamesRow="1"
-								ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\DSRange.xlsx"
-								ExcelWorksheet="Sheet1"
-								ID="dlTicketRange"
-								Type="Excel"
-							/>
-						</InputSelectList>
-						<LineBreak/>
-						<LineBreak/>
-					</ResponsiveColumn>
-				</ResponsiveRow>
-				<ResponsiveRow>
-					<ResponsiveColumn
-						Class="ThemeAlignLeft"
+						ColspanExtraSmallScreen="6"
+						ColspanLargeScreen="4"
+						ColspanMediumScreen="4"
+						ColspanSmallScreen="6"
 						>
 						<InputSelectList
 							Caption="Delivery Branch:"
@@ -275,10 +285,12 @@ ORDER BY BRANCHNO"
 						<LineBreak/>
 						<LineBreak/>
 					</ResponsiveColumn>
-				</ResponsiveRow>
-				<ResponsiveRow>
 					<ResponsiveColumn
 						Class="ThemeAlignLeft"
+						ColspanExtraSmallScreen="6"
+						ColspanLargeScreen="4"
+						ColspanMediumScreen="4"
+						ColspanSmallScreen="6"
 						>
 						<InputDate
 							Caption="AgTrax Entry Date:"
@@ -299,9 +311,15 @@ ORDER BY BRANCHNO"
 						<LineBreak/>
 						<LineBreak/>
 					</ResponsiveColumn>
+					<ResponsiveColumn/>
 				</ResponsiveRow>
 				<ResponsiveRow>
-					<ResponsiveColumn>
+					<ResponsiveColumn
+						ColspanExtraSmallScreen="12"
+						ColspanLargeScreen="8"
+						ColspanMediumScreen="8"
+						ColspanSmallScreen="12"
+						>
 						<InputTextArea
 							Caption="Comments:"
 							DefaultValue="@Local.COMMENTS~"
@@ -316,6 +334,10 @@ ORDER BY BRANCHNO"
 				<ResponsiveRow>
 					<ResponsiveColumn
 						Class="ThemeAlignLeft"
+						ColspanExtraSmallScreen="4"
+						ColspanLargeScreen="2"
+						ColspanMediumScreen="2"
+						ColspanSmallScreen="2"
 						>
 						<InputCheckbox
 							Caption="Electronic Tickets:"
@@ -342,10 +364,12 @@ else {etickets.value = &quot;0&quot;;}"
 						<LineBreak/>
 						<LineBreak/>
 					</ResponsiveColumn>
-				</ResponsiveRow>
-				<ResponsiveRow>
 					<ResponsiveColumn
 						Class="ThemeAlignLeft"
+						ColspanExtraSmallScreen="6"
+						ColspanLargeScreen="4"
+						ColspanMediumScreen="4"
+						ColspanSmallScreen="6"
 						>
 						<InputCheckbox
 							Caption="Completed per Request:"
@@ -385,10 +409,15 @@ else {complete.value = &quot;&quot;;}
 							ID="iptUserID"
 						/>
 					</ResponsiveColumn>
+					<ResponsiveColumn/>
 				</ResponsiveRow>
 				<ResponsiveRow>
 					<ResponsiveColumn
 						Class="ThemeAlignLeft"
+						ColspanExtraSmallScreen="12"
+						ColspanLargeScreen="12"
+						ColspanMediumScreen="12"
+						ColspanSmallScreen="12"
 						>
 						<Button
 							Caption="Save"
