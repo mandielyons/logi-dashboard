@@ -27,49 +27,13 @@
 		SharedElementID="shrHeader"
 	/>
 	<Body>
-		<IncludeScript
-			IncludedScript="&lt;script&gt;
-  (function(i,s,o,g,r,a,m){i[&apos;GoogleAnalyticsObject&apos;]=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,&apos;script&apos;,&apos;https://www.google-analytics.com/analytics.js&apos;,&apos;ga&apos;);
-
-  ga(&apos;create&apos;, &apos;UA-76860562-1&apos;, &apos;auto&apos;);
-  ga(&apos;send&apos;, &apos;pageview&apos;);
-
-&lt;/script&gt;
-
-&lt;script type=&quot;text/javascript&quot;&gt;
-
-  var _gaq = _gaq || [];
-  _gaq.push([&apos;_setAccount&apos;, &apos;UA-76860562-1&apos;]);
-  _gaq.push([&apos;_trackPageview&apos;]);
-
-  (function() {
-    var ga = document.createElement(&apos;script&apos;); ga.type = &apos;text/javascript&apos;; ga.async = true;
-    ga.src = (&apos;https:&apos; == document.location.protocol ? &apos;https://ssl&apos; : &apos;http://www&apos;) + &apos;.google-analytics.com/ga.js&apos;;
-    var s = document.getElementsByTagName(&apos;script&apos;)[0]; s.parentNode.insertBefore(ga, s);
-  })();
-
-&lt;/script&gt;
-
-&lt;script type=&quot;text/javascript&quot;&gt;
- function tableToExcel(table, name) {
-    var uri = &apos;data:application/vnd.ms-excel;base64,&apos;
-          , template = &apos;&lt;html xmlns:o=&quot;urn:schemas-microsoft-com:office:office&quot; xmlns:x=&quot;urn:schemas-microsoft-com:office:excel&quot; xmlns=&quot;http://www.w3.org/TR/REC-html40&quot;&gt;&lt;head&gt;&lt;!--[if gte mso 9]&gt;&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;yes&quot;?&gt;&lt;x:ExcelWorkbook&gt;&lt;x:ExcelWorksheets&gt;&lt;x:ExcelWorksheet&gt;&lt;x:Name&gt;{worksheet}&lt;/x:Name&gt;&lt;x:WorksheetOptions&gt;&lt;x:DisplayGridlines/&gt;&lt;/x:WorksheetOptions&gt;&lt;/x:ExcelWorksheet&gt;&lt;/x:ExcelWorksheets&gt;&lt;/x:ExcelWorkbook&gt;&lt;/xml&gt;&lt;![endif]--&gt;&lt;/head&gt;&lt;body&gt;&lt;table&gt;{table}&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;&apos;
-          , base64 = function (s) { return window.btoa(unescape(encodeURIComponent(s))); }
-          , format = function (s, c) { return s.replace(/{(\w+)}/g, function (m, p) { return c[p]; }); };
-        if (!table.nodeType) table = document.getElementById(table);
-        var ctx = { worksheet: name || &apos;Worksheet&apos;, table: table.innerHTML };
-        window.location.href = uri + base64(format(template, ctx));
-
-}
-&lt;/script&gt;
-
-"
-		/>
 		<ResponsiveRow>
-			<ResponsiveColumn>
+			<ResponsiveColumn
+				ColspanExtraSmallScreen="12"
+				ColspanLargeScreen="12"
+				ColspanMediumScreen="12"
+				ColspanSmallScreen="12"
+				>
 				<Division
 					Class="panel panel-default"
 					HtmlDiv="True"
@@ -82,6 +46,7 @@
 						>
 						<Label
 							Caption="MKC Branch Locations"
+							Class="panel-title"
 						/>
 					</Division>
 					<Division
@@ -89,123 +54,207 @@
 						HtmlDiv="True"
 						ID="panel-body-map"
 						>
-						<LineBreak/>
-						<GoogleMap
-							ConnectionID="gmAPIKey"
-							GoogleMapTypes="Hybrid"
-							GoogleMapZoomControl="Small"
-							Height="550"
-							ID="gmBranch"
-							MapScale="False"
-							Width="700"
-							>
-							<GoogleMapMarkers
-								ID="gmmBranch"
-								Latitude="@Data.Latitude~"
-								Longitude="@Data.Longitude~"
+						<ResponsiveRow>
+							<ResponsiveColumn
+								ColspanExtraSmallScreen="12"
+								ColspanLargeScreen="12"
+								ColspanMediumScreen="12"
+								ColspanSmallScreen="12"
 								>
-								<Action
-									ElementID="panel-detail-container"
-									ID="refLocationInfoTable"
-									Type="RefreshElement"
+								<Division
+									Class="pull-right"
+									HtmlDiv="True"
+									ID="divHelp"
 									>
-									<LinkParams
-										paramLocCd="@Data.LOCNCODE~"
-										paramLocGLStr="@Data.LocGLStr~"
-										paramLocName="@Data.Location~"
-									/>
-									<WaitPage/>
-								</Action>
-								<DataLayer
-									ID="dllBranch"
-									LinkedDataLayerID="dllBranchData"
-									Type="Linked"
-									>
-									<ConditionFilter
-										Condition="&quot;@Data.Active~&quot; = &quot;1&quot;"
-									/>
-								</DataLayer>
-							</GoogleMapMarkers>
-						</GoogleMap>
-						<LineBreak/>
-						<LineBreak/>
-					</Division>
-				</Division>
-			</ResponsiveColumn>
-			<ResponsiveColumn>
-				<Division
-					HtmlDiv="True"
-					ID="panel-detail-container"
-					>
-					<Division
-						Class="panel panel-default"
-						Condition="&quot;@Request.paramLocName~&quot;.length &gt; 0"
-						HtmlDiv="True"
-						ID="panel-detail"
-						>
-						<Division
-							Class="panel-heading"
-							HtmlDiv="True"
-							ID="panel-heading-detail"
-							>
-							<ResponsiveRow
-								CollisionBehavior="Overlap"
-								>
-								<ResponsiveColumn>
 									<Label
-										Caption="Branch Details"
-									/>
-								</ResponsiveColumn>
-								<ResponsiveColumn>
-									<Label
-										Class="fa fa-close pull-right color-panel-heading"
+										Class="fa fa-file fa-2x "
+										HtmlTag="Span"
+										ID="lnkFinancials"
+										Tooltip="View Branch Financials"
 										>
 										<Action
-											ElementID="panel-detail-container"
-											ID="actCloseMapDetail"
-											Type="RefreshElement"
+											Type="Report"
 											>
-											<LinkParams
-												paramLocCd="@Data.LOCNCODE~"
-												paramLocName="@Data.Location~"
+											<Target
+												FrameID="NewWindow"
+												Report="Unknown.SubReports.BranchFinancials"
+												Type="Report"
 											/>
-											<WaitPage/>
+										</Action>
+										<ConditionalClass
+											Class="ThemeHidden"
+											Condition="&quot;@Data.Location~&quot; = &quot;&quot;"
+										/>
+									</Label>
+									<Spaces
+										Size="5"
+									/>
+									<Label
+										Class="fa fa-question-circle fa-2x "
+										HtmlTag="Span"
+										ID="lnkHelp"
+										Tooltip="Branch Dashboard Help"
+										>
+										<Action
+											Type="Report"
+											>
+											<Target
+												FrameID="NewWindow"
+												Report="Unknown.SubReports.BranchFAQs"
+												Type="Report"
+											/>
 										</Action>
 									</Label>
-									<IncludeHtml
-										Html="&lt;style&gt;
-/* Color Classes */
-.color-panel-heading {
-	color: #6F767F !important;
-}
-.color-black {
-	color: #000000 !important;
-}
-&lt;/style&gt;"
+									<LineBreak
+										LineCount="2"
 									/>
-								</ResponsiveColumn>
-							</ResponsiveRow>
-						</Division>
-						<Division
-							Class="panel-body"
-							HtmlDiv="True"
-							ID="panel-body-detail"
-							>
-							<ResponsiveRow>
+								</Division>
+							</ResponsiveColumn>
+						</ResponsiveRow>
+						<ResponsiveRow>
+							<Remark>
 								<ResponsiveColumn
-									ColspanExtraSmallScreen="11"
-									ColspanLargeScreen="5"
-									ColspanMediumScreen="5"
-									ColspanSmallScreen="11"
+									ColspanExtraSmallScreen="4"
+									ColspanLargeScreen="2"
+									ColspanMediumScreen="2"
+									ColspanSmallScreen="4"
 									>
-									<DataTable
-										ID="tblLocationInfo"
+									<Division
+										Class="well"
+										HtmlDiv="True"
+										ID="divFilter"
 										>
-										<Remark>
+										<IncludeSharedElement
+											DefinitionFile="_Layout.Shared"
+											SharedElementID="shrMKCBranchSelect"
+											>
+											<SharedElementParams
+												BranchElementToRefresh="panel-detail-container"
+											/>
+										</IncludeSharedElement>
+									</Division>
+								</ResponsiveColumn>
+							</Remark>
+							<ResponsiveColumn
+								ColspanExtraSmallScreen="12"
+								ColspanLargeScreen="5"
+								ColspanMediumScreen="5"
+								ColspanSmallScreen="12"
+								>
+								<Label
+									Caption="Click on your location in the map."
+									Class="ThemeTextSmall"
+								/>
+								<LineBreak/>
+								<Division
+									ID="divMap"
+									>
+									<GoogleMap
+										ConnectionID="gmAPIKey"
+										GoogleMapTypes="Hybrid"
+										GoogleMapZoomControl="Small"
+										Height="550"
+										ID="gmBranch"
+										MapScale="False"
+										Width="700"
+										>
+										<GoogleMapMarkers
+											ID="gmmBranch"
+											Latitude="@Data.Latitude~"
+											Longitude="@Data.Longitude~"
+											>
+											<Action
+												ElementID="panel-detail-container,divHelp"
+												ID="refLocationInfoTable"
+												Type="RefreshElement"
+												>
+												<LinkParams
+													paramLocCd="@Data.LOCNCODE~"
+													paramLocGLStr="@Data.LocGLStr~"
+													paramLocName="@Data.Location~"
+												/>
+												<WaitPage/>
+											</Action>
 											<DataLayer
-												ConnectionID="connMKC"
-												ID="sqlLocInfo"
-												Source="SELECT LOCNDSCR,ADDRESS1,CITY,STATE,ZIPCODE,RTRIM(PHONE1) FROM MKCGP..IV40700 WHERE LOCNCODE=&apos;@Request.paramLocCd~&apos;
+												ID="dllBranch"
+												LinkedDataLayerID="dllBranchData"
+												Type="Linked"
+												>
+												<ConditionFilter
+													Condition="&quot;@Data.Active~&quot; = &quot;1&quot;"
+												/>
+											</DataLayer>
+										</GoogleMapMarkers>
+									</GoogleMap>
+								</Division>
+							</ResponsiveColumn>
+							<ResponsiveColumn
+								ColspanExtraSmallScreen="12"
+								ColspanLargeScreen="7"
+								ColspanMediumScreen="7"
+								ColspanSmallScreen="12"
+								>
+								<Division
+									HtmlDiv="True"
+									ID="panel-detail-container"
+									>
+									<Division
+										Class="panel panel-default"
+										Condition="&quot;@Request.paramLocName~&quot;.length &gt; 0"
+										HtmlDiv="True"
+										ID="panel-detail"
+										>
+										<Division
+											Class="panel-body"
+											HtmlDiv="True"
+											ID="panel-body-detail"
+											>
+											<ResponsiveRow
+												CollisionBehavior="Overlap"
+												>
+												<ResponsiveColumn>
+													<Label
+														Class="fa fa-close pull-right color-panel-heading"
+														>
+														<Action
+															ElementID="panel-detail-container"
+															ID="actCloseMapDetail"
+															Type="RefreshElement"
+															>
+															<LinkParams
+																paramLocCd="@Data.LOCNCODE~"
+																paramLocName="@Data.Location~"
+															/>
+															<WaitPage/>
+														</Action>
+													</Label>
+													<LineBreak/>
+												</ResponsiveColumn>
+											</ResponsiveRow>
+											<Division
+												Class="well"
+												HtmlDiv="True"
+												ID="divBranchDetail"
+												>
+												<ResponsiveRow
+													Class="ThemeTextSmall"
+													>
+													<ResponsiveColumn
+														ColspanExtraSmallScreen="11"
+														ColspanLargeScreen="5"
+														ColspanMediumScreen="5"
+														ColspanSmallScreen="11"
+														>
+														<DataTable
+															DraggableColumns="False"
+															ID="tblLocationInfo"
+															ResizableColumns="False"
+															>
+															<Remark>
+																<DataLayer
+																	ConnectionID="connMKC"
+																	ID="sqlLocInfo"
+																	Source="SELECT LOCNDSCR,ADDRESS1,CITY,STATE,ZIPCODE,RTRIM(PHONE1) FROM MKCGP..IV40700 WHERE LOCNCODE=&apos;@Request.paramLocCd~&apos;
 /*union 
 SELECT DISTINCT 2 AS ID, LTRIM(RTRIM(ADDRESS1)) + &apos; &apos; + LTRIM(RTRIM(CITY)) + &apos; &apos; + LTRIM(RTRIM(STATEABBR)) + &apos; &apos; + LTRIM(RTRIM(ZIPCODE)) AS LOCNADDR FROM MAPMKCLOCATIONS WHERE LOCNCODE=&apos;@Request.paramLocCd~&apos;
 union 
@@ -213,319 +262,327 @@ SELECT 3 AS ID, AttrValue FROM MAPMKCLOCATIONS WHERE AttrType=&apos;Employees&ap
 union
 SELECT 4 AS ID, AttrValue FROM MAPMKCLOCATIONS WHERE AttrType&lt;&gt;&apos;Employees&apos; and LOCNCODE=&apos;@Request.paramLocCd~&apos;
 ORDER BY ID */"
-												Type="SQL"
-											/>
-										</Remark>
-										<Remark>
-											<DataLayer
-												ColumnNamesRow="1"
-												ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\LocationData.xlsx"
-												ExcelWorksheet="BranchData"
-												ID="xlsLocInfo"
-												Type="Excel"
-												>
-												<ConditionFilter
-													Condition="&quot;@Request.paramLocName~&quot; = &quot;@Data.Location~&quot;"
-												/>
-											</DataLayer>
-										</Remark>
-										<DataLayer
-											ID="dlBranch2"
-											LinkedDataLayerID="dllBranchData"
-											Type="Linked"
-											>
-											<ConditionFilter
-												Condition="&quot;@Request.paramLocName~&quot; = &quot;@Data.Location~&quot;"
-											/>
-											<Remark>
-												<ConditionFilter
-													Condition="&quot;@Data.Seasonal~&quot; = &quot;O&quot;"
-												/>
-											</Remark>
-										</DataLayer>
-										<DataTableColumn
-											Header="@Request.paramLocName~"
-											ID="colLocation"
-											>
-											<Label
-												ID="lblLocation"
-											/>
-											<Label
-												Caption="(Seasonal)"
-												>
-												<ConditionalClass
-													Class="ThemeHidden"
-													Condition="&quot;@Data.Seasonal~&quot; &lt;&gt; &quot;Y&quot;"
-												/>
-											</Label>
-											<LineBreak/>
-											<Label
-												Caption="@Data.Address~"
-												ID="lblAddress"
-											/>
-											<LineBreak/>
-											<Label
-												Caption="@Data.City~ @Data.State~ @Data.Zip~"
-												ID="lblCity"
-											/>
-											<LineBreak/>
-											<Label
-												Caption="@Data.Phone~"
-												ID="lblPhone"
-											/>
-											<LineBreak/>
-											<LineBreak/>
-											<Label
-												Caption="Services:"
-												Class="ThemeBold"
-											/>
-											<LineBreak/>
-											<Label
-												Caption="@Data.Services~"
-												ID="lblServices"
-											/>
-											<LineBreak/>
-											<LineBreak/>
-											<Division
-												ID="divGrain"
-												>
-												<ConditionalClass
-													Class="ThemeHidden"
-													Condition="&quot;@Data.CapacityGrain~&quot; = &quot;0&quot; Or  &quot;@Data.CapacityGrain~&quot; = &quot;&quot;"
-												/>
-												<Label
-													Caption="Grain Capacity:"
-													Class="ThemeBold"
-													>
-													<ConditionalClass
-														Class="ThemeHidden"
-														Condition="&quot;@Data.CapacityGrain~&quot; = &quot;0&quot; Or  &quot;@Data.CapacityGrain~&quot; = &quot;&quot;"
-													/>
-												</Label>
-												<LineBreak/>
-												<Label
-													Caption="@Data.CapacityGrain~ Bushels"
-													ID="lblGrain"
-													>
-													<ConditionalClass
-														Class="ThemeHidden"
-														Condition="&quot;@Data.CapacityGrain~&quot; = &quot;0&quot; Or  &quot;@Data.CapacityGrain~&quot; = &quot;&quot;"
-													/>
-												</Label>
-												<LineBreak/>
-												<LineBreak/>
+																	Type="SQL"
+																/>
+															</Remark>
+															<Remark>
+																<DataLayer
+																	ColumnNamesRow="1"
+																	ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\LocationData.xlsx"
+																	ExcelWorksheet="BranchData"
+																	ID="xlsLocInfo"
+																	Type="Excel"
+																	>
+																	<ConditionFilter
+																		Condition="&quot;@Request.paramLocName~&quot; = &quot;@Data.Location~&quot;"
+																	/>
+																</DataLayer>
+															</Remark>
+															<DataLayer
+																ID="dlBranch2"
+																LinkedDataLayerID="dllBranchData"
+																Type="Linked"
+																>
+																<ConditionFilter
+																	Condition="&quot;@Request.paramLocName~&quot; = &quot;@Data.Location~&quot;"
+																/>
+																<Remark>
+																	<ConditionFilter
+																		Condition="&quot;@Data.Seasonal~&quot; = &quot;O&quot;"
+																	/>
+																</Remark>
+															</DataLayer>
+															<DataTableColumn
+																Header="@Request.paramLocName~"
+																ID="colLocation"
+																>
+																<Label
+																	ID="lblLocation"
+																/>
+																<Label
+																	Caption="(Seasonal)"
+																	>
+																	<ConditionalClass
+																		Class="ThemeHidden"
+																		Condition="&quot;@Data.Seasonal~&quot; &lt;&gt; &quot;Y&quot;"
+																	/>
+																</Label>
+																<LineBreak/>
+																<Label
+																	Caption="@Data.Address~"
+																	ID="lblAddress"
+																/>
+																<LineBreak/>
+																<Label
+																	Caption="@Data.City~ @Data.State~ @Data.Zip~"
+																	ID="lblCity"
+																/>
+																<LineBreak/>
+																<Label
+																	Caption="@Data.Phone~"
+																	ID="lblPhone"
+																/>
+																<LineBreak/>
+																<LineBreak/>
+																<Label
+																	Caption="Services:"
+																	Class="ThemeBold"
+																/>
+																<LineBreak/>
+																<Label
+																	Caption="@Data.Services~"
+																	ID="lblServices"
+																/>
+																<LineBreak/>
+																<LineBreak/>
+																<Division
+																	ID="divGrain"
+																	>
+																	<ConditionalClass
+																		Class="ThemeHidden"
+																		Condition="&quot;@Data.CapacityGrain~&quot; = &quot;0&quot; Or  &quot;@Data.CapacityGrain~&quot; = &quot;&quot;"
+																	/>
+																	<Label
+																		Caption="Grain Capacity:"
+																		Class="ThemeBold"
+																		>
+																		<ConditionalClass
+																			Class="ThemeHidden"
+																			Condition="&quot;@Data.CapacityGrain~&quot; = &quot;0&quot; Or  &quot;@Data.CapacityGrain~&quot; = &quot;&quot;"
+																		/>
+																	</Label>
+																	<LineBreak/>
+																	<Label
+																		Caption="@Data.CapacityGrain~ Bushels"
+																		ID="lblGrain"
+																		>
+																		<ConditionalClass
+																			Class="ThemeHidden"
+																			Condition="&quot;@Data.CapacityGrain~&quot; = &quot;0&quot; Or  &quot;@Data.CapacityGrain~&quot; = &quot;&quot;"
+																		/>
+																	</Label>
+																	<LineBreak/>
+																	<LineBreak/>
+																</Division>
+																<Division
+																	ID="divFuel"
+																	>
+																	<ConditionalClass
+																		Class="ThemeHidden"
+																		Condition="&quot;@Data.CapacityFuel~&quot; = &quot;0&quot; Or  &quot;@Data.CapacityFuel~&quot; = &quot;&quot;"
+																	/>
+																	<Label
+																		Caption="Fuel Capacity:"
+																		Class="ThemeBold"
+																		>
+																		<ConditionalClass
+																			Class="ThemeHidden"
+																			Condition="&quot;@Data.CapacityFuel~&quot; = &quot;0&quot; Or  &quot;@Data.CapacityFuel~&quot; = &quot;&quot;"
+																		/>
+																	</Label>
+																	<LineBreak/>
+																	<Label
+																		Caption="@Data.CapacityFuel~ Gallons"
+																		ID="lblFuel"
+																		>
+																		<ConditionalClass
+																			Class="ThemeHidden"
+																			Condition="&quot;@Data.CapacityFuel~&quot; = &quot;0&quot; Or  &quot;@Data.CapacityFuel~&quot; = &quot;&quot;"
+																		/>
+																	</Label>
+																	<LineBreak/>
+																	<LineBreak/>
+																</Division>
+																<Division
+																	ID="divFert"
+																	>
+																	<ConditionalClass
+																		Class="ThemeHidden"
+																		Condition="&quot;@Data.CapacityFert~&quot; = &quot;0&quot; Or  &quot;@Data.CapacityFert~&quot; = &quot;&quot;"
+																	/>
+																	<Label
+																		Caption="Fertilizer Capacity:"
+																		Class="ThemeBold"
+																		>
+																		<ConditionalClass
+																			Class="ThemeHidden"
+																			Condition="&quot;@Data.CapacityFert~&quot; = &quot;0&quot; Or  &quot;@Data.CapacityFert~&quot; = &quot;&quot;"
+																		/>
+																	</Label>
+																	<LineBreak/>
+																	<Label
+																		Caption="@Data.CapacityFert~ Tons"
+																		ID="lblFertilizer"
+																		>
+																		<ConditionalClass
+																			Class="ThemeHidden"
+																			Condition="&quot;@Data.CapacityFert~&quot; = &quot;0&quot; Or  &quot;@Data.CapacityFert~&quot; = &quot;&quot;"
+																		/>
+																	</Label>
+																	<LineBreak/>
+																	<LineBreak/>
+																</Division>
+																<Label
+																	Caption="Financials Details"
+																	Class="ThemeBold"
+																	>
+																	<Action
+																		ID="lnkFinancials"
+																		Type="Report"
+																		>
+																		<Target
+																			FrameID="NewWindow"
+																			ID="targetFinancials"
+																			Report="Unknown.SubReports.BranchFinancials"
+																			RequestForwarding="True"
+																			Type="Report"
+																			>
+																			<WaitPage/>
+																		</Target>
+																		<LinkParams
+																			paramLocCd="@Data.LocationCode~"
+																			paramLocGLStr="@Data.LocGLStr~"
+																			paramLocName="@Request.paramLocName~"
+																		/>
+																	</Action>
+																</Label>
+																<LineBreak/>
+																<Label
+																	Caption="Additional Branch Details"
+																	Class="ThemeBold"
+																	>
+																	<Action
+																		ID="lnkFinancials"
+																		Type="Report"
+																		>
+																		<Target
+																			FrameID="NewWindow"
+																			ID="targetAdditional"
+																			Report="Unknown.SubReports.AdditionalReports"
+																			RequestForwarding="True"
+																			Type="Report"
+																			>
+																			<WaitPage/>
+																		</Target>
+																		<LinkParams
+																			paramLocCd="@Data.LocationCode~"
+																			paramLocGLStr="@Data.LocGLStr~"
+																			paramLocName="@Request.paramLocName~"
+																		/>
+																	</Action>
+																</Label>
+																<LineBreak/>
+																<LineBreak/>
+															</DataTableColumn>
+														</DataTable>
+													</ResponsiveColumn>
+													<ResponsiveColumn>
+														<DataTable
+															AccessibleHeaders="True"
+															AccessibleSummary="AnalysisGrid DataTable"
+															DraggableColumns="False"
+															ID="dtImageLookup"
+															KeepScrollPosition="True"
+															RememberSort="True"
+															ResizableColumns="False"
+															SortArrows="False"
+															TableBorder="0"
+															>
+															<DataLayer
+																ColumnNamesRow="1"
+																ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\LocationData.xlsx"
+																ExcelWorksheet="Images"
+																ID="dlImageLookup"
+																Type="Excel"
+																>
+																<ConditionFilter
+																	Condition="InStr(&quot;@Request.paramLocName~&quot;, &quot;@Data.Location~&quot;) &gt; 0"
+																/>
+															</DataLayer>
+															<InteractivePaging
+																CaptionType="Image"
+																HideShowPrevNextCaptions="False"
+																HideWhenOnePage="True"
+																IDnotSupportedHere="pagingTableNumbered"
+																Location="Top"
+																PageRowCount="20"
+																ShowPageNumber="Numbered"
+															/>
+															<Remark>
+																<DataTableColumn
+																	Condition="  "
+																	ID="colColumn1"
+																	>
+																	<Remark>
+																		<Label
+																			Caption="@Data.Column1~"
+																			ID="colColumn1"
+																		/>
+																	</Remark>
+																	<Remark>
+																		<DataColumnSort
+																			DataColumn="Column1"
+																			DataType="Text"
+																		/>
+																	</Remark>
+																	<LineBreak/>
+																</DataTableColumn>
+															</Remark>
+															<DataTableColumn
+																Header="Location Photo"
+																ID="colColumn2"
+																>
+																<Remark>
+																	<Label
+																		Caption="@Data.Column2~ @Request.paramLocName~"
+																		ID="colColumn2"
+																	/>
+																</Remark>
+																<Image
+																	Caption="@Data.Image~"
+																	Height="280"
+																	ID="imgLocation"
+																	Width="400"
+																/>
+																<ConditionalClass
+																	Class="ThemeHidden"
+																	Condition="&quot;@Data.Image~&quot; = &quot;&quot;"
+																/>
+															</DataTableColumn>
+														</DataTable>
+														<Remark>
+															<Label
+																Caption="Branch Dashboard FAQs"
+																Class="ThemeBold, ThemeAlignRight"
+																>
+																<Action
+																	ID="lnkFAQ"
+																	Type="Report"
+																	>
+																	<Target
+																		FrameID="NewWindow"
+																		ID="targetFAQ"
+																		Report="Unknown.SubReports.BranchFAQs"
+																		Type="Report"
+																		>
+																		<WaitPage/>
+																	</Target>
+																</Action>
+															</Label>
+														</Remark>
+													</ResponsiveColumn>
+												</ResponsiveRow>
 											</Division>
-											<Division
-												ID="divFuel"
-												>
-												<ConditionalClass
-													Class="ThemeHidden"
-													Condition="&quot;@Data.CapacityFuel~&quot; = &quot;0&quot; Or  &quot;@Data.CapacityFuel~&quot; = &quot;&quot;"
-												/>
-												<Label
-													Caption="Fuel Capacity:"
-													Class="ThemeBold"
-													>
-													<ConditionalClass
-														Class="ThemeHidden"
-														Condition="&quot;@Data.CapacityFuel~&quot; = &quot;0&quot; Or  &quot;@Data.CapacityFuel~&quot; = &quot;&quot;"
-													/>
-												</Label>
-												<LineBreak/>
-												<Label
-													Caption="@Data.CapacityFuel~ Gallons"
-													ID="lblFuel"
-													>
-													<ConditionalClass
-														Class="ThemeHidden"
-														Condition="&quot;@Data.CapacityFuel~&quot; = &quot;0&quot; Or  &quot;@Data.CapacityFuel~&quot; = &quot;&quot;"
-													/>
-												</Label>
-												<LineBreak/>
-												<LineBreak/>
-											</Division>
-											<Division
-												ID="divFert"
-												>
-												<ConditionalClass
-													Class="ThemeHidden"
-													Condition="&quot;@Data.CapacityFert~&quot; = &quot;0&quot; Or  &quot;@Data.CapacityFert~&quot; = &quot;&quot;"
-												/>
-												<Label
-													Caption="Fertilizer Capacity:"
-													Class="ThemeBold"
-													>
-													<ConditionalClass
-														Class="ThemeHidden"
-														Condition="&quot;@Data.CapacityFert~&quot; = &quot;0&quot; Or  &quot;@Data.CapacityFert~&quot; = &quot;&quot;"
-													/>
-												</Label>
-												<LineBreak/>
-												<Label
-													Caption="@Data.CapacityFert~ Tons"
-													ID="lblFertilizer"
-													>
-													<ConditionalClass
-														Class="ThemeHidden"
-														Condition="&quot;@Data.CapacityFert~&quot; = &quot;0&quot; Or  &quot;@Data.CapacityFert~&quot; = &quot;&quot;"
-													/>
-												</Label>
-												<LineBreak/>
-												<LineBreak/>
-											</Division>
-											<Label
-												Caption="Financials Details"
-												Class="ThemeBold"
-												>
-												<Action
-													ID="lnkFinancials"
-													Type="Report"
-													>
-													<Target
-														FrameID="NewWindow"
-														ID="targetFinancials"
-														Report="Unknown.SubReports.BranchFinancials"
-														RequestForwarding="True"
-														Type="Report"
-														>
-														<WaitPage/>
-													</Target>
-													<LinkParams
-														paramLocCd="@Data.LocationCode~"
-														paramLocGLStr="@Data.LocGLStr~"
-														paramLocName="@Request.paramLocName~"
-													/>
-												</Action>
-											</Label>
-											<LineBreak/>
-											<LineBreak/>
-											<Label
-												Caption="Additional Branch Details"
-												Class="ThemeBold"
-												>
-												<Action
-													ID="lnkFinancials"
-													Type="Report"
-													>
-													<Target
-														FrameID="NewWindow"
-														ID="targetAdditional"
-														Report="Unknown.SubReports.AdditionalReports"
-														RequestForwarding="True"
-														Type="Report"
-														>
-														<WaitPage/>
-													</Target>
-													<LinkParams
-														paramLocCd="@Data.LocationCode~"
-														paramLocGLStr="@Data.LocGLStr~"
-														paramLocName="@Request.paramLocName~"
-													/>
-												</Action>
-											</Label>
-											<LineBreak/>
-											<LineBreak/>
-										</DataTableColumn>
-									</DataTable>
-								</ResponsiveColumn>
-								<ResponsiveColumn>
-									<DataTable
-										AccessibleHeaders="True"
-										AccessibleSummary="AnalysisGrid DataTable"
-										ID="dtImageLookup"
-										KeepScrollPosition="True"
-										RememberSort="True"
-										ResizableColumns="True"
-										SortArrows="True"
-										TableBorder="0"
-										>
-										<DataLayer
-											ColumnNamesRow="1"
-											ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\LocationData.xlsx"
-											ExcelWorksheet="Images"
-											ID="dlImageLookup"
-											Type="Excel"
-											>
-											<ConditionFilter
-												Condition="InStr(&quot;@Request.paramLocName~&quot;, &quot;@Data.Location~&quot;) &gt; 0"
-											/>
-										</DataLayer>
-										<InteractivePaging
-											CaptionType="Image"
-											HideShowPrevNextCaptions="False"
-											HideWhenOnePage="True"
-											IDnotSupportedHere="pagingTableNumbered"
-											Location="Top"
-											PageRowCount="20"
-											ShowPageNumber="Numbered"
-										/>
-										<Remark>
-											<DataTableColumn
-												Condition="  "
-												ID="colColumn1"
-												>
-												<Remark>
-													<Label
-														Caption="@Data.Column1~"
-														ID="colColumn1"
-													/>
-												</Remark>
-												<Remark>
-													<DataColumnSort
-														DataColumn="Column1"
-														DataType="Text"
-													/>
-												</Remark>
-												<LineBreak/>
-											</DataTableColumn>
-										</Remark>
-										<DataTableColumn
-											Header="Location Photo"
-											ID="colColumn2"
-											>
-											<Remark>
-												<Label
-													Caption="@Data.Column2~ @Request.paramLocName~"
-													ID="colColumn2"
-												/>
-											</Remark>
-											<Image
-												Caption="@Data.Image~"
-												Height="280"
-												ID="imgLocation"
-												Width="400"
-											/>
-											<ConditionalClass
-												Class="ThemeHidden"
-												Condition="&quot;@Data.Image~&quot; = &quot;&quot;"
-											/>
-										</DataTableColumn>
-									</DataTable>
-									<Label
-										Caption="Branch Dashboard FAQs"
-										Class="ThemeBold, ThemeAlignRight"
-										>
-										<Action
-											ID="lnkFAQ"
-											Type="Report"
-											>
-											<Target
-												FrameID="NewWindow"
-												ID="targetFAQ"
-												Report="Unknown.SubReports.BranchFAQs"
-												Type="Report"
-												>
-												<WaitPage/>
-											</Target>
-										</Action>
-									</Label>
-								</ResponsiveColumn>
-							</ResponsiveRow>
-						</Division>
+										</Division>
+									</Division>
+								</Division>
+							</ResponsiveColumn>
+						</ResponsiveRow>
 					</Division>
 				</Division>
 			</ResponsiveColumn>
 		</ResponsiveRow>
+		<ResponsiveRow/>
 	</Body>
 	<IncludeSharedElement
 		DefinitionFile="_Layout.Shared"

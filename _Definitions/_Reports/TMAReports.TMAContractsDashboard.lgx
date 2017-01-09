@@ -428,7 +428,7 @@ ORDER BY COMMODITYCODE
 						>
 						<TabPanel
 							Caption="Overshipment"
-							Class="ThemeBold,panel-title"
+							Class="ThemeTextSmall"
 							ID="tbOvership"
 							>
 							<Division
@@ -781,7 +781,7 @@ ORDER BY CONTRACTNMBR"
 						>
 						<TabPanel
 							Caption="Ship Date Detail"
-							Class="ThemeBold,panel-title"
+							Class="ThemeTextSmall"
 							ID="tbShipDt"
 							>
 							<Division
@@ -1351,7 +1351,7 @@ ORDER BY CUSTDESC, MAINCONTRACT
 						>
 						<TabPanel
 							Caption="Contract Detail"
-							Class="ThemeBold,panel-title"
+							Class="ThemeTextSmall"
 							ID="tbContractDt"
 							>
 							<Division
