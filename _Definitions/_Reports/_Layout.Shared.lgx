@@ -282,10 +282,10 @@ else {
 								CollisionBehavior="Wrap"
 								>
 								<ResponsiveColumn
-									ColspanExtraSmallScreen="4"
+									ColspanExtraSmallScreen="6"
 									ColspanLargeScreen="2"
 									ColspanMediumScreen="2"
-									ColspanSmallScreen="4"
+									ColspanSmallScreen="6"
 									>
 									<Division
 										Class="navbar-brand"
@@ -334,10 +334,10 @@ else {
 									</Division>
 								</ResponsiveColumn>
 								<ResponsiveColumn
-									ColspanExtraSmallScreen="8"
+									ColspanExtraSmallScreen="6"
 									ColspanLargeScreen="10"
 									ColspanMediumScreen="10"
-									ColspanSmallScreen="8"
+									ColspanSmallScreen="6"
 									>
 									<Division
 										Class="ThemeAlignRight"
@@ -357,9 +357,11 @@ else {
 													HtmlTag="Span"
 												/>
 											</Remark>
-											<Spaces
-												Size="5"
-											/>
+											<Remark>
+												<Spaces
+													Size="5"
+												/>
+											</Remark>
 										</Division>
 										<ResponsiveVisibility
 											HideForExtraSmallScreen="False"
@@ -511,9 +513,11 @@ else {
 															HtmlTag="Span"
 														/>
 													</Remark>
-													<Spaces
-														Size="5"
-													/>
+													<Remark>
+														<Spaces
+															Size="5"
+														/>
+													</Remark>
 												</Division>
 												<Remark>
 													<Label
@@ -1715,7 +1719,7 @@ ORDER BY BRANCH_NAME"
 								SecurityRightID="TMA Dashboard,OC"
 							/>
 							<Label
-								Caption="V2.0.01.10.2017"
+								Caption="V1.1.12.27.2016."
 								Class="ThemeTextSmaller"
 								Format="HTML"
 								SecurityRightID="MKC Dashboard,TMA Dashboard,OC"
