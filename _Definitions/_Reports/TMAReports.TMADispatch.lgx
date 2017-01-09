@@ -71,6 +71,7 @@ WHERE CONTRACT_TYPE=2
 						>
 						<Label
 							Caption="TMA Dispatch Report"
+							Class="panel-title"
 						/>
 					</Division>
 					<Division
@@ -149,10 +150,9 @@ WHERE CONTRACT_TYPE=2
 									</Button>
 								</Division>
 							</ResponsiveColumn>
-							<ResponsiveColumn
-								Class="ThemeTextSmall"
-								>
+							<ResponsiveColumn>
 								<Division
+									Class="ThemeTextSmall"
 									ID="divDataTable"
 									>
 									<DataTable

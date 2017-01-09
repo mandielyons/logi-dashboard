@@ -57,47 +57,6 @@
 		SharedElementID="shrHeader"
 	/>
 	<Body>
-		<IncludeScript
-			IncludedScript="&lt;script&gt;
-  (function(i,s,o,g,r,a,m){i[&apos;GoogleAnalyticsObject&apos;]=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,&apos;script&apos;,&apos;https://www.google-analytics.com/analytics.js&apos;,&apos;ga&apos;);
-
-  ga(&apos;create&apos;, &apos;UA-76860562-1&apos;, &apos;auto&apos;);
-  ga(&apos;send&apos;, &apos;pageview&apos;);
-
-&lt;/script&gt;
-
-&lt;script type=&quot;text/javascript&quot;&gt;
-
-  var _gaq = _gaq || [];
-  _gaq.push([&apos;_setAccount&apos;, &apos;UA-76860562-1&apos;]);
-  _gaq.push([&apos;_trackPageview&apos;]);
-
-  (function() {
-    var ga = document.createElement(&apos;script&apos;); ga.type = &apos;text/javascript&apos;; ga.async = true;
-    ga.src = (&apos;https:&apos; == document.location.protocol ? &apos;https://ssl&apos; : &apos;http://www&apos;) + &apos;.google-analytics.com/ga.js&apos;;
-    var s = document.getElementsByTagName(&apos;script&apos;)[0]; s.parentNode.insertBefore(ga, s);
-  })();
-
-&lt;/script&gt;
-
-&lt;script type=&quot;text/javascript&quot;&gt;
- function tableToExcel(table, name) {
-    var uri = &apos;data:application/vnd.ms-excel;base64,&apos;
-          , template = &apos;&lt;html xmlns:o=&quot;urn:schemas-microsoft-com:office:office&quot; xmlns:x=&quot;urn:schemas-microsoft-com:office:excel&quot; xmlns=&quot;http://www.w3.org/TR/REC-html40&quot;&gt;&lt;head&gt;&lt;!--[if gte mso 9]&gt;&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;yes&quot;?&gt;&lt;x:ExcelWorkbook&gt;&lt;x:ExcelWorksheets&gt;&lt;x:ExcelWorksheet&gt;&lt;x:Name&gt;{worksheet}&lt;/x:Name&gt;&lt;x:WorksheetOptions&gt;&lt;x:DisplayGridlines/&gt;&lt;/x:WorksheetOptions&gt;&lt;/x:ExcelWorksheet&gt;&lt;/x:ExcelWorksheets&gt;&lt;/x:ExcelWorkbook&gt;&lt;/xml&gt;&lt;![endif]--&gt;&lt;/head&gt;&lt;body&gt;&lt;table&gt;{table}&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;&apos;
-          , base64 = function (s) { return window.btoa(unescape(encodeURIComponent(s))); }
-          , format = function (s, c) { return s.replace(/{(\w+)}/g, function (m, p) { return c[p]; }); };
-        if (!table.nodeType) table = document.getElementById(table);
-        var ctx = { worksheet: name || &apos;Worksheet&apos;, table: table.innerHTML };
-        window.location.href = uri + base64(format(template, ctx));
-
-}
-&lt;/script&gt;
-
-"
-		/>
 		<ResponsiveRow
 			CollisionBehavior="Wrap"
 			>
@@ -114,61 +73,65 @@
 						>
 						<Label
 							Caption="Additional Branch Reports"
+							Class="panel-title"
 						/>
 					</Division>
 					<Division
 						Class="panel-body"
+						HtmlDiv="True"
 						ID="panel-body-inputs"
 						>
-						<Rows
-							Width="100"
-							WidthScale="%"
-							>
-							<Row>
-								<Column
-									Class="ThemeAlignRight"
-									ColSpan="5"
+						<ResponsiveRow>
+							<ResponsiveColumn
+								ColspanExtraSmallScreen="12"
+								ColspanLargeScreen="12"
+								ColspanMediumScreen="12"
+								ColspanSmallScreen="12"
+								>
+								<Division
+									Class="pull-right"
+									HtmlDiv="True"
+									ID="divHelp"
 									>
 									<Label
-										Caption="Branch Dashboard FAQs"
-										Class="ThemeBold, ThemeAlignRight"
+										Class="fa fa-question-circle fa-2x "
+										HtmlTag="Span"
+										ID="lnkHelp"
+										Tooltip="Branch Dashboard Help"
 										>
 										<Action
-											ID="lnkFAQ"
 											Type="Report"
 											>
 											<Target
 												FrameID="NewWindow"
-												ID="targetFAQ"
 												Report="Unknown.SubReports.BranchFAQs"
 												Type="Report"
-												>
-												<WaitPage/>
-											</Target>
+											/>
 										</Action>
 									</Label>
-								</Column>
-								<Column>
-									<Spaces
-										Size="5"
+									<LineBreak
+										LineCount="2"
 									/>
-								</Column>
-							</Row>
-							<Row>
-								<Column>
-									<Spaces
-										Size="5"
-									/>
-								</Column>
-								<Column
-									Class="ThemeNoWrap"
+								</Division>
+							</ResponsiveColumn>
+						</ResponsiveRow>
+						<ResponsiveRow
+							Class="ThemeTextSmall"
+							>
+							<ResponsiveColumn
+								ColspanExtraSmallScreen="4"
+								ColspanLargeScreen="3"
+								ColspanMediumScreen="3"
+								ColspanSmallScreen="4"
+								>
+								<Division
+									Class="well"
+									HtmlDiv="True"
+									ID="divFilters"
 									>
-									<Label
-										Caption="Filter By Fiscal Year:"
-									/>
-								</Column>
-								<Column>
 									<InputSelectList
+										Caption="Fiscal Year:"
+										Class="ThemeTextSmall"
 										DefaultValue="@Request.paramFiscYear~"
 										ID="paramFiscYear"
 										IncludeBlank="False"
@@ -177,7 +140,7 @@
 										OptionValueColumn="YEAR1"
 										>
 										<DataLayer
-											CacheKey="luAdditionalReportsFiscYear"
+											CacheKey="luFiscalYears"
 											ExpirationTimeSpan="8:00"
 											Type="Cached"
 											>
@@ -189,32 +152,10 @@
 											/>
 										</DataLayer>
 									</InputSelectList>
-								</Column>
-								<Column>
-									<Spaces
-										Size="45"
-									/>
-								</Column>
-								<Column/>
-								<Column>
-									<Spaces
-										Size="5"
-									/>
-								</Column>
-							</Row>
-							<Row>
-								<Column>
-									<Spaces
-										Size="5"
-									/>
-								</Column>
-								<Column>
-									<Label
-										Caption="Filter By Fiscal Period:"
-									/>
-								</Column>
-								<Column>
+									<LineBreak/>
 									<InputSelectList
+										Caption="Fiscal Period:"
+										Class="ThemeTextSmall"
 										DefaultValue="@Request.paramFiscPeriod~"
 										ID="paramFiscPeriod"
 										IncludeBlank="False"
@@ -276,32 +217,10 @@
 											/>
 										</DataLayer>
 									</InputSelectList>
-								</Column>
-								<Column>
-									<Spaces
-										Size="45"
-									/>
-								</Column>
-								<Column/>
-								<Column>
-									<Spaces
-										Size="5"
-									/>
-								</Column>
-							</Row>
-							<Row>
-								<Column>
-									<Spaces
-										Size="5"
-									/>
-								</Column>
-								<Column>
-									<Label
-										Caption="Filter By Location:"
-									/>
-								</Column>
-								<Column>
+									<LineBreak/>
 									<InputSelectList
+										Caption="Location:"
+										Class="ThemeTextSmall"
 										DefaultValue="@Request.paramLocGLStr~"
 										ID="paramLocGLStr"
 										OptionCaptionColumn="Location"
@@ -320,160 +239,121 @@
 											/>
 										</DataLayer>
 									</InputSelectList>
-								</Column>
-								<Column>
-									<Spaces
-										Size="45"
-									/>
-								</Column>
-								<Column>
+									<LineBreak/>
 									<Label
 										Caption="Apply"
-										Class="btn btn-default pull-right"
-										>
-										<EventHandler
-											DhtmlEvent="onclick"
-											>
-											<Action
-												ElementID="tabRigReports"
-												ID="actRefreshrigReportsTabs"
-												Type="RefreshElement"
-												>
-												<WaitPage/>
-											</Action>
-										</EventHandler>
-									</Label>
-								</Column>
-								<Column>
-									<Spaces
-										Size="5"
-									/>
-								</Column>
-							</Row>
-						</Rows>
-						<LineBreak/>
-						<LineBreak/>
-					</Division>
-				</Division>
-			</ResponsiveColumn>
-		</ResponsiveRow>
-		<ResponsiveRow>
-			<ResponsiveColumn>
-				<Tabs
-					DefaultTab="@Request.paramDefaultTab~"
-					ID="tabRigReports"
-					TabbingStyle="RefreshPage"
-					TabLocation="top"
-					>
-					<Note
-						Note="Note: &quot;Tabbing Style&quot; *must be* &quot;Refresh Page&quot; for the inputs and sorting to work properly"
-					/>
-					<TabPanel
-						Caption="Application By Rig"
-						Class="ThemeTextPositive ThemeHeaderSmall"
-						ID="tabAppByRig"
-						>
-						<Division
-							Class="panel panel-default"
-							HtmlDiv="True"
-							ID="panel-rig"
-							>
-							<Division
-								Class="panel-heading"
-								HtmlDiv="True"
-								ID="divAppByRigHeading"
-							/>
-							<Division
-								Class="panel-body ThemeAlignRight"
-								HtmlDiv="True"
-								ID="divAppByRig"
-								>
-								<Remark>
-									<Label
-										Class="fa fa-file-pdf-o fa-2x"
-										HtmlTag="Div"
-										ID="exportAppByRig"
-										Tooltip="Export to PDF"
+										Class="btn btn-default ThemeTextSmall"
 										>
 										<Action
-											ID="exportPDFAppByRig"
-											Type="PDF"
+											ElementID="tabFinancials"
+											ID="actRefreshBranchFinancialTabs"
+											Type="RefreshElement"
 											>
-											<Target
-												Type="PDF"
-											/>
+											<WaitPage/>
 										</Action>
 									</Label>
-								</Remark>
-								<Spaces
-									Size="15"
-								/>
-							</Division>
-							<Division
-								Class="panel-body"
-								HtmlDiv="True"
-								ID="divAppByRigData"
-								>
-								<Note
-									Note="**Add data here**"
-								/>
-								<Division
-									Class="panel-heading"
-									HtmlDiv="True"
-									ID="panel-headingRig"
-									>
-									<Label
-										Caption="Application Acres by Rig"
+									<LineBreak
+										LineCount="2"
 									/>
 								</Division>
-								<Division
-									Class="panel-body"
-									HtmlDiv="True"
-									ID="panel-bodyRig"
+							</ResponsiveColumn>
+							<ResponsiveColumn
+								ColspanExtraSmallScreen="8"
+								ColspanLargeScreen="9"
+								ColspanMediumScreen="9"
+								ColspanSmallScreen="8"
+								>
+								<Tabs
+									DefaultTab="@Request.paramDefaultTab~"
+									ID="tabRigReports"
+									TabbingStyle="RefreshPage"
+									TabLocation="top"
 									>
-									<Rows
-										Width="100"
-										WidthScale="%"
+									<Note
+										Note="Note: &quot;Tabbing Style&quot; *must be* &quot;Refresh Page&quot; for the inputs and sorting to work properly"
+									/>
+									<TabPanel
+										Caption="Application By Rig"
+										Class="ThemeTextSmall"
+										ID="tabAppByRig"
 										>
-										<Row>
-											<Column>
-												<Spaces
-													Size="30"
-												/>
-											</Column>
-											<Column>
-												<DataTable
-													ID="dtApplicationRig"
-													SortArrows="True"
-													>
-													<HeaderRow
-														HeaderPosition="Top"
-														ID="rowCustomHeader"
-														>
-														<Column/>
-														<Column
-															Class="ThemeAlignCenter"
-															ColSpan="2"
+										<Division
+											Class="panel panel-default"
+											HtmlDiv="True"
+											ID="panel-rig"
+											>
+											<Division
+												Class="panel-body"
+												HtmlDiv="True"
+												ID="divAppByRig"
+												>
+												<ResponsiveRow>
+													<ResponsiveColumn>
+														<Division
+															Class="pull-right"
+															HtmlDiv="True"
+															ID="divAppByRigData"
 															>
-															<Label
-																Caption="Current"
-																Class="ThemeAlignCenter, ThemeBold"
-															/>
-														</Column>
-														<Column
-															Class="ThemeAlignCenter"
-															ColSpan="2"
+															<IncludeSharedElement
+																DefinitionFile="_Layout.Shared"
+																SharedElementID="shrExcelExport"
+																>
+																<SharedElementParams
+																	DataTableID="dtApplicationRig"
+																	ReportName="Application By Rig"
+																	Security=""
+																/>
+															</IncludeSharedElement>
+														</Division>
+													</ResponsiveColumn>
+												</ResponsiveRow>
+												<ResponsiveRow>
+													<ResponsiveColumn>
+														<Division
+															Class="panel-body"
+															HtmlDiv="True"
+															ID="panel-bodyRig"
 															>
-															<Label
-																Caption="Prior Year"
-																Class="ThemeAlignCenter, ThemeBold"
-															/>
-														</Column>
-													</HeaderRow>
-													<DataLayer
-														ConnectionID="connProdGP"
-														ID="sqlApplicationRig"
-														Source="SELECT COALESCE(cMTD.AgLocationCode,cYTD.AgLocationCode,pMTD.AgLocationCode,pYTD.AgLocationCode) AgLocationCode, COALESCE(cMTD.Rig,cYTD.Rig,pMTD.Rig,pYTD.Rig) Rig, SUM(ISNULL(cMTD.Acres,0)) cMTD, SUM(ISNULL(cYTD.Acres,0)) cYTD, SUM(ISNULL(pMTD.Acres,0)) pMTD, SUM(ISNULL(pYTD.Acres,0)) pYTD
+															<Rows
+																Width="100"
+																WidthScale="%"
+																>
+																<Row>
+																	<Column
+																		Class="ThemeTextSmall"
+																		>
+																		<DataTable
+																			ID="dtApplicationRig"
+																			SortArrows="True"
+																			>
+																			<HeaderRow
+																				HeaderPosition="Top"
+																				ID="rowCustomHeader"
+																				>
+																				<Column/>
+																				<Column
+																					Class="ThemeAlignCenter"
+																					ColSpan="2"
+																					>
+																					<Label
+																						Caption="Current"
+																						Class="ThemeAlignCenter, ThemeBold"
+																					/>
+																				</Column>
+																				<Column
+																					Class="ThemeAlignCenter"
+																					ColSpan="2"
+																					>
+																					<Label
+																						Caption="Prior Year"
+																						Class="ThemeAlignCenter, ThemeBold"
+																					/>
+																				</Column>
+																			</HeaderRow>
+																			<DataLayer
+																				ConnectionID="connProdGP"
+																				ID="sqlApplicationRig"
+																				Source="SELECT COALESCE(cMTD.AgLocationCode,cYTD.AgLocationCode,pMTD.AgLocationCode,pYTD.AgLocationCode) AgLocationCode, COALESCE(cMTD.Rig,cYTD.Rig,pMTD.Rig,pYTD.Rig) Rig, SUM(ISNULL(cMTD.Acres,0)) cMTD, SUM(ISNULL(cYTD.Acres,0)) cYTD, SUM(ISNULL(pMTD.Acres,0)) pMTD, SUM(ISNULL(pYTD.Acres,0)) pYTD
 FROM 
   (SELECT AgLocationCode, Rig, SUM(Acres) Acres FROM AgOS_MKC_Live..vmkcDMRigApplicationAcresByRig WHERE FiscalYear=(@Request.paramFiscYear~  ) and FiscalPeriod =@Request.paramFiscPeriod~ and LocGLStr=&apos;@Request.paramLocGLStr~&apos; GROUP BY AgLocationCode, Rig) cMTD FULL OUTER JOIN 
   (SELECT AgLocationCode, Rig, SUM(Acres) Acres FROM AgOS_MKC_Live..vmkcDMRigApplicationAcresByRig WHERE FiscalYear=(@Request.paramFiscYear~  ) and FiscalPeriod&lt;=@Request.paramFiscPeriod~ and LocGLStr=&apos;@Request.paramLocGLStr~&apos; GROUP BY AgLocationCode, Rig) cYTD ON cMTD.AgLocationCode=cYTD.AgLocationCode AND cMTD.Rig=cYTD.Rig FULL OUTER JOIN 
@@ -482,238 +362,217 @@ FROM
 GROUP BY COALESCE(cMTD.AgLocationCode,cYTD.AgLocationCode,pMTD.AgLocationCode,pYTD.AgLocationCode), COALESCE(cMTD.Rig,cYTD.Rig,pMTD.Rig,pYTD.Rig) 
 ORDER BY AgLocationCode, Rig
 "
-														Type="SQL"
-													/>
-													<DataTableColumn
-														Class="ThemeMargin"
-														ColumnHeaderClass="ThemeAlignCenter"
-														Header="Rig Name"
-														HeaderType="Text"
-														ID="colRig"
-														Width="25"
-														WidthScale="%"
-														>
-														<Label
-															Caption="@Data.Rig~"
-															ID="Rig"
-														/>
-														<DataColumnSort
-															DataColumn="Rig"
-															DataType="Text"
-														/>
-													</DataTableColumn>
-													<DataTableColumn
-														Class="ThemeMargin, ThemeAlignRight"
-														ColumnHeaderClass="ThemeAlignCenter"
-														Header="Period Summary"
-														HeaderType="Text"
-														ID="colCMTD"
-														>
-														<Label
-															Caption="@Data.cMTD~"
-															Format="###,###,##0"
-															ID="cMTD"
-														/>
-														<DataColumnSort
-															DataColumn="cMTD"
-															DataType="Number"
-														/>
-													</DataTableColumn>
-													<DataTableColumn
-														Class="ThemeMargin, ThemeAlignRight"
-														ColumnHeaderClass="ThemeAlignCenter"
-														Header="YTD"
-														HeaderType="Text"
-														ID="colCYTD"
-														>
-														<Label
-															Caption="@Data.cYTD~"
-															Format="###,###,##0"
-															ID="cYTD"
-														/>
-														<DataColumnSort
-															DataColumn="cYTD"
-															DataType="Number"
-														/>
-													</DataTableColumn>
-													<DataTableColumn
-														Class="ThemeMargin, ThemeAlignRight"
-														ColumnHeaderClass="ThemeAlignCenter"
-														Header="Period Summary"
-														HeaderType="Text"
-														ID="colPMTD"
-														>
-														<Label
-															Caption="@Data.pMTD~"
-															Format="###,###,##0"
-															ID="pMTD"
-														/>
-														<DataColumnSort
-															DataColumn="pMTD"
-															DataType="Number"
-														/>
-													</DataTableColumn>
-													<DataTableColumn
-														Class="ThemeMargin, ThemeAlignRight"
-														ColumnHeaderClass="ThemeAlignCenter"
-														Header="YTD"
-														HeaderType="Text"
-														ID="colPYTD"
-														>
-														<Label
-															Caption="@Data.pYTD~"
-															Format="###,###,##0"
-															ID="pYTD"
-														/>
-														<DataColumnSort
-															DataColumn="pYTD"
-															DataType="Number"
-														/>
-													</DataTableColumn>
-												</DataTable>
-											</Column>
-											<Remark>
-												<Column>
-													<Spaces
-														Size="40"
-													/>
-												</Column>
-											</Remark>
-											<Remark>
-												<Column>
-													<Spaces
-														Size="40"
-													/>
-												</Column>
-											</Remark>
-											<Remark>
-												<Column>
-													<Spaces
-														Size="40"
-													/>
-												</Column>
-											</Remark>
-											<Remark>
-												<Column>
-													<Spaces
-														Size="40"
-													/>
-												</Column>
-											</Remark>
-										</Row>
-									</Rows>
-									<LineBreak/>
-									<LineBreak/>
-								</Division>
-							</Division>
-						</Division>
-					</TabPanel>
-					<TabPanel
-						Caption="Application By Employee"
-						Class="ThemeTextPositive ThemeHeaderSmall"
-						ID="tabAppByEmployee"
-						>
-						<Division
-							Class="panel panel-default"
-							HtmlDiv="True"
-							ID="panel-employee"
-							>
-							<Division
-								Class="panel-heading"
-								HtmlDiv="True"
-								ID="divAppByEmpHeading"
-							/>
-							<Division
-								Class="panel-body ThemeAlignRight"
-								HtmlDiv="True"
-								ID="divAppByEmployee"
-								>
-								<Remark>
-									<Label
-										Class="fa fa-file-pdf-o fa-2x"
-										HtmlTag="Div"
-										ID="exportAppByEmployee"
-										Tooltip="Export to PDF"
+																				Type="SQL"
+																			/>
+																			<DataTableColumn
+																				Class="ThemeMargin"
+																				ColumnHeaderClass="ThemeAlignCenter"
+																				Header="Rig Name"
+																				HeaderType="Text"
+																				ID="colRig"
+																				Width="25"
+																				WidthScale="%"
+																				>
+																				<Label
+																					Caption="@Data.Rig~"
+																					ID="Rig"
+																				/>
+																				<DataColumnSort
+																					DataColumn="Rig"
+																					DataType="Text"
+																				/>
+																			</DataTableColumn>
+																			<DataTableColumn
+																				Class="ThemeMargin, ThemeAlignRight"
+																				ColumnHeaderClass="ThemeAlignCenter"
+																				Header="Period Summary"
+																				HeaderType="Text"
+																				ID="colCMTD"
+																				>
+																				<Label
+																					Caption="@Data.cMTD~"
+																					Format="###,###,##0"
+																					ID="cMTD"
+																				/>
+																				<DataColumnSort
+																					DataColumn="cMTD"
+																					DataType="Number"
+																				/>
+																			</DataTableColumn>
+																			<DataTableColumn
+																				Class="ThemeMargin, ThemeAlignRight"
+																				ColumnHeaderClass="ThemeAlignCenter"
+																				Header="YTD"
+																				HeaderType="Text"
+																				ID="colCYTD"
+																				>
+																				<Label
+																					Caption="@Data.cYTD~"
+																					Format="###,###,##0"
+																					ID="cYTD"
+																				/>
+																				<DataColumnSort
+																					DataColumn="cYTD"
+																					DataType="Number"
+																				/>
+																			</DataTableColumn>
+																			<DataTableColumn
+																				Class="ThemeMargin, ThemeAlignRight"
+																				ColumnHeaderClass="ThemeAlignCenter"
+																				Header="Period Summary"
+																				HeaderType="Text"
+																				ID="colPMTD"
+																				>
+																				<Label
+																					Caption="@Data.pMTD~"
+																					Format="###,###,##0"
+																					ID="pMTD"
+																				/>
+																				<DataColumnSort
+																					DataColumn="pMTD"
+																					DataType="Number"
+																				/>
+																			</DataTableColumn>
+																			<DataTableColumn
+																				Class="ThemeMargin, ThemeAlignRight"
+																				ColumnHeaderClass="ThemeAlignCenter"
+																				Header="YTD"
+																				HeaderType="Text"
+																				ID="colPYTD"
+																				>
+																				<Label
+																					Caption="@Data.pYTD~"
+																					Format="###,###,##0"
+																					ID="pYTD"
+																				/>
+																				<DataColumnSort
+																					DataColumn="pYTD"
+																					DataType="Number"
+																				/>
+																			</DataTableColumn>
+																		</DataTable>
+																	</Column>
+																	<Remark>
+																		<Column>
+																			<Spaces
+																				Size="40"
+																			/>
+																		</Column>
+																	</Remark>
+																	<Remark>
+																		<Column>
+																			<Spaces
+																				Size="40"
+																			/>
+																		</Column>
+																	</Remark>
+																	<Remark>
+																		<Column>
+																			<Spaces
+																				Size="40"
+																			/>
+																		</Column>
+																	</Remark>
+																	<Remark>
+																		<Column>
+																			<Spaces
+																				Size="40"
+																			/>
+																		</Column>
+																	</Remark>
+																</Row>
+															</Rows>
+															<LineBreak
+																LineCount="2"
+															/>
+														</Division>
+													</ResponsiveColumn>
+												</ResponsiveRow>
+											</Division>
+										</Division>
+									</TabPanel>
+									<TabPanel
+										Caption="Application By Employee"
+										Class="ThemeTextSmall"
+										ID="tabAppByEmployee"
 										>
-										<Action
-											ID="exportPDFAppByEmployee"
-											Type="PDF"
+										<Division
+											Class="panel panel-default"
+											HtmlDiv="True"
+											ID="panel-employee"
 											>
-											<Target
-												Type="PDF"
-											/>
-										</Action>
-									</Label>
-								</Remark>
-								<Spaces
-									Size="15"
-								/>
-							</Division>
-							<Division
-								Class="panel-body"
-								HtmlDiv="True"
-								ID="divAppByEmployeeData"
-								>
-								<Note
-									Note="**Add data here**"
-								/>
-								<Division
-									Class="panel-heading"
-									HtmlDiv="True"
-									ID="panel-headingOperator"
-									>
-									<Label
-										Caption="Application Acres by Employee"
-									/>
-								</Division>
-								<Division
-									Class="panel-body"
-									HtmlDiv="True"
-									ID="panel-bodyOperator"
-									>
-									<Rows
-										Width="100"
-										WidthScale="%"
-										>
-										<Row>
-											<Column>
-												<Spaces
-													Size="30"
-												/>
-											</Column>
-											<Column>
-												<DataTable
-													ID="dtApplicationOperator"
-													SortArrows="True"
-													>
-													<HeaderRow
-														HeaderPosition="Top"
-														ID="rowCustomHeader"
-														>
-														<Column/>
-														<Column
-															Class="ThemeAlignCenter"
-															ColSpan="2"
+											<Division
+												Class="panel-body "
+												HtmlDiv="True"
+												ID="divAppByEmployee"
+												>
+												<ResponsiveRow>
+													<ResponsiveColumn>
+														<Division
+															Class="pull-right"
+															HtmlDiv="True"
+															ID="divAppByEmployeeData"
 															>
-															<Label
-																Caption="Current"
-																Class="ThemeAlignCenter, ThemeBold"
-															/>
-														</Column>
-														<Column
-															Class="ThemeAlignCenter"
-															ColSpan="2"
+															<IncludeSharedElement
+																DefinitionFile="_Layout.Shared"
+																SharedElementID="shrExcelExport"
+																>
+																<SharedElementParams
+																	DataTableID="dtApplicationOperator"
+																	ReportName="Application By Employee"
+																	Security=""
+																/>
+															</IncludeSharedElement>
+														</Division>
+													</ResponsiveColumn>
+												</ResponsiveRow>
+												<ResponsiveRow>
+													<ResponsiveColumn>
+														<Division
+															Class="panel-body"
+															HtmlDiv="True"
+															ID="panel-bodyOperator"
 															>
-															<Label
-																Caption="Prior Year"
-																Class="ThemeAlignCenter, ThemeBold"
-															/>
-														</Column>
-													</HeaderRow>
-													<DataLayer
-														ConnectionID="connProdGP"
-														ID="sqlApplicationOperator"
-														Source="SELECT COALESCE(cMTD.AgLocationCode,cYTD.AgLocationCode,pMTD.AgLocationCode,pYTD.AgLocationCode) AgLocationCode, COALESCE(cMTD.Operator,cYTD.Operator,pMTD.Operator,pYTD.Operator) Operator, SUM(ISNULL(cMTD.Acres,0)) cMTD, SUM(ISNULL(cYTD.Acres,0)) cYTD, SUM(ISNULL(pMTD.Acres,0)) pMTD, SUM(ISNULL(pYTD.Acres,0)) pYTD
+															<Rows
+																Width="100"
+																WidthScale="%"
+																>
+																<Row>
+																	<Column
+																		Class="ThemeTextSmall"
+																		>
+																		<DataTable
+																			ID="dtApplicationOperator"
+																			SortArrows="True"
+																			>
+																			<HeaderRow
+																				HeaderPosition="Top"
+																				ID="rowCustomHeader"
+																				>
+																				<Column/>
+																				<Column
+																					Class="ThemeAlignCenter"
+																					ColSpan="2"
+																					>
+																					<Label
+																						Caption="Current"
+																						Class="ThemeAlignCenter, ThemeBold"
+																					/>
+																				</Column>
+																				<Column
+																					Class="ThemeAlignCenter"
+																					ColSpan="2"
+																					>
+																					<Label
+																						Caption="Prior Year"
+																						Class="ThemeAlignCenter, ThemeBold"
+																					/>
+																				</Column>
+																			</HeaderRow>
+																			<DataLayer
+																				ConnectionID="connProdGP"
+																				ID="sqlApplicationOperator"
+																				Source="SELECT COALESCE(cMTD.AgLocationCode,cYTD.AgLocationCode,pMTD.AgLocationCode,pYTD.AgLocationCode) AgLocationCode, COALESCE(cMTD.Operator,cYTD.Operator,pMTD.Operator,pYTD.Operator) Operator, SUM(ISNULL(cMTD.Acres,0)) cMTD, SUM(ISNULL(cYTD.Acres,0)) cYTD, SUM(ISNULL(pMTD.Acres,0)) pMTD, SUM(ISNULL(pYTD.Acres,0)) pYTD
 FROM 
   (SELECT AgLocationCode, Operator, SUM(Acres) Acres FROM AgOS_MKC_Live..vmkcDMRigApplicationAcresByOperator WHERE FiscalYear=(@Request.paramFiscYear~  ) and FiscalPeriod =@Request.paramFiscPeriod~ and LocGLStr=&apos;@Request.paramLocGLStr~&apos; GROUP BY AgLocationCode, Operator) cMTD FULL OUTER JOIN 
   (SELECT AgLocationCode, Operator, SUM(Acres) Acres FROM AgOS_MKC_Live..vmkcDMRigApplicationAcresByOperator WHERE FiscalYear=(@Request.paramFiscYear~  ) and FiscalPeriod&lt;=@Request.paramFiscPeriod~ and LocGLStr=&apos;@Request.paramLocGLStr~&apos; GROUP BY AgLocationCode, Operator) cYTD ON cMTD.AgLocationCode=cYTD.AgLocationCode AND cMTD.Operator=cYTD.Operator FULL OUTER JOIN 
@@ -722,824 +581,699 @@ FROM
 GROUP BY COALESCE(cMTD.AgLocationCode,cYTD.AgLocationCode,pMTD.AgLocationCode,pYTD.AgLocationCode), COALESCE(cMTD.Operator,cYTD.Operator,pMTD.Operator,pYTD.Operator) 
 ORDER BY AgLocationCode, Operator
 "
-														Type="SQL"
-													/>
-													<DataTableColumn
-														Class="ThemeMargin"
-														ColumnHeaderClass="ThemeAlignCenter"
-														Header="Employee"
-														HeaderType="Text"
-														ID="colOperator"
-														Width="25"
-														WidthScale="%"
-														>
-														<Label
-															Caption="@Data.Operator~"
-															ID="Operator"
-														/>
-														<DataColumnSort
-															DataColumn="Operator"
-															DataType="Text"
-														/>
-													</DataTableColumn>
-													<DataTableColumn
-														Class="ThemeMargin, ThemeAlignRight"
-														ColumnHeaderClass="ThemeAlignCenter"
-														Header="Period Summary"
-														HeaderType="Text"
-														ID="colCMTD"
-														>
-														<Label
-															Caption="@Data.cMTD~"
-															Format="###,###,##0"
-															ID="cMTD"
-														/>
-														<DataColumnSort
-															DataColumn="cMTD"
-															DataType="Number"
-														/>
-													</DataTableColumn>
-													<DataTableColumn
-														Class="ThemeMargin, ThemeAlignRight"
-														ColumnHeaderClass="ThemeAlignCenter"
-														Header="YTD"
-														HeaderType="Text"
-														ID="colCYTD"
-														>
-														<Label
-															Caption="@Data.cYTD~"
-															Format="###,###,##0"
-															ID="cYTD"
-														/>
-														<DataColumnSort
-															DataColumn="cYTD"
-															DataType="Number"
-														/>
-													</DataTableColumn>
-													<DataTableColumn
-														Class="ThemeMargin, ThemeAlignRight"
-														ColumnHeaderClass="ThemeAlignCenter"
-														Header="Period Summary"
-														HeaderType="Text"
-														ID="colPMTD"
-														>
-														<Label
-															Caption="@Data.pMTD~"
-															Format="###,###,##0"
-															ID="pMTD"
-														/>
-														<DataColumnSort
-															DataColumn="pMTD"
-															DataType="Number"
-														/>
-													</DataTableColumn>
-													<DataTableColumn
-														Class="ThemeMargin, ThemeAlignRight"
-														ColumnHeaderClass="ThemeAlignCenter"
-														Header="YTD"
-														HeaderType="Text"
-														ID="colPYTD"
-														>
-														<Label
-															Caption="@Data.pYTD~"
-															Format="###,###,##0"
-															ID="pYTD"
-														/>
-														<DataColumnSort
-															DataColumn="pYTD"
-															DataType="Number"
-														/>
-													</DataTableColumn>
-												</DataTable>
-											</Column>
-											<Remark>
-												<Column>
-													<Spaces
-														Size="40"
-													/>
-												</Column>
-											</Remark>
-											<Remark>
-												<Column>
-													<Spaces
-														Size="40"
-													/>
-												</Column>
-											</Remark>
-											<Remark>
-												<Column>
-													<Spaces
-														Size="40"
-													/>
-												</Column>
-											</Remark>
-											<Remark>
-												<Column>
-													<Spaces
-														Size="40"
-													/>
-												</Column>
-											</Remark>
-										</Row>
-									</Rows>
-									<LineBreak/>
-									<LineBreak/>
-								</Division>
-							</Division>
-						</Division>
-					</TabPanel>
-					<TabPanel
-						Caption="Inventory Turns"
-						Class="ThemeTextPositive ThemeHeaderSmall"
-						ID="tabTurns"
-						>
-						<Division
-							Class="panel panel-default"
-							HtmlDiv="True"
-							ID="panel-turns"
-							>
-							<Division
-								Class="panel-heading"
-								HtmlDiv="True"
-								ID="divTurnsHeading"
-							/>
-							<Division
-								Class="panel-body ThemeAlignRight"
-								HtmlDiv="True"
-								ID="divTurns"
-								>
-								<Remark>
-									<Label
-										Class="fa fa-file-pdf-o fa-2x "
-										HtmlTag="Div"
-										ID="exportTurns"
-										Tooltip="Export to PDF"
+																				Type="SQL"
+																			/>
+																			<DataTableColumn
+																				Class="ThemeMargin"
+																				ColumnHeaderClass="ThemeAlignCenter"
+																				Header="Employee"
+																				HeaderType="Text"
+																				ID="colOperator"
+																				Width="25"
+																				WidthScale="%"
+																				>
+																				<Label
+																					Caption="@Data.Operator~"
+																					ID="Operator"
+																				/>
+																				<DataColumnSort
+																					DataColumn="Operator"
+																					DataType="Text"
+																				/>
+																			</DataTableColumn>
+																			<DataTableColumn
+																				Class="ThemeMargin, ThemeAlignRight"
+																				ColumnHeaderClass="ThemeAlignCenter"
+																				Header="Period Summary"
+																				HeaderType="Text"
+																				ID="colCMTD"
+																				>
+																				<Label
+																					Caption="@Data.cMTD~"
+																					Format="###,###,##0"
+																					ID="cMTD"
+																				/>
+																				<DataColumnSort
+																					DataColumn="cMTD"
+																					DataType="Number"
+																				/>
+																			</DataTableColumn>
+																			<DataTableColumn
+																				Class="ThemeMargin, ThemeAlignRight"
+																				ColumnHeaderClass="ThemeAlignCenter"
+																				Header="YTD"
+																				HeaderType="Text"
+																				ID="colCYTD"
+																				>
+																				<Label
+																					Caption="@Data.cYTD~"
+																					Format="###,###,##0"
+																					ID="cYTD"
+																				/>
+																				<DataColumnSort
+																					DataColumn="cYTD"
+																					DataType="Number"
+																				/>
+																			</DataTableColumn>
+																			<DataTableColumn
+																				Class="ThemeMargin, ThemeAlignRight"
+																				ColumnHeaderClass="ThemeAlignCenter"
+																				Header="Period Summary"
+																				HeaderType="Text"
+																				ID="colPMTD"
+																				>
+																				<Label
+																					Caption="@Data.pMTD~"
+																					Format="###,###,##0"
+																					ID="pMTD"
+																				/>
+																				<DataColumnSort
+																					DataColumn="pMTD"
+																					DataType="Number"
+																				/>
+																			</DataTableColumn>
+																			<DataTableColumn
+																				Class="ThemeMargin, ThemeAlignRight"
+																				ColumnHeaderClass="ThemeAlignCenter"
+																				Header="YTD"
+																				HeaderType="Text"
+																				ID="colPYTD"
+																				>
+																				<Label
+																					Caption="@Data.pYTD~"
+																					Format="###,###,##0"
+																					ID="pYTD"
+																				/>
+																				<DataColumnSort
+																					DataColumn="pYTD"
+																					DataType="Number"
+																				/>
+																			</DataTableColumn>
+																		</DataTable>
+																	</Column>
+																</Row>
+															</Rows>
+															<LineBreak
+																LineCount="2"
+															/>
+														</Division>
+													</ResponsiveColumn>
+												</ResponsiveRow>
+											</Division>
+										</Division>
+									</TabPanel>
+									<TabPanel
+										Caption="Inventory Turns"
+										Class="ThemeTextSmall"
+										ID="tabTurns"
 										>
-										<Action
-											ID="exportPDFTurns"
-											Type="PDF"
+										<Division
+											Class="panel panel-default"
+											HtmlDiv="True"
+											ID="panel-turns"
 											>
-											<Target
-												Type="PDF"
-											/>
-										</Action>
-									</Label>
-								</Remark>
-								<Spaces
-									Size="15"
-								/>
-							</Division>
-							<Division
-								Class="panel-body"
-								HtmlDiv="True"
-								ID="divTurnsData"
-								>
-								<Note
-									Note="**Add data here**"
-								/>
-								<Division
-									Class="panel-heading"
-									HtmlDiv="True"
-									ID="panel-headingInventoryTurns"
-									>
-									<Label
-										Caption="Inventory Turns  as of:  @Local.ASOF~"
-									/>
-								</Division>
-								<Division
-									Class="panel-body"
-									HtmlDiv="True"
-									ID="panel-bodyInventoryTurns"
-									>
-									<Rows
-										Width="100"
-										WidthScale="%"
-										>
-										<Row>
-											<Column>
-												<Spaces
-													Size="30"
-												/>
-											</Column>
-											<Column>
-												<Spaces
-													Size="50"
-												/>
-												<InputRadioButtons
-													Class="ThemePadding, ThemeBold, ThemeTextSmall"
-													DefaultValue="@Request.ckbCATEGORY~"
-													ID="ckbCATEGORY"
-													OptionCaptionColumn="CATDESC"
-													OptionValueColumn="CATEGORY"
-													RadioButtonDirection="Across"
-													>
-													<DataLayer
-														ColumnNamesRow="1"
-														ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\InventoryTurns.xlsx"
-														ExcelWorksheet="InventoryTurns"
-														ID="xlCategories"
-														Type="Excel"
-														>
-														<GroupFilter
-															DataType="Text"
-															GroupColumn="CATEGORY"
-															KeepGroupedRows="False"
-														/>
-														<SortFilter
-															DataType="Text"
-															SortColumn="CATEGORY"
-															SortSequence="Ascending"
-														/>
-													</DataLayer>
-													<EventHandler
-														DhtmlEvent="OnChange"
-														ID="evtOnChange"
-														>
-														<Action
-															ElementID="panel-bodyInventoryTurns"
-															ID="actRefreshChart"
-															RequestForwarding="True"
-															Type="RefreshElement"
-														/>
-													</EventHandler>
-												</InputRadioButtons>
-											</Column>
-										</Row>
-										<Row>
-											<Column/>
-										</Row>
-										<Row>
-											<Column>
-												<Spaces
-													Size="30"
-												/>
-											</Column>
-											<Column>
-												<ChartCanvas
-													ChartHeight="700"
-													ChartOrientation="SwapAxes"
-													ChartWidth="900"
-													ID="BarChartTurns"
-													>
-													<Series
-														ChartXDataColumn="LOCNCODE"
-														ChartXDataColumnType="Text"
-														ChartYDataColumn="aggTurns"
-														Color="DarkSeaGreen"
-														LegendLabel="@Request.ckbCATEGORY~"
-														NegativeColor="Tomato"
-														Type="Bar"
-														>
-														<Quicktip>
-															<QuicktipRow
-																Caption="Location: "
-																Value="@Chart.LOCNCODE~"
-															/>
-															<QuicktipRow
-																Caption="Category: "
-																Value="@Chart.CATDESC~"
-															/>
-															<QuicktipRow
-																Caption="Turns: "
-																Value="@Chart.aggTurns~"
-															/>
-														</Quicktip>
-														<DataLabels/>
-													</Series>
-													<ChartXAxis/>
-													<ChartYAxis
-														AxisCaption="Turn Rate"
-													/>
-													<DataLayer
-														ColumnNamesRow="1"
-														ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\InventoryTurns.xlsx"
-														ExcelWorksheet="InventoryTurns"
-														ID="ExcelDataLayer1"
-														Type="Excel"
-														>
-														<ConditionFilter
-															Condition="&quot;@Data.CATEGORY~&quot; = &quot;@Request.ckbCATEGORY~&quot;"
-															ID="filterCategory"
-														/>
-														<GroupFilter
-															DataType="Text"
-															GroupColumn="LOCNCODE"
-															KeepGroupedRows="False"
-															>
-															<GroupAggregateColumn
-																AggregateColumn="TURNOVER"
-																AggregateFunction="SUM"
-																DataType="Number"
-																ID="aggTurns"
-															/>
-														</GroupFilter>
-														<SortFilter
-															DataType="Number"
-															SortColumn="aggTurns"
-															SortSequence="Ascending"
-														/>
-													</DataLayer>
-													<ChartCanvasLegend
-														AlignmentHorizontal="Right"
-														AlignmentVertical="Top"
-														BorderColor="#999999"
-														InsidePlotArea="False"
-														LegendBorderThickness="2"
-														LegendCaption="Category"
-													/>
-												</ChartCanvas>
-											</Column>
-											<Remark>
-												<Column>
-													<Spaces
-														Size="40"
-													/>
-												</Column>
-											</Remark>
-											<Remark>
-												<Column>
-													<Spaces
-														Size="40"
-													/>
-												</Column>
-											</Remark>
-											<Remark>
-												<Column>
-													<Spaces
-														Size="40"
-													/>
-												</Column>
-											</Remark>
-											<Remark>
-												<Column>
-													<Spaces
-														Size="40"
-													/>
-												</Column>
-											</Remark>
-										</Row>
-									</Rows>
-									<LineBreak/>
-									<LineBreak/>
-								</Division>
-							</Division>
-						</Division>
-					</TabPanel>
-					<Remark>
-						<TabPanel
-							Caption="Seeded Acres"
-							Class="ThemeTextPositive ThemeHeaderSmall"
-							ID="tabAcres"
-							>
-							<Note
-								Note="8/19/2016 - [Tricia Jantz] Please hide the seeded acres portion of the dashboard per Kent.  We’ll work on its relevance to the entire company at a later date."
-							/>
-							<Division
-								Class="panel panel-default"
-								HtmlDiv="True"
-								ID="panel-acres"
-								>
-								<Division
-									Class="panel-heading"
-									HtmlDiv="True"
-									ID="divAcresHeading"
-								/>
-								<Division
-									Class="panel-body ThemeAlignRight"
-									HtmlDiv="True"
-									ID="divAcres"
-									>
-									<Remark>
-										<Label
-											Class="fa fa-file-pdf-o fa-2x"
-											HtmlTag="Div"
-											ID="exportAcres"
-											Tooltip="Export to PDF"
-											>
-											<Action
-												ID="exportPDFAcres"
-												Type="PDF"
+											<Division
+												Class="panel-body"
+												HtmlDiv="True"
+												ID="divTurns"
 												>
-												<Target
-													Type="PDF"
-												/>
-											</Action>
-										</Label>
-									</Remark>
-									<Spaces
-										Size="15"
-									/>
-								</Division>
-								<Division
-									Class="panel-body"
-									HtmlDiv="True"
-									ID="divAcresData"
-									>
-									<Note
-										Note="**Add data here**"
-									/>
-									<Division
-										Class="panel-heading"
-										HtmlDiv="True"
-										ID="panel-headingSeededAcres"
-										>
-										<Label
-											Caption="Seeded Acres"
-										/>
-									</Division>
-									<Division
-										Class="panel-body"
-										HtmlDiv="True"
-										ID="panel-bodySeededAcres"
-										>
-										<Rows
-											Width="100"
-											WidthScale="%"
-											>
-											<Row>
-												<Column>
-													<Spaces
-														Size="30"
-													/>
-												</Column>
-												<Column>
-													<DataTable
-														ID="dtSeededAcres"
-														SortArrows="True"
-														>
-														<HeaderRow
-															HeaderPosition="Top"
-															ID="rowCustomHeader"
+												<ResponsiveRow>
+													<ResponsiveColumn>
+														<Division
+															Class="pull-right"
+															HtmlDiv="True"
+															ID="divTurnsData"
+														/>
+													</ResponsiveColumn>
+												</ResponsiveRow>
+												<ResponsiveRow>
+													<ResponsiveColumn>
+														<Division
+															Class="panel-body"
+															HtmlDiv="True"
+															ID="panel-bodyInventoryTurns"
 															>
-															<Column/>
-															<Column
-																Class="ThemeAlignCenter"
-																ColSpan="2"
+															<InputRadioButtons
+																Class="ThemePadding, ThemeBold, ThemeTextSmall"
+																DefaultValue="@Request.ckbCATEGORY~"
+																ID="ckbCATEGORY"
+																OptionCaptionColumn="CATDESC"
+																OptionValueColumn="CATEGORY"
+																RadioButtonDirection="Across"
 																>
-																<Label
-																	Caption="Current"
-																	Class="ThemeAlignCenter, ThemeBold"
-																/>
-															</Column>
-															<Column
-																Class="ThemeAlignCenter"
-																ColSpan="2"
+																<DataLayer
+																	ColumnNamesRow="1"
+																	ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\InventoryTurns.xlsx"
+																	ExcelWorksheet="InventoryTurns"
+																	ID="xlCategories"
+																	Type="Excel"
+																	>
+																	<GroupFilter
+																		DataType="Text"
+																		GroupColumn="CATEGORY"
+																		KeepGroupedRows="False"
+																	/>
+																	<SortFilter
+																		DataType="Text"
+																		SortColumn="CATEGORY"
+																		SortSequence="Ascending"
+																	/>
+																</DataLayer>
+																<EventHandler
+																	DhtmlEvent="OnChange"
+																	ID="evtOnChange"
+																	>
+																	<Action
+																		ElementID="panel-bodyInventoryTurns"
+																		ID="actRefreshChart"
+																		RequestForwarding="True"
+																		Type="RefreshElement"
+																	/>
+																</EventHandler>
+															</InputRadioButtons>
+															<LineBreak/>
+															<Rows
+																Width="100"
+																WidthScale="%"
 																>
-																<Label
-																	Caption="Prior Year"
-																	Class="ThemeAlignCenter, ThemeBold"
-																/>
-															</Column>
-														</HeaderRow>
-														<DataLayer
-															ColumnNamesRow="1"
-															ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\SeededAcres.xlsx"
-															ExcelWorksheet="SeededAcres"
-															Type="Excel"
-															>
-															<ConditionFilter
-																Condition="(@Data.FiscalYear~ = @Request.paramFiscYear~) AND 
-(@Data.FiscalPeriod~ = @Request.paramFiscPeriod~) AND
-(&quot;@Data.LocGLStr~&quot; = &quot;@Request.paramLocGLStr~&quot;)"
+																<Row>
+																	<Column>
+																		<Spaces
+																			Size="30"
+																		/>
+																	</Column>
+																</Row>
+																<Row>
+																	<Column
+																		Width="98"
+																		WidthScale="%"
+																		>
+																		<ChartCanvas
+																			ChartHeight="600"
+																			ChartOrientation="SwapAxes"
+																			ID="BarChartTurns"
+																			>
+																			<Series
+																				ChartXDataColumn="LOCNCODE"
+																				ChartXDataColumnType="Text"
+																				ChartYDataColumn="aggTurns"
+																				Color="DarkSeaGreen"
+																				LegendLabel="@Request.ckbCATEGORY~"
+																				NegativeColor="Tomato"
+																				Type="Bar"
+																				>
+																				<Quicktip>
+																					<QuicktipRow
+																						Caption="Location: "
+																						Value="@Chart.LOCNCODE~"
+																					/>
+																					<QuicktipRow
+																						Caption="Category: "
+																						Value="@Chart.CATDESC~"
+																					/>
+																					<QuicktipRow
+																						Caption="Turns: "
+																						Value="@Chart.aggTurns~"
+																					/>
+																				</Quicktip>
+																				<DataLabels/>
+																			</Series>
+																			<ChartXAxis/>
+																			<ChartYAxis
+																				AxisCaption="Turn Rate"
+																			/>
+																			<DataLayer
+																				ColumnNamesRow="1"
+																				ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\InventoryTurns.xlsx"
+																				ExcelWorksheet="InventoryTurns"
+																				ID="ExcelDataLayer1"
+																				Type="Excel"
+																				>
+																				<ConditionFilter
+																					Condition="&quot;@Data.CATEGORY~&quot; = &quot;@Request.ckbCATEGORY~&quot;"
+																					ID="filterCategory"
+																				/>
+																				<GroupFilter
+																					DataType="Text"
+																					GroupColumn="LOCNCODE"
+																					KeepGroupedRows="False"
+																					>
+																					<GroupAggregateColumn
+																						AggregateColumn="TURNOVER"
+																						AggregateFunction="SUM"
+																						DataType="Number"
+																						ID="aggTurns"
+																					/>
+																				</GroupFilter>
+																				<SortFilter
+																					DataType="Number"
+																					SortColumn="aggTurns"
+																					SortSequence="Ascending"
+																				/>
+																			</DataLayer>
+																			<ChartCanvasLegend
+																				AlignmentHorizontal="Right"
+																				AlignmentVertical="Top"
+																				BorderColor="#999999"
+																				InsidePlotArea="False"
+																				LegendBorderThickness="2"
+																				LegendCaption="Category"
+																			/>
+																		</ChartCanvas>
+																	</Column>
+																</Row>
+															</Rows>
+															<LineBreak
+																LineCount="2"
 															/>
-														</DataLayer>
-														<DataTableColumn
-															Class="ThemeMargin"
-															ColumnHeaderClass="ThemeAlignCenter"
-															Header="Seed Category"
-															HeaderType="Text"
-															ID="colSeedCategory"
-															Width="25"
+														</Division>
+													</ResponsiveColumn>
+												</ResponsiveRow>
+											</Division>
+										</Division>
+									</TabPanel>
+									<Remark>
+										<TabPanel
+											Caption="Seeded Acres"
+											Class="ThemeTextSmall"
+											ID="tabAcres"
+											>
+											<Note
+												Note="8/19/2016 - [Tricia Jantz] Please hide the seeded acres portion of the dashboard per Kent.  We’ll work on its relevance to the entire company at a later date."
+											/>
+											<Division
+												Class="panel panel-default"
+												HtmlDiv="True"
+												ID="panel-acres"
+												>
+												<Division
+													Class="panel-heading"
+													HtmlDiv="True"
+													ID="divAcresHeading"
+												/>
+												<Division
+													Class="panel-body ThemeAlignRight"
+													HtmlDiv="True"
+													ID="divAcres"
+													>
+													<Remark>
+														<Label
+															Class="fa fa-file-pdf-o fa-2x"
+															HtmlTag="Div"
+															ID="exportAcres"
+															Tooltip="Export to PDF"
+															>
+															<Action
+																ID="exportPDFAcres"
+																Type="PDF"
+																>
+																<Target
+																	Type="PDF"
+																/>
+															</Action>
+														</Label>
+													</Remark>
+													<Spaces
+														Size="15"
+													/>
+												</Division>
+												<Division
+													Class="panel-body"
+													HtmlDiv="True"
+													ID="divAcresData"
+													>
+													<Note
+														Note="**Add data here**"
+													/>
+													<Division
+														Class="panel-heading"
+														HtmlDiv="True"
+														ID="panel-headingSeededAcres"
+														>
+														<Label
+															Caption="Seeded Acres"
+														/>
+													</Division>
+													<Division
+														Class="panel-body"
+														HtmlDiv="True"
+														ID="panel-bodySeededAcres"
+														>
+														<Rows
+															Width="100"
 															WidthScale="%"
 															>
-															<Label
-																Caption="@Data.SeedCategory~"
-																ID="SeedCategory"
-															/>
-															<DataColumnSort
-																DataColumn="SeedCategory"
-																DataType="Text"
-															/>
-														</DataTableColumn>
-														<Remark>
-															<DataTableColumn
-																Class="ThemeMargin, ThemeAlignRight"
-																ColumnHeaderClass="ThemeAlignCenter"
-																Header="Current Period Units"
-																HeaderType="Text"
-																ID="colCMTD_U"
-																>
-																<Label
-																	Caption="@Data.cMTD_U~"
-																	Format="###,###,##0"
-																	ID="cMTD_U"
-																/>
-																<DataColumnSort
-																	DataColumn="cMTD_U"
-																	DataType="Number"
-																/>
-															</DataTableColumn>
-														</Remark>
-														<DataTableColumn
-															Class="ThemeMargin, ThemeAlignRight"
-															ColumnHeaderClass="ThemeAlignCenter"
-															Header="Period Summary"
-															HeaderType="Text"
-															ID="colCMTD_A"
-															>
-															<Label
-																Caption="@Data.cMTD_A~"
-																Format="###,###,##0"
-																ID="cMTD_A"
-															/>
-															<DataColumnSort
-																DataColumn="cMTD_A"
-																DataType="Number"
-															/>
-															<DataColumnSummary
-																DataColumn="cMTD_A"
-																DataType="Number"
-																Function="Sum"
-																ID="sum_cMTD_A"
-															/>
-														</DataTableColumn>
-														<Remark>
-															<DataTableColumn
-																Class="ThemeMargin, ThemeAlignRight"
-																ColumnHeaderClass="ThemeAlignCenter"
-																Header="Year-To-Date Units"
-																HeaderType="Text"
-																ID="colCYTD_U"
-																>
-																<Label
-																	Caption="@Data.cYTD_U~"
-																	Format="###,###,##0"
-																	ID="cYTD_U"
-																/>
-																<DataColumnSort
-																	DataColumn="cYTD_U"
-																	DataType="Number"
-																/>
-															</DataTableColumn>
-														</Remark>
-														<DataTableColumn
-															Class="ThemeMargin, ThemeAlignRight"
-															ColumnHeaderClass="ThemeAlignCenter"
-															Header="YTD"
-															HeaderType="Text"
-															ID="colCYTD_A"
-															>
-															<Label
-																Caption="@Data.cYTD_A~"
-																Format="###,###,##0"
-																ID="cYTD_A"
-															/>
-															<DataColumnSort
-																DataColumn="cYTD_A"
-																DataType="Number"
-															/>
-															<DataColumnSummary
-																DataColumn="cYTD_A"
-																DataType="Number"
-																Function="Sum"
-																ID="sum_cYTD_A"
-															/>
-														</DataTableColumn>
-														<Remark>
-															<DataTableColumn
-																Class="ThemeMargin, ThemeAlignRight"
-																ColumnHeaderClass="ThemeAlignCenter"
-																Header="Prior Year Period Units"
-																HeaderType="Text"
-																ID="colPMTD_U"
-																>
-																<Label
-																	Caption="@Data.pMTD_U~"
-																	Format="###,###,##0"
-																	ID="pMTD_U"
-																/>
-																<DataColumnSort
-																	DataColumn="pMTD_U"
-																	DataType="Number"
-																/>
-															</DataTableColumn>
-														</Remark>
-														<DataTableColumn
-															Class="ThemeMargin, ThemeAlignRight"
-															ColumnHeaderClass="ThemeAlignCenter"
-															Header="Period Summary"
-															HeaderType="Text"
-															ID="colPMTD_A"
-															>
-															<Label
-																Caption="@Data.pMTD_A~"
-																Format="###,###,##0"
-																ID="pMTD_A"
-															/>
-															<DataColumnSort
-																DataColumn="pMTD_A"
-																DataType="Number"
-															/>
-															<DataColumnSummary
-																DataColumn="pMTD_A"
-																DataType="Number"
-																Function="Sum"
-																ID="sum_pMTD_A"
-															/>
-														</DataTableColumn>
-														<Remark>
-															<DataTableColumn
-																Class="ThemeMargin, ThemeAlignRight"
-																ColumnHeaderClass="ThemeAlignCenter"
-																Header="Prior Year-To-Date Units"
-																HeaderType="Text"
-																ID="colPYTD_U"
-																>
-																<Label
-																	Caption="@Data.pYTD_U~"
-																	Format="###,###,##0"
-																	ID="pYTD_U"
-																/>
-																<DataColumnSort
-																	DataColumn="pYTD_U"
-																	DataType="Number"
-																/>
-															</DataTableColumn>
-														</Remark>
-														<DataTableColumn
-															Class="ThemeMargin, ThemeAlignRight"
-															ColumnHeaderClass="ThemeAlignCenter"
-															Header="YTD"
-															HeaderType="Text"
-															ID="colPYTD_A"
-															>
-															<Label
-																Caption="@Data.pYTD_A~"
-																Format="###,###,##0"
-																ID="pYTD_A"
-															/>
-															<DataColumnSort
-																DataColumn="pYTD_A"
-																DataType="Number"
-															/>
-															<DataColumnSummary
-																DataColumn="pMTD_A"
-																DataType="Number"
-																Function="Sum"
-																ID="sum_pMTD_A"
-															/>
-														</DataTableColumn>
-														<Remark>
-															<SummaryRow
-																Caption="Totals: "
-																ID="summaryRow"
-															/>
-														</Remark>
-													</DataTable>
-												</Column>
-												<Remark>
-													<Column>
-														<Spaces
-															Size="40"
-														/>
-													</Column>
-												</Remark>
-												<Remark>
-													<Column>
-														<Spaces
-															Size="40"
-														/>
-													</Column>
-												</Remark>
-												<Remark>
-													<Column>
-														<Spaces
-															Size="40"
-														/>
-													</Column>
-												</Remark>
-												<Remark>
-													<Column>
-														<Spaces
-															Size="40"
-														/>
-													</Column>
-												</Remark>
-											</Row>
-										</Rows>
-										<LineBreak/>
-										<LineBreak/>
-									</Division>
-								</Division>
-							</Division>
-						</TabPanel>
-					</Remark>
-					<TabPanel
-						Caption="Grain Discounts, Dockage and Shrink"
-						Class="ThemeTextPositive ThemeHeaderSmall"
-						ID="tabGrainShrink"
-						>
-						<Division
-							Class="panel panel-default"
-							HtmlDiv="True"
-							ID="panel-AvoidableDiscounts"
-							>
-							<Division
-								Class="panel-heading"
-								HtmlDiv="True"
-								ID="divAvoidableDiscountsHeading"
-							/>
-							<Division
-								Class="panel-body ThemeAlignRight"
-								HtmlDiv="True"
-								ID="divAvoidableDiscounts"
-								>
-								<Remark>
-									<Label
-										Class="fa fa-file-pdf-o fa-2x"
-										HtmlTag="Div"
-										ID="exportAvoidableDiscounts"
-										Tooltip="Export to PDF"
+															<Row>
+																<Column>
+																	<Spaces
+																		Size="30"
+																	/>
+																</Column>
+																<Column>
+																	<DataTable
+																		ID="dtSeededAcres"
+																		SortArrows="True"
+																		>
+																		<HeaderRow
+																			HeaderPosition="Top"
+																			ID="rowCustomHeader"
+																			>
+																			<Column/>
+																			<Column
+																				Class="ThemeAlignCenter"
+																				ColSpan="2"
+																				>
+																				<Label
+																					Caption="Current"
+																					Class="ThemeAlignCenter, ThemeBold"
+																				/>
+																			</Column>
+																			<Column
+																				Class="ThemeAlignCenter"
+																				ColSpan="2"
+																				>
+																				<Label
+																					Caption="Prior Year"
+																					Class="ThemeAlignCenter, ThemeBold"
+																				/>
+																			</Column>
+																		</HeaderRow>
+																		<DataLayer
+																			ColumnNamesRow="1"
+																			ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\SeededAcres.xlsx"
+																			ExcelWorksheet="SeededAcres"
+																			Type="Excel"
+																			>
+																			<ConditionFilter
+																				Condition="(@Data.FiscalYear~ = @Request.paramFiscYear~) AND 
+(@Data.FiscalPeriod~ = @Request.paramFiscPeriod~) AND
+(&quot;@Data.LocGLStr~&quot; = &quot;@Request.paramLocGLStr~&quot;)"
+																			/>
+																		</DataLayer>
+																		<DataTableColumn
+																			Class="ThemeMargin"
+																			ColumnHeaderClass="ThemeAlignCenter"
+																			Header="Seed Category"
+																			HeaderType="Text"
+																			ID="colSeedCategory"
+																			Width="25"
+																			WidthScale="%"
+																			>
+																			<Label
+																				Caption="@Data.SeedCategory~"
+																				ID="SeedCategory"
+																			/>
+																			<DataColumnSort
+																				DataColumn="SeedCategory"
+																				DataType="Text"
+																			/>
+																		</DataTableColumn>
+																		<Remark>
+																			<DataTableColumn
+																				Class="ThemeMargin, ThemeAlignRight"
+																				ColumnHeaderClass="ThemeAlignCenter"
+																				Header="Current Period Units"
+																				HeaderType="Text"
+																				ID="colCMTD_U"
+																				>
+																				<Label
+																					Caption="@Data.cMTD_U~"
+																					Format="###,###,##0"
+																					ID="cMTD_U"
+																				/>
+																				<DataColumnSort
+																					DataColumn="cMTD_U"
+																					DataType="Number"
+																				/>
+																			</DataTableColumn>
+																		</Remark>
+																		<DataTableColumn
+																			Class="ThemeMargin, ThemeAlignRight"
+																			ColumnHeaderClass="ThemeAlignCenter"
+																			Header="Period Summary"
+																			HeaderType="Text"
+																			ID="colCMTD_A"
+																			>
+																			<Label
+																				Caption="@Data.cMTD_A~"
+																				Format="###,###,##0"
+																				ID="cMTD_A"
+																			/>
+																			<DataColumnSort
+																				DataColumn="cMTD_A"
+																				DataType="Number"
+																			/>
+																			<DataColumnSummary
+																				DataColumn="cMTD_A"
+																				DataType="Number"
+																				Function="Sum"
+																				ID="sum_cMTD_A"
+																			/>
+																		</DataTableColumn>
+																		<Remark>
+																			<DataTableColumn
+																				Class="ThemeMargin, ThemeAlignRight"
+																				ColumnHeaderClass="ThemeAlignCenter"
+																				Header="Year-To-Date Units"
+																				HeaderType="Text"
+																				ID="colCYTD_U"
+																				>
+																				<Label
+																					Caption="@Data.cYTD_U~"
+																					Format="###,###,##0"
+																					ID="cYTD_U"
+																				/>
+																				<DataColumnSort
+																					DataColumn="cYTD_U"
+																					DataType="Number"
+																				/>
+																			</DataTableColumn>
+																		</Remark>
+																		<DataTableColumn
+																			Class="ThemeMargin, ThemeAlignRight"
+																			ColumnHeaderClass="ThemeAlignCenter"
+																			Header="YTD"
+																			HeaderType="Text"
+																			ID="colCYTD_A"
+																			>
+																			<Label
+																				Caption="@Data.cYTD_A~"
+																				Format="###,###,##0"
+																				ID="cYTD_A"
+																			/>
+																			<DataColumnSort
+																				DataColumn="cYTD_A"
+																				DataType="Number"
+																			/>
+																			<DataColumnSummary
+																				DataColumn="cYTD_A"
+																				DataType="Number"
+																				Function="Sum"
+																				ID="sum_cYTD_A"
+																			/>
+																		</DataTableColumn>
+																		<Remark>
+																			<DataTableColumn
+																				Class="ThemeMargin, ThemeAlignRight"
+																				ColumnHeaderClass="ThemeAlignCenter"
+																				Header="Prior Year Period Units"
+																				HeaderType="Text"
+																				ID="colPMTD_U"
+																				>
+																				<Label
+																					Caption="@Data.pMTD_U~"
+																					Format="###,###,##0"
+																					ID="pMTD_U"
+																				/>
+																				<DataColumnSort
+																					DataColumn="pMTD_U"
+																					DataType="Number"
+																				/>
+																			</DataTableColumn>
+																		</Remark>
+																		<DataTableColumn
+																			Class="ThemeMargin, ThemeAlignRight"
+																			ColumnHeaderClass="ThemeAlignCenter"
+																			Header="Period Summary"
+																			HeaderType="Text"
+																			ID="colPMTD_A"
+																			>
+																			<Label
+																				Caption="@Data.pMTD_A~"
+																				Format="###,###,##0"
+																				ID="pMTD_A"
+																			/>
+																			<DataColumnSort
+																				DataColumn="pMTD_A"
+																				DataType="Number"
+																			/>
+																			<DataColumnSummary
+																				DataColumn="pMTD_A"
+																				DataType="Number"
+																				Function="Sum"
+																				ID="sum_pMTD_A"
+																			/>
+																		</DataTableColumn>
+																		<Remark>
+																			<DataTableColumn
+																				Class="ThemeMargin, ThemeAlignRight"
+																				ColumnHeaderClass="ThemeAlignCenter"
+																				Header="Prior Year-To-Date Units"
+																				HeaderType="Text"
+																				ID="colPYTD_U"
+																				>
+																				<Label
+																					Caption="@Data.pYTD_U~"
+																					Format="###,###,##0"
+																					ID="pYTD_U"
+																				/>
+																				<DataColumnSort
+																					DataColumn="pYTD_U"
+																					DataType="Number"
+																				/>
+																			</DataTableColumn>
+																		</Remark>
+																		<DataTableColumn
+																			Class="ThemeMargin, ThemeAlignRight"
+																			ColumnHeaderClass="ThemeAlignCenter"
+																			Header="YTD"
+																			HeaderType="Text"
+																			ID="colPYTD_A"
+																			>
+																			<Label
+																				Caption="@Data.pYTD_A~"
+																				Format="###,###,##0"
+																				ID="pYTD_A"
+																			/>
+																			<DataColumnSort
+																				DataColumn="pYTD_A"
+																				DataType="Number"
+																			/>
+																			<DataColumnSummary
+																				DataColumn="pMTD_A"
+																				DataType="Number"
+																				Function="Sum"
+																				ID="sum_pMTD_A"
+																			/>
+																		</DataTableColumn>
+																		<Remark>
+																			<SummaryRow
+																				Caption="Totals: "
+																				ID="summaryRow"
+																			/>
+																		</Remark>
+																	</DataTable>
+																</Column>
+																<Remark>
+																	<Column>
+																		<Spaces
+																			Size="40"
+																		/>
+																	</Column>
+																</Remark>
+																<Remark>
+																	<Column>
+																		<Spaces
+																			Size="40"
+																		/>
+																	</Column>
+																</Remark>
+																<Remark>
+																	<Column>
+																		<Spaces
+																			Size="40"
+																		/>
+																	</Column>
+																</Remark>
+																<Remark>
+																	<Column>
+																		<Spaces
+																			Size="40"
+																		/>
+																	</Column>
+																</Remark>
+															</Row>
+														</Rows>
+														<LineBreak/>
+														<LineBreak/>
+													</Division>
+												</Division>
+											</Division>
+										</TabPanel>
+									</Remark>
+									<TabPanel
+										Caption="Grain Discounts, Dockage and Shrink"
+										Class="ThemeTextSmall"
+										ID="tabGrainShrink"
 										>
-										<Action
-											ID="exportPDFAvoidableDiscounts"
-											Type="PDF"
+										<Division
+											Class="panel panel-default"
+											HtmlDiv="True"
+											ID="panel-AvoidableDiscounts"
 											>
-											<Target
-												Type="PDF"
-											/>
-										</Action>
-									</Label>
-								</Remark>
-								<Spaces
-									Size="15"
-								/>
-							</Division>
-							<Division
-								Class="panel-body"
-								HtmlDiv="True"
-								ID="divAvoidableDiscountsData"
-								>
-								<Note
-									Note="**Add data here**"
-								/>
-								<Division
-									Class="panel-heading"
-									HtmlDiv="True"
-									ID="panel-headingAvoidableDiscounts"
-									>
-									<Label
-										Caption="Avoidable Discounts - Dollars"
-									/>
-								</Division>
-								<Division
-									Class="panel-body"
-									HtmlDiv="True"
-									ID="panel-bodyAvoidableDiscounts"
-									>
-									<Rows
-										Width="100"
-										WidthScale="%"
-										>
-										<Row>
-											<Column>
-												<Spaces
-													Size="30"
-												/>
-											</Column>
-											<Column>
-												<DataTable
-													ID="dtAvoidableDiscounts"
-													SortArrows="True"
-													>
-													<HeaderRow
-														HeaderPosition="Top"
-														ID="rowCustomHeader"
-														>
-														<Column/>
-														<Column
-															Class="ThemeAlignCenter"
-															ColSpan="2"
+											<Division
+												Class="panel-body"
+												HtmlDiv="True"
+												ID="divAvoidableDiscounts"
+												>
+												<ResponsiveRow>
+													<ResponsiveColumn/>
+												</ResponsiveRow>
+												<ResponsiveRow>
+													<ResponsiveColumn>
+														<Division
+															Class="panel-heading"
+															HtmlDiv="True"
+															ID="panel-headingLongShort"
 															>
 															<Label
-																Caption="Current"
-																Class="ThemeAlignCenter, ThemeBold"
+																Caption="Avoidable Discounts"
+																Class="panel-title"
 															/>
-														</Column>
-														<Column
-															Class="ThemeAlignCenter"
-															ColSpan="2"
+														</Division>
+														<Division
+															Class="panel-body"
+															HtmlDiv="True"
+															ID="panel-bodyAvoidableDiscounts"
 															>
-															<Label
-																Caption="Prior Year"
-																Class="ThemeAlignCenter, ThemeBold"
-															/>
-														</Column>
-													</HeaderRow>
-													<DataLayer
-														ConnectionID="connProdGP"
-														ID="sqlAvoidableDiscounts"
-														Source="SELECT COALESCE(cMTD.GLLocStr,cYTD.GLLocStr,pMTD.GLLocStr,pYTD.GLLocStr) GLLocStr, COALESCE(cMTD.COMMODITY_DESC,cYTD.COMMODITY_DESC,pMTD.COMMODITY_DESC,pYTD.COMMODITY_DESC) COMMODITY_DESC, SUM(ISNULL(cMTD.AMOUNT,0)) cMTD, SUM(ISNULL(cYTD.AMOUNT,0)) cYTD, SUM(ISNULL(pMTD.AMOUNT,0)) pMTD, SUM(ISNULL(pYTD.AMOUNT,0)) pYTD
+															<Rows
+																Width="100"
+																WidthScale="%"
+																>
+																<Row>
+																	<Column>
+																		<DataTable
+																			ID="dtAvoidableDiscounts"
+																			SortArrows="True"
+																			>
+																			<HeaderRow
+																				HeaderPosition="Top"
+																				ID="rowCustomHeader"
+																				>
+																				<Column/>
+																				<Column
+																					Class="ThemeAlignCenter"
+																					ColSpan="2"
+																					>
+																					<Label
+																						Caption="Current"
+																						Class="ThemeAlignCenter, ThemeBold"
+																					/>
+																				</Column>
+																				<Column
+																					Class="ThemeAlignCenter"
+																					ColSpan="2"
+																					>
+																					<Label
+																						Caption="Prior Year"
+																						Class="ThemeAlignCenter, ThemeBold"
+																					/>
+																				</Column>
+																			</HeaderRow>
+																			<DataLayer
+																				ConnectionID="connProdGP"
+																				ID="sqlAvoidableDiscounts"
+																				Source="SELECT COALESCE(cMTD.GLLocStr,cYTD.GLLocStr,pMTD.GLLocStr,pYTD.GLLocStr) GLLocStr, COALESCE(cMTD.COMMODITY_DESC,cYTD.COMMODITY_DESC,pMTD.COMMODITY_DESC,pYTD.COMMODITY_DESC) COMMODITY_DESC, SUM(ISNULL(cMTD.AMOUNT,0)) cMTD, SUM(ISNULL(cYTD.AMOUNT,0)) cYTD, SUM(ISNULL(pMTD.AMOUNT,0)) pMTD, SUM(ISNULL(pYTD.AMOUNT,0)) pYTD
 FROM 
   (SELECT GLLocStr, COMMODITY_DESC, SUM(AMOUNT) AMOUNT FROM MKCGP..vmkcGrainAvoidableDiscounts WHERE FiscalYear=(@Request.paramFiscYear~  ) and FiscalPeriod =@Request.paramFiscPeriod~ and GLLocStr=&apos;@Request.paramLocGLStr~&apos; GROUP BY GLLocStr, COMMODITY_DESC) cMTD FULL OUTER JOIN 
   (SELECT GLLocStr, COMMODITY_DESC, SUM(AMOUNT) AMOUNT FROM MKCGP..vmkcGrainAvoidableDiscounts WHERE FiscalYear=(@Request.paramFiscYear~  ) and FiscalPeriod&lt;=@Request.paramFiscPeriod~ and GLLocStr=&apos;@Request.paramLocGLStr~&apos; GROUP BY GLLocStr, COMMODITY_DESC) cYTD ON cMTD.GLLocStr=cYTD.GLLocStr AND cMTD.COMMODITY_DESC=cYTD.COMMODITY_DESC FULL OUTER JOIN 
@@ -1548,254 +1282,201 @@ FROM
 GROUP BY COALESCE(cMTD.GLLocStr,cYTD.GLLocStr,pMTD.GLLocStr,pYTD.GLLocStr), COALESCE(cMTD.COMMODITY_DESC,cYTD.COMMODITY_DESC,pMTD.COMMODITY_DESC,pYTD.COMMODITY_DESC) 
 ORDER BY GLLocStr, COMMODITY_DESC
 "
-														Type="SQL"
-													/>
-													<DataTableColumn
-														Class="ThemeMargin"
-														ColumnHeaderClass="ThemeAlignCenter"
-														Header="Commodity"
-														HeaderType="Text"
-														ID="colCommodityDesc"
-														Width="25"
-														WidthScale="%"
-														>
-														<Label
-															Caption="@Data.COMMODITY_DESC~"
-															ID="COMMODITY_DESC"
-														/>
-														<DataColumnSort
-															DataColumn="COMMODITY_DESC"
-															DataType="Text"
-														/>
-													</DataTableColumn>
-													<DataTableColumn
-														Class="ThemeMargin, ThemeAlignRight"
-														ColumnHeaderClass="ThemeAlignCenter"
-														Header="Period Summary"
-														HeaderType="Text"
-														ID="colCMTD"
-														>
-														<Label
-															Caption="@Data.cMTD~"
-															Format="###,###,##0"
-															ID="cMTD"
-														/>
-														<DataColumnSort
-															DataColumn="cMTD"
-															DataType="Number"
-														/>
-														<DataColumnSummary
-															DataColumn="cMTD"
-															DataType="Number"
-															Function="Sum"
-															ID="sum_cMTD"
-														/>
-													</DataTableColumn>
-													<DataTableColumn
-														Class="ThemeMargin, ThemeAlignRight"
-														ColumnHeaderClass="ThemeAlignCenter"
-														Header="YTD"
-														HeaderType="Text"
-														ID="colCYTD"
-														>
-														<Label
-															Caption="@Data.cYTD~"
-															Format="###,###,##0"
-															ID="cYTD"
-														/>
-														<DataColumnSort
-															DataColumn="cYTD"
-															DataType="Number"
-														/>
-														<DataColumnSummary
-															DataColumn="cYTD"
-															DataType="Number"
-															Function="Sum"
-															ID="sum_cYTD"
-														/>
-													</DataTableColumn>
-													<DataTableColumn
-														Class="ThemeMargin, ThemeAlignRight"
-														ColumnHeaderClass="ThemeAlignCenter"
-														Header="Period Summary"
-														HeaderType="Text"
-														ID="colPMTD"
-														>
-														<Label
-															Caption="@Data.pMTD~"
-															Format="###,###,##0"
-															ID="pMTD"
-														/>
-														<DataColumnSort
-															DataColumn="pMTD"
-															DataType="Number"
-														/>
-														<DataColumnSummary
-															DataColumn="pMTD"
-															DataType="Number"
-															Function="Sum"
-															ID="sum_pMTD"
-														/>
-													</DataTableColumn>
-													<DataTableColumn
-														Class="ThemeMargin, ThemeAlignRight"
-														ColumnHeaderClass="ThemeAlignCenter"
-														Header="YTD"
-														HeaderType="Text"
-														ID="colPYTD"
-														>
-														<Label
-															Caption="@Data.pYTD~"
-															Format="###,###,##0"
-															ID="pYTD"
-														/>
-														<DataColumnSort
-															DataColumn="pYTD"
-															DataType="Number"
-														/>
-														<DataColumnSummary
-															DataColumn="pMTD"
-															DataType="Number"
-															Function="Sum"
-															ID="sum_pMTD"
-														/>
-													</DataTableColumn>
-													<SummaryRow
-														Caption="Totals: "
-														ID="summaryRow"
-													/>
-												</DataTable>
-											</Column>
-											<Remark>
-												<Column>
-													<Spaces
-														Size="40"
-													/>
-												</Column>
-											</Remark>
-											<Column>
-												<Spaces
-													Size="40"
-												/>
-											</Column>
-											<Column>
-												<Spaces
-													Size="40"
-												/>
-											</Column>
-											<Column>
-												<Spaces
-													Size="40"
-												/>
-											</Column>
-										</Row>
-									</Rows>
-									<LineBreak/>
-									<LineBreak/>
-								</Division>
-							</Division>
-						</Division>
-						<Division
-							Class="panel panel-default"
-							HtmlDiv="True"
-							ID="panel-LongShort"
-							>
-							<Division
-								Class="panel-heading"
-								HtmlDiv="True"
-								ID="divLongShortHeading"
-							/>
-							<Division
-								Class="panel-body ThemeAlignRight"
-								HtmlDiv="True"
-								ID="divLongShort"
-								>
-								<Remark>
-									<Label
-										Class="fa fa-file-pdf-o fa-2x"
-										HtmlTag="Div"
-										ID="exportLongShort"
-										Tooltip="Export to PDF"
-										>
-										<Action
-											ID="exportPDFLongShort"
-											Type="PDF"
+																				Type="SQL"
+																			/>
+																			<DataTableColumn
+																				Class="ThemeMargin"
+																				ColumnHeaderClass="ThemeAlignCenter"
+																				Header="Commodity"
+																				HeaderType="Text"
+																				ID="colCommodityDesc"
+																				Width="25"
+																				WidthScale="%"
+																				>
+																				<Label
+																					Caption="@Data.COMMODITY_DESC~"
+																					ID="COMMODITY_DESC"
+																				/>
+																				<DataColumnSort
+																					DataColumn="COMMODITY_DESC"
+																					DataType="Text"
+																				/>
+																			</DataTableColumn>
+																			<DataTableColumn
+																				Class="ThemeMargin, ThemeAlignRight"
+																				ColumnHeaderClass="ThemeAlignCenter"
+																				Header="Period Summary"
+																				HeaderType="Text"
+																				ID="colCMTD"
+																				>
+																				<Label
+																					Caption="@Data.cMTD~"
+																					Format="###,###,##0"
+																					ID="cMTD"
+																				/>
+																				<DataColumnSort
+																					DataColumn="cMTD"
+																					DataType="Number"
+																				/>
+																				<DataColumnSummary
+																					DataColumn="cMTD"
+																					DataType="Number"
+																					Function="Sum"
+																					ID="sum_cMTD"
+																				/>
+																			</DataTableColumn>
+																			<DataTableColumn
+																				Class="ThemeMargin, ThemeAlignRight"
+																				ColumnHeaderClass="ThemeAlignCenter"
+																				Header="YTD"
+																				HeaderType="Text"
+																				ID="colCYTD"
+																				>
+																				<Label
+																					Caption="@Data.cYTD~"
+																					Format="###,###,##0"
+																					ID="cYTD"
+																				/>
+																				<DataColumnSort
+																					DataColumn="cYTD"
+																					DataType="Number"
+																				/>
+																				<DataColumnSummary
+																					DataColumn="cYTD"
+																					DataType="Number"
+																					Function="Sum"
+																					ID="sum_cYTD"
+																				/>
+																			</DataTableColumn>
+																			<DataTableColumn
+																				Class="ThemeMargin, ThemeAlignRight"
+																				ColumnHeaderClass="ThemeAlignCenter"
+																				Header="Period Summary"
+																				HeaderType="Text"
+																				ID="colPMTD"
+																				>
+																				<Label
+																					Caption="@Data.pMTD~"
+																					Format="###,###,##0"
+																					ID="pMTD"
+																				/>
+																				<DataColumnSort
+																					DataColumn="pMTD"
+																					DataType="Number"
+																				/>
+																				<DataColumnSummary
+																					DataColumn="pMTD"
+																					DataType="Number"
+																					Function="Sum"
+																					ID="sum_pMTD"
+																				/>
+																			</DataTableColumn>
+																			<DataTableColumn
+																				Class="ThemeMargin, ThemeAlignRight"
+																				ColumnHeaderClass="ThemeAlignCenter"
+																				Header="YTD"
+																				HeaderType="Text"
+																				ID="colPYTD"
+																				>
+																				<Label
+																					Caption="@Data.pYTD~"
+																					Format="###,###,##0"
+																					ID="pYTD"
+																				/>
+																				<DataColumnSort
+																					DataColumn="pYTD"
+																					DataType="Number"
+																				/>
+																				<DataColumnSummary
+																					DataColumn="pMTD"
+																					DataType="Number"
+																					Function="Sum"
+																					ID="sum_pMTD"
+																				/>
+																			</DataTableColumn>
+																			<SummaryRow
+																				Caption="Totals: "
+																				ID="summaryRow"
+																			/>
+																		</DataTable>
+																	</Column>
+																</Row>
+															</Rows>
+															<LineBreak
+																LineCount="2"
+															/>
+														</Division>
+													</ResponsiveColumn>
+												</ResponsiveRow>
+											</Division>
+										</Division>
+										<Division
+											Class="panel panel-default"
+											HtmlDiv="True"
+											ID="panel-LongShort"
 											>
-											<Target
-												Type="PDF"
-											/>
-										</Action>
-									</Label>
-								</Remark>
-								<Spaces
-									Size="15"
-								/>
-							</Division>
-							<Division
-								Class="panel-body"
-								HtmlDiv="True"
-								ID="divLongShort"
-								>
-								<Note
-									Note="**Add data here**"
-								/>
-								<Division
-									Class="panel-heading"
-									HtmlDiv="True"
-									ID="panel-headingLongShort"
-									>
-									<Label
-										Caption="Long Short - Bushels"
-									/>
-								</Division>
-								<Division
-									Class="panel-body"
-									HtmlDiv="True"
-									ID="panel-bodyLongShort"
-									>
-									<Rows
-										Width="100"
-										WidthScale="%"
-										>
-										<Row>
-											<Column>
-												<Spaces
-													Size="30"
-												/>
-											</Column>
-											<Column>
-												<DataTable
-													ID="dtLongShort"
-													SortArrows="True"
-													>
-													<HeaderRow
-														HeaderPosition="Top"
-														ID="rowCustomHeader"
-														>
-														<Column/>
-														<Column
-															Class="ThemeAlignCenter"
-															ColSpan="2"
+											<Division
+												Class="panel-body"
+												HtmlDiv="True"
+												ID="divLongShort"
+												>
+												<ResponsiveRow>
+													<ResponsiveColumn>
+														<Division
+															Class="panel-heading"
+															HtmlDiv="True"
+															ID="panel-headingLongShort"
 															>
 															<Label
-																Caption="Current"
-																Class="ThemeAlignCenter, ThemeBold"
+																Caption="Long Short - Bushels"
+																Class="panel-title"
 															/>
-														</Column>
-														<Column
-															Class="ThemeAlignCenter"
-															ColSpan="2"
+														</Division>
+														<Division
+															Class="panel-body"
+															HtmlDiv="True"
+															ID="panel-bodyLongShort"
 															>
-															<Label
-																Caption="Prior Year"
-																Class="ThemeAlignCenter, ThemeBold"
-															/>
-														</Column>
-													</HeaderRow>
-													<DataLayer
-														ConnectionID="connProdGP"
-														ID="sqlLongShort"
-														Source="SELECT COALESCE(cMTD.GLLocStr,cYTD.GLLocStr,pMTD.GLLocStr,pYTD.GLLocStr) GLLocStr, COALESCE(cMTD.COMMODITY_DESC,cYTD.COMMODITY_DESC,pMTD.COMMODITY_DESC,pYTD.COMMODITY_DESC) COMMODITY_DESC, SUM(ISNULL(cMTD.BU,0)) cMTD, SUM(ISNULL(cYTD.BU,0)) cYTD, SUM(ISNULL(pMTD.BU,0)) pMTD, SUM(ISNULL(pYTD.BU,0)) pYTD
+															<Rows
+																Width="100"
+																WidthScale="%"
+																>
+																<Row>
+																	<Column
+																		Class="ThemeTextSmall"
+																		>
+																		<DataTable
+																			ID="dtLongShort"
+																			SortArrows="True"
+																			>
+																			<HeaderRow
+																				HeaderPosition="Top"
+																				ID="rowCustomHeader"
+																				>
+																				<Column/>
+																				<Column
+																					Class="ThemeAlignCenter"
+																					ColSpan="2"
+																					>
+																					<Label
+																						Caption="Current"
+																						Class="ThemeAlignCenter, ThemeBold"
+																					/>
+																				</Column>
+																				<Column
+																					Class="ThemeAlignCenter"
+																					ColSpan="2"
+																					>
+																					<Label
+																						Caption="Prior Year"
+																						Class="ThemeAlignCenter, ThemeBold"
+																					/>
+																				</Column>
+																			</HeaderRow>
+																			<DataLayer
+																				ConnectionID="connProdGP"
+																				ID="sqlLongShort"
+																				Source="SELECT COALESCE(cMTD.GLLocStr,cYTD.GLLocStr,pMTD.GLLocStr,pYTD.GLLocStr) GLLocStr, COALESCE(cMTD.COMMODITY_DESC,cYTD.COMMODITY_DESC,pMTD.COMMODITY_DESC,pYTD.COMMODITY_DESC) COMMODITY_DESC, SUM(ISNULL(cMTD.BU,0)) cMTD, SUM(ISNULL(cYTD.BU,0)) cYTD, SUM(ISNULL(pMTD.BU,0)) pMTD, SUM(ISNULL(pYTD.BU,0)) pYTD
 FROM 
   (SELECT GLLocStr, COMMODITY_DESC, SUM(BU) BU FROM MKCGP..vmkcGrainLongShort WHERE FiscalYear=(@Request.paramFiscYear~  ) and FiscalPeriod =@Request.paramFiscPeriod~ and GLLocStr=&apos;@Request.paramLocGLStr~&apos; GROUP BY GLLocStr, COMMODITY_DESC) cMTD FULL OUTER JOIN 
   (SELECT GLLocStr, COMMODITY_DESC, SUM(BU) BU FROM MKCGP..vmkcGrainLongShort WHERE FiscalYear=(@Request.paramFiscYear~  ) and FiscalPeriod&lt;=@Request.paramFiscPeriod~ and GLLocStr=&apos;@Request.paramLocGLStr~&apos; GROUP BY GLLocStr, COMMODITY_DESC) cYTD ON cMTD.GLLocStr=cYTD.GLLocStr AND cMTD.COMMODITY_DESC=cYTD.COMMODITY_DESC FULL OUTER JOIN 
@@ -1804,156 +1485,144 @@ FROM
 GROUP BY COALESCE(cMTD.GLLocStr,cYTD.GLLocStr,pMTD.GLLocStr,pYTD.GLLocStr), COALESCE(cMTD.COMMODITY_DESC,cYTD.COMMODITY_DESC,pMTD.COMMODITY_DESC,pYTD.COMMODITY_DESC) 
 ORDER BY GLLocStr, COMMODITY_DESC
 "
-														Type="SQL"
-													/>
-													<DataTableColumn
-														Class="ThemeMargin"
-														ColumnHeaderClass="ThemeAlignCenter"
-														Header="Commodity"
-														HeaderType="Text"
-														ID="colCommodityDesc_ls"
-														Width="25"
-														WidthScale="%"
-														>
-														<Label
-															Caption="@Data.COMMODITY_DESC~"
-															ID="COMMODITY_DESC_ls"
-														/>
-														<DataColumnSort
-															DataColumn="COMMODITY_DESC"
-															DataType="Text"
-														/>
-													</DataTableColumn>
-													<DataTableColumn
-														Class="ThemeMargin, ThemeAlignRight"
-														ColumnHeaderClass="ThemeAlignCenter"
-														Header="Period Summary"
-														HeaderType="Text"
-														ID="colCMTD_ls"
-														>
-														<Label
-															Caption="@Data.cMTD~"
-															Format="###,###,##0"
-															ID="cMTD_ls"
-														/>
-														<DataColumnSort
-															DataColumn="cMTD"
-															DataType="Number"
-														/>
-														<DataColumnSummary
-															DataColumn="cMTD"
-															DataType="Number"
-															Function="Sum"
-															ID="sum_cMTD_ls"
-														/>
-													</DataTableColumn>
-													<DataTableColumn
-														Class="ThemeMargin, ThemeAlignRight"
-														ColumnHeaderClass="ThemeAlignCenter"
-														Header="YTD"
-														HeaderType="Text"
-														ID="colCYTD_ls"
-														>
-														<Label
-															Caption="@Data.cYTD~"
-															Format="###,###,##0"
-															ID="cYTD_ls"
-														/>
-														<DataColumnSort
-															DataColumn="cYTD"
-															DataType="Number"
-														/>
-														<DataColumnSummary
-															DataColumn="cYTD"
-															DataType="Number"
-															Function="Sum"
-															ID="sum_cYTD_ls"
-														/>
-													</DataTableColumn>
-													<DataTableColumn
-														Class="ThemeMargin, ThemeAlignRight"
-														ColumnHeaderClass="ThemeAlignCenter"
-														Header="Period Summary"
-														HeaderType="Text"
-														ID="colPMTD_ls"
-														>
-														<Label
-															Caption="@Data.pMTD~"
-															Format="###,###,##0"
-															ID="pMTD_ls"
-														/>
-														<DataColumnSort
-															DataColumn="pMTD"
-															DataType="Number"
-														/>
-														<DataColumnSummary
-															DataColumn="pMTD"
-															DataType="Number"
-															Function="Sum"
-															ID="sum_pMTD_ls"
-														/>
-													</DataTableColumn>
-													<DataTableColumn
-														Class="ThemeMargin, ThemeAlignRight"
-														ColumnHeaderClass="ThemeAlignCenter"
-														Header="YTD"
-														HeaderType="Text"
-														ID="colPYTD_ls"
-														>
-														<Label
-															Caption="@Data.pYTD~"
-															Format="###,###,##0"
-															ID="pYTD_ls"
-														/>
-														<DataColumnSort
-															DataColumn="pYTD"
-															DataType="Number"
-														/>
-														<DataColumnSummary
-															DataColumn="pYTD"
-															DataType="Number"
-															Function="Sum"
-															ID="sum_pYTD_ls"
-														/>
-													</DataTableColumn>
-													<SummaryRow
-														Caption="Totals: "
-														ID="summaryRow"
-													/>
-												</DataTable>
-											</Column>
-											<Remark>
-												<Column>
-													<Spaces
-														Size="40"
-													/>
-												</Column>
-											</Remark>
-											<Column>
-												<Spaces
-													Size="40"
-												/>
-											</Column>
-											<Column>
-												<Spaces
-													Size="40"
-												/>
-											</Column>
-											<Column>
-												<Spaces
-													Size="40"
-												/>
-											</Column>
-										</Row>
-									</Rows>
-									<LineBreak/>
-									<LineBreak/>
-								</Division>
-							</Division>
-						</Division>
-					</TabPanel>
-				</Tabs>
+																				Type="SQL"
+																			/>
+																			<DataTableColumn
+																				Class="ThemeMargin"
+																				ColumnHeaderClass="ThemeAlignCenter"
+																				Header="Commodity"
+																				HeaderType="Text"
+																				ID="colCommodityDesc_ls"
+																				Width="25"
+																				WidthScale="%"
+																				>
+																				<Label
+																					Caption="@Data.COMMODITY_DESC~"
+																					ID="COMMODITY_DESC_ls"
+																				/>
+																				<DataColumnSort
+																					DataColumn="COMMODITY_DESC"
+																					DataType="Text"
+																				/>
+																			</DataTableColumn>
+																			<DataTableColumn
+																				Class="ThemeMargin, ThemeAlignRight"
+																				ColumnHeaderClass="ThemeAlignCenter"
+																				Header="Period Summary"
+																				HeaderType="Text"
+																				ID="colCMTD_ls"
+																				>
+																				<Label
+																					Caption="@Data.cMTD~"
+																					Format="###,###,##0"
+																					ID="cMTD_ls"
+																				/>
+																				<DataColumnSort
+																					DataColumn="cMTD"
+																					DataType="Number"
+																				/>
+																				<DataColumnSummary
+																					DataColumn="cMTD"
+																					DataType="Number"
+																					Function="Sum"
+																					ID="sum_cMTD_ls"
+																				/>
+																			</DataTableColumn>
+																			<DataTableColumn
+																				Class="ThemeMargin, ThemeAlignRight"
+																				ColumnHeaderClass="ThemeAlignCenter"
+																				Header="YTD"
+																				HeaderType="Text"
+																				ID="colCYTD_ls"
+																				>
+																				<Label
+																					Caption="@Data.cYTD~"
+																					Format="###,###,##0"
+																					ID="cYTD_ls"
+																				/>
+																				<DataColumnSort
+																					DataColumn="cYTD"
+																					DataType="Number"
+																				/>
+																				<DataColumnSummary
+																					DataColumn="cYTD"
+																					DataType="Number"
+																					Function="Sum"
+																					ID="sum_cYTD_ls"
+																				/>
+																			</DataTableColumn>
+																			<DataTableColumn
+																				Class="ThemeMargin, ThemeAlignRight"
+																				ColumnHeaderClass="ThemeAlignCenter"
+																				Header="Period Summary"
+																				HeaderType="Text"
+																				ID="colPMTD_ls"
+																				>
+																				<Label
+																					Caption="@Data.pMTD~"
+																					Format="###,###,##0"
+																					ID="pMTD_ls"
+																				/>
+																				<DataColumnSort
+																					DataColumn="pMTD"
+																					DataType="Number"
+																				/>
+																				<DataColumnSummary
+																					DataColumn="pMTD"
+																					DataType="Number"
+																					Function="Sum"
+																					ID="sum_pMTD_ls"
+																				/>
+																			</DataTableColumn>
+																			<DataTableColumn
+																				Class="ThemeMargin, ThemeAlignRight"
+																				ColumnHeaderClass="ThemeAlignCenter"
+																				Header="YTD"
+																				HeaderType="Text"
+																				ID="colPYTD_ls"
+																				>
+																				<Label
+																					Caption="@Data.pYTD~"
+																					Format="###,###,##0"
+																					ID="pYTD_ls"
+																				/>
+																				<DataColumnSort
+																					DataColumn="pYTD"
+																					DataType="Number"
+																				/>
+																				<DataColumnSummary
+																					DataColumn="pYTD"
+																					DataType="Number"
+																					Function="Sum"
+																					ID="sum_pYTD_ls"
+																				/>
+																			</DataTableColumn>
+																			<SummaryRow
+																				Caption="Totals: "
+																				ID="summaryRow"
+																			/>
+																		</DataTable>
+																	</Column>
+																</Row>
+															</Rows>
+															<LineBreak
+																LineCount="2"
+															/>
+														</Division>
+													</ResponsiveColumn>
+												</ResponsiveRow>
+											</Division>
+										</Division>
+									</TabPanel>
+								</Tabs>
+							</ResponsiveColumn>
+						</ResponsiveRow>
+					</Division>
+				</Division>
 			</ResponsiveColumn>
+		</ResponsiveRow>
+		<ResponsiveRow>
+			<ResponsiveColumn/>
 		</ResponsiveRow>
 	</Body>
 	<IncludeSharedElement

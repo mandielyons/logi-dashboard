@@ -702,7 +702,7 @@
 								>
 								<TabPanel
 									Caption="Financial &amp; Growth"
-									Class="ThemeBold,panel-title"
+									Class="ThemeTextSmall"
 									ID="tabFinance"
 									>
 									<ResponsiveRow>
@@ -2206,7 +2206,7 @@
 								</TabPanel>
 								<TabPanel
 									Caption="Customer"
-									Class="ThemeBold,panel-title"
+									Class="ThemeTextSmall"
 									ID="tabCustomer"
 									>
 									<ResponsiveRow>
@@ -3593,7 +3593,7 @@
 								</TabPanel>
 								<TabPanel
 									Caption="Employee "
-									Class="ThemeBold,panel-title"
+									Class="ThemeTextSmall"
 									ID="tabEmployee"
 									>
 									<ResponsiveRow>
@@ -5213,7 +5213,7 @@
 								</TabPanel>
 								<TabPanel
 									Caption="Organizational Renewal"
-									Class="ThemeBold,panel-title"
+									Class="ThemeTextSmall"
 									ID="tabRenewal"
 									>
 									<ResponsiveRow>
