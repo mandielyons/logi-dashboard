@@ -67,29 +67,6 @@
 									ID="divHelp"
 									>
 									<Label
-										Class="fa fa-file fa-2x "
-										HtmlTag="Span"
-										ID="lnkFinancials"
-										Tooltip="View Branch Financials"
-										>
-										<Action
-											Type="Report"
-											>
-											<Target
-												FrameID="NewWindow"
-												Report="Unknown.SubReports.BranchFinancials"
-												Type="Report"
-											/>
-										</Action>
-										<ConditionalClass
-											Class="ThemeHidden"
-											Condition="&quot;@Data.Location~&quot; = &quot;&quot;"
-										/>
-									</Label>
-									<Spaces
-										Size="5"
-									/>
-									<Label
 										Class="fa fa-question-circle fa-2x "
 										HtmlTag="Span"
 										ID="lnkHelp"
