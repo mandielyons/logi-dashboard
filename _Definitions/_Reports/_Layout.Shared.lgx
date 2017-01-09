@@ -282,10 +282,10 @@ else {
 								CollisionBehavior="Wrap"
 								>
 								<ResponsiveColumn
-									ColspanExtraSmallScreen="4"
+									ColspanExtraSmallScreen="6"
 									ColspanLargeScreen="2"
 									ColspanMediumScreen="2"
-									ColspanSmallScreen="4"
+									ColspanSmallScreen="6"
 									>
 									<Division
 										Class="navbar-brand"
@@ -334,10 +334,10 @@ else {
 									</Division>
 								</ResponsiveColumn>
 								<ResponsiveColumn
-									ColspanExtraSmallScreen="8"
+									ColspanExtraSmallScreen="6"
 									ColspanLargeScreen="10"
 									ColspanMediumScreen="10"
-									ColspanSmallScreen="8"
+									ColspanSmallScreen="6"
 									>
 									<Division
 										Class="ThemeAlignRight"
@@ -347,18 +347,20 @@ else {
 										<Note
 											Note="*** build mobile navigation here - only for BELOW 1024*768 (1024*768 in portrait) ***"
 										/>
-										<Division
-											ID="div-rtest"
-											>
-											<Label
-												Caption="***FOR INTERNAL USE ONLY***"
-												Class="ThemeErrorText,ThemeTextSmallest"
-												HtmlTag="Span"
-											/>
-											<Spaces
-												Size="5"
-											/>
-										</Division>
+										<Remark>
+											<Division
+												ID="div-rtest"
+												>
+												<Label
+													Caption="***FOR INTERNAL USE ONLY***"
+													Class="ThemeErrorText,ThemeTextSmallest"
+													HtmlTag="Span"
+												/>
+												<Spaces
+													Size="5"
+												/>
+											</Division>
+										</Remark>
 										<ResponsiveVisibility
 											HideForExtraSmallScreen="False"
 											HideForLargeScreen="True"
@@ -380,6 +382,21 @@ else {
 												PopupLocation="Right"
 												Type="Popup"
 												>
+												<PopupOption
+													Caption="Locations"
+													ID="optLocations"
+													SecurityRightID="Dashboard Monthly Staff"
+													>
+													<Action
+														ID="tarLocations"
+														Type="Report"
+														>
+														<Target
+															Report="Reports.MKC_Locations"
+															Type="Report"
+														/>
+													</Action>
+												</PopupOption>
 												<PopupOption
 													Caption="Contracts"
 													ID="optContracts"
@@ -456,6 +473,21 @@ else {
 													</Action>
 												</PopupOption>
 												<PopupOption
+													Caption="Reset Password"
+													ID="optResetPwd"
+													SecurityRightID="OC,LogiUserAdmin"
+													>
+													<Action
+														ID="tarResetPwd"
+														Type="Report"
+														>
+														<Target
+															Report="Admin.PasswordReset"
+															Type="Report"
+														/>
+													</Action>
+												</PopupOption>
+												<PopupOption
 													Caption="Logout"
 													ID="optLogout"
 													>
@@ -499,18 +531,20 @@ else {
 												ColspanMediumScreen="12"
 												ColspanSmallScreen="12"
 												>
-												<Division
-													ID="div-test"
-													>
-													<Label
-														Caption="***FOR INTERNAL USE ONLY***"
-														Class="ThemeErrorText,ThemeTextSmall"
-														HtmlTag="Span"
-													/>
-													<Spaces
-														Size="5"
-													/>
-												</Division>
+												<Remark>
+													<Division
+														ID="div-test"
+														>
+														<Label
+															Caption="***FOR INTERNAL USE ONLY***"
+															Class="ThemeErrorText,ThemeTextSmall"
+															HtmlTag="Span"
+														/>
+														<Spaces
+															Size="5"
+														/>
+													</Division>
+												</Remark>
 												<Remark>
 													<Label
 														Caption="Home"
