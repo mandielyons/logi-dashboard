@@ -350,11 +350,13 @@ else {
 										<Division
 											ID="div-rtest"
 											>
-											<Label
-												Caption="***FOR INTERNAL USE ONLY***"
-												Class="ThemeErrorText,ThemeTextSmallest"
-												HtmlTag="Span"
-											/>
+											<Remark>
+												<Label
+													Caption="***FOR INTERNAL USE ONLY***"
+													Class="ThemeErrorText,ThemeTextSmallest"
+													HtmlTag="Span"
+												/>
+											</Remark>
 											<Spaces
 												Size="5"
 											/>
@@ -502,11 +504,13 @@ else {
 												<Division
 													ID="div-test"
 													>
-													<Label
-														Caption="***FOR INTERNAL USE ONLY***"
-														Class="ThemeErrorText,ThemeTextSmall"
-														HtmlTag="Span"
-													/>
+													<Remark>
+														<Label
+															Caption="***FOR INTERNAL USE ONLY***"
+															Class="ThemeErrorText,ThemeTextSmall"
+															HtmlTag="Span"
+														/>
+													</Remark>
 													<Spaces
 														Size="5"
 													/>
