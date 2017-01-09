@@ -80,7 +80,12 @@ WHERE CONTRACT_TYPE=2
 						ID="panel-dispatch"
 						>
 						<ResponsiveRow>
-							<ResponsiveColumn/>
+							<ResponsiveColumn>
+								<Label
+									Caption="Select location(s)."
+									Class="ThemeTextSmall"
+								/>
+							</ResponsiveColumn>
 							<ResponsiveColumn
 								Class="ThemeAlignRight"
 								>
@@ -110,10 +115,10 @@ WHERE CONTRACT_TYPE=2
 							CollisionBehavior="HorizontalScrollbar"
 							>
 							<ResponsiveColumn
-								ColspanExtraSmallScreen="4"
+								ColspanExtraSmallScreen="12"
 								ColspanLargeScreen="3"
 								ColspanMediumScreen="3"
-								ColspanSmallScreen="4"
+								ColspanSmallScreen="12"
 								>
 								<Division
 									Class="well"
@@ -150,7 +155,12 @@ WHERE CONTRACT_TYPE=2
 									</Button>
 								</Division>
 							</ResponsiveColumn>
-							<ResponsiveColumn>
+							<ResponsiveColumn
+								ColspanExtraSmallScreen="12"
+								ColspanLargeScreen="9"
+								ColspanMediumScreen="9"
+								ColspanSmallScreen="12"
+								>
 								<Division
 									Class="ThemeTextSmall"
 									ID="divDataTable"

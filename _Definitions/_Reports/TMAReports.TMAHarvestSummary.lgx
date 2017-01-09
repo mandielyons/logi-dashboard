@@ -82,10 +82,10 @@
 						ID="rowSelectionDetails"
 						>
 						<ResponsiveColumn
-							ColspanExtraSmallScreen="4"
+							ColspanExtraSmallScreen="12"
 							ColspanLargeScreen="3"
 							ColspanMediumScreen="3"
-							ColspanSmallScreen="4"
+							ColspanSmallScreen="12"
 							>
 							<Division
 								Class="well"
@@ -176,6 +176,10 @@
 						</ResponsiveColumn>
 						<ResponsiveColumn
 							Class="ThemeTextSmall"
+							ColspanExtraSmallScreen="12"
+							ColspanLargeScreen="9"
+							ColspanMediumScreen="9"
+							ColspanSmallScreen="12"
 							>
 							<Division
 								ID="divHarvest"
