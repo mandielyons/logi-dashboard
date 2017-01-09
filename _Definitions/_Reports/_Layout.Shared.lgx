@@ -1674,6 +1674,12 @@ ORDER BY BRANCH_NAME"
 			<LineBreak
 				LineCount="2"
 			/>
+			<ResponsiveVisibility
+				HideForExtraSmallScreen="True"
+				HideForLargeScreen="False"
+				HideForMediumScreen="False"
+				HideForSmallScreen="True"
+			/>
 		</Division>
 	</SharedElement>
 	<SharedElement
