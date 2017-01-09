@@ -1711,7 +1711,7 @@ ORDER BY BRANCH_NAME"
 								SecurityRightID="TMA Dashboard,OC"
 							/>
 							<Label
-								Caption="V1.1.12.27.2016."
+								Caption="V2.0.01.10.2017"
 								Class="ThemeTextSmaller"
 								Format="HTML"
 								SecurityRightID="MKC Dashboard,TMA Dashboard,OC"
