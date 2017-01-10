@@ -78,7 +78,6 @@
 						</ResponsiveColumn>
 					</ResponsiveRow>
 					<ResponsiveRow
-						CollisionBehavior="HorizontalScrollbar"
 						ID="rowSelectionDetails"
 						>
 						<ResponsiveColumn
