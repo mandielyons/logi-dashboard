@@ -46,6 +46,13 @@
 &lt;/script&gt;
 "
 		/>
+		<IncludeHtml
+			Html="&lt;!--&lt;link rel=&quot;stylesheet&quot; href=&quot;https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css&quot;&gt;
+&lt;script src=&quot;https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js&quot;&gt;&lt;/script&gt;--&gt;
+
+"
+		/>
 		<PopupPanel
 			Draggable="False"
 			Height="250px"
@@ -317,7 +324,7 @@ else {
 												Type="Report"
 												>
 												<Target
-													Report="Home.Default"
+													Report="TMAReports.TMAContractsDashboard"
 													Type="Report"
 													>
 													<WaitPage/>
@@ -1744,7 +1751,7 @@ ORDER BY BRANCH_NAME"
 								SecurityRightID="TMA Dashboard,OC"
 							/>
 							<Label
-								Caption="V1.1.12.27.2016."
+								Caption="V2.0.01.10.2017"
 								Class="ThemeTextSmaller"
 								Format="HTML"
 								SecurityRightID="MKC Dashboard,TMA Dashboard,OC"
