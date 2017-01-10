@@ -6989,6 +6989,7 @@
 																/>
 																<Label
 																	Caption="Develop Plans Involving Strategic Partnerships"
+																	Class="panel-title ThemeBold"
 																	Tooltip="Click for Detail Report"
 																/>
 																<Gauge
