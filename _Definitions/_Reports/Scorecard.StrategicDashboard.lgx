@@ -4907,9 +4907,6 @@
 																HtmlDiv="True"
 																ID="divShowWellness"
 																>
-																<Spaces
-																	Size="5"
-																/>
 																<ToggleImage
 																	AltText="Show/Hide More Details..."
 																	Class="ThemeTextSmall"
@@ -4920,6 +4917,9 @@
 																	Tooltip="Show/Hide Action Details..."
 																	TrueImage="minus.png"
 																	Width="16"
+																/>
+																<Spaces
+																	Size="5"
 																/>
 																<Label
 																	Caption="Drive Employee Wellness"
@@ -5251,7 +5251,7 @@
 																/>
 																<Label
 																	Caption="Evaluate Logistics Effectiveness/Efficiency"
-																	Class="panle-title ThemeBold"
+																	Class="panel-title ThemeBold"
 																	Tooltip="Click for Detail Report"
 																/>
 																<Gauge
@@ -6639,7 +6639,8 @@
 													<ResponsiveRow>
 														<ResponsiveColumn>
 															<Division
-																Class="ThemeAlignRight"
+																Class="ThemeTextSmall well"
+																HtmlDiv="True"
 																ID="divShowFeed"
 																>
 																<ToggleImage
@@ -6658,6 +6659,7 @@
 																/>
 																<Label
 																	Caption="Prepare for Hybrid Wheat Opportunity"
+																	Class="panel-title ThemeBold"
 																	Tooltip="Click for Detail Report"
 																/>
 																<Gauge
