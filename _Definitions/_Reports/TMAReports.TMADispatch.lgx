@@ -169,6 +169,8 @@ WHERE CONTRACT_TYPE=2
 										AjaxPaging="True"
 										AltRowClass="ThemeAlternatingRow"
 										Caption="TMA Branch Dispatch Details"
+										CaptionClass="ThemeTextSmall"
+										Class="ThemeTextSmaller"
 										ID="TMAContracts"
 										Layout="Fixed"
 										RememberSort="True"
@@ -180,7 +182,7 @@ WHERE CONTRACT_TYPE=2
 											Class="ThemeTextSmall"
 											Location="Top"
 											PageNrCaption=" "
-											PageRowCount="12"
+											PageRowCount="15"
 											ShowPageNumber="True"
 										/>
 										<DataLayer
@@ -483,6 +485,8 @@ WHERE CONTRACT_TYPE=2
 										AjaxPaging="True"
 										AltRowClass="ThemeAlternatingRow"
 										Caption="TMA Branch Dispatch Details"
+										CaptionClass="ThemeTextSmall"
+										Class="ThemeTextSmaller"
 										ID="ALLContracts"
 										Layout="Fixed"
 										RememberSort="True"
@@ -494,7 +498,7 @@ WHERE CONTRACT_TYPE=2
 											Class="ThemeTextSmall"
 											Location="Top"
 											PageNrCaption=" "
-											PageRowCount="12"
+											PageRowCount="15"
 											ShowPageNumber="True"
 										/>
 										<DataLayer
