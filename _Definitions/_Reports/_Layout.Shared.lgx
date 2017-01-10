@@ -46,13 +46,6 @@
 &lt;/script&gt;
 "
 		/>
-		<IncludeHtml
-			Html="&lt;!--&lt;link rel=&quot;stylesheet&quot; href=&quot;https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css&quot;&gt;
-&lt;script src=&quot;https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js&quot;&gt;&lt;/script&gt;
-&lt;script src=&quot;https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js&quot;&gt;&lt;/script&gt;--&gt;
-
-"
-		/>
 		<PopupPanel
 			Draggable="False"
 			Height="250px"
@@ -347,22 +340,20 @@ else {
 										<Note
 											Note="*** build mobile navigation here - only for BELOW 1024*768 (1024*768 in portrait) ***"
 										/>
-										<Division
-											ID="div-rtest"
-											>
-											<Remark>
+										<Remark>
+											<Division
+												ID="div-rtest"
+												>
 												<Label
 													Caption="***FOR INTERNAL USE ONLY***"
 													Class="ThemeErrorText,ThemeTextSmallest"
 													HtmlTag="Span"
 												/>
-											</Remark>
-											<Remark>
 												<Spaces
 													Size="5"
 												/>
-											</Remark>
-										</Division>
+											</Division>
+										</Remark>
 										<ResponsiveVisibility
 											HideForExtraSmallScreen="False"
 											HideForLargeScreen="True"
@@ -384,6 +375,21 @@ else {
 												PopupLocation="Right"
 												Type="Popup"
 												>
+												<PopupOption
+													Caption="Locations"
+													ID="optLocations"
+													SecurityRightID="Dashboard Monthly Staff"
+													>
+													<Action
+														ID="tarLocations"
+														Type="Report"
+														>
+														<Target
+															Report="Reports.MKC_Locations"
+															Type="Report"
+														/>
+													</Action>
+												</PopupOption>
 												<PopupOption
 													Caption="Contracts"
 													ID="optContracts"
@@ -460,6 +466,21 @@ else {
 													</Action>
 												</PopupOption>
 												<PopupOption
+													Caption="Reset Password"
+													ID="optResetPwd"
+													SecurityRightID="OC,LogiUserAdmin"
+													>
+													<Action
+														ID="tarResetPwd"
+														Type="Report"
+														>
+														<Target
+															Report="Admin.PasswordReset"
+															Type="Report"
+														/>
+													</Action>
+												</PopupOption>
+												<PopupOption
 													Caption="Logout"
 													ID="optLogout"
 													>
@@ -503,22 +524,20 @@ else {
 												ColspanMediumScreen="12"
 												ColspanSmallScreen="12"
 												>
-												<Division
-													ID="div-test"
-													>
-													<Remark>
+												<Remark>
+													<Division
+														ID="div-test"
+														>
 														<Label
 															Caption="***FOR INTERNAL USE ONLY***"
 															Class="ThemeErrorText,ThemeTextSmall"
 															HtmlTag="Span"
 														/>
-													</Remark>
-													<Remark>
 														<Spaces
 															Size="5"
 														/>
-													</Remark>
-												</Division>
+													</Division>
+												</Remark>
 												<Remark>
 													<Label
 														Caption="Home"
