@@ -1700,12 +1700,14 @@ ORDER BY BRANCH_NAME"
 			<LineBreak
 				LineCount="2"
 			/>
-			<ResponsiveVisibility
-				HideForExtraSmallScreen="True"
-				HideForLargeScreen="False"
-				HideForMediumScreen="False"
-				HideForSmallScreen="True"
-			/>
+			<Remark>
+				<ResponsiveVisibility
+					HideForExtraSmallScreen="True"
+					HideForLargeScreen="False"
+					HideForMediumScreen="False"
+					HideForSmallScreen="True"
+				/>
+			</Remark>
 		</Division>
 	</SharedElement>
 	<SharedElement
