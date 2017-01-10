@@ -324,7 +324,7 @@ else {
 												Type="Report"
 												>
 												<Target
-													Report="TMAReports.TMAContractsDashboard"
+													Report="Home.Default"
 													Type="Report"
 													>
 													<WaitPage/>
