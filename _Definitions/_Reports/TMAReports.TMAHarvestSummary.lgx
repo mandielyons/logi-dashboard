@@ -175,7 +175,6 @@
 							</Division>
 						</ResponsiveColumn>
 						<ResponsiveColumn
-							Class="ThemeTextSmall"
 							ColspanExtraSmallScreen="12"
 							ColspanLargeScreen="9"
 							ColspanMediumScreen="9"
@@ -185,6 +184,8 @@
 								ID="divHarvest"
 								>
 								<Division
+									Class="ThemeTextSmaller"
+									HtmlDiv="True"
 									ID="divDataTable"
 									>
 									<DataTable

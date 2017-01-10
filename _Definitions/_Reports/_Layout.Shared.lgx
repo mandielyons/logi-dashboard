@@ -1336,8 +1336,8 @@ else {
 		/>
 		<InputSelectList
 			Caption="Locations:"
-			CaptionClass="panel-title"
-			Class="ThemeTextSmall"
+			CaptionClass="ThemeTextSmall ThemeBold"
+			Class="ThemeTextSmaller"
 			DefaultValue="@Request.Branch~"
 			GroupCaptionColumn="REGION"
 			ID="Branch"
@@ -1407,8 +1407,8 @@ ORDER BY BRANCH_NAME"
 		/>
 		<InputSelectList
 			Caption="Locations:"
-			CaptionClass="panel-title"
-			Class="ThemeTextSmall"
+			CaptionClass="ThemeTextSmall ThemeBold"
+			Class="ThemeTextSmaller"
 			DefaultValue="@Request.Branch~"
 			GroupCaptionColumn="REGION"
 			ID="Branch"
@@ -1571,8 +1571,8 @@ ORDER BY BRANCH_NAME"
 		<LineBreak/>
 		<InputSelectList
 			Caption="Commodity:"
-			CaptionClass="panel-title"
-			Class="ThemeTextSmall"
+			CaptionClass="ThemeTextSmall ThemeBold"
+			Class="ThemeTextSmaller"
 			DefaultValue="@Request.Commodity~"
 			ID="Commodity"
 			InputRows="5"
@@ -1632,8 +1632,8 @@ ORDER BY BRANCH_NAME"
 		<LineBreak/>
 		<InputSelectList
 			Caption="Commodity:"
-			CaptionClass="panel-title"
-			Class="ThemeTextSmall"
+			CaptionClass="ThemeTextSmall ThemeBold"
+			Class="ThemeTextSmaller"
 			DefaultValue="@Request.Commodity~"
 			ID="Commodity"
 			InputRows="5"
