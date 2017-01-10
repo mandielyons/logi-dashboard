@@ -49,7 +49,7 @@ Where AGTRAX_STAGING.dbo.DM_DSTicketTracking.EntryID = &apos;@Request.EntryId~&a
 				<Label
 					Caption=" "
 					Class="fa fa-chevron-left title"
-					Tooltip="Return to Harvest Summary"
+					Tooltip="Return to Summary"
 					>
 					<Action
 						ID="actionReport"
