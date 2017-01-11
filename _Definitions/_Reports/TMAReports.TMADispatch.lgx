@@ -255,7 +255,7 @@ WHERE CONTRACT_TYPE=2
 											/>
 										</DataTableColumn>
 										<DataTableColumn
-											Header="Account"
+											Header="Consignee"
 											ID="colAccount"
 											Width="12"
 											WidthScale="%"
@@ -547,7 +547,7 @@ WHERE CONTRACT_TYPE=2
 											/>
 										</DataTableColumn>
 										<DataTableColumn
-											Header="Account"
+											Header="Consignee"
 											ID="colAccount"
 											Width="12"
 											WidthScale="%"
