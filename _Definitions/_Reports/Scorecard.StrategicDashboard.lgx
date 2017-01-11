@@ -9,7 +9,12 @@
 	/>
 	<Body>
 		<ResponsiveRow>
-			<ResponsiveColumn>
+			<ResponsiveColumn
+				ColspanExtraSmallScreen="12"
+				ColspanLargeScreen="12"
+				ColspanMediumScreen="12"
+				ColspanSmallScreen="12"
+				>
 				<Division
 					Class="panel panel-default"
 					HtmlDiv="True"
@@ -199,7 +204,12 @@
 									</Gauge>
 								</Division>
 							</ResponsiveColumn>
-							<ResponsiveColumn>
+							<ResponsiveColumn
+								ColspanExtraSmallScreen="6"
+								ColspanLargeScreen="3"
+								ColspanMediumScreen="3"
+								ColspanSmallScreen="6"
+								>
 								<Division
 									Class="panel-body"
 									HtmlDiv="True"
@@ -359,7 +369,12 @@
 									</Gauge>
 								</Division>
 							</ResponsiveColumn>
-							<ResponsiveColumn>
+							<ResponsiveColumn
+								ColspanExtraSmallScreen="6"
+								ColspanLargeScreen="3"
+								ColspanMediumScreen="3"
+								ColspanSmallScreen="6"
+								>
 								<Division
 									Class="panel-body"
 									HtmlDiv="True"
@@ -519,7 +534,12 @@
 									</Gauge>
 								</Division>
 							</ResponsiveColumn>
-							<ResponsiveColumn>
+							<ResponsiveColumn
+								ColspanExtraSmallScreen="6"
+								ColspanLargeScreen="3"
+								ColspanMediumScreen="3"
+								ColspanSmallScreen="6"
+								>
 								<Division
 									Class="panel-body"
 									HtmlDiv="True"
@@ -688,12 +708,18 @@
 			<ResponsiveColumn>
 				<Division
 					Class="panel-body"
+					HtmlDiv="True"
 					ID="panel-body-init"
 					>
 					<ResponsiveRow
 						CollisionBehavior="Wrap"
 						>
-						<ResponsiveColumn>
+						<ResponsiveColumn
+							ColspanExtraSmallScreen="12"
+							ColspanLargeScreen="12"
+							ColspanMediumScreen="12"
+							ColspanSmallScreen="12"
+							>
 							<Tabs
 								DefaultTab="tabFinance"
 								ID="tabPerspectives"
@@ -706,7 +732,12 @@
 									ID="tabFinance"
 									>
 									<ResponsiveRow>
-										<ResponsiveColumn>
+										<ResponsiveColumn
+											ColspanExtraSmallScreen="12"
+											ColspanLargeScreen="6"
+											ColspanMediumScreen="6"
+											ColspanSmallScreen="12"
+											>
 											<Division
 												Class="panel panel-default"
 												HtmlDiv="True"
