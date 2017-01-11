@@ -76,6 +76,7 @@
 					/>
 					<Image
 						Caption="icon-klipstarts (1).png"
+						Class="img-responsive"
 						Height="200"
 						ID="imgDboard2"
 						SecurityRightID="MKC Dashboard,TMA Dashboard,OC"

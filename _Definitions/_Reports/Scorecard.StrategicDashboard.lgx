@@ -782,7 +782,6 @@
 																	FontName="Arial"
 																	FontSize="11"
 																	ID="BulletBar"
-																	MarkerColor="Black"
 																	MarkerValue="@Data.Progress~"
 																	Type="BulletBar"
 																	Value="@Data.Progress~"
@@ -794,8 +793,11 @@
 																		ID="dlFinanceInit1"
 																		Type="Excel"
 																		>
-																		<ConditionFilter
-																			Condition="&quot;@Data.PID~&quot; = &quot;1&quot; And &quot;@Data.INID~&quot; = &quot;1&quot;"
+																		<CompareFilter
+																			CompareType="="
+																			CompareValue="1"
+																			DataColumn="INID"
+																			ID="fil1"
 																		/>
 																	</DataLayer>
 																	<GaugeRange
@@ -1106,7 +1108,6 @@
 																	FontName="Arial"
 																	FontSize="11"
 																	ID="BulletBar"
-																	MarkerColor="Black"
 																	MarkerValue="@Data.Progress~"
 																	Type="BulletBar"
 																	Value="@Data.Progress~"
@@ -1118,8 +1119,11 @@
 																		ID="dlFinanceInit2"
 																		Type="Excel"
 																		>
-																		<ConditionFilter
-																			Condition="&quot;@Data.PID~&quot; = &quot;1&quot; And &quot;@Data.INID~&quot; = &quot;2&quot;"
+																		<CompareFilter
+																			CompareType="="
+																			CompareValue="2"
+																			DataColumn="INID"
+																			ID="fil2"
 																		/>
 																	</DataLayer>
 																	<GaugeRange
@@ -2285,20 +2289,23 @@
 																	FontName="Arial"
 																	FontSize="11"
 																	ID="BulletBar"
-																	MarkerColor="Black"
 																	MarkerValue="@Data.Progress~"
 																	Type="BulletBar"
 																	Value="@Data.Progress~"
 																	>
 																	<DataLayer
+																		CellRange="A4:E7"
 																		ColumnNamesRow="1"
 																		ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\Updated Scorecard Tables.xlsx"
 																		ExcelWorksheet="Initiatives"
 																		ID="dlCustInit1"
 																		Type="Excel"
 																		>
-																		<ConditionFilter
-																			Condition="&quot;@Data.PID~&quot; = &quot;2&quot; And &quot;@Data.INID~&quot; = &quot;1&quot;"
+																		<CompareFilter
+																			CompareType="="
+																			CompareValue="1"
+																			DataColumn="INID"
+																			ID="filCust1"
 																		/>
 																	</DataLayer>
 																	<GaugeRange
@@ -2706,20 +2713,23 @@
 																	FontName="Arial"
 																	FontSize="11"
 																	ID="BulletBar"
-																	MarkerColor="Black"
 																	MarkerValue="@Data.Progress~"
 																	Type="BulletBar"
 																	Value="@Data.Progress~"
 																	>
 																	<DataLayer
+																		CellRange="A4:E7"
 																		ColumnNamesRow="1"
 																		ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\Updated Scorecard Tables.xlsx"
 																		ExcelWorksheet="Initiatives"
 																		ID="dlCustInitiatives2"
 																		Type="Excel"
 																		>
-																		<ConditionFilter
-																			Condition="&quot;@Data.PID~&quot; = &quot;2&quot; And &quot;@Data.INID~&quot; = &quot;2&quot;"
+																		<CompareFilter
+																			CompareType="="
+																			CompareValue="2"
+																			DataColumn="INID"
+																			ID="filCust2"
 																		/>
 																	</DataLayer>
 																	<GaugeRange
@@ -3027,20 +3037,23 @@
 																	FontName="Arial"
 																	FontSize="11"
 																	ID="BulletBar"
-																	MarkerColor="Black"
 																	MarkerValue="@Data.Progress~"
 																	Type="BulletBar"
 																	Value="@Data.Progress~"
 																	>
 																	<DataLayer
+																		CellRange="A4:E7"
 																		ColumnNamesRow="1"
 																		ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\Updated Scorecard Tables.xlsx"
 																		ExcelWorksheet="Initiatives"
 																		ID="dlCustInitiatives3"
 																		Type="Excel"
 																		>
-																		<ConditionFilter
-																			Condition="&quot;@Data.PID~&quot; = &quot;2&quot; And &quot;@Data.INID~&quot; = &quot;3&quot;"
+																		<CompareFilter
+																			CompareType="="
+																			CompareValue="3"
+																			DataColumn="INID"
+																			ID="filCust3"
 																		/>
 																	</DataLayer>
 																	<GaugeRange
@@ -3346,20 +3359,23 @@
 																	FontName="Arial"
 																	FontSize="11"
 																	ID="BulletBar"
-																	MarkerColor="Black"
 																	MarkerValue="@Data.Progress~"
 																	Type="BulletBar"
 																	Value="@Data.Progress~"
 																	>
 																	<DataLayer
+																		CellRange="A4:E7"
 																		ColumnNamesRow="1"
 																		ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\Updated Scorecard Tables.xlsx"
 																		ExcelWorksheet="Initiatives"
 																		ID="dlCustInitiatives4"
 																		Type="Excel"
 																		>
-																		<ConditionFilter
-																			Condition="&quot;@Data.PID~&quot; = &quot;2&quot; And &quot;@Data.INID~&quot; = &quot;4&quot;"
+																		<CompareFilter
+																			CompareType="="
+																			CompareValue="4"
+																			DataColumn="INID"
+																			ID="filCust4"
 																		/>
 																	</DataLayer>
 																	<GaugeRange
@@ -3674,20 +3690,23 @@
 																	FontName="Arial"
 																	FontSize="11"
 																	ID="BulletBar"
-																	MarkerColor="Black"
 																	MarkerValue="@Data.Progress~"
 																	Type="BulletBar"
 																	Value="@Data.Progress~"
 																	>
 																	<DataLayer
+																		CellRange="A8:E12"
 																		ColumnNamesRow="1"
 																		ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\Updated Scorecard Tables.xlsx"
 																		ExcelWorksheet="Initiatives"
 																		ID="dlEmpInit1"
 																		Type="Excel"
 																		>
-																		<ConditionFilter
-																			Condition="&quot;@Data.PID~&quot; = &quot;3&quot; And &quot;@Data.INID~&quot; = &quot;1&quot;"
+																		<CompareFilter
+																			CompareType="="
+																			CompareValue="1"
+																			DataColumn="INID"
+																			ID="filEmp1"
 																		/>
 																	</DataLayer>
 																	<GaugeRange
@@ -3996,20 +4015,23 @@
 																	FontName="Arial"
 																	FontSize="11"
 																	ID="BulletBar"
-																	MarkerColor="Black"
 																	MarkerValue="@Data.Progress~"
 																	Type="BulletBar"
 																	Value="@Data.Progress~"
 																	>
 																	<DataLayer
+																		CellRange="A8:E12"
 																		ColumnNamesRow="1"
 																		ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\Updated Scorecard Tables.xlsx"
 																		ExcelWorksheet="Initiatives"
 																		ID="dlEmpInitiatives2"
 																		Type="Excel"
 																		>
-																		<ConditionFilter
-																			Condition="&quot;@Data.PID~&quot; = &quot;3&quot; And &quot;@Data.INID~&quot; = &quot;2&quot;"
+																		<CompareFilter
+																			CompareType="="
+																			CompareValue="2"
+																			DataColumn="INID"
+																			ID="filEmp2"
 																		/>
 																	</DataLayer>
 																	<GaugeRange
@@ -4320,20 +4342,23 @@
 																	FontName="Arial"
 																	FontSize="11"
 																	ID="BulletBar"
-																	MarkerColor="Black"
 																	MarkerValue="@Data.Progress~"
 																	Type="BulletBar"
 																	Value="@Data.Progress~"
 																	>
 																	<DataLayer
+																		CellRange="A8:E12"
 																		ColumnNamesRow="1"
 																		ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\Updated Scorecard Tables.xlsx"
 																		ExcelWorksheet="Initiatives"
 																		ID="dlEmpInitiatives3"
 																		Type="Excel"
 																		>
-																		<ConditionFilter
-																			Condition="&quot;@Data.PID~&quot; = &quot;3&quot; And &quot;@Data.INID~&quot; = &quot;3&quot;"
+																		<CompareFilter
+																			CompareType="="
+																			CompareValue="3"
+																			DataColumn="INID"
+																			ID="filEmp3"
 																		/>
 																	</DataLayer>
 																	<GaugeRange
@@ -4642,7 +4667,6 @@
 																	FontName="Arial"
 																	FontSize="11"
 																	ID="BulletBar"
-																	MarkerColor="Black"
 																	MarkerValue="@Data.Progress~"
 																	Type="BulletBar"
 																	Value="@Data.Progress~"
@@ -4654,8 +4678,11 @@
 																		ID="dlEmpInitiatives4"
 																		Type="Excel"
 																		>
-																		<ConditionFilter
-																			Condition="&quot;@Data.PID~&quot; = &quot;3&quot; And &quot;@Data.INID~&quot; = &quot;4&quot;"
+																		<CompareFilter
+																			CompareType="="
+																			CompareValue="4"
+																			DataColumn="INID"
+																			ID="filEmp4"
 																		/>
 																	</DataLayer>
 																	<GaugeRange
@@ -4966,20 +4993,23 @@
 																	FontName="Arial"
 																	FontSize="11"
 																	ID="BulletBar"
-																	MarkerColor="Black"
 																	MarkerValue="@Data.Progress~"
 																	Type="BulletBar"
 																	Value="@Data.Progress~"
 																	>
 																	<DataLayer
+																		CellRange="A8:E12"
 																		ColumnNamesRow="1"
 																		ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\Updated Scorecard Tables.xlsx"
 																		ExcelWorksheet="Initiatives"
 																		ID="dlEmpInitiatives5"
 																		Type="Excel"
 																		>
-																		<ConditionFilter
-																			Condition="&quot;@Data.PID~&quot; = &quot;3&quot; And &quot;@Data.INID~&quot; = &quot;5&quot;"
+																		<CompareFilter
+																			CompareType="="
+																			CompareValue="5"
+																			DataColumn="INID"
+																			ID="filEmp5"
 																		/>
 																	</DataLayer>
 																	<GaugeRange
@@ -5294,20 +5324,23 @@
 																	FontName="Arial"
 																	FontSize="11"
 																	ID="BulletBar"
-																	MarkerColor="Black"
 																	MarkerValue="@Data.Progress~"
 																	Type="BulletBar"
 																	Value="@Data.Progress~"
 																	>
 																	<DataLayer
+																		CellRange="A13:E18"
 																		ColumnNamesRow="1"
 																		ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\Updated Scorecard Tables.xlsx"
 																		ExcelWorksheet="Initiatives"
 																		ID="dlRenewalInit1"
 																		Type="Excel"
 																		>
-																		<ConditionFilter
-																			Condition="&quot;@Data.PID~&quot; = &quot;4&quot; And &quot;@Data.INID~&quot; = &quot;1&quot;"
+																		<CompareFilter
+																			CompareType="="
+																			CompareValue="1"
+																			DataColumn="INID"
+																			ID="filRen1"
 																		/>
 																	</DataLayer>
 																	<GaugeRange
@@ -5616,20 +5649,23 @@
 																	FontName="Arial"
 																	FontSize="11"
 																	ID="BulletBar"
-																	MarkerColor="Black"
 																	MarkerValue="@Data.Progress~"
 																	Type="BulletBar"
 																	Value="@Data.Progress~"
 																	>
 																	<DataLayer
+																		CellRange="A13:E18"
 																		ColumnNamesRow="1"
 																		ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\Updated Scorecard Tables.xlsx"
 																		ExcelWorksheet="Initiatives"
 																		ID="dlRenewalInit2"
 																		Type="Excel"
 																		>
-																		<ConditionFilter
-																			Condition="&quot;@Data.PID~&quot; = &quot;4&quot; And &quot;@Data.INID~&quot; = &quot;2&quot;"
+																		<CompareFilter
+																			CompareType="="
+																			CompareValue="2"
+																			DataColumn="INID"
+																			ID="filRen2"
 																		/>
 																	</DataLayer>
 																	<GaugeRange
@@ -5946,14 +5982,18 @@
 																	Value="@Data.Progress~"
 																	>
 																	<DataLayer
+																		CellRange="A13:E18"
 																		ColumnNamesRow="1"
 																		ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\Updated Scorecard Tables.xlsx"
 																		ExcelWorksheet="Initiatives"
 																		ID="dlRenewalInitiatives3"
 																		Type="Excel"
 																		>
-																		<ConditionFilter
-																			Condition="&quot;@Data.PID~&quot; = &quot;4&quot; And &quot;@Data.INID~&quot; = &quot;3&quot;"
+																		<CompareFilter
+																			CompareType="="
+																			CompareValue="3"
+																			DataColumn="INID"
+																			ID="filRen3"
 																		/>
 																	</DataLayer>
 																	<GaugeRange
@@ -6262,20 +6302,23 @@
 																	FontName="Arial"
 																	FontSize="11"
 																	ID="BulletBar"
-																	MarkerColor="Black"
 																	MarkerValue="@Data.Progress~"
 																	Type="BulletBar"
 																	Value="@Data.Progress~"
 																	>
 																	<DataLayer
+																		CellRange="A13:E18"
 																		ColumnNamesRow="1"
 																		ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\Updated Scorecard Tables.xlsx"
 																		ExcelWorksheet="Initiatives"
 																		ID="dlRenewaltInitiatives4"
 																		Type="Excel"
 																		>
-																		<ConditionFilter
-																			Condition="&quot;@Data.PID~&quot; = &quot;4&quot; And &quot;@Data.INID~&quot; = &quot;4&quot;"
+																		<CompareFilter
+																			CompareType="="
+																			CompareValue="4"
+																			DataColumn="INID"
+																			ID="filRen4"
 																		/>
 																	</DataLayer>
 																	<GaugeRange
@@ -6701,20 +6744,23 @@
 																	FontName="Arial"
 																	FontSize="11"
 																	ID="BulletBar"
-																	MarkerColor="Black"
 																	MarkerValue="@Data.Progress~"
 																	Type="BulletBar"
 																	Value="@Data.Progress~"
 																	>
 																	<DataLayer
+																		CellRange="A13:E18"
 																		ColumnNamesRow="1"
 																		ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\Updated Scorecard Tables.xlsx"
 																		ExcelWorksheet="Initiatives"
 																		ID="dlRenewaltInitiatives5"
 																		Type="Excel"
 																		>
-																		<ConditionFilter
-																			Condition="&quot;@Data.PID~&quot; = &quot;4&quot; And &quot;@Data.INID~&quot; = &quot;5&quot;"
+																		<CompareFilter
+																			CompareType="="
+																			CompareValue="5"
+																			DataColumn="INID"
+																			ID="filRen5"
 																		/>
 																	</DataLayer>
 																	<GaugeRange
@@ -7032,20 +7078,23 @@
 																	FontName="Arial"
 																	FontSize="11"
 																	ID="BulletBar"
-																	MarkerColor="Black"
 																	MarkerValue="@Data.Progress~"
 																	Type="BulletBar"
 																	Value="@Data.Progress~"
 																	>
 																	<DataLayer
+																		CellRange="A13:E18"
 																		ColumnNamesRow="1"
 																		ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\Updated Scorecard Tables.xlsx"
 																		ExcelWorksheet="Initiatives"
 																		ID="dlRenewaltInitiatives5"
 																		Type="Excel"
 																		>
-																		<ConditionFilter
-																			Condition="&quot;@Data.PID~&quot; = &quot;4&quot; And &quot;@Data.INID~&quot; = &quot;6&quot;"
+																		<CompareFilter
+																			CompareType="="
+																			CompareValue="6"
+																			DataColumn="INID"
+																			ID="filRen6"
 																		/>
 																	</DataLayer>
 																	<GaugeRange
