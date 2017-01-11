@@ -948,7 +948,7 @@ color:#fff;
   border: none !important;
 }
 .yui-navset .yui-nav li {
-  background-color: #808080;
+  background-color: #D3D3D3;
   padding: 6px 18px;
   border-radius: 2px 2px 0 0;
 }
@@ -969,6 +969,9 @@ color:#fff;
 }
 .yui-navset .yui-nav li:hover {
   background-color: #FBEC59;
+  -webkit-transition: color 0.20s ease-in-out 0s;
+  -moz-transition: color 0.20s ease-in-out 0s;
+  transition: color 0.20s ease-in-out 0s;
 }
 
 .yui-navset div.yui-content {
