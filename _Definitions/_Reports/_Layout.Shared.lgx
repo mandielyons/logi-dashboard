@@ -1345,7 +1345,6 @@ else {
 			MultiSelect="True"
 			OptionCaptionColumn="BRANCH_NAME"
 			OptionValueColumn="BRANCH_NUMBER"
-			SecurityRightID="TMA Dashboard,MKC Dashboard"
 			>
 			<DataLayer
 				ConnectionID="connProdGP"
@@ -1392,81 +1391,6 @@ ORDER BY BRANCH_NAME"
 			<EventHandler
 				DhtmlEvent="onchange"
 				ID="evtOnChangeBranch"
-				>
-				<Action
-					ElementID="@Shared.BranchElementToRefresh~"
-					ID="actRefreshReport"
-					Type="RefreshElement"
-					>
-					<WaitPage/>
-				</Action>
-			</EventHandler>
-		</InputSelectList>
-		<Note
-			Note="**OC branches show here. Security set to OC.**"
-		/>
-		<InputSelectList
-			Caption="Locations:"
-			CaptionClass="ThemeTextSmall ThemeBold"
-			Class="ThemeTextSmaller"
-			DefaultValue="@Request.Branch~"
-			GroupCaptionColumn="REGION"
-			ID="Branch"
-			InputRows="12"
-			MultiSelect="True"
-			OptionCaptionColumn="BRANCH_NAME"
-			OptionValueColumn="BRANCH_NUMBER"
-			SecurityRightID="OC"
-			>
-			<DataLayer
-				ConnectionID="connProdGP"
-				ID="sqlLocations"
-				Source="SELECT DISTINCT BRANCH_NUMBER, BRANCH_NAME
-FROM AgTrax_Staging..IV_BRANCH_MASTER
-WHERE BRANCH_NUMBER IN(SELECT DISTINCT BRANCH_NUMBER FROM AgTrax_Staging..DM_HarvestSummary)
-ORDER BY BRANCH_NAME"
-				Type="SQL"
-				>
-				<Join
-					ID="joinSqlToExcelBranch"
-					JoinType="LeftOuterJoin"
-					SortLeftSide="True"
-					SortRightSide="True"
-					>
-					<DataLayer
-						ColumnNamesRow="1"
-						ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\LocationData.xlsx"
-						ExcelWorksheet="TMALocations"
-						ID="excelTMALocations"
-						Type="Excel"
-					/>
-					<MatchCondition
-						DataType="Number"
-						ID="matchBRANCH_NUMBER"
-						LeftDataColumn="BRANCH_NUMBER"
-						RightDataColumn="BRANCH_NUMBER"
-					/>
-				</Join>
-				<ConditionFilter
-					Condition="&quot;@Data.REGION~&quot; &lt;&gt; &quot;MKC&quot;"
-					ID="ifOC"
-				/>
-				<SortFilter
-					DataType="Text"
-					ID="sortREGION,BRANCH"
-					SortColumn="REGION, BRANCH_NAME"
-				/>
-				<GroupFilter
-					DataType="Text"
-					GroupColumn="REGION"
-					Hierarchical="True"
-					ID="groupREGION"
-					KeepGroupedRows="True"
-				/>
-			</DataLayer>
-			<EventHandler
-				DhtmlEvent="onchange"
-				ID="evtOnChangeOCBranch"
 				>
 				<Action
 					ElementID="@Shared.BranchElementToRefresh~"
