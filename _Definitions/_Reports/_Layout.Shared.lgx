@@ -347,20 +347,18 @@ else {
 										<Note
 											Note="*** build mobile navigation here - only for BELOW 1024*768 (1024*768 in portrait) ***"
 										/>
-										<Remark>
-											<Division
-												ID="div-rtest"
-												>
-												<Label
-													Caption="***FOR INTERNAL USE ONLY***"
-													Class="ThemeErrorText,ThemeTextSmallest"
-													HtmlTag="Span"
-												/>
-												<Spaces
-													Size="5"
-												/>
-											</Division>
-										</Remark>
+										<Division
+											ID="div-rtest"
+											>
+											<Label
+												Caption="***FOR INTERNAL USE ONLY***"
+												Class="ThemeErrorText,ThemeTextSmallest"
+												HtmlTag="Span"
+											/>
+											<Spaces
+												Size="5"
+											/>
+										</Division>
 										<ResponsiveVisibility
 											HideForExtraSmallScreen="False"
 											HideForLargeScreen="True"
@@ -531,20 +529,18 @@ else {
 												ColspanMediumScreen="12"
 												ColspanSmallScreen="12"
 												>
-												<Remark>
-													<Division
-														ID="div-test"
-														>
-														<Label
-															Caption="***FOR INTERNAL USE ONLY***"
-															Class="ThemeErrorText,ThemeTextSmall"
-															HtmlTag="Span"
-														/>
-														<Spaces
-															Size="5"
-														/>
-													</Division>
-												</Remark>
+												<Division
+													ID="div-test"
+													>
+													<Label
+														Caption="***FOR INTERNAL USE ONLY***"
+														Class="ThemeErrorText,ThemeTextSmall"
+														HtmlTag="Span"
+													/>
+													<Spaces
+														Size="5"
+													/>
+												</Division>
 												<Remark>
 													<Label
 														Caption="Home"
