@@ -107,51 +107,6 @@
 										CommodityElementToRefresh="divHarvest, divSelections"
 									/>
 								</IncludeSharedElement>
-								<Remark>
-									<InputSelectList
-										Caption="Commodity:"
-										DefaultValue="@Request.Commodity~"
-										ID="Commodity"
-										InputRows="5"
-										MultiSelect="True"
-										OptionCaptionColumn="COMMODITY_DESC"
-										OptionValueColumn="COMMODITY_CODE"
-										>
-										<DataLayer
-											ID="staticCOMMODITY"
-											Type="Static"
-											>
-											<StaticDataRow
-												COMMODITY_CODE="01"
-												COMMODITY_DESC="WHEAT"
-											/>
-											<StaticDataRow
-												COMMODITY_CODE="02"
-												COMMODITY_DESC="MILO"
-											/>
-											<StaticDataRow
-												COMMODITY_CODE="03"
-												COMMODITY_DESC="SOYBEANS"
-											/>
-											<StaticDataRow
-												COMMODITY_CODE="04"
-												COMMODITY_DESC="CORN"
-											/>
-										</DataLayer>
-										<EventHandler
-											DhtmlEvent="onchange"
-											ID="evtOnChange"
-											>
-											<Action
-												ElementID="divHarvest, divSelections"
-												ID="actRefreshReport"
-												Type="RefreshElement"
-												>
-												<WaitPage/>
-											</Action>
-										</EventHandler>
-									</InputSelectList>
-								</Remark>
 								<LineBreak/>
 								<Button
 									Caption="Reset"
