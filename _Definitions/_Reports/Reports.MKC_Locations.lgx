@@ -4,6 +4,9 @@
 	ID="Reports.MKC_Locations"
 	SecurityReportRightID="Dashboard Monthly Staff"
 	>
+	<DefaultRequestParams
+		Branch="00"
+	/>
 	<LocalData
 		ID="Local-BranchData"
 		>
@@ -56,75 +59,59 @@
 						>
 						<ResponsiveRow>
 							<ResponsiveColumn
-								ColspanExtraSmallScreen="12"
-								ColspanLargeScreen="12"
-								ColspanMediumScreen="12"
-								ColspanSmallScreen="12"
+								ColspanExtraSmallScreen="6"
+								ColspanLargeScreen="3"
+								ColspanMediumScreen="3"
+								ColspanSmallScreen="6"
 								>
 								<Division
-									Class="pull-right"
+									Class="well ThemeTextSmall"
 									HtmlDiv="True"
-									ID="divHelp"
+									ID="divFilter"
 									>
 									<Label
-										Class="fa fa-question-circle fa-2x "
-										HtmlTag="Span"
-										ID="lnkHelp"
-										Tooltip="Branch Dashboard Help"
+										Caption="Click on your location in the map."
+										Class="ThemeTextSmall"
+									/>
+									<LineBreak/>
+									<IncludeSharedElement
+										DefinitionFile="_Layout.Shared"
+										SharedElementID="shrMKCBranchSelect"
+										>
+										<SharedElementParams
+											BranchElementToRefresh="divMapAll,divMapSelected,panel-detail-container"
+										/>
+									</IncludeSharedElement>
+									<LineBreak
+										LineCount="1"
+									/>
+									<Button
+										Caption="Reset"
+										ID="btnReset"
+										Tooltip="Clear all selections"
 										>
 										<Action
-											Type="Report"
+											ElementID="Branch,divMap,divBranchDetail"
+											ID="actReport"
+											RequestForwarding="True"
+											Type="RefreshElement"
 											>
-											<Target
-												FrameID="NewWindow"
-												Report="Unknown.SubReports.BranchFAQs"
-												Type="Report"
+											<WaitPage/>
+											<LinkParams
+												Branch="00"
 											/>
 										</Action>
-									</Label>
-									<LineBreak
-										LineCount="2"
-									/>
+									</Button>
 								</Division>
 							</ResponsiveColumn>
-						</ResponsiveRow>
-						<ResponsiveRow>
-							<Remark>
-								<ResponsiveColumn
-									ColspanExtraSmallScreen="4"
-									ColspanLargeScreen="2"
-									ColspanMediumScreen="2"
-									ColspanSmallScreen="4"
-									>
-									<Division
-										Class="well"
-										HtmlDiv="True"
-										ID="divFilter"
-										>
-										<IncludeSharedElement
-											DefinitionFile="_Layout.Shared"
-											SharedElementID="shrMKCBranchSelect"
-											>
-											<SharedElementParams
-												BranchElementToRefresh="panel-detail-container"
-											/>
-										</IncludeSharedElement>
-									</Division>
-								</ResponsiveColumn>
-							</Remark>
 							<ResponsiveColumn
 								ColspanExtraSmallScreen="12"
-								ColspanLargeScreen="5"
-								ColspanMediumScreen="5"
+								ColspanLargeScreen="8"
+								ColspanMediumScreen="8"
 								ColspanSmallScreen="12"
 								>
-								<Label
-									Caption="Click on your location in the map."
-									Class="ThemeTextSmall"
-								/>
-								<LineBreak/>
 								<Division
-									ID="divMap"
+									ID="divMapAll"
 									>
 									<GoogleMap
 										ConnectionID="gmAPIKey"
@@ -163,12 +150,65 @@
 											</DataLayer>
 										</GoogleMapMarkers>
 									</GoogleMap>
+									<ConditionalClass
+										Class="ThemeHidden"
+										Condition="@Request.Branch~ &lt;&gt; 0"
+									/>
+								</Division>
+								<Division
+									ID="divMapSelected"
+									>
+									<GoogleMap
+										ConnectionID="gmAPIKey"
+										GoogleMapTypes="Hybrid"
+										GoogleMapZoomControl="Small"
+										Height="550"
+										ID="gmBranch"
+										MapScale="False"
+										Width="700"
+										>
+										<GoogleMapMarkers
+											ID="gmmBranch"
+											Latitude="@Data.Latitude~"
+											Longitude="@Data.Longitude~"
+											>
+											<Action
+												ElementID="panel-detail-container,divHelp"
+												ID="refLocationInfoTable"
+												Type="RefreshElement"
+												>
+												<LinkParams
+													paramLocCd="@Data.LOCNCODE~"
+													paramLocGLStr="@Data.LocGLStr~"
+													paramLocName="@Data.Location~"
+												/>
+												<WaitPage/>
+											</Action>
+											<DataLayer
+												ColumnNamesRow="1"
+												ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\LocationData.xlsx"
+												ExcelWorksheet="BranchData"
+												ID="dlBranchSelected"
+												Type="Excel"
+												>
+												<ConditionFilter
+													Condition="&quot;@Data.LocGlStr~&quot; = &quot;@Request.Branch~&quot;"
+												/>
+											</DataLayer>
+										</GoogleMapMarkers>
+									</GoogleMap>
+									<ConditionalClass
+										Class="ThemeHidden"
+										Condition="@Request.Branch~ = 0"
+									/>
 								</Division>
 							</ResponsiveColumn>
+						</ResponsiveRow>
+						<ResponsiveRow>
 							<ResponsiveColumn
 								ColspanExtraSmallScreen="12"
-								ColspanLargeScreen="7"
-								ColspanMediumScreen="7"
+								ColspanLargeScreen="12"
+								ColspanMediumScreen="12"
 								ColspanSmallScreen="12"
 								>
 								<Division
@@ -555,6 +595,40 @@ ORDER BY ID */"
 								</Division>
 							</ResponsiveColumn>
 						</ResponsiveRow>
+						<ResponsiveRow>
+							<ResponsiveColumn
+								ColspanExtraSmallScreen="12"
+								ColspanLargeScreen="12"
+								ColspanMediumScreen="12"
+								ColspanSmallScreen="12"
+								>
+								<Division
+									Class="pull-right"
+									HtmlDiv="True"
+									ID="divHelp"
+									>
+									<Label
+										Class="fa fa-question-circle fa-2x "
+										HtmlTag="Span"
+										ID="lnkHelp"
+										Tooltip="Branch Dashboard Help"
+										>
+										<Action
+											Type="Report"
+											>
+											<Target
+												FrameID="NewWindow"
+												Report="Unknown.SubReports.BranchFAQs"
+												Type="Report"
+											/>
+										</Action>
+									</Label>
+									<LineBreak
+										LineCount="2"
+									/>
+								</Division>
+							</ResponsiveColumn>
+						</ResponsiveRow>
 					</Division>
 				</Division>
 			</ResponsiveColumn>
@@ -566,6 +640,7 @@ ORDER BY ID */"
 		SharedElementID="shrFooter"
 	/>
 	<ideTestParams
+		Branch=""
 		paramLocName=""
 	/>
 </Report>

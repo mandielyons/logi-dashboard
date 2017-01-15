@@ -5,6 +5,14 @@
 	<SharedElement
 		ID="shrHeader"
 		>
+		<IncludeHtml
+			Html="&lt;script src=&quot;_Themes/MKC-Accelerate/js/notify.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;_Themes/MKC-Accelerate/js/notify-metro.js&quot;&gt;&lt;/script&gt;
+&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;_Themes/MKC-Accelerate/css/notify-metro.css&quot;&gt;&lt;/link&gt;
+
+
+"
+		/>
 		<IncludeScript
 			ID="globalScripts"
 			IncludedScript="&lt;script&gt;
@@ -44,13 +52,6 @@
 }
 
 &lt;/script&gt;
-"
-		/>
-		<IncludeHtml
-			Html="&lt;!--&lt;link rel=&quot;stylesheet&quot; href=&quot;https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css&quot;&gt;
-&lt;script src=&quot;https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js&quot;&gt;&lt;/script&gt;
-&lt;script src=&quot;https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js&quot;&gt;&lt;/script&gt;--&gt;
-
 "
 		/>
 		<PopupPanel
@@ -257,6 +258,13 @@ else {
 				DefaultValue="@Request.rdReport~"
 				ID="iptReport"
 			/>
+			<InputHidden
+				ID="iptShowNotifications"
+			/>
+			<InputHidden
+				DefaultValue="@Function.UserID~"
+				ID="iptUserNotifications"
+			/>
 			<Division
 				HtmlDiv="True"
 				ID="Header-inner"
@@ -324,7 +332,7 @@ else {
 												Type="Report"
 												>
 												<Target
-													Report="TMAReports.TMAContractsDashboard"
+													Report="Home.Default"
 													Type="Report"
 													>
 													<WaitPage/>
@@ -1198,13 +1206,34 @@ else {
 																		</Label>
 																	</ListItem>
 																</DataList>
+																<Division
+																	HtmlDiv="True"
+																	ID="divClearStorage"
+																	SecurityRightID="LogiUserAdmin"
+																	>
+																	<Spaces
+																		Size="5"
+																	/>
+																	<Button
+																		Caption="Clear"
+																		Class="btn btn-default"
+																		ID="btnClear"
+																		Tooltip="Clear local storage."
+																		>
+																		<Action
+																			ID="jsClear"
+																			Javascript="clearLocalStorage();"
+																			Type="Javascript"
+																		/>
+																	</Button>
+																</Division>
 															</Division>
+															<Label
+																Caption="|"
+																Class="pipe-spacer"
+																ID="pipe-spacer"
+															/>
 														</Division>
-														<Label
-															Caption="|"
-															Class="pipe-spacer"
-															ID="pipe-spacer"
-														/>
 													</Division>
 													<Label
 														Caption="Logout"
@@ -1317,6 +1346,14 @@ else {
 						</Division>
 					</Division>
 				</Division>
+			</Division>
+			<Division
+				Class="elem-demo ThemeHidden"
+				ID="divNotifications"
+				>
+				<IncludeHtmlFile
+					IncludedHtmlFile="_Definitions/updates.html"
+				/>
 			</Division>
 		</Division>
 	</SharedElement>
@@ -1477,8 +1514,8 @@ ORDER BY BRANCH_NAME"
 					Type="RefreshElement"
 					>
 					<LinkParams
+						Branch="@Data.LocGLStr~"
 						paramLocCd="@Data.LOCNCODE~"
-						paramLocGLStr="@Data.LocGLStr~"
 						paramLocName="@Data.Location~"
 					/>
 					<WaitPage/>
@@ -1788,8 +1825,45 @@ $(document).ready(function() {
 	if (r &gt; -1) {
 				
 	}
+	
+	//notifications
+	var home = report.search(&quot;Home.Default&quot;);
+	var dismissed = localStorage.getItem(&apos;dismissed&apos;) || &apos;&apos; ;
+	var loggedInUser = document.getElementById(&quot;iptUserNotifications&quot;).value;
+	var userDismiss = dismissed.search(loggedInUser);	
+	var userList;
+	if (home &gt; -1 || report == &quot;&quot;) {
+		if (document.getElementById(&quot;iptShowNotifications&quot;).value == &quot;N&quot;) {
+			//do not show notifications here
+		}
+		else {
+			//if -1 this user has not dismissed the notifications yet, so show them
+			if (dismissed == &quot;&quot; || userDismiss == -1) {
+				var ul = document.getElementById(&quot;notifications&quot;);
+				var items = ul.getElementsByTagName(&quot;li&quot;);
+				for (var i = 0; i &lt; items.length; ++i) {
+					// do something with the notification items, which is a &lt;li&gt; element
+					$.notify(items[i].innerHTML,{className: &quot;error&quot;,autoHide: false,position:&quot;bottom left&quot;});		
+				}
+				document.getElementById(&quot;iptShowNotifications&quot;).value = &quot;N&quot;;
+				if (dismissed = &quot;&quot;) {
+					userList = loggedInUser + &quot;,&quot;;
+				}
+				else {
+					userList = dismissed + loggedInUser + &quot;,&quot;;
+				
+				}
+				localStorage.setItem(&apos;dismissed&apos;,userList);
+			}
+			
+		}
+	}
 
- });"
+ });
+ 
+ function clearLocalStorage() {
+ 	localStorage.clear();
+ }"
 		/>
 	</SharedElement>
 	<ideTestParams
