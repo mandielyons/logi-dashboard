@@ -1526,90 +1526,6 @@ ORDER BY BRANCH_NAME"
 		</InputSelectList>
 	</SharedElement>
 	<SharedElement
-		ID="shrMKCBranchSelect"
-		>
-		<Note
-			Note="**MKC Branches Only. Pass in BranchElementToRefresh in the Shared Element Params.**"
-		/>
-		<LineBreak/>
-		<InputSelectList
-			Caption="Locations:"
-			CaptionClass="panel-title"
-			Class="ThemeTextSmall"
-			DefaultValue="@Request.Branch~"
-			GroupCaptionColumn="REGION"
-			ID="Branch"
-			InputRows="12"
-			MultiSelect="False"
-			OptionCaptionColumn="BRANCH_NAME"
-			OptionValueColumn="BRANCH_NUMBER"
-			>
-			<DataLayer
-				ConnectionID="connProdGP"
-				ID="sqlLocations"
-				Source="SELECT DISTINCT BRANCH_NUMBER, BRANCH_NAME
-FROM AgTrax_Staging..IV_BRANCH_MASTER
-WHERE BRANCH_NUMBER IN(SELECT DISTINCT BRANCH_NUMBER FROM AgTrax_Staging..DM_HarvestSummary)
-ORDER BY BRANCH_NAME"
-				Type="SQL"
-				>
-				<Join
-					ID="joinSqlToExcelBranch"
-					JoinType="LeftOuterJoin"
-					SortLeftSide="True"
-					SortRightSide="True"
-					>
-					<DataLayer
-						ColumnNamesRow="1"
-						ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\LocationData.xlsx"
-						ExcelWorksheet="TMALocations"
-						ID="excelTMALocations"
-						Type="Excel"
-					/>
-					<MatchCondition
-						DataType="Number"
-						ID="matchBRANCH_NUMBER"
-						LeftDataColumn="BRANCH_NUMBER"
-						RightDataColumn="BRANCH_NUMBER"
-					/>
-				</Join>
-				<ConditionFilter
-					Condition="&quot;@Data.REGION~&quot; = &quot;MKC&quot;"
-					ID="ifMKC"
-				/>
-				<SortFilter
-					DataType="Text"
-					ID="sortREGION,BRANCH"
-					SortColumn="REGION, BRANCH_NAME"
-				/>
-				<GroupFilter
-					DataType="Text"
-					GroupColumn="REGION"
-					Hierarchical="True"
-					ID="groupREGION"
-					KeepGroupedRows="True"
-				/>
-			</DataLayer>
-			<EventHandler
-				DhtmlEvent="onchange"
-				ID="evtOnChangeBranch"
-				>
-				<Action
-					ElementID="@Shared.BranchElementToRefresh~"
-					ID="actRefreshReport"
-					Type="RefreshElement"
-					>
-					<LinkParams
-						Branch="@Data.LocGLStr~"
-						paramLocCd="@Data.LOCNCODE~"
-						paramLocName="@Data.Location~"
-					/>
-					<WaitPage/>
-				</Action>
-			</EventHandler>
-		</InputSelectList>
-	</SharedElement>
-	<SharedElement
 		ID="shrCommoditySelect"
 		>
 		<Note
@@ -1936,7 +1852,7 @@ $(document).ready(function() {
 		
 		var thisItem;
 		var anchors;
-		ul = document.getElementById(&quot;notifications&quot;);
+		ul = document.getElementById(&quot;notes&quot;);
 		items = ul.getElementsByTagName(&quot;li&quot;);
 		for (var i = 0; i &lt; items.length; ++i) {
 			// set the page header to the version
@@ -1948,7 +1864,10 @@ $(document).ready(function() {
 			}
 		}
 		notifications.innerHTML = notifications.innerHTML + &quot;&lt;/ul&gt;&lt;br&gt;&quot;;
-	
+		var history = document.getElementById(&quot;history&quot;);
+		notifications.innerHTML = notifications.innerHTML + history.innerHTML;
+		
+
 
 	//display notifications
 	var home = report.search(&quot;Home.Default&quot;);
@@ -1967,7 +1886,8 @@ $(document).ready(function() {
 				var items = ul.getElementsByTagName(&quot;li&quot;);
 				for (var i = 0; i &lt; items.length; ++i) {
 					// do something with the notification items, which is a &lt;li&gt; element
-					$.notify(items[i].innerHTML,{className: &quot;error&quot;,autoHide: false,position:&quot;bottom left&quot;});
+					//$.notify(items[i].innerHTML,{className: &quot;error&quot;,autoHide: false,position:&quot;bottom left&quot;});
+					$(&quot;#Footer&quot;).notify(items[i].innerHTML,{className: &quot;error&quot;,autoHide: false,position:&quot;top left&quot;});
 				}				
 			}			
 		}
