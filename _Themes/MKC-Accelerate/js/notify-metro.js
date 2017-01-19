@@ -37,3 +37,4 @@ $.notify.addStyle("metro", {
         }
     }
 });
+

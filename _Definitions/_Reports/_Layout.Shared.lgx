@@ -56,12 +56,14 @@
 		/>
 		<PopupPanel
 			Draggable="False"
-			Height="250px"
+			Height="30"
+			HeightScale="%"
 			ID="pnlWish"
 			PopupModal="True"
 			PopupPanelLocation="Center"
 			ShowOnPageLoad="False"
-			Width="300px"
+			Width="30"
+			WidthScale="%"
 			>
 			<Division
 				Class="panel panel-default"
@@ -82,7 +84,10 @@
 					HtmlDiv="True"
 					ID="divPopupBody"
 					>
-					<Rows>
+					<Rows
+						Width="100"
+						WidthScale="%"
+						>
 						<Row>
 							<Column
 								ColSpan="2"
@@ -164,14 +169,14 @@ else {
 			</Division>
 		</PopupPanel>
 		<PopupPanel
-			Class="ThemeTextSmall"
 			Draggable="False"
-			Height="250px"
+			Height="30%"
 			ID="pnlThanks"
 			PopupModal="True"
 			PopupPanelLocation="Center"
 			ShowOnPageLoad="False"
-			Width="300px"
+			Width="30"
+			WidthScale="%"
 			>
 			<Division
 				Class="panel panel-default"
@@ -227,6 +232,77 @@ else {
 									<Action
 										Display="Hide"
 										ElementID="pnlThanks"
+										ID="hidePopup"
+										Type="ShowElement"
+									/>
+								</Button>
+							</Column>
+						</Row>
+					</Rows>
+				</Division>
+			</Division>
+		</PopupPanel>
+		<PopupPanel
+			Draggable="False"
+			Height="30"
+			HeightScale="%"
+			ID="pnlAbout"
+			PopupModal="True"
+			PopupPanelLocation="Center"
+			ShowOnPageLoad="False"
+			Width="50"
+			WidthScale="%"
+			>
+			<Division
+				Class="panel panel-default"
+				HtmlDiv="True"
+				ID="divAbout"
+				>
+				<Division
+					Class="panel-heading"
+					HtmlDiv="True"
+					ID="divAboutHeader"
+					>
+					<Label
+						Caption="About TMA Dashboard"
+					/>
+				</Division>
+				<Division
+					Class="panel-body"
+					HtmlDiv="True"
+					ID="divAboutBody"
+					>
+					<Rows
+						Width="100"
+						WidthScale="%"
+						>
+						<Row>
+							<Column
+								ColSpan="2"
+								>
+								<Division
+									Class="ThemeTextSmall"
+									HtmlDiv="True"
+									ID="showReleaseNotes"
+								/>
+							</Column>
+						</Row>
+						<Row>
+							<Column/>
+							<Column
+								Class="ThemeAlignRight"
+								>
+								<Spaces
+									Size="2"
+								/>
+								<Button
+									Caption="Close"
+									Class="btn btn-default"
+									ID="btnClose"
+									>
+									<Action
+										Display="Hide"
+										ElementID="pnlAbout"
 										ID="hidePopup"
 										Type="ShowElement"
 									/>
@@ -1164,6 +1240,16 @@ else {
 																HtmlDiv="True"
 																ID="submenu-admin"
 																>
+																<Label
+																	Caption="About"
+																	>
+																	<Action
+																		Display="Show"
+																		ElementID="pnlAbout"
+																		ID="showPopup"
+																		Type="ShowElement"
+																	/>
+																</Label>
 																<DataList
 																	ID="lstAdmin"
 																	>
@@ -1344,7 +1430,7 @@ else {
 				</Division>
 			</Division>
 			<Division
-				Class="elem-demo ThemeHidden"
+				Class="ThemeHidden"
 				ID="divNotifications"
 				>
 				<IncludeHtmlFile
@@ -1776,6 +1862,18 @@ ORDER BY BRANCH_NAME"
 												Type="ShowElement"
 											/>
 										</Button>
+										<Button
+											Caption="About"
+											Class="ThemeHidden"
+											ID="btnAbout"
+											>
+											<Action
+												Display="Show"
+												ElementID="pnlAbout"
+												ID="showPopup"
+												Type="ShowElement"
+											/>
+										</Button>
 									</Column>
 								</Row>
 							</Rows>
@@ -1822,7 +1920,33 @@ $(document).ready(function() {
 				
 	}
 	
-	//notifications
+	//display version and release notes on the about page
+		var notifications = document.getElementById(&quot;showReleaseNotes&quot;);
+		notifications.innerHTML = &quot;&lt;b&gt;Latest Release Notes - &quot;;
+		var ul = document.getElementById(&quot;version&quot;);
+		var items = ul.getElementsByTagName(&quot;li&quot;);
+		for (var i = 0; i &lt; items.length; ++i) {
+			// do something with the notification items, which is a &lt;li&gt; element
+			notifications.innerHTML = notifications.innerHTML + items[i].innerHTML + &quot;&lt;/b&gt;&lt;br&gt;&lt;ul&gt;&quot;;
+		}
+		
+		var thisItem;
+		var anchors;
+		ul = document.getElementById(&quot;notifications&quot;);
+		items = ul.getElementsByTagName(&quot;li&quot;);
+		for (var i = 0; i &lt; items.length; ++i) {
+			// set the page header to the version
+			notifications.innerHTML = notifications.innerHTML + &quot;&lt;li&gt;&quot; + items[i].innerHTML + &quot;&lt;/li&gt;&quot;;
+			thisItem = items[i].innerHTML;
+			anchors = thisItem.search(&quot;lnkMore&quot;);
+			if (anchors &gt; -1) {
+				document.getElementById(&quot;lnkMore&quot;).style.display = &quot;none&quot;;
+			}
+		}
+		notifications.innerHTML = notifications.innerHTML + &quot;&lt;/ul&gt;&lt;br&gt;&quot;;
+	
+
+	//display notifications
 	var home = report.search(&quot;Home.Default&quot;);
 	var dismissed = localStorage.getItem(&apos;dismissed&apos;) || &apos;&apos; ;
 	var loggedInUser = document.getElementById(&quot;iptUserNotifications&quot;).value;
@@ -1839,27 +1963,45 @@ $(document).ready(function() {
 				var items = ul.getElementsByTagName(&quot;li&quot;);
 				for (var i = 0; i &lt; items.length; ++i) {
 					// do something with the notification items, which is a &lt;li&gt; element
-					$.notify(items[i].innerHTML,{className: &quot;error&quot;,autoHide: false,position:&quot;bottom left&quot;});		
-				}
-				document.getElementById(&quot;iptShowNotifications&quot;).value = &quot;N&quot;;
-				if (dismissed = &quot;&quot;) {
-					userList = loggedInUser + &quot;,&quot;;
-				}
-				else {
-					userList = dismissed + loggedInUser + &quot;,&quot;;
-				
-				}
-				localStorage.setItem(&apos;dismissed&apos;,userList);
-			}
-			
+					$.notify(items[i].innerHTML,{className: &quot;error&quot;,autoHide: false,position:&quot;bottom left&quot;});
+				}				
+			}			
 		}
 	}
-
  });
  
+$(document).on(&apos;click&apos;, &apos;.notifyjs-bootstrap-base .close&apos;, function() {
+  //call notifyDismissed
+  notifyDismissed();
+  //hide notification
+  $(this).trigger(&apos;notify-hide&apos;);
+});
+	
+ function notifyDismissed() {
+	//set the localstorageitem
+	document.getElementById(&quot;iptShowNotifications&quot;).value = &quot;N&quot;;
+	if (dismissed = &quot;&quot;) {
+		userList = document.getElementById(&quot;iptUserNotifications&quot;).value + &quot;,&quot;;
+	}
+	else {
+		userList = dismissed + document.getElementById(&quot;iptUserNotifications&quot;).value + &quot;,&quot;;
+	
+	}
+	localStorage.setItem(&apos;dismissed&apos;,userList);
+ }
+ 
+	
  function clearLocalStorage() {
- 	localStorage.clear();
- }"
+ 	var dismissed = localStorage.getItem(&apos;dismissed&apos;) || &apos;&apos; ;
+ 	if (dismissed == &quot;&quot;) {
+		//it&apos;s empty so do nothing
+	}
+	else {
+ 		localStorage.removeItem(&apos;dismissed&apos;);
+	}
+ }
+ 
+"
 		/>
 	</SharedElement>
 	<ideTestParams
