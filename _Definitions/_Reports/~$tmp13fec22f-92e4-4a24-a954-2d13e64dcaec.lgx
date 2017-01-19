@@ -1,0 +1,8 @@
+<Report ID="tmp">
+  <Body>
+<CrosstabTable ID="CrosstabTable1">
+  <InteractivePaging PageRowCount="10" ShowPageNumber="Numbered" Location="Top" CaptionType="Text" />
+  <DataLayer Type="Static" />
+</CrosstabTable>
+</Body>
+</Report>
