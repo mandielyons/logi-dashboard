@@ -244,74 +244,137 @@ else {
 		</PopupPanel>
 		<PopupPanel
 			Draggable="False"
-			Height="30"
+			Height="80"
+			HeightScale="%"
+			ID="pnlAboutMobile"
+			PopupModal="True"
+			PopupPanelLocation="Center"
+			ShowOnPageLoad="False"
+			Width="85"
+			WidthScale="%"
+			>
+			<ResponsiveRow>
+				<ResponsiveColumn>
+					<Division
+						Class="panel panel-default"
+						HtmlDiv="True"
+						ID="divAboutMobile"
+						>
+						<Division
+							Class="panel-heading"
+							HtmlDiv="True"
+							ID="divAboutHeader"
+							>
+							<Label
+								Caption="About TMA Dashboard"
+							/>
+						</Division>
+						<Division
+							Class="panel-body"
+							HtmlDiv="True"
+							ID="divAboutBody"
+							>
+							<ResponsiveRow>
+								<ResponsiveColumn>
+									<Division
+										Class="ThemeTextSmaller"
+										HtmlDiv="True"
+										ID="showReleaseNotesMobile"
+									/>
+								</ResponsiveColumn>
+							</ResponsiveRow>
+							<ResponsiveRow
+								Class="pull-right"
+								>
+								<ResponsiveColumn>
+									<Spaces
+										Size="2"
+									/>
+									<Button
+										Caption="Close"
+										Class="btn btn-default"
+										ID="btnClose"
+										>
+										<Action
+											Display="Hide"
+											ElementID="pnlAboutMobile"
+											ID="hidePopup"
+											Type="ShowElement"
+										/>
+									</Button>
+								</ResponsiveColumn>
+							</ResponsiveRow>
+						</Division>
+					</Division>
+				</ResponsiveColumn>
+			</ResponsiveRow>
+		</PopupPanel>
+		<PopupPanel
+			Draggable="False"
+			Height="40"
 			HeightScale="%"
 			ID="pnlAbout"
 			PopupModal="True"
 			PopupPanelLocation="Center"
 			ShowOnPageLoad="False"
-			Width="50"
+			Width="60"
 			WidthScale="%"
 			>
-			<Division
-				Class="panel panel-default"
-				HtmlDiv="True"
-				ID="divAbout"
-				>
-				<Division
-					Class="panel-heading"
-					HtmlDiv="True"
-					ID="divAboutHeader"
-					>
-					<Label
-						Caption="About TMA Dashboard"
-					/>
-				</Division>
-				<Division
-					Class="panel-body"
-					HtmlDiv="True"
-					ID="divAboutBody"
-					>
-					<Rows
-						Width="100"
-						WidthScale="%"
+			<ResponsiveRow>
+				<ResponsiveColumn>
+					<Division
+						Class="panel panel-default"
+						HtmlDiv="True"
+						ID="divAbout"
 						>
-						<Row>
-							<Column
-								ColSpan="2"
-								>
-								<Division
-									Class="ThemeTextSmall"
-									HtmlDiv="True"
-									ID="showReleaseNotes"
-								/>
-							</Column>
-						</Row>
-						<Row>
-							<Column/>
-							<Column
-								Class="ThemeAlignRight"
-								>
-								<Spaces
-									Size="2"
-								/>
-								<Button
-									Caption="Close"
-									Class="btn btn-default"
-									ID="btnClose"
-									>
-									<Action
-										Display="Hide"
-										ElementID="pnlAbout"
-										ID="hidePopup"
-										Type="ShowElement"
+						<Division
+							Class="panel-heading"
+							HtmlDiv="True"
+							ID="divAboutHeader"
+							>
+							<Label
+								Caption="About TMA Dashboard"
+							/>
+						</Division>
+						<Division
+							Class="panel-body"
+							HtmlDiv="True"
+							ID="divAboutBody"
+							>
+							<ResponsiveRow>
+								<ResponsiveColumn>
+									<Division
+										Class="ThemeTextSmall"
+										HtmlDiv="True"
+										ID="showReleaseNotes"
 									/>
-								</Button>
-							</Column>
-						</Row>
-					</Rows>
-				</Division>
-			</Division>
+								</ResponsiveColumn>
+							</ResponsiveRow>
+							<ResponsiveRow
+								Class="pull-right"
+								>
+								<ResponsiveColumn>
+									<Spaces
+										Size="2"
+									/>
+									<Button
+										Caption="Close"
+										Class="btn btn-default"
+										ID="btnClose"
+										>
+										<Action
+											Display="Hide"
+											ElementID="pnlAbout"
+											ID="hidePopup"
+											Type="ShowElement"
+										/>
+									</Button>
+								</ResponsiveColumn>
+							</ResponsiveRow>
+						</Division>
+					</Division>
+				</ResponsiveColumn>
+			</ResponsiveRow>
 		</PopupPanel>
 		<PrintablePaging
 			MarginBottom="0.5"
@@ -570,6 +633,17 @@ else {
 															Type="Report"
 														/>
 													</Action>
+												</PopupOption>
+												<PopupOption
+													Caption="About"
+													ID="optAbout"
+													>
+													<Action
+														Display="Show"
+														ElementID="pnlAboutMobile"
+														ID="showPopup"
+														Type="ShowElement"
+													/>
 												</PopupOption>
 												<PopupOption
 													Caption="Logout"
@@ -937,6 +1011,16 @@ else {
 																HtmlDiv="True"
 																ID="submenu-admin"
 																>
+																<Label
+																	Caption="About"
+																	>
+																	<Action
+																		Display="Show"
+																		ElementID="pnlAbout"
+																		ID="showPopup"
+																		Type="ShowElement"
+																	/>
+																</Label>
 																<DataList
 																	ID="lstAdmin"
 																	>
@@ -1840,7 +1924,7 @@ $(document).ready(function() {
 				
 	}
 	
-	//display version and release notes on the about page
+	//display version and release notes on the about page and mobile about
 		var notifications = document.getElementById(&quot;showReleaseNotes&quot;);
 		notifications.innerHTML = &quot;&lt;b&gt;Latest Release Notes - &quot;;
 		var ul = document.getElementById(&quot;version&quot;);
@@ -1866,6 +1950,10 @@ $(document).ready(function() {
 		notifications.innerHTML = notifications.innerHTML + &quot;&lt;/ul&gt;&lt;br&gt;&quot;;
 		var history = document.getElementById(&quot;history&quot;);
 		notifications.innerHTML = notifications.innerHTML + history.innerHTML;
+		
+	// display for mobile
+	var mobileNotifications = document.getElementById(&quot;showReleaseNotesMobile&quot;);
+	mobileNotifications.innerHTML = notifications.innerHTML;
 		
 
 
