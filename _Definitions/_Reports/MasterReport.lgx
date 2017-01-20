@@ -10,6 +10,10 @@
 		SharedElementID="shrHeader"
 	/>
 	<Body>
+		<Label
+			Caption="&lt;!--These sections are for displaying the top section of the report. Choose from a standard table report layout, a visualization report layout, a tabbed report layout or a data entry layout. --&gt;"
+			Class="ThemeErrorText ThemeBold ThemeTextSmall"
+		/>
 		<Note
 			Note="&lt;!--Standard table report--&gt;"
 		/>
@@ -602,6 +606,11 @@
 				</Division>
 			</ResponsiveColumn>
 		</ResponsiveRow>
+		<HR/>
+		<Label
+			Caption="&lt;!--These sections are for displaying detail (drill thru) data from the reports above. Choose from a tabbed drill thru layout or a panel drill thru layout.--&gt;"
+			Class="ThemeErrorText ThemeBold ThemeTextSmall"
+		/>
 		<Note
 			Note="&lt;!--Standard Drill Through Tabs--&gt;"
 		/>
