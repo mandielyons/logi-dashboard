@@ -2,7 +2,7 @@
 <Report
 	Caption="Grain Receipts"
 	ID="TMAReports.TMAGrainReceipts"
-	SecurityReportRightID="MKC Dashboard, TMA Dashboard, OC"
+	SecurityReportRightID="LogiUserAdmin"
 	>
 	<IncludeSharedElement
 		DefinitionFile="_Layout.Shared"
