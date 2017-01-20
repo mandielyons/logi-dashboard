@@ -1566,12 +1566,10 @@ WHERE OC.DATA_KEY=&apos;@Request.paramContractKey~&apos; OR (OC.CONTRACT_MAIN=&a
 			</ResponsiveColumn>
 		</ResponsiveRow>
 	</Body>
-	<ReportFooter>
-		<IncludeSharedElement
-			DefinitionFile="_Layout.Shared"
-			SharedElementID="shrFooter"
-		/>
-	</ReportFooter>
+	<IncludeSharedElement
+		DefinitionFile="_Layout.Shared"
+		SharedElementID="shrFooter"
+	/>
 	<ideTestParams
 		Account=""
 		Branch=""

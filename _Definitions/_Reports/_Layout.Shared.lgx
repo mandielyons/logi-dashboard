@@ -1756,6 +1756,35 @@ ORDER BY BRANCH_NAME"
 		</Division>
 	</SharedElement>
 	<SharedElement
+		ID="shrHelp"
+		>
+		<Note
+			Note="**Pass in ReportNamein the Shared Element Params.**"
+		/>
+		<Division
+			Class="pull-right"
+			HtmlDiv="True"
+			ID="divHelp"
+			>
+			<Label
+				Class="fa fa-question-circle fa-2x "
+				HtmlTag="Span"
+				ID="lnkHelp"
+				Tooltip="Branch Dashboard Help"
+				>
+				<Action
+					Type="Report"
+					>
+					<Target
+						FrameID="NewWindow"
+						Report="@Shared.ReportName~"
+						Type="Report"
+					/>
+				</Action>
+			</Label>
+		</Division>
+	</SharedElement>
+	<SharedElement
 		ID="shrFooter"
 		>
 		<Division

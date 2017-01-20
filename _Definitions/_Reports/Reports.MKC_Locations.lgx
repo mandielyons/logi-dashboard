@@ -61,28 +61,14 @@
 								ColspanMediumScreen="12"
 								ColspanSmallScreen="12"
 								>
-								<Division
-									Class="pull-right"
-									HtmlDiv="True"
-									ID="divHelp"
+								<IncludeSharedElement
+									DefinitionFile="_Layout.Shared"
+									SharedElementID="shrHelp"
 									>
-									<Label
-										Class="fa fa-question-circle fa-2x "
-										HtmlTag="Span"
-										ID="lnkHelp"
-										Tooltip="Branch Dashboard Help"
-										>
-										<Action
-											Type="Report"
-											>
-											<Target
-												FrameID="NewWindow"
-												Report="Unknown.SubReports.BranchFAQs"
-												Type="Report"
-											/>
-										</Action>
-									</Label>
-								</Division>
+									<SharedElementParams
+										ReportName="Unknown.SubReports.BranchFAQs"
+									/>
+								</IncludeSharedElement>
 							</ResponsiveColumn>
 						</ResponsiveRow>
 						<ResponsiveRow>
