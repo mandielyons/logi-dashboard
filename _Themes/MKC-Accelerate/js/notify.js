@@ -568,11 +568,11 @@
 
 	//always include the default bootstrap style
 	addStyle("bootstrap", {
-		html: "<div>\n<span data-notify-html></span>\n&nbsp;<button type='button' class='close' aria-label='Close'><span aria-hidden='true'>&times;</span></button></div>",
+		html: "<div><span data-notify-html></span>&nbsp;<button type='button' class='close' aria-label='Close'><span aria-hidden='true'>&times;</span></button>\n</div>",
 		classes: {
 			base: {
 				"font-weight": "bold",
-				"padding": "8px 15px 8px 14px",
+				"padding": "8px 20px 8px 15px",
 				"text-shadow": "0 1px 0 rgba(255, 255, 255, 0.5)",
 				"background-color": "#fcf8e3",
 				"border": "1px solid #fbeed5",
@@ -580,7 +580,8 @@
 				"white-space": "nowrap",
 				"padding-left": "25px",
 				"background-repeat": "no-repeat",
-				"background-position": "3px 7px"
+				"background-position": "10px 7px",
+				"width": "100%"
 			},
 			error: {
 				"color": "#B94A48",
