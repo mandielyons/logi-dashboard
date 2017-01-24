@@ -251,7 +251,30 @@
 												ID="filLocGLStr"
 											/>
 										</DataLayer>
+										<EventHandler
+											DhtmlEvent="onchange"
+											>
+											<Action
+												ID="jsChange"
+												Javascript="var location = document.getElementById(&quot;iptLocation&quot;);
+var locSelect = document.getElementById(&quot;paramLocGLStr&quot;);
+
+    if (locSelect.selectedIndex == -1)
+        return null;
+
+    location.value = locSelect.options[locSelect.selectedIndex].text;
+
+
+"
+												Type="Javascript"
+											/>
+										</EventHandler>
 									</InputSelectList>
+									<InputText
+										Class="ThemeHidden"
+										DefaultValue="@Request.paramLocName~"
+										ID="iptLocation"
+									/>
 									<LineBreak/>
 									<Label
 										Caption="Apply"
@@ -263,6 +286,9 @@
 											Type="RefreshElement"
 											>
 											<WaitPage/>
+											<LinkParams
+												paramLocName="@Request.iptLocation~"
+											/>
 										</Action>
 									</Label>
 									<LineBreak
@@ -336,7 +362,7 @@
 																		Class="ThemeTextSmall"
 																		>
 																		<DataTable
-																			Caption="Volumes for @Request.paramLocName~"
+																			Caption="Volumes for @Request.paramLocName~ @Request.iptLocation~"
 																			ID="dtUnits"
 																			SortArrows="True"
 																			>
@@ -2661,6 +2687,7 @@ ORDER BY MNACSGMT
 		AcctListFertilizer="9800&apos;,&apos;9805&apos;,&apos;9810"
 		AcctListFuel="9820&apos;,&apos;9825"
 		AcctListGrain=""
+		iptLocation=""
 		paramDefaultTab=""
 		paramFiscPeriod="11"
 		paramFiscYear="2018"

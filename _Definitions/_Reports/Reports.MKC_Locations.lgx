@@ -119,6 +119,7 @@
 												<WaitPage/>
 												<LinkParams
 													Branch="@Request.MKCLocation~"
+													paramLocName="@Data.Location~"
 												/>
 											</Action>
 										</EventHandler>
@@ -183,6 +184,7 @@
 												<WaitPage/>
 												<LinkParams
 													MKCLocation="@Data.LocationCode~"
+													paramLocName="@Data.Location~"
 												/>
 											</Action>
 										</GoogleMapMarkers>
