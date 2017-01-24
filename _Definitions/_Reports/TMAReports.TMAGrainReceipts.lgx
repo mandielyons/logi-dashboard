@@ -108,30 +108,32 @@
 									HtmlDiv="True"
 									ID="divReceipts"
 									>
-									<DataTable
-										ID="dtGrainReceipts"
-										RememberSort="True"
-										SortArrows="True"
+									<CrosstabTable
+										ID="ReceiptsCrossTab"
 										>
 										<DataLayer
 											ConnectionID="connCRMTest"
 											ID="dlGrainReceipts"
-											Source="SELECT gb.ag_AccountId
- , am.ParentAccountId
- , am.ParentAccountIdName ParentAccountName
- , am.Name AccountName
- , gb.ag_FiscalYear
- , cm.ag_CropIdName
- , cm.ag_DataSourceKey CommodityCode
- , cm.ag_Name CommodityShortName
- , lm.ag_DataSourceKey LocationCode
- , lm.ag_Name LocationName
- , gb.ag_Bushels
-FROM dbo.ag_grainreceiptsummaryBase gb
-  INNER JOIN dbo.Account am ON gb.ag_AccountId = am.AccountId
-  INNER JOIN dbo.ag_Commodity cm ON gb.ag_CommodityId = cm.ag_CommodityId
-  INNER JOIN dbo.ag_Location lm ON gb.ag_LocationId = lm.ag_LocationId
-WHERE gb.statecode = 0 AND gb.statuscode = 1"
+											Source="Select gb.ag_AccountID,
+  am.ParentAccountId,
+  am.ParentAccountIdName ParentAccountName,
+  am.Name AccountName,
+  gb.ag_FiscalYear,
+  cm.ag_CropIdName,
+  cm.ag_DataSourceKey CommodityCode,
+  cm.ag_name CommodityShortName,
+  lm.ag_DataSourceKey LocationCode,
+  lm.ag_name LocationName,
+  gb.ag_Bushels
+From ag_grainreceiptsummaryBase gb
+  Inner Join Account am On gb.ag_AccountID = am.AccountId
+  Inner Join ag_commodity cm On gb.ag_CommodityID = cm.ag_commodityId
+  Inner Join ag_location lm On gb.ag_LocationID = lm.ag_locationId
+Where gb.ag_AccountID = &apos;27B30A57-D9D7-E511-9401-00505685E8FA&apos; And
+  gb.statecode = 0 And gb.statuscode = 1
+Order By gb.ag_FiscalYear,
+  AccountName,
+  LocationName"
 											Type="SQL"
 											>
 											<CalculatedColumn
@@ -154,274 +156,86 @@ WHERE gb.statecode = 0 AND gb.statuscode = 1"
 												Formula="Year(DateAdd(&quot;yyyy&quot;, -4,&quot;@Function.Date~&quot;))"
 												ID="prev_year_4"
 											/>
+											<CrosstabFilter
+												CrosstabColumn="ag_FiscalYear"
+												CrosstabLabelColumn="AccountName"
+												CrosstabValueColumn="ag_Bushels"
+												CrosstabValueFunction="Any"
+												>
+												<ExtraCrosstabLabelColumn
+													CrosstabLabelColumn="AccountName"
+													ID="Customer"
+												/>
+											</CrosstabFilter>
 										</DataLayer>
-										<InteractivePaging
-											CaptionType="Image"
-											HideWhenOnePage="True"
-											PageRowCount="15"
-										/>
-										<DataTableColumn
+										<CrosstabTableLabelColumn
 											Header="Customer"
-											HeaderType="Text"
+											ID="colCustomer"
 											>
 											<Label
-												Caption="@Data.AccountName~"
-											/>
-										</DataTableColumn>
-										<DataTableColumn
-											Header="Location"
-											>
-											<Label
-												Caption="@Data.LocationName~"
-											/>
-										</DataTableColumn>
-										<DataTableColumn
-											Header="Commodity"
-											>
-											<Label
-												Caption="@Data.ag_CropIdName~"
-											/>
-										</DataTableColumn>
-										<DataTableColumn>
-											<ConditionalClass
-												Condition="&quot;@Data.ag_FiscalYear~&quot; = &quot;@Data.current_year~&quot;"
-											/>
-											<ExtraColumnHeader>
-												<Label
-													Caption="@Data.current_year~"
-													Format="General Number"
-												/>
-											</ExtraColumnHeader>
-											<Rows>
-												<Row>
-													<Column>
-														<Label
-															Caption="@Data.ag_Bushels~"
-															Class="ThemeHidden"
-															Format="###,###,##0.00"
-														/>
-													</Column>
-												</Row>
-											</Rows>
-										</DataTableColumn>
-										<DataTableColumn
-											HeaderType="Text"
-											>
-											<Label
-												Caption="@Data.ag_Bushels~"
-												Class="ThemeHidden"
-												Format="###,###,##0.00"
+												Caption="@Data.Customer~"
 												>
-												<ConditionalClass
-													Condition="&quot;@Data.ag_FiscalYear~&quot; = &quot;@Data.prev_year~&quot;"
-												/>
-											</Label>
-										</DataTableColumn>
-										<DataTableColumn>
-											<Label
-												Caption="@Data.ag_Bushels~"
-												Class="ThemeHidden"
-												Format="###,###,##0.00"
-												>
-												<ConditionalClass
-													Condition="&quot;@Data.ag_FiscalYear~&quot; = &quot;@Data.prev_year_2~&quot;"
-												/>
-											</Label>
-										</DataTableColumn>
-										<DataTableColumn>
-											<Label
-												Caption="@Data.ag_Bushels~"
-												Class="ThemeHidden"
-												Format="###,###,##0.00"
-												>
-												<ConditionalClass
-													Condition="&quot;@Data.ag_FiscalYear~&quot; = &quot;@Data.prev_year_3~&quot;"
-												/>
-											</Label>
-										</DataTableColumn>
-										<DataTableColumn>
-											<Label
-												Caption="@Data.ag_Bushels~"
-												Class="ThemeHidden"
-												Format="###,###,##0.00"
-												>
-												<ConditionalClass
-													Condition="&quot;@Data.ag_FiscalYear~&quot; = &quot;@Data.prev_year_4~&quot;"
-												/>
-											</Label>
-										</DataTableColumn>
-									</DataTable>
-									<Remark>
-										<CrosstabTable
-											ID="CrosstabTable1"
-											SortArrows="True"
-											>
-											<InteractivePaging
-												CaptionType="Image"
-												PageRowCount="20"
-											/>
-											<DataLayer
-												ConnectionID="connCRMTest"
-												ID="dlGrainReceipts"
-												Source="SELECT gb.ag_AccountId
- , am.ParentAccountId
- , am.ParentAccountIdName ParentAccountName
- , am.Name AccountName
- , gb.ag_FiscalYear
- , cm.ag_CropIdName
- , cm.ag_DataSourceKey CommodityCode
- , cm.ag_Name CommodityShortName
- , lm.ag_DataSourceKey LocationCode
- , lm.ag_Name LocationName
- , gb.ag_Bushels
-FROM dbo.ag_grainreceiptsummaryBase gb
-  INNER JOIN dbo.Account am ON gb.ag_AccountId = am.AccountId
-  INNER JOIN dbo.ag_Commodity cm ON gb.ag_CommodityId = cm.ag_CommodityId
-  INNER JOIN dbo.ag_Location lm ON gb.ag_LocationId = lm.ag_LocationId
-WHERE gb.statecode = 0 AND gb.statuscode = 1"
-												Type="SQL"
-												>
-												<CalculatedColumn
-													Formula="Year(&quot;@Function.Date~&quot;)"
-													ID="current_year"
-												/>
-												<CalculatedColumn
-													Formula="Year(DateAdd(&quot;yyyy&quot;, -1,&quot;@Function.Date~&quot;))"
-													ID="prev_year"
-												/>
-												<CalculatedColumn
-													Formula="Year(DateAdd(&quot;yyyy&quot;, -2,&quot;@Function.Date~&quot;))"
-													ID="prev_year_2"
-												/>
-												<CalculatedColumn
-													Formula="Year(DateAdd(&quot;yyyy&quot;, -3,&quot;@Function.Date~&quot;))"
-													ID="prev_year_3"
-												/>
-												<CalculatedColumn
-													Formula="Year(DateAdd(&quot;yyyy&quot;, -4,&quot;@Function.Date~&quot;))"
-													ID="prev_year_4"
-												/>
-											</DataLayer>
-											<HeaderRow>
-												<Column
-													ID="colCustomerHdr"
+												<RepeatElements
+													ID="repLocation"
 													>
-													<Label
-														Caption="Customer"
-													/>
-												</Column>
-												<Column
-													ID="colLocationHdr"
-													>
-													<Label
-														Caption="Location"
-													/>
-												</Column>
-												<Column
-													ID="colCommodityHdr"
-													>
-													<Label
-														Caption="Commodity"
-													/>
-												</Column>
-												<CrosstabTableHeaderColumn
-													ID="colCurrYrHdr"
-													>
-													<Label
-														Caption="@Data.current_year~"
-													/>
-												</CrosstabTableHeaderColumn>
-												<Remark>
-													<Column
-														ID="colCurrYrHdr"
+													<DataLayer
+														ConnectionID="connCRMTest"
+														ID="dlGrainReceipts"
+														Source="Select gb.ag_AccountID,
+  am.ParentAccountId,
+  am.ParentAccountIdName ParentAccountName,
+  am.Name AccountName,
+  gb.ag_FiscalYear,
+  cm.ag_CropIdName,
+  cm.ag_DataSourceKey CommodityCode,
+  cm.ag_name CommodityShortName,
+  lm.ag_DataSourceKey LocationCode,
+  lm.ag_name LocationName,
+  gb.ag_Bushels
+From ag_grainreceiptsummaryBase gb
+  Inner Join Account am On gb.ag_AccountID = am.AccountId
+  Inner Join ag_commodity cm On gb.ag_CommodityID = cm.ag_commodityId
+  Inner Join ag_location lm On gb.ag_LocationID = lm.ag_locationId
+Where gb.ag_AccountID = &apos;27B30A57-D9D7-E511-9401-00505685E8FA&apos; And
+  gb.statecode = 0 And gb.statuscode = 1
+Order By gb.ag_FiscalYear,
+  AccountName,
+  LocationName"
+														Type="SQL"
 														>
-														<Label
-															Caption="@Data.current_year~"
-														/>
-													</Column>
-												</Remark>
-												<Column
-													ID="colPrevYrHdr"
-													>
-													<Label
-														Caption="@Data.prev_year~"
-													/>
-												</Column>
-												<Column
-													ID="colPrevYr2Hdr"
-													>
-													<Label
-														Caption="@Data.prev_year_2~"
-													/>
-												</Column>
-											</HeaderRow>
-											<CrosstabTableLabelColumn
-												ID="colCustomer"
-												>
-												<Label
-													Caption="@Data.AccountName~"
-												/>
-											</CrosstabTableLabelColumn>
-											<CrosstabTableLabelColumn
-												ID="colLocation"
-												>
-												<Label
-													Caption="@Data.LocationName~"
-												/>
-											</CrosstabTableLabelColumn>
-											<CrosstabTableLabelColumn
-												ID="colCommodity"
-												>
-												<Label
-													Caption="@Data.CropIdName~"
-												/>
-											</CrosstabTableLabelColumn>
-											<CrosstabTableLabelColumn
-												ID="colCurrYr"
-												>
-												<Label
-													Caption="@Data.ag_Bushels~"
-													Class="ThemeHidden"
-													Format="###,###,##0.00"
-													>
-													<ConditionalClass
-														Condition="&quot;@Data.ag_FiscalYear~&quot; = &quot;@Data.current_year~&quot;"
-													/>
-												</Label>
-											</CrosstabTableLabelColumn>
-											<CrosstabTableLabelColumn
-												ID="colPrevYr"
-												>
-												<Label
-													Caption="@Data.ag_Bushels~"
-													Class="ThemeHidden"
-													Format="###,###,##0.00"
-													>
-													<ConditionalClass
-														Condition="&quot;@Data.ag_FiscalYear~&quot; = &quot;@Data.prev_year~&quot;"
-													/>
-												</Label>
-											</CrosstabTableLabelColumn>
-											<Remark>
-												<CrosstabTableLabelColumn
-													ID="colCustomer"
-													>
-													<Label
-														Caption="@Data.AccountName~"
-													/>
-												</CrosstabTableLabelColumn>
-											</Remark>
-											<Remark>
-												<CrosstabTableLabelColumn
-													ID="colCustomer"
-													>
-													<Label
-														Caption="@Data.AccountName~"
-													/>
-												</CrosstabTableLabelColumn>
-											</Remark>
-										</CrosstabTable>
-									</Remark>
+														<CrosstabFilter
+															CrosstabColumn="ag_CropIdName"
+															CrosstabLabelColumn="LocationName"
+															CrosstabValueColumn="ag_Bushels"
+															CrosstabValueFunction="Any"
+															>
+															<ExtraCrosstabLabelColumn
+																CrosstabLabelColumn="LocationName"
+																ID="Location"
+															/>
+														</CrosstabFilter>
+													</DataLayer>
+												</RepeatElements>
+											</Label>
+										</CrosstabTableLabelColumn>
+										<CrosstabTableLabelColumn
+											Header="Location"
+											ID="colLocation"
+											>
+											<Label
+												Caption="@Data.Location~"
+											/>
+										</CrosstabTableLabelColumn>
+										<CrosstabTableValueColumns
+											Header="@Data.rdCrosstabColumn~"
+											ID="colBushels"
+											>
+											<Label
+												Caption="@Data.rdCrosstabValue~"
+												Format="###,###,##0.00"
+											/>
+										</CrosstabTableValueColumns>
+									</CrosstabTable>
 								</Division>
 							</ResponsiveColumn>
 						</ResponsiveRow>

@@ -61,28 +61,14 @@
 								ColspanMediumScreen="12"
 								ColspanSmallScreen="12"
 								>
-								<Division
-									Class="pull-right"
-									HtmlDiv="True"
-									ID="divHelp"
+								<IncludeSharedElement
+									DefinitionFile="_Layout.Shared"
+									SharedElementID="shrHelp"
 									>
-									<Label
-										Class="fa fa-question-circle fa-2x "
-										HtmlTag="Span"
-										ID="lnkHelp"
-										Tooltip="Branch Dashboard Help"
-										>
-										<Action
-											Type="Report"
-											>
-											<Target
-												FrameID="NewWindow"
-												Report="Unknown.SubReports.BranchFAQs"
-												Type="Report"
-											/>
-										</Action>
-									</Label>
-								</Division>
+									<SharedElementParams
+										ReportName="Unknown.SubReports.BranchFAQs"
+									/>
+								</IncludeSharedElement>
 							</ResponsiveColumn>
 						</ResponsiveRow>
 						<ResponsiveRow>
@@ -133,6 +119,7 @@
 												<WaitPage/>
 												<LinkParams
 													Branch="@Request.MKCLocation~"
+													paramLocName="@Data.Location~"
 												/>
 											</Action>
 										</EventHandler>
@@ -197,6 +184,7 @@
 												<WaitPage/>
 												<LinkParams
 													MKCLocation="@Data.LocationCode~"
+													paramLocName="@Data.Location~"
 												/>
 											</Action>
 										</GoogleMapMarkers>
@@ -436,7 +424,7 @@
 																				<LinkParams
 																					paramLocCd="@Data.LocationCode~"
 																					paramLocGLStr="@Data.LocGLStr~"
-																					paramLocName="@Request.paramLocName~"
+																					paramLocName=""
 																				/>
 																			</Action>
 																		</Label>
@@ -460,7 +448,7 @@
 																				<LinkParams
 																					paramLocCd="@Data.LocationCode~"
 																					paramLocGLStr="@Data.LocGLStr~"
-																					paramLocName="@Request.paramLocName~"
+																					paramLocName=""
 																				/>
 																			</Action>
 																		</Label>
@@ -486,7 +474,7 @@
 																				<LinkParams
 																					paramLocCd="@Data.LocationCode~"
 																					paramLocGLStr="@Data.LocGLStr~"
-																					paramLocName="@Request.paramLocName~"
+																					paramLocName=""
 																				/>
 																			</Action>
 																		</Label>
@@ -510,7 +498,7 @@
 																				<LinkParams
 																					paramLocCd="@Data.LocationCode~"
 																					paramLocGLStr="@Data.LocGLStr~"
-																					paramLocName="@Request.paramLocName~"
+																					paramLocName=""
 																				/>
 																			</Action>
 																		</Label>
@@ -640,6 +628,5 @@
 	<ideTestParams
 		Branch=""
 		MKCLocation=""
-		paramLocName=""
 	/>
 </Report>

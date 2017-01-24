@@ -1752,6 +1752,35 @@ ORDER BY BRANCH_NAME"
 		</Division>
 	</SharedElement>
 	<SharedElement
+		ID="shrHelp"
+		>
+		<Note
+			Note="**Pass in ReportNamein the Shared Element Params.**"
+		/>
+		<Division
+			Class="pull-right"
+			HtmlDiv="True"
+			ID="divHelp"
+			>
+			<Label
+				Class="fa fa-question-circle fa-2x "
+				HtmlTag="Span"
+				ID="lnkHelp"
+				Tooltip="Branch Dashboard Help"
+				>
+				<Action
+					Type="Report"
+					>
+					<Target
+						FrameID="NewWindow"
+						Report="@Shared.ReportName~"
+						Type="Report"
+					/>
+				</Action>
+			</Label>
+		</Division>
+	</SharedElement>
+	<SharedElement
 		ID="shrFooter"
 		>
 		<Division
@@ -1913,13 +1942,14 @@ $(document).ready(function() {
 			$(&quot;#btnClose&quot;).click();	
 		}
 	}
-	
+		
 	//report specific functions
 	var r = report.search(&quot;ContractsDashboard&quot;);
 	if (r &gt; -1) {
 				
 	}
 	
+
 	//display version and release notes on the about page and mobile about
 		var notifications = document.getElementById(&quot;showReleaseNotes&quot;);
 		notifications.innerHTML = &quot;&lt;b&gt;Latest Release Notes - &quot;;
