@@ -1946,13 +1946,14 @@ $(document).ready(function() {
 			$(&quot;#btnClose&quot;).click();	
 		}
 	}
-	
+		
 	//report specific functions
 	var r = report.search(&quot;ContractsDashboard&quot;);
 	if (r &gt; -1) {
 				
 	}
 	
+
 	//display version and release notes on the about page and mobile about
 		var notifications = document.getElementById(&quot;showReleaseNotes&quot;);
 		notifications.innerHTML = &quot;&lt;b&gt;Latest Release Notes - &quot;;

@@ -251,30 +251,7 @@
 												ID="filLocGLStr"
 											/>
 										</DataLayer>
-										<EventHandler
-											DhtmlEvent="onchange"
-											>
-											<Action
-												ID="jsChange"
-												Javascript="var location = document.getElementById(&quot;iptLocation&quot;);
-var locSelect = document.getElementById(&quot;paramLocGLStr&quot;);
-
-    if (locSelect.selectedIndex == -1)
-        return null;
-
-    location.value = locSelect.options[locSelect.selectedIndex].text;
-
-
-"
-												Type="Javascript"
-											/>
-										</EventHandler>
 									</InputSelectList>
-									<InputText
-										Class="ThemeHidden"
-										DefaultValue="@Request.paramLocName~"
-										ID="iptLocation"
-									/>
 									<LineBreak/>
 									<Label
 										Caption="Apply"
@@ -286,9 +263,6 @@ var locSelect = document.getElementById(&quot;paramLocGLStr&quot;);
 											Type="RefreshElement"
 											>
 											<WaitPage/>
-											<LinkParams
-												paramLocName="@Request.iptLocation~"
-											/>
 										</Action>
 									</Label>
 									<LineBreak
@@ -327,6 +301,7 @@ var locSelect = document.getElementById(&quot;paramLocGLStr&quot;);
 												ID="divVolumes"
 												>
 												<ResponsiveRow>
+													<ResponsiveColumn/>
 													<ResponsiveColumn>
 														<Division
 															Class="pull-right"
@@ -362,7 +337,6 @@ var locSelect = document.getElementById(&quot;paramLocGLStr&quot;);
 																		Class="ThemeTextSmall"
 																		>
 																		<DataTable
-																			Caption="Volumes for @Request.paramLocName~ @Request.iptLocation~"
 																			ID="dtUnits"
 																			SortArrows="True"
 																			>
@@ -647,7 +621,6 @@ ORDER BY GroupSort, MNACSGMT
 																		Class="ThemeTextSmall"
 																		>
 																		<DataTable
-																			Caption="Totals for @Request.paramLocName~"
 																			ID="dtTotals"
 																			SortArrows="True"
 																			>
@@ -991,7 +964,6 @@ ORDER BY IntSort;
 																		Class="ThemeTextSmall"
 																		>
 																		<DataTable
-																			Caption="Sales for @Request.paramLocName~"
 																			ID="dtSales"
 																			SortArrows="True"
 																			>
@@ -1612,7 +1584,6 @@ ORDER BY MNACSGMT
 																		Class="ThemeTextSmall"
 																		>
 																		<DataTable
-																			Caption="Other Operating Income for @Request.paramLocName~"
 																			ID="dtOtherIncome"
 																			SortArrows="True"
 																			>
@@ -1878,7 +1849,6 @@ ORDER BY MNACSGMT
 																		Class="ThemeTextSmall"
 																		>
 																		<DataTable
-																			Caption="Personnel Expense for @Request.paramLocName~"
 																			ID="dtPersonnel"
 																			SortArrows="True"
 																			>
@@ -2144,7 +2114,6 @@ ORDER BY MNACSGMT
 																		Class="ThemeTextSmall"
 																		>
 																		<DataTable
-																			Caption="Fixed Expense for @Request.paramLocName~"
 																			ID="dtFixedExpense"
 																			SortArrows="True"
 																			>
@@ -2408,7 +2377,7 @@ ORDER BY MNACSGMT
 																		Class="ThemeTextSmall"
 																		>
 																		<DataTable
-																			Caption="Other Operating Expense for @Request.paramLocName~"
+																			Caption=""
 																			ID="dtOtherExpense"
 																			SortArrows="True"
 																			>
@@ -2687,12 +2656,10 @@ ORDER BY MNACSGMT
 		AcctListFertilizer="9800&apos;,&apos;9805&apos;,&apos;9810"
 		AcctListFuel="9820&apos;,&apos;9825"
 		AcctListGrain=""
-		iptLocation=""
 		paramDefaultTab=""
 		paramFiscPeriod="11"
 		paramFiscYear="2018"
 		paramLocGLStr="100"
-		paramLocName=""
 		themePlanColumn=""
 	/>
 </Report>

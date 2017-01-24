@@ -424,7 +424,7 @@
 																				<LinkParams
 																					paramLocCd="@Data.LocationCode~"
 																					paramLocGLStr="@Data.LocGLStr~"
-																					paramLocName="@Request.paramLocName~"
+																					paramLocName=""
 																				/>
 																			</Action>
 																		</Label>
@@ -448,7 +448,7 @@
 																				<LinkParams
 																					paramLocCd="@Data.LocationCode~"
 																					paramLocGLStr="@Data.LocGLStr~"
-																					paramLocName="@Request.paramLocName~"
+																					paramLocName=""
 																				/>
 																			</Action>
 																		</Label>
@@ -474,7 +474,7 @@
 																				<LinkParams
 																					paramLocCd="@Data.LocationCode~"
 																					paramLocGLStr="@Data.LocGLStr~"
-																					paramLocName="@Request.paramLocName~"
+																					paramLocName=""
 																				/>
 																			</Action>
 																		</Label>
@@ -498,7 +498,7 @@
 																				<LinkParams
 																					paramLocCd="@Data.LocationCode~"
 																					paramLocGLStr="@Data.LocGLStr~"
-																					paramLocName="@Request.paramLocName~"
+																					paramLocName=""
 																				/>
 																			</Action>
 																		</Label>
@@ -628,6 +628,5 @@
 	<ideTestParams
 		Branch=""
 		MKCLocation=""
-		paramLocName=""
 	/>
 </Report>
