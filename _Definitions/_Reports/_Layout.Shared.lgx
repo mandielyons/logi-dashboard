@@ -15,7 +15,13 @@
 		/>
 		<IncludeScript
 			ID="globalScripts"
-			IncludedScript="&lt;script&gt;
+			IncludedScript="&lt;script type=&quot;text/javascript&quot;&gt;
+var url = window.location.href;
+var local = url.search(&quot;localhost&quot;);
+var dev = url.search(&quot;dashboard&quot;);
+
+//if this isn&apos;t a local machine or the development server then call the Google script
+if (dev != -1 &amp;&amp; local != -1) {
 	// Google Analytics scripts
   (function(i,s,o,g,r,a,m){i[&apos;GoogleAnalyticsObject&apos;]=r;i[r]=i[r]||function(){
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -24,10 +30,6 @@
 
   ga(&apos;create&apos;, &apos;UA-76860562-1&apos;, &apos;auto&apos;);
   ga(&apos;send&apos;, &apos;pageview&apos;);
-
-&lt;/script&gt;
-
-&lt;script type=&quot;text/javascript&quot;&gt;
 
   var _gaq = _gaq || [];
   _gaq.push([&apos;_setAccount&apos;, &apos;UA-76860562-1&apos;]);
@@ -38,6 +40,7 @@
     ga.src = (&apos;https:&apos; == document.location.protocol ? &apos;https://ssl&apos; : &apos;http://www&apos;) + &apos;.google-analytics.com/ga.js&apos;;
     var s = document.getElementsByTagName(&apos;script&apos;)[0]; s.parentNode.insertBefore(ga, s);
   })();
+}
   
   // Table to Excel Script
    function tableToExcel(table, name) {

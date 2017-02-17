@@ -236,10 +236,12 @@ Order By gb.ag_FiscalYear,
 											/>
 										</CrosstabTableValueColumns>
 									</CrosstabTable>
-									<DataTable>
+									<DataTable
+										ID="dtFMTables"
+										>
 										<DataLayer
 											ConnectionID="connCRMTest"
-											ID="dlFMTable"
+											ID="dlFMTables"
 											Source="Select am.ParentAccountId,
   am.AccountId,
   am.ParentAccountIdName ParentAccount,

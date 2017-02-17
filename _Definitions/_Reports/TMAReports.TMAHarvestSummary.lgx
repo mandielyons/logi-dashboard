@@ -62,19 +62,21 @@
 								<SharedElementParams
 									DataTableID="dtHarvest"
 									ReportName="Harvest Receipts"
-									Security="MKC Dashboard,TMA Dashboard"
+									Security="MKC Dashboard,TMA Dashboard,OC"
 								/>
 							</IncludeSharedElement>
-							<IncludeSharedElement
-								DefinitionFile="_Layout.Shared"
-								SharedElementID="shrExcelExport"
-								>
-								<SharedElementParams
-									DataTableID="dtHarvestTMA"
-									ReportName="Harvest Receipts"
-									Security="OC"
-								/>
-							</IncludeSharedElement>
+							<Remark>
+								<IncludeSharedElement
+									DefinitionFile="_Layout.Shared"
+									SharedElementID="shrExcelExport"
+									>
+									<SharedElementParams
+										DataTableID="dtHarvestTMA"
+										ReportName="Harvest Receipts"
+										Security="OC"
+									/>
+								</IncludeSharedElement>
+							</Remark>
 						</ResponsiveColumn>
 					</ResponsiveRow>
 					<ResponsiveRow
@@ -271,7 +273,26 @@ WHERE BRANCH_NUMBER IN(@Request.Branch~) OR &apos;@Request.Branch~&apos;=&apos;-
 											<Label
 												Caption="@Data.BRANCH_NAME~"
 												ID="lblBRANCH_NAME"
-											/>
+												Tooltip="Click to view the Long &amp; Short for @Data.BRANCH_NAME~"
+												>
+												<Action
+													Type="Report"
+													>
+													<LinkParams
+														Branch="@Data.BRANCH_NUMBER~"
+														BranchName="@Data.BRANCH_NAME~"
+													/>
+													<Target
+														FrameID="Self"
+														ID="rptLongAndShort"
+														Report="Unknown.SubReports.TMALongShort"
+														RequestForwarding="True"
+														Type="Report"
+														>
+														<WaitPage/>
+													</Target>
+												</Action>
+											</Label>
 											<DataColumnSort
 												DataColumn="BRANCH_NAME"
 												DataType="Text"
