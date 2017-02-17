@@ -26,6 +26,28 @@
 						ID="panel-dispatch-heading"
 						>
 						<Label
+							Caption=" "
+							Class="fa fa-chevron-left title"
+							Tooltip="Return to Harvest Summary"
+							>
+							<Action
+								ID="actionReport"
+								Type="Report"
+								>
+								<Target
+									FrameID="Self"
+									ID="rptTgtSummary"
+									Report="TMAReports.TMAHarvestSummary"
+									Type="Report"
+									>
+									<WaitPage/>
+								</Target>
+							</Action>
+						</Label>
+						<Spaces
+							Size="3"
+						/>
+						<Label
 							Caption="TMA Long &amp; Short Report"
 							Class="panel-title"
 						/>
