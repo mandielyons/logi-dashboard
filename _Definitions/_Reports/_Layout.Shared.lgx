@@ -1278,20 +1278,6 @@ else {
 																	Javascript="void(0)"
 																	Type="Javascript"
 																/>
-																<Remark>
-																	<Action
-																		ID="actReport"
-																		Type="Report"
-																		>
-																		<Target
-																			ID="tgtReport"
-																			Report="Scorecard.StrategicDashboard"
-																			Type="Report"
-																			>
-																			<WaitPage/>
-																		</Target>
-																	</Action>
-																</Remark>
 																<ConditionalClass
 																	Class="selected-menu"
 																	Condition="&quot;@Request.rdReport~&quot;.indexOf(&quot;Scorecards&quot;)&lt;&gt;&quot;-1&quot;"
@@ -1306,7 +1292,7 @@ else {
 																	Type="Javascript"
 																/>
 																<ConditionalClass
-																	Class="selected-menu"
+																	Class="caret selected-menu"
 																	Condition="&quot;@Request.rdReport~&quot;.indexOf(&quot;Scorecards&quot;)&lt;&gt;&quot;-1&quot;"
 																/>
 															</Label>
