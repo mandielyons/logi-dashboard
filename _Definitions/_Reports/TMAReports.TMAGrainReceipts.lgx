@@ -236,6 +236,43 @@ Order By gb.ag_FiscalYear,
 											/>
 										</CrosstabTableValueColumns>
 									</CrosstabTable>
+									<DataTable>
+										<DataLayer
+											ConnectionID="connCRMTest"
+											ID="dlFMTable"
+											Source="Select am.ParentAccountId,
+  am.AccountId,
+  am.ParentAccountIdName ParentAccount,
+  am.Name AccountName,
+  am.ag_accountnumber_gpcust GPCustCd,
+  am.po_CFALoanNumber CFALoanNumber,
+  am.po_CFALoanCommitment CFALoanCommitment,
+  am.po_CFALoanAvailable CFALoanAvailable,
+  am.po_MKCMemberClass MKCMemberClass,
+  am.po_FieldMarketer FieldMarketer,
+  sh.ag_CropYear CropYear,
+  sh.ag_CropMonth CropMonth,
+  Cast(sh.ag_InvoiceDate As date) InvoiceDate,
+  sh.ag_InvoiceNumber InvoiceNumber,
+  sh.ag_InvoiceQuantity Quantity,
+  sh.ag_InvoiceUnit InvoiceUOM,
+  sh.ag_Amount Amount,
+  sh.po_PrepayAppliedAmount PrepayAppliedAmount,
+  sh.ag_ProductCode ProductCode,
+  sh.ag_ProductDescription ProductDescription,
+  pd.ManufacturerDesc Manufacturer,
+  pd.ProdRptCatId,
+  pd.ProdRptCatDesc,
+  pd.ProdRptSubCatId,
+  pd.ProdRptSubCatDesc
+From ag_saleshistory sh
+  Inner Join Account am On sh.ag_accountid = am.AccountId
+  Inner Join mkcAgronomyProductDim pd On sh.ag_ProductCode = pd.ProdCd
+Where am.po_FieldMarketer Is Not Null And sh.ag_CropYear In (2015, 2016) And
+  sh.statecode = 0 And sh.statuscode = 1"
+											Type="SQL"
+										/>
+									</DataTable>
 								</Division>
 							</ResponsiveColumn>
 						</ResponsiveRow>
