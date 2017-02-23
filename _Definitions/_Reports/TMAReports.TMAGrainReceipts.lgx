@@ -236,13 +236,14 @@ Order By gb.ag_FiscalYear,
 											/>
 										</CrosstabTableValueColumns>
 									</CrosstabTable>
-									<DataTable
-										ID="dtFMTables"
-										>
-										<DataLayer
-											ConnectionID="connCRMTest"
-											ID="dlFMTables"
-											Source="Select am.ParentAccountId,
+									<Remark>
+										<DataTable
+											ID="dtFMTables"
+											>
+											<DataLayer
+												ConnectionID="connCRMTest"
+												ID="dlFMTables"
+												Source="Select am.ParentAccountId,
   am.AccountId,
   am.ParentAccountIdName ParentAccount,
   am.Name AccountName,
@@ -272,9 +273,11 @@ From ag_saleshistory sh
   Inner Join mkcAgronomyProductDim pd On sh.ag_ProductCode = pd.ProdCd
 Where am.po_FieldMarketer Is Not Null And sh.ag_CropYear In (2015, 2016) And
   sh.statecode = 0 And sh.statuscode = 1"
-											Type="SQL"
-										/>
-									</DataTable>
+												Type="SQL"
+											/>
+											<AutoColumns/>
+										</DataTable>
+									</Remark>
 								</Division>
 							</ResponsiveColumn>
 						</ResponsiveRow>
