@@ -8,30 +8,7 @@
 		DefinitionFile="_Layout.Shared"
 		SharedElementID="shrHeader"
 	/>
-	<StyleSheet
-		StyleSheet="defaultTheme.css"
-	/>
-	<StyleSheet
-		StyleSheet="960.css"
-	/>
-	<StyleSheet
-		StyleSheet="demo.css"
-	/>
-	<IncludeScriptFile
-		IncludedScriptFile="https://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"
-	/>
-	<IncludeScriptFile
-		IncludedScriptFile="jquery.fixedheadertable.js"
-	/>
 	<Body>
-		<IncludeScript
-			IncludedScript="$(document).ready(function() {
-    $(&apos;#dtEventLog&apos;).fixedHeaderTable({ footer: true, cloneHeadToFoot: true, altClass: &apos;odd&apos;, autoShow: false });
-    
-    $(&apos;#dtEventLog&apos;).fixedHeaderTable(&apos;show&apos;, 1000);
-    
-});"
-		/>
 		<Division
 			Class="panel panel-default"
 			HtmlDiv="True"
@@ -44,6 +21,7 @@
 				>
 				<Label
 					Caption="Audit Log"
+					Class="panel-title"
 				/>
 			</Division>
 			<Division
@@ -56,12 +34,15 @@
 						<DataTable
 							AccessibleHeaders="True"
 							AccessibleSummary="AnalysisGrid DataTable"
+							Class="ThemeTextSmall"
 							ID="dtEventLog"
 							KeepScrollPosition="True"
 							RememberSort="True"
 							ResizableColumns="True"
 							SortArrows="True"
 							TableBorder="0"
+							Width="95"
+							WidthScale="%"
 							>
 							<DataLayer
 								ConnectionID="connLogiEvent"
@@ -80,7 +61,11 @@ Select LogiEventLog.EventID,
 From LogiEventLog
 WHERE  LogiEventLog.EventDateTime BETWEEN @StartDate AND @Enddate"
 								Type="SQL"
-							/>
+								>
+								<ConditionFilter
+									Condition="&quot;@Data.EventName~&quot; &lt;&gt; &quot;RunSQL&quot;"
+								/>
+							</DataLayer>
 							<Remark>
 								<InteractivePaging
 									CaptionType="Image"
@@ -92,7 +77,49 @@ WHERE  LogiEventLog.EventDateTime BETWEEN @StartDate AND @Enddate"
 									ShowPageNumber="Numbered"
 								/>
 							</Remark>
-							<AutoColumns/>
+							<Remark>
+								<AutoColumns/>
+							</Remark>
+							<DataTableColumn
+								Header="Event ID"
+								ID="colEventID"
+								>
+								<Label
+									Caption="@Data.EventID~"
+								/>
+							</DataTableColumn>
+							<DataTableColumn
+								Header="Event Timestamp"
+								ID="colEventDate"
+								>
+								<Label
+									Caption="@Data.EventDateTime~"
+								/>
+							</DataTableColumn>
+							<DataTableColumn
+								Header="Event Name"
+								ID="colEventName"
+								>
+								<Label
+									Caption="@Data.EventName~"
+								/>
+							</DataTableColumn>
+							<DataTableColumn
+								Header="Event User ID"
+								ID="colUserID"
+								>
+								<Label
+									Caption="@Data.UserID~"
+								/>
+							</DataTableColumn>
+							<DataTableColumn
+								Header="Event Details"
+								ID="colEventDetail"
+								>
+								<Label
+									Caption="@Data.EventDetail~"
+								/>
+							</DataTableColumn>
 						</DataTable>
 					</ResponsiveColumn>
 				</ResponsiveRow>

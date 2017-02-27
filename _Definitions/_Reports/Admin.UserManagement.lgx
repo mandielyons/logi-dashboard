@@ -76,7 +76,8 @@ AND USERNAME = @iptUsername"
   USERS.PASSWORD,
   USERS.EMAIL,
   USERS.ACTIVE
-From USERS"
+From USERS
+Order By USERS.USERNAME"
 			Type="SQL"
 			>
 			<DataLayerLink
@@ -549,6 +550,8 @@ function isEmail(email) {
 										Class="ThemeTextSmall"
 										ID="dtOtherCoopUsers"
 										SortArrows="True"
+										Width="85"
+										WidthScale="%"
 										>
 										<DataLayer
 											ID="dllOtherCoopUserList"
