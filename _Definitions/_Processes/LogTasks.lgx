@@ -6,26 +6,32 @@
 		ID="insertAuthenticationRow"
 		>
 		<Procedure
-			ConnectionID="connLogiEvent"
-			ID="insertAuthRow"
-			SqlCommand="INSERT INTO LogiEventLog (EventDateTime, EventName, EventDuration, ElementID, UserID, EventDetail) 
+			Expression="InStr(&quot;@Function.AppVirtualPath~&quot;,&quot;info&quot;) &gt; 0"
+			ID="ifLive"
+			Type="If"
+			>
+			<Procedure
+				ConnectionID="connLogiEvent"
+				ID="insertAuthRow"
+				SqlCommand="INSERT INTO LogiEventLog (EventDateTime, EventName, EventDuration, ElementID, UserID, EventDetail) 
 VALUES (&apos;@Request.EventTime~&apos;, &apos;@Request.EventName~&apos;, &apos;@Request.EventDuration~&apos;, &apos;@Request.ElementID~&apos;,&apos;@Request.rdUsername~&apos;,&apos;User authenticated.&apos;) 
 "
-			Type="SQL"
-			>
-			<IfError
-				ID="InsertAuthRowError"
+				Type="SQL"
 				>
-				<Procedure
-					Expression="@Procedure.insertAuthRow.ErrorMessage~.Length &gt; 0"
-					ID="insertRowError"
-					Type="If"
+				<IfError
+					ID="InsertAuthRowError"
 					>
-					<Response
-						Type="Exit"
-					/>
-				</Procedure>
-			</IfError>
+					<Procedure
+						Expression="@Procedure.insertAuthRow.ErrorMessage~.Length &gt; 0"
+						ID="insertRowError"
+						Type="If"
+						>
+						<Response
+							Type="Exit"
+						/>
+					</Procedure>
+				</IfError>
+			</Procedure>
 		</Procedure>
 		<Response
 			Type="Exit"
@@ -84,6 +90,41 @@ VALUES (&apos;@Request.EventName~&apos;, &apos;@Request.ElementID~&apos;, &apos;
 					/>
 				</Procedure>
 			</IfError>
+		</Procedure>
+		<Response
+			Type="Exit"
+		/>
+	</Task>
+	<Task
+		ID="insertBuildReport"
+		>
+		<Procedure
+			Expression="InStr(&quot;@Function.AppVirtualPath~&quot;,&quot;info&quot;) &gt; 0"
+			ID="ifLive"
+			Type="If"
+			>
+			<Procedure
+				ConnectionID="connLogiEvent"
+				ID="insertBuildReport"
+				SqlCommand="INSERT INTO LogiEventLog (EventName, ElementID, EventDateTime, EventDuration, SQLCommand, UserID, EventDetail) 
+VALUES (&apos;@Request.EventName~&apos;, &apos;@Request.ElementID~&apos;, &apos;@Request.EventTime~&apos;, &apos;@Request.EventDuration~&apos;, &apos;@Request.SQL~&apos;, &apos;@Request.rdUsername~&apos;,&apos;SQL&apos;) 
+"
+				Type="SQL"
+				>
+				<IfError
+					ID="InsertSQLRowError"
+					>
+					<Procedure
+						Expression="@Procedure.insertSQLRow.ErrorMessage~.Length &gt; 0"
+						ID="insertRowError"
+						Type="If"
+						>
+						<Response
+							Type="Exit"
+						/>
+					</Procedure>
+				</IfError>
+			</Procedure>
 		</Procedure>
 		<Response
 			Type="Exit"
