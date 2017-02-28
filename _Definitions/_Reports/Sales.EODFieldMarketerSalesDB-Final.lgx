@@ -28,12 +28,12 @@
   Lower(SubString(am.po_FieldMarketer, CharIndex(&apos; &apos;, am.po_FieldMarketer) + 1,
   Len(am.po_FieldMarketer))), &apos; &apos;,
   &apos;&apos;) As login, 
-  case when &apos;@Function.UserName~&apos; in (&apos;knicholas&apos;, &apos;twalker&apos;, &apos;dspears&apos;, &apos;mlyons&apos;) then 1 else 0 end as chkAdmin
+  case when &apos;@Function.UserName~&apos; in (&apos;knichols&apos;, &apos;twalker&apos;, &apos;dspears&apos;, &apos;mlyons&apos;) then 1 else 0 end as chkAdmin
 From Account am
 Where am.po_FieldMarketer Is Not Null
 ) as data
 Where login = &apos;@Function.UserName~&apos; 
-	 OR &apos;@Function.UserName~&apos; in (&apos;knicholas&apos;, &apos;twalker&apos;, &apos;dspears&apos;, &apos;mlyons&apos;)
+	 OR &apos;@Function.UserName~&apos; in (&apos;knichols&apos;, &apos;twalker&apos;, &apos;dspears&apos;, &apos;mlyons&apos;)
 Order By FieldMarketer	 "
 			Type="SQL"
 		/>
