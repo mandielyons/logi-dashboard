@@ -1082,16 +1082,16 @@ else {
 													</Label>
 												</Division>
 												<Division
-													ID="maps-container"
-													SecurityRightID="LogiUserAdmin"
+													ID="sales-container"
+													SecurityRightID="MKC Dashboard"
 													>
 													<Division
 														Class="dropdown"
 														HtmlDiv="True"
-														ID="maps"
+														ID="sales"
 														>
 														<Label
-															Caption="Maps"
+															Caption="Sales"
 															>
 															<Action
 																ID="actBlank"
@@ -1119,22 +1119,22 @@ else {
 														<Division
 															Class="submenu"
 															HtmlDiv="True"
-															ID="submenu-maps"
+															ID="submenu-sales"
 															>
 															<DataList
-																ID="lstMaps"
+																ID="lstSales"
 																>
 																<DataLayer
-																	ID="dlNav-Maps"
+																	ID="dlNav-Sales"
 																	Type="DefinitionList"
 																	>
 																	<CompareFilter
 																		CaseSensitive="True"
 																		CompareType="="
-																		CompareValue="Maps"
+																		CompareValue="Sales"
 																		DataColumn="Folder1"
 																		DataType="Text"
-																		ID="fMaps"
+																		ID="fSales"
 																	/>
 																</DataLayer>
 																<ListItem>
@@ -1166,6 +1166,92 @@ else {
 														Class="pipe-spacer"
 														ID="pipe-spacer"
 													/>
+													<Division
+														ID="maps-container"
+														SecurityRightID="LogiUserAdmin"
+														>
+														<Division
+															Class="dropdown"
+															HtmlDiv="True"
+															ID="maps"
+															>
+															<Label
+																Caption="Maps"
+																>
+																<Action
+																	ID="actBlank"
+																	Javascript="void(0)"
+																	Type="Javascript"
+																/>
+																<ConditionalClass
+																	Class="selected-menu"
+																	Condition="&quot;@Request.rdReport~&quot;.indexOf(&quot;Maps&quot;)&lt;&gt;&quot;-1&quot;"
+																/>
+															</Label>
+															<Label
+																Class="caret"
+																>
+																<Action
+																	ID="actBlank"
+																	Javascript="void(0)"
+																	Type="Javascript"
+																/>
+																<ConditionalClass
+																	Class="caret selected-menu"
+																	Condition="&quot;@Request.rdReport~&quot;.indexOf(&quot;Maps&quot;)&lt;&gt;&quot;-1&quot;"
+																/>
+															</Label>
+															<Division
+																Class="submenu"
+																HtmlDiv="True"
+																ID="submenu-maps"
+																>
+																<DataList
+																	ID="lstMaps"
+																	>
+																	<DataLayer
+																		ID="dlNav-Maps"
+																		Type="DefinitionList"
+																		>
+																		<CompareFilter
+																			CaseSensitive="True"
+																			CompareType="="
+																			CompareValue="Maps"
+																			DataColumn="Folder1"
+																			DataType="Text"
+																			ID="fMaps"
+																		/>
+																	</DataLayer>
+																	<ListItem>
+																		<Label
+																			Caption="@Data.Caption~"
+																			>
+																			<Action
+																				ID="actReport"
+																				Type="Report"
+																				>
+																				<Target
+																					Report="@Data.ID~"
+																					Type="Report"
+																					>
+																					<WaitPage/>
+																				</Target>
+																			</Action>
+																			<ConditionalClass
+																				Class="selected-menu"
+																				Condition="&quot;@Request.rdReport~&quot;==&quot;@Data.ID~&quot;"
+																			/>
+																		</Label>
+																	</ListItem>
+																</DataList>
+															</Division>
+														</Division>
+														<Label
+															Caption="|"
+															Class="pipe-spacer"
+															ID="pipe-spacer"
+														/>
+													</Division>
 												</Division>
 												<Division
 													ID="tma-apps-container"
