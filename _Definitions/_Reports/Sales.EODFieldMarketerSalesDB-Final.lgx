@@ -1,0 +1,1090 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report
+	Caption="Field Marketers"
+	ID="Sales.EODFieldMarketerSalesDB-Final"
+	SecurityReportRightID="MKC Dashboard"
+	>
+	<SetSessionVariables
+		Condition="&apos;@Session.userMonth~&apos; = &apos;&apos;"
+		>
+		<SessionParams
+			userMonth="@Date.Today~"
+		/>
+	</SetSessionVariables>
+	<SetSessionVariables
+		Condition="&apos;@Request.monthChange~&apos; &lt;&gt; &apos;&apos;"
+		>
+		<SessionParams
+			userMonth="=DateAdd(&apos;m&apos;, @Request.monthChange~, &apos;@Session.userMonth~&apos;)"
+		/>
+	</SetSessionVariables>
+	<LocalData>
+		<DataLayer
+			ConnectionID="connCRMTest"
+			ID="dlFldMarketerLocal"
+			Source="select * from
+(Select Distinct am.po_FieldMarketer FieldMarketer,
+  Replace(Lower(Left(am.po_FieldMarketer, 1)) +
+  Lower(SubString(am.po_FieldMarketer, CharIndex(&apos; &apos;, am.po_FieldMarketer) + 1,
+  Len(am.po_FieldMarketer))), &apos; &apos;,
+  &apos;&apos;) As login, 
+  case when &apos;@Function.UserName~&apos; in (&apos;knicholas&apos;, &apos;twalker&apos;, &apos;dspears&apos;, &apos;mlyons&apos;) then 1 else 0 end as chkAdmin
+From Account am
+Where am.po_FieldMarketer Is Not Null
+) as data
+Where login = &apos;@Function.UserName~&apos; 
+	 OR &apos;@Function.UserName~&apos; in (&apos;knicholas&apos;, &apos;twalker&apos;, &apos;dspears&apos;, &apos;mlyons&apos;)
+Order By FieldMarketer	 "
+			Type="SQL"
+		/>
+	</LocalData>
+	<DefaultRequestParams
+		currentYear="@Date.Today~"
+		inpDate="@Date.LastYearStart~"
+		inpDateEnd="@Date.ThisYearEnd~"
+		islFieldMarketer="@Local.FieldMarketer~"
+	/>
+	<ReportHeader>
+		<IncludeSharedElement
+			DefinitionFile="_Layout.Shared"
+			SharedElementID="shrHeader"
+		/>
+	</ReportHeader>
+	<Body>
+		<IncludeHtml
+			Html="&lt;style&gt;
+.rd-checkboxlist-dropdownx {
+    padding: 2px 0 2px 4px;
+    margin: 0px;
+    position: relative;
+    text-align: left;
+    border: 1px solid #000000;
+    color: #000000;
+    background-color: #FFFFFF;
+    width: 225px;
+}
+.rd-checkboxlist-dropdown {
+    position: relative;
+    width: 100%;
+
+    padding: 6px 12px;
+    font-size: 16px;
+    line-height: 1.4285;
+    color: #555;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+    box-shadow: inset 0px 1px 1px rgba(0,0,0,0.075);
+    -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+    -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+
+}
+
+.rd-checkboxlist-popup {
+    border: 1px solid #000000 !important;
+    background-color: #fff;
+	color: #555 !important;	
+    padding: 3px;
+	font-size: 16px !important;
+	line-height: 1.4285 !important;
+}
+.rd-checkboxlist-popup {
+    display: block;
+    overflow-y: auto;
+    padding-right: 20px;
+    overflow-x: hidden;
+    z-index: 10000;
+    position: relative;
+    padding: 3px;
+    border: 1px solid #000000;
+    background-color: #FFF;
+}
+#divContent {
+	width: calc(100% - 10px);
+}
+
+#div-marketer-sales-by-month .highcharts-legend {
+	visibility: hidden !important;
+}
+#colContent .well   {
+
+	margin: 0px 10px 0px 10px ;
+
+}
+
+.fontRed{
+color: #B22222;
+}
+
+.normalWeight {
+font-weight: 400;
+}
+
+
+&lt;/style&gt;"
+		/>
+		<Division
+			Class="panel panel-default"
+			HtmlDiv="True"
+			ID="panel"
+			>
+			<Division
+				Class="panel-heading"
+				HtmlDiv="True"
+				ID="panel-heading"
+				>
+				<Label
+					Caption="MKC Field Marketer Sales"
+					Class="panel-title"
+				/>
+			</Division>
+			<Division
+				Class="collapse in panel-body"
+				HtmlDiv="True"
+				ID="panel-body"
+				>
+				<Rows
+					Width="100"
+					WidthScale="%"
+					>
+					<Row>
+						<Column
+							Class="ThemeAlignTop"
+							ID="colFilters"
+							Width="300"
+							WidthScale="px"
+							>
+							<Rows
+								Width="90"
+								WidthScale="%"
+								>
+								<Row>
+									<Column
+										Class="ThemeAlignRight"
+										ID="colIcon"
+										>
+										<LineBreak/>
+										<Label
+											Class="fa fa-chevron-left"
+											>
+											<Action
+												Display="Toggle"
+												ElementID="colFilters,colFilters2"
+												ID="hideFilters"
+												ShowElementEffect="FadeIn"
+												Type="ShowElement"
+											/>
+										</Label>
+									</Column>
+								</Row>
+								<Row>
+									<Column
+										ID="colFldMarketer"
+										Width="100"
+										WidthScale="%"
+										>
+										<Division
+											Condition="&apos;@Local.chkAdmin~&apos; = &apos;1&apos;"
+											ID="divFldMarketer"
+											>
+											<Label
+												Caption="Field Marketer:"
+												Class="ThemeTextSmall ThemeBold"
+											/>
+											<InputSelectList
+												Class="width-2"
+												DefaultValue="@Request.islFieldMarketer~"
+												ID="islFieldMarketer"
+												IncludeBlank="True"
+												IncludeBlankCaption="All"
+												OptionCaptionColumn="FieldMarketer"
+												OptionValueColumn="FieldMarketer"
+												>
+												<DataLayer
+													ConnectionID="connCRMTest"
+													ID="dlFldMarketer"
+													Source="Select Distinct am.po_FieldMarketer FieldMarketer
+From dbo.Account am
+Where am.po_FieldMarketer Is Not Null and am.statecode = 0 And am.statuscode = 1
+Order By FieldMarketer"
+													Type="SQL"
+												/>
+												<EventHandler
+													DhtmlEvent="onChange"
+													>
+													<Action
+														ElementID="divInputs"
+														ID="refInputs"
+														Type="RefreshElement"
+													/>
+												</EventHandler>
+											</InputSelectList>
+										</Division>
+									</Column>
+								</Row>
+								<Row>
+									<Column
+										ID="colCustomer"
+										Width="100"
+										WidthScale="%"
+										>
+										<Label
+											Caption="Customer:"
+											Class="ThemeTextSmall ThemeBold"
+										/>
+										<InputSelectList
+											CaptionClass="ThemeAlignTop"
+											Class="width-2"
+											DefaultValue="@Request.islCustomer~"
+											ID="islCustomer"
+											IncludeBlank="True"
+											IncludeBlankCaption="All"
+											OptionCaptionColumn="AccountName"
+											OptionValueColumn="AccountId"
+											>
+											<DataLayer
+												ConnectionID="connCRMTest"
+												ID="dlCustomer"
+												Source="Select Distinct am.AccountId,
+  am.Name AccountName
+From ag_saleshistory sh
+  Inner Join Account am On sh.ag_accountid = am.AccountId
+  Inner Join mkcAgronomyProductDim pd On sh.ag_ProductCode = pd.ProdCd
+Where am.po_FieldMarketer Is Not Null And (am.po_FieldMarketer =
+    &apos;@Request.islFieldMarketer~&apos; Or &apos;@Request.islFieldMarketer~&apos; = &apos;&apos;)
+  And sh.ag_CropYear Between Year(&apos;@Date.LastYearStart~&apos;) And
+  Year(&apos;@Date.ThisYearEnd~&apos;) And sh.statecode = 0 And sh.statuscode = 1
+  Order By AccountName"
+												Type="SQL"
+											/>
+										</InputSelectList>
+									</Column>
+								</Row>
+								<Row>
+									<Column
+										Width="100"
+										WidthScale="%"
+										>
+										<Label
+											Caption="Product Class:"
+											Class="ThemeTextSmall ThemeBold"
+										/>
+										<InputCheckboxList
+											CaptionClass="ThemeTextSmall ThemeBold"
+											CheckboxListDropdown="True"
+											DropdownSelectedCaption="# Selected"
+											ID="inpProdClass"
+											MultiSelect="True"
+											OptionCaptionColumn="description"
+											OptionValueColumn="description"
+											Width="280"
+											WidthScale="px"
+											>
+											<DataLayer
+												ConnectionID="connCRMTest"
+												ID="dlProdClass"
+												Source="Select Distinct pd.ProdRptSubCatDesc as description, ProdRptCatDesc as class
+From ag_saleshistory sh
+  Inner Join Account am On sh.ag_accountid = am.AccountId
+  Inner Join mkcAgronomyProductDim pd On sh.ag_ProductCode = pd.ProdCd
+Where am.po_FieldMarketer Is Not Null And
+  (am.po_FieldMarketer = &apos;@Request.islFieldMarketer~&apos; Or
+    &apos;@Request.islFieldMarketer~&apos; = &apos;&apos;) And sh.statecode = 0 And
+  sh.statuscode = 1 and pd.ProdRptCatDesc Not In (&apos;Application&apos;,
+  &apos;Optimal Acres&apos;, &apos;Other&apos;) AND pd.ProdRptSubCatDesc Not In (&apos;Micro Fertilizer&apos;)"
+												Type="SQL"
+												>
+												<GroupFilter
+													GroupColumn="class"
+													Hierarchical="True"
+													KeepGroupedRows="True"
+												/>
+											</DataLayer>
+											<CheckboxListBranch
+												Expanded="True"
+												OptionCaptionColumn="class"
+											/>
+											<DefaultValues
+												DataColumn="description"
+												>
+												<DataLayer
+													ConnectionID="connCRMTest"
+													ID="dlProdClass"
+													Source="Select Distinct pd.ProdRptSubCatDesc as description, ProdRptCatDesc as class
+From ag_saleshistory sh
+  Inner Join Account am On sh.ag_accountid = am.AccountId
+  Inner Join mkcAgronomyProductDim pd On sh.ag_ProductCode = pd.ProdCd
+Where am.po_FieldMarketer Is Not Null And
+  (am.po_FieldMarketer = &apos;@Request.islFieldMarketer~&apos; Or
+    &apos;@Request.islFieldMarketer~&apos; = &apos;&apos;) And sh.statecode = 0 And
+  sh.statuscode = 1 and pd.ProdRptCatDesc Not In (&apos;Application&apos;,
+  &apos;Optimal Acres&apos;, &apos;Other&apos;) AND pd.ProdRptSubCatDesc Not In (&apos;Micro Fertilizer&apos;)
+  AND (pd.ProdRptSubCatDesc IN (@SingleQuote.Request.inpProdClass~) or &apos;@Request.inpProdClass~&apos; = &apos;&apos;)"
+													Type="SQL"
+												/>
+											</DefaultValues>
+										</InputCheckboxList>
+									</Column>
+								</Row>
+								<Row>
+									<Column
+										Width="100"
+										WidthScale="%"
+										>
+										<LineBreak/>
+										<Button
+											Caption="Update"
+											ID="Update"
+											>
+											<Action
+												ID="actRep"
+												Type="Report"
+												>
+												<Target
+													Type="Report"
+													>
+													<WaitPage/>
+												</Target>
+											</Action>
+										</Button>
+									</Column>
+								</Row>
+							</Rows>
+						</Column>
+						<Column
+							Class="ThemeAlignTop"
+							ID="colFilters2"
+							ShowModes="None"
+							Width="30"
+							WidthScale="px"
+							>
+							<Rows
+								Width="90"
+								WidthScale="%"
+								>
+								<Row>
+									<Column
+										ID="colIcon"
+										>
+										<LineBreak/>
+										<Label
+											Class="fa fa-chevron-right"
+											>
+											<Action
+												Display="Toggle"
+												ElementID="colFilters,colFilters2"
+												ID="showFilters"
+												ShowElementEffect="FadeIn"
+												Type="ShowElement"
+											/>
+										</Label>
+									</Column>
+								</Row>
+							</Rows>
+						</Column>
+						<Column
+							Class="ThemeAlignTop"
+							ID="colContent"
+							>
+							<ResponsiveRow
+								Class="ThemeTextSmall"
+								CollisionBehavior="Wrap"
+								ID="respContent"
+								>
+								<ResponsiveColumn
+									Class="ThemeAlignCenter"
+									ColspanExtraSmallScreen="12"
+									ColspanLargeScreen="6"
+									ColspanMediumScreen="5"
+									ColspanSmallScreen="12"
+									>
+									<Division
+										Class="ThemeAlignCenter"
+										ID="div-marketer-sales-title"
+										>
+										<Label
+											Caption="Field Marketer Sales YTD v Previous YTD"
+											Class="ThemeTextSmall,ThemeBold"
+										/>
+										<LineBreak/>
+										<Label
+											Caption="=&apos;Crop Year &apos;+Year(&apos;@Request.inpDateEnd~&apos;)"
+											Class="ThemeTextSmall,ThemeBold"
+										/>
+									</Division>
+									<Division
+										Class="well"
+										HtmlDiv="True"
+										ID="div-marketer-sales"
+										>
+										<ChartCanvas
+											BackgroundColor="Transparent"
+											BackgroundColorTransparency="15"
+											BorderColor="Transparent"
+											BorderColorTransparency="15"
+											ChartWidth="98%"
+											PlotBackgroundColor="Transparent"
+											PlotBackgroundColorTransparency="15"
+											PlotBorderColor="Transparent"
+											PlotBorderColorTransparency="15"
+											>
+											<Series
+												ChartXDataColumn="description"
+												ChartXDataColumnType="Text"
+												ChartYDataColumn="rdCrosstabValue"
+												Color="#215A9E, #F1A021, #98fb98, #eedd82"
+												Type="Bar"
+												>
+												<Quicktip>
+													<QuicktipRow
+														Caption="@Chart.description~ "
+														ID="ctQtp1"
+														Value="@Chart.rdCrosstabColumn~"
+													/>
+													<QuicktipRow
+														Format="###,###,##0.00"
+														ID="ctQtp2"
+														Value="@Chart.rdCrosstabValue-ctQT~ "
+													/>
+													<QuicktipRow
+														ID="ctQtp3"
+														Value="@Chart.rdCrosstabValue-ctLabel~"
+													/>
+												</Quicktip>
+												<Action
+													ElementID="divOuter"
+													ID="refTable"
+													Type="RefreshElement"
+													>
+													<LinkParams
+														inpProdClass="@Request.inpProdClass~"
+														islCustomer="@Request.islCustomer~"
+														islFieldMarketer="@Request.islFieldMarketer~"
+														productClass="@Chart.description~"
+														userYear="@Chart.rdCrosstabColumn~"
+													/>
+													<WaitPage/>
+												</Action>
+											</Series>
+											<DataLayer
+												ConnectionID="connCRMTest"
+												ID="dlYearChart"
+												Source="Select sh.ag_CropYear CropYear,
+  Case When pd.ProdRptCatDesc = &apos;Chemical&apos; Then &apos;$$$$&apos;
+    When pd.ProdRptCatDesc = &apos;Fertilizer&apos; Then &apos;Tons&apos;
+    When pd.ProdRptCatDesc = &apos;Seed&apos; Then &apos;Units&apos;
+    When pd.ProdRptCatDesc = &apos;Precision Ag&apos; Then &apos;Acres&apos; Else sh.ag_InvoiceUnit
+  End As InvoiceUOM,
+  sum(sh.ag_Amount) Amount,
+  Case
+    When pd.ProdRptCatDesc In (&apos;Precision Ag&apos;, &apos;Chemical&apos;, &apos;Seed&apos;) Then
+    pd.ProdRptCatDesc Else pd.ProdRptSubCatDesc End As description
+From ag_saleshistory sh
+  Inner Join Account am On sh.ag_accountid = am.AccountId
+  Inner Join mkcAgronomyProductDim pd On sh.ag_ProductCode = pd.ProdCd
+Where sh.ag_CropYear Between Year(&apos;@Request.inpDateEnd~&apos;)-2 And
+  Year(&apos;@Request.inpDateEnd~&apos;) And pd.ProdRptCatDesc Not In (&apos;Application&apos;,
+  &apos;Optimal Acres&apos;, &apos;Other&apos;) AND pd.ProdRptSubCatDesc Not In (&apos;Micro Fertilizer&apos;) And am.po_FieldMarketer Is Not Null And
+  (am.po_FieldMarketer = &apos;@Request.islFieldMarketer~&apos; Or
+    &apos;@Request.islFieldMarketer~&apos; = &apos;&apos;) And sh.statecode = 0 And
+  sh.statuscode = 1 And (am.AccountId = &apos;@Request.islCustomer~&apos; Or
+    &apos;@Request.islCustomer~&apos; = &apos;&apos;)AND (pd.ProdRptSubCatDesc IN (@SingleQuote.Request.inpProdClass~) or &apos;@Request.inpProdClass~&apos; = &apos;&apos;)
+	Group By Case
+    When pd.ProdRptCatDesc In (&apos;Precision Ag&apos;, &apos;Chemical&apos;, &apos;Seed&apos;) Then
+    pd.ProdRptCatDesc Else pd.ProdRptSubCatDesc End, sh.ag_CropYear, pd.ProdRptCatDesc, sh.ag_InvoiceUnit
+Order By CropYear,
+  pd.ProdRptCatDesc"
+												Type="SQL"
+												>
+												<Join
+													ID="joinCalcTotal"
+													JoinType="Union"
+													>
+													<DataLayer
+														ConnectionID="connCRMTest"
+														ID="dlYearChartInner"
+														Source="Select ag_CropYear as &apos;CropYear&apos;,
+  &apos;Units&apos; as InvoiceUOM,
+  &apos;Total Nutrients&apos; As description,
+  (([Dry Fertilizer]*920+[Liquid Fertilizer]*620+[NH3]*1640)/100) as &apos;Amount&apos;
+  FROM (Select sh.ag_CropYear,
+  sh.ag_InvoiceQuantity As &apos;Amount&apos;,
+  pd.ProdRptSubCatDesc As description
+From ag_saleshistory sh
+  Inner Join Account am On sh.ag_accountid = am.AccountId
+  Inner Join mkcAgronomyProductDim pd On sh.ag_ProductCode = pd.ProdCd
+Where sh.ag_CropYear Between Year(&apos;@Request.inpDateEnd~&apos;)-2 And
+  Year(&apos;@Request.inpDateEnd~&apos;) And pd.ProdRptSubCatDesc In (&apos;Liquid Fertilizer&apos;,
+  &apos;NH3&apos;, &apos;Dry Fertilizer&apos;) And am.po_FieldMarketer Is Not Null And
+  (am.po_FieldMarketer = &apos;@Request.islFieldMarketer~&apos; Or
+    &apos;@Request.islFieldMarketer~&apos; = &apos;&apos;) And sh.statecode = 0 And
+  sh.statuscode = 1 And (am.AccountId = &apos;@Request.islCustomer~&apos; Or
+    &apos;@Request.islCustomer~&apos; = &apos;&apos;)AND (pd.ProdRptSubCatDesc IN (@SingleQuote.Request.inpProdClass~) or &apos;@Request.inpProdClass~&apos; = &apos;&apos;)
+			) p
+		PIVOT
+		(
+		sum(Amount)
+		FOR description in 
+		( [Dry Fertilizer], [Liquid Fertilizer], [NH3] )
+		) as pvt
+Order By CropYear"
+														Type="SQL"
+													/>
+												</Join>
+												<CrosstabFilter
+													CrosstabColumn="CropYear"
+													CrosstabLabelColumn="description"
+													CrosstabValueColumn="Amount"
+													CrosstabValueFunction="Sum"
+													>
+													<ExtraCrosstabValueColumn
+														CrosstabValueColumn="InvoiceUOM"
+														CrosstabValueFunction="Any"
+														ID="ctLabel"
+													/>
+													<ExtraCrosstabCalculatedColumn
+														Formula="IIF(&apos;@Data.description~&apos; = &apos;Total Nutrients&apos;, @Data.rdCrosstabValue~/1000, @Data.rdCrosstabValue~)"
+														ID="ctQT"
+													/>
+												</CrosstabFilter>
+											</DataLayer>
+											<ZoomControl/>
+											<ChartYAxis
+												HideAxis="True"
+											/>
+										</ChartCanvas>
+									</Division>
+								</ResponsiveColumn>
+								<ResponsiveColumn
+									Class="ThemeAlignCenter"
+									ColspanExtraSmallScreen="12"
+									ColspanLargeScreen="6"
+									ColspanMediumScreen="6"
+									ColspanSmallScreen="12"
+									>
+									<Division
+										ID="div-marketer-sales-by-month-title"
+										>
+										<Label
+											Caption="Field Marketer Sales by Month "
+											Class="ThemeTextSmall,ThemeBold"
+										/>
+										<LineBreak/>
+										<Label
+											Class="glyphicon glyphicon-triangle-left"
+											>
+											<Action
+												ElementID="div-marketer-sales-by-month, div-marketer-sales-by-month-title"
+												ID="refPrevious"
+												Type="RefreshElement"
+												>
+												<LinkParams
+													inpDate="@Request.inpDate~"
+													inpDateEnd="@Request.inpDateEnd~"
+													inpProdClass="@Request.inpProdClass~"
+													islCustomer="@Request.islCustomer~"
+													islFieldMarketer="@Request.islFieldMarketer~"
+													monthChange="-1"
+													productClass="@Chart.description~"
+												/>
+											</Action>
+										</Label>
+										<Spaces
+											Size="2"
+										/>
+										<Label
+											Caption="=MonthName(Month(&apos;@Session.userMonth~&apos;))+&apos; &apos;+Year(&apos;@Session.userMonth~&apos;)"
+											Class="ThemeTextSmall,ThemeBold"
+										/>
+										<Spaces
+											Size="2"
+										/>
+										<Label
+											Class="glyphicon glyphicon-triangle-right"
+											>
+											<Action
+												ElementID="div-marketer-sales-by-month, div-marketer-sales-by-month-title"
+												ID="refNext"
+												Type="RefreshElement"
+												>
+												<LinkParams
+													inpDate="@Request.inpDate~"
+													inpDateEnd="@Request.inpDateEnd~"
+													inpProdClass="@Request.inpProdClass~"
+													islCustomer="@Request.islCustomer~"
+													islFieldMarketer="@Request.islFieldMarketer~"
+													monthChange="1"
+													productClass="@Chart.description~"
+												/>
+											</Action>
+										</Label>
+									</Division>
+									<Division
+										Class="well"
+										HtmlDiv="True"
+										ID="div-marketer-sales-by-month"
+										>
+										<ChartCanvas
+											BackgroundColor="Transparent"
+											BackgroundColorTransparency="15"
+											BorderColor="Transparent"
+											BorderColorTransparency="15"
+											ChartWidth="98%"
+											PlotBackgroundColor="Transparent"
+											PlotBackgroundColorTransparency="15"
+											PlotBorderColor="Transparent"
+											PlotBorderColorTransparency="15"
+											>
+											<Series
+												ChartXDataColumn="description"
+												ChartXDataColumnType="Text"
+												ChartYDataColumn="value"
+												Color="#F1A021"
+												LegendLabel="Series1"
+												NegativeColor="Firebrick"
+												Type="Bar"
+												>
+												<Quicktip>
+													<QuicktipRow
+														Caption="@Chart.description~ "
+														Format="###,###,##0.00"
+														ID="ctMQtp"
+														Value="@Chart.value~"
+													/>
+													<QuicktipRow
+														ID="ctMQtp2"
+														Value="@Chart.InvoiceUOM~"
+													/>
+												</Quicktip>
+												<Action
+													ElementID="divOuter"
+													ID="refTable"
+													RequestForwarding="True"
+													Type="RefreshElement"
+													>
+													<LinkParams
+														inpDate="@Request.inpDate~"
+														inpDateEnd="@Request.inpDateEnd~"
+														inpProdClass="@Request.inpProdClass~"
+														islCustomer="@Request.islCustomer~"
+														islFieldMarketer="@Request.islFieldMarketer~"
+														productClass="@Chart.description~"
+														userMonth="@Session.userMonth~"
+														userYear="@Session.userMonth~"
+													/>
+													<WaitPage/>
+												</Action>
+											</Series>
+											<DataLayer
+												ConnectionID="connCRMTest"
+												ID="dlMonthChart"
+												Source="Select sh.ag_CropYear CropYear,
+  Case When pd.ProdRptCatDesc = &apos;Chemical&apos; Then sh.ag_Amount
+    Else sh.ag_InvoiceQuantity End As Quantity,
+  Case When pd.ProdRptCatDesc = &apos;Chemical&apos; Then &apos;$$$$&apos;
+  		When pd.ProdRptCatDesc = &apos;Fertilizer&apos; Then &apos;Tons&apos; 
+		When pd.ProdRptCatDesc = &apos;Seed&apos; Then &apos;Units&apos;
+		when pd.ProdRptCatDesc = &apos;Precision Ag&apos; Then &apos;Acres&apos;
+		Else sh.ag_InvoiceUnit
+  End As InvoiceUOM,
+   Case When pd.ProdRptCatDesc = &apos;Precision Ag&apos; Then &apos;Precision Ag&apos;
+    Else pd.ProdRptCatDesc + &apos; Sales&apos; End As ProdRptCatDesc,
+  sh.ag_Amount Amount,
+  case when pd.ProdRptCatDesc in (&apos;Precision Ag&apos;, &apos;Chemical&apos;, &apos;Seed&apos;) then pd.ProdRptCatDesc
+  else pd.ProdRptSubCatDesc 
+  end as description
+From ag_saleshistory sh
+  Inner Join Account am On sh.ag_accountid = am.AccountId
+  Inner Join mkcAgronomyProductDim pd On sh.ag_ProductCode = pd.ProdCd
+Where (sh.ag_CropYear = Year(&apos;@Session.userMonth~&apos;) and sh.ag_CropMonth =
+  Month(&apos;@Session.userMonth~&apos;)) And pd.ProdRptCatDesc Not In (&apos;Application&apos;,
+  &apos;Optimal Acres&apos;, &apos;Other&apos;) And pd.ProdRptSubCatDesc Not In (&apos;Micro Fertilizer&apos;) And am.po_FieldMarketer Is Not Null And
+  sh.statecode = 0 And sh.statuscode = 1 And (am.po_FieldMarketer =
+    &apos;@Request.islFieldMarketer~&apos; Or &apos;@Request.islFieldMarketer~&apos; = &apos;&apos;)
+	And (am.AccountId =
+    &apos;@Request.islCustomer~&apos; Or &apos;@Request.islCustomer~&apos; = &apos;&apos;)AND (pd.ProdRptSubCatDesc IN (@SingleQuote.Request.inpProdClass~) or &apos;@Request.inpProdClass~&apos; = &apos;&apos;)
+Order By CropYear,
+  pd.ProdRptCatDesc"
+												Type="SQL"
+												>
+												<Join
+													ID="joinMonthCalcTotal"
+													JoinType="Union"
+													>
+													<DataLayer
+														ConnectionID="connCRMTest"
+														ID="dlMonthChartInner"
+														Source="Select ag_CropYear as &apos;CropYear&apos;,
+  &apos;Units&apos; as InvoiceUOM,
+  &apos;Total Nutrients&apos; As description,
+  (([Dry Fertilizer]*920+[Liquid Fertilizer]*620+[NH3]*1640)/100000) as &apos;Amount&apos;
+  FROM (Select sh.ag_CropYear,
+  sh.ag_InvoiceQuantity As &apos;Amount&apos;,
+  pd.ProdRptSubCatDesc As description
+From ag_saleshistory sh
+  Inner Join Account am On sh.ag_accountid = am.AccountId
+  Inner Join mkcAgronomyProductDim pd On sh.ag_ProductCode = pd.ProdCd
+Where (sh.ag_CropYear = Year(&apos;@Session.userMonth~&apos;) and sh.ag_CropMonth =
+  Month(&apos;@Session.userMonth~&apos;)) And pd.ProdRptSubCatDesc In (&apos;Liquid Fertilizer&apos;,
+  &apos;NH3&apos;, &apos;Dry Fertilizer&apos;) And am.po_FieldMarketer Is Not Null And
+  (am.po_FieldMarketer = &apos;@Request.islFieldMarketer~&apos; Or
+    &apos;@Request.islFieldMarketer~&apos; = &apos;&apos;) And sh.statecode = 0 And
+  sh.statuscode = 1 And (am.AccountId = &apos;@Request.islCustomer~&apos; Or
+    &apos;@Request.islCustomer~&apos; = &apos;&apos;)AND (pd.ProdRptSubCatDesc IN (@SingleQuote.Request.inpProdClass~) or &apos;@Request.inpProdClass~&apos; = &apos;&apos;)
+			) p
+		PIVOT
+		(
+		sum(Amount)
+		FOR description in 
+		( [Dry Fertilizer], [Liquid Fertilizer], [NH3] )
+		) as pvt
+Order By CropYear"
+														Type="SQL"
+													/>
+												</Join>
+												<GroupFilter
+													GroupColumn="description"
+													>
+													<GroupAggregateColumn
+														AggregateColumn="Amount"
+														AggregateFunction="Sum"
+														ID="value"
+													/>
+												</GroupFilter>
+											</DataLayer>
+											<ChartYAxis
+												AxisLineColor="#ccc"
+												>
+												<AxisLabelStyle/>
+												<ChartTicksAndGrid
+													GridLineColor="#ccc"
+												/>
+											</ChartYAxis>
+											<ChartCanvasLegend/>
+										</ChartCanvas>
+									</Division>
+								</ResponsiveColumn>
+							</ResponsiveRow>
+							<LineBreak
+								LineCount="2"
+							/>
+							<ResponsiveRow
+								Class="ThemeTextSmall"
+								CollisionBehavior="Wrap"
+								ID="respContent2"
+								>
+								<ResponsiveColumn
+									Class="ThemeAlignCenter"
+									ColspanExtraSmallScreen="12"
+									ColspanLargeScreen="12"
+									ColspanMediumScreen="12"
+									ColspanSmallScreen="12"
+									>
+									<Division
+										ID="divOuter"
+										>
+										<Division
+											Class="ThemeAlignCenter"
+											Condition="&apos;@Request.productClass~&apos; = &apos;&apos;"
+											ID="divNoFilt"
+											>
+											<Label
+												Caption="Please select product categories from charts for more details"
+												Class="ThemeTextSmall,ThemeBold"
+											/>
+										</Division>
+										<Division
+											Condition="&apos;@Request.productClass~&apos; &lt;&gt; &apos;&apos;"
+											ID="divTable"
+											>
+											<Division
+												Class="ThemeAlignCenter"
+												Condition="&apos;@Request.userMonth~&apos; &lt;&gt; &apos;&apos;"
+												HtmlDiv="True"
+												ID="divTblHeaderMonth"
+												>
+												<Label
+													Caption="=&apos;Sales By Category MTD - &apos;+MonthName(Month(&apos;@Request.userMonth~&apos;))+&apos; &apos;+Year(&apos;@Request.userYear~&apos;)"
+													Class="ThemeTextSmall,ThemeBold"
+												/>
+											</Division>
+											<Division
+												Class="ThemeAlignCenter"
+												Condition="&apos;@Request.userMonth~&apos; = &apos;&apos; "
+												HtmlDiv="True"
+												ID="divTblHeader"
+												>
+												<Label
+													Caption="=&apos;Sales By Category YTD - &apos;+&apos;@Request.userYear~&apos;"
+													Class="ThemeTextSmall,ThemeBold"
+												/>
+											</Division>
+											<Division
+												Class="well"
+												Condition="&apos;@Request.productClass~&apos; != &apos;&apos;"
+												HtmlDiv="True"
+												ID="div-table"
+												>
+												<DataTable
+													AjaxPaging="True"
+													ColumnHeaderClass="ThemeAlignLeft"
+													ID="dtYTD"
+													Width="100"
+													WidthScale="%"
+													>
+													<DataLayer
+														ConnectionID="connCRMTest"
+														ID="dlYearTable"
+														Source="Select a.FieldMarketer, a.Customer, a.Product, a.InvoiceUOM, a.ProductClass, a.hasCFA, sum(a.Amount) as Amount, sum(b.AmountOld) as AmountOld
+From (Select am.po_FieldMarketer As FieldMarketer,
+    am.Name As Customer,
+    Case When am.po_CFALoanNumber Is Null Then 0 Else 1 End As hasCFA,
+    Case When pd.ProdRptCatDesc = &apos;Chemical&apos; Then sh.ag_Amount
+      Else sh.ag_InvoiceQuantity End As Quantity,
+    Case When pd.ProdRptCatDesc = &apos;Chemical&apos; Then &apos;$$$&apos;
+      When pd.ProdRptCatDesc = &apos;Fertilizer&apos; Then &apos;Tons&apos;
+      When pd.ProdRptCatDesc = &apos;Seed&apos; Then &apos;Units&apos;
+      When pd.ProdRptCatDesc = &apos;Precision Ag&apos; Then &apos;Acres&apos;
+      Else sh.ag_InvoiceUnit End As InvoiceUOM,
+    Case
+      When pd.ProdRptCatDesc In (&apos;Precision Ag&apos;, &apos;Chemical&apos;, &apos;Seed&apos;) Then
+      pd.ProdRptCatDesc Else pd.ProdRptSubCatDesc End As ProductClass,
+    sh.ag_Amount As Amount,
+    pd.ProdDesc As Product
+  From ag_saleshistory sh
+    Inner Join Account am On sh.ag_accountid = am.AccountId
+    Inner Join mkcAgronomyProductDim pd On sh.ag_ProductCode = pd.ProdCd
+  Where am.po_FieldMarketer Is Not Null And (am.po_FieldMarketer =
+      &apos;@Request.islFieldMarketer~&apos; Or &apos;@Request.islFieldMarketer~&apos; = &apos;&apos;) And
+    (Case
+        When pd.ProdRptCatDesc In (&apos;Precision Ag&apos;, &apos;Chemical&apos;, &apos;Seed&apos;)
+        Then pd.ProdRptCatDesc Else pd.ProdRptSubCatDesc
+      End In (@SingleQuote.Request.productClass~) Or
+      &apos;@Request.productClass~&apos; = &apos;&apos; or (&apos;@Request.productClass~&apos; = &apos;Total Nutrients&apos; And pd.ProdRptSubCatDesc In (&apos;Liquid Fertilizer&apos;,
+  &apos;NH3&apos;, &apos;Dry Fertilizer&apos;))) And 
+   (( &apos;@Request.userMonth~&apos; = &apos;&apos; AND sh.ag_CropYear = Year(&apos;@Request.userYear~&apos;)) or (sh.ag_CropYear = Year(&apos;@Request.userYear~&apos;) AND sh.ag_CropMonth = Month(&apos;@Request.userMonth~&apos;))) 
+   And
+    pd.ProdRptCatDesc Not In (&apos;Application&apos;, &apos;Optimal Acres&apos;, &apos;Other&apos;)
+    And sh.statecode = 0 And sh.statuscode = 1 And (am.AccountId =
+      &apos;@Request.islCustomer~&apos; Or &apos;@Request.islCustomer~&apos; = &apos;&apos;)AND (pd.ProdRptSubCatDesc IN (@SingleQuote.Request.inpProdClass~) or &apos;@Request.inpProdClass~&apos; = &apos;&apos;)) a
+  Left Join 
+  (Select am.po_FieldMarketer As FieldMarketer,
+    am.Name As Customer,
+    Case When pd.ProdRptCatDesc = &apos;Chemical&apos; Then sh.ag_Amount
+      Else sh.ag_InvoiceQuantity End As QuantityOld,
+    sh.ag_Amount As AmountOld,
+    pd.ProdDesc As Product
+  From ag_saleshistory sh
+    Inner Join Account am On sh.ag_accountid = am.AccountId
+    Inner Join mkcAgronomyProductDim pd On sh.ag_ProductCode = pd.ProdCd
+  Where am.po_FieldMarketer Is Not Null And (am.po_FieldMarketer =
+      &apos;@Request.islFieldMarketer~&apos; Or &apos;@Request.islFieldMarketer~&apos; = &apos;&apos;) And
+    (Case
+        When pd.ProdRptCatDesc In (&apos;Precision Ag&apos;, &apos;Chemical&apos;, &apos;Seed&apos;)
+        Then pd.ProdRptCatDesc Else pd.ProdRptSubCatDesc
+      End In (@SingleQuote.Request.productClass~) Or
+      &apos;@Request.productClass~&apos; = &apos;&apos;or (&apos;@Request.productClass~&apos; = &apos;Total Nutrients&apos; And pd.ProdRptSubCatDesc In (&apos;Liquid Fertilizer&apos;,
+  &apos;NH3&apos;, &apos;Dry Fertilizer&apos;))) And
+    (( &apos;@Request.userMonth~&apos; = &apos;&apos; AND sh.ag_CropYear = Year(&apos;@Request.userYear~&apos;)-1 ) or (sh.ag_CropYear = Year(&apos;@Request.userYear~&apos;)-1 AND sh.ag_CropMonth = Month(&apos;@Request.userMonth~&apos;)))  And
+    pd.ProdRptCatDesc Not In (&apos;Application&apos;, &apos;Optimal Acres&apos;, &apos;Other&apos;)
+    And sh.statecode = 0 And sh.statuscode = 1 And (am.AccountId =
+      &apos;@Request.islCustomer~&apos; Or &apos;@Request.islCustomer~&apos; = &apos;&apos;)AND (pd.ProdRptSubCatDesc IN (@SingleQuote.Request.inpProdClass~) or &apos;@Request.inpProdClass~&apos; = &apos;&apos;)) b
+    On a.Customer = b.Customer And a.Product = b.Product
+	Group By a.Customer, a.FieldMarketer, a.Product, a.InvoiceUOM, a.ProductClass, a.hasCFA"
+														Type="SQL"
+														>
+														<GroupFilter
+															GroupColumn="Product"
+															KeepGroupedRows="True"
+															>
+															<GroupAggregateColumn
+																AggregateColumn="Amount"
+																AggregateFunction="SUM"
+																ID="grpAmount"
+															/>
+															<GroupAggregateColumn
+																AggregateColumn="AmountOld"
+																AggregateFunction="SUM"
+																ID="grpAmountOld"
+															/>
+														</GroupFilter>
+														<CalculatedColumn
+															Formula="@Data.grpAmount~-@Data.grpAmountOld~"
+															ID="grpVarience"
+														/>
+														<SortFilter
+															SortColumn="Customer,FieldMarketer,Product"
+														/>
+													</DataLayer>
+													<DataTableColumn
+														Class="ThemeAlignLeft"
+														Header="Customer Acct"
+														>
+														<Label
+															Caption="@Data.Customer~"
+															Class="ThemeAlignLeft"
+														/>
+														<DataColumnSort
+															DataColumn="Customer"
+															DataType="Text"
+														/>
+													</DataTableColumn>
+													<DataTableColumn
+														Class="ThemeAlignLeft"
+														Header="CFA"
+														>
+														<Division
+															Class="ThemeAlignLeft"
+															Condition="&apos;@Data.hasCFA~&apos; = &apos;1&apos;"
+															ID="divCFA"
+															>
+															<Label
+																Caption="&amp;#10004;"
+																Class="ThemeAlignLeft"
+																Format="HTML"
+															/>
+														</Division>
+														<Division
+															Class="ThemeAlignLeft"
+															Condition="&apos;@Data.hasCFA~&apos; = &apos;0&apos;"
+															ID="divNoCFA"
+														/>
+														<DataColumnSort
+															DataColumn="hasCFA"
+															DataType="Text"
+														/>
+													</DataTableColumn>
+													<DataTableColumn
+														Class="ThemeAlignLeft"
+														Header="Field Marketer"
+														>
+														<Label
+															Caption="@Data.FieldMarketer~"
+															Class="ThemeAlignLeft"
+														/>
+														<DataColumnSort
+															DataColumn="FieldMarketer"
+															DataType="Text"
+														/>
+													</DataTableColumn>
+													<DataTableColumn
+														Class="ThemeAlignLeft"
+														Header="Product"
+														>
+														<Label
+															Caption="@Data.Product~"
+															Class="ThemeAlignLeft"
+														/>
+														<DataColumnSort
+															DataColumn="Product"
+															DataType="Text"
+														/>
+													</DataTableColumn>
+													<DataTableColumn
+														Class="ThemeAlignRight"
+														ColumnHeaderClass="ThemeAlignRight"
+														Header="Sold"
+														>
+														<Division
+															Class="ThemeAlignRight"
+															Condition="&apos;@Data.InvoiceUOM~&apos; = &apos;$$$&apos;"
+															ID="divMoney"
+															>
+															<Label
+																Caption="@Data.grpAmount~"
+																Class="ThemeAlignRight"
+																Format="Currency"
+															/>
+														</Division>
+														<Division
+															Class="ThemeAlignRight"
+															Condition="&apos;@Data.InvoiceUOM~&apos; &lt;&gt; &apos;$$$&apos;"
+															ID="divOther"
+															>
+															<Label
+																Caption="@Data.grpAmount~"
+																Class="ThemeAlignRight"
+																Format="###,###,##0.00"
+															/>
+															<Spaces
+																Size="1"
+															/>
+															<Label
+																Caption="@Data.InvoiceUOM~"
+																Class="ThemeAlignRight"
+															/>
+														</Division>
+														<DataColumnSort
+															DataColumn="grpAmount"
+															DataType="Number"
+														/>
+														<ConditionalClass
+															Class="fontRed"
+															Condition="&apos;@Data.grpAmount~&apos; &lt; 0"
+														/>
+													</DataTableColumn>
+													<DataTableColumn
+														Class="ThemeAlignRight"
+														ColumnHeaderClass="ThemeAlignRight"
+														Header="Difference from Previous Year"
+														>
+														<Division
+															Class="ThemeAlignRight"
+															HtmlDiv="True"
+															ID="divValue"
+															>
+															<Label
+																Caption="@Data.grpVarience~"
+																Class="ThemeAlignRight"
+																Format="###,###,##0.00"
+															/>
+														</Division>
+														<DataColumnSort
+															DataColumn="grpVarience"
+															DataType="Number"
+														/>
+														<ConditionalClass
+															Class="fontRed"
+															Condition="&apos;@Data.grpVarience~&apos; &lt; 0"
+														/>
+													</DataTableColumn>
+													<InteractivePaging
+														CaptionType="Text"
+														Class="ThemeTextNormal normalWeight"
+														Location="Top"
+														PageRowCount="20"
+														ShowPageNumber="True"
+													/>
+												</DataTable>
+											</Division>
+										</Division>
+									</Division>
+								</ResponsiveColumn>
+							</ResponsiveRow>
+						</Column>
+					</Row>
+				</Rows>
+			</Division>
+		</Division>
+	</Body>
+	<ReportFooter>
+		<IncludeSharedElement
+			DefinitionFile="_Layout.Shared"
+			SharedElementID="shrFooter"
+		/>
+	</ReportFooter>
+	<ideTestParams
+		inpDate=""
+		inpDateEnd=""
+		inpProdClass=""
+		islCustomer=""
+		islFieldMarketer=""
+		monthChange=""
+		productClass=""
+		userMonth=""
+		userYear=""
+	/>
+</Report>

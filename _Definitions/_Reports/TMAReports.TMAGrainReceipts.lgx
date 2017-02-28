@@ -2,11 +2,14 @@
 <Report
 	Caption="Grain Receipts"
 	ID="TMAReports.TMAGrainReceipts"
-	SecurityReportRightID="LogiUserAdmin"
+	SecurityReportRightID="MKC Dashboard, TMA Dashboard, OC"
 	>
 	<IncludeSharedElement
 		DefinitionFile="_Layout.Shared"
 		SharedElementID="shrHeader"
+	/>
+	<DefaultRequestParams
+		CRMBranch="@Request.Branch~"
 	/>
 	<Body>
 		<ResponsiveRow>
@@ -67,10 +70,10 @@
 									>
 									<IncludeSharedElement
 										DefinitionFile="_Layout.Shared"
-										SharedElementID="shrBranchSelect"
+										SharedElementID="shrCRMBranchSelect"
 										>
 										<SharedElementParams
-											BranchElementToRefresh="dtGrainReceipts"
+											BranchElementToRefresh="divReceipts,ctGrainReceiptSummary"
 										/>
 									</IncludeSharedElement>
 									<IncludeSharedElement
@@ -78,7 +81,7 @@
 										SharedElementID="shrCommoditySelect"
 										>
 										<SharedElementParams
-											CommodityElementToRefresh="dtGrainReceipts"
+											CommodityElementToRefresh="divReceipts,ctGrainReceiptSummary"
 										/>
 									</IncludeSharedElement>
 									<LineBreak/>
@@ -104,12 +107,23 @@
 							</ResponsiveColumn>
 							<ResponsiveColumn>
 								<Division
-									Class="ThemeTextSmall"
+									Class="ThemeHidden"
 									HtmlDiv="True"
 									ID="divReceipts"
 									>
+									<ConditionalClass
+										Class="ThemeTextSmall"
+										Condition="&quot;@Request.CRMBranch~&quot; &lt;&gt; &quot;&quot;"
+									/>
 									<CrosstabTable
-										ID="ReceiptsCrossTab"
+										AccessibleSummary="AnalysisGrid CrossTabTable"
+										AjaxPaging="True"
+										DraggableColumns="True"
+										ID="ctGrainReceiptSummary"
+										ResizableColumns="True"
+										SortArrows="True"
+										Width="95"
+										WidthScale="%"
 										>
 										<DataLayer
 											ConnectionID="connCRMTest"
@@ -118,166 +132,215 @@
   am.ParentAccountId,
   am.ParentAccountIdName ParentAccountName,
   am.Name AccountName,
-  gb.ag_FiscalYear,
-  cm.ag_CropIdName,
+  gb.ag_FiscalYear FiscalYear,
+  (Cast(gb.ag_AccountID As nvarchar(38)) + cm.ag_CropIdName +
+  cm.ag_DataSourceKey + lm.ag_DataSourceKey) As aggdtl,
+  cm.ag_CropIdName CropName,
   cm.ag_DataSourceKey CommodityCode,
   cm.ag_name CommodityShortName,
   lm.ag_DataSourceKey LocationCode,
   lm.ag_name LocationName,
-  gb.ag_Bushels
+  gb.ag_Bushels Bushels
 From ag_grainreceiptsummaryBase gb
   Inner Join Account am On gb.ag_AccountID = am.AccountId
   Inner Join ag_commodity cm On gb.ag_CommodityID = cm.ag_commodityId
   Inner Join ag_location lm On gb.ag_LocationID = lm.ag_locationId
-Where gb.ag_AccountID = &apos;27B30A57-D9D7-E511-9401-00505685E8FA&apos; And
+Where gb.ag_FiscalYear Between DatePart(Year, DateAdd(Year, Case
+    When DatePart(Month, GetDate()) &lt; 3 Then -4 Else -3
+  End, GetDate())) And DatePart(Year, DateAdd(Year, Case
+    When DatePart(Month, GetDate()) &lt; 3 Then 0 Else 1
+  End, GetDate())) And (lm.ag_DataSourceKey IN(@Request.CRMBranch~) OR &apos;@Request.CRMBranch~&apos;=&apos;0&apos;) And
   gb.statecode = 0 And gb.statuscode = 1
-Order By gb.ag_FiscalYear,
-  AccountName,
-  LocationName"
+Order By AccountName,
+  aggdtl"
 											Type="SQL"
 											>
-											<CalculatedColumn
-												Formula="Year(&quot;@Function.Date~&quot;)"
-												ID="current_year"
-											/>
-											<CalculatedColumn
-												Formula="Year(DateAdd(&quot;yyyy&quot;, -1,&quot;@Function.Date~&quot;))"
-												ID="prev_year"
-											/>
-											<CalculatedColumn
-												Formula="Year(DateAdd(&quot;yyyy&quot;, -2,&quot;@Function.Date~&quot;))"
-												ID="prev_year_2"
-											/>
-											<CalculatedColumn
-												Formula="Year(DateAdd(&quot;yyyy&quot;, -3,&quot;@Function.Date~&quot;))"
-												ID="prev_year_3"
-											/>
-											<CalculatedColumn
-												Formula="Year(DateAdd(&quot;yyyy&quot;, -4,&quot;@Function.Date~&quot;))"
-												ID="prev_year_4"
+											<SortFilter
+												DataType="Number"
+												SortColumn="FiscalYear"
 											/>
 											<CrosstabFilter
-												CrosstabColumn="ag_FiscalYear"
-												CrosstabLabelColumn="AccountName"
-												CrosstabValueColumn="ag_Bushels"
-												CrosstabValueFunction="Any"
+												CrosstabColumn="FiscalYear"
+												CrosstabLabelColumn="aggdtl"
+												CrosstabValueColumn="Bushels"
+												CrosstabValueFunction="Sum"
 												>
 												<ExtraCrosstabLabelColumn
 													CrosstabLabelColumn="AccountName"
-													ID="Customer"
+													ID="colAccountName"
+												/>
+												<ExtraCrosstabLabelColumn
+													CrosstabLabelColumn="CropName"
+													ID="colCropName"
+												/>
+												<ExtraCrosstabLabelColumn
+													CrosstabLabelColumn="CommodityCode"
+													ID="colCommodityCode"
+												/>
+												<ExtraCrosstabLabelColumn
+													CrosstabLabelColumn="CommodityShortName"
+													ID="colCommodityShortName"
+												/>
+												<ExtraCrosstabLabelColumn
+													CrosstabLabelColumn="LocationCode"
+													ID="colLocationCode"
+												/>
+												<ExtraCrosstabLabelColumn
+													CrosstabLabelColumn="LocationName"
+													ID="colLocationName"
+												/>
+												<CrosstabRowSummaryColumn
+													Function="Sum"
+													ID="ctTotal"
+												/>
+												<CrosstabRowSummaryColumn
+													Function="Average"
+													ID="ctAverage"
 												/>
 											</CrosstabFilter>
+											<Remark>
+												<ConditionFilter
+													Condition="&quot;@Data.colLocationCode~&quot; = &quot;@Request.CRMBranch~&quot; &lt;&gt; &quot;&quot;"
+													ID="filBranch"
+												/>
+											</Remark>
+											<Remark>
+												<ConditionFilter
+													Condition="&quot;@Data.colCommodityCode~&quot; = &quot;@Request.Commodity~&quot; &lt;&gt; &quot;&quot;"
+													ID="filCommodity"
+												/>
+											</Remark>
 										</DataLayer>
 										<CrosstabTableLabelColumn
-											Header="Customer"
-											ID="colCustomer"
+											Header="Account Name"
+											ID="colAccountName"
 											>
 											<Label
-												Caption="@Data.Customer~"
-												>
-												<RepeatElements
-													ID="repLocation"
-													>
-													<DataLayer
-														ConnectionID="connCRMTest"
-														ID="dlGrainReceipts"
-														Source="Select gb.ag_AccountID,
-  am.ParentAccountId,
-  am.ParentAccountIdName ParentAccountName,
-  am.Name AccountName,
-  gb.ag_FiscalYear,
-  cm.ag_CropIdName,
-  cm.ag_DataSourceKey CommodityCode,
-  cm.ag_name CommodityShortName,
-  lm.ag_DataSourceKey LocationCode,
-  lm.ag_name LocationName,
-  gb.ag_Bushels
-From ag_grainreceiptsummaryBase gb
-  Inner Join Account am On gb.ag_AccountID = am.AccountId
-  Inner Join ag_commodity cm On gb.ag_CommodityID = cm.ag_commodityId
-  Inner Join ag_location lm On gb.ag_LocationID = lm.ag_locationId
-Where gb.ag_AccountID = &apos;27B30A57-D9D7-E511-9401-00505685E8FA&apos; And
-  gb.statecode = 0 And gb.statuscode = 1
-Order By gb.ag_FiscalYear,
-  AccountName,
-  LocationName"
-														Type="SQL"
-														>
-														<CrosstabFilter
-															CrosstabColumn="ag_CropIdName"
-															CrosstabLabelColumn="LocationName"
-															CrosstabValueColumn="ag_Bushels"
-															CrosstabValueFunction="Any"
-															>
-															<ExtraCrosstabLabelColumn
-																CrosstabLabelColumn="LocationName"
-																ID="Location"
-															/>
-														</CrosstabFilter>
-													</DataLayer>
-												</RepeatElements>
-											</Label>
+												Caption="@Data.colAccountName~"
+												ID="lblAccountName"
+											/>
+											<DataColumnSort
+												DataColumn="colAccountName"
+												DataType="Text"
+											/>
 										</CrosstabTableLabelColumn>
 										<CrosstabTableLabelColumn
 											Header="Location"
-											ID="colLocation"
+											ID="colLocationName"
 											>
 											<Label
-												Caption="@Data.Location~"
+												Caption="@Data.colLocationName~"
+												ID="lblLocationName"
+											/>
+											<DataColumnSort
+												DataColumn="colLocationName"
+												DataType="Text"
 											/>
 										</CrosstabTableLabelColumn>
+										<CrosstabTableLabelColumn
+											Header="Crop Name"
+											ID="colCropName"
+											>
+											<Label
+												Caption="@Data.colCropName~"
+												ID="lblCropName"
+											/>
+											<DataColumnSort
+												DataColumn="colCropName"
+												DataType="Text"
+											/>
+										</CrosstabTableLabelColumn>
+										<Remark>
+											<CrosstabTableLabelColumn
+												Header="Commodtiy Code"
+												ID="colCommodityCode"
+												>
+												<Label
+													Caption="@Data.colCommodityCode~"
+													ID="lblCommodityCode"
+												/>
+												<DataColumnSort
+													DataColumn="colCommodityCode"
+													DataType="Text"
+												/>
+											</CrosstabTableLabelColumn>
+										</Remark>
+										<Remark>
+											<CrosstabTableLabelColumn
+												Header="Commodity Short Name"
+												ID="colCommodityShortName"
+												>
+												<Label
+													Caption="@Data.colCommodityShortName~"
+													ID="lblCommodityShortName"
+												/>
+												<DataColumnSort
+													DataColumn="colCommodityShortName"
+													DataType="Text"
+												/>
+											</CrosstabTableLabelColumn>
+										</Remark>
+										<Remark>
+											<CrosstabTableLabelColumn
+												Header="Location Code"
+												ID="colLocationCode"
+												>
+												<Label
+													Caption="@Data.colLocationCode~"
+													ID="lblLocationCode"
+												/>
+												<DataColumnSort
+													DataColumn="colLocationCode"
+													DataType="Text"
+												/>
+											</CrosstabTableLabelColumn>
+										</Remark>
 										<CrosstabTableValueColumns
 											Header="@Data.rdCrosstabColumn~"
 											ID="colBushels"
 											>
 											<Label
-												Caption="@Data.rdCrosstabValue~"
-												Format="###,###,##0.00"
+												Caption="=iif(@Data.rdCrosstabValCount~=0,&quot;&quot;,&quot;@Data.rdCrosstabValue~&quot;)"
+												Format="#,###.#"
+												ID="lblBushels"
+											/>
+											<CrosstabValueColumnSort
+												DataType="Number"
 											/>
 										</CrosstabTableValueColumns>
-									</CrosstabTable>
-									<Remark>
-										<DataTable
-											ID="dtFMTables"
+										<CrosstabTableLabelColumn
+											Class="ThemeAlignRight"
+											Header="Total Sum"
+											ID="colTotal"
+											Note="This is for summary rows and columns."
 											>
-											<DataLayer
-												ConnectionID="connCRMTest"
-												ID="dlFMTables"
-												Source="Select am.ParentAccountId,
-  am.AccountId,
-  am.ParentAccountIdName ParentAccount,
-  am.Name AccountName,
-  am.ag_accountnumber_gpcust GPCustCd,
-  am.po_CFALoanNumber CFALoanNumber,
-  am.po_CFALoanCommitment CFALoanCommitment,
-  am.po_CFALoanAvailable CFALoanAvailable,
-  am.po_MKCMemberClass MKCMemberClass,
-  am.po_FieldMarketer FieldMarketer,
-  sh.ag_CropYear CropYear,
-  sh.ag_CropMonth CropMonth,
-  Cast(sh.ag_InvoiceDate As date) InvoiceDate,
-  sh.ag_InvoiceNumber InvoiceNumber,
-  sh.ag_InvoiceQuantity Quantity,
-  sh.ag_InvoiceUnit InvoiceUOM,
-  sh.ag_Amount Amount,
-  sh.po_PrepayAppliedAmount PrepayAppliedAmount,
-  sh.ag_ProductCode ProductCode,
-  sh.ag_ProductDescription ProductDescription,
-  pd.ManufacturerDesc Manufacturer,
-  pd.ProdRptCatId,
-  pd.ProdRptCatDesc,
-  pd.ProdRptSubCatId,
-  pd.ProdRptSubCatDesc
-From ag_saleshistory sh
-  Inner Join Account am On sh.ag_accountid = am.AccountId
-  Inner Join mkcAgronomyProductDim pd On sh.ag_ProductCode = pd.ProdCd
-Where am.po_FieldMarketer Is Not Null And sh.ag_CropYear In (2015, 2016) And
-  sh.statecode = 0 And sh.statuscode = 1"
-												Type="SQL"
+											<DataColumnSort
+												DataColumn="ctTotal"
+												DataType="Number"
 											/>
-											<AutoColumns/>
-										</DataTable>
-									</Remark>
+											<Label
+												Caption="@Data.ctTotal~"
+												Format="#,###.#"
+												ID="lblRowSummary"
+											/>
+										</CrosstabTableLabelColumn>
+										<CrosstabTableLabelColumn
+											Class="ThemeAlignRight"
+											Header="Average"
+											ID="colAverage"
+											Note="This is for summary rows and columns."
+											>
+											<DataColumnSort
+												DataColumn="ctAverage"
+												DataType="Number"
+											/>
+											<Label
+												Caption="@Data.ctAverage~"
+												Format="#,###.#"
+												ID="lblRowAvg"
+											/>
+										</CrosstabTableLabelColumn>
+									</CrosstabTable>
 								</Division>
 							</ResponsiveColumn>
 						</ResponsiveRow>
@@ -290,5 +353,8 @@ Where am.po_FieldMarketer Is Not Null And sh.ag_CropYear In (2015, 2016) And
 		DefinitionFile="_Layout.Shared"
 		SharedElementID="shrFooter"
 	/>
-	<ideTestParams/>
+	<ideTestParams
+		Branch=""
+		CRMBranch="0"
+	/>
 </Report>

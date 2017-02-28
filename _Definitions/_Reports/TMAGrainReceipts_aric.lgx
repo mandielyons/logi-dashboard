@@ -1,0 +1,209 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report
+	ID="TMAGrainReceipts"
+	>
+	<Body>
+		<CrosstabTable
+			AccessibleSummary="AnalysisGrid CrossTabTable"
+			AjaxPaging="True"
+			DraggableColumns="True"
+			ID="ctGrainReceiptSummary"
+			ResizableColumns="True"
+			SortArrows="True"
+			>
+			<DataLayer
+				ConnectionID="connCRMTest"
+				ID="dlGrainReceipts"
+				Source="Select gb.ag_AccountID,
+  am.ParentAccountId,
+  am.ParentAccountIdName ParentAccountName,
+  am.Name AccountName,
+  gb.ag_FiscalYear FiscalYear,
+  (cast(gb.ag_AccountID as nvarchar(38)) + cm.ag_CropIdName + cm.ag_DataSourceKey + lm.ag_DataSourceKey) as aggdtl,
+  cm.ag_CropIdName CropName,
+  cm.ag_DataSourceKey CommodityCode,
+  cm.ag_name CommodityShortName,
+  lm.ag_DataSourceKey LocationCode,
+  lm.ag_name LocationName,
+  gb.ag_Bushels Bushels
+From dbo.ag_grainreceiptsummaryBase gb
+  Inner Join dbo.Account am On gb.ag_AccountID = am.AccountId
+  Inner Join dbo.ag_commodity cm On gb.ag_CommodityID = cm.ag_commodityId
+  Inner Join dbo.ag_location lm On gb.ag_LocationID = lm.ag_locationId
+WHERE gb.ag_LocationId = &apos;@Request.CRMBranchId&apos;
+  AND gb.statecode = 0 AND gb.statuscode = 1
+  and gb.ag_FiscalYear Between DatePart(Year, DateAdd(Year, CASE WHEN DatePart(Month,getdate()) &lt; 3 THEN -4 ELSE -3 END, getdate())) AND DatePart(Year, DateAdd(Year, CASE WHEN DatePart(Month,getdate()) &lt; 3 THEN 0 ELSE 1 END, getdate()))
+Order By 
+  AccountName,
+  aggdtl"
+				Type="SQL"
+				>
+				<SortFilter
+					DataType="Number"
+					SortColumn="FiscalYear"
+				/>
+				<CrosstabFilter
+					CrosstabColumn="FiscalYear"
+					CrosstabLabelColumn="aggdtl"
+					CrosstabValueColumn="Bushels"
+					CrosstabValueFunction="Sum"
+					>
+					<ExtraCrosstabLabelColumn
+						CrosstabLabelColumn="AccountName"
+						ID="colAccountName"
+					/>
+					<ExtraCrosstabLabelColumn
+						CrosstabLabelColumn="CropName"
+						ID="colCropName"
+					/>
+					<ExtraCrosstabLabelColumn
+						CrosstabLabelColumn="CommodityCode"
+						ID="colCommodityCode"
+					/>
+					<ExtraCrosstabLabelColumn
+						CrosstabLabelColumn="CommodityShortName"
+						ID="colCommodityShortName"
+					/>
+					<ExtraCrosstabLabelColumn
+						CrosstabLabelColumn="LocationCode"
+						ID="colLocationCode"
+					/>
+					<ExtraCrosstabLabelColumn
+						CrosstabLabelColumn="LocationName"
+						ID="colLocationName"
+					/>
+					<CrosstabRowSummaryColumn
+						Function="Sum"
+						ID="ctTotal"
+					/>
+					<CrosstabRowSummaryColumn
+						Function="Average"
+						ID="ctAverage"
+					/>
+				</CrosstabFilter>
+			</DataLayer>
+			<CrosstabTableLabelColumn
+				Header="Account Name"
+				ID="colAccountName"
+				>
+				<Label
+					Caption="@Data.colAccountName~"
+					ID="lblAccountName"
+				/>
+				<DataColumnSort
+					DataColumn="colAccountName"
+					DataType="Text"
+				/>
+			</CrosstabTableLabelColumn>
+			<CrosstabTableLabelColumn
+				Header="Crop Name"
+				ID="colCropName"
+				>
+				<Label
+					Caption="@Data.colCropName~"
+					ID="lblCropName"
+				/>
+				<DataColumnSort
+					DataColumn="colCropName"
+					DataType="Text"
+				/>
+			</CrosstabTableLabelColumn>
+			<CrosstabTableLabelColumn
+				Header="Commodtiy Code"
+				ID="colCommodityCode"
+				>
+				<Label
+					Caption="@Data.colCommodityCode~"
+					ID="lblCommodityCode"
+				/>
+				<DataColumnSort
+					DataColumn="colCommodityCode"
+					DataType="Text"
+				/>
+			</CrosstabTableLabelColumn>
+			<CrosstabTableLabelColumn
+				Header="Commodity Short Name"
+				ID="colCommodityShortName"
+				>
+				<Label
+					Caption="@Data.colCommodityShortName~"
+					ID="lblCommodityShortName"
+				/>
+				<DataColumnSort
+					DataColumn="colCommodityShortName"
+					DataType="Text"
+				/>
+			</CrosstabTableLabelColumn>
+			<CrosstabTableLabelColumn
+				Header="Location Code"
+				ID="colLocationCode"
+				>
+				<Label
+					Caption="@Data.colLocationCode~"
+					ID="lblLocationCode"
+				/>
+				<DataColumnSort
+					DataColumn="colLocationCode"
+					DataType="Text"
+				/>
+			</CrosstabTableLabelColumn>
+			<CrosstabTableLabelColumn
+				Header="Location Name"
+				ID="colLocationName"
+				>
+				<Label
+					Caption="@Data.colLocationName~"
+					ID="lblLocationName"
+				/>
+				<DataColumnSort
+					DataColumn="colLocationName"
+					DataType="Text"
+				/>
+			</CrosstabTableLabelColumn>
+			<CrosstabTableValueColumns
+				Header="@Data.rdCrosstabColumn~"
+				ID="colBushels"
+				>
+				<Label
+					Caption="=iif(@Data.rdCrosstabValCount~=0,&quot;&quot;,&quot;@Data.rdCrosstabValue~&quot;)"
+					Format="#,###.#"
+					ID="lblBushels"
+				/>
+				<CrosstabValueColumnSort
+					DataType="Number"
+				/>
+			</CrosstabTableValueColumns>
+			<CrosstabTableLabelColumn
+				Header="Total Sum"
+				ID="colTotal"
+				Note="This is for summary rows and columns."
+				>
+				<DataColumnSort
+					DataColumn="ctTotal"
+					DataType="Number"
+				/>
+				<Label
+					Caption="@Data.ctTotal~"
+					Format="#,###.#"
+					ID="lblRowSummary"
+				/>
+			</CrosstabTableLabelColumn>
+			<CrosstabTableLabelColumn
+				Header="Average"
+				ID="colAverage"
+				Note="This is for summary rows and columns."
+				>
+				<DataColumnSort
+					DataColumn="ctAverage"
+					DataType="Number"
+				/>
+				<Label
+					Caption="@Data.ctAverage~"
+					Format="#,###.#"
+					ID="lblRowAvg"
+				/>
+			</CrosstabTableLabelColumn>
+		</CrosstabTable>
+	</Body>
+	<ideTestParams/>
+</Report>
