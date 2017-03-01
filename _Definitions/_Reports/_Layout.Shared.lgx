@@ -1710,7 +1710,7 @@ ORDER BY BRANCH_NAME"
 				>
 				<Join
 					ID="joinSqlToExcelBranch"
-					JoinType="LeftOuterJoin"
+					JoinType="InnerJoin"
 					SortLeftSide="True"
 					SortRightSide="True"
 					>

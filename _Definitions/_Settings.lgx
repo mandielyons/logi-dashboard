@@ -12,7 +12,7 @@
 	<General
 		DoctypeDeclaration="Html5"
 		LogErrors="@Function.AppPhysicalPath~\_ErrorLogs"
-		rdDebuggerStyle="NoDetail"
+		rdDebuggerStyle="DebuggerLinks"
 		RedirectErrorUrl="rdPage.aspx?rdReport=_Layout.Error"
 		RepoFriendly="True"
 	/>
@@ -28,51 +28,45 @@
 		cacheExpirationTime="00:00"
 		cacheExpirationTimeSpan="08:00"
 	/>
-	<Remark>
-		<EventLogging
-			LogEvents="True"
+	<EventLogging
+		LogEvents="True"
+		>
+		<Remark>
+			<LogEvent
+				EventName="AuthenticateUser"
+				ID="eventAuthenticate"
+				>
+				<Action
+					ID="insertAuthenticationRow"
+					Process="LogTasks"
+					TaskID="insertAuthenticationRow"
+					Type="Process"
+				/>
+			</LogEvent>
+		</Remark>
+		<LogEvent
+			EventName="SessionStart"
+			ID="eventSession"
 			>
-			<Remark>
-				<LogEvent
-					EventName="AuthenticateUser"
-					ID="eventAuthenticate"
-					>
-					<Action
-						ID="insertAuthenticationRow"
-						Process="LogTasks"
-						TaskID="insertAuthenticationRow"
-						Type="Process"
-					/>
-				</LogEvent>
-			</Remark>
-			<Remark>
-				<LogEvent
-					EventName="SessionStart"
-					ID="eventSession"
-					>
-					<Action
-						ID="insertSessionRow"
-						Process="LogTasks"
-						TaskID="insertSessionRow"
-						Type="Process"
-					/>
-				</LogEvent>
-			</Remark>
-			<Remark>
-				<LogEvent
-					EventName="RunSQL"
-					ID="eventSQL"
-					>
-					<Action
-						ID="insertSQLRow"
-						Process="LogTasks"
-						TaskID="insertSQLRow"
-						Type="Process"
-					/>
-				</LogEvent>
-			</Remark>
-		</EventLogging>
-	</Remark>
+			<Action
+				ID="insertSessionRow"
+				Process="LogTasks"
+				TaskID="insertSessionRow"
+				Type="Process"
+			/>
+		</LogEvent>
+		<LogEvent
+			EventName="BuildReport"
+			ID="eventBuildReport"
+			>
+			<Action
+				ID="insertBuildReport"
+				Process="LogTasks"
+				TaskID="insertBuildReport"
+				Type="Process"
+			/>
+		</LogEvent>
+	</EventLogging>
 	<Remark>
 		<Constants
 			Caption_Application="App Template"
@@ -151,7 +145,7 @@
 		/>
 		<Connection
 			ID="connLogiEvent"
-			SqlServer="sqlsvr1"
+			SqlServer="SQLPROD1"
 			SqlServerDatabase="DynamicsGPWarehouse"
 			SqlServerPassword="integr8!"
 			SqlServerPort=""
@@ -174,6 +168,7 @@
 			SqlServer="SCSQLSVR\SCCM1"
 			SqlServerDatabase="mkctest_MSCRM"
 			SqlServerPassword="integr8!"
+			SqlServerPort=""
 			SqlServerUser="BIOperations"
 			Type="SqlServer"
 		/>
