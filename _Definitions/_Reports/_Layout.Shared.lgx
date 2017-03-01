@@ -1345,7 +1345,7 @@ else {
 													>
 													<Division
 														ID="scorecard-container"
-														SecurityRightID="Dashboard Stategic Planning,LogiUserAdmin,Dashboard Sr Mgmt"
+														SecurityRightID="Dashboard Stategic Planning,LogiUserAdmin,Dashboard Sr Mgmt,Dashboard Strategic Planning TMA"
 														>
 														<Division
 															Class="dropdown"
