@@ -1,7 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Report
-	Caption="MKC Scorecard"
-	ID="Scorecards.StrategicDashboard"
+	ID="Scorecard.StrategicDashboard"
 	SecurityReportRightID="Dashboard Sr Mgmt,Dashboard Stategic Planning,LogiUserAdmin"
 	>
 	<IncludeSharedElement
