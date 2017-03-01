@@ -1345,7 +1345,7 @@ else {
 													>
 													<Division
 														ID="scorecard-container"
-														SecurityRightID="Dashboard Stategic Planning,LogiUserAdmin,Dashboard Sr Mgmt"
+														SecurityRightID="Dashboard Stategic Planning,LogiUserAdmin,Dashboard Sr Mgmt,Dashboard Strategic Planning TMA"
 														>
 														<Division
 															Class="dropdown"
@@ -1698,14 +1698,13 @@ else {
 				ConnectionID="connProdGP"
 				ID="sqlLocations"
 				Source="SELECT DISTINCT BRANCH_NUMBER, BRANCH_NAME
-FROM AgTrax_Staging..IV_BRANCH_MASTER
-WHERE BRANCH_NUMBER IN(SELECT DISTINCT BRANCH_NUMBER FROM AgTrax_Staging..DM_HarvestSummary)
+FROM AgTrax_Staging.dbo.IV_BRANCH_MASTER
 ORDER BY BRANCH_NAME"
 				Type="SQL"
 				>
 				<Join
 					ID="joinSqlToExcelBranch"
-					JoinType="LeftOuterJoin"
+					JoinType="InnerJoin"
 					SortLeftSide="True"
 					SortRightSide="True"
 					>
