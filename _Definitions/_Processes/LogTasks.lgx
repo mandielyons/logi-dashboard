@@ -41,26 +41,32 @@ VALUES (&apos;@Request.EventTime~&apos;, &apos;@Request.EventName~&apos;, &apos;
 		ID="insertSessionRow"
 		>
 		<Procedure
-			ConnectionID="connLogiEvent"
-			ID="insertSessionRow"
-			SqlCommand="INSERT INTO LogiEventLog (EventDateTime, UserID, EventDetail) 
-VALUES (&apos;@Request.EventTime~&apos;, &apos;@Request.rdUsername~&apos;,&apos;Session started for this user.&apos;) 
-"
-			Type="SQL"
+			Expression="InStr(&quot;@Function.AppVirtualPath~&quot;,&quot;info&quot;) &gt; 0"
+			ID="ifLive"
+			Type="If"
 			>
-			<IfError
-				ID="InsertSessionRowError"
+			<Procedure
+				ConnectionID="connLogiEvent"
+				ID="insertSessionRow"
+				SqlCommand="INSERT INTO LogiEventLog (EventDateTime, EventName, EventDuration, ElementID, UserID, EventDetail) 
+VALUES (&apos;@Request.EventTime~&apos;, &apos;@Request.EventName~&apos;, &apos;@Request.EventDuration~&apos;, &apos;@Request.ElementID~&apos;,&apos;@Request.rdUsername~&apos;,&apos;Session started for this user.&apos;) 
+"
+				Type="SQL"
 				>
-				<Procedure
-					Expression="@Procedure.insertSessionRow.ErrorMessage~.Length &gt; 0"
-					ID="insertRowError"
-					Type="If"
+				<IfError
+					ID="InsertSessionRowError"
 					>
-					<Response
-						Type="Exit"
-					/>
-				</Procedure>
-			</IfError>
+					<Procedure
+						Expression="@Procedure.insertSessionRow.ErrorMessage~.Length &gt; 0"
+						ID="insertRowError"
+						Type="If"
+						>
+						<Response
+							Type="Exit"
+						/>
+					</Procedure>
+				</IfError>
+			</Procedure>
 		</Procedure>
 		<Response
 			Type="Exit"
@@ -107,7 +113,7 @@ VALUES (&apos;@Request.EventName~&apos;, &apos;@Request.ElementID~&apos;, &apos;
 				ConnectionID="connLogiEvent"
 				ID="insertBuildReport"
 				SqlCommand="INSERT INTO LogiEventLog (EventName, ElementID, EventDateTime, EventDuration, SQLCommand, UserID, EventDetail) 
-VALUES (&apos;@Request.EventName~&apos;, &apos;@Request.ElementID~&apos;, &apos;@Request.EventTime~&apos;, &apos;@Request.EventDuration~&apos;, &apos;@Request.SQL~&apos;, &apos;@Request.rdUsername~&apos;,&apos;SQL&apos;) 
+VALUES (&apos;@Request.EventName~&apos;, &apos;@Request.ElementID~&apos;, &apos;@Request.EventTime~&apos;, &apos;@Request.EventDuration~&apos;, &apos;@Request.SQL~&apos;, &apos;@Request.rdUsername~&apos;,&apos;Build Report&apos;) 
 "
 				Type="SQL"
 				>
