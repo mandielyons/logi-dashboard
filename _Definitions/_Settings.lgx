@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Setting
 	ID="_settings"
 	>
@@ -28,59 +28,64 @@
 		cacheExpirationTime="00:00"
 		cacheExpirationTimeSpan="08:00"
 	/>
-	<EventLogging
-		LogEvents="True"
-		rdIdeRemark="true"
-		>
-		<LogEvent
-			EventName="AuthenticateUser"
-			ID="eventAuthenticate"
-			rdIdeRemark="true"
+	<Remark>
+		<EventLogging
+			LogEvents="True"
 			>
-			<Action
-				ID="insertAuthenticationRow"
-				Process="LogTasks"
-				TaskID="insertAuthenticationRow"
-				Type="Process"
-			/>
-		</LogEvent>
-		<LogEvent
-			EventName="SessionStart"
-			ID="eventSession"
-			rdIdeRemark="true"
+			<Remark>
+				<LogEvent
+					EventName="AuthenticateUser"
+					ID="eventAuthenticate"
+					>
+					<Action
+						ID="insertAuthenticationRow"
+						Process="LogTasks"
+						TaskID="insertAuthenticationRow"
+						Type="Process"
+					/>
+				</LogEvent>
+			</Remark>
+			<Remark>
+				<LogEvent
+					EventName="SessionStart"
+					ID="eventSession"
+					>
+					<Action
+						ID="insertSessionRow"
+						Process="LogTasks"
+						TaskID="insertSessionRow"
+						Type="Process"
+					/>
+				</LogEvent>
+			</Remark>
+			<Remark>
+				<LogEvent
+					EventName="RunSQL"
+					ID="eventSQL"
+					>
+					<Action
+						ID="insertSQLRow"
+						Process="LogTasks"
+						TaskID="insertSQLRow"
+						Type="Process"
+					/>
+				</LogEvent>
+			</Remark>
+		</EventLogging>
+	</Remark>
+	<Remark>
+		<Constants
+			Caption_Application="App Template"
+			Caption_NoDataFound="No data found"
+			Caption_WaitPanel="Retrieving data ..."
+			Organization_Name="My Company"
+			Organization_Url="http://www.mycompany.com"
 			>
-			<Action
-				ID="insertSessionRow"
-				Process="LogTasks"
-				TaskID="insertSessionRow"
-				Type="Process"
+			<Note
+				Note="Helpful constants that can be used throughout the application."
 			/>
-		</LogEvent>
-		<LogEvent
-			EventName="RunSQL"
-			ID="eventSQL"
-			rdIdeRemark="true"
-			>
-			<Action
-				ID="insertSQLRow"
-				Process="LogTasks"
-				TaskID="insertSQLRow"
-				Type="Process"
-			/>
-		</LogEvent>
-	</EventLogging>
-	<Constants
-		Caption_Application="App Template"
-		Caption_NoDataFound="No data found"
-		Caption_WaitPanel="Retrieving data ..."
-		Organization_Name="My Company"
-		Organization_Url="http://www.mycompany.com"
-		rdIdeRemark="true"
-		>
-		<Note
-			Note="Helpful constants that can be used throughout the application."
-		/>
-	</Constants>
+		</Constants>
+	</Remark>
 	<Connections>
 		<Connection
 			ID="connMKC"
@@ -153,14 +158,23 @@
 			SqlServerUser="BIOperations"
 			Type="SqlServer"
 		/>
+		<Remark>
+			<Connection
+				ID="connLogiDB"
+				SqlServer="SQLPROD1"
+				SqlServerDatabase="TMA_COOP_USERS"
+				SqlServerPassword="Log1#Admin"
+				SqlServerPort=""
+				SqlServerUser="logi_admin"
+				Type="SqlServer"
+			/>
+		</Remark>
 		<Connection
-			ID="connLogiDB"
-			rdIdeRemark="true"
-			SqlServer="SQLPROD1"
-			SqlServerDatabase="TMA_COOP_USERS"
-			SqlServerPassword="Log1#Admin"
-			SqlServerPort=""
-			SqlServerUser="logi_admin"
+			ID="connCRMTest"
+			SqlServer="SCSQLSVR\SCCM1"
+			SqlServerDatabase="mkctest_MSCRM"
+			SqlServerPassword="integr8!"
+			SqlServerUser="BIOperations"
 			Type="SqlServer"
 		/>
 	</Connections>
@@ -246,22 +260,23 @@ AND PASSWORD = HASHBYTES(&apos;SHA1&apos;,N&apos;@Request.rdPassword~&apos;)
 			ID="UserRoles"
 			RolesDataColumn="memberOf"
 			>
-			<DataLayer
-				ConnectionID="mkcLDAP"
-				ID="dlLdapRoles"
-				LdapSource="SELECT memberOf, sAMAccountName, title, name, userPrincipalName, ADsPath, DisplayName, givenName, sn, mail FROM &apos;DC=midkscoop,DC=lan&apos; WHERE SamAccountName=&apos;@Function.UserName~&apos; and objectClass=&apos;person&apos;"
-				rdIdeRemark="true"
-				Type="Ldap"
-				>
-				<CalculatedColumn
-					Formula="&quot;@Data.memberOf~&quot;.substring(3,&quot;@Data.memberOf~&quot;.indexOf(&quot;,&quot;))"
-					ID="memberOf"
-				/>
-				<Join
-					ID="joinLogiDbRoles"
-					JoinType="Union"
-				/>
-			</DataLayer>
+			<Remark>
+				<DataLayer
+					ConnectionID="mkcLDAP"
+					ID="dlLdapRoles"
+					LdapSource="SELECT memberOf, sAMAccountName, title, name, userPrincipalName, ADsPath, DisplayName, givenName, sn, mail FROM &apos;DC=midkscoop,DC=lan&apos; WHERE SamAccountName=&apos;@Function.UserName~&apos; and objectClass=&apos;person&apos;"
+					Type="Ldap"
+					>
+					<CalculatedColumn
+						Formula="&quot;@Data.memberOf~&quot;.substring(3,&quot;@Data.memberOf~&quot;.indexOf(&quot;,&quot;))"
+						ID="memberOf"
+					/>
+					<Join
+						ID="joinLogiDbRoles"
+						JoinType="Union"
+					/>
+				</DataLayer>
+			</Remark>
 			<DataLayer
 				ConnectionID="connLogiDB"
 				HandleQuotesInTokens="True"
@@ -310,190 +325,198 @@ AND USERNAME = @iptUsername"
 				</DataLayer>
 			</RightsFromDataLayer>
 			<RightsFromRoles/>
-			<RightFromRole
-				ID="OC"
-				rdIdeRemark="true"
-				RolesDataColumn="cRole"
-				>
-				<DataLayer
-					ConnectionID="connLogiDB"
-					HandleQuotesInTokens="True"
-					ID="dlLogiDbRoles"
-					Source="SELECT USERNAME
+			<Remark>
+				<RightFromRole
+					ID="OC"
+					RolesDataColumn="cRole"
+					>
+					<DataLayer
+						ConnectionID="connLogiDB"
+						HandleQuotesInTokens="True"
+						ID="dlLogiDbRoles"
+						Source="SELECT USERNAME
 FROM USERS
 WHERE 
 ACTIVE = 1
 AND USERNAME = @iptUsername"
-					Type="SQL"
-					>
-					<SqlParameters>
-						<SqlParameter
-							ID="iptUsername"
-							SqlParamType="dt-200"
-							Value="@Function.UserName~"
+						Type="SQL"
+						>
+						<SqlParameters>
+							<SqlParameter
+								ID="iptUsername"
+								SqlParamType="dt-200"
+								Value="@Function.UserName~"
+							/>
+						</SqlParameters>
+						<CalculatedColumn
+							Formula="&quot;OC&quot;"
+							ID="cRight"
 						/>
-					</SqlParameters>
-					<CalculatedColumn
-						Formula="&quot;OC&quot;"
-						ID="cRight"
-					/>
-				</DataLayer>
-			</RightFromRole>
-			<RightFromRole
-				ID="OC"
-				rdIdeRemark="true"
-				RolesDataColumn="cRole"
-				>
-				<DataLayer
-					ConnectionID="connLogiDB"
-					HandleQuotesInTokens="True"
-					ID="dlLogiDbRoles"
-					Source="SELECT USERNAME
+					</DataLayer>
+				</RightFromRole>
+			</Remark>
+			<Remark>
+				<RightFromRole
+					ID="OC"
+					RolesDataColumn="cRole"
+					>
+					<DataLayer
+						ConnectionID="connLogiDB"
+						HandleQuotesInTokens="True"
+						ID="dlLogiDbRoles"
+						Source="SELECT USERNAME
 FROM USERS
 WHERE 
 ACTIVE = 1
 AND USERNAME = @iptUsername"
-					Type="SQL"
-					>
-					<SqlParameters>
-						<SqlParameter
-							ID="iptUsername"
-							SqlParamType="dt-200"
-							Value="@Function.UserName~"
+						Type="SQL"
+						>
+						<SqlParameters>
+							<SqlParameter
+								ID="iptUsername"
+								SqlParamType="dt-200"
+								Value="@Function.UserName~"
+							/>
+						</SqlParameters>
+						<CalculatedColumn
+							Formula="&quot;OC&quot;"
+							ID="cRight"
 						/>
-					</SqlParameters>
-					<CalculatedColumn
-						Formula="&quot;OC&quot;"
-						ID="cRight"
-					/>
-				</DataLayer>
-			</RightFromRole>
-			<RightFromRole
-				ID="MKC"
-				rdIdeRemark="true"
-				RolesDataColumn="cRight"
-				>
-				<DataLayer
-					ConnectionID="mkcLDAP"
-					ID="dlLdapRights"
-					LdapSource="SELECT memberOf, sAMAccountName, title, name, userPrincipalName, ADsPath, DisplayName, givenName, sn, mail FROM &apos;DC=midkscoop,DC=lan&apos; WHERE SamAccountName=&apos;@Function.UserName~&apos; and objectClass=&apos;person&apos;"
-					Type="Ldap"
+					</DataLayer>
+				</RightFromRole>
+			</Remark>
+			<Remark>
+				<RightFromRole
+					ID="MKC"
+					RolesDataColumn="cRight"
 					>
-					<ConditionFilter
-						Condition="&quot;@Data.memberOf~&quot;.indexOf(&quot;MKC Dashboard&quot;)!=&quot;-1&quot;"
-						ID="fMKC"
-					/>
-					<CalculatedColumn
-						Formula="&quot;MKC Dashboard&quot;"
-						ID="cRole"
-					/>
-				</DataLayer>
-			</RightFromRole>
-			<RightFromRole
-				ID="TMA"
-				rdIdeRemark="true"
-				RolesDataColumn="cRole"
-				>
-				<DataLayer
-					ConnectionID="mkcLDAP"
-					ID="dlLdapRights"
-					LdapSource="SELECT memberOf, sAMAccountName, title, name, userPrincipalName, ADsPath, DisplayName, givenName, sn, mail FROM &apos;DC=midkscoop,DC=lan&apos; WHERE SamAccountName=&apos;@Function.UserName~&apos; and objectClass=&apos;person&apos;"
-					Type="Ldap"
+					<DataLayer
+						ConnectionID="mkcLDAP"
+						ID="dlLdapRights"
+						LdapSource="SELECT memberOf, sAMAccountName, title, name, userPrincipalName, ADsPath, DisplayName, givenName, sn, mail FROM &apos;DC=midkscoop,DC=lan&apos; WHERE SamAccountName=&apos;@Function.UserName~&apos; and objectClass=&apos;person&apos;"
+						Type="Ldap"
+						>
+						<ConditionFilter
+							Condition="&quot;@Data.memberOf~&quot;.indexOf(&quot;MKC Dashboard&quot;)!=&quot;-1&quot;"
+							ID="fMKC"
+						/>
+						<CalculatedColumn
+							Formula="&quot;MKC Dashboard&quot;"
+							ID="cRole"
+						/>
+					</DataLayer>
+				</RightFromRole>
+			</Remark>
+			<Remark>
+				<RightFromRole
+					ID="TMA"
+					RolesDataColumn="cRole"
 					>
-					<ConditionFilter
-						Condition="&quot;@Data.memberOf~&quot;.indexOf(&quot;TMA Dashboard&quot;)!=&quot;-1&quot;"
-						ID="fTMA"
-					/>
-					<CalculatedColumn
-						Formula="&quot;TMA Dashboard&quot;"
-						ID="cRole"
-					/>
-				</DataLayer>
-			</RightFromRole>
-			<RightFromRole
-				ID="SRMGMT"
-				rdIdeRemark="true"
-				RolesDataColumn="cRole"
-				>
-				<DataLayer
-					ConnectionID="mkcLDAP"
-					ID="dlLdapRights"
-					LdapSource="SELECT memberOf, sAMAccountName, title, name, userPrincipalName, ADsPath, DisplayName, givenName, sn, mail FROM &apos;DC=midkscoop,DC=lan&apos; WHERE SamAccountName=&apos;@Function.UserName~&apos; and objectClass=&apos;person&apos;"
-					Type="Ldap"
+					<DataLayer
+						ConnectionID="mkcLDAP"
+						ID="dlLdapRights"
+						LdapSource="SELECT memberOf, sAMAccountName, title, name, userPrincipalName, ADsPath, DisplayName, givenName, sn, mail FROM &apos;DC=midkscoop,DC=lan&apos; WHERE SamAccountName=&apos;@Function.UserName~&apos; and objectClass=&apos;person&apos;"
+						Type="Ldap"
+						>
+						<ConditionFilter
+							Condition="&quot;@Data.memberOf~&quot;.indexOf(&quot;TMA Dashboard&quot;)!=&quot;-1&quot;"
+							ID="fTMA"
+						/>
+						<CalculatedColumn
+							Formula="&quot;TMA Dashboard&quot;"
+							ID="cRole"
+						/>
+					</DataLayer>
+				</RightFromRole>
+			</Remark>
+			<Remark>
+				<RightFromRole
+					ID="SRMGMT"
+					RolesDataColumn="cRole"
 					>
-					<ConditionFilter
-						Condition="&quot;@Data.memberOf~&quot;.indexOf(&quot;Dashboard Sr Mgmt&quot;)!=&quot;-1&quot;"
-						ID="fSRMGMT"
-					/>
-					<CalculatedColumn
-						Formula="&quot;Dashboard Stategic Planning&quot;"
-						ID="cRole"
-					/>
-				</DataLayer>
-			</RightFromRole>
-			<RightFromRole
-				ID="STRATEGICPLAN"
-				rdIdeRemark="true"
-				RolesDataColumn="cRole"
-				>
-				<DataLayer
-					ConnectionID="mkcLDAP"
-					ID="dlLdapRights"
-					LdapSource="SELECT memberOf, sAMAccountName, title, name, userPrincipalName, ADsPath, DisplayName, givenName, sn, mail FROM &apos;DC=midkscoop,DC=lan&apos; WHERE SamAccountName=&apos;@Function.UserName~&apos; and objectClass=&apos;person&apos;"
-					Type="Ldap"
+					<DataLayer
+						ConnectionID="mkcLDAP"
+						ID="dlLdapRights"
+						LdapSource="SELECT memberOf, sAMAccountName, title, name, userPrincipalName, ADsPath, DisplayName, givenName, sn, mail FROM &apos;DC=midkscoop,DC=lan&apos; WHERE SamAccountName=&apos;@Function.UserName~&apos; and objectClass=&apos;person&apos;"
+						Type="Ldap"
+						>
+						<ConditionFilter
+							Condition="&quot;@Data.memberOf~&quot;.indexOf(&quot;Dashboard Sr Mgmt&quot;)!=&quot;-1&quot;"
+							ID="fSRMGMT"
+						/>
+						<CalculatedColumn
+							Formula="&quot;Dashboard Stategic Planning&quot;"
+							ID="cRole"
+						/>
+					</DataLayer>
+				</RightFromRole>
+			</Remark>
+			<Remark>
+				<RightFromRole
+					ID="STRATEGICPLAN"
+					RolesDataColumn="cRole"
 					>
-					<ConditionFilter
-						Condition="&quot;@Data.memberOf~&quot;.indexOf(&quot;Dashboard Stategic Planning&quot;)!=&quot;-1&quot;"
-						ID="fSTRATEGICPLAN"
-					/>
-					<CalculatedColumn
-						Formula="&quot;Dashboard Stategic Planning&quot;"
-						ID="cRole"
-					/>
-				</DataLayer>
-			</RightFromRole>
-			<RightFromRole
-				ID="ADMIN"
-				rdIdeRemark="true"
-				RolesDataColumn="cRole"
-				>
-				<DataLayer
-					ConnectionID="mkcLDAP"
-					ID="dlLdapRights"
-					LdapSource="SELECT memberOf, sAMAccountName, title, name, userPrincipalName, ADsPath, DisplayName, givenName, sn, mail FROM &apos;DC=midkscoop,DC=lan&apos; WHERE SamAccountName=&apos;@Function.UserName~&apos; and objectClass=&apos;person&apos;"
-					Type="Ldap"
+					<DataLayer
+						ConnectionID="mkcLDAP"
+						ID="dlLdapRights"
+						LdapSource="SELECT memberOf, sAMAccountName, title, name, userPrincipalName, ADsPath, DisplayName, givenName, sn, mail FROM &apos;DC=midkscoop,DC=lan&apos; WHERE SamAccountName=&apos;@Function.UserName~&apos; and objectClass=&apos;person&apos;"
+						Type="Ldap"
+						>
+						<ConditionFilter
+							Condition="&quot;@Data.memberOf~&quot;.indexOf(&quot;Dashboard Stategic Planning&quot;)!=&quot;-1&quot;"
+							ID="fSTRATEGICPLAN"
+						/>
+						<CalculatedColumn
+							Formula="&quot;Dashboard Stategic Planning&quot;"
+							ID="cRole"
+						/>
+					</DataLayer>
+				</RightFromRole>
+			</Remark>
+			<Remark>
+				<RightFromRole
+					ID="ADMIN"
+					RolesDataColumn="cRole"
 					>
-					<ConditionFilter
-						Condition="&quot;@Data.memberOf~&quot;.indexOf(&quot;LogiUserAdmin&quot;)!=&quot;-1&quot;"
-						ID="fADMIN"
-					/>
-					<CalculatedColumn
-						Formula="&quot;LogiUserAdmin&quot;"
-						ID="cRole"
-					/>
-				</DataLayer>
-			</RightFromRole>
-			<RightFromRole
-				ID="FINANCIALS"
-				rdIdeRemark="true"
-				RolesDataColumn="cRole"
-				>
-				<DataLayer
-					ConnectionID="mkcLDAP"
-					ID="dlLdapRights"
-					LdapSource="SELECT memberOf, sAMAccountName, title, name, userPrincipalName, ADsPath, DisplayName, givenName, sn, mail FROM &apos;DC=midkscoop,DC=lan&apos; WHERE SamAccountName=&apos;@Function.UserName~&apos; and objectClass=&apos;person&apos;"
-					Type="Ldap"
+					<DataLayer
+						ConnectionID="mkcLDAP"
+						ID="dlLdapRights"
+						LdapSource="SELECT memberOf, sAMAccountName, title, name, userPrincipalName, ADsPath, DisplayName, givenName, sn, mail FROM &apos;DC=midkscoop,DC=lan&apos; WHERE SamAccountName=&apos;@Function.UserName~&apos; and objectClass=&apos;person&apos;"
+						Type="Ldap"
+						>
+						<ConditionFilter
+							Condition="&quot;@Data.memberOf~&quot;.indexOf(&quot;LogiUserAdmin&quot;)!=&quot;-1&quot;"
+							ID="fADMIN"
+						/>
+						<CalculatedColumn
+							Formula="&quot;LogiUserAdmin&quot;"
+							ID="cRole"
+						/>
+					</DataLayer>
+				</RightFromRole>
+			</Remark>
+			<Remark>
+				<RightFromRole
+					ID="FINANCIALS"
+					RolesDataColumn="cRole"
 					>
-					<ConditionFilter
-						Condition="&quot;@Data.memberOf~&quot;.indexOf(&quot;Dashboard Monthly Staff&quot;)!=&quot;-1&quot;"
-						ID="fSTRATEGICPLAN"
-					/>
-					<CalculatedColumn
-						Formula="&quot;Dashboard Monthly Staff&quot;"
-						ID="cRole"
-					/>
-				</DataLayer>
-			</RightFromRole>
+					<DataLayer
+						ConnectionID="mkcLDAP"
+						ID="dlLdapRights"
+						LdapSource="SELECT memberOf, sAMAccountName, title, name, userPrincipalName, ADsPath, DisplayName, givenName, sn, mail FROM &apos;DC=midkscoop,DC=lan&apos; WHERE SamAccountName=&apos;@Function.UserName~&apos; and objectClass=&apos;person&apos;"
+						Type="Ldap"
+						>
+						<ConditionFilter
+							Condition="&quot;@Data.memberOf~&quot;.indexOf(&quot;Dashboard Monthly Staff&quot;)!=&quot;-1&quot;"
+							ID="fSTRATEGICPLAN"
+						/>
+						<CalculatedColumn
+							Formula="&quot;Dashboard Monthly Staff&quot;"
+							ID="cRole"
+						/>
+					</DataLayer>
+				</RightFromRole>
+			</Remark>
 		</Rights>
 	</Security>
 	<ideTestParams
