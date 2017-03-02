@@ -9,7 +9,7 @@
 		SharedElementID="shrHeader"
 	/>
 	<DefaultRequestParams
-		CRMBranch="@Request.Branch~"
+		CRMBranch="0"
 	/>
 	<Body>
 		<ResponsiveRow>
@@ -149,7 +149,7 @@ Where gb.ag_FiscalYear Between DatePart(Year, DateAdd(Year, Case
     When DatePart(Month, GetDate()) &lt; 3 Then -4 Else -3
   End, GetDate())) And DatePart(Year, DateAdd(Year, Case
     When DatePart(Month, GetDate()) &lt; 3 Then 0 Else 1
-  End, GetDate())) And (lm.ag_DataSourceKey IN(@Request.CRMBranch~) OR &apos;@Request.CRMBranch~&apos;=&apos;0&apos;) And
+  End, GetDate())) And lm.ag_DataSourceKey IN(@Request.CRMBranch~) OR &apos;@Request.CRMBranch~&apos;=&apos;0&apos; And
   gb.statecode = 0 And gb.statuscode = 1
 Order By AccountName,
   aggdtl"
@@ -206,7 +206,7 @@ Order By AccountName,
 											</Remark>
 											<Remark>
 												<ConditionFilter
-													Condition="&quot;@Data.colCommodityCode~&quot; = &quot;@Request.Commodity~&quot; &lt;&gt; &quot;&quot;"
+													Condition="&quot;@Data.colCommodityCode~&quot; = &quot;@Request.Commodity~&quot;"
 													ID="filCommodity"
 												/>
 											</Remark>
@@ -354,7 +354,6 @@ Order By AccountName,
 		SharedElementID="shrFooter"
 	/>
 	<ideTestParams
-		Branch=""
 		CRMBranch="0"
 	/>
 </Report>
