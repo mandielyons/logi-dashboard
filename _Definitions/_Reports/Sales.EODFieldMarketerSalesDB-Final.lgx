@@ -435,7 +435,7 @@ Where am.po_FieldMarketer Is Not Null And
 												ChartXDataColumn="description"
 												ChartXDataColumnType="Text"
 												ChartYDataColumn="rdCrosstabValue"
-												Color="#215A9E, #F1A021, #98fb98, #eedd82"
+												Color="#F1A021, #98fb98, #eedd82"
 												Type="Bar"
 												>
 												<Quicktip>
