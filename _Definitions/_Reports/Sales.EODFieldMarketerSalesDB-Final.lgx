@@ -510,7 +510,7 @@ Order By CropYear,
 														Source="Select ag_CropYear as &apos;CropYear&apos;,
   &apos;Units&apos; as InvoiceUOM,
   &apos;Total Nutrients&apos; As description,
-  (([Dry Fertilizer]*920+[Liquid Fertilizer]*620+[NH3]*1640)/100) as &apos;Amount&apos;
+  (([Dry Fertilizer]*920+[Liquid Fertilizer]*620+[NH3]*1640)/1000) as &apos;Amount&apos;
   FROM (Select sh.ag_CropYear,
   sh.ag_InvoiceQuantity As &apos;Amount&apos;,
   pd.ProdRptSubCatDesc As description
