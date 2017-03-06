@@ -170,7 +170,15 @@
 													Condition="&quot;@Data.Column1~&quot; = &quot;@Request.Branch~&quot;"
 												/>
 												<CalculatedColumn
-													Formula="iif(&quot;@Data.Column27~&quot; = &quot;&quot;, FormatNumber(&quot;@Data.Column26~&quot;,0,0,0,0) / .9 , FormatNumber(&quot;@Data.Column26~&quot;,0,0,0,0) + FormatNumber(&quot;@Data.Column27~&quot;,0,0,0,0) / .9)"
+													Formula="FormatNumber(&quot;@Data.Column27~&quot;,0,0,0,0)"
+													ID="calcCol27"
+												/>
+												<CalculatedColumn
+													Formula="FormatNumber(&quot;@Data.Column26~&quot;,0,0,0,0)"
+													ID="calcCol26"
+												/>
+												<CalculatedColumn
+													Formula="@Data.calcCol26~ + @Data.calcCol27~ / .9"
 													ID="calc100Space"
 												/>
 											</DataLayer>
@@ -179,7 +187,7 @@
 											</Remark>
 											<DataTableColumn
 												Header="Space"
-												Width="30"
+												Width="25"
 												WidthScale="%"
 												>
 												<Rows
@@ -187,6 +195,21 @@
 													Width="80"
 													WidthScale="%"
 													>
+													<Row>
+														<Column>
+															<Label
+																Caption="100% Total Space: "
+															/>
+														</Column>
+														<Column
+															Class="ThemeAlignRight"
+															>
+															<Label
+																Caption="@Data.calc100Space~"
+																Format="###,###,##0"
+															/>
+														</Column>
+													</Row>
 													<Row>
 														<Column>
 															<Label
@@ -230,6 +253,15 @@
 														</Column>
 													</Row>
 													<Row>
+														<Column
+															ColSpan="2"
+															>
+															<LineBreak
+																LineCount="7"
+															/>
+														</Column>
+													</Row>
+													<Row>
 														<Column>
 															<Label
 																Caption="90% Current Available:"
@@ -240,30 +272,6 @@
 															>
 															<Label
 																Caption="@Data.Column29~"
-															/>
-														</Column>
-													</Row>
-													<Row>
-														<Column>
-															<Label
-																Caption="100% Total Space: "
-															/>
-														</Column>
-														<Column
-															Class="ThemeAlignRight"
-															>
-															<Label
-																Caption="@Data.calc100Space~"
-																Format="###,###,##0"
-															/>
-														</Column>
-													</Row>
-													<Row>
-														<Column
-															ColSpan="2"
-															>
-															<LineBreak
-																LineCount="7"
 															/>
 														</Column>
 													</Row>
@@ -373,26 +381,28 @@
 															/>
 														</Column>
 													</Row>
-													<Row>
-														<Column>
-															<Label
-																Caption="Other Grains:"
-															/>
-														</Column>
-														<Column
-															Class="ThemeAlignRight"
-															>
-															<Label
-																Caption="@Data.Column8~"
-															/>
-														</Column>
-													</Row>
+													<Remark>
+														<Row>
+															<Column>
+																<Label
+																	Caption="Other Grains:"
+																/>
+															</Column>
+															<Column
+																Class="ThemeAlignRight"
+																>
+																<Label
+																	Caption="@Data.Column8~"
+																/>
+															</Column>
+														</Row>
+													</Remark>
 													<Row>
 														<Column
 															ColSpan="2"
 															>
 															<LineBreak
-																LineCount="6"
+																LineCount="7"
 															/>
 														</Column>
 													</Row>
@@ -507,15 +517,52 @@
 															ColSpan="2"
 															>
 															<LineBreak
-																LineCount="7"
+																LineCount="8"
 															/>
 														</Column>
 													</Row>
+													<Remark>
+														<Row>
+															<Column>
+																<Label
+																	Caption="Long/Short:"
+																	Class="bold"
+																/>
+															</Column>
+															<Column
+																Class="ThemeAlignRight"
+																>
+																<Label
+																	Caption=" @Data.Column41~"
+																	>
+																	<ConditionalClass
+																		Class="bold text-success"
+																		Condition="&quot;@Data.Column41~&quot; &gt; &quot;0&quot;"
+																	/>
+																	<ConditionalClass
+																		Class="bold text-danger"
+																		Condition="&quot;@Data.Column41~&quot; &lt;= &quot;0&quot;"
+																	/>
+																</Label>
+															</Column>
+														</Row>
+													</Remark>
+												</Rows>
+											</DataTableColumn>
+											<DataTableColumn
+												Header="90% Space Available"
+												Width="25"
+												WidthScale="%"
+												>
+												<Rows
+													CellSpacing="5"
+													Width="80"
+													WidthScale="%"
+													>
 													<Row>
 														<Column>
 															<Label
-																Caption="Long/Short:"
-																Class="bold"
+																Caption="After Receipts and Shipments:"
 															/>
 														</Column>
 														<Column
@@ -525,554 +572,27 @@
 																Caption=" @Data.Column41~"
 																>
 																<ConditionalClass
-																	Class="bold text-success"
+																	Class="text-success"
 																	Condition="&quot;@Data.Column41~&quot; &gt; &quot;0&quot;"
 																/>
 																<ConditionalClass
-																	Class="bold text-danger"
+																	Class="text-danger"
 																	Condition="&quot;@Data.Column41~&quot; &lt;= &quot;0&quot;"
 																/>
 															</Label>
 														</Column>
 													</Row>
+													<Row>
+														<Column
+															ColSpan="2"
+															>
+															<LineBreak
+																LineCount="10"
+															/>
+														</Column>
+													</Row>
 												</Rows>
 											</DataTableColumn>
-											<Remark>
-												<DataTableColumn
-													Header="Sales/Transfers"
-													>
-													<Rows>
-														<Row>
-															<Column>
-																<Label
-																	Caption="Wheat:"
-																/>
-															</Column>
-															<Column
-																Class="ThemeAlignRight"
-																>
-																<Label
-																	Caption="@Data.Column12~"
-																/>
-															</Column>
-														</Row>
-														<Row>
-															<Column>
-																<Label
-																	Caption="Milo:"
-																/>
-															</Column>
-															<Column
-																Class="ThemeAlignRight"
-																>
-																<Label
-																	Caption="@Data.Column13~"
-																/>
-															</Column>
-														</Row>
-														<Row>
-															<Column>
-																<Label
-																	Caption="Beans:"
-																/>
-															</Column>
-															<Column
-																Class="ThemeAlignRight"
-																>
-																<Label
-																	Caption="@Data.Column15~"
-																/>
-															</Column>
-														</Row>
-														<Row>
-															<Column>
-																<Label
-																	Caption="Corn:"
-																/>
-															</Column>
-															<Column
-																Class="ThemeAlignRight"
-																>
-																<Label
-																	Caption="@Data.Column14~"
-																/>
-															</Column>
-														</Row>
-														<Row>
-															<Column>
-																<Label
-																	Caption="Sunflowers:"
-																/>
-															</Column>
-															<Column
-																Class="ThemeAlignRight"
-																>
-																<Label
-																	Caption="@Data.Column16~"
-																/>
-															</Column>
-														</Row>
-														<Row>
-															<Column>
-																<Label
-																	Caption="Wheat Transfer:"
-																/>
-															</Column>
-															<Column
-																Class="ThemeAlignRight"
-																>
-																<Label
-																	Caption="@Data.Column17~"
-																/>
-															</Column>
-														</Row>
-														<Row>
-															<Column>
-																<Label
-																	Caption="Corn Transfer: "
-																/>
-															</Column>
-															<Column
-																Class="ThemeAlignRight"
-																>
-																<Label
-																	Caption="@Data.Column18~"
-																/>
-															</Column>
-														</Row>
-														<Row>
-															<Column>
-																<Label
-																	Caption="Bean Transfer:"
-																/>
-															</Column>
-															<Column
-																Class="ThemeAlignRight"
-																>
-																<Label
-																	Caption="@Data.Column19~"
-																/>
-															</Column>
-														</Row>
-														<Row>
-															<Column>
-																<Label
-																	Caption="Bunker:"
-																/>
-															</Column>
-															<Column
-																Class="ThemeAlignRight"
-																>
-																<Label
-																	Caption="@Data.Column20~"
-																/>
-															</Column>
-														</Row>
-														<Row>
-															<Column>
-																<Label
-																	Caption="Feed Milo Pre Harvest: "
-																/>
-															</Column>
-															<Column
-																Class="ThemeAlignRight"
-																>
-																<Label
-																	Caption="@Data.Column21~"
-																/>
-															</Column>
-														</Row>
-														<Row>
-															<Column>
-																<Label
-																	Caption="Feed Corn Pre Harvest:"
-																/>
-															</Column>
-															<Column
-																Class="ThemeAlignRight"
-																>
-																<Label
-																	Caption="@Data.Column22~"
-																/>
-															</Column>
-														</Row>
-														<Row>
-															<Column>
-																<LineBreak/>
-																<Label
-																	Caption="Total After Sales/Transfers:"
-																	Class="bold"
-																/>
-															</Column>
-															<Column
-																Class="ThemeAlignRight"
-																>
-																<LineBreak/>
-																<Label
-																	Caption=" @Data.Column24~"
-																	>
-																	<ConditionalClass
-																		Class="bold text-success"
-																		Condition="&quot;@Data.Column24~&quot; &gt; &quot;0&quot;"
-																	/>
-																	<ConditionalClass
-																		Class="bold text-danger"
-																		Condition="&quot;@Data.Column24~&quot; &lt;= &quot;0&quot;"
-																	/>
-																</Label>
-															</Column>
-														</Row>
-													</Rows>
-												</DataTableColumn>
-											</Remark>
-											<Remark>
-												<DataTableColumn
-													Header="Sold Not Allocated"
-													>
-													<Rows>
-														<Row>
-															<Column>
-																<Label
-																	Caption="Wheat:"
-																/>
-															</Column>
-															<Column
-																Class="ThemeAlignRight"
-																>
-																<Label
-																	Caption="@Data.Column45~"
-																/>
-															</Column>
-														</Row>
-														<Row>
-															<Column>
-																<Label
-																	Caption="Milo:"
-																/>
-															</Column>
-															<Column
-																Class="ThemeAlignRight"
-																>
-																<Label
-																	Caption="@Data.Column46~"
-																/>
-															</Column>
-														</Row>
-														<Row>
-															<Column>
-																<Label
-																	Caption="Beans:"
-																/>
-															</Column>
-															<Column
-																Class="ThemeAlignRight"
-																>
-																<Label
-																	Caption="@Data.Column48~"
-																/>
-															</Column>
-														</Row>
-														<Row>
-															<Column>
-																<Label
-																	Caption="Corn:"
-																/>
-															</Column>
-															<Column
-																Class="ThemeAlignRight"
-																>
-																<Label
-																	Caption="@Data.Column47~"
-																/>
-															</Column>
-														</Row>
-														<Row>
-															<Column>
-																<Label
-																	Caption="Sunflowers:"
-																/>
-															</Column>
-															<Column
-																Class="ThemeAlignRight"
-																>
-																<Label
-																	Caption="@Data.Column49~"
-																/>
-															</Column>
-														</Row>
-														<Row>
-															<Column>
-																<Label
-																	Caption="Feed Milo Post Harvest: "
-																/>
-															</Column>
-															<Column
-																Class="ThemeAlignRight"
-																>
-																<Label
-																	Caption="@Data.Column43~"
-																/>
-															</Column>
-														</Row>
-														<Row>
-															<Column>
-																<Label
-																	Caption="Feed Corn Post Harvest: "
-																/>
-																<LineBreak
-																	LineCount="6"
-																/>
-															</Column>
-															<Column
-																Class="ThemeAlignRight"
-																>
-																<Label
-																	Caption="@Data.Column44~"
-																/>
-																<LineBreak
-																	LineCount="6"
-																/>
-															</Column>
-														</Row>
-														<Row>
-															<Column>
-																<Label
-																	Caption="Total:"
-																	Class="bold"
-																/>
-															</Column>
-															<Column
-																Class="ThemeAlignRight"
-																>
-																<Label
-																	Caption=" @Data.Column50~"
-																	>
-																	<ConditionalClass
-																		Class="bold text-success"
-																		Condition="&quot; @Data.Column50~&quot; &gt; &quot;0&quot;"
-																	/>
-																	<ConditionalClass
-																		Class="bold text-danger"
-																		Condition="&quot; @Data.Column50~&quot; &lt;= &quot;0&quot;"
-																	/>
-																</Label>
-															</Column>
-														</Row>
-													</Rows>
-												</DataTableColumn>
-											</Remark>
-											<Remark>
-												<DataTableColumn
-													Header="Canton Sold Not Allocated"
-													>
-													<Rows>
-														<Row>
-															<Column>
-																<Label
-																	Caption="Wheat:"
-																/>
-															</Column>
-															<Column
-																Class="ThemeAlignRight"
-																>
-																<Label
-																	Caption="@Data.Column52~"
-																/>
-															</Column>
-														</Row>
-														<Row>
-															<Column>
-																<Label
-																	Caption="Milo: "
-																/>
-															</Column>
-															<Column
-																Class="ThemeAlignRight"
-																>
-																<Label
-																	Caption="@Data.Column53~"
-																/>
-															</Column>
-														</Row>
-														<Row>
-															<Column>
-																<Label
-																	Caption="Beans:"
-																/>
-															</Column>
-															<Column
-																Class="ThemeAlignRight"
-																>
-																<Label
-																	Caption="@Data.Column55~"
-																/>
-															</Column>
-														</Row>
-														<Row>
-															<Column>
-																<Label
-																	Caption="Corn: "
-																/>
-															</Column>
-															<Column
-																Class="ThemeAlignRight"
-																>
-																<Label
-																	Caption="@Data.Column54~"
-																/>
-															</Column>
-														</Row>
-														<Row>
-															<Column
-																ColSpan="2"
-																>
-																<LineBreak
-																	LineCount="8"
-																/>
-															</Column>
-														</Row>
-														<Row>
-															<Column>
-																<Label
-																	Caption="Total:"
-																	Class="bold"
-																/>
-															</Column>
-															<Column
-																Class="ThemeAlignRight"
-																>
-																<Label
-																	Caption=" @Data.Column51~"
-																	>
-																	<ConditionalClass
-																		Class="bold text-success"
-																		Condition="&quot; @Data.Column51~&quot; &gt; &quot;0&quot;"
-																	/>
-																	<ConditionalClass
-																		Class="bold text-danger"
-																		Condition="&quot; @Data.Column51~&quot; &lt;= &quot;0&quot;"
-																	/>
-																</Label>
-															</Column>
-														</Row>
-													</Rows>
-												</DataTableColumn>
-											</Remark>
-											<Remark>
-												<DataTableColumn
-													Header="To Sell"
-													>
-													<Rows>
-														<Row>
-															<Column>
-																<Label
-																	Caption="Wheat:"
-																/>
-															</Column>
-															<Column
-																Class="ThemeAlignRight"
-																>
-																<Label
-																	Caption="@Data.Column58~"
-																/>
-															</Column>
-														</Row>
-														<Row>
-															<Column>
-																<Label
-																	Caption="Milo: "
-																/>
-															</Column>
-															<Column
-																Class="ThemeAlignRight"
-																>
-																<Label
-																	Caption="@Data.Column59~"
-																/>
-															</Column>
-														</Row>
-														<Row>
-															<Column>
-																<Label
-																	Caption="Beans:"
-																/>
-															</Column>
-															<Column
-																Class="ThemeAlignRight"
-																>
-																<Label
-																	Caption="@Data.Column61~"
-																/>
-															</Column>
-														</Row>
-														<Row>
-															<Column>
-																<Label
-																	Caption="Corn: "
-																/>
-															</Column>
-															<Column
-																Class="ThemeAlignRight"
-																>
-																<Label
-																	Caption="@Data.Column60~"
-																/>
-															</Column>
-														</Row>
-														<Row>
-															<Column>
-																<Label
-																	Caption="Sunflowers:"
-																/>
-															</Column>
-															<Column
-																Class="ThemeAlignRight"
-																>
-																<Label
-																	Caption="@Data.Column62~"
-																/>
-															</Column>
-														</Row>
-														<Row>
-															<Column
-																ColSpan="2"
-																>
-																<LineBreak
-																	LineCount="7"
-																/>
-															</Column>
-														</Row>
-														<Row>
-															<Column>
-																<Label
-																	Caption="Total:"
-																	Class="bold"
-																/>
-															</Column>
-															<Column
-																Class="ThemeAlignRight"
-																>
-																<Label
-																	Caption=" @Data.Column64~"
-																	>
-																	<ConditionalClass
-																		Class="bold text-success"
-																		Condition="&quot;@Data.Column64~&quot; &gt; &quot;0&quot;"
-																	/>
-																	<ConditionalClass
-																		Class="bold text-danger"
-																		Condition="&quot;@Data.Column64~&quot; &lt;= &quot;0&quot;"
-																	/>
-																</Label>
-															</Column>
-														</Row>
-													</Rows>
-												</DataTableColumn>
-											</Remark>
-											<DataTableColumn
-												Width="20"
-												WidthScale="%"
-											/>
 										</DataTable>
 									</Division>
 								</Division>
@@ -1116,358 +636,22 @@
 												<ConditionFilter
 													Condition="&quot;@Data.Column1~&quot; = &quot;@Request.Branch~&quot;"
 												/>
+												<CalculatedColumn
+													Formula="@Data.Column12~ + @Data.Column13~ + @Data.Column15~ + @Data.Column14~ + @Data.Column16~ + @Data.Column17~ + @Data.Column18~ + @Data.Column19~ + @Data.Column20~ + @Data.Column21~ + @Data.Column22~"
+													ID="colTotalSalesTransfers"
+												/>
+												<CalculatedColumn
+													Formula="@Data.Column52~ + @Data.Column53~ + @Data.Column55~ + @Data.Column54~"
+													ID="colTotalCantonSold"
+												/>
+												<CalculatedColumn
+													Formula="@Data.Column58~ + @Data.Column59~ + @Data.Column61~ + @Data.Column60~ + @Data.Column62~"
+													ID="colToSell"
+												/>
 											</DataLayer>
-											<Remark>
-												<DataTableColumn
-													Header="Space"
-													>
-													<Rows>
-														<Row>
-															<Column>
-																<Label
-																	Caption="90% Upright Capacity:"
-																/>
-															</Column>
-															<Column
-																Class="ThemeAlignRight"
-																>
-																<Label
-																	Caption="@Data.Column26~"
-																/>
-															</Column>
-														</Row>
-														<Row>
-															<Column>
-																<Label
-																	Caption="90% Flat Capacity:"
-																/>
-															</Column>
-															<Column
-																Class="ThemeAlignRight"
-																>
-																<Label
-																	Caption="@Data.Column27~"
-																/>
-															</Column>
-														</Row>
-														<Row>
-															<Column>
-																<Label
-																	Caption="Temporary Storage: "
-																/>
-															</Column>
-															<Column
-																Class="ThemeAlignRight"
-																>
-																<Label
-																	Caption="@Data.Column28~"
-																/>
-															</Column>
-														</Row>
-														<Row>
-															<Column>
-																<Label
-																	Caption="90% Current Available:"
-																/>
-															</Column>
-															<Column
-																Class="ThemeAlignRight"
-																>
-																<Label
-																	Caption="@Data.Column29~"
-																/>
-															</Column>
-														</Row>
-														<Row>
-															<Column>
-																<Label
-																	Caption="100% Total Space: "
-																/>
-															</Column>
-															<Column
-																Class="ThemeAlignRight"
-																>
-																<Label
-																	Caption="@Data.calc100Space~"
-																	Format="###,###,##0"
-																/>
-															</Column>
-														</Row>
-														<Row>
-															<Column
-																ColSpan="2"
-																>
-																<LineBreak
-																	LineCount="7"
-																/>
-															</Column>
-														</Row>
-														<Row>
-															<Column>
-																<Label
-																	Caption="Total Adjusted Space:"
-																	Class="bold"
-																/>
-															</Column>
-															<Column
-																Class="ThemeAlignRight"
-																>
-																<Label
-																	Caption=" @Data.Column31~"
-																	>
-																	<ConditionalClass
-																		Class="bold text-success"
-																		Condition="&quot;@Data.Column31~&quot; &gt; &quot;0&quot;"
-																	/>
-																	<ConditionalClass
-																		Class="bold text-danger"
-																		Condition="&quot;@Data.Column31~&quot; &lt;= &quot;0&quot;"
-																	/>
-																</Label>
-															</Column>
-														</Row>
-													</Rows>
-												</DataTableColumn>
-											</Remark>
-											<Remark>
-												<DataTableColumn
-													Header="Grain in Elevator"
-													>
-													<Rows>
-														<Row>
-															<Column>
-																<Label
-																	Caption="Wheat:"
-																/>
-															</Column>
-															<Column
-																Class="ThemeAlignRight"
-																>
-																<Label
-																	Caption="@Data.Column3~"
-																/>
-															</Column>
-														</Row>
-														<Row>
-															<Column>
-																<Label
-																	Caption="Milo:"
-																/>
-															</Column>
-															<Column
-																Class="ThemeAlignRight"
-																>
-																<Label
-																	Caption="@Data.Column4~"
-																/>
-															</Column>
-														</Row>
-														<Row>
-															<Column>
-																<Label
-																	Caption="Beans:"
-																/>
-															</Column>
-															<Column
-																Class="ThemeAlignRight"
-																>
-																<Label
-																	Caption="@Data.Column6~"
-																/>
-															</Column>
-														</Row>
-														<Row>
-															<Column>
-																<Label
-																	Caption="Corn:"
-																/>
-															</Column>
-															<Column
-																Class="ThemeAlignRight"
-																>
-																<Label
-																	Caption="@Data.Column5~"
-																/>
-															</Column>
-														</Row>
-														<Row>
-															<Column>
-																<Label
-																	Caption="Sunflowers: "
-																/>
-															</Column>
-															<Column
-																Class="ThemeAlignRight"
-																>
-																<Label
-																	Caption="@Data.Column7~"
-																/>
-															</Column>
-														</Row>
-														<Row>
-															<Column>
-																<Label
-																	Caption="Other Grains:"
-																/>
-															</Column>
-															<Column
-																Class="ThemeAlignRight"
-																>
-																<Label
-																	Caption="@Data.Column8~"
-																/>
-															</Column>
-														</Row>
-														<Row>
-															<Column
-																ColSpan="2"
-																>
-																<LineBreak
-																	LineCount="6"
-																/>
-															</Column>
-														</Row>
-														<Row>
-															<Column>
-																<Label
-																	Caption="Total:"
-																	Class="bold"
-																/>
-															</Column>
-															<Column
-																Class="ThemeAlignRight"
-																>
-																<Label
-																	Caption=" @Data.Column10~"
-																	>
-																	<ConditionalClass
-																		Class="bold text-success"
-																		Condition="&quot;@Data.Column10~&quot; &gt; &quot;0&quot;"
-																	/>
-																	<ConditionalClass
-																		Class="bold text-danger"
-																		Condition="&quot;@Data.Column10~&quot; &lt;= &quot;0&quot;"
-																	/>
-																</Label>
-															</Column>
-														</Row>
-													</Rows>
-												</DataTableColumn>
-											</Remark>
-											<Remark>
-												<DataTableColumn
-													Header="Estimated Receipts"
-													>
-													<Rows>
-														<Row>
-															<Column>
-																<Label
-																	Caption="Wheat:"
-																/>
-															</Column>
-															<Column
-																Class="ThemeAlignRight"
-																>
-																<Label
-																	Caption="@Data.Column38~"
-																/>
-															</Column>
-														</Row>
-														<Row>
-															<Column>
-																<Label
-																	Caption="Milo:"
-																/>
-															</Column>
-															<Column
-																Class="ThemeAlignRight"
-																>
-																<Label
-																	Caption="@Data.Column33~"
-																/>
-															</Column>
-														</Row>
-														<Row>
-															<Column>
-																<Label
-																	Caption="Beans:"
-																/>
-															</Column>
-															<Column
-																Class="ThemeAlignRight"
-																>
-																<Label
-																	Caption="@Data.Column35~"
-																/>
-															</Column>
-														</Row>
-														<Row>
-															<Column>
-																<Label
-																	Caption="Corn:"
-																/>
-															</Column>
-															<Column
-																Class="ThemeAlignRight"
-																>
-																<Label
-																	Caption="@Data.Column34~"
-																/>
-															</Column>
-														</Row>
-														<Row>
-															<Column>
-																<Label
-																	Caption="Sunflowers:"
-																/>
-															</Column>
-															<Column
-																Class="ThemeAlignRight"
-																>
-																<Label
-																	Caption="@Data.Column36~"
-																/>
-															</Column>
-														</Row>
-														<Row>
-															<Column
-																ColSpan="2"
-																>
-																<LineBreak
-																	LineCount="7"
-																/>
-															</Column>
-														</Row>
-														<Row>
-															<Column>
-																<Label
-																	Caption="Long/Short:"
-																	Class="bold"
-																/>
-															</Column>
-															<Column
-																Class="ThemeAlignRight"
-																>
-																<Label
-																	Caption=" @Data.Column41~"
-																	>
-																	<ConditionalClass
-																		Class="bold text-success"
-																		Condition="&quot;@Data.Column41~&quot; &gt; &quot;0&quot;"
-																	/>
-																	<ConditionalClass
-																		Class="bold text-danger"
-																		Condition="&quot;@Data.Column41~&quot; &lt;= &quot;0&quot;"
-																	/>
-																</Label>
-															</Column>
-														</Row>
-													</Rows>
-												</DataTableColumn>
-											</Remark>
 											<DataTableColumn
 												Header="Sales/Transfers"
-												Width="30"
+												Width="25"
 												WidthScale="%"
 												>
 												<Rows
@@ -1633,7 +817,7 @@
 														<Column>
 															<LineBreak/>
 															<Label
-																Caption="Total After Sales/Transfers:"
+																Caption="Total Sales/Transfers:"
 																Class="bold"
 															/>
 														</Column>
@@ -1642,7 +826,7 @@
 															>
 															<LineBreak/>
 															<Label
-																Caption=" @Data.Column24~"
+																Caption=" @Data.colTotalSalesTransfers~"
 																>
 																<ConditionalClass
 																	Class="bold text-success"
@@ -1875,7 +1059,7 @@
 													<Row>
 														<Column>
 															<Label
-																Caption="Total:"
+																Caption="Total Canton Sold Not Allocated:"
 																Class="bold"
 															/>
 														</Column>
@@ -1883,7 +1067,7 @@
 															Class="ThemeAlignRight"
 															>
 															<Label
-																Caption=" @Data.Column51~"
+																Caption=" @Data.colTotalCantonSold~"
 																>
 																<ConditionalClass
 																	Class="bold text-success"
@@ -1900,7 +1084,7 @@
 											</DataTableColumn>
 											<DataTableColumn
 												Header="To Sell"
-												Width="20"
+												Width="25"
 												WidthScale="%"
 												>
 												<Rows
@@ -1998,7 +1182,7 @@
 															Class="ThemeAlignRight"
 															>
 															<Label
-																Caption=" @Data.Column64~"
+																Caption=" @Data.colToSell~"
 																>
 																<ConditionalClass
 																	Class="bold text-success"
