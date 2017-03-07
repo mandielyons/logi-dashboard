@@ -311,7 +311,7 @@ Where am.po_FieldMarketer Is Not Null And
 												DataColumn="description"
 												>
 												<DataLayer
-													ConnectionID="connCRMTestTest"
+													ConnectionID="connCRMTest"
 													ID="dlProdClass"
 													Source="Select Distinct pd.ProdRptSubCatDesc as description, ProdRptCatDesc as class
 From ag_saleshistory sh
