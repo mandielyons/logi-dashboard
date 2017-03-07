@@ -9,7 +9,9 @@
 		SharedElementID="shrHeader"
 	/>
 	<DefaultRequestParams
-		CRMBranch="0"
+		Branch="0"
+		Commodity="0"
+		Customer=""
 	/>
 	<Body>
 		<ResponsiveRow>
@@ -44,16 +46,18 @@
 							<ResponsiveColumn
 								Class="ThemeAlignRight"
 								>
-								<IncludeSharedElement
-									DefinitionFile="_Layout.Shared"
-									SharedElementID="shrExcelExport"
-									>
-									<SharedElementParams
-										DataTableID="dtGrainReceipts"
-										ReportName="Grain Receipts"
-										Security=""
-									/>
-								</IncludeSharedElement>
+								<Remark>
+									<IncludeSharedElement
+										DefinitionFile="_Layout.Shared"
+										SharedElementID="shrExcelExport"
+										>
+										<SharedElementParams
+											DataTableID="dtGrainReceipts"
+											ReportName="Grain Receipts"
+											Security=""
+										/>
+									</IncludeSharedElement>
+								</Remark>
 							</ResponsiveColumn>
 						</ResponsiveRow>
 						<ResponsiveRow>
@@ -68,6 +72,41 @@
 									HtmlDiv="True"
 									ID="divFilters"
 									>
+									<InputSelectList
+										Caption="Customer:"
+										CaptionClass="ThemeTextSmall ThemeBold"
+										Class="ThemeTextSmaller"
+										DefaultValue="@Request.Customer~"
+										ID="Customer"
+										OptionCaptionColumn="AccountName"
+										OptionValueColumn="ag_AccountID"
+										>
+										<DataLayer
+											ConnectionID="connCRMTest"
+											ID="dlCustomers"
+											Source="Select Distinct gb.ag_AccountID,
+  am.ParentAccountId,
+  am.ParentAccountIdName ParentAccountName,
+  am.Name AccountName
+From ag_grainreceiptsummaryBase gb
+  Inner Join Account am On gb.ag_AccountID = am.AccountId
+Order By AccountName"
+											Type="SQL"
+										/>
+										<EventHandler
+											DhtmlEvent="onchange"
+											ID="eventOnChangeCustomer"
+											>
+											<Action
+												ElementID="divReceipts,ctGrainReceiptSummary"
+												ID="actRefreshReceipt"
+												Type="RefreshElement"
+												>
+												<WaitPage/>
+											</Action>
+										</EventHandler>
+									</InputSelectList>
+									<LineBreak/>
 									<IncludeSharedElement
 										DefinitionFile="_Layout.Shared"
 										SharedElementID="shrCRMBranchSelect"
@@ -98,8 +137,9 @@
 											>
 											<WaitPage/>
 											<LinkParams
-												Branch="-1"
-												Commodity="00"
+												Branch="0"
+												Commodity="0"
+												Customer=""
 											/>
 										</Action>
 									</Button>
@@ -125,6 +165,13 @@
 										Width="95"
 										WidthScale="%"
 										>
+										<InteractivePaging
+											CaptionType="Image"
+											Class="ThemeTextSmaller"
+											Location="Top"
+											PageRowCount="30"
+											ShowPageNumber="True"
+										/>
 										<DataLayer
 											ConnectionID="connCRMTest"
 											ID="dlGrainReceipts"
@@ -149,7 +196,7 @@ Where gb.ag_FiscalYear Between DatePart(Year, DateAdd(Year, Case
     When DatePart(Month, GetDate()) &lt; 3 Then -4 Else -3
   End, GetDate())) And DatePart(Year, DateAdd(Year, Case
     When DatePart(Month, GetDate()) &lt; 3 Then 0 Else 1
-  End, GetDate())) And lm.ag_DataSourceKey IN(@Request.CRMBranch~) OR &apos;@Request.CRMBranch~&apos;=&apos;0&apos; And
+  End, GetDate())) And lm.ag_DataSourceKey IN(@Request.Branch~) OR &apos;@Request.Branch~&apos;=&apos;0&apos; And
   gb.statecode = 0 And gb.statuscode = 1
 Order By AccountName,
   aggdtl"
@@ -158,6 +205,20 @@ Order By AccountName,
 											<SortFilter
 												DataType="Number"
 												SortColumn="FiscalYear"
+											/>
+											<CompareFilter
+												CompareType="="
+												CompareValue="@Request.Customer~"
+												DataColumn="ag_AccountID"
+												ID="filCustomer"
+												IncludeCondition="&quot;@Request.Customer~&quot; &lt;&gt; &quot;&quot;"
+											/>
+											<CompareFilter
+												CompareType="="
+												CompareValue="@Request.Commodity~"
+												DataColumn="CommodityCode"
+												ID="filCommodity"
+												IncludeCondition="&quot;@Request.Commodity~&quot; &lt;&gt; &quot;&quot; And &quot;@Request.Commodity~&quot; &lt;&gt; &quot;0&quot;"
 											/>
 											<CrosstabFilter
 												CrosstabColumn="FiscalYear"
@@ -198,18 +259,6 @@ Order By AccountName,
 													ID="ctAverage"
 												/>
 											</CrosstabFilter>
-											<Remark>
-												<ConditionFilter
-													Condition="&quot;@Data.colLocationCode~&quot; = &quot;@Request.CRMBranch~&quot; &lt;&gt; &quot;&quot;"
-													ID="filBranch"
-												/>
-											</Remark>
-											<Remark>
-												<ConditionFilter
-													Condition="&quot;@Data.colCommodityCode~&quot; = &quot;@Request.Commodity~&quot;"
-													ID="filCommodity"
-												/>
-											</Remark>
 										</DataLayer>
 										<CrosstabTableLabelColumn
 											Header="Account Name"
@@ -229,7 +278,7 @@ Order By AccountName,
 											ID="colLocationName"
 											>
 											<Label
-												Caption="@Data.colLocationName~"
+												Caption="@Data.colLocationCode~ - @Data.colLocationName~"
 												ID="lblLocationName"
 											/>
 											<DataColumnSort
@@ -242,7 +291,7 @@ Order By AccountName,
 											ID="colCropName"
 											>
 											<Label
-												Caption="@Data.colCropName~"
+												Caption="@Data.colCommodityCode~ - @Data.colCropName~"
 												ID="lblCropName"
 											/>
 											<DataColumnSort
@@ -354,6 +403,9 @@ Order By AccountName,
 		SharedElementID="shrFooter"
 	/>
 	<ideTestParams
+		Branch=""
+		Commodity=""
 		CRMBranch="0"
+		Customer=""
 	/>
 </Report>
