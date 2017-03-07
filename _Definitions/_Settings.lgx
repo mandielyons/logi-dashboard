@@ -172,6 +172,15 @@
 			SqlServerUser="BIOperations"
 			Type="SqlServer"
 		/>
+		<Connection
+			ID="connCRM"
+			SqlServer="SCSQLSVR\SCCM1"
+			SqlServerDatabase="crm_MSCRM"
+			SqlServerPassword="integr8!"
+			SqlServerPort=""
+			SqlServerUser="BIOperations"
+			Type="SqlServer"
+		/>
 	</Connections>
 	<Security
 		AuthenticationSource="Standard"

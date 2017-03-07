@@ -1,0 +1,2196 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report
+	ID="_Layout.Shared"
+	>
+	<SharedElement
+		ID="shrHeader"
+		>
+		<IncludeHtml
+			Html="&lt;script src=&quot;_Themes/MKC-Accelerate/js/notify.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;_Themes/MKC-Accelerate/js/notify-metro.js&quot;&gt;&lt;/script&gt;
+&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;_Themes/MKC-Accelerate/css/notify-metro.css&quot;&gt;&lt;/link&gt;
+
+
+"
+		/>
+		<IncludeScript
+			ID="globalScripts"
+			IncludedScript="&lt;script type=&quot;text/javascript&quot;&gt;
+var url = window.location.href;
+var local = url.search(&quot;localhost&quot;);
+var dev = url.search(&quot;dashboard&quot;);
+
+//if this isn&apos;t a local machine or the development server then call the Google script
+if (dev != -1 &amp;&amp; local != -1) {
+	// Google Analytics scripts
+  (function(i,s,o,g,r,a,m){i[&apos;GoogleAnalyticsObject&apos;]=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,&apos;script&apos;,&apos;https://www.google-analytics.com/analytics.js&apos;,&apos;ga&apos;);
+
+  ga(&apos;create&apos;, &apos;UA-76860562-1&apos;, &apos;auto&apos;);
+  ga(&apos;send&apos;, &apos;pageview&apos;);
+
+  var _gaq = _gaq || [];
+  _gaq.push([&apos;_setAccount&apos;, &apos;UA-76860562-1&apos;]);
+  _gaq.push([&apos;_trackPageview&apos;]);
+
+  (function() {
+    var ga = document.createElement(&apos;script&apos;); ga.type = &apos;text/javascript&apos;; ga.async = true;
+    ga.src = (&apos;https:&apos; == document.location.protocol ? &apos;https://ssl&apos; : &apos;http://www&apos;) + &apos;.google-analytics.com/ga.js&apos;;
+    var s = document.getElementsByTagName(&apos;script&apos;)[0]; s.parentNode.insertBefore(ga, s);
+  })();
+}
+  
+  // Table to Excel Script
+   function tableToExcel(table, name) {
+    var uri = &apos;data:application/vnd.ms-excel;base64,&apos;
+          , template = &apos;&lt;html xmlns:o=&quot;urn:schemas-microsoft-com:office:office&quot; xmlns:x=&quot;urn:schemas-microsoft-com:office:excel&quot; xmlns=&quot;http://www.w3.org/TR/REC-html40&quot;&gt;&lt;head&gt;&lt;!--[if gte mso 9]&gt;&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;yes&quot;?&gt;&lt;x:ExcelWorkbook&gt;&lt;x:ExcelWorksheets&gt;&lt;x:ExcelWorksheet&gt;&lt;x:Name&gt;{worksheet}&lt;/x:Name&gt;&lt;x:WorksheetOptions&gt;&lt;x:DisplayGridlines/&gt;&lt;/x:WorksheetOptions&gt;&lt;/x:ExcelWorksheet&gt;&lt;/x:ExcelWorksheets&gt;&lt;/x:ExcelWorkbook&gt;&lt;/xml&gt;&lt;![endif]--&gt;&lt;/head&gt;&lt;body&gt;&lt;table&gt;{table}&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;&apos;
+          , base64 = function (s) { return window.btoa(unescape(encodeURIComponent(s))); }
+          , format = function (s, c) { return s.replace(/{(\w+)}/g, function (m, p) { return c[p]; }); };
+        if (!table.nodeType) table = document.getElementById(table);
+        var ctx = { worksheet: name || &apos;Worksheet&apos;, table: table.innerHTML };
+        window.location.href = uri + base64(format(template, ctx));
+
+}
+
+&lt;/script&gt;
+"
+		/>
+		<PopupPanel
+			Draggable="False"
+			Height="30"
+			HeightScale="%"
+			ID="pnlWish"
+			PopupModal="True"
+			PopupPanelLocation="Center"
+			ShowOnPageLoad="False"
+			Width="30"
+			WidthScale="%"
+			>
+			<Division
+				Class="panel panel-default"
+				HtmlDiv="True"
+				ID="divPopup"
+				>
+				<Division
+					Class="panel-heading"
+					HtmlDiv="True"
+					ID="divPopupHeader"
+					>
+					<Label
+						Caption="Make A Wish"
+					/>
+				</Division>
+				<Division
+					Class="panel-body"
+					HtmlDiv="True"
+					ID="divPopupBody"
+					>
+					<Rows
+						Width="100"
+						WidthScale="%"
+						>
+						<Row>
+							<Column
+								ColSpan="2"
+								>
+								<Label
+									Caption="Please tell us what you would like to see on this page..."
+								/>
+								<LineBreak/>
+								<InputTextArea
+									Class="ThemeTextSmall"
+									ID="iptWish"
+									InputColumns="50"
+									InputRows="10"
+								/>
+							</Column>
+						</Row>
+						<Row>
+							<Column/>
+							<Column
+								Class="ThemeAlignRight"
+								>
+								<Button
+									Caption="Submit"
+									Class="btn btn-default"
+									ID="btnSendWish"
+									>
+									<Action
+										ID="onClick"
+										Javascript="var wish = document.getElementById(&quot;iptWish&quot;);
+if (wish.value == &quot;&quot;) {
+	alert(&quot;Please enter a wish for this page or click Cancel to close.&quot;);
+	wish.focus();
+}
+else {
+	document.getElementById(&quot;btnDummy&quot;).click();
+}
+
+"
+										Type="Javascript"
+									/>
+								</Button>
+								<Spaces
+									Size="2"
+								/>
+								<Button
+									Caption="Cancel"
+									Class="btn btn-default"
+									ID="btnCancel"
+									>
+									<Action
+										Display="Hide"
+										ElementID="pnlWish"
+										ID="hidePopup"
+										Type="ShowElement"
+									/>
+								</Button>
+								<Button
+									Class="ThemeHidden"
+									ID="btnDummy"
+									>
+									<Action
+										ID="procWishEmail"
+										Process="SQLTasks"
+										TaskID="WishEmail"
+										Type="Process"
+										>
+										<LinkParams
+											Report="@Request.rdReport~"
+											User="@Function.UserName~"
+											Wish="@Input.iptWish~"
+										/>
+										<WaitPage/>
+									</Action>
+								</Button>
+							</Column>
+						</Row>
+					</Rows>
+				</Division>
+			</Division>
+		</PopupPanel>
+		<PopupPanel
+			Draggable="False"
+			Height="30%"
+			ID="pnlThanks"
+			PopupModal="True"
+			PopupPanelLocation="Center"
+			ShowOnPageLoad="False"
+			Width="30"
+			WidthScale="%"
+			>
+			<Division
+				Class="panel panel-default"
+				HtmlDiv="True"
+				ID="divThanks"
+				>
+				<Division
+					Class="panel-heading"
+					HtmlDiv="True"
+					ID="divThanksHeader"
+					>
+					<Label
+						Caption="Make A Wish"
+					/>
+				</Division>
+				<Division
+					Class="panel-body"
+					HtmlDiv="True"
+					ID="divThanksBody"
+					>
+					<Rows>
+						<Row>
+							<Column
+								ColSpan="2"
+								>
+								<Label
+									Caption="Thank you for your wish!"
+								/>
+								<Label
+									Caption=" We appreciate your ideas. "
+								/>
+								<LineBreak/>
+								<Label
+									Caption="We want you to know that we take all of your wishes into consideration! "
+								/>
+								<LineBreak/>
+								<LineBreak/>
+							</Column>
+						</Row>
+						<Row>
+							<Column/>
+							<Column
+								Class="ThemeAlignRight"
+								>
+								<Spaces
+									Size="2"
+								/>
+								<Button
+									Caption="Close"
+									Class="btn btn-default"
+									ID="btnClose"
+									>
+									<Action
+										Display="Hide"
+										ElementID="pnlThanks"
+										ID="hidePopup"
+										Type="ShowElement"
+									/>
+								</Button>
+							</Column>
+						</Row>
+					</Rows>
+				</Division>
+			</Division>
+		</PopupPanel>
+		<PopupPanel
+			Draggable="False"
+			Height="80"
+			HeightScale="%"
+			ID="pnlAboutMobile"
+			PopupModal="True"
+			PopupPanelLocation="Center"
+			ShowOnPageLoad="False"
+			Width="85"
+			WidthScale="%"
+			>
+			<ResponsiveRow>
+				<ResponsiveColumn>
+					<Division
+						Class="panel panel-default"
+						HtmlDiv="True"
+						ID="divAboutMobile"
+						>
+						<Division
+							Class="panel-heading"
+							HtmlDiv="True"
+							ID="divAboutHeader"
+							>
+							<Label
+								Caption="About TMA Dashboard"
+							/>
+						</Division>
+						<Division
+							Class="panel-body"
+							HtmlDiv="True"
+							ID="divAboutBody"
+							>
+							<ResponsiveRow>
+								<ResponsiveColumn>
+									<Division
+										Class="ThemeTextSmaller"
+										HtmlDiv="True"
+										ID="showReleaseNotesMobile"
+									/>
+								</ResponsiveColumn>
+							</ResponsiveRow>
+							<ResponsiveRow
+								Class="pull-right"
+								>
+								<ResponsiveColumn>
+									<Spaces
+										Size="2"
+									/>
+									<Button
+										Caption="Close"
+										Class="btn btn-default"
+										ID="btnClose"
+										>
+										<Action
+											Display="Hide"
+											ElementID="pnlAboutMobile"
+											ID="hidePopup"
+											Type="ShowElement"
+										/>
+									</Button>
+								</ResponsiveColumn>
+							</ResponsiveRow>
+						</Division>
+					</Division>
+				</ResponsiveColumn>
+			</ResponsiveRow>
+		</PopupPanel>
+		<PopupPanel
+			Draggable="False"
+			Height="40"
+			HeightScale="%"
+			ID="pnlAbout"
+			PopupModal="True"
+			PopupPanelLocation="Center"
+			ShowOnPageLoad="False"
+			Width="50"
+			WidthScale="%"
+			>
+			<ResponsiveRow>
+				<ResponsiveColumn>
+					<Division
+						Class="panel panel-default"
+						HtmlDiv="True"
+						ID="divAbout"
+						>
+						<Division
+							Class="panel-heading"
+							HtmlDiv="True"
+							ID="divAboutHeader"
+							>
+							<Label
+								Caption="About TMA Dashboard"
+							/>
+						</Division>
+						<Division
+							Class="panel-body"
+							HtmlDiv="True"
+							ID="divAboutBody"
+							>
+							<ResponsiveRow>
+								<ResponsiveColumn>
+									<Division
+										Class="ThemeTextSmall"
+										HtmlDiv="True"
+										ID="showReleaseNotes"
+									/>
+								</ResponsiveColumn>
+							</ResponsiveRow>
+							<ResponsiveRow
+								Class="pull-right"
+								>
+								<ResponsiveColumn>
+									<Spaces
+										Size="2"
+									/>
+									<Button
+										Caption="Close"
+										Class="btn btn-default"
+										ID="btnClose"
+										>
+										<Action
+											Display="Hide"
+											ElementID="pnlAbout"
+											ID="hidePopup"
+											Type="ShowElement"
+										/>
+									</Button>
+								</ResponsiveColumn>
+							</ResponsiveRow>
+						</Division>
+					</Division>
+				</ResponsiveColumn>
+			</ResponsiveRow>
+		</PopupPanel>
+		<PrintablePaging
+			MarginBottom="0.5"
+			MarginLeft="0.5"
+			MarginRight="0.5"
+			MarginTop="0.25"
+			PageHeight="10.25"
+			PageWidth="7.5"
+		/>
+		<Division
+			HtmlDiv="True"
+			ID="Header"
+			ShowModes="rdBrowser"
+			>
+			<InputHidden
+				DefaultValue="@Request.StatusMsg~"
+				ID="iptStatus"
+			/>
+			<InputHidden
+				DefaultValue="@Request.rdReport~"
+				ID="iptReport"
+			/>
+			<InputHidden
+				ID="iptShowNotifications"
+			/>
+			<InputHidden
+				DefaultValue="@Function.UserID~"
+				ID="iptUserNotifications"
+			/>
+			<Division
+				HtmlDiv="True"
+				ID="Header-inner"
+				>
+				<Division
+					Class="navbar navbar-default navbar-fixed-top navbar-inverse"
+					Condition=""
+					HtmlDiv="True"
+					ID="navigation"
+					ShowModes="rdBrowser"
+					>
+					<Division
+						Class="container-fluid"
+						HtmlDiv="True"
+						ID="container"
+						>
+						<Division
+							HtmlDiv="True"
+							ID="navbar-header"
+							>
+							<ResponsiveRow
+								Class="ThemeTextSmall"
+								CollisionBehavior="Wrap"
+								>
+								<ResponsiveColumn
+									ColspanExtraSmallScreen="6"
+									ColspanLargeScreen="2"
+									ColspanMediumScreen="2"
+									ColspanSmallScreen="6"
+									>
+									<Division
+										Class="navbar-brand"
+										HtmlDiv="True"
+										ID="navbar-brand"
+										>
+										<Image
+											Caption="logo-white.png"
+											Class="main-logo"
+											ID="mkclogo"
+											SecurityRightID="MKC Dashboard,SRMGMT"
+											>
+											<Action
+												ID="actHomeLink"
+												Type="Report"
+												>
+												<Target
+													Report="Home.Default"
+													Type="Report"
+													>
+													<WaitPage/>
+												</Target>
+											</Action>
+										</Image>
+										<Note
+											Note="**Comment back in for security**"
+										/>
+										<Image
+											Caption="TMA_LogoHorWht.png"
+											Class="main-logo"
+											ID="tmalogo"
+											SecurityRightID="TMA Dashboard,OC"
+											>
+											<Action
+												ID="actHomeLink"
+												Type="Report"
+												>
+												<Target
+													Report="Home.Default"
+													Type="Report"
+													>
+													<WaitPage/>
+												</Target>
+											</Action>
+										</Image>
+									</Division>
+								</ResponsiveColumn>
+								<ResponsiveColumn
+									ColspanExtraSmallScreen="6"
+									ColspanLargeScreen="10"
+									ColspanMediumScreen="10"
+									ColspanSmallScreen="6"
+									>
+									<Division
+										Class="ThemeAlignRight"
+										HtmlDiv="True"
+										ID="mobile-nav"
+										>
+										<Note
+											Note="*** build mobile navigation here - only for BELOW 1024*768 (1024*768 in portrait) ***"
+										/>
+										<Remark>
+											<Division
+												ID="div-rtest"
+												>
+												<Label
+													Caption="***FOR INTERNAL USE ONLY***"
+													Class="ThemeErrorText,ThemeTextSmallest"
+													HtmlTag="Span"
+												/>
+												<Spaces
+													Size="5"
+												/>
+											</Division>
+										</Remark>
+										<ResponsiveVisibility
+											HideForExtraSmallScreen="False"
+											HideForLargeScreen="True"
+											HideForMediumScreen="True"
+											HideForSmallScreen="False"
+											>
+											<Note
+												Note="*** show on sm/xs screens ***"
+											/>
+										</ResponsiveVisibility>
+										<Image
+											AltText="Mobile Menu"
+											Caption="hamburger.png"
+											Class="pull-right"
+											ID="imgMobile"
+											>
+											<Action
+												ID="mnuMobile"
+												PopupLocation="Right"
+												Type="Popup"
+												>
+												<PopupOption
+													Caption="Locations"
+													ID="optLocations"
+													SecurityRightID="Dashboard Monthly Staff"
+													>
+													<Action
+														ID="tarLocations"
+														Type="Report"
+														>
+														<Target
+															Report="Reports.MKC_Locations"
+															Type="Report"
+														/>
+													</Action>
+												</PopupOption>
+												<PopupOption
+													Caption="Contracts"
+													ID="optContracts"
+													SecurityRightID="MKC Dashboard,TMA Dashboard"
+													>
+													<Action
+														ID="tarContracts"
+														Type="Report"
+														>
+														<Target
+															Report="TMAReports.TMAContractsDashboard"
+															Type="Report"
+														/>
+													</Action>
+												</PopupOption>
+												<PopupOption
+													Caption="Dispatch"
+													ID="optDispatch"
+													SecurityRightID="MKC Dashboard,TMA Dashboard,OC"
+													>
+													<Action
+														ID="tarDispatch"
+														Type="Report"
+														>
+														<Target
+															Report="TMAReports.TMADispatch"
+															Type="Report"
+														/>
+													</Action>
+												</PopupOption>
+												<PopupOption
+													Caption="Harvest Summary"
+													ID="optHarvest"
+													SecurityRightID="MKC Dashboard,TMA Dashboard,OC"
+													>
+													<Action
+														ID="tarContracts"
+														Type="Report"
+														>
+														<Target
+															Report="TMAReports.TMAHarvestSummary"
+															Type="Report"
+														/>
+													</Action>
+												</PopupOption>
+												<PopupOption
+													Caption="Harvest Details"
+													ID="optHarvestDetails"
+													SecurityRightID="MKC Dashboard,TMA Dashboard,OC"
+													>
+													<Action
+														ID="tarContracts"
+														Type="Report"
+														>
+														<Target
+															Report="TMAReports.TMAHarvestDetailByDay"
+															Type="Report"
+														/>
+													</Action>
+												</PopupOption>
+												<PopupOption
+													Caption="Scorecard"
+													ID="optScorecard"
+													SecurityRightID="Dashboard Stategic Planning,LogiUserAdmin,Dashboard Sr Mgmt"
+													>
+													<Action
+														ID="tarScorecard"
+														Type="Report"
+														>
+														<Target
+															Report="Scorecard.StrategicDashboard"
+															Type="Report"
+														/>
+													</Action>
+												</PopupOption>
+												<PopupOption
+													Caption="Reset Password"
+													ID="optResetPwd"
+													SecurityRightID="OC,LogiUserAdmin"
+													>
+													<Action
+														ID="tarResetPwd"
+														Type="Report"
+														>
+														<Target
+															Report="Admin.PasswordReset"
+															Type="Report"
+														/>
+													</Action>
+												</PopupOption>
+												<PopupOption
+													Caption="About"
+													ID="optAbout"
+													>
+													<Action
+														Display="Show"
+														ElementID="pnlAboutMobile"
+														ID="showPopup"
+														Type="ShowElement"
+													/>
+												</PopupOption>
+												<PopupOption
+													Caption="Logout"
+													ID="optLogout"
+													>
+													<Action
+														ID="actLogout"
+														Type="Exit"
+														>
+														<Target
+															ID="tgtLogout"
+															Link="@Function.AppVirtualPath~"
+															Type="Link"
+														/>
+													</Action>
+												</PopupOption>
+											</Action>
+										</Image>
+									</Division>
+									<Division
+										Class="nav navbar-nav navbar-right"
+										HtmlDiv="True"
+										ID="main-nav"
+										>
+										<ResponsiveVisibility
+											HideForExtraSmallScreen="True"
+											HideForLargeScreen="False"
+											HideForMediumScreen="False"
+											HideForSmallScreen="True"
+											>
+											<Note
+												Note="*** show on med/lg screens ***"
+											/>
+										</ResponsiveVisibility>
+										<ResponsiveRow
+											Class="ThemeAlignRight"
+											CollisionBehavior="Wrap"
+											>
+											<ResponsiveColumn
+												Class="ThemeAlignRight"
+												ColspanExtraSmallScreen="12"
+												ColspanLargeScreen="12"
+												ColspanMediumScreen="12"
+												ColspanSmallScreen="12"
+												>
+												<Division
+													ID="div-test"
+													>
+													<Label
+														Caption="***FOR INTERNAL USE ONLY***"
+														Class="ThemeErrorText,ThemeTextSmall"
+														HtmlTag="Span"
+													/>
+													<Spaces
+														Size="5"
+													/>
+												</Division>
+												<Remark>
+													<Label
+														Caption="Home"
+														ID="MKCHome"
+														SecurityRightID="MKC Dashboard"
+														>
+														<Action
+															ID="actReport"
+															Type="Report"
+															>
+															<Target
+																ID="tgtReport"
+																Report="Home.Default"
+																Type="Report"
+																>
+																<WaitPage/>
+															</Target>
+														</Action>
+														<ConditionalClass
+															Class="selected-menu "
+															Condition="&quot;@Request.rdReport~&quot;==&quot;Home.MKCReport&quot; || &quot;@Request.rdReport~&quot;==&quot;&quot;"
+														/>
+													</Label>
+												</Remark>
+												<Remark>
+													<Label
+														Caption="Home"
+														ID="TMAHome"
+														SecurityRightID="TMA Dashboard,OC"
+														>
+														<Action
+															ID="actReport"
+															Type="Report"
+															>
+															<Target
+																ID="tgtReport"
+																Report="Home.Default"
+																Type="Report"
+																>
+																<WaitPage/>
+															</Target>
+														</Action>
+														<ConditionalClass
+															Class="selected-menu "
+															Condition="&quot;@Request.rdReport~&quot;==&quot;Home.MKCReport&quot; || &quot;@Request.rdReport~&quot;==&quot;&quot;"
+														/>
+													</Label>
+												</Remark>
+												<Remark>
+													<Label
+														Caption="|"
+														Class="pipe-spacer"
+														ID="pipe-spacer"
+													/>
+												</Remark>
+												<Division
+													ID="reports-container"
+													SecurityRightID="Dashboard Monthly Staff"
+													>
+													<Division
+														Class="dropdown"
+														HtmlDiv="True"
+														ID="reports"
+														>
+														<Label
+															Caption="Financial"
+															>
+															<Action
+																ID="actBlank"
+																Javascript="void(0)"
+																Type="Javascript"
+															/>
+															<ConditionalClass
+																Class="selected-menu"
+																Condition="&quot;@Request.rdReport~&quot;.indexOf(&quot;Reports&quot;)&lt;&gt;&quot;-1&quot;"
+															/>
+														</Label>
+														<Label
+															Class="caret"
+															>
+															<Action
+																ID="actBlank"
+																Javascript="void(0)"
+																Type="Javascript"
+															/>
+															<ConditionalClass
+																Class="caret selected-menu"
+																Condition="&quot;@Request.rdReport~&quot;.indexOf(&quot;Reports&quot;)&lt;&gt;&quot;-1&quot;"
+															/>
+														</Label>
+														<Division
+															Class="submenu"
+															HtmlDiv="True"
+															ID="submenu-reports"
+															>
+															<DataList
+																ID="lstReports"
+																>
+																<DataLayer
+																	ID="dlNav-Reports"
+																	Type="DefinitionList"
+																	>
+																	<CompareFilter
+																		CaseSensitive="True"
+																		CompareType="="
+																		CompareValue="Reports"
+																		DataColumn="Folder1"
+																		DataType="Text"
+																		ID="fReports"
+																	/>
+																</DataLayer>
+																<ListItem>
+																	<Label
+																		Caption="@Data.Caption~"
+																		>
+																		<Action
+																			ID="actReport"
+																			Type="Report"
+																			>
+																			<Target
+																				Report="@Data.ID~"
+																				Type="Report"
+																				>
+																				<WaitPage/>
+																			</Target>
+																		</Action>
+																		<ConditionalClass
+																			Class="selected-menu"
+																			Condition="&quot;@Request.rdReport~&quot;==&quot;@Data.ID~&quot;"
+																		/>
+																	</Label>
+																</ListItem>
+															</DataList>
+														</Division>
+													</Division>
+													<Label
+														Caption="|"
+														Class="pipe-spacer"
+														ID="pipe-spacer"
+													/>
+												</Division>
+												<Division
+													ID="tma-reports-container"
+													SecurityRightID="TMA Dashboard,MKC Dashboard,OC"
+													>
+													<Division
+														Class="dropdown"
+														HtmlDiv="True"
+														ID="tma-reports"
+														>
+														<Label
+															Caption="Grain"
+															>
+															<Action
+																ID="actBlank"
+																Javascript="void(0)"
+																Type="Javascript"
+															/>
+															<ConditionalClass
+																Class="selected-menu"
+																Condition="&quot;@Request.rdReport~&quot;.indexOf(&quot;TMAReports&quot;)&lt;&gt;&quot;-1&quot;"
+															/>
+														</Label>
+														<Label
+															Class="caret"
+															>
+															<Action
+																ID="actBlank"
+																Javascript="void(0)"
+																Type="Javascript"
+															/>
+															<ConditionalClass
+																Class="caret selected-menu"
+																Condition="&quot;@Request.rdReport~&quot;.indexOf(&quot;Reports&quot;)&lt;&gt;&quot;-1&quot;"
+															/>
+														</Label>
+														<Division
+															Class="submenu"
+															HtmlDiv="True"
+															ID="submenu-tma-reports"
+															>
+															<DataList
+																ID="lstTMAReports"
+																>
+																<DataLayer
+																	ID="dlNav-TMAReports"
+																	Type="DefinitionList"
+																	>
+																	<CompareFilter
+																		CaseSensitive="True"
+																		CompareType="="
+																		CompareValue="TMAReports"
+																		DataColumn="Folder1"
+																		DataType="Text"
+																		ID="fTMAReports"
+																	/>
+																</DataLayer>
+																<ListItem>
+																	<Label
+																		Caption="@Data.Caption~"
+																		>
+																		<Action
+																			ID="actReport"
+																			Type="Report"
+																			>
+																			<Target
+																				Report="@Data.ID~"
+																				Type="Report"
+																				>
+																				<WaitPage/>
+																			</Target>
+																		</Action>
+																		<ConditionalClass
+																			Class="selected-menu"
+																			Condition="&quot;@Request.rdReport~&quot;==&quot;@Data.ID~&quot;"
+																		/>
+																	</Label>
+																</ListItem>
+															</DataList>
+														</Division>
+													</Division>
+													<Label
+														Caption="|"
+														Class="pipe-spacer"
+														ID="pipe-spacer"
+													/>
+												</Division>
+												<Division
+													Class="ThemeHidden"
+													ID="divOC"
+													>
+													<ConditionalClass
+														Condition="InStr(&quot;@Function.UserRoles~&quot;,&quot;OC&quot;) &gt; 0"
+													/>
+													<Remark>
+														<Division
+															ID="other-container"
+															SecurityRightID="OC,LogiUserAdmin"
+															>
+															<Label
+																Caption="Password Reset"
+																>
+																<Action
+																	ID="actReport"
+																	Type="Report"
+																	>
+																	<Target
+																		ID="tgtReport"
+																		Report="Other.PasswordReset"
+																		Type="Report"
+																		>
+																		<WaitPage/>
+																	</Target>
+																</Action>
+																<ConditionalClass
+																	Class="selected-menu"
+																	Condition="&quot;@Request.rdReport~&quot;==&quot;Other.PasswordReset&quot;"
+																/>
+															</Label>
+															<Remark>
+																<Label
+																	Caption="|"
+																	Class="pipe-spacer"
+																	ID="pipe-spacer"
+																/>
+															</Remark>
+														</Division>
+													</Remark>
+													<Division
+														ID="admin-container"
+														SecurityRightID="TMA Dashboard,MKC Dashboard,OC"
+														>
+														<Division
+															Class="dropdown"
+															HtmlDiv="True"
+															ID="admin"
+															>
+															<Label
+																Caption="Admin"
+																>
+																<Action
+																	ID="actBlank"
+																	Javascript="void(0)"
+																	Type="Javascript"
+																/>
+																<ConditionalClass
+																	Class="selected-menu"
+																	Condition="&quot;@Request.rdReport~&quot;.indexOf(&quot;Admin&quot;)&lt;&gt;&quot;-1&quot;"
+																/>
+															</Label>
+															<Label
+																Class="caret"
+																>
+																<Action
+																	ID="actBlank"
+																	Javascript="void(0)"
+																	Type="Javascript"
+																/>
+																<ConditionalClass
+																	Class="caret selected-menu"
+																	Condition="&quot;@Request.rdReport~&quot;.indexOf(&quot;Admin&quot;)&lt;&gt;&quot;-1&quot;"
+																/>
+															</Label>
+															<Division
+																Class="submenu"
+																HtmlDiv="True"
+																ID="submenu-admin"
+																>
+																<Label
+																	Caption="About"
+																	>
+																	<Action
+																		Display="Show"
+																		ElementID="pnlAbout"
+																		ID="showPopup"
+																		Type="ShowElement"
+																	/>
+																</Label>
+																<DataList
+																	ID="lstAdmin"
+																	>
+																	<DataLayer
+																		ID="dlNav-Admin"
+																		Type="DefinitionList"
+																		>
+																		<CompareFilter
+																			CaseSensitive="True"
+																			CompareType="="
+																			CompareValue="Admin"
+																			DataColumn="Folder1"
+																			DataType="Text"
+																			ID="fAdmin"
+																		/>
+																	</DataLayer>
+																	<ListItem>
+																		<Label
+																			Caption="@Data.Caption~"
+																			>
+																			<Action
+																				ID="actReport"
+																				Type="Report"
+																				>
+																				<Target
+																					Report="@Data.ID~"
+																					Type="Report"
+																					>
+																					<WaitPage/>
+																				</Target>
+																			</Action>
+																			<ConditionalClass
+																				Class="selected-menu"
+																				Condition="&quot;@Request.rdReport~&quot;==&quot;@Data.ID~&quot;"
+																			/>
+																		</Label>
+																	</ListItem>
+																</DataList>
+															</Division>
+														</Division>
+														<Label
+															Caption="|"
+															Class="pipe-spacer"
+															ID="pipe-spacer"
+														/>
+													</Division>
+													<Label
+														Caption="Logout"
+														>
+														<Action
+															ID="actLogout"
+															Type="Exit"
+															>
+															<Target
+																ID="tgtLogout"
+																Link="@Function.AppVirtualPath~"
+																Type="Link"
+															/>
+														</Action>
+													</Label>
+												</Division>
+												<Division
+													ID="maps-container"
+													SecurityRightID="LogiUserAdmin"
+													>
+													<Division
+														Class="dropdown"
+														HtmlDiv="True"
+														ID="maps"
+														>
+														<Label
+															Caption="Maps"
+															>
+															<Action
+																ID="actBlank"
+																Javascript="void(0)"
+																Type="Javascript"
+															/>
+															<ConditionalClass
+																Class="selected-menu"
+																Condition="&quot;@Request.rdReport~&quot;.indexOf(&quot;Maps&quot;)&lt;&gt;&quot;-1&quot;"
+															/>
+														</Label>
+														<Label
+															Class="caret"
+															>
+															<Action
+																ID="actBlank"
+																Javascript="void(0)"
+																Type="Javascript"
+															/>
+															<ConditionalClass
+																Class="caret selected-menu"
+																Condition="&quot;@Request.rdReport~&quot;.indexOf(&quot;Maps&quot;)&lt;&gt;&quot;-1&quot;"
+															/>
+														</Label>
+														<Division
+															Class="submenu"
+															HtmlDiv="True"
+															ID="submenu-maps"
+															>
+															<DataList
+																ID="lstMaps"
+																>
+																<DataLayer
+																	ID="dlNav-Maps"
+																	Type="DefinitionList"
+																	>
+																	<CompareFilter
+																		CaseSensitive="True"
+																		CompareType="="
+																		CompareValue="Maps"
+																		DataColumn="Folder1"
+																		DataType="Text"
+																		ID="fMaps"
+																	/>
+																</DataLayer>
+																<ListItem>
+																	<Label
+																		Caption="@Data.Caption~"
+																		>
+																		<Action
+																			ID="actReport"
+																			Type="Report"
+																			>
+																			<Target
+																				Report="@Data.ID~"
+																				Type="Report"
+																				>
+																				<WaitPage/>
+																			</Target>
+																		</Action>
+																		<ConditionalClass
+																			Class="selected-menu"
+																			Condition="&quot;@Request.rdReport~&quot;==&quot;@Data.ID~&quot;"
+																		/>
+																	</Label>
+																</ListItem>
+															</DataList>
+														</Division>
+													</Division>
+													<Label
+														Caption="|"
+														Class="pipe-spacer"
+														ID="pipe-spacer"
+													/>
+												</Division>
+												<Division
+													ID="sales-container"
+													SecurityRightID="MKC Dashboard"
+													>
+													<Division
+														Class="dropdown"
+														HtmlDiv="True"
+														ID="sales"
+														>
+														<Label
+															Caption="Sales"
+															>
+															<Action
+																ID="actBlank"
+																Javascript="void(0)"
+																Type="Javascript"
+															/>
+															<ConditionalClass
+																Class="selected-menu"
+																Condition="&quot;@Request.rdReport~&quot;.indexOf(&quot;Maps&quot;)&lt;&gt;&quot;-1&quot;"
+															/>
+														</Label>
+														<Label
+															Class="caret"
+															>
+															<Action
+																ID="actBlank"
+																Javascript="void(0)"
+																Type="Javascript"
+															/>
+															<ConditionalClass
+																Class="caret selected-menu"
+																Condition="&quot;@Request.rdReport~&quot;.indexOf(&quot;Maps&quot;)&lt;&gt;&quot;-1&quot;"
+															/>
+														</Label>
+														<Division
+															Class="submenu"
+															HtmlDiv="True"
+															ID="submenu-sales"
+															>
+															<DataList
+																ID="lstSales"
+																>
+																<DataLayer
+																	ID="dlNav-Sales"
+																	Type="DefinitionList"
+																	>
+																	<CompareFilter
+																		CaseSensitive="True"
+																		CompareType="="
+																		CompareValue="Sales"
+																		DataColumn="Folder1"
+																		DataType="Text"
+																		ID="fSales"
+																	/>
+																</DataLayer>
+																<ListItem>
+																	<Label
+																		Caption="@Data.Caption~"
+																		>
+																		<Action
+																			ID="actReport"
+																			Type="Report"
+																			>
+																			<Target
+																				Report="@Data.ID~"
+																				Type="Report"
+																				>
+																				<WaitPage/>
+																			</Target>
+																		</Action>
+																		<ConditionalClass
+																			Class="selected-menu"
+																			Condition="&quot;@Request.rdReport~&quot;==&quot;@Data.ID~&quot;"
+																		/>
+																	</Label>
+																</ListItem>
+															</DataList>
+														</Division>
+													</Division>
+													<Label
+														Caption="|"
+														Class="pipe-spacer"
+														ID="pipe-spacer"
+													/>
+												</Division>
+												<Division
+													ID="tma-apps-container"
+													SecurityRightID="TMA Dashboard,LogiUserAdmin"
+													>
+													<Division
+														Class="dropdown"
+														HtmlDiv="True"
+														ID="tma-apps"
+														>
+														<Label
+															Caption="TMA Apps"
+															>
+															<Action
+																ID="actBlank"
+																Javascript="void(0)"
+																Type="Javascript"
+															/>
+															<ConditionalClass
+																Class="selected-menu"
+																Condition="&quot;@Request.rdReport~&quot;.indexOf(&quot;TMAReports&quot;)&lt;&gt;&quot;-1&quot;"
+															/>
+														</Label>
+														<Label
+															Class="caret"
+															>
+															<Action
+																ID="actBlank"
+																Javascript="void(0)"
+																Type="Javascript"
+															/>
+															<ConditionalClass
+																Class="caret selected-menu"
+																Condition="&quot;@Request.rdReport~&quot;.indexOf(&quot;Reports&quot;)&lt;&gt;&quot;-1&quot;"
+															/>
+														</Label>
+														<Division
+															Class="submenu"
+															HtmlDiv="True"
+															ID="submenu-tma-apps"
+															>
+															<DataList
+																ID="lstTMAApps"
+																>
+																<DataLayer
+																	ID="dlNav-TMAReports"
+																	Type="DefinitionList"
+																	>
+																	<CompareFilter
+																		CaseSensitive="True"
+																		CompareType="="
+																		CompareValue="TMAApps"
+																		DataColumn="Folder1"
+																		DataType="Text"
+																		ID="fTMAApps"
+																	/>
+																</DataLayer>
+																<ListItem>
+																	<Label
+																		Caption="@Data.Caption~"
+																		>
+																		<Action
+																			ID="actReport"
+																			Type="Report"
+																			>
+																			<Target
+																				Report="@Data.ID~"
+																				Type="Report"
+																				>
+																				<WaitPage/>
+																			</Target>
+																		</Action>
+																		<ConditionalClass
+																			Class="selected-menu"
+																			Condition="&quot;@Request.rdReport~&quot;==&quot;@Data.ID~&quot;"
+																		/>
+																	</Label>
+																</ListItem>
+															</DataList>
+														</Division>
+													</Division>
+													<Label
+														Caption="|"
+														Class="pipe-spacer"
+														ID="pipe-spacer"
+													/>
+												</Division>
+												<Division
+													ID="divNotOC"
+													SecurityRightID="TMA Dashboard,MKC Dashboard"
+													>
+													<Division
+														ID="scorecard-container"
+														SecurityRightID="Dashboard Stategic Planning,LogiUserAdmin,Dashboard Sr Mgmt,Dashboard Strategic Planning TMA"
+														>
+														<Division
+															Class="dropdown"
+															HtmlDiv="True"
+															ID="scorecards"
+															>
+															<Label
+																Caption="Scorecards"
+																>
+																<Action
+																	ID="actBlank"
+																	Javascript="void(0)"
+																	Type="Javascript"
+																/>
+																<ConditionalClass
+																	Class="selected-menu"
+																	Condition="&quot;@Request.rdReport~&quot;.indexOf(&quot;Scorecards&quot;)&lt;&gt;&quot;-1&quot;"
+																/>
+															</Label>
+															<Label
+																Class="caret"
+																>
+																<Action
+																	ID="actBlank"
+																	Javascript="void(0)"
+																	Type="Javascript"
+																/>
+																<ConditionalClass
+																	Class="caret selected-menu"
+																	Condition="&quot;@Request.rdReport~&quot;.indexOf(&quot;Scorecards&quot;)&lt;&gt;&quot;-1&quot;"
+																/>
+															</Label>
+															<Division
+																Class="submenu"
+																HtmlDiv="True"
+																ID="submenu-scorecards"
+																>
+																<DataList
+																	ID="lstScorecards"
+																	>
+																	<DataLayer
+																		ID="dlNav-Scorecards"
+																		Type="DefinitionList"
+																		>
+																		<CompareFilter
+																			CaseSensitive="True"
+																			CompareType="="
+																			CompareValue="Scorecards"
+																			DataColumn="Folder1"
+																			DataType="Text"
+																			ID="fScorecards"
+																		/>
+																	</DataLayer>
+																	<ListItem>
+																		<Label
+																			Caption="@Data.Caption~"
+																			>
+																			<Action
+																				ID="actReport"
+																				Type="Report"
+																				>
+																				<Target
+																					Report="@Data.ID~"
+																					Type="Report"
+																					>
+																					<WaitPage/>
+																				</Target>
+																			</Action>
+																			<ConditionalClass
+																				Class="selected-menu"
+																				Condition="&quot;@Request.rdReport~&quot;==&quot;@Data.ID~&quot;"
+																			/>
+																		</Label>
+																	</ListItem>
+																</DataList>
+															</Division>
+														</Division>
+														<Label
+															Caption="|"
+															Class="pipe-spacer"
+															ID="pipe-spacer"
+														/>
+													</Division>
+													<Division
+														ID="admin-container"
+														SecurityRightID="TMA Dashboard,MKC Dashboard,OC"
+														>
+														<Division
+															Class="dropdown"
+															HtmlDiv="True"
+															ID="admin"
+															>
+															<Label
+																Caption="Admin"
+																>
+																<Action
+																	ID="actBlank"
+																	Javascript="void(0)"
+																	Type="Javascript"
+																/>
+																<ConditionalClass
+																	Class="selected-menu"
+																	Condition="&quot;@Request.rdReport~&quot;.indexOf(&quot;Admin&quot;)&lt;&gt;&quot;-1&quot;"
+																/>
+															</Label>
+															<Label
+																Class="caret"
+																>
+																<Action
+																	ID="actBlank"
+																	Javascript="void(0)"
+																	Type="Javascript"
+																/>
+																<ConditionalClass
+																	Class="caret selected-menu"
+																	Condition="&quot;@Request.rdReport~&quot;.indexOf(&quot;Admin&quot;)&lt;&gt;&quot;-1&quot;"
+																/>
+															</Label>
+															<Division
+																Class="submenu"
+																HtmlDiv="True"
+																ID="submenu-admin"
+																>
+																<Label
+																	Caption="About"
+																	>
+																	<Action
+																		Display="Show"
+																		ElementID="pnlAbout"
+																		ID="showPopup"
+																		Type="ShowElement"
+																	/>
+																</Label>
+																<DataList
+																	ID="lstAdmin"
+																	>
+																	<DataLayer
+																		ID="dlNav-Admin"
+																		Type="DefinitionList"
+																		>
+																		<CompareFilter
+																			CaseSensitive="True"
+																			CompareType="="
+																			CompareValue="Admin"
+																			DataColumn="Folder1"
+																			DataType="Text"
+																			ID="fAdmin"
+																		/>
+																	</DataLayer>
+																	<ListItem>
+																		<Label
+																			Caption="@Data.Caption~"
+																			>
+																			<Action
+																				ID="actReport"
+																				Type="Report"
+																				>
+																				<Target
+																					Report="@Data.ID~"
+																					Type="Report"
+																					>
+																					<WaitPage/>
+																				</Target>
+																			</Action>
+																			<ConditionalClass
+																				Class="selected-menu"
+																				Condition="&quot;@Request.rdReport~&quot;==&quot;@Data.ID~&quot;"
+																			/>
+																		</Label>
+																	</ListItem>
+																</DataList>
+																<Division
+																	HtmlDiv="True"
+																	ID="divClearStorage"
+																	SecurityRightID="LogiUserAdmin"
+																	>
+																	<Spaces
+																		Size="5"
+																	/>
+																	<Button
+																		Caption="Clear"
+																		Class="btn btn-default"
+																		ID="btnClear"
+																		Tooltip="Clear local storage."
+																		>
+																		<Action
+																			ID="jsClear"
+																			Javascript="clearLocalStorage();"
+																			Type="Javascript"
+																		/>
+																	</Button>
+																</Division>
+															</Division>
+															<Label
+																Caption="|"
+																Class="pipe-spacer"
+																ID="pipe-spacer"
+															/>
+														</Division>
+													</Division>
+													<Label
+														Caption="Logout"
+														>
+														<Action
+															ID="actLogout"
+															Type="Exit"
+															>
+															<Target
+																ID="tgtLogout"
+																Link="@Function.AppVirtualPath~"
+																Type="Link"
+															/>
+														</Action>
+													</Label>
+												</Division>
+											</ResponsiveColumn>
+										</ResponsiveRow>
+										<Remark>
+											<Division
+												ID="energy-reports-container"
+												SecurityRightID="MKC"
+												>
+												<Division
+													Class="dropdown"
+													HtmlDiv="True"
+													ID="energy-reports"
+													>
+													<Label
+														Caption="Energy"
+														>
+														<Action
+															ID="actBlank"
+															Javascript="void(0)"
+															Type="Javascript"
+														/>
+														<ConditionalClass
+															Class="selected-menu"
+															Condition="&quot;@Request.rdReport~&quot;.indexOf(&quot;TMAReports&quot;)&lt;&gt;&quot;-1&quot;"
+														/>
+													</Label>
+													<Label
+														Class="caret"
+														>
+														<Action
+															ID="actBlank"
+															Javascript="void(0)"
+															Type="Javascript"
+														/>
+														<ConditionalClass
+															Class="caret selected-menu"
+															Condition="&quot;@Request.rdReport~&quot;.indexOf(&quot;Reports&quot;)&lt;&gt;&quot;-1&quot;"
+														/>
+													</Label>
+													<Division
+														Class="submenu"
+														HtmlDiv="True"
+														ID="submenu-tma-reports"
+														>
+														<DataList
+															ID="lstEnergyReports"
+															>
+															<DataLayer
+																ID="dlNav-Energy"
+																Type="DefinitionList"
+																>
+																<CompareFilter
+																	CaseSensitive="True"
+																	CompareType="="
+																	CompareValue="Energy"
+																	DataColumn="Folder1"
+																	DataType="Text"
+																	ID="fEnergy"
+																/>
+															</DataLayer>
+															<ListItem>
+																<Label
+																	Caption="@Data.Caption~"
+																	>
+																	<Action
+																		ID="actReport"
+																		Type="Report"
+																		>
+																		<Target
+																			Report="@Data.ID~"
+																			Type="Report"
+																			>
+																			<WaitPage/>
+																		</Target>
+																	</Action>
+																	<ConditionalClass
+																		Class="selected-menu"
+																		Condition="&quot;@Request.rdReport~&quot;==&quot;@Data.ID~&quot;"
+																	/>
+																</Label>
+															</ListItem>
+														</DataList>
+													</Division>
+												</Division>
+												<Label
+													Caption="|"
+													Class="pipe-spacer"
+													ID="pipe-spacer"
+												/>
+											</Division>
+										</Remark>
+									</Division>
+								</ResponsiveColumn>
+							</ResponsiveRow>
+						</Division>
+					</Division>
+				</Division>
+			</Division>
+			<Division
+				Class="ThemeHidden"
+				ID="divNotifications"
+				>
+				<IncludeHtmlFile
+					IncludedHtmlFile="_Definitions/updates.html"
+				/>
+			</Division>
+		</Division>
+	</SharedElement>
+	<SharedElement
+		ID="shrBranchSelect"
+		>
+		<Note
+			Note="**Pass in BranchElementToRefresh in the Shared Element Params.**"
+		/>
+		<Label
+			Caption="Use CTRL+click to select multiple values"
+			Class="ThemeTextSmaller"
+		/>
+		<LineBreak/>
+		<Note
+			Note="**All branches are shown here. Security is set for TMA Dashboard and MKC Dashboard.**"
+		/>
+		<InputSelectList
+			Caption="Locations:"
+			CaptionClass="ThemeTextSmall ThemeBold"
+			Class="ThemeTextSmaller"
+			DefaultValue="@Request.Branch~"
+			GroupCaptionColumn="REGION"
+			ID="Branch"
+			InputRows="12"
+			MultiSelect="True"
+			OptionCaptionColumn="BRANCH_NAME"
+			OptionValueColumn="BRANCH_NUMBER"
+			>
+			<DataLayer
+				ConnectionID="connProdGP"
+				ID="sqlLocations"
+				Source="SELECT DISTINCT BRANCH_NUMBER, BRANCH_NAME
+FROM AgTrax_Staging..IV_BRANCH_MASTER
+ORDER BY BRANCH_NAME"
+				Type="SQL"
+				>
+				<Join
+					ID="joinSqlToExcelBranch"
+					JoinType="InnerJoin"
+					SortLeftSide="True"
+					SortRightSide="True"
+					>
+					<DataLayer
+						ColumnNamesRow="1"
+						ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\LocationData.xlsx"
+						ExcelWorksheet="TMALocations"
+						ID="excelTMALocations"
+						Type="Excel"
+					/>
+					<MatchCondition
+						DataType="Number"
+						ID="matchBRANCH_NUMBER"
+						LeftDataColumn="BRANCH_NUMBER"
+						RightDataColumn="BRANCH_NUMBER"
+					/>
+				</Join>
+				<SortFilter
+					DataType="Text"
+					ID="sortREGION,BRANCH"
+					SortColumn="REGION, BRANCH_NAME"
+				/>
+				<GroupFilter
+					DataType="Text"
+					GroupColumn="REGION"
+					Hierarchical="True"
+					ID="groupREGION"
+					KeepGroupedRows="True"
+				/>
+			</DataLayer>
+			<EventHandler
+				DhtmlEvent="onchange"
+				ID="evtOnChangeBranch"
+				>
+				<Action
+					ElementID="@Shared.BranchElementToRefresh~"
+					ID="actRefreshReport"
+					Type="RefreshElement"
+					>
+					<WaitPage/>
+				</Action>
+			</EventHandler>
+		</InputSelectList>
+	</SharedElement>
+	<SharedElement
+		ID="shrCommoditySelect"
+		>
+		<Note
+			Note="**Pass in CommodityElementToRefresh in the Shared Element Params.**"
+		/>
+		<LineBreak/>
+		<InputSelectList
+			Caption="Commodity:"
+			CaptionClass="ThemeTextSmall ThemeBold"
+			Class="ThemeTextSmaller"
+			DefaultValue="@Request.Commodity~"
+			ID="Commodity"
+			InputRows="5"
+			MultiSelect="False"
+			OptionCaptionColumn="COMMODITY_DESC"
+			OptionValueColumn="COMMODITY_CODE"
+			>
+			<DataLayer
+				ID="staticCOMMODITY"
+				Type="Static"
+				>
+				<StaticDataRow
+					COMMODITY_CODE="01"
+					COMMODITY_DESC="WHEAT"
+				/>
+				<StaticDataRow
+					COMMODITY_CODE="02"
+					COMMODITY_DESC="MILO"
+				/>
+				<StaticDataRow
+					COMMODITY_CODE="03"
+					COMMODITY_DESC="SOYBEANS"
+				/>
+				<StaticDataRow
+					COMMODITY_CODE="04"
+					COMMODITY_DESC="CORN"
+				/>
+			</DataLayer>
+			<EventHandler
+				DhtmlEvent="onchange"
+				ID="evtOnChange"
+				>
+				<Action
+					ElementID="@Shared.CommodityElementToRefresh~"
+					ID="actRefreshReport"
+					Type="RefreshElement"
+					>
+					<WaitPage/>
+				</Action>
+			</EventHandler>
+		</InputSelectList>
+	</SharedElement>
+	<SharedElement
+		ID="shrCommodityMultiSelect"
+		>
+		<Note
+			Note="**Pass in CommodityElementToRefresh in the Shared Element Params.**"
+		/>
+		<Note
+			Note="**Pass in ShowMultiSelect with value of Y to show the CTRL + click message.**"
+		/>
+		<LineBreak/>
+		<Label
+			Caption="Use CTRL+click to select multiple values"
+			Class="ThemeTextSmaller"
+		/>
+		<LineBreak/>
+		<InputSelectList
+			Caption="Commodity:"
+			CaptionClass="ThemeTextSmall ThemeBold"
+			Class="ThemeTextSmaller"
+			DefaultValue="@Request.Commodity~"
+			ID="Commodity"
+			InputRows="5"
+			MultiSelect="True"
+			OptionCaptionColumn="COMMODITY_DESC"
+			OptionValueColumn="COMMODITY_CODE"
+			>
+			<DataLayer
+				ID="staticCOMMODITY"
+				Type="Static"
+				>
+				<StaticDataRow
+					COMMODITY_CODE="01"
+					COMMODITY_DESC="WHEAT"
+				/>
+				<StaticDataRow
+					COMMODITY_CODE="02"
+					COMMODITY_DESC="MILO"
+				/>
+				<StaticDataRow
+					COMMODITY_CODE="03"
+					COMMODITY_DESC="SOYBEANS"
+				/>
+				<StaticDataRow
+					COMMODITY_CODE="04"
+					COMMODITY_DESC="CORN"
+				/>
+			</DataLayer>
+			<EventHandler
+				DhtmlEvent="onchange"
+				ID="evtOnChange"
+				>
+				<Action
+					ElementID="@Shared.CommodityElementToRefresh~"
+					ID="actRefreshReport"
+					Type="RefreshElement"
+					>
+					<WaitPage/>
+				</Action>
+			</EventHandler>
+		</InputSelectList>
+	</SharedElement>
+	<SharedElement
+		ID="shrExcelExport"
+		>
+		<Note
+			Note="**Pass in DataTableID, ReportName and Security in the Shared Element Params.**"
+		/>
+		<Division
+			ID="divExcelExport"
+			SecurityRightID="@Shared.Security~"
+			>
+			<Label
+				Class="fa fa-file-excel-o fa-2x "
+				HtmlTag="Span"
+				ID="lnkExcel"
+				Tooltip="Export to Excel"
+				>
+				<Action
+					Javascript="tableToExcel(&quot;@Shared.DataTableID~&quot;,&quot;@Shared.ReportName~&quot;);"
+					Type="Javascript"
+				/>
+			</Label>
+			<LineBreak
+				LineCount="2"
+			/>
+			<ResponsiveVisibility
+				HideForExtraSmallScreen="True"
+				HideForLargeScreen="False"
+				HideForMediumScreen="False"
+				HideForSmallScreen="True"
+			/>
+		</Division>
+	</SharedElement>
+	<SharedElement
+		ID="shrHelp"
+		>
+		<Note
+			Note="**Pass in ReportNamein the Shared Element Params.**"
+		/>
+		<Division
+			Class="pull-right"
+			HtmlDiv="True"
+			ID="divHelp"
+			>
+			<Label
+				Class="fa fa-question-circle fa-2x "
+				HtmlTag="Span"
+				ID="lnkHelp"
+				Tooltip="Branch Dashboard Help"
+				>
+				<Action
+					Type="Report"
+					>
+					<Target
+						FrameID="NewWindow"
+						Report="@Shared.ReportName~"
+						Type="Report"
+					/>
+				</Action>
+			</Label>
+		</Division>
+	</SharedElement>
+	<SharedElement
+		ID="shrFooter"
+		>
+		<Division
+			ID="FooterWrap"
+			>
+			<Division
+				Condition=""
+				HtmlDiv="True"
+				ID="Footer"
+				ShowModes="rdBrowser"
+				>
+				<ResponsiveRow
+					CollisionBehavior="Overlap"
+					>
+					<ResponsiveColumn
+						ColspanExtraSmallScreen="8"
+						ColspanLargeScreen="8"
+						ColspanMediumScreen="8"
+						ColspanSmallScreen="8"
+						>
+						<Division
+							ID="divFooter1"
+							>
+							<ResponsiveVisibility
+								HideForExtraSmallScreen="True"
+								HideForLargeScreen="False"
+								HideForMediumScreen="False"
+								HideForSmallScreen="True"
+							/>
+							<Label
+								Caption="© Copyright 2016-2017 MKC. Shared growth. Shared success. All rights reserved. "
+								Class="ThemeTextSmaller"
+								Format="HTML"
+								SecurityRightID="MKC Dashboard"
+							/>
+							<Label
+								Caption="© Copyright 2016-2017 Team Marketing Alliance. All rights reserved."
+								Class="ThemeTextSmaller"
+								Format="HTML"
+								SecurityRightID="TMA Dashboard,OC"
+							/>
+							<Label
+								Caption="V2.1.01.24.2017"
+								Class="ThemeTextSmaller"
+								Format="HTML"
+								SecurityRightID="MKC Dashboard,TMA Dashboard,OC"
+							/>
+						</Division>
+						<Division
+							ID="divRFooter1"
+							>
+							<ResponsiveVisibility
+								HideForExtraSmallScreen="False"
+								HideForLargeScreen="True"
+								HideForMediumScreen="True"
+								HideForSmallScreen="False"
+							/>
+							<Label
+								Caption="© Copyright 2016-2017 MKC."
+								Class="ThemeTextSmallest"
+								Format="HTML"
+								SecurityRightID="MKC Dashboard"
+							/>
+							<Label
+								Caption="© Copyright 2016-2017 TMA. "
+								Class="ThemeTextSmallest"
+								Format="HTML"
+								SecurityRightID="TMA Dashboard,OC"
+							/>
+						</Division>
+					</ResponsiveColumn>
+					<ResponsiveColumn
+						ColspanExtraSmallScreen="4"
+						ColspanLargeScreen="4"
+						ColspanMediumScreen="4"
+						ColspanSmallScreen="4"
+						>
+						<Division
+							Class="pull-right"
+							HtmlDiv="True"
+							ID="wish"
+							>
+							<Rows>
+								<Row>
+									<Column/>
+									<Column>
+										<Button
+											Caption="Make A Wish"
+											Class="btn btn-default"
+											ID="btnWish"
+											>
+											<Action
+												Display="Show"
+												ElementID="pnlWish"
+												ID="showPopup"
+												Type="ShowElement"
+											/>
+										</Button>
+										<Button
+											Caption="Thanks"
+											Class="ThemeHidden"
+											ID="btnThanks"
+											>
+											<Action
+												Display="Show"
+												ElementID="pnlThanks"
+												ID="showPopup"
+												Type="ShowElement"
+											/>
+										</Button>
+										<Button
+											Caption="About"
+											Class="ThemeHidden"
+											ID="btnAbout"
+											>
+											<Action
+												Display="Show"
+												ElementID="pnlAbout"
+												ID="showPopup"
+												Type="ShowElement"
+											/>
+										</Button>
+									</Column>
+								</Row>
+							</Rows>
+						</Division>
+					</ResponsiveColumn>
+				</ResponsiveRow>
+			</Division>
+		</Division>
+		<IncludeScript
+			IncludedScript="
+$(document).ready(function() {
+	var str = document.getElementById(&quot;iptStatus&quot;).value;
+	var report = document.getElementById(&quot;iptReport&quot;).value;
+	var n = str.search(&quot;alert&quot;);
+	var x = str.search(&quot;timed&quot;);
+
+
+	if (x &gt; -1) {
+		var alerted = localStorage.getItem(&apos;alerted&apos;) || &apos;&apos;;
+    	if (alerted != &apos;yes&apos;) {
+			alert(&quot;Your request has been processed but the confirmation email has been delayed. We apologize for this inconvenience.&quot;);
+     		localStorage.setItem(&apos;alerted&apos;,&apos;yes&apos;);
+		}
+		document.getElementById(&quot;iptStatus&quot;).value = &quot;&quot;;
+	}
+	else {
+	
+		if (n &gt; -1) {
+			$(&quot;#btnThanks&quot;).click();
+			document.getElementById(&quot;iptStatus&quot;).value = &quot;&quot;;
+		}
+		else if (x &gt; -1) {
+			$(&quot;#btnThanks&quot;).click();
+			document.getElementById(&quot;iptStatus&quot;).value = &quot;&quot;;
+		}
+		else {
+			$(&quot;#btnClose&quot;).click();	
+		}
+	}
+		
+	//report specific functions
+	var r = report.search(&quot;ContractsDashboard&quot;);
+	if (r &gt; -1) {
+				
+	}
+	
+
+	//display version and release notes on the about page and mobile about
+		var notifications = document.getElementById(&quot;showReleaseNotes&quot;);
+		notifications.innerHTML = &quot;&lt;b&gt;Latest Release Notes - &quot;;
+		var ul = document.getElementById(&quot;version&quot;);
+		var items = ul.getElementsByTagName(&quot;li&quot;);
+		for (var i = 0; i &lt; items.length; ++i) {
+			// do something with the notification items, which is a &lt;li&gt; element
+			notifications.innerHTML = notifications.innerHTML + items[i].innerHTML + &quot;&lt;/b&gt;&lt;br&gt;&lt;ul&gt;&quot;;
+		}
+		
+		var thisItem;
+		var anchors;
+		ul = document.getElementById(&quot;notes&quot;);
+		items = ul.getElementsByTagName(&quot;li&quot;);
+		for (var i = 0; i &lt; items.length; ++i) {
+			// set the page header to the version
+			notifications.innerHTML = notifications.innerHTML + &quot;&lt;li&gt;&quot; + items[i].innerHTML + &quot;&lt;/li&gt;&quot;;
+			thisItem = items[i].innerHTML;
+			anchors = thisItem.search(&quot;lnkMore&quot;);
+			if (anchors &gt; -1) {
+				document.getElementById(&quot;lnkMore&quot;).style.display = &quot;none&quot;;
+			}
+		}
+		notifications.innerHTML = notifications.innerHTML + &quot;&lt;/ul&gt;&lt;br&gt;&quot;;
+		var history = document.getElementById(&quot;history&quot;);
+		notifications.innerHTML = notifications.innerHTML + history.innerHTML;
+		
+	// display for mobile
+	var mobileNotifications = document.getElementById(&quot;showReleaseNotesMobile&quot;);
+	mobileNotifications.innerHTML = notifications.innerHTML;
+		
+
+
+	//display notifications
+	var home = report.search(&quot;Home.Default&quot;);
+	var dismissed = localStorage.getItem(&apos;dismissed&apos;) || &apos;&apos; ;
+	var loggedInUser = document.getElementById(&quot;iptUserNotifications&quot;).value;
+	var userDismiss = dismissed.search(loggedInUser);	
+	var userList;
+	if (home &gt; -1 || report == &quot;&quot;) {
+		if (document.getElementById(&quot;iptShowNotifications&quot;).value == &quot;N&quot;) {
+			//do not show notifications here
+		}
+		else {
+			//if -1 this user has not dismissed the notifications yet, so show them
+			if (dismissed == &quot;&quot; || userDismiss == -1) {
+				var ul = document.getElementById(&quot;notifications&quot;);
+				var items = ul.getElementsByTagName(&quot;li&quot;);
+				for (var i = 0; i &lt; items.length; ++i) {
+					// do something with the notification items, which is a &lt;li&gt; element
+					//$.notify(items[i].innerHTML,{className: &quot;error&quot;,autoHide: false,position:&quot;bottom left&quot;});
+					$(&quot;#Footer&quot;).notify(items[i].innerHTML,{className: &quot;error&quot;,autoHide: false,position:&quot;top left&quot;});
+				}				
+			}			
+		}
+	}
+ });
+ 
+$(document).on(&apos;click&apos;, &apos;.notifyjs-bootstrap-base .close&apos;, function() {
+  //call notifyDismissed
+  notifyDismissed();
+  //hide notification
+  $(this).trigger(&apos;notify-hide&apos;);
+});
+	
+ function notifyDismissed() {
+	//set the localstorageitem
+	document.getElementById(&quot;iptShowNotifications&quot;).value = &quot;N&quot;;
+	if (dismissed = &quot;&quot;) {
+		userList = document.getElementById(&quot;iptUserNotifications&quot;).value + &quot;,&quot;;
+	}
+	else {
+		userList = dismissed + document.getElementById(&quot;iptUserNotifications&quot;).value + &quot;,&quot;;
+	
+	}
+	localStorage.setItem(&apos;dismissed&apos;,userList);
+ }
+ 
+	
+ function clearLocalStorage() {
+ 	var dismissed = localStorage.getItem(&apos;dismissed&apos;) || &apos;&apos; ;
+ 	if (dismissed == &quot;&quot;) {
+		//it&apos;s empty so do nothing
+	}
+	else {
+ 		localStorage.removeItem(&apos;dismissed&apos;);
+	}
+ }
+ 
+"
+		/>
+	</SharedElement>
+	<ideTestParams
+		Branch=""
+		Commodity=""
+		StatusMsg=""
+	/>
+</Report>
