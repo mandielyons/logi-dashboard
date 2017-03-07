@@ -1778,7 +1778,7 @@ ORDER BY BRANCH_NAME"
 			OptionValueColumn="BRANCH_NUMBER"
 			>
 			<DataLayer
-				ConnectionID="connCRMTest"
+				ConnectionID="connCRM"
 				ID="sqlCRMLocations"
 				Source="Select Distinct ag_location.ag_locationId,
   ag_location.ag_DataSourceKey

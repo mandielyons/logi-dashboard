@@ -142,6 +142,17 @@
 									HtmlDiv="True"
 									ID="divFilters"
 									>
+									<Label
+										Class="fa fa-chevron-left"
+										>
+										<Action
+											Display="Toggle"
+											ElementID="divFilters"
+											ID="hideFilters"
+											ShowElementEffect="FadeIn"
+											Type="ShowElement"
+										/>
+									</Label>
 									<InputSelectList
 										Caption="Fiscal Year:"
 										Class="ThemeTextSmall"
