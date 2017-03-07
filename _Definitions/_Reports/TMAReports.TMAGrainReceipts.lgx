@@ -39,7 +39,7 @@
 						<ResponsiveRow>
 							<ResponsiveColumn>
 								<Label
-									Caption="Select location(s) and commodity."
+									Caption="Filter by customer, location(s) and commodity."
 									Class="ThemeTextSmall"
 								/>
 							</ResponsiveColumn>
@@ -82,7 +82,7 @@
 										OptionValueColumn="ag_AccountID"
 										>
 										<DataLayer
-											ConnectionID="connCRMTest"
+											ConnectionID="connCRM"
 											ID="dlCustomers"
 											Source="Select Distinct gb.ag_AccountID,
   am.ParentAccountId,
@@ -92,7 +92,11 @@ From ag_grainreceiptsummaryBase gb
   Inner Join Account am On gb.ag_AccountID = am.AccountId
 Order By AccountName"
 											Type="SQL"
-										/>
+											>
+											<ConditionFilter
+												Condition="InStr(&quot;@Data.AccountName~&quot;,&quot;*&quot;) = 0"
+											/>
+										</DataLayer>
 										<EventHandler
 											DhtmlEvent="onchange"
 											ID="eventOnChangeCustomer"
@@ -169,7 +173,7 @@ Order By AccountName"
 											ShowPageNumber="True"
 										/>
 										<DataLayer
-											ConnectionID="connCRMTest"
+											ConnectionID="connCRM"
 											ID="dlGrainReceipts"
 											Source="Select gb.ag_AccountID,
   am.ParentAccountId,
@@ -188,12 +192,9 @@ From ag_grainreceiptsummaryBase gb
   Inner Join Account am On gb.ag_AccountID = am.AccountId
   Inner Join ag_commodity cm On gb.ag_CommodityID = cm.ag_commodityId
   Inner Join ag_location lm On gb.ag_LocationID = lm.ag_locationId
-Where gb.ag_FiscalYear Between DatePart(Year, DateAdd(Year, Case
-    When DatePart(Month, GetDate()) &lt; 3 Then -4 Else -3
-  End, GetDate())) And DatePart(Year, DateAdd(Year, Case
-    When DatePart(Month, GetDate()) &lt; 3 Then 0 Else 1
-  End, GetDate())) And lm.ag_DataSourceKey IN(@Request.Branch~) OR &apos;@Request.Branch~&apos;=&apos;0&apos; And
-  gb.statecode = 0 And gb.statuscode = 1
+Where gb.ag_FiscalYear Between DatePart(Year, DateAdd(Year, Case When DatePart(Month, GetDate()) &lt; 3 Then -4 Else -3 End, GetDate())) And DatePart(Year, DateAdd(Year, Case When DatePart(Month, GetDate()) &lt; 3 Then 0 Else 1 End, GetDate())) 
+And (lm.ag_DataSourceKey IN(@Request.Branch~) OR &apos;@Request.Branch~&apos;=&apos;0&apos;) 
+And gb.statecode = 0 And gb.statuscode = 1
 Order By AccountName,
   aggdtl"
 											Type="SQL"
