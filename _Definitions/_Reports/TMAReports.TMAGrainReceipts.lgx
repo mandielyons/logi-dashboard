@@ -147,14 +147,9 @@ Order By AccountName"
 							</ResponsiveColumn>
 							<ResponsiveColumn>
 								<Division
-									Class="ThemeHidden"
 									HtmlDiv="True"
 									ID="divReceipts"
 									>
-									<ConditionalClass
-										Class="ThemeTextSmall"
-										Condition="&quot;@Request.CRMBranch~&quot; &lt;&gt; &quot;&quot;"
-									/>
 									<CrosstabTable
 										AccessibleSummary="AnalysisGrid CrossTabTable"
 										AjaxPaging="True"
@@ -405,7 +400,6 @@ Order By AccountName,
 	<ideTestParams
 		Branch=""
 		Commodity=""
-		CRMBranch="0"
 		Customer=""
 	/>
 </Report>
