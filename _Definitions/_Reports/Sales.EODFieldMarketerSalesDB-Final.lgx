@@ -20,7 +20,7 @@
 	</SetSessionVariables>
 	<LocalData>
 		<DataLayer
-			ConnectionID="connCRMTest"
+			ConnectionID="connCRM"
 			ID="dlFldMarketerLocal"
 			Source="select * from
 (Select Distinct am.po_FieldMarketer FieldMarketer,
@@ -204,7 +204,7 @@ font-weight: 400;
 												OptionValueColumn="FieldMarketer"
 												>
 												<DataLayer
-													ConnectionID="connCRMTest"
+													ConnectionID="connCRM"
 													ID="dlFldMarketer"
 													Source="Select Distinct am.po_FieldMarketer FieldMarketer
 From dbo.Account am
@@ -246,7 +246,7 @@ Order By FieldMarketer"
 											OptionValueColumn="AccountId"
 											>
 											<DataLayer
-												ConnectionID="connCRMTest"
+												ConnectionID="connCRM"
 												ID="dlCustomer"
 												Source="Select Distinct am.AccountId,
   am.Name AccountName
@@ -284,7 +284,7 @@ Where am.po_FieldMarketer Is Not Null And (am.po_FieldMarketer =
 											WidthScale="px"
 											>
 											<DataLayer
-												ConnectionID="connCRMTest"
+												ConnectionID="connCRM"
 												ID="dlProdClass"
 												Source="Select Distinct pd.ProdRptSubCatDesc as description, ProdRptCatDesc as class
 From ag_saleshistory sh
@@ -470,7 +470,7 @@ Where am.po_FieldMarketer Is Not Null And
 												</Action>
 											</Series>
 											<DataLayer
-												ConnectionID="connCRMTest"
+												ConnectionID="connCRM"
 												ID="dlYearChart"
 												Source="Select sh.ag_CropYear CropYear,
   Case When pd.ProdRptCatDesc = &apos;Chemical&apos; Then Round( (sh.ag_Amount / 100), 2)
@@ -505,7 +505,7 @@ Order By CropYear,
 													JoinType="Union"
 													>
 													<DataLayer
-														ConnectionID="connCRMTest"
+														ConnectionID="connCRM"
 														ID="dlYearChartInner"
 														Source="Select ag_CropYear as &apos;CropYear&apos;,
   &apos;Units&apos; as InvoiceUOM,
@@ -684,7 +684,7 @@ Order By CropYear"
 												</Action>
 											</Series>
 											<DataLayer
-												ConnectionID="connCRMTest"
+												ConnectionID="connCRM"
 												ID="dlMonthChart"
 												Source="Select sh.ag_CropYear CropYear,
   Case When pd.ProdRptCatDesc = &apos;Chemical&apos; Then Round( (sh.ag_Amount / 100), 2)
@@ -720,7 +720,7 @@ Order By CropYear,
 													JoinType="Union"
 													>
 													<DataLayer
-														ConnectionID="connCRMTest"
+														ConnectionID="connCRM"
 														ID="dlMonthChartInner"
 														Source="Select ag_CropYear as &apos;CropYear&apos;,
   &apos;Units&apos; as InvoiceUOM,
@@ -841,7 +841,7 @@ Order By CropYear"
 													WidthScale="%"
 													>
 													<DataLayer
-														ConnectionID="connCRMTest"
+														ConnectionID="connCRM"
 														ID="dlYearTable"
 														Source="Select a.FieldMarketer, a.Customer, a.Product, a.InvoiceUOM, a.ProductClass, a.hasCFA, sum(a.Amount) as Amount, sum(b.AmountOld) as AmountOld
 From (Select am.po_FieldMarketer As FieldMarketer,
