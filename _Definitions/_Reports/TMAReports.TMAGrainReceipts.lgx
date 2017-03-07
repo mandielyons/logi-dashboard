@@ -147,6 +147,7 @@ Order By AccountName"
 							</ResponsiveColumn>
 							<ResponsiveColumn>
 								<Division
+									Class="ThemeTextSmall"
 									HtmlDiv="True"
 									ID="divReceipts"
 									>
