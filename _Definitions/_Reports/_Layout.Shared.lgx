@@ -393,12 +393,12 @@ else {
 			ShowModes="rdBrowser"
 			>
 			<InputHidden
-				DefaultValue="@Request.StatusMsg~"
-				ID="iptStatus"
-			/>
-			<InputHidden
 				DefaultValue="@Request.rdReport~"
 				ID="iptReport"
+			/>
+			<InputHidden
+				DefaultValue="@Request.StatusMsg~"
+				ID="iptStatus"
 			/>
 			<InputHidden
 				ID="iptShowNotifications"
@@ -1962,10 +1962,25 @@ From ag_location"
 				ID="lnkExcel"
 				Tooltip="Export to Excel"
 				>
+				<Remark>
+					<Action
+						Javascript="tableToExcel(&quot;@Shared.DataTableID~&quot;,&quot;@Shared.ReportName~&quot;);"
+						Type="Javascript"
+					/>
+				</Remark>
 				<Action
-					Javascript="tableToExcel(&quot;@Shared.DataTableID~&quot;,&quot;@Shared.ReportName~&quot;);"
-					Type="Javascript"
-				/>
+					ID="actExportExcel"
+					Type="NativeExcel"
+					>
+					<Target
+						ExcelOutputFormat="Excel2007"
+						ExportDataTableID="@Shared.DataTableID~"
+						ExportFilename="@Shared.ReportName~_@Function.GUID~"
+						FrameID="Top"
+						ShowGridlines="True"
+						Type="NativeExcel"
+					/>
+				</Action>
 			</Label>
 			<LineBreak
 				LineCount="2"
