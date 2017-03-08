@@ -138,12 +138,14 @@
 								>
 								<Rows
 									CellSpacing="5px"
+									Width="100"
+									WidthScale="%"
 									>
 									<Row>
 										<Column
 											Class="ThemeAlignTop"
 											ID="colFilters"
-											Width="25"
+											Width="20"
 											WidthScale="%"
 											>
 											<Rows>
@@ -298,7 +300,7 @@
 																</Action>
 															</Label>
 															<LineBreak
-																LineCount="2"
+																LineCount="5"
 															/>
 														</Division>
 													</Column>
@@ -345,8 +347,6 @@
 												ID="tabFinancials"
 												TabbingStyle="RefreshPage"
 												TabLocation="top"
-												Width="95"
-												WidthScale="%"
 												>
 												<Note
 													Note="Note: &quot;Tabbing Style&quot; *must be* &quot;Refresh Page&quot; for the inputs and sorting to work properly"
