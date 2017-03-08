@@ -1407,7 +1407,7 @@
 																	AccessibleSummary="AnalysisGrid DataTable"
 																	DraggableColumns="False"
 																	HideWhenZeroRows="True"
-																	ID="dtExpenseActions"
+																	ID="dtFreightActions"
 																	KeepScrollPosition="True"
 																	SortArrows="True"
 																	Width="100"
@@ -1417,7 +1417,7 @@
 																		ColumnNamesRow="1"
 																		ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\Updated Scorecard Tables_TMA.xlsx"
 																		ExcelWorksheet="Actions"
-																		ID="dlExpenseActions"
+																		ID="dlFreightActions"
 																		Type="Excel"
 																		>
 																		<ConditionFilter
@@ -1537,8 +1537,8 @@
 																			</Remark>
 																			<Action
 																				Display="Toggle"
-																				ElementID="miExpenseTasks"
-																				ID="showExpenseTasks"
+																				ElementID="miFreightTasks"
+																				ID="showFreightTasks"
 																				Type="ShowElement"
 																			/>
 																		</Label>
@@ -1548,24 +1548,24 @@
 																		/>
 																	</DataTableColumn>
 																	<MoreInfoRow
-																		ID="miExpenseTasks"
+																		ID="miFreightTasks"
 																		ShowModes="None"
 																		>
 																		<SubDataTable
 																			ColumnHeaderClass="ThemeBold"
-																			ID="sdtExpenseTasks"
+																			ID="sdtFreightTasks"
 																			TableBorder="1"
 																			Width="100"
 																			WidthScale="%"
 																			>
 																			<SubDataLayer
-																				ID="sdlExpenseTasks"
+																				ID="sdlFreightTasks"
 																				>
 																				<DataLayer
 																					ColumnNamesRow="1"
 																					ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\Updated Scorecard Tables_TMA.xlsx"
 																					ExcelWorksheet="Tasks"
-																					ID="dlExpenseTasks"
+																					ID="dlFreightTasks"
 																					Type="Excel"
 																				/>
 																				<SubDataLayerRelationColumn
@@ -1746,7 +1746,7 @@
 																	AccessibleSummary="AnalysisGrid DataTable"
 																	DraggableColumns="False"
 																	HideWhenZeroRows="True"
-																	ID="dtExpenseActions"
+																	ID="dtSoftwareActions"
 																	KeepScrollPosition="True"
 																	SortArrows="True"
 																	Width="100"
@@ -1756,7 +1756,7 @@
 																		ColumnNamesRow="1"
 																		ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\Updated Scorecard Tables_TMA.xlsx"
 																		ExcelWorksheet="Actions"
-																		ID="dlExpenseActions"
+																		ID="dlSoftwareActions"
 																		Type="Excel"
 																		>
 																		<ConditionFilter
@@ -1876,8 +1876,8 @@
 																			</Remark>
 																			<Action
 																				Display="Toggle"
-																				ElementID="miExpenseTasks"
-																				ID="showExpenseTasks"
+																				ElementID="miSoftwareTasks"
+																				ID="showSoftwareTasks"
 																				Type="ShowElement"
 																			/>
 																		</Label>
@@ -1887,24 +1887,24 @@
 																		/>
 																	</DataTableColumn>
 																	<MoreInfoRow
-																		ID="miExpenseTasks"
+																		ID="miSoftwareTasks"
 																		ShowModes="None"
 																		>
 																		<SubDataTable
 																			ColumnHeaderClass="ThemeBold"
-																			ID="sdtExpenseTasks"
+																			ID="sdtSoftwareTasks"
 																			TableBorder="1"
 																			Width="100"
 																			WidthScale="%"
 																			>
 																			<SubDataLayer
-																				ID="sdlExpenseTasks"
+																				ID="sdlSoftwareTasks"
 																				>
 																				<DataLayer
 																					ColumnNamesRow="1"
 																					ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\Updated Scorecard Tables_TMA.xlsx"
 																					ExcelWorksheet="Tasks"
-																					ID="dlExpenseTasks"
+																					ID="dlSoftwareTasks"
 																					Type="Excel"
 																				/>
 																				<SubDataLayerRelationColumn
