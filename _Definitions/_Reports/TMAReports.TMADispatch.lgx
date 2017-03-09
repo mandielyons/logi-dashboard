@@ -89,18 +89,6 @@ WHERE CONTRACT_TYPE=2
 							<ResponsiveColumn
 								Class="ThemeAlignRight"
 								>
-								<Remark>
-									<IncludeSharedElement
-										DefinitionFile="_Layout.Shared"
-										SharedElementID="shrExcelExport"
-										>
-										<SharedElementParams
-											DataTableID="TMAContracts"
-											ReportName="Dispatch"
-											Security="OC"
-										/>
-									</IncludeSharedElement>
-								</Remark>
 								<IncludeSharedElement
 									DefinitionFile="_Layout.Shared"
 									SharedElementID="shrExcelExport"
@@ -108,7 +96,6 @@ WHERE CONTRACT_TYPE=2
 									<SharedElementParams
 										DataTableID="ALLContracts"
 										ReportName="Dispatch"
-										Security="MKC Dashboard,TMA Dashboard,OC"
 									/>
 								</IncludeSharedElement>
 							</ResponsiveColumn>
