@@ -1083,178 +1083,182 @@ else {
 														</Action>
 													</Label>
 												</Division>
-												<Division
-													ID="maps-container"
-													SecurityRightID="LogiUserAdmin"
-													>
+												<Remark>
 													<Division
-														Class="dropdown"
-														HtmlDiv="True"
-														ID="maps"
+														ID="maps-container"
+														SecurityRightID="LogiUserAdmin"
 														>
-														<Label
-															Caption="Maps"
-															>
-															<Action
-																ID="actBlank"
-																Javascript="void(0)"
-																Type="Javascript"
-															/>
-															<ConditionalClass
-																Class="selected-menu"
-																Condition="&quot;@Request.rdReport~&quot;.indexOf(&quot;Maps&quot;)&lt;&gt;&quot;-1&quot;"
-															/>
-														</Label>
-														<Label
-															Class="caret"
-															>
-															<Action
-																ID="actBlank"
-																Javascript="void(0)"
-																Type="Javascript"
-															/>
-															<ConditionalClass
-																Class="caret selected-menu"
-																Condition="&quot;@Request.rdReport~&quot;.indexOf(&quot;Maps&quot;)&lt;&gt;&quot;-1&quot;"
-															/>
-														</Label>
 														<Division
-															Class="submenu"
+															Class="dropdown"
 															HtmlDiv="True"
-															ID="submenu-maps"
+															ID="maps"
 															>
-															<DataList
-																ID="lstMaps"
+															<Label
+																Caption="Maps"
 																>
-																<DataLayer
-																	ID="dlNav-Maps"
-																	Type="DefinitionList"
+																<Action
+																	ID="actBlank"
+																	Javascript="void(0)"
+																	Type="Javascript"
+																/>
+																<ConditionalClass
+																	Class="selected-menu"
+																	Condition="&quot;@Request.rdReport~&quot;.indexOf(&quot;Maps&quot;)&lt;&gt;&quot;-1&quot;"
+																/>
+															</Label>
+															<Label
+																Class="caret"
+																>
+																<Action
+																	ID="actBlank"
+																	Javascript="void(0)"
+																	Type="Javascript"
+																/>
+																<ConditionalClass
+																	Class="caret selected-menu"
+																	Condition="&quot;@Request.rdReport~&quot;.indexOf(&quot;Maps&quot;)&lt;&gt;&quot;-1&quot;"
+																/>
+															</Label>
+															<Division
+																Class="submenu"
+																HtmlDiv="True"
+																ID="submenu-maps"
+																>
+																<DataList
+																	ID="lstMaps"
 																	>
-																	<CompareFilter
-																		CaseSensitive="True"
-																		CompareType="="
-																		CompareValue="Maps"
-																		DataColumn="Folder1"
-																		DataType="Text"
-																		ID="fMaps"
-																	/>
-																</DataLayer>
-																<ListItem>
-																	<Label
-																		Caption="@Data.Caption~"
+																	<DataLayer
+																		ID="dlNav-Maps"
+																		Type="DefinitionList"
 																		>
-																		<Action
-																			ID="actReport"
-																			Type="Report"
+																		<CompareFilter
+																			CaseSensitive="True"
+																			CompareType="="
+																			CompareValue="Maps"
+																			DataColumn="Folder1"
+																			DataType="Text"
+																			ID="fMaps"
+																		/>
+																	</DataLayer>
+																	<ListItem>
+																		<Label
+																			Caption="@Data.Caption~"
 																			>
-																			<Target
-																				Report="@Data.ID~"
+																			<Action
+																				ID="actReport"
 																				Type="Report"
 																				>
-																				<WaitPage/>
-																			</Target>
-																		</Action>
-																		<ConditionalClass
-																			Class="selected-menu"
-																			Condition="&quot;@Request.rdReport~&quot;==&quot;@Data.ID~&quot;"
-																		/>
-																	</Label>
-																</ListItem>
-															</DataList>
+																				<Target
+																					Report="@Data.ID~"
+																					Type="Report"
+																					>
+																					<WaitPage/>
+																				</Target>
+																			</Action>
+																			<ConditionalClass
+																				Class="selected-menu"
+																				Condition="&quot;@Request.rdReport~&quot;==&quot;@Data.ID~&quot;"
+																			/>
+																		</Label>
+																	</ListItem>
+																</DataList>
+															</Division>
 														</Division>
+														<Label
+															Caption="|"
+															Class="pipe-spacer"
+															ID="pipe-spacer"
+														/>
 													</Division>
-													<Label
-														Caption="|"
-														Class="pipe-spacer"
-														ID="pipe-spacer"
-													/>
-												</Division>
-												<Division
-													ID="sales-container"
-													SecurityRightID="MKC Dashboard"
-													>
+												</Remark>
+												<Remark>
 													<Division
-														Class="dropdown"
-														HtmlDiv="True"
-														ID="sales"
+														ID="sales-container"
+														SecurityRightID="MKC Dashboard"
 														>
-														<Label
-															Caption="Sales"
-															>
-															<Action
-																ID="actBlank"
-																Javascript="void(0)"
-																Type="Javascript"
-															/>
-															<ConditionalClass
-																Class="selected-menu"
-																Condition="&quot;@Request.rdReport~&quot;.indexOf(&quot;Maps&quot;)&lt;&gt;&quot;-1&quot;"
-															/>
-														</Label>
-														<Label
-															Class="caret"
-															>
-															<Action
-																ID="actBlank"
-																Javascript="void(0)"
-																Type="Javascript"
-															/>
-															<ConditionalClass
-																Class="caret selected-menu"
-																Condition="&quot;@Request.rdReport~&quot;.indexOf(&quot;Maps&quot;)&lt;&gt;&quot;-1&quot;"
-															/>
-														</Label>
 														<Division
-															Class="submenu"
+															Class="dropdown"
 															HtmlDiv="True"
-															ID="submenu-sales"
+															ID="sales"
 															>
-															<DataList
-																ID="lstSales"
+															<Label
+																Caption="Sales"
 																>
-																<DataLayer
-																	ID="dlNav-Sales"
-																	Type="DefinitionList"
+																<Action
+																	ID="actBlank"
+																	Javascript="void(0)"
+																	Type="Javascript"
+																/>
+																<ConditionalClass
+																	Class="selected-menu"
+																	Condition="&quot;@Request.rdReport~&quot;.indexOf(&quot;Maps&quot;)&lt;&gt;&quot;-1&quot;"
+																/>
+															</Label>
+															<Label
+																Class="caret"
+																>
+																<Action
+																	ID="actBlank"
+																	Javascript="void(0)"
+																	Type="Javascript"
+																/>
+																<ConditionalClass
+																	Class="caret selected-menu"
+																	Condition="&quot;@Request.rdReport~&quot;.indexOf(&quot;Maps&quot;)&lt;&gt;&quot;-1&quot;"
+																/>
+															</Label>
+															<Division
+																Class="submenu"
+																HtmlDiv="True"
+																ID="submenu-sales"
+																>
+																<DataList
+																	ID="lstSales"
 																	>
-																	<CompareFilter
-																		CaseSensitive="True"
-																		CompareType="="
-																		CompareValue="Sales"
-																		DataColumn="Folder1"
-																		DataType="Text"
-																		ID="fSales"
-																	/>
-																</DataLayer>
-																<ListItem>
-																	<Label
-																		Caption="@Data.Caption~"
+																	<DataLayer
+																		ID="dlNav-Sales"
+																		Type="DefinitionList"
 																		>
-																		<Action
-																			ID="actReport"
-																			Type="Report"
+																		<CompareFilter
+																			CaseSensitive="True"
+																			CompareType="="
+																			CompareValue="Sales"
+																			DataColumn="Folder1"
+																			DataType="Text"
+																			ID="fSales"
+																		/>
+																	</DataLayer>
+																	<ListItem>
+																		<Label
+																			Caption="@Data.Caption~"
 																			>
-																			<Target
-																				Report="@Data.ID~"
+																			<Action
+																				ID="actReport"
 																				Type="Report"
 																				>
-																				<WaitPage/>
-																			</Target>
-																		</Action>
-																		<ConditionalClass
-																			Class="selected-menu"
-																			Condition="&quot;@Request.rdReport~&quot;==&quot;@Data.ID~&quot;"
-																		/>
-																	</Label>
-																</ListItem>
-															</DataList>
+																				<Target
+																					Report="@Data.ID~"
+																					Type="Report"
+																					>
+																					<WaitPage/>
+																				</Target>
+																			</Action>
+																			<ConditionalClass
+																				Class="selected-menu"
+																				Condition="&quot;@Request.rdReport~&quot;==&quot;@Data.ID~&quot;"
+																			/>
+																		</Label>
+																	</ListItem>
+																</DataList>
+															</Division>
 														</Division>
+														<Label
+															Caption="|"
+															Class="pipe-spacer"
+															ID="pipe-spacer"
+														/>
 													</Division>
-													<Label
-														Caption="|"
-														Class="pipe-spacer"
-														ID="pipe-spacer"
-													/>
-												</Division>
+												</Remark>
 												<Division
 													ID="tma-apps-container"
 													SecurityRightID="TMA Dashboard,LogiUserAdmin"
@@ -1954,12 +1958,13 @@ From ag_location"
 		/>
 		<Division
 			ID="divExcelExport"
-			SecurityRightID="@Shared.Security~"
+			SecurityRightID="MKC Dashboard, TMA Dashboard, OC"
 			>
 			<Label
 				Class="fa fa-file-excel-o fa-2x "
 				HtmlTag="Span"
 				ID="lnkExcel"
+				SecurityRightID="MKC Dashboard, TMA Dashboard, OC"
 				Tooltip="Export to Excel"
 				>
 				<Remark>
