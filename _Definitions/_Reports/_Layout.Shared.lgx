@@ -974,7 +974,7 @@ else {
 													</Remark>
 													<Division
 														ID="admin-container"
-														SecurityRightID="TMA Dashboard,MKC Dashboard,OC"
+														SecurityRightID="OC"
 														>
 														<Division
 															Class="dropdown"
@@ -1437,7 +1437,7 @@ else {
 													</Division>
 													<Division
 														ID="admin-container"
-														SecurityRightID="TMA Dashboard,MKC Dashboard,OC"
+														SecurityRightID="TMA Dashboard,MKC Dashboard"
 														>
 														<Division
 															Class="dropdown"
