@@ -1452,7 +1452,7 @@
 																		<TooltipPanel
 																			Height="5"
 																			HeightScale="%"
-																			ID="colDescExpTT"
+																			ID="colDescFreightTT"
 																			Width="90"
 																			WidthScale="%"
 																			>
@@ -1791,7 +1791,7 @@
 																		<TooltipPanel
 																			Height="5"
 																			HeightScale="%"
-																			ID="colDescExpTT"
+																			ID="colDescSoftTT"
 																			Width="90"
 																			WidthScale="%"
 																			>
@@ -3520,7 +3520,7 @@
 																		<TooltipPanel
 																			Height="5"
 																			HeightScale="%"
-																			ID="colDescCust3TT"
+																			ID="colDescCust5TT"
 																			Width="90"
 																			WidthScale="%"
 																			>
@@ -3842,7 +3842,7 @@
 																		<TooltipPanel
 																			Height="5"
 																			HeightScale="%"
-																			ID="colDescCust4TT"
+																			ID="colDescCust6TT"
 																			Width="90"
 																			WidthScale="%"
 																			>
