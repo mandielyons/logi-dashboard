@@ -153,8 +153,10 @@
 													<Column
 														Class="ThemeAlignRight"
 														>
+														<LineBreak/>
 														<Label
 															Class="fa fa-chevron-left"
+															Tooltip="Hide filters"
 															>
 															<Action
 																Display="Toggle"
@@ -164,9 +166,6 @@
 																Type="ShowElement"
 															/>
 														</Label>
-														<LineBreak
-															LineCount="2"
-														/>
 													</Column>
 												</Row>
 												<Row>
@@ -320,11 +319,13 @@
 												>
 												<Row>
 													<Column
+														Class="panel-heading"
 														ID="colIcon"
 														>
 														<LineBreak/>
 														<Label
 															Class="fa fa-chevron-right"
+															Tooltip="Show filters"
 															>
 															<Action
 																Display="Toggle"
