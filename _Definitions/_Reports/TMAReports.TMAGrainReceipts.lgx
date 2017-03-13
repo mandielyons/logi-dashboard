@@ -133,7 +133,7 @@ Order By AccountName"
 										Tooltip="Clear all selections"
 										>
 										<Action
-											ElementID="divReceipts"
+											ElementID="divReceipts,divFilters"
 											ID="actReport"
 											RequestForwarding="True"
 											Type="RefreshElement"

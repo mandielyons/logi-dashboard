@@ -433,8 +433,8 @@ else {
 								>
 								<ResponsiveColumn
 									ColspanExtraSmallScreen="6"
-									ColspanLargeScreen="2"
-									ColspanMediumScreen="2"
+									ColspanLargeScreen="3"
+									ColspanMediumScreen="3"
 									ColspanSmallScreen="6"
 									>
 									<Division
@@ -485,8 +485,8 @@ else {
 								</ResponsiveColumn>
 								<ResponsiveColumn
 									ColspanExtraSmallScreen="6"
-									ColspanLargeScreen="10"
-									ColspanMediumScreen="10"
+									ColspanLargeScreen="9"
+									ColspanMediumScreen="9"
 									ColspanSmallScreen="6"
 									>
 									<Division
@@ -1163,6 +1163,7 @@ else {
 															</DataList>
 														</Division>
 													</Division>
+<<<<<<< HEAD
 													<Label
 														Caption="|"
 														Class="pipe-spacer"
@@ -1172,6 +1173,12 @@ else {
 												<Division
 													ID="sales-container"
 													SecurityRightID="MKC Dashboard"
+=======
+												</Remark>
+												<Division
+													ID="sales-container"
+													SecurityRightID="MKC Dashboard, LogiUserAdmin"
+>>>>>>> 54ce243ed422f04ca66b9931bb0432ad73b7f367
 													>
 													<Division
 														Class="dropdown"
