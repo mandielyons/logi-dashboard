@@ -46,18 +46,15 @@
 							<ResponsiveColumn
 								Class="ThemeAlignRight"
 								>
-								<Remark>
-									<IncludeSharedElement
-										DefinitionFile="_Layout.Shared"
-										SharedElementID="shrExcelExport"
-										>
-										<SharedElementParams
-											DataTableID="dtGrainReceipts"
-											ReportName="Grain Receipts"
-											Security=""
-										/>
-									</IncludeSharedElement>
-								</Remark>
+								<IncludeSharedElement
+									DefinitionFile="_Layout.Shared"
+									SharedElementID="shrExcelExport"
+									>
+									<SharedElementParams
+										DataTableID="ctGrainReceiptSummary"
+										ReportName="Grain Receipts"
+									/>
+								</IncludeSharedElement>
 							</ResponsiveColumn>
 						</ResponsiveRow>
 						<ResponsiveRow>
