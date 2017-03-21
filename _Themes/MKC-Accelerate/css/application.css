@@ -802,6 +802,24 @@
 		border-color: #E8CF44;
 		background: #E8CF44;
 	}
+
+	.kpi-orange{
+		color: #3D3D3D;
+		border-color: #FFA500;
+		background: #FFA500;
+	}
+
+	.kpi-purple{
+		color: #3D3D3D;
+		border-color: #551A8B;
+		background: #551A8B;
+	}
+
+	.kpi-teal{
+		color: #3D3D3D;
+		border-color: #008080;
+		background: #008080;
+	}
 	
 	/*KPI grey*/
 	.kpi-grey{
