@@ -820,6 +820,12 @@
 		border-color: #008080;
 		background: #008080;
 	}
+
+	.kpi-coral{
+		color: #3D3D3D;
+		border-color: #FF4C4C;
+		background: #FF4C4C;
+	}
 	
 	/*KPI grey*/
 	.kpi-grey{
