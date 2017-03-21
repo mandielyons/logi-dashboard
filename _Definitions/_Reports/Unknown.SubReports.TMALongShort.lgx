@@ -434,7 +434,7 @@
 											</DataTableColumn>
 											<DataTableColumn
 												Header="Estimated Receipts"
-												Width="25"
+												Width="23"
 												WidthScale="%"
 												>
 												<Rows
@@ -551,7 +551,7 @@
 											</DataTableColumn>
 											<DataTableColumn
 												Header="90% Space Available"
-												Width="25"
+												Width="27"
 												WidthScale="%"
 												>
 												<Rows
@@ -562,7 +562,7 @@
 													<Row>
 														<Column>
 															<Label
-																Caption="After Receipts and Shipments:"
+																Caption="After Receipts:"
 															/>
 														</Column>
 														<Column
@@ -587,8 +587,32 @@
 															ColSpan="2"
 															>
 															<LineBreak
-																LineCount="10"
+																LineCount="11"
 															/>
+														</Column>
+													</Row>
+													<Row>
+														<Column>
+															<Label
+																Caption="After Sales, Transfers and Receipts:"
+																Class="ThemeBold"
+															/>
+														</Column>
+														<Column
+															Class="ThemeAlignRight"
+															>
+															<Label
+																Caption=" @Data.Column41~"
+																>
+																<ConditionalClass
+																	Class="bold text-success"
+																	Condition="&quot;@Data.Column41~&quot; &gt; &quot;0&quot;"
+																/>
+																<ConditionalClass
+																	Class="bold text-danger"
+																	Condition="&quot;@Data.Column41~&quot; &lt;= &quot;0&quot;"
+																/>
+															</Label>
 														</Column>
 													</Row>
 												</Rows>
