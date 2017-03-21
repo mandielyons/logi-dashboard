@@ -777,59 +777,59 @@
 	
 	/*KPI green*/
 	.kpi-green{
-		color: #ffffff;
+		color: #3D3D3D;
 		border-color: #67E25C;
 		background: #67E25C;
 	}
 
 	/*KPI red*/
 	.kpi-red{
-		color: #ffffff;
+		color: #3D3D3D;
 		border-color: #FF2C2D;
 		background: #FF2C2D;
 	}	
 	
 	/*KPI blue*/
 	.kpi-blue{
-		color: #ffffff;
+		color: #3D3D3D;
 		border-color: #4DA8EF;
 		background: #4DA8EF;
 	}
 	
 	/*KPI yellow*/
 	.kpi-yellow{
-		color: #ffffff;
+		color: #3D3D3D;
 		border-color: #E8CF44;
 		background: #E8CF44;
 	}
 
 	.kpi-orange{
-		color: #ffffff;
+		color: #3D3D3D;
 		border-color: #FFA500;
 		background: #FFA500;
 	}
 
 	.kpi-purple{
-		color: #ffffff;
+		color: #3D3D3D;
 		border-color: #551A8B;
 		background: #551A8B;
 	}
 
 	.kpi-teal{
-		color: #ffffff;
+		color: #3D3D3D;
 		border-color: #008080;
 		background: #008080;
 	}
 
 	.kpi-coral{
-		color: #ffffff;
+		color: #3D3D3D;
 		border-color: #FF4C4C;
 		background: #FF4C4C;
 	}
 	
 	/*KPI grey*/
 	.kpi-grey{
-		color: #ffffff;
+		color: #3D3D3D;
 		border-color: #CBCBCB;
 		background: #CBCBCB;
 	}
