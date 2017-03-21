@@ -23,9 +23,11 @@
 			ConnectionID="connCRMTest"
 			ID="dlFldMarketerLocal"
 			Source="select * from
-(SELECT LOWER(REPLACE(DomainName, &apos;MIDKSCOOP\&apos;,&apos;&apos;)) [login], FullName as [FieldMarketer], PositionIdName [ag_RoleIdName], ag_DepartmentIdName, ParentSystemUserIdName as [Manager], InternalEmailAddress, DomainName, CASE WHEN &apos;@Function.UserName~&apos; IN(&apos;knichols&apos;, &apos;twalker&apos;, &apos;dspears&apos;, &apos;mlyons&apos;) THEN 1 ELSE 0 END as chkAdmin
-FROM dbo.SystemUser 
-WHERE IsDisabled=0 AND ag_DepartmentIdName = &apos;Agronomy&apos; AND PositionIdName IS NOT NULL
+(SELECT LOWER(REPLACE(SU.DomainName, &apos;MIDKSCOOP\&apos;,&apos;&apos;)) [login], SU.FullName as [FieldMarketer], SU.PositionIdName [ag_RoleIdName], SU.ag_DepartmentIdName, SU.ParentSystemUserIdName as [Manager], SU.InternalEmailAddress, SU.DomainName
+, CASE WHEN &apos;@Function.UserName~&apos; IN(LOWER(REPLACE(PU.DomainName, &apos;MIDKSCOOP\&apos;,&apos;&apos;))) OR &apos;@Function.UserName~&apos; IN(&apos;mylons&apos;,&apos;&apos;) OR &apos;@Function.UserName~&apos; IS NULL THEN 1 ELSE 0 END as chkAdmin
+FROM dbo.SystemUser As SU
+  INNER JOIN dbo.SystemUserBase As PU ON SU.ParentSystemUserId = PU.SystemUserId
+WHERE SU.IsDisabled=0 AND SU.ag_DepartmentIdName = &apos;Agronomy&apos; AND SU.PositionIdName IS NOT NULL
 ) as data
 Where login = &apos;@Function.UserName~&apos; 
 	 OR &apos;@Function.UserName~&apos; in (&apos;knichols&apos;, &apos;twalker&apos;, &apos;dspears&apos;, &apos;mlyons&apos;)
@@ -245,9 +247,9 @@ Order By FieldMarketer"
 												ID="dlCustomer"
 												Source="Select Distinct am.AccountId,
   am.Name AccountName
-From ag_saleshistory sh
-  Inner Join Account am On sh.ag_accountid = am.AccountId
-  Inner Join mkcAgronomyProductDim pd On sh.ag_ProductCode = pd.ProdCd
+From dbo.ag_saleshistory sh
+  Inner Join dbo.Account am On sh.ag_accountid = am.AccountId
+  Inner Join dbo.mkcAgronomyProductDim pd On sh.ag_ProductCode = pd.ProdCd
 Where am.po_FieldMarketer Is Not Null And (am.po_FieldMarketer =
     &apos;@Request.islFieldMarketer~&apos; Or &apos;@Request.islFieldMarketer~&apos; = &apos;&apos;)
   And sh.ag_CropYear Between Year(&apos;@Date.LastYearStart~&apos;) And
@@ -459,8 +461,8 @@ Where pd.ProdRptCatDesc Not In (&apos;Application&apos;, &apos;Optimal Acres&apo
 												ConnectionID="connCRMTest"
 												ID="dlYearChart"
 												Source="Select sh.ag_CropYear CropYear,
-  Case When pd.ProdRptCatDesc In(&apos;Chemical&apos;,&apos;Seed Treatment&apos;) Then Round( (sh.ag_Amount / 100), 2) 
-       Else sh.ag_InvoiceQuantity 
+  Case When pd.ProdRptCatDesc In(&apos;Chemical&apos;,&apos;Seed Treatment&apos;) Then Round( (Sum(sh.ag_Amount) / 100), 2) 
+       Else Sum(sh.ag_InvoiceQuantity) 
     End As Amount,
   Case When pd.ProdRptCatDesc = &apos;Chemical&apos; Then &apos;(x100) $$$$&apos;
        When pd.ProdRptCatDesc = &apos;Fertilizer&apos; Then &apos;Tons&apos;
@@ -486,7 +488,7 @@ Where sh.ag_CropYear Between Year(&apos;@Request.inpDateEnd~&apos;)-2 And Year(&
 Group By Case When pd.ProdRptCatDesc In (&apos;Precision Ag&apos;, &apos;Chemical&apos;, &apos;Seed&apos;) Then pd.ProdRptCatDesc 
               Else pd.ProdRptSubCatDesc 
 	       End, 
-		 sh.ag_CropYear, pd.ProdRptCatDesc, sh.ag_InvoiceUnit, sh.ag_Amount, sh.ag_InvoiceQuantity
+		 sh.ag_CropYear, pd.ProdRptCatDesc, sh.ag_InvoiceUnit
 Order By CropYear, pd.ProdRptCatDesc"
 												Type="SQL"
 												>
@@ -498,12 +500,12 @@ Order By CropYear, pd.ProdRptCatDesc"
 														ConnectionID="connCRMTest"
 														ID="dlYearChartInner"
 														Source="Select ag_CropYear as &apos;CropYear&apos;, &apos;Units&apos; as InvoiceUOM, &apos;Total Nutrients&apos; As description,
-  (([Dry Fertilizer]*920+[Liquid Fertilizer]*620+[NH3]*1640)/1000) as &apos;Amount&apos;
+  ((IsNull([Dry Fertilizer],0)*920+IsNull([Liquid Fertilizer],0)*620+IsNull([NH3],0)*1640)/1000) as &apos;Amount&apos;
 FROM 
   (Select sh.ag_CropYear, sh.ag_InvoiceQuantity As &apos;Amount&apos;, pd.ProdRptSubCatDesc As description
-   From ag_saleshistory sh
-     Inner Join Account am On sh.ag_accountid = am.AccountId
-     Inner Join mkcAgronomyProductDim pd On sh.ag_ProductCode = pd.ProdCd
+   From dbo.ag_saleshistory sh
+     Inner Join dbo.Account am On sh.ag_accountid = am.AccountId
+     Inner Join dbo.mkcAgronomyProductDim pd On sh.ag_ProductCode = pd.ProdCd
    Where sh.ag_CropYear Between Year(&apos;@Request.inpDateEnd~&apos;)-2 And Year(&apos;@Request.inpDateEnd~&apos;) 
      And sh.statecode = 0 And sh.statuscode = 1 
 	 And pd.ProdRptSubCatDesc In (&apos;Liquid Fertilizer&apos;, &apos;NH3&apos;, &apos;Dry Fertilizer&apos;) 
@@ -715,11 +717,11 @@ Order By CropYear, pd.ProdRptCatDesc
 														ConnectionID="connCRMTest"
 														ID="dlMonthChartInner"
 														Source="SELECT ag_CropYear As &apos;CropYear&apos;, &apos;Units&apos; As InvoiceUOM, &apos;Total Nutrients&apos; As description,
-  (([Dry Fertilizer]*920+[Liquid Fertilizer]*620+[NH3]*1640)/100000) as &apos;Amount&apos;
+  ((IsNull([Dry Fertilizer],0)*920+IsNull([Liquid Fertilizer],0)*620+IsNull([NH3],0)*1640)/100000) as &apos;Amount&apos;
 FROM (Select sh.ag_CropYear, sh.ag_InvoiceQuantity As &apos;Amount&apos;, pd.ProdRptSubCatDesc As description
-      From ag_saleshistory sh
-        Inner Join Account am On sh.ag_accountid = am.AccountId
-        Inner Join mkcAgronomyProductDim pd On sh.ag_ProductCode = pd.ProdCd
+      From dbo.ag_saleshistory sh
+        Inner Join dbo.Account am On sh.ag_accountid = am.AccountId
+        Inner Join dbo.mkcAgronomyProductDim pd On sh.ag_ProductCode = pd.ProdCd
       Where (sh.ag_CropYear = Year(&apos;@Session.userMonth~&apos;) and sh.ag_CropMonth =  Month(&apos;@Session.userMonth~&apos;)) 
 	    And sh.statecode = 0 And sh.statuscode = 1 
 		And pd.ProdRptSubCatDesc In (&apos;Liquid Fertilizer&apos;, &apos;NH3&apos;, &apos;Dry Fertilizer&apos;) 
@@ -836,7 +838,7 @@ Order By CropYear
 From 
 (Select am.po_FieldMarketer As FieldMarketer, am.Name As Customer,
     Case When am.po_CFALoanNumber Is Null Then 0 Else 1 End As hasCFA,
-    Case When pd.ProdRptCatDesc = &apos;Chemical&apos; Then sh.ag_Amount Else sh.ag_InvoiceQuantity End As Quantity,
+    Case When pd.ProdRptCatDesc = &apos;Chemical&apos; Then Sum(sh.ag_Amount) Else Sum(sh.ag_InvoiceQuantity) End As Quantity,
     Case When pd.ProdRptCatDesc = &apos;Chemical&apos; Then &apos;$$$&apos;
       When pd.ProdRptCatDesc = &apos;Fertilizer&apos; Then &apos;Tons&apos;
       When pd.ProdRptCatDesc = &apos;Seed&apos; Then &apos;Units&apos;
@@ -845,11 +847,11 @@ From
     Case When pd.ProdRptCatDesc In (&apos;Precision Ag&apos;, &apos;Chemical&apos;, &apos;Seed&apos;) Then pd.ProdRptCatDesc 
 	     Else pd.ProdRptSubCatDesc 
 	  End As ProductClass,
-    sh.ag_Amount As Amount,
+    Sum(sh.ag_Amount) As Amount,
     pd.ProdDesc As Product
-  From ag_saleshistory sh
-    Inner Join Account am On sh.ag_accountid = am.AccountId
-    Inner Join mkcAgronomyProductDim pd On sh.ag_ProductCode = pd.ProdCd
+  From dbo.ag_saleshistory sh
+    Inner Join dbo.Account am On sh.ag_accountid = am.AccountId
+    Inner Join dbo.mkcAgronomyProductDim pd On sh.ag_ProductCode = pd.ProdCd
   Where sh.statecode = 0 And sh.statuscode = 1 
     And am.po_FieldMarketer Is Not Null   
     And (am.po_FieldMarketer = &apos;@Request.islFieldMarketer~&apos; Or &apos;@Request.islFieldMarketer~&apos; = &apos;&apos;) 
@@ -865,14 +867,25 @@ From
     And pd.ProdRptCatDesc Not In (&apos;Application&apos;, &apos;Optimal Acres&apos;, &apos;Other&apos;)
     And (am.AccountId = &apos;@Request.islCustomer~&apos; Or &apos;@Request.islCustomer~&apos; = &apos;&apos;)
 	And (pd.ProdRptSubCatDesc In (@SingleQuote.Request.inpProdClass~) or &apos;@Request.inpProdClass~&apos; = &apos;&apos;)
+  Group By am.po_FieldMarketer, am.Name,
+    Case When am.po_CFALoanNumber Is Null Then 0 Else 1 End,
+    Case When pd.ProdRptCatDesc = &apos;Chemical&apos; Then &apos;$$$&apos;
+      When pd.ProdRptCatDesc = &apos;Fertilizer&apos; Then &apos;Tons&apos;
+      When pd.ProdRptCatDesc = &apos;Seed&apos; Then &apos;Units&apos;
+      When pd.ProdRptCatDesc = &apos;Precision Ag&apos; Then &apos;Acres&apos;
+      Else sh.ag_InvoiceUnit End,
+    Case When pd.ProdRptCatDesc In (&apos;Precision Ag&apos;, &apos;Chemical&apos;, &apos;Seed&apos;) Then pd.ProdRptCatDesc 
+      Else pd.ProdRptSubCatDesc End, 
+    pd.ProdRptCatDesc,
+    pd.ProdDesc
  ) a
   Left Join 
   (Select am.po_FieldMarketer As FieldMarketer, am.Name As Customer, 
-      Case When pd.ProdRptCatDesc = &apos;Chemical&apos; Then sh.ag_Amount Else sh.ag_InvoiceQuantity End As QuantityOld,
-    sh.ag_Amount As AmountOld, pd.ProdDesc As Product
-   From ag_saleshistory sh
-     Inner Join Account am On sh.ag_accountid = am.AccountId
-     Inner Join mkcAgronomyProductDim pd On sh.ag_ProductCode = pd.ProdCd
+      Case When pd.ProdRptCatDesc = &apos;Chemical&apos; Then Sum(sh.ag_Amount) Else Sum(sh.ag_InvoiceQuantity) End As QuantityOld,
+    Sum(sh.ag_Amount) As AmountOld, pd.ProdDesc As Product
+   From dbo.ag_saleshistory sh
+     Inner Join dbo.Account am On sh.ag_accountid = am.AccountId
+     Inner Join dbo.mkcAgronomyProductDim pd On sh.ag_ProductCode = pd.ProdCd
    Where am.po_FieldMarketer Is Not Null 
      And (am.po_FieldMarketer = &apos;@Request.islFieldMarketer~&apos; Or &apos;@Request.islFieldMarketer~&apos; = &apos;&apos;) 
 	 And (Case When pd.ProdRptCatDesc In (&apos;Precision Ag&apos;, &apos;Chemical&apos;, &apos;Seed&apos;) Then pd.ProdRptCatDesc Else pd.ProdRptSubCatDesc
@@ -881,14 +894,15 @@ From
     pd.ProdRptCatDesc Not In (&apos;Application&apos;, &apos;Optimal Acres&apos;, &apos;Other&apos;)
     And sh.statecode = 0 And sh.statuscode = 1 And (am.AccountId =
       &apos;@Request.islCustomer~&apos; Or &apos;@Request.islCustomer~&apos; = &apos;&apos;) And (pd.ProdRptSubCatDesc In (@SingleQuote.Request.inpProdClass~) Or &apos;@Request.inpProdClass~&apos; = &apos;&apos;)
+   Group By am.po_FieldMarketer, am.Name, pd.ProdDesc, pd.ProdRptCatDesc	  
   ) b
     On a.Customer = b.Customer And a.Product = b.Product
 	Group By a.Customer, a.FieldMarketer, a.Product, a.InvoiceUOM, a.ProductClass, a.hasCFA"
 														Type="SQL"
 														>
 														<GroupFilter
-															GroupColumn="Product, Customer"
-															KeepGroupedRows="True"
+															GroupColumn="Customer, Product"
+															KeepGroupedRows="False"
 															>
 															<GroupAggregateColumn
 																AggregateColumn="Amount"
@@ -992,7 +1006,26 @@ From
 													<DataTableColumn
 														Class="ThemeAlignRight"
 														ColumnHeaderClass="ThemeAlignRight"
-														Header="Sold"
+														Header="SoldAmt"
+														>
+														<Label
+															Caption="@Data.grpAmount~"
+															Class="ThemeAlignRight"
+															Format="Currency"
+														/>
+														<DataColumnSort
+															DataColumn="grpAmount"
+															DataType="Number"
+														/>
+														<ConditionalClass
+															Class="fontRed ThemeAlignRight"
+															Condition="&apos;@Data.grpAmount~&apos; &lt; 0"
+														/>
+													</DataTableColumn>
+													<DataTableColumn
+														Class="ThemeAlignRight"
+														ColumnHeaderClass="ThemeAlignRight"
+														Header="SoldQty"
 														>
 														<Division
 															Class="ThemeAlignRight"
@@ -1016,7 +1049,7 @@ From
 																Format="###,###,##0.00"
 															/>
 															<Spaces
-																Size="1"
+																Size="2"
 															/>
 															<Label
 																Caption="@Data.InvoiceUOM~"
@@ -1024,12 +1057,12 @@ From
 															/>
 														</Division>
 														<DataColumnSort
-															DataColumn="grpAmount"
+															DataColumn="grpQuantity"
 															DataType="Number"
 														/>
 														<ConditionalClass
 															Class="fontRed ThemeAlignRight"
-															Condition="&apos;@Data.grpAmount~&apos; &lt; 0"
+															Condition="&apos;@Data.grpQuantity~&apos; &lt; 0"
 														/>
 													</DataTableColumn>
 													<DataTableColumn
