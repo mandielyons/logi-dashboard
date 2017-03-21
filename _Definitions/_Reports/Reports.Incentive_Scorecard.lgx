@@ -106,8 +106,8 @@
 								<Column
 									Class="ThemeAlignTop"
 									ID="colFilters"
-									Width="300"
-									WidthScale="px"
+									Width="20"
+									WidthScale="%"
 									>
 									<Rows
 										Width="90"
@@ -216,6 +216,8 @@
 								<Column
 									Class="ThemeAlignTop"
 									ID="colContent"
+									Width="75"
+									WidthScale="%"
 									>
 									<ResponsiveRow
 										Class="ThemeTextSmall"
@@ -237,13 +239,13 @@
 													LineCount="3"
 												/>
 												<DataTable
-													Caption="Scorecard YTD - @Request.PodLocation~"
+													Caption="Scorecard YTD - @Request.PodLocation~ POD"
 													ID="dtScorecard"
 													Width="100"
 													WidthScale="%"
 													>
 													<DataLayer
-														CellRange="A1:S300"
+														CellRange="A1:T300"
 														ColumnNamesRow="1"
 														ExcelFile="@Request.ExcelFileLocation~"
 														ExcelWorksheet="Location Scorecard"
@@ -267,125 +269,88 @@
 														/>
 													</DataLayer>
 													<DataTableColumn
+														Class="ThemeAlignLeft"
 														Header="Metric"
 														ID="colMetricDesc"
+														Width="30"
+														WidthScale="%"
 														>
 														<Label
 															Caption="@Data.Location Metric~"
-															ID="lblMeasureDesc"
-														/>
-														<Remark>
-															<DataColumnSort
-																DataColumn="MetricDesc"
-															/>
-														</Remark>
-													</DataTableColumn>
-													<DataTableColumn
-														ID="colMetricId"
-														>
-														<Gauge
-															AlignmentHorizontal="Center"
-															BalloonLabelFormat="@Data.NumberFormat~"
-															ChartHeight="80"
-															ChartWidth="300"
-															FontBold="True"
-															FontSize="Small"
-															ID="BalloonBarGauge"
-															PlotBackgroundColor="Transparent"
-															StartValue="@Data.Budget_Min~"
-															TickCount="@Data.TickCount~"
-															TickLabelFontSize="Small"
-															TickLabelFormat="@Data.NumberFormat~"
-															Type="BalloonBar"
-															Value="@Data.Actual_Performance~"
+															ID="lblMetricDesc"
 															>
-															<GaugeRange
-																Color="@Data.LowColor~"
-																RangeEndValue="@Data.Budget_Target~"
+															<Action
+																Display="Toggle"
+																ElementID="mirMetricDetails"
+																ID="aseMetricDescriptionDetails"
+																Type="ShowElement"
 															/>
-															<GaugeRange
-																Color="@Data.HighColor~"
-																RangeEndValue="@Data.Budget_Max~"
-															/>
-														</Gauge>
+														</Label>
+													</DataTableColumn>
+													<MoreInfoRow
+														Class="ThemeAlignTopLeft, ThemeTextSmallest"
+														ColumnSpanFirst="2"
+														ColumnSpanLast="5"
+														ID="mirMetricDetails"
+														ShowModes="None"
+														>
+														<Label
+															Caption="@Data.Notes~"
+															Class="ThemeTextSmall"
+														/>
+													</MoreInfoRow>
+													<DataTableColumn
+														Class="ThemeBold"
+														ColumnHeaderClass="ThemeAlignCenter"
+														Header="Actual"
+														ID="colVisual"
+														Width="20"
+														WidthScale="%"
+														>
+														<Label
+															Caption="@Data.KpiColor~"
+															Format="HTML"
+															ID="lblVisual"
+														/>
 													</DataTableColumn>
 													<DataTableColumn
+														ColumnHeaderClass="ThemeAlignCenter"
 														Header="Min"
 														ID="colBudget_Min"
+														Width="20"
+														WidthScale="%"
 														>
 														<Label
 															Caption="@Data.Budget_Min~"
 															Format="@Data.NumberFormat~"
 															ID="lblBudget_Min"
 														/>
-														<Remark>
-															<DataColumnSort
-																DataColumn="Budget_Min"
-																DataType="Number"
-															/>
-														</Remark>
 													</DataTableColumn>
 													<DataTableColumn
+														ColumnHeaderClass="ThemeAlignCenter"
 														Header="Max"
 														ID="colBudget_Max"
+														Width="20"
+														WidthScale="%"
 														>
 														<Label
 															Caption="@Data.Budget_Max~"
 															Format="@Data.NumberFormat~"
 															ID="lblBudget_Max"
 														/>
-														<Remark>
-															<DataColumnSort
-																DataColumn="Budget_Max"
-																DataType="Number"
-															/>
-														</Remark>
 													</DataTableColumn>
 													<DataTableColumn
+														ColumnHeaderClass="ThemeAlignCenter"
 														Header="Target"
 														ID="colBudget_Target"
+														Width="20"
+														WidthScale="%"
 														>
 														<Label
 															Caption="@Data.Budget_Target~"
 															Format="@Data.NumberFormat~"
 															ID="lblBudget_Target"
 														/>
-														<Remark>
-															<DataColumnSort
-																DataColumn="Budget_Target"
-																DataType="Number"
-															/>
-														</Remark>
-													</DataTableColumn>
-													<DataTableColumn
-														Header="Actual"
-														ID="colActual_Performance"
-														>
-														<Label
-															Caption="@Data.Actual_Performance~"
-															Format="@Data.NumberFormat~"
-															ID="lblActual_Performance"
-														/>
-														<Remark>
-															<DataColumnSort
-																DataColumn="Actual_Performance"
-																DataType="Number"
-															/>
-														</Remark>
-													</DataTableColumn>
-													<DataTableColumn
-														Header="Notes"
-														ID="colNotes"
-														>
-														<Label
-															Caption="@Data.Notes~"
-															ID="lblNotes"
-														/>
-														<Remark>
-															<DataColumnSort
-																DataColumn="Notes"
-															/>
-														</Remark>
 													</DataTableColumn>
 												</DataTable>
 											</Division>
