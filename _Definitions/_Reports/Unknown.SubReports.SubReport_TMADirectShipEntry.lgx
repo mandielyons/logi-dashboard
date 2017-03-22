@@ -323,6 +323,7 @@ ORDER BY BRANCHNO"
 						<InputTextArea
 							Caption="Comments:"
 							DefaultValue="@Local.COMMENTS~"
+							Format="HTML"
 							ID="iptComments"
 							InputColumns="200"
 							InputRows="5"
