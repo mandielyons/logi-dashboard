@@ -24,14 +24,15 @@
 			ID="dlFldMarketerLocal"
 			Source="select * from
 (SELECT LOWER(REPLACE(SU.DomainName, &apos;MIDKSCOOP\&apos;,&apos;&apos;)) [login], SU.FullName as [FieldMarketer], SU.PositionIdName [ag_RoleIdName], SU.ag_DepartmentIdName, SU.ParentSystemUserIdName as [Manager], SU.InternalEmailAddress, SU.DomainName
-, CASE WHEN &apos;@Function.UserName~&apos; IN(LOWER(REPLACE(PU.DomainName, &apos;MIDKSCOOP\&apos;,&apos;&apos;))) OR &apos;@Function.UserName~&apos; IN(&apos;mylons&apos;,&apos;&apos;) OR &apos;@Function.UserName~&apos; IS NULL THEN 1 ELSE 0 END as chkAdmin
+, CASE WHEN ISNULL(&apos;@Function.UserName~&apos;,&apos;&apos;) IN(&apos;knichols&apos;, &apos;twalker&apos;, &apos;dspears&apos;, &apos;mlyons&apos;,&apos;&apos;) THEN 1 ELSE 0 END as chkAdmin
 FROM dbo.SystemUser As SU
   INNER JOIN dbo.SystemUserBase As PU ON SU.ParentSystemUserId = PU.SystemUserId
 WHERE SU.IsDisabled=0 AND SU.ag_DepartmentIdName = &apos;Agronomy&apos; AND SU.PositionIdName IS NOT NULL
 ) as data
 Where login = &apos;@Function.UserName~&apos; 
 	 OR &apos;@Function.UserName~&apos; in (&apos;knichols&apos;, &apos;twalker&apos;, &apos;dspears&apos;, &apos;mlyons&apos;)
-Order By login"
+Order By login
+"
 			Type="SQL"
 		/>
 	</LocalData>
