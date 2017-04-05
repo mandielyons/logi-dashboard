@@ -170,7 +170,7 @@
 													Condition="&quot;@Data.Column1~&quot; = &quot;@Request.Branch~&quot;"
 												/>
 												<CalculatedColumn
-													Formula="FormatNumber(&quot;@Data.Column27~&quot;,0,0,0,0)"
+													Formula="FormatNumber(@Data.Column27~,0,0,0,0)"
 													ID="calcCol27"
 												/>
 												<CalculatedColumn
@@ -257,46 +257,8 @@
 															ColSpan="2"
 															>
 															<LineBreak
-																LineCount="7"
+																LineCount="9"
 															/>
-														</Column>
-													</Row>
-													<Row>
-														<Column>
-															<Label
-																Caption="90% Current Available:"
-															/>
-														</Column>
-														<Column
-															Class="ThemeAlignRight"
-															>
-															<Label
-																Caption="@Data.Column29~"
-															/>
-														</Column>
-													</Row>
-													<Row>
-														<Column>
-															<Label
-																Caption="Total Adjusted Space:"
-																Class="bold"
-															/>
-														</Column>
-														<Column
-															Class="ThemeAlignRight"
-															>
-															<Label
-																Caption=" @Data.Column31~"
-																>
-																<ConditionalClass
-																	Class="bold text-success"
-																	Condition="&quot;@Data.Column31~&quot; &gt; &quot;0&quot;"
-																/>
-																<ConditionalClass
-																	Class="bold text-danger"
-																	Condition="&quot;@Data.Column31~&quot; &lt;= &quot;0&quot;"
-																/>
-															</Label>
 														</Column>
 													</Row>
 												</Rows>
@@ -402,14 +364,66 @@
 															ColSpan="2"
 															>
 															<LineBreak
-																LineCount="7"
+																LineCount="4"
 															/>
 														</Column>
 													</Row>
 													<Row>
 														<Column>
 															<Label
-																Caption="Total:"
+																Caption="90% Current Available:"
+															/>
+														</Column>
+														<Column
+															Class="ThemeAlignRight"
+															>
+															<Label
+																Caption="@Data.Column29~"
+															/>
+														</Column>
+													</Row>
+													<Row>
+														<Column>
+															<Label
+																Caption="Total Temporary:"
+															/>
+														</Column>
+														<Column
+															Class="ThemeAlignRight"
+															>
+															<Label
+																Caption="@Data.Column28~"
+															/>
+														</Column>
+													</Row>
+													<Row>
+														<Column>
+															<Label
+																Caption="Total Adjusted Space:"
+																Class="bold"
+															/>
+														</Column>
+														<Column
+															Class="ThemeAlignRight"
+															>
+															<Label
+																Caption=" @Data.Column31~"
+																>
+																<ConditionalClass
+																	Class="bold text-success"
+																	Condition="&quot;@Data.Column31~&quot; &gt; &quot;0&quot;"
+																/>
+																<ConditionalClass
+																	Class="bold text-danger"
+																	Condition="&quot;@Data.Column31~&quot; &lt;= &quot;0&quot;"
+																/>
+															</Label>
+														</Column>
+													</Row>
+													<Row>
+														<Column>
+															<Label
+																Caption="Total in Elevator:"
 																Class="bold"
 															/>
 														</Column>
@@ -665,7 +679,7 @@
 													ID="colTotalSalesTransfers"
 												/>
 												<CalculatedColumn
-													Formula="@Data.Column52~ + @Data.Column53~ + @Data.Column55~ + @Data.Column54~"
+													Formula="@Data.Column52~ + @Data.Column53~ + @Data.Column54~ + @Data.Column55~"
 													ID="colTotalCantonSold"
 												/>
 												<CalculatedColumn
@@ -886,6 +900,7 @@
 															>
 															<Label
 																Caption="@Data.Column45~"
+																Format="###,###,##0"
 															/>
 														</Column>
 													</Row>
