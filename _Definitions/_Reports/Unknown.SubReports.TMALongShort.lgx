@@ -160,26 +160,14 @@
 											WidthScale="%"
 											>
 											<DataLayer
-												CellRange="A1:BM76"
-												ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\HVSTLS - - wheat 2017.xlsx"
-												ExcelWorksheet="LongShortPivot"
+												ColumnNamesRow="1"
+												ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\HVSTLS - - wheat 2017.xls"
+												ExcelWorksheet="LongShortDB"
 												ID="dlLocationDetails"
 												Type="Excel"
 												>
 												<ConditionFilter
-													Condition="&quot;@Data.Column1~&quot; = &quot;@Request.Branch~&quot;"
-												/>
-												<CalculatedColumn
-													Formula="FormatNumber(@Data.Column27~,0,0,0,0)"
-													ID="calcCol27"
-												/>
-												<CalculatedColumn
-													Formula="FormatNumber(&quot;@Data.Column26~&quot;,0,0,0,0)"
-													ID="calcCol26"
-												/>
-												<CalculatedColumn
-													Formula="@Data.calcCol26~ + @Data.calcCol27~ / .9"
-													ID="calc100Space"
+													Condition="InStr(&quot;@Data.Branch_Number~&quot;,&quot;@Request.Branch~&quot;) &gt; 0"
 												/>
 											</DataLayer>
 											<Remark>
@@ -205,7 +193,7 @@
 															Class="ThemeAlignRight"
 															>
 															<Label
-																Caption="@Data.calc100Space~"
+																Caption="@Data.100_Space~"
 																Format="###,###,##0"
 															/>
 														</Column>
@@ -220,7 +208,8 @@
 															Class="ThemeAlignRight"
 															>
 															<Label
-																Caption="@Data.Column26~"
+																Caption="@Data.90_Upright_Cap~"
+																Format="###,###,##0"
 															/>
 														</Column>
 													</Row>
@@ -234,7 +223,8 @@
 															Class="ThemeAlignRight"
 															>
 															<Label
-																Caption="@Data.Column27~"
+																Caption="@Data.90_Flat_Cap~"
+																Format="###,###,##0"
 															/>
 														</Column>
 													</Row>
@@ -248,7 +238,8 @@
 															Class="ThemeAlignRight"
 															>
 															<Label
-																Caption="@Data.Column28~"
+																Caption="@Data.Temp_Storage~"
+																Format="###,###,##0"
 															/>
 														</Column>
 													</Row>
@@ -257,7 +248,71 @@
 															ColSpan="2"
 															>
 															<LineBreak
-																LineCount="9"
+																LineCount="6"
+															/>
+														</Column>
+													</Row>
+													<Remark>
+														<Row>
+															<Column>
+																<Label
+																	Caption="Total Temporary:"
+																/>
+															</Column>
+															<Column
+																Class="ThemeAlignRight"
+																>
+																<Label
+																	Caption="@Data.Temp_Storage~"
+																	Format="###,###,##0"
+																/>
+															</Column>
+														</Row>
+													</Remark>
+													<Row>
+														<Column>
+															<Label
+																Caption="90% Current Available:"
+															/>
+														</Column>
+														<Column
+															Class="ThemeAlignRight"
+															>
+															<Label
+																Caption="@Data.90_Space~"
+																Format="###,###,##0"
+															/>
+														</Column>
+													</Row>
+													<Row>
+														<Column>
+															<Label
+																Caption="Total Temporary Space:"
+															/>
+														</Column>
+														<Column
+															Class="ThemeAlignRight"
+															>
+															<Label
+																Caption=" @Data.Temp_Storage~"
+																Format="###,###,##0"
+															/>
+														</Column>
+													</Row>
+													<Row>
+														<Column>
+															<Label
+																Caption="Total Space:"
+																Class="bold"
+															/>
+														</Column>
+														<Column
+															Class="ThemeAlignRight"
+															>
+															<Label
+																Caption=" @Data.100_Space~"
+																Class="bold"
+																Format="###,###,##0"
 															/>
 														</Column>
 													</Row>
@@ -283,7 +338,8 @@
 															Class="ThemeAlignRight"
 															>
 															<Label
-																Caption="@Data.Column3~"
+																Caption="@Data.Wheat_Elevator~"
+																Format="###,###,##0"
 															/>
 														</Column>
 													</Row>
@@ -297,7 +353,8 @@
 															Class="ThemeAlignRight"
 															>
 															<Label
-																Caption="@Data.Column4~"
+																Caption="@Data.Milo_Elevator~"
+																Format="###,###,##0"
 															/>
 														</Column>
 													</Row>
@@ -311,7 +368,8 @@
 															Class="ThemeAlignRight"
 															>
 															<Label
-																Caption="@Data.Column6~"
+																Caption="@Data.Beans_Elevator~"
+																Format="###,###,##0"
 															/>
 														</Column>
 													</Row>
@@ -325,7 +383,8 @@
 															Class="ThemeAlignRight"
 															>
 															<Label
-																Caption="@Data.Column5~"
+																Caption="@Data.Corn_Elevator~"
+																Format="###,###,##0"
 															/>
 														</Column>
 													</Row>
@@ -339,85 +398,33 @@
 															Class="ThemeAlignRight"
 															>
 															<Label
-																Caption="@Data.Column7~"
+																Caption="@Data.Sunseeds_Elevator~"
+																Format="###,###,##0"
 															/>
 														</Column>
 													</Row>
-													<Remark>
-														<Row>
-															<Column>
-																<Label
-																	Caption="Other Grains:"
-																/>
-															</Column>
-															<Column
-																Class="ThemeAlignRight"
-																>
-																<Label
-																	Caption="@Data.Column8~"
-																/>
-															</Column>
-														</Row>
-													</Remark>
+													<Row>
+														<Column>
+															<Label
+																Caption="Soft Wheat:"
+															/>
+														</Column>
+														<Column
+															Class="ThemeAlignRight"
+															>
+															<Label
+																Caption="@Data.SoftWheat_Elevator~"
+																Format="###,###,##0"
+															/>
+														</Column>
+													</Row>
 													<Row>
 														<Column
 															ColSpan="2"
 															>
 															<LineBreak
-																LineCount="4"
+																LineCount="6"
 															/>
-														</Column>
-													</Row>
-													<Row>
-														<Column>
-															<Label
-																Caption="90% Current Available:"
-															/>
-														</Column>
-														<Column
-															Class="ThemeAlignRight"
-															>
-															<Label
-																Caption="@Data.Column29~"
-															/>
-														</Column>
-													</Row>
-													<Row>
-														<Column>
-															<Label
-																Caption="Total Temporary:"
-															/>
-														</Column>
-														<Column
-															Class="ThemeAlignRight"
-															>
-															<Label
-																Caption="@Data.Column28~"
-															/>
-														</Column>
-													</Row>
-													<Row>
-														<Column>
-															<Label
-																Caption="Total Adjusted Space:"
-																Class="bold"
-															/>
-														</Column>
-														<Column
-															Class="ThemeAlignRight"
-															>
-															<Label
-																Caption=" @Data.Column31~"
-																>
-																<ConditionalClass
-																	Class="bold text-success"
-																	Condition="&quot;@Data.Column31~&quot; &gt; &quot;0&quot;"
-																/>
-																<ConditionalClass
-																	Class="bold text-danger"
-																	Condition="&quot;@Data.Column31~&quot; &lt;= &quot;0&quot;"
-																/>
-															</Label>
 														</Column>
 													</Row>
 													<Row>
@@ -431,19 +438,39 @@
 															Class="ThemeAlignRight"
 															>
 															<Label
-																Caption=" @Data.Column10~"
-																>
-																<ConditionalClass
-																	Class="bold text-success"
-																	Condition="&quot;@Data.Column10~&quot; &gt; &quot;0&quot;"
-																/>
-																<ConditionalClass
-																	Class="bold text-danger"
-																	Condition="&quot;@Data.Column10~&quot; &lt;= &quot;0&quot;"
-																/>
-															</Label>
+																Caption=" @Data.TotalGrain_Elevator~"
+																Class="bold"
+																Format="###,###,##0"
+															/>
 														</Column>
 													</Row>
+													<Remark>
+														<Row>
+															<Column>
+																<Label
+																	Caption="Total Adjusted Space:"
+																	Class="bold"
+																/>
+															</Column>
+															<Column
+																Class="ThemeAlignRight"
+																>
+																<Label
+																	Caption=" @Data.Total_Adj_Space~"
+																	Format="###,###,##0"
+																	>
+																	<ConditionalClass
+																		Class="bold text-success"
+																		Condition="&quot;@Data.Total_Adj_Space~&quot; &gt; &quot;0&quot;"
+																	/>
+																	<ConditionalClass
+																		Class="bold text-danger"
+																		Condition="&quot;@Data.Total_Adj_Space~&quot; &lt;= &quot;0&quot;"
+																	/>
+																</Label>
+															</Column>
+														</Row>
+													</Remark>
 												</Rows>
 											</DataTableColumn>
 											<DataTableColumn
@@ -466,7 +493,8 @@
 															Class="ThemeAlignRight"
 															>
 															<Label
-																Caption="@Data.Column38~"
+																Caption="@Data.Est_Wheat_Rec~"
+																Format="###,###,##0"
 															/>
 														</Column>
 													</Row>
@@ -480,7 +508,8 @@
 															Class="ThemeAlignRight"
 															>
 															<Label
-																Caption="@Data.Column33~"
+																Caption="@Data.Est_Milo_Rec~"
+																Format="###,###,##0"
 															/>
 														</Column>
 													</Row>
@@ -494,7 +523,8 @@
 															Class="ThemeAlignRight"
 															>
 															<Label
-																Caption="@Data.Column35~"
+																Caption="@Data.Est_Bean_Rec~"
+																Format="###,###,##0"
 															/>
 														</Column>
 													</Row>
@@ -508,7 +538,8 @@
 															Class="ThemeAlignRight"
 															>
 															<Label
-																Caption="@Data.Column34~"
+																Caption="@Data.Est_Corn_Rec~"
+																Format="###,###,##0"
 															/>
 														</Column>
 													</Row>
@@ -522,7 +553,8 @@
 															Class="ThemeAlignRight"
 															>
 															<Label
-																Caption="@Data.Column36~"
+																Caption="@Data.Est_Seed_Rec~"
+																Format="###,###,##0"
 															/>
 														</Column>
 													</Row>
@@ -531,41 +563,32 @@
 															ColSpan="2"
 															>
 															<LineBreak
-																LineCount="8"
+																LineCount="7"
 															/>
 														</Column>
 													</Row>
-													<Remark>
-														<Row>
-															<Column>
-																<Label
-																	Caption="Long/Short:"
-																	Class="bold"
-																/>
-															</Column>
-															<Column
-																Class="ThemeAlignRight"
-																>
-																<Label
-																	Caption=" @Data.Column41~"
-																	>
-																	<ConditionalClass
-																		Class="bold text-success"
-																		Condition="&quot;@Data.Column41~&quot; &gt; &quot;0&quot;"
-																	/>
-																	<ConditionalClass
-																		Class="bold text-danger"
-																		Condition="&quot;@Data.Column41~&quot; &lt;= &quot;0&quot;"
-																	/>
-																</Label>
-															</Column>
-														</Row>
-													</Remark>
+													<Row>
+														<Column>
+															<Label
+																Caption="Total Estimated Receipts:"
+																Class="bold"
+															/>
+														</Column>
+														<Column
+															Class="ThemeAlignRight"
+															>
+															<Label
+																Caption=" @Data.Total_Est_Receipts~"
+																Class="bold"
+																Format="###,###,##0"
+															/>
+														</Column>
+													</Row>
 												</Rows>
 											</DataTableColumn>
 											<DataTableColumn
-												Header="90% Space Available"
-												Width="27"
+												Header="Sales/Transfers"
+												Width="25"
 												WidthScale="%"
 												>
 												<Rows
@@ -576,57 +599,196 @@
 													<Row>
 														<Column>
 															<Label
-																Caption="After Receipts:"
+																Caption="Wheat:"
 															/>
 														</Column>
 														<Column
 															Class="ThemeAlignRight"
 															>
 															<Label
-																Caption=" @Data.Column41~"
-																>
-																<ConditionalClass
-																	Class="text-success"
-																	Condition="&quot;@Data.Column41~&quot; &gt; &quot;0&quot;"
-																/>
-																<ConditionalClass
-																	Class="text-danger"
-																	Condition="&quot;@Data.Column41~&quot; &lt;= &quot;0&quot;"
-																/>
-															</Label>
-														</Column>
-													</Row>
-													<Row>
-														<Column
-															ColSpan="2"
-															>
-															<LineBreak
-																LineCount="11"
+																Caption="@Data.Wheat_Sales~"
+																Format="###,###,##0"
 															/>
 														</Column>
 													</Row>
 													<Row>
 														<Column>
 															<Label
-																Caption="After Sales, Transfers and Receipts:"
-																Class="ThemeBold"
+																Caption="Milo:"
 															/>
 														</Column>
 														<Column
 															Class="ThemeAlignRight"
 															>
 															<Label
-																Caption=" @Data.Column41~"
+																Caption="@Data.Milo_Sales~"
+																Format="###,###,##0"
+															/>
+														</Column>
+													</Row>
+													<Row>
+														<Column>
+															<Label
+																Caption="Beans:"
+															/>
+														</Column>
+														<Column
+															Class="ThemeAlignRight"
+															>
+															<Label
+																Caption="@Data.Bean_Sales~"
+																Format="###,###,##0"
+															/>
+														</Column>
+													</Row>
+													<Row>
+														<Column>
+															<Label
+																Caption="Corn:"
+															/>
+														</Column>
+														<Column
+															Class="ThemeAlignRight"
+															>
+															<Label
+																Caption="@Data.Corn_Sales~"
+																Format="###,###,##0"
+															/>
+														</Column>
+													</Row>
+													<Row>
+														<Column>
+															<Label
+																Caption="Sunflowers:"
+															/>
+														</Column>
+														<Column
+															Class="ThemeAlignRight"
+															>
+															<Label
+																Caption="@Data.Sunseed_sales~"
+																Format="###,###,##0"
+															/>
+														</Column>
+													</Row>
+													<Row>
+														<Column>
+															<Label
+																Caption="Wheat Transfer:"
+															/>
+														</Column>
+														<Column
+															Class="ThemeAlignRight"
+															>
+															<Label
+																Caption="@Data.Wheat_Transfer~"
+																Format="###,###,##0"
+															/>
+														</Column>
+													</Row>
+													<Row>
+														<Column>
+															<Label
+																Caption="Corn Transfer: "
+															/>
+														</Column>
+														<Column
+															Class="ThemeAlignRight"
+															>
+															<Label
+																Caption="@Data.Corn_Transfer~"
+																Format="###,###,##0"
+															/>
+														</Column>
+													</Row>
+													<Row>
+														<Column>
+															<Label
+																Caption="Bean Transfer:"
+															/>
+														</Column>
+														<Column
+															Class="ThemeAlignRight"
+															>
+															<Label
+																Caption="@Data.Bean_Transfer~"
+																Format="###,###,##0"
+															/>
+														</Column>
+													</Row>
+													<Row>
+														<Column>
+															<Label
+																Caption="Bunker:"
+															/>
+														</Column>
+														<Column
+															Class="ThemeAlignRight"
+															>
+															<Label
+																Caption="@Data.Bunker~"
+																Format="###,###,##0"
+															/>
+														</Column>
+													</Row>
+													<Row>
+														<Column>
+															<Label
+																Caption="Feed Milo Pre Harvest: "
+															/>
+														</Column>
+														<Column
+															Class="ThemeAlignRight"
+															>
+															<Label
+																Caption="@Data.Feed_Milo_PreHarvest~"
+																Format="###,###,##0"
+															/>
+														</Column>
+													</Row>
+													<Row>
+														<Column>
+															<Label
+																Caption="Feed Corn Pre Harvest:"
+															/>
+														</Column>
+														<Column
+															Class="ThemeAlignRight"
+															>
+															<Label
+																Caption="@Data.Feed_Corn_PreHarvest~"
+																Format="###,###,##0"
+															/>
+														</Column>
+													</Row>
+													<Remark>
+														<Row>
+															<Column
+																ColSpan="2"
 																>
-																<ConditionalClass
-																	Class="bold text-success"
-																	Condition="&quot;@Data.Column41~&quot; &gt; &quot;0&quot;"
+																<LineBreak
+																	LineCount="2"
 																/>
-																<ConditionalClass
-																	Class="bold text-danger"
-																	Condition="&quot;@Data.Column41~&quot; &lt;= &quot;0&quot;"
-																/>
-															</Label>
+															</Column>
+														</Row>
+													</Remark>
+													<Row>
+														<Column>
+															<LineBreak/>
+															<Label
+																Caption="Total Sales/Transfers:"
+																Class="bold"
+															/>
+														</Column>
+														<Column
+															Class="ThemeAlignRight"
+															>
+															<LineBreak/>
+															<Label
+																Caption=" @Data.Total_Sales_Transfers~"
+																Class="bold"
+																Format="###,###,##0"
+															/>
 														</Column>
 													</Row>
 												</Rows>
@@ -665,220 +827,16 @@
 											WidthScale="%"
 											>
 											<DataLayer
-												CellRange="A1:BM76"
-												ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\HVSTLS - - wheat 2017.xlsx"
-												ExcelWorksheet="LongShortPivot"
+												ColumnNamesRow="1"
+												ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\HVSTLS - - wheat 2017.xls"
+												ExcelWorksheet="LongShortDB"
 												ID="dlLocationDetails2"
 												Type="Excel"
 												>
 												<ConditionFilter
-													Condition="&quot;@Data.Column1~&quot; = &quot;@Request.Branch~&quot;"
-												/>
-												<CalculatedColumn
-													Formula="@Data.Column12~ + @Data.Column13~ + @Data.Column15~ + @Data.Column14~ + @Data.Column16~ + @Data.Column17~ + @Data.Column18~ + @Data.Column19~ + @Data.Column20~ + @Data.Column21~ + @Data.Column22~"
-													ID="colTotalSalesTransfers"
-												/>
-												<CalculatedColumn
-													Formula="@Data.Column52~ + @Data.Column53~ + @Data.Column54~ + @Data.Column55~"
-													ID="colTotalCantonSold"
-												/>
-												<CalculatedColumn
-													Formula="@Data.Column58~ + @Data.Column59~ + @Data.Column61~ + @Data.Column60~ + @Data.Column62~"
-													ID="colToSell"
+													Condition="InStr(&quot;@Data.Branch_Number~&quot;, &quot;@Request.Branch~&quot;) &gt; 0"
 												/>
 											</DataLayer>
-											<DataTableColumn
-												Header="Sales/Transfers"
-												Width="25"
-												WidthScale="%"
-												>
-												<Rows
-													CellSpacing="5"
-													Width="80"
-													WidthScale="%"
-													>
-													<Row>
-														<Column>
-															<Label
-																Caption="Wheat:"
-															/>
-														</Column>
-														<Column
-															Class="ThemeAlignRight"
-															>
-															<Label
-																Caption="@Data.Column12~"
-															/>
-														</Column>
-													</Row>
-													<Row>
-														<Column>
-															<Label
-																Caption="Milo:"
-															/>
-														</Column>
-														<Column
-															Class="ThemeAlignRight"
-															>
-															<Label
-																Caption="@Data.Column13~"
-															/>
-														</Column>
-													</Row>
-													<Row>
-														<Column>
-															<Label
-																Caption="Beans:"
-															/>
-														</Column>
-														<Column
-															Class="ThemeAlignRight"
-															>
-															<Label
-																Caption="@Data.Column15~"
-															/>
-														</Column>
-													</Row>
-													<Row>
-														<Column>
-															<Label
-																Caption="Corn:"
-															/>
-														</Column>
-														<Column
-															Class="ThemeAlignRight"
-															>
-															<Label
-																Caption="@Data.Column14~"
-															/>
-														</Column>
-													</Row>
-													<Row>
-														<Column>
-															<Label
-																Caption="Sunflowers:"
-															/>
-														</Column>
-														<Column
-															Class="ThemeAlignRight"
-															>
-															<Label
-																Caption="@Data.Column16~"
-															/>
-														</Column>
-													</Row>
-													<Row>
-														<Column>
-															<Label
-																Caption="Wheat Transfer:"
-															/>
-														</Column>
-														<Column
-															Class="ThemeAlignRight"
-															>
-															<Label
-																Caption="@Data.Column17~"
-															/>
-														</Column>
-													</Row>
-													<Row>
-														<Column>
-															<Label
-																Caption="Corn Transfer: "
-															/>
-														</Column>
-														<Column
-															Class="ThemeAlignRight"
-															>
-															<Label
-																Caption="@Data.Column18~"
-															/>
-														</Column>
-													</Row>
-													<Row>
-														<Column>
-															<Label
-																Caption="Bean Transfer:"
-															/>
-														</Column>
-														<Column
-															Class="ThemeAlignRight"
-															>
-															<Label
-																Caption="@Data.Column19~"
-															/>
-														</Column>
-													</Row>
-													<Row>
-														<Column>
-															<Label
-																Caption="Bunker:"
-															/>
-														</Column>
-														<Column
-															Class="ThemeAlignRight"
-															>
-															<Label
-																Caption="@Data.Column20~"
-															/>
-														</Column>
-													</Row>
-													<Row>
-														<Column>
-															<Label
-																Caption="Feed Milo Pre Harvest: "
-															/>
-														</Column>
-														<Column
-															Class="ThemeAlignRight"
-															>
-															<Label
-																Caption="@Data.Column21~"
-															/>
-														</Column>
-													</Row>
-													<Row>
-														<Column>
-															<Label
-																Caption="Feed Corn Pre Harvest:"
-															/>
-														</Column>
-														<Column
-															Class="ThemeAlignRight"
-															>
-															<Label
-																Caption="@Data.Column22~"
-															/>
-														</Column>
-													</Row>
-													<Row>
-														<Column>
-															<LineBreak/>
-															<Label
-																Caption="Total Sales/Transfers:"
-																Class="bold"
-															/>
-														</Column>
-														<Column
-															Class="ThemeAlignRight"
-															>
-															<LineBreak/>
-															<Label
-																Caption=" @Data.colTotalSalesTransfers~"
-																>
-																<ConditionalClass
-																	Class="bold text-success"
-																	Condition="&quot;@Data.Column24~&quot; &gt; &quot;0&quot;"
-																/>
-																<ConditionalClass
-																	Class="bold text-danger"
-																	Condition="&quot;@Data.Column24~&quot; &lt;= &quot;0&quot;"
-																/>
-															</Label>
-														</Column>
-													</Row>
-												</Rows>
-											</DataTableColumn>
 											<DataTableColumn
 												Header="Sold Not Allocated"
 												Width="25"
@@ -899,7 +857,7 @@
 															Class="ThemeAlignRight"
 															>
 															<Label
-																Caption="@Data.Column45~"
+																Caption="@Data.Wheat_Sold_NA~"
 																Format="###,###,##0"
 															/>
 														</Column>
@@ -914,7 +872,8 @@
 															Class="ThemeAlignRight"
 															>
 															<Label
-																Caption="@Data.Column46~"
+																Caption="@Data.Milo_Sold_NA~"
+																Format="###,###,##0"
 															/>
 														</Column>
 													</Row>
@@ -928,7 +887,8 @@
 															Class="ThemeAlignRight"
 															>
 															<Label
-																Caption="@Data.Column48~"
+																Caption="@Data.Beans_Sold_NA~"
+																Format="###,###,##0"
 															/>
 														</Column>
 													</Row>
@@ -942,21 +902,23 @@
 															Class="ThemeAlignRight"
 															>
 															<Label
-																Caption="@Data.Column47~"
+																Caption="@Data.Corn_Sold_NA~"
+																Format="###,###,##0"
 															/>
 														</Column>
 													</Row>
 													<Row>
 														<Column>
 															<Label
-																Caption="Sunflowers:"
+																Caption="Soft Wheat:"
 															/>
 														</Column>
 														<Column
 															Class="ThemeAlignRight"
 															>
 															<Label
-																Caption="@Data.Column49~"
+																Caption="@Data.SoftWheat_Sold_NA~"
+																Format="###,###,##0"
 															/>
 														</Column>
 													</Row>
@@ -970,7 +932,8 @@
 															Class="ThemeAlignRight"
 															>
 															<Label
-																Caption="@Data.Column43~"
+																Caption="@Data.Feed_Milo_PostHarvest~"
+																Format="###,###,##0"
 															/>
 														</Column>
 													</Row>
@@ -980,17 +943,18 @@
 																Caption="Feed Corn Post Harvest: "
 															/>
 															<LineBreak
-																LineCount="6"
+																LineCount="2"
 															/>
 														</Column>
 														<Column
 															Class="ThemeAlignRight"
 															>
 															<Label
-																Caption="@Data.Column44~"
+																Caption="@Data.Feed_Corn_PostHarvest~"
+																Format="###,###,##0"
 															/>
 															<LineBreak
-																LineCount="6"
+																LineCount="2"
 															/>
 														</Column>
 													</Row>
@@ -1005,17 +969,10 @@
 															Class="ThemeAlignRight"
 															>
 															<Label
-																Caption=" @Data.Column50~"
-																>
-																<ConditionalClass
-																	Class="bold text-success"
-																	Condition="&quot; @Data.Column50~&quot; &gt; &quot;0&quot;"
-																/>
-																<ConditionalClass
-																	Class="bold text-danger"
-																	Condition="&quot; @Data.Column50~&quot; &lt;= &quot;0&quot;"
-																/>
-															</Label>
+																Caption=" @Data.Total_Sold_NA~"
+																Class="bold"
+																Format="###,###,##0"
+															/>
 														</Column>
 													</Row>
 												</Rows>
@@ -1033,6 +990,21 @@
 													<Row>
 														<Column>
 															<Label
+																Caption="Canton Sold Not Allocated:"
+															/>
+														</Column>
+														<Column
+															Class="ThemeAlignRight"
+															>
+															<Label
+																Caption="@Data.Canton_Sold_NA~"
+																Format="###,###,##0"
+															/>
+														</Column>
+													</Row>
+													<Row>
+														<Column>
+															<Label
 																Caption="Wheat:"
 															/>
 														</Column>
@@ -1040,7 +1012,8 @@
 															Class="ThemeAlignRight"
 															>
 															<Label
-																Caption="@Data.Column52~"
+																Caption="@Data.Wheat_Sold_NA_2~"
+																Format="###,###,##0"
 															/>
 														</Column>
 													</Row>
@@ -1054,7 +1027,8 @@
 															Class="ThemeAlignRight"
 															>
 															<Label
-																Caption="@Data.Column53~"
+																Caption="@Data.Milo_Sold_NA_2~"
+																Format="###,###,##0"
 															/>
 														</Column>
 													</Row>
@@ -1068,7 +1042,8 @@
 															Class="ThemeAlignRight"
 															>
 															<Label
-																Caption="@Data.Column55~"
+																Caption="@Data.Beans_Sold_NA_2~"
+																Format="###,###,##0"
 															/>
 														</Column>
 													</Row>
@@ -1082,7 +1057,8 @@
 															Class="ThemeAlignRight"
 															>
 															<Label
-																Caption="@Data.Column54~"
+																Caption="@Data.Corn_Sold_NA_2~"
+																Format="###,###,##0"
 															/>
 														</Column>
 													</Row>
@@ -1091,14 +1067,14 @@
 															ColSpan="2"
 															>
 															<LineBreak
-																LineCount="8"
+																LineCount="3"
 															/>
 														</Column>
 													</Row>
 													<Row>
 														<Column>
 															<Label
-																Caption="Total Canton Sold Not Allocated:"
+																Caption="Total:"
 																Class="bold"
 															/>
 														</Column>
@@ -1106,17 +1082,10 @@
 															Class="ThemeAlignRight"
 															>
 															<Label
-																Caption=" @Data.colTotalCantonSold~"
-																>
-																<ConditionalClass
-																	Class="bold text-success"
-																	Condition="&quot; @Data.Column51~&quot; &gt; &quot;0&quot;"
-																/>
-																<ConditionalClass
-																	Class="bold text-danger"
-																	Condition="&quot; @Data.Column51~&quot; &lt;= &quot;0&quot;"
-																/>
-															</Label>
+																Caption=" @Data.Total_Canton_Sold_NA~"
+																Class="bold"
+																Format="###,###,##0"
+															/>
 														</Column>
 													</Row>
 												</Rows>
@@ -1141,7 +1110,8 @@
 															Class="ThemeAlignRight"
 															>
 															<Label
-																Caption="@Data.Column58~"
+																Caption="@Data.Wheat_ToSell~"
+																Format="###,###,##0"
 															/>
 														</Column>
 													</Row>
@@ -1155,7 +1125,8 @@
 															Class="ThemeAlignRight"
 															>
 															<Label
-																Caption="@Data.Column59~"
+																Caption="@Data.Milo_ToSell~"
+																Format="###,###,##0"
 															/>
 														</Column>
 													</Row>
@@ -1169,7 +1140,8 @@
 															Class="ThemeAlignRight"
 															>
 															<Label
-																Caption="@Data.Column61~"
+																Caption="@Data.Beans_ToSell~"
+																Format="###,###,##0"
 															/>
 														</Column>
 													</Row>
@@ -1183,21 +1155,23 @@
 															Class="ThemeAlignRight"
 															>
 															<Label
-																Caption="@Data.Column60~"
+																Caption="@Data.Corn_ToSell~"
+																Format="###,###,##0"
 															/>
 														</Column>
 													</Row>
 													<Row>
 														<Column>
 															<Label
-																Caption="Sunflowers:"
+																Caption="Soft Wheat:"
 															/>
 														</Column>
 														<Column
 															Class="ThemeAlignRight"
 															>
 															<Label
-																Caption="@Data.Column62~"
+																Caption="@Data.SoftWheat_ToSell~"
+																Format="###,###,##0"
 															/>
 														</Column>
 													</Row>
@@ -1206,7 +1180,7 @@
 															ColSpan="2"
 															>
 															<LineBreak
-																LineCount="7"
+																LineCount="3"
 															/>
 														</Column>
 													</Row>
@@ -1221,15 +1195,80 @@
 															Class="ThemeAlignRight"
 															>
 															<Label
-																Caption=" @Data.colToSell~"
+																Caption=" @Data.NewCrop_ToSell~"
+																Class="bold"
+																Format="###,###,##0"
+															/>
+														</Column>
+													</Row>
+												</Rows>
+											</DataTableColumn>
+											<DataTableColumn
+												Class="ThemeContainerShaded"
+												Header="Long or Short"
+												Width="27"
+												WidthScale="%"
+												>
+												<Rows
+													CellSpacing="5"
+													Width="80"
+													WidthScale="%"
+													>
+													<Row>
+														<Column>
+															<Label
+																Caption="After Receipts:"
+															/>
+														</Column>
+														<Column
+															Class="ThemeAlignRight"
+															>
+															<Label
+																Caption=" @Data.Long_Short~"
+																Format="###,###,##0"
+															/>
+														</Column>
+													</Row>
+													<Row>
+														<Column
+															ColSpan="2"
+															>
+															<LineBreak
+																LineCount="5"
+															/>
+														</Column>
+													</Row>
+													<Row>
+														<Column
+															ColSpan="2"
+															>
+															<Label
+																Caption="After Sales, Transfers and Receipts"
+															/>
+														</Column>
+													</Row>
+													<Row>
+														<Column>
+															<Label
+																Caption="Long or Short:"
+																Class="ThemeBold ThemeTextNormal"
+															/>
+														</Column>
+														<Column
+															Class="ThemeAlignRight"
+															>
+															<Label
+																Caption=" @Data.Long_Short~"
+																Class="ThemeTextNormal"
+																Format="###,###,##0"
 																>
 																<ConditionalClass
-																	Class="bold text-success"
-																	Condition="&quot;@Data.Column64~&quot; &gt; &quot;0&quot;"
+																	Class="bold text-success ThemeTextNormal"
+																	Condition="&quot;@Data.Long_Short~&quot; &gt; &quot;0&quot;"
 																/>
 																<ConditionalClass
-																	Class="bold text-danger"
-																	Condition="&quot;@Data.Column64~&quot; &lt;= &quot;0&quot;"
+																	Class="bold text-danger ThemeTextNormal"
+																	Condition="&quot;@Data.Long_Short~&quot; &lt;= &quot;0&quot;"
 																/>
 															</Label>
 														</Column>
