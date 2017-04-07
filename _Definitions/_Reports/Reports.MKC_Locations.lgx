@@ -106,6 +106,9 @@
 											<ConditionFilter
 												Condition="&quot;@Data.Latitude~&quot; != &quot;&quot; AND &quot;@Data.Longitude&quot; != &quot;&quot;"
 											/>
+											<ConditionFilter
+												Condition="&quot;@Data.Active~&quot; = &quot;1&quot;"
+											/>
 										</DataLayer>
 										<EventHandler
 											DhtmlEvent="onchange"
