@@ -167,7 +167,8 @@
 												Type="Excel"
 												>
 												<ConditionFilter
-													Condition="InStr(&quot;@Data.Branch_Number~&quot;,&quot;@Request.Branch~&quot;) &gt; 0"
+													Condition="Left(&quot;@Data.Branch_Number~&quot;,3) = &quot;@Request.Branch~&quot;"
+													ID="filterByBranch"
 												/>
 											</DataLayer>
 											<Remark>
@@ -834,7 +835,8 @@
 												Type="Excel"
 												>
 												<ConditionFilter
-													Condition="InStr(&quot;@Data.Branch_Number~&quot;, &quot;@Request.Branch~&quot;) &gt; 0"
+													Condition="Left(&quot;@Data.Branch_Number~&quot;,3) = &quot;@Request.Branch~&quot;"
+													ID="filterByBranch"
 												/>
 											</DataLayer>
 											<DataTableColumn
