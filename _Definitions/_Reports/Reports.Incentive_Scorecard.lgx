@@ -328,19 +328,6 @@
 													</DataTableColumn>
 													<DataTableColumn
 														ColumnHeaderClass="ThemeAlignCenter"
-														Header="Max"
-														ID="colBudget_Max"
-														Width="20"
-														WidthScale="%"
-														>
-														<Label
-															Caption="@Data.Budget_Max~"
-															Format="@Data.NumberFormat~"
-															ID="lblBudget_Max"
-														/>
-													</DataTableColumn>
-													<DataTableColumn
-														ColumnHeaderClass="ThemeAlignCenter"
 														Header="Target"
 														ID="colBudget_Target"
 														Width="20"
@@ -350,6 +337,19 @@
 															Caption="@Data.Budget_Target~"
 															Format="@Data.NumberFormat~"
 															ID="lblBudget_Target"
+														/>
+													</DataTableColumn>
+													<DataTableColumn
+														ColumnHeaderClass="ThemeAlignCenter"
+														Header="Max"
+														ID="colBudget_Max"
+														Width="20"
+														WidthScale="%"
+														>
+														<Label
+															Caption="@Data.Budget_Max~"
+															Format="@Data.NumberFormat~"
+															ID="lblBudget_Max"
 														/>
 													</DataTableColumn>
 												</DataTable>
