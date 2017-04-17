@@ -2,7 +2,7 @@
 <Report
 	Caption="Incentive Scorecard"
 	ID="Reports.Incentive_Scorecard"
-	SecurityReportRightID="LogiUserAdmin"
+	SecurityReportRightID="LogiUserAdmin,Dashboard Monthly Staff"
 	>
 	<DefaultRequestParams
 		ExcelFileLocation="C:\inetpub\wwwroot\MKCoop\UploadedFiles\Incentive Raw Data-Logi.xlsx"
