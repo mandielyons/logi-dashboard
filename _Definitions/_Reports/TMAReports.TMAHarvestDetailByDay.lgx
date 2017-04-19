@@ -7,12 +7,22 @@
 		DefinitionFile="_Layout.Shared"
 		SharedElementID="shrHeader"
 	/>
+	<LocalData
+		ID="Local-FiscYear"
+		>
+		<DataLayer
+			ConnectionID="connProdGP"
+			ID="sqlHarvestYear"
+			Source="SELECT TOP 1 HARVESTYEAR HARVESTYEAR_CY, HARVESTYEAR-1 HARVESTYEAR_PY, CAST(HARVESTYEAR AS CHAR(4))+&apos;-03-01&apos; HARVESTBEGINDT, CONVERT(VARCHAR(10),DATEADD(DAY,-1,CAST(CAST(HARVESTYEAR+1 AS CHAR(4))+&apos;-03-01&apos; AS DATE)),121) HARVESTENDDT FROM AgTrax_Staging..DM_HarvestSummary"
+			Type="SQL"
+		/>
+	</LocalData>
 	<DefaultRequestParams
 		Branch="0"
 		cacheExpireTime="8:15"
 		Commodity="0"
-		HarvestBeginDate="2016-03-01"
-		HarvestEndDate="2017-02-28"
+		HarvestBeginDate="@Local.HARVESTBEGINDT~"
+		HarvestEndDate="@Local.HARVESTENDDT~"
 	/>
 	<Body>
 		<ResponsiveRow>
