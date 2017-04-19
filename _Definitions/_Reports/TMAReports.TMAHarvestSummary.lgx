@@ -275,23 +275,28 @@ WHERE BRANCH_NUMBER IN(@Request.Branch~) OR &apos;@Request.Branch~&apos;=&apos;-
 												ID="lblBRANCH_NAME"
 												Tooltip="Click to view the Long &amp; Short for @Data.BRANCH_NAME~"
 												>
-												<Action
-													Type="Report"
-													>
-													<LinkParams
-														Branch="@Data.BRANCH_NUMBER~"
-														BranchName="@Data.BRANCH_NAME~"
-													/>
-													<Target
-														FrameID="Self"
-														ID="rptLongAndShort"
-														Report="Unknown.SubReports.TMALongShort"
-														RequestForwarding="True"
+												<Note
+													Note="** This is for the Long &amp; Short report link - uncomment when ready"
+												/>
+												<Remark>
+													<Action
 														Type="Report"
 														>
-														<WaitPage/>
-													</Target>
-												</Action>
+														<LinkParams
+															Branch="@Data.BRANCH_NUMBER~"
+															BranchName="@Data.BRANCH_NAME~"
+														/>
+														<Target
+															FrameID="Self"
+															ID="rptLongAndShort"
+															Report="Unknown.SubReports.TMALongShort"
+															RequestForwarding="True"
+															Type="Report"
+															>
+															<WaitPage/>
+														</Target>
+													</Action>
+												</Remark>
 											</Label>
 											<DataColumnSort
 												DataColumn="BRANCH_NAME"
