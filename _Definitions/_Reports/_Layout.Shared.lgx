@@ -497,20 +497,18 @@ else {
 										<Note
 											Note="*** build mobile navigation here - only for BELOW 1024*768 (1024*768 in portrait) ***"
 										/>
-										<Remark>
-											<Division
-												ID="div-rtest"
-												>
-												<Label
-													Caption="***FOR INTERNAL USE ONLY***"
-													Class="ThemeErrorText,ThemeTextSmallest"
-													HtmlTag="Span"
-												/>
-												<Spaces
-													Size="5"
-												/>
-											</Division>
-										</Remark>
+										<Division
+											ID="div-rtest"
+											>
+											<Label
+												Caption="***FOR INTERNAL USE ONLY***"
+												Class="ThemeErrorText,ThemeTextSmallest"
+												HtmlTag="Span"
+											/>
+											<Spaces
+												Size="5"
+											/>
+										</Division>
 										<ResponsiveVisibility
 											HideForExtraSmallScreen="False"
 											HideForLargeScreen="True"
@@ -1163,7 +1161,6 @@ else {
 															</DataList>
 														</Division>
 													</Division>
-<<<<<<< HEAD
 													<Label
 														Caption="|"
 														Class="pipe-spacer"
@@ -1172,13 +1169,7 @@ else {
 												</Division>
 												<Division
 													ID="sales-container"
-													SecurityRightID="MKC Dashboard"
-=======
-												</Remark>
-												<Division
-													ID="sales-container"
 													SecurityRightID="MKC Dashboard, LogiUserAdmin"
->>>>>>> 54ce243ed422f04ca66b9931bb0432ad73b7f367
 													>
 													<Division
 														Class="dropdown"
@@ -2073,7 +2064,7 @@ From ag_location"
 								SecurityRightID="TMA Dashboard,OC"
 							/>
 							<Label
-								Caption="V2.1.01.24.2017"
+								Caption="V2.2.03.14.2017"
 								Class="ThemeTextSmaller"
 								Format="HTML"
 								SecurityRightID="MKC Dashboard,TMA Dashboard,OC"
