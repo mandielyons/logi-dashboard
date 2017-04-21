@@ -70,6 +70,28 @@ WHERE CONTRACT_TYPE=2
 						ID="panel-dispatch-heading"
 						>
 						<Label
+							Caption=" "
+							Class="fa fa-chevron-left title"
+							Tooltip="Return to Long &amp; Short"
+							>
+							<Action
+								ID="actionReport"
+								Type="Report"
+								>
+								<Target
+									FrameID="Self"
+									ID="rptTgtSummary"
+									Report="TMAReports.TMALongShort"
+									Type="Report"
+									>
+									<WaitPage/>
+								</Target>
+							</Action>
+						</Label>
+						<Spaces
+							Size="3"
+						/>
+						<Label
 							Caption="TMA Dispatch Report"
 							Class="panel-title"
 						/>
