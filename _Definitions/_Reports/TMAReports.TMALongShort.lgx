@@ -180,7 +180,7 @@
 											</Remark>
 											<DataTableColumn
 												Header="Space"
-												Width="25"
+												Width="30"
 												WidthScale="%"
 												>
 												<Rows
@@ -249,6 +249,23 @@
 														</Column>
 													</Row>
 													<Row>
+														<Column>
+															<Label
+																Caption="90% Total Space:"
+																Class="bold"
+															/>
+														</Column>
+														<Column
+															Class="ThemeAlignRight"
+															>
+															<Label
+																Caption=" @Data.90_Total_Space~"
+																Class="bold"
+																Format="###,###,##0"
+															/>
+														</Column>
+													</Row>
+													<Row>
 														<Column
 															ColSpan="2"
 															>
@@ -278,36 +295,6 @@
 														<Column>
 															<Label
 																Caption="90% Current Available:"
-															/>
-														</Column>
-														<Column
-															Class="ThemeAlignRight"
-															>
-															<Label
-																Caption="@Data.90_Space~"
-																Format="###,###,##0"
-															/>
-														</Column>
-													</Row>
-													<Row>
-														<Column>
-															<Label
-																Caption="Total Temporary Space:"
-															/>
-														</Column>
-														<Column
-															Class="ThemeAlignRight"
-															>
-															<Label
-																Caption=" @Data.Temp_Storage~"
-																Format="###,###,##0"
-															/>
-														</Column>
-													</Row>
-													<Row>
-														<Column>
-															<Label
-																Caption="Total Space:"
 																Class="bold"
 															/>
 														</Column>
@@ -315,7 +302,24 @@
 															Class="ThemeAlignRight"
 															>
 															<Label
-																Caption=" @Data.100_Space~"
+																Caption="@Data.90_Space~"
+																Class="bold"
+																Format="###,###,##0"
+															/>
+														</Column>
+													</Row>
+													<Row>
+														<Column>
+															<Label
+																Caption="90% Avaliable After Sales/Transfers:"
+																Class="bold"
+															/>
+														</Column>
+														<Column
+															Class="ThemeAlignRight"
+															>
+															<Label
+																Caption=" @Data.Total_Adj_Space~"
 																Class="bold"
 																Format="###,###,##0"
 															/>
@@ -325,7 +329,7 @@
 											</DataTableColumn>
 											<DataTableColumn
 												Header="Grain in Elevator"
-												Width="25"
+												Width="22"
 												WidthScale="%"
 												>
 												<Rows
@@ -608,7 +612,7 @@
 											</DataTableColumn>
 											<DataTableColumn
 												Header="Sales/Transfers"
-												Width="25"
+												Width="22"
 												WidthScale="%"
 												>
 												<Rows
@@ -1222,7 +1226,7 @@
 															Class="ThemeAlignRight"
 															>
 															<Label
-																Caption=" @Data.NewCrop_ToSell~"
+																Caption=" @Data.To_Sell_Wheat~"
 																Class="bold"
 																Format="###,###,##0"
 															/>
@@ -1289,17 +1293,17 @@
 															Class="ThemeAlignRight"
 															>
 															<Label
-																Caption=" @Data.Long_Short~"
+																Caption=" @Data.NewCrop_ToSell~"
 																Class="ThemeTextNormal"
 																Format="###,###,##0"
 																>
 																<ConditionalClass
 																	Class="bold text-success ThemeTextNormal"
-																	Condition="&quot;@Data.Long_Short~&quot; &gt; &quot;0&quot;"
+																	Condition=" &quot;@Data.NewCrop_ToSell~&quot; &gt; &quot;0&quot;"
 																/>
 																<ConditionalClass
 																	Class="bold text-danger ThemeTextNormal"
-																	Condition="&quot;@Data.Long_Short~&quot; &lt;= &quot;0&quot;"
+																	Condition=" &quot;@Data.NewCrop_ToSell~&quot; &lt;= &quot;0&quot;"
 																/>
 															</Label>
 														</Column>
