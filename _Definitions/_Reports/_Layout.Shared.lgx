@@ -1173,92 +1173,94 @@ else {
 														/>
 													</Division>
 												</Remark>
-												<Division
-													ID="sales-container"
-													SecurityRightID="MKC Dashboard, LogiUserAdmin"
-													>
+												<Remark>
 													<Division
-														Class="dropdown"
-														HtmlDiv="True"
-														ID="sales"
+														ID="sales-container"
+														SecurityRightID="MKC Dashboard, LogiUserAdmin"
 														>
-														<Label
-															Caption="Sales"
-															>
-															<Action
-																ID="actBlank"
-																Javascript="void(0)"
-																Type="Javascript"
-															/>
-															<ConditionalClass
-																Class="selected-menu"
-																Condition="&quot;@Request.rdReport~&quot;.indexOf(&quot;Maps&quot;)&lt;&gt;&quot;-1&quot;"
-															/>
-														</Label>
-														<Label
-															Class="caret"
-															>
-															<Action
-																ID="actBlank"
-																Javascript="void(0)"
-																Type="Javascript"
-															/>
-															<ConditionalClass
-																Class="caret selected-menu"
-																Condition="&quot;@Request.rdReport~&quot;.indexOf(&quot;Maps&quot;)&lt;&gt;&quot;-1&quot;"
-															/>
-														</Label>
 														<Division
-															Class="submenu"
+															Class="dropdown"
 															HtmlDiv="True"
-															ID="submenu-sales"
+															ID="sales"
 															>
-															<DataList
-																ID="lstSales"
+															<Label
+																Caption="Sales"
 																>
-																<DataLayer
-																	ID="dlNav-Sales"
-																	Type="DefinitionList"
+																<Action
+																	ID="actBlank"
+																	Javascript="void(0)"
+																	Type="Javascript"
+																/>
+																<ConditionalClass
+																	Class="selected-menu"
+																	Condition="&quot;@Request.rdReport~&quot;.indexOf(&quot;Maps&quot;)&lt;&gt;&quot;-1&quot;"
+																/>
+															</Label>
+															<Label
+																Class="caret"
+																>
+																<Action
+																	ID="actBlank"
+																	Javascript="void(0)"
+																	Type="Javascript"
+																/>
+																<ConditionalClass
+																	Class="caret selected-menu"
+																	Condition="&quot;@Request.rdReport~&quot;.indexOf(&quot;Maps&quot;)&lt;&gt;&quot;-1&quot;"
+																/>
+															</Label>
+															<Division
+																Class="submenu"
+																HtmlDiv="True"
+																ID="submenu-sales"
+																>
+																<DataList
+																	ID="lstSales"
 																	>
-																	<CompareFilter
-																		CaseSensitive="True"
-																		CompareType="="
-																		CompareValue="Sales"
-																		DataColumn="Folder1"
-																		DataType="Text"
-																		ID="fSales"
-																	/>
-																</DataLayer>
-																<ListItem>
-																	<Label
-																		Caption="@Data.Caption~"
+																	<DataLayer
+																		ID="dlNav-Sales"
+																		Type="DefinitionList"
 																		>
-																		<Action
-																			ID="actReport"
-																			Type="Report"
+																		<CompareFilter
+																			CaseSensitive="True"
+																			CompareType="="
+																			CompareValue="Sales"
+																			DataColumn="Folder1"
+																			DataType="Text"
+																			ID="fSales"
+																		/>
+																	</DataLayer>
+																	<ListItem>
+																		<Label
+																			Caption="@Data.Caption~"
 																			>
-																			<Target
-																				Report="@Data.ID~"
+																			<Action
+																				ID="actReport"
 																				Type="Report"
 																				>
-																				<WaitPage/>
-																			</Target>
-																		</Action>
-																		<ConditionalClass
-																			Class="selected-menu"
-																			Condition="&quot;@Request.rdReport~&quot;==&quot;@Data.ID~&quot;"
-																		/>
-																	</Label>
-																</ListItem>
-															</DataList>
+																				<Target
+																					Report="@Data.ID~"
+																					Type="Report"
+																					>
+																					<WaitPage/>
+																				</Target>
+																			</Action>
+																			<ConditionalClass
+																				Class="selected-menu"
+																				Condition="&quot;@Request.rdReport~&quot;==&quot;@Data.ID~&quot;"
+																			/>
+																		</Label>
+																	</ListItem>
+																</DataList>
+															</Division>
 														</Division>
+														<Label
+															Caption="|"
+															Class="pipe-spacer"
+															ID="pipe-spacer"
+														/>
 													</Division>
-													<Label
-														Caption="|"
-														Class="pipe-spacer"
-														ID="pipe-spacer"
-													/>
-												</Division>
+												</Remark>
 												<Division
 													ID="tma-apps-container"
 													SecurityRightID="TMA Dashboard,LogiUserAdmin"
@@ -1720,7 +1722,11 @@ ORDER BY BRANCH_NAME"
 						ExcelWorksheet="TMALocations"
 						ID="excelTMALocations"
 						Type="Excel"
-					/>
+						>
+						<ConditionFilter
+							Condition="&quot;@Data.REGION~&quot; &lt;&gt; &quot;&quot;"
+						/>
+					</DataLayer>
 					<MatchCondition
 						DataType="Number"
 						ID="matchBRANCH_NUMBER"
@@ -2070,7 +2076,7 @@ From ag_location"
 								SecurityRightID="TMA Dashboard,OC"
 							/>
 							<Label
-								Caption="V2.1.01.24.2017"
+								Caption="V2.2.03.14.2017"
 								Class="ThemeTextSmaller"
 								Format="HTML"
 								SecurityRightID="MKC Dashboard,TMA Dashboard,OC"
