@@ -72,10 +72,10 @@
 							CollisionBehavior="HorizontalScrollbar"
 							>
 							<ResponsiveColumn
-								ColspanExtraSmallScreen="12"
+								ColspanExtraSmallScreen="4"
 								ColspanLargeScreen="3"
 								ColspanMediumScreen="3"
-								ColspanSmallScreen="12"
+								ColspanSmallScreen="4"
 								>
 								<Division
 									Class="well"
@@ -112,10 +112,10 @@
 								</Division>
 							</ResponsiveColumn>
 							<ResponsiveColumn
-								ColspanExtraSmallScreen="12"
+								ColspanExtraSmallScreen="8"
 								ColspanLargeScreen="9"
 								ColspanMediumScreen="9"
-								ColspanSmallScreen="12"
+								ColspanSmallScreen="8"
 								>
 								<Division
 									ID="divDetails"
@@ -150,6 +150,7 @@
 										</DataTable>
 									</Division>
 									<Division
+										Class="ThemeTextSmaller"
 										ID="panel-data"
 										>
 										<Note
@@ -160,7 +161,7 @@
 											ColumnHeaderClass="ThemeLinkButton"
 											DraggableColumns="True"
 											ID="dtLongShort"
-											Width="95"
+											Width="100"
 											WidthScale="%"
 											>
 											<DataLayer
@@ -180,12 +181,12 @@
 											</Remark>
 											<DataTableColumn
 												Header="Space"
-												Width="30"
+												Width="23"
 												WidthScale="%"
 												>
 												<Rows
 													CellSpacing="5"
-													Width="80"
+													Width="92"
 													WidthScale="%"
 													>
 													<Row>
@@ -249,28 +250,11 @@
 														</Column>
 													</Row>
 													<Row>
-														<Column>
-															<Label
-																Caption="90% Total Space:"
-																Class="bold"
-															/>
-														</Column>
-														<Column
-															Class="ThemeAlignRight"
-															>
-															<Label
-																Caption=" @Data.90_Total_Space~"
-																Class="bold"
-																Format="###,###,##0"
-															/>
-														</Column>
-													</Row>
-													<Row>
 														<Column
 															ColSpan="2"
 															>
 															<LineBreak
-																LineCount="6"
+																LineCount="8"
 															/>
 														</Column>
 													</Row>
@@ -294,7 +278,7 @@
 													<Row>
 														<Column>
 															<Label
-																Caption="90% Current Available:"
+																Caption="90% Total Space:"
 																Class="bold"
 															/>
 														</Column>
@@ -302,24 +286,7 @@
 															Class="ThemeAlignRight"
 															>
 															<Label
-																Caption="@Data.90_Space~"
-																Class="bold"
-																Format="###,###,##0"
-															/>
-														</Column>
-													</Row>
-													<Row>
-														<Column>
-															<Label
-																Caption="90% Avaliable After Sales/Transfers:"
-																Class="bold"
-															/>
-														</Column>
-														<Column
-															Class="ThemeAlignRight"
-															>
-															<Label
-																Caption=" @Data.Total_Adj_Space~"
+																Caption=" @Data.90_Total_Space~"
 																Class="bold"
 																Format="###,###,##0"
 															/>
@@ -329,12 +296,12 @@
 											</DataTableColumn>
 											<DataTableColumn
 												Header="Grain in Elevator"
-												Width="22"
+												Width="25"
 												WidthScale="%"
 												>
 												<Rows
 													CellSpacing="5"
-													Width="80"
+													Width="92"
 													WidthScale="%"
 													>
 													<Row>
@@ -439,7 +406,7 @@
 													<Row>
 														<Column>
 															<Label
-																Caption="Total in Elevator:"
+																Caption="Total Grain in Elevator:"
 																Class="bold"
 															/>
 														</Column>
@@ -489,7 +456,7 @@
 												>
 												<Rows
 													CellSpacing="5"
-													Width="80"
+													Width="92"
 													WidthScale="%"
 													>
 													<Row>
@@ -612,12 +579,12 @@
 											</DataTableColumn>
 											<DataTableColumn
 												Header="Sales/Transfers"
-												Width="22"
+												Width="29"
 												WidthScale="%"
 												>
 												<Rows
 													CellSpacing="5"
-													Width="80"
+													Width="95"
 													WidthScale="%"
 													>
 													<Row>
@@ -632,7 +599,18 @@
 															<Label
 																Caption="@Data.Wheat_Sales~"
 																Format="###,###,##0"
-															/>
+																>
+																<Action
+																	Type="Report"
+																	>
+																	<Target
+																		Report="TMAReports.TMADispatch"
+																		Type="Report"
+																		>
+																		<WaitPage/>
+																	</Target>
+																</Action>
+															</Label>
 														</Column>
 													</Row>
 													<Row>
@@ -647,7 +625,18 @@
 															<Label
 																Caption="@Data.Milo_Sales~"
 																Format="###,###,##0"
-															/>
+																>
+																<Action
+																	Type="Report"
+																	>
+																	<Target
+																		Report="TMAReports.TMADispatch"
+																		Type="Report"
+																		>
+																		<WaitPage/>
+																	</Target>
+																</Action>
+															</Label>
 														</Column>
 													</Row>
 													<Row>
@@ -662,7 +651,18 @@
 															<Label
 																Caption="@Data.Bean_Sales~"
 																Format="###,###,##0"
-															/>
+																>
+																<Action
+																	Type="Report"
+																	>
+																	<Target
+																		Report="TMAReports.TMADispatch"
+																		Type="Report"
+																		>
+																		<WaitPage/>
+																	</Target>
+																</Action>
+															</Label>
 														</Column>
 													</Row>
 													<Row>
@@ -677,7 +677,18 @@
 															<Label
 																Caption="@Data.Corn_Sales~"
 																Format="###,###,##0"
-															/>
+																>
+																<Action
+																	Type="Report"
+																	>
+																	<Target
+																		Report="TMAReports.TMADispatch"
+																		Type="Report"
+																		>
+																		<WaitPage/>
+																	</Target>
+																</Action>
+															</Label>
 														</Column>
 													</Row>
 													<Row>
@@ -692,7 +703,18 @@
 															<Label
 																Caption="@Data.Sunseed_Sales~"
 																Format="###,###,##0"
-															/>
+																>
+																<Action
+																	Type="Report"
+																	>
+																	<Target
+																		Report="TMAReports.TMADispatch"
+																		Type="Report"
+																		>
+																		<WaitPage/>
+																	</Target>
+																</Action>
+															</Label>
 														</Column>
 													</Row>
 													<Row>
@@ -822,13 +844,15 @@
 								</Division>
 							</ResponsiveColumn>
 						</ResponsiveRow>
-						<ResponsiveRow>
+						<ResponsiveRow
+							Class="ThemeTextSmaller"
+							>
 							<ResponsiveColumn/>
 							<ResponsiveColumn
-								ColspanExtraSmallScreen="12"
+								ColspanExtraSmallScreen="8"
 								ColspanLargeScreen="9"
 								ColspanMediumScreen="9"
-								ColspanSmallScreen="12"
+								ColspanSmallScreen="8"
 								>
 								<Division
 									ID="divDetails2"
@@ -851,7 +875,7 @@
 											ColumnHeaderClass="ThemeLinkButton"
 											DraggableColumns="True"
 											ID="dtLongShort2"
-											Width="95"
+											Width="100"
 											WidthScale="%"
 											>
 											<DataLayer
@@ -868,12 +892,12 @@
 											</DataLayer>
 											<DataTableColumn
 												Header="Sold Not Allocated"
-												Width="25"
+												Width="23"
 												WidthScale="%"
 												>
 												<Rows
 													CellSpacing="5"
-													Width="80"
+													Width="92"
 													WidthScale="%"
 													>
 													<Row>
@@ -990,7 +1014,7 @@
 													<Row>
 														<Column>
 															<Label
-																Caption="Total:"
+																Caption="Total Sold Not Allocated:"
 																Class="bold"
 															/>
 														</Column>
@@ -1013,7 +1037,7 @@
 												>
 												<Rows
 													CellSpacing="5"
-													Width="80"
+													Width="92"
 													WidthScale="%"
 													>
 													<Remark>
@@ -1105,7 +1129,7 @@
 													<Row>
 														<Column>
 															<Label
-																Caption="Total:"
+																Caption="Total Canton Sold Not Allocated:"
 																Class="bold"
 															/>
 														</Column>
@@ -1123,12 +1147,12 @@
 											</DataTableColumn>
 											<DataTableColumn
 												Header="To Sell"
-												Width="25"
+												Width="23"
 												WidthScale="%"
 												>
 												<Rows
 													CellSpacing="5"
-													Width="80"
+													Width="92"
 													WidthScale="%"
 													>
 													<Row>
@@ -1218,7 +1242,7 @@
 													<Row>
 														<Column>
 															<Label
-																Caption="Total:"
+																Caption="Total To Sell:"
 																Class="bold"
 															/>
 														</Column>
@@ -1236,15 +1260,49 @@
 											</DataTableColumn>
 											<DataTableColumn
 												Class="ThemeContainerShaded"
-												Header="Long or Short"
-												Width="27"
+												Header="Summary"
+												Width="29"
 												WidthScale="%"
 												>
 												<Rows
 													CellSpacing="5"
-													Width="80"
+													Width="95"
 													WidthScale="%"
 													>
+													<Row>
+														<Column>
+															<Label
+																Caption="90% Current Available:"
+																Class="bold"
+															/>
+														</Column>
+														<Column
+															Class="ThemeAlignRight"
+															>
+															<Label
+																Caption="@Data.90_Space~"
+																Class="bold"
+																Format="###,###,##0"
+															/>
+														</Column>
+													</Row>
+													<Row>
+														<Column>
+															<Label
+																Caption="90% Avaliable After Sales/Transfers:"
+																Class="bold"
+															/>
+														</Column>
+														<Column
+															Class="ThemeAlignRight"
+															>
+															<Label
+																Caption=" @Data.Total_Adj_Space~"
+																Class="bold"
+																Format="###,###,##0"
+															/>
+														</Column>
+													</Row>
 													<Remark>
 														<Row>
 															<Column>
@@ -1267,7 +1325,7 @@
 															ColSpan="2"
 															>
 															<LineBreak
-																LineCount="7"
+																LineCount="5"
 															/>
 														</Column>
 													</Row>
@@ -1285,8 +1343,8 @@
 													<Row>
 														<Column>
 															<Label
-																Caption="Long or Short:"
-																Class="ThemeBold ThemeTextNormal"
+																Caption="Space After Receipts &amp; Executions:"
+																Class="ThemeBold ThemeTextSmall"
 															/>
 														</Column>
 														<Column
