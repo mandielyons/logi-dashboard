@@ -632,7 +632,18 @@
 															<Label
 																Caption="@Data.Wheat_Sales~"
 																Format="###,###,##0"
-															/>
+																>
+																<Action
+																	Type="Report"
+																	>
+																	<Target
+																		Report="TMAReports.TMADispatch"
+																		Type="Report"
+																		>
+																		<WaitPage/>
+																	</Target>
+																</Action>
+															</Label>
 														</Column>
 													</Row>
 													<Row>
@@ -647,7 +658,18 @@
 															<Label
 																Caption="@Data.Milo_Sales~"
 																Format="###,###,##0"
-															/>
+																>
+																<Action
+																	Type="Report"
+																	>
+																	<Target
+																		Report="TMAReports.TMADispatch"
+																		Type="Report"
+																		>
+																		<WaitPage/>
+																	</Target>
+																</Action>
+															</Label>
 														</Column>
 													</Row>
 													<Row>
@@ -662,7 +684,18 @@
 															<Label
 																Caption="@Data.Bean_Sales~"
 																Format="###,###,##0"
-															/>
+																>
+																<Action
+																	Type="Report"
+																	>
+																	<Target
+																		Report="TMAReports.TMADispatch"
+																		Type="Report"
+																		>
+																		<WaitPage/>
+																	</Target>
+																</Action>
+															</Label>
 														</Column>
 													</Row>
 													<Row>
@@ -677,7 +710,18 @@
 															<Label
 																Caption="@Data.Corn_Sales~"
 																Format="###,###,##0"
-															/>
+																>
+																<Action
+																	Type="Report"
+																	>
+																	<Target
+																		Report="TMAReports.TMADispatch"
+																		Type="Report"
+																		>
+																		<WaitPage/>
+																	</Target>
+																</Action>
+															</Label>
 														</Column>
 													</Row>
 													<Row>
@@ -692,7 +736,18 @@
 															<Label
 																Caption="@Data.Sunseed_Sales~"
 																Format="###,###,##0"
-															/>
+																>
+																<Action
+																	Type="Report"
+																	>
+																	<Target
+																		Report="TMAReports.TMADispatch"
+																		Type="Report"
+																		>
+																		<WaitPage/>
+																	</Target>
+																</Action>
+															</Label>
 														</Column>
 													</Row>
 													<Row>
