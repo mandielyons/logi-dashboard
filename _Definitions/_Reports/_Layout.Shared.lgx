@@ -1807,7 +1807,11 @@ From ag_location"
 						ExcelWorksheet="TMALocations"
 						ID="excelTMALocations"
 						Type="Excel"
-					/>
+						>
+						<ConditionFilter
+							Condition="&quot;@Data.REGION~&quot; &lt;&gt; &quot;&quot;"
+						/>
+					</DataLayer>
 					<MatchCondition
 						DataType="Number"
 						ID="matchBRANCH_NUMBER"
@@ -2076,7 +2080,7 @@ From ag_location"
 								SecurityRightID="TMA Dashboard,OC"
 							/>
 							<Label
-								Caption="V2.2.03.14.2017"
+								Caption="V2.3.04.25.2017"
 								Class="ThemeTextSmaller"
 								Format="HTML"
 								SecurityRightID="MKC Dashboard,TMA Dashboard,OC"
