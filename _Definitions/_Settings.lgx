@@ -181,6 +181,15 @@
 			SqlServerUser="BIOperations"
 			Type="SqlServer"
 		/>
+		<Connection
+			ID="connAgOS"
+			SqlServer="SQLPROD1"
+			SqlServerDatabase="AgOS_MKC_Live"
+			SqlServerPassword="integr8!"
+			SqlServerPort=""
+			SqlServerUser="BIOperations"
+			Type="SqlServer"
+		/>
 	</Connections>
 	<Security
 		AuthenticationSource="Standard"

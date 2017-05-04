@@ -1,0 +1,676 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report
+	Caption="AgOS Orders"
+	ID="Agronomy.AgOSOrdersDone"
+	>
+	<IncludeSharedElement
+		DefinitionFile="_Layout.Shared"
+		SharedElementID="shrHeader"
+	/>
+	<DefaultRequestParams
+		Year="2017"
+	/>
+	<LocalData>
+		<DataLayer
+			ConnectionID="connAgOS"
+			ID="dlTotalOrdersDone"
+			Source="SELECT COUNT(T1.OrderID) As Total
+From Orders T1
+  Inner Join Objects T2 With(NoLock) On T2.ObjectID = T1.ObjectID
+  Inner Join Users T3 With(NoLock) On T3.UserID = T1.DoneByID
+  Inner Join Objects T4 With(NoLock) On T4.ObjectID = T1.ApplicatorID
+  Inner Join OrderBin T5 With(NoLock) On T5.OrderID = T1.OrderID
+Where DatePart(YEAR, T1.DoneDate) = &apos;@Request.Year~&apos; And T1.LocationCode &lt;&gt; &apos;PRECISE&apos; And
+  T4.Name &lt;&gt; &apos;LIME APPLICATION&apos; And T1.Canceled = &apos;False&apos;"
+			Type="SQL"
+		/>
+	</LocalData>
+	<Body
+		Class="ThemeTextSmall"
+		>
+		<Division
+			Class="panel panel-default"
+			HtmlDiv="True"
+			ID="div-panel"
+			>
+			<Division
+				Class="panel-heading"
+				HtmlDiv="True"
+				ID="div-header"
+				>
+				<Label
+					Caption="AgOS Orders Marked Done"
+					Class="panel-title"
+				/>
+			</Division>
+			<Division
+				Class="panel-body"
+				HtmlDiv="True"
+				ID="div-body"
+				>
+				<ResponsiveRow>
+					<ResponsiveColumn
+						ColspanExtraSmallScreen="3"
+						ColspanLargeScreen="2"
+						ColspanMediumScreen="2"
+						ColspanSmallScreen="3"
+						>
+						<Division
+							Class="well"
+							HtmlDiv="True"
+							ID="divFilters"
+							>
+							<InputSelectList
+								Caption="Calendar Year:"
+								ID="Year"
+								OptionCaptionColumn="Year"
+								OptionValueColumn="Year"
+								>
+								<DataLayer
+									ConnectionID="connAgOS"
+									ID="dlYear"
+									Source="SELECT DISTINCT DatePart(YEAR, T1.DoneDate) As Year
+From Orders T1
+  Inner Join Objects T2 With(NoLock) On T2.ObjectID = T1.ObjectID
+  Inner Join Users T3 With(NoLock) On T3.UserID = T1.DoneByID
+  Inner Join Objects T4 With(NoLock) On T4.ObjectID = T1.ApplicatorID
+  Inner Join OrderBin T5 With(NoLock) On T5.OrderID = T1.OrderID
+Where T1.LocationCode &lt;&gt; &apos;PRECISE&apos; And
+  T4.Name &lt;&gt; &apos;LIME APPLICATION&apos; And T1.Canceled = &apos;False&apos;
+Order By Year DESC"
+									Type="SQL"
+								/>
+								<EventHandler
+									DhtmlEvent="onchange"
+									ID="OnChangeYear"
+									>
+									<Action
+										ElementID="div-KPI, divTotals, divPieCharts"
+										ID="actRefreshAll"
+										Type="RefreshElement"
+										>
+										<WaitPage/>
+									</Action>
+								</EventHandler>
+							</InputSelectList>
+							<Remark>
+								<InputSelectList
+									Caption="Location:"
+									ID="Location"
+									IncludeBlank="True"
+									IncludeBlankCaption="ALL"
+									IncludeBlankValue="ALL"
+									OptionCaptionColumn="Location"
+									OptionValueColumn="Location"
+									>
+									<DataLayer
+										ConnectionID="connAgOS"
+										ID="dlLocations"
+										Source="SELECT DISTINCT T1.LocationCode As Location
+From Orders T1
+  Inner Join Objects T2 With(NoLock) On T2.ObjectID = T1.ObjectID
+  Inner Join Users T3 With(NoLock) On T3.UserID = T1.DoneByID
+  Inner Join Objects T4 With(NoLock) On T4.ObjectID = T1.ApplicatorID
+  Inner Join OrderBin T5 With(NoLock) On T5.OrderID = T1.OrderID
+Where T1.DoneDate &gt;= &apos;2017-01-01&apos; And T1.LocationCode &lt;&gt; &apos;PRECISE&apos; And
+  T4.Name &lt;&gt; &apos;LIME APPLICATION&apos; And T1.Canceled = &apos;False&apos;"
+										Type="SQL"
+									/>
+								</InputSelectList>
+							</Remark>
+							<LineBreak/>
+							<Button
+								Caption="Reset"
+								ID="btnReset"
+								Tooltip="Clear all selections"
+								>
+								<Action
+									ElementID="divFilters,div-KPI,divTotals,divPieCharts"
+									ID="actReport"
+									RequestForwarding="True"
+									Type="RefreshElement"
+									>
+									<WaitPage/>
+									<LinkParams
+										Location="ALL"
+										Year="2017"
+									/>
+								</Action>
+							</Button>
+						</Division>
+					</ResponsiveColumn>
+					<ResponsiveColumn>
+						<Division
+							Class="kpi kpi-purple"
+							HtmlDiv="True"
+							ID="div-KPI"
+							>
+							<Label
+								Caption="Total Orders Marked Done: @Local.Total~"
+								Class="ThemeBold panel-title"
+							/>
+						</Division>
+						<LineBreak/>
+						<Division
+							ID="divTotals"
+							>
+							<ResponsiveRow>
+								<ResponsiveColumn>
+									<DataTable
+										ID="dtAgOSOrdersTablet"
+										>
+										<DataLayer
+											ConnectionID="connAgOS"
+											ID="dlTabOrderCount"
+											Source="SELECT COUNT(T1.OrderID) As TabOrderCount
+From Orders T1
+  Inner Join Objects T2 With(NoLock) On T2.ObjectID = T1.ObjectID
+  Inner Join Users T3 With(NoLock) On T3.UserID = T1.DoneByID
+  Inner Join Objects T4 With(NoLock) On T4.ObjectID = T1.ApplicatorID
+  Inner Join OrderBin T5 With(NoLock) On T5.OrderID = T1.OrderID
+Where DatePart(YEAR, T1.DoneDate) = &apos;@Request.Year~&apos; And T1.LocationCode &lt;&gt; &apos;PRECISE&apos; And
+  T4.Name &lt;&gt; &apos;LIME APPLICATION&apos; And T1.Canceled = &apos;False&apos; And
+  DatePart(HOUR, T1.DoneDate) &gt; 0"
+											Type="SQL"
+											>
+											<CalculatedColumn
+												Formula="(@Data.TabOrderCount~ * 100) / @Local.Total~"
+												ID="calcPercent"
+											/>
+										</DataLayer>
+										<Remark>
+											<AutoColumns/>
+										</Remark>
+										<DataTableColumn
+											Header="Total Orders Marked Done on Tablet"
+											>
+											<Label
+												Caption="@Data.TabOrderCount~"
+											/>
+										</DataTableColumn>
+										<DataTableColumn
+											Header="Percent Orders Marked Done on Tablet"
+											>
+											<Label
+												Caption="@Data.calcPercent~ "
+												Format="##\%"
+											/>
+										</DataTableColumn>
+									</DataTable>
+								</ResponsiveColumn>
+								<ResponsiveColumn>
+									<DataTable
+										ID="dtAgOSOrdersNo"
+										>
+										<DataLayer
+											ConnectionID="connAgOS"
+											ID="dlNotOrderCount"
+											Source="SELECT COUNT(T1.OrderID) As NotOrderCount
+From Orders T1
+  Inner Join Objects T2 With(NoLock) On T2.ObjectID = T1.ObjectID
+  Inner Join Users T3 With(NoLock) On T3.UserID = T1.DoneByID
+  Inner Join Objects T4 With(NoLock) On T4.ObjectID = T1.ApplicatorID
+  Inner Join OrderBin T5 With(NoLock) On T5.OrderID = T1.OrderID
+Where DatePart(YEAR, T1.DoneDate) = &apos;@Request.Year~&apos; And T1.LocationCode &lt;&gt; &apos;PRECISE&apos; And
+  T4.Name &lt;&gt; &apos;LIME APPLICATION&apos; And T1.Canceled = &apos;False&apos; And
+  DatePart(HOUR, T1.DoneDate) = 0"
+											Type="SQL"
+											>
+											<CalculatedColumn
+												Formula="(@Data.NotOrderCount~ * 100) / @Local.Total~"
+												ID="calcPercent"
+											/>
+										</DataLayer>
+										<Remark>
+											<AutoColumns/>
+										</Remark>
+										<DataTableColumn
+											Header="Total Orders Not Marked Done on Tablet"
+											>
+											<Label
+												Caption="@Data.NotOrderCount~"
+											/>
+										</DataTableColumn>
+										<DataTableColumn
+											Header="Percent Orders Not Marked Done on Tablet"
+											>
+											<Label
+												Caption="@Data.calcPercent~ "
+												Format="##\%"
+											/>
+										</DataTableColumn>
+									</DataTable>
+								</ResponsiveColumn>
+							</ResponsiveRow>
+						</Division>
+					</ResponsiveColumn>
+				</ResponsiveRow>
+				<ResponsiveRow>
+					<ResponsiveColumn
+						ColspanExtraSmallScreen="3"
+						ColspanLargeScreen="2"
+						ColspanMediumScreen="2"
+						ColspanSmallScreen="3"
+					/>
+					<ResponsiveColumn>
+						<Division
+							ID="divPieCharts"
+							>
+							<ResponsiveRow>
+								<ResponsiveColumn>
+									<Label
+										Caption="Orders Marked Done on Tablet By Location"
+										Class="ThemeTextSmall ThemeBold"
+									/>
+									<ChartCanvas
+										ChartHeight="400"
+										ChartWidth="640"
+										Class="ThemeTextSmall"
+										ID="chartOrdersMarkedDone"
+										>
+										<Series
+											ChartLabelColumn="LocationCode"
+											ChartYDataColumn="aggTabletMOD"
+											ID="Series.Pie1"
+											PieBorderColor="White"
+											PieBorderThickness="1"
+											ShowDataValues="True"
+											Type="Pie"
+											>
+											<DataLayer
+												ConnectionID="connAgOS"
+												ID="dlOrdersMarkedDoneTab"
+												Source="Select Top 100 Percent T3.FirstName + T3.LastName As [Applicator Name],
+  T1.Done,
+  T1.OrderID,
+  T1.CreatedDate,
+  T1.ScheduledDate,
+  Case When T1.ScheduledDate &gt; 0 Then &apos;YES&apos; Else &apos;NO&apos; End Scheduled,
+  Case When DatePart(HOUR, T1.DoneDate) &gt; 0 Then &apos;TABLET&apos; Else &apos;NO&apos;
+  End TABLETMOD,
+  T1.DoneDate,
+  DatePart(yyyy, T1.DoneDate) As DoneYr,
+  T1.ModifiedDate,
+  T1.Acres,
+  T1.AcresSprayed,
+  T1.Acres - T1.AcresSprayed As [Acres Diff],
+  T1.Comments,
+  T1.LocationCode,
+  T1.DoneByID,
+  T3.AppCertificate#,
+  T3.Applicator,
+  T4.Name Rig,
+  T1.Canceled,
+  T1.CreatedByID,
+  T1.OrderClassID,
+  T1.AppCodeID,
+  T2.ObjectID,
+  T1.Grass,
+  T1.Broadleaves,
+  T1.CropID,
+  T1.InsectID,
+  T2.Name,
+  T2.OptionalName,
+  T2.ObjCategoryID,
+  T2.AccInterfaceID,
+  T2.AgWorksID,
+  T5.ProposedRate,
+  T5.BaseProposedRateQty,
+  T5.ProposedRateQty,
+  T5.IsFormulated,
+  T4.LastUpdate
+From Orders T1
+  Inner Join Objects T2 With(NoLock) On T2.ObjectID = T1.ObjectID
+  Inner Join Users T3 With(NoLock) On T3.UserID = T1.DoneByID
+  Inner Join Objects T4 With(NoLock) On T4.ObjectID = T1.ApplicatorID
+  Inner Join OrderBin T5 With(NoLock) On T5.OrderID = T1.OrderID
+Where DatePart(YEAR, T1.DoneDate) = &apos;@Request.Year~&apos; And T1.LocationCode &lt;&gt; &apos;PRECISE&apos; And
+  T4.Name &lt;&gt; &apos;LIME APPLICATION&apos; And T1.Canceled = &apos;False&apos;"
+												Type="SQL"
+												>
+												<GroupFilter
+													DataType="Text"
+													GroupColumn="LocationCode"
+													KeepGroupedRows="False"
+													>
+													<GroupAggregateColumn
+														AggregateColumn="TABLETMOD"
+														AggregateFunction="Count"
+														ID="aggTabletMOD"
+													/>
+												</GroupFilter>
+											</DataLayer>
+											<GroupDrillthrough
+												FrameID="NewWindow"
+												ID="groupDrillLocation"
+												>
+												<DrillthroughColumn
+													Caption="Applicator Name"
+													DataColumn="Applicator Name"
+													ID="colApplicator"
+												/>
+												<DrillthroughColumn
+													Caption="Done"
+													DataColumn="Done"
+													ID="colDone"
+												/>
+												<DrillthroughColumn
+													Caption="Order ID"
+													DataColumn="OrderID"
+													ID="colOrder"
+												/>
+												<DrillthroughColumn
+													Caption="Created Date"
+													DataColumn="CreatedDate"
+													ID="colCreatedDate"
+												/>
+												<DrillthroughColumn
+													Caption="Scheduled Date"
+													DataColumn="ScheduledDate"
+													ID="colScheduledDate"
+												/>
+												<DrillthroughColumn
+													Caption="Acres"
+													DataColumn="Acres"
+													ID="colAcres"
+												/>
+												<DrillthroughColumn
+													Caption="Acres Sprayed"
+													DataColumn="AcresSprayed"
+													ID="colAcres"
+												/>
+												<DrillthroughColumn
+													Caption="Acres Diff"
+													DataColumn="Acres Diff"
+													ID="colAcres"
+												/>
+												<DrillthroughColumn
+													Caption="Rig"
+													DataColumn="Rig"
+													ID="colRig"
+												/>
+											</GroupDrillthrough>
+										</Series>
+									</ChartCanvas>
+								</ResponsiveColumn>
+								<ResponsiveColumn
+									Class="ThemeTextSmall"
+									>
+									<Label
+										Caption="Orders Not Marked Done on Tablet By Location"
+										Class="ThemeTextSmall ThemeBold"
+									/>
+									<ChartCanvas
+										ChartHeight="400"
+										ChartWidth="640"
+										ID="chartOrdersMarkedDone"
+										>
+										<Series
+											ChartLabelColumn="LocationCode"
+											ChartYDataColumn="aggTabletMOD"
+											ID="Series.Pie1"
+											PieBorderColor="White"
+											PieBorderThickness="1"
+											ShowDataValues="True"
+											Type="Pie"
+											>
+											<DataLayer
+												ConnectionID="connAgOS"
+												ID="dlOrdersMarkedDoneNot"
+												Source="Select Top 100 Percent T3.FirstName + T3.LastName As [Applicator Name],
+  T1.Done,
+  T1.OrderID,
+  T1.CreatedDate,
+  T1.ScheduledDate,
+  Case When T1.ScheduledDate &gt; 0 Then &apos;YES&apos; Else &apos;NO&apos; End Scheduled,
+  Case When DatePart(HOUR, T1.DoneDate) &gt; 0 Then &apos;TABLET&apos; Else &apos;NO&apos;
+  End TABLETMOD,
+  T1.DoneDate,
+  DatePart(yyyy, T1.DoneDate) As DoneYr,
+  T1.ModifiedDate,
+  T1.Acres,
+  T1.AcresSprayed,
+  T1.Acres - T1.AcresSprayed As [Acres Diff],
+  T1.Comments,
+  T1.LocationCode,
+  T1.DoneByID,
+  T3.AppCertificate#,
+  T3.Applicator,
+  T4.Name Rig,
+  T1.Canceled,
+  T1.CreatedByID,
+  T1.OrderClassID,
+  T1.AppCodeID,
+  T2.ObjectID,
+  T1.Grass,
+  T1.Broadleaves,
+  T1.CropID,
+  T1.InsectID,
+  T2.Name,
+  T2.OptionalName,
+  T2.ObjCategoryID,
+  T2.AccInterfaceID,
+  T2.AgWorksID,
+  T5.ProposedRate,
+  T5.BaseProposedRateQty,
+  T5.ProposedRateQty,
+  T5.IsFormulated,
+  T4.LastUpdate
+From Orders T1
+  Inner Join Objects T2 With(NoLock) On T2.ObjectID = T1.ObjectID
+  Inner Join Users T3 With(NoLock) On T3.UserID = T1.DoneByID
+  Inner Join Objects T4 With(NoLock) On T4.ObjectID = T1.ApplicatorID
+  Inner Join OrderBin T5 With(NoLock) On T5.OrderID = T1.OrderID
+Where DatePart(YEAR, T1.DoneDate) = &apos;@Request.Year~&apos; And T1.LocationCode &lt;&gt; &apos;PRECISE&apos; And
+  T4.Name &lt;&gt; &apos;LIME APPLICATION&apos; And T1.Canceled = &apos;False&apos;"
+												Type="SQL"
+												>
+												<GroupFilter
+													DataType="Text"
+													GroupColumn="LocationCode"
+													KeepGroupedRows="False"
+													>
+													<GroupAggregateColumn
+														AggregateColumn="TABLETMOD"
+														AggregateFunction="Count"
+														ID="aggTabletMOD"
+													/>
+												</GroupFilter>
+											</DataLayer>
+											<GroupDrillthrough
+												FrameID="NewWindow"
+												ID="groupDrillLocation"
+												>
+												<DrillthroughColumn
+													Caption="Applicator Name"
+													DataColumn="Applicator Name"
+													ID="colApplicator"
+												/>
+												<DrillthroughColumn
+													Caption="Done"
+													DataColumn="Done"
+													ID="colDone"
+												/>
+												<DrillthroughColumn
+													Caption="Order ID"
+													DataColumn="OrderID"
+													ID="colOrder"
+												/>
+												<DrillthroughColumn
+													Caption="Created Date"
+													DataColumn="CreatedDate"
+													ID="colCreatedDate"
+												/>
+												<DrillthroughColumn
+													Caption="Scheduled Date"
+													DataColumn="ScheduledDate"
+													ID="colScheduledDate"
+												/>
+												<DrillthroughColumn
+													Caption="Acres"
+													DataColumn="Acres"
+													ID="colAcres"
+												/>
+												<DrillthroughColumn
+													Caption="Acres Sprayed"
+													DataColumn="AcresSprayed"
+													ID="colAcres"
+												/>
+												<DrillthroughColumn
+													Caption="Acres Diff"
+													DataColumn="Acres Diff"
+													ID="colAcres"
+												/>
+												<DrillthroughColumn
+													Caption="Rig"
+													DataColumn="Rig"
+													ID="colRig"
+												/>
+											</GroupDrillthrough>
+										</Series>
+									</ChartCanvas>
+								</ResponsiveColumn>
+							</ResponsiveRow>
+						</Division>
+					</ResponsiveColumn>
+				</ResponsiveRow>
+				<ResponsiveRow>
+					<ResponsiveColumn>
+						<Division
+							ID="divLocation"
+							>
+							<Remark>
+								<DataTable
+									ID="dtTabByLocation"
+									>
+									<DataLayer
+										ConnectionID="connAgOS"
+										ID="dlTabByLocation"
+										Source="Select Top 100 Percent T3.FirstName + T3.LastName As [Applicator Name],
+  T1.Done,
+  T1.OrderID,
+  T1.CreatedDate,
+  T1.ScheduledDate,
+  Case When T1.ScheduledDate &gt; 0 Then &apos;YES&apos; Else &apos;NO&apos; End Scheduled,
+  Case When DatePart(HOUR, T1.DoneDate) &gt; 0 Then &apos;TABLET&apos; Else &apos;NO&apos;
+  End TABLETMOD,
+  T1.DoneDate,
+  DatePart(yyyy, T1.DoneDate) As DoneYr,
+  T1.ModifiedDate,
+  T1.Acres,
+  T1.AcresSprayed,
+  T1.Acres - T1.AcresSprayed As [Acres Diff],
+  T1.Comments,
+  T1.LocationCode,
+  T1.DoneByID,
+  T3.AppCertificate#,
+  T3.Applicator,
+  T4.Name Rig,
+  T1.Canceled,
+  T1.CreatedByID,
+  T1.OrderClassID,
+  T1.AppCodeID,
+  T2.ObjectID,
+  T1.Grass,
+  T1.Broadleaves,
+  T1.CropID,
+  T1.InsectID,
+  T2.Name,
+  T2.OptionalName,
+  T2.ObjCategoryID,
+  T2.AccInterfaceID,
+  T2.AgWorksID,
+  T5.ProposedRate,
+  T5.BaseProposedRateQty,
+  T5.ProposedRateQty,
+  T5.IsFormulated,
+  T4.LastUpdate
+From Orders T1
+  Inner Join Objects T2 With(NoLock) On T2.ObjectID = T1.ObjectID
+  Inner Join Users T3 With(NoLock) On T3.UserID = T1.DoneByID
+  Inner Join Objects T4 With(NoLock) On T4.ObjectID = T1.ApplicatorID
+  Inner Join OrderBin T5 With(NoLock) On T5.OrderID = T1.OrderID
+Where DatePart(YEAR, T1.DoneDate) = &apos;@Request.Year~&apos; And T1.LocationCode &lt;&gt; &apos;PRECISE&apos; And
+  T4.Name &lt;&gt; &apos;LIME APPLICATION&apos; And T1.Canceled = &apos;False&apos;
+ "
+										Type="SQL"
+									/>
+									<AutoColumns/>
+								</DataTable>
+							</Remark>
+							<Remark>
+								<DataTable
+									ID="dtNotByLocation"
+									>
+									<DataLayer
+										ConnectionID="connAgOS"
+										ID="dlOrdersMarkedDoneNot"
+										Source="Select Top 100 Percent T3.FirstName + T3.LastName As [Applicator Name],
+  T1.Done,
+  T1.OrderID,
+  T1.CreatedDate,
+  T1.ScheduledDate,
+  Case When T1.ScheduledDate &gt; 0 Then &apos;YES&apos; Else &apos;NO&apos; End Scheduled,
+  Case When DatePart(HOUR, T1.DoneDate) &gt; 0 Then &apos;TABLET&apos; Else &apos;NO&apos;
+  End TABLETMOD,
+  T1.DoneDate,
+  DatePart(yyyy, T1.DoneDate) As DoneYr,
+  T1.ModifiedDate,
+  T1.Acres,
+  T1.AcresSprayed,
+  T1.Acres - T1.AcresSprayed As [Acres Diff],
+  T1.Comments,
+  T1.LocationCode,
+  T1.DoneByID,
+  T3.AppCertificate#,
+  T3.Applicator,
+  T4.Name Rig,
+  T1.Canceled,
+  T1.CreatedByID,
+  T1.OrderClassID,
+  T1.AppCodeID,
+  T2.ObjectID,
+  T1.Grass,
+  T1.Broadleaves,
+  T1.CropID,
+  T1.InsectID,
+  T2.Name,
+  T2.OptionalName,
+  T2.ObjCategoryID,
+  T2.AccInterfaceID,
+  T2.AgWorksID,
+  T5.ProposedRate,
+  T5.BaseProposedRateQty,
+  T5.ProposedRateQty,
+  T5.IsFormulated,
+  T4.LastUpdate
+From Orders T1
+  Inner Join Objects T2 With(NoLock) On T2.ObjectID = T1.ObjectID
+  Inner Join Users T3 With(NoLock) On T3.UserID = T1.DoneByID
+  Inner Join Objects T4 With(NoLock) On T4.ObjectID = T1.ApplicatorID
+  Inner Join OrderBin T5 With(NoLock) On T5.OrderID = T1.OrderID
+Where T1.DoneDate &gt;= &apos;2017-01-01&apos; And T1.LocationCode &lt;&gt; &apos;PRECISE&apos; And
+  T4.Name &lt;&gt; &apos;LIME APPLICATION&apos; And T1.Canceled = &apos;False&apos;"
+										Type="SQL"
+										>
+										<ConditionFilter
+											Condition="&quot;@Data.LocationCode~&quot; = &quot;@Request.NotLocation~&quot;"
+										/>
+									</DataLayer>
+									<AutoColumns/>
+								</DataTable>
+							</Remark>
+						</Division>
+					</ResponsiveColumn>
+				</ResponsiveRow>
+			</Division>
+		</Division>
+	</Body>
+	<IncludeSharedElement
+		DefinitionFile="_Layout.Shared"
+		SharedElementID="shrFooter"
+	/>
+	<ideTestParams
+		Year=""
+	/>
+</Report>

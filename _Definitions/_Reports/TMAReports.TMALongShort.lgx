@@ -344,7 +344,7 @@
 															Class="ThemeAlignRight"
 															>
 															<Label
-																Caption="@Data.Beans_Elevator~"
+																Caption="@Data.Corn_Elevator~"
 																Format="###,###,##0"
 															/>
 														</Column>
@@ -359,7 +359,7 @@
 															Class="ThemeAlignRight"
 															>
 															<Label
-																Caption="@Data.Corn_Elevator~"
+																Caption="@Data.Beans_Elevator~"
 																Format="###,###,##0"
 															/>
 														</Column>

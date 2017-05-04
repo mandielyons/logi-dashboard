@@ -1161,6 +1161,86 @@ else {
 															</DataList>
 														</Division>
 													</Division>
+												<Division
+													ID="ag-container"
+													SecurityRightID="MKC Dashboard, LogiUserAdmin"
+													>
+													<Division
+														Class="dropdown"
+														HtmlDiv="True"
+														ID="agronomy"
+														>
+														<Label
+															Caption="Agronomy"
+															>
+															<Action
+																ID="actBlank"
+																Javascript="void(0)"
+																Type="Javascript"
+															/>
+															<ConditionalClass
+																Class="selected-menu"
+																Condition="&quot;@Request.rdReport~&quot;.indexOf(&quot;Agronomy&quot;)&lt;&gt;&quot;-1&quot;"
+															/>
+														</Label>
+														<Label
+															Class="caret"
+															>
+															<Action
+																ID="actBlank"
+																Javascript="void(0)"
+																Type="Javascript"
+															/>
+															<ConditionalClass
+																Class="caret selected-menu"
+																Condition="&quot;@Request.rdReport~&quot;.indexOf(&quot;Agronomy&quot;)&lt;&gt;&quot;-1&quot;"
+															/>
+														</Label>
+														<Division
+															Class="submenu"
+															HtmlDiv="True"
+															ID="submenu-ag"
+															>
+															<DataList
+																ID="lstAgronomy"
+																>
+																<DataLayer
+																	ID="dlNav-Agronomy"
+																	Type="DefinitionList"
+																	>
+																	<CompareFilter
+																		CaseSensitive="True"
+																		CompareType="="
+																		CompareValue="Agronomy"
+																		DataColumn="Folder1"
+																		DataType="Text"
+																		ID="fAgronomy"
+																	/>
+																</DataLayer>
+																<ListItem>
+																	<Label
+																		Caption="@Data.Caption~"
+																		>
+																		<Action
+																			ID="actReport"
+																			Type="Report"
+																			>
+																			<Target
+																				Report="@Data.ID~"
+																				Type="Report"
+																				>
+																				<WaitPage/>
+																			</Target>
+																		</Action>
+																		<ConditionalClass
+																			Class="selected-menu"
+																			Condition="&quot;@Request.rdReport~&quot;==&quot;@Data.ID~&quot;"
+																		/>
+																	</Label>
+																</ListItem>
+															</DataList>
+														</Division>
+													</Division>
 													<Label
 														Caption="|"
 														Class="pipe-spacer"
@@ -1176,32 +1256,6 @@ else {
 														HtmlDiv="True"
 														ID="sales"
 														>
-														<Label
-															Caption="Sales"
-															>
-															<Action
-																ID="actBlank"
-																Javascript="void(0)"
-																Type="Javascript"
-															/>
-															<ConditionalClass
-																Class="selected-menu"
-																Condition="&quot;@Request.rdReport~&quot;.indexOf(&quot;Maps&quot;)&lt;&gt;&quot;-1&quot;"
-															/>
-														</Label>
-														<Label
-															Class="caret"
-															>
-															<Action
-																ID="actBlank"
-																Javascript="void(0)"
-																Type="Javascript"
-															/>
-															<ConditionalClass
-																Class="caret selected-menu"
-																Condition="&quot;@Request.rdReport~&quot;.indexOf(&quot;Maps&quot;)&lt;&gt;&quot;-1&quot;"
-															/>
-														</Label>
 														<Division
 															Class="submenu"
 															HtmlDiv="True"
@@ -1209,6 +1263,36 @@ else {
 															>
 															<DataList
 																ID="lstSales"
+															<Label 
+																Caption="Sales"
+																>
+																<Action
+																	ID="actBlank"
+																	Javascript="void(0)"
+																	Type="Javascript"
+																/>
+																<ConditionalClass
+																	Class="selected-menu"
+																	Condition="&quot;@Request.rdReport~&quot;.indexOf(&quot;Sales&quot;)&lt;&gt;&quot;-1&quot;"
+																/>
+															</Label>
+															<Label
+																Class="caret"
+																>
+																<Action
+																	ID="actBlank"
+																	Javascript="void(0)"
+																	Type="Javascript"
+																/>
+																<ConditionalClass
+																	Class="caret selected-menu"
+																	Condition="&quot;@Request.rdReport~&quot;.indexOf(&quot;Sales&quot;)&lt;&gt;&quot;-1&quot;"
+																/>
+															</Label>
+															<Division
+																Class="submenu"
+																HtmlDiv="True"
+																ID="submenu-sales"
 																>
 																<DataLayer
 																	ID="dlNav-Sales"
@@ -2193,9 +2277,9 @@ $(document).ready(function() {
 	}
 		
 	//report specific functions
-	var r = report.search(&quot;ContractsDashboard&quot;);
+	var r = report.search(&quot;AgOSOrdersDone&quot;);
 	if (r &gt; -1) {
-				
+
 	}
 	
 
