@@ -20,7 +20,7 @@ From Orders T1
   Inner Join Users T3 With(NoLock) On T3.UserID = T1.DoneByID
   Inner Join Objects T4 With(NoLock) On T4.ObjectID = T1.ApplicatorID
   Inner Join OrderBin T5 With(NoLock) On T5.OrderID = T1.OrderID
-Where T1.DoneDate &gt;= &apos;2017-01-01&apos; And T1.LocationCode &lt;&gt; &apos;PRECISE&apos; And
+Where DatePart(YEAR, T1.DoneDate) = &apos;@Request.Year~&apos; And T1.LocationCode &lt;&gt; &apos;PRECISE&apos; And
   T4.Name &lt;&gt; &apos;LIME APPLICATION&apos; And T1.Canceled = &apos;False&apos;"
 			Type="SQL"
 		/>
@@ -125,7 +125,7 @@ Where T1.DoneDate &gt;= &apos;2017-01-01&apos; And T1.LocationCode &lt;&gt; &apo
 								Tooltip="Clear all selections"
 								>
 								<Action
-									ElementID="divFilters"
+									ElementID="divFilters,div-KPI,divTotals,divPieCharts"
 									ID="actReport"
 									RequestForwarding="True"
 									Type="RefreshElement"
@@ -236,7 +236,7 @@ Where DatePart(YEAR, T1.DoneDate) = &apos;@Request.Year~&apos; And T1.LocationCo
 											>
 											<Label
 												Caption="@Data.calcPercent~ "
-												Format="Percent"
+												Format="##\%"
 											/>
 										</DataTableColumn>
 									</DataTable>
