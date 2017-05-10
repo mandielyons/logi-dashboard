@@ -532,7 +532,7 @@ ORDER BY LocationCode, DoneYear
 									Class="ThemeTextSmall"
 									HideWhenOnePage="True"
 									Location="Bottom"
-									PageRowCount="10"
+									PageRowCount="20"
 									ShowPageNumber="True"
 								/>
 								<Remark>
@@ -578,6 +578,7 @@ Where T1.LocationCode &lt;&gt; &apos;PRECISE&apos; And T1.DoneDate &gt;= Cast(Da
 									>
 									<Label
 										Caption="@Data.ScheduledDate~"
+										Format="Short Date"
 									/>
 								</DataTableColumn>
 								<DataTableColumn
@@ -605,6 +606,7 @@ Where T1.LocationCode &lt;&gt; &apos;PRECISE&apos; And T1.DoneDate &gt;= Cast(Da
 									>
 									<Label
 										Caption="@Data.DoneDate~"
+										Format="Short Date"
 									/>
 								</DataTableColumn>
 							</DataTable>
