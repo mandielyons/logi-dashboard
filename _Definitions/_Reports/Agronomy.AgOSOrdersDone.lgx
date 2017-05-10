@@ -240,8 +240,17 @@ Order By O.LocationCode,
 						ColspanMediumScreen="6"
 						ColspanSmallScreen="6"
 						>
+						<Label
+							Caption="MKC Current Year Totals"
+							Class="ThemeTextLarge ThemeAlignCenter"
+						/>
+						<LineBreak
+							LineCount="2"
+						/>
 						<DataTable
 							ID="dtAgOSOrdersTablet"
+							Width="80"
+							WidthScale="%"
 							>
 							<DataLayer
 								ConnectionID="connAgOS"
@@ -263,10 +272,16 @@ From (Select T1.LocationCode,
 									Formula="(@Data.OrderCount~ - @Data.ByTablet~)"
 									ID="calcTotalNotTablet"
 								/>
+								<CalculatedColumn
+									Formula="(@Data.ByTablet~ * 100) / @Data.OrderCount~"
+									ID="calcPercentTablet"
+								/>
+								<CalculatedColumn
+									Formula="(@Data.calcTotalNotTablet~ * 100) / @Data.OrderCount~"
+									ID="calcPercentNotTablet"
+								/>
 							</DataLayer>
-							<DataTableColumn
-								Header="Current Year Totals"
-								>
+							<DataTableColumn>
 								<Rows
 									Width="100"
 									WidthScale="%"
@@ -277,7 +292,7 @@ From (Select T1.LocationCode,
 											WidthScale="%"
 											>
 											<Division
-												Class="kpi kpi-purple"
+												Class="kpi kpi-orange"
 												ID="div-kpi"
 												>
 												<Label
@@ -303,7 +318,7 @@ From (Select T1.LocationCode,
 											WidthScale="%"
 											>
 											<Division
-												Class="kpi kpi-green"
+												Class="kpi kpi-pink"
 												ID="div-kpi"
 												>
 												<Label
@@ -329,7 +344,7 @@ From (Select T1.LocationCode,
 											WidthScale="%"
 											>
 											<Division
-												Class="kpi kpi-red"
+												Class="kpi kpi-blue"
 												ID="div-kpi"
 												>
 												<Label
@@ -342,6 +357,95 @@ From (Select T1.LocationCode,
 												<Label
 													Caption="@Data.calcTotalNotTablet~"
 													Class="panel-title"
+												/>
+											</Division>
+											<LineBreak
+												LineCount="3"
+											/>
+										</Column>
+									</Row>
+								</Rows>
+							</DataTableColumn>
+							<DataTableColumn>
+								<Rows
+									Width="100"
+									WidthScale="%"
+									>
+									<Row>
+										<Column
+											Width="100"
+											WidthScale="%"
+											>
+											<Remark>
+												<Division
+													Class="kpi kpi-orange"
+													ID="div-kpi"
+													>
+													<Label
+														Caption="Marked Done"
+														Class="panel-title"
+													/>
+													<Spaces
+														Size="17"
+													/>
+													<Label
+														Caption="@Data.OrderCount~"
+														Class="panel-title"
+													/>
+												</Division>
+											</Remark>
+											<LineBreak
+												LineCount="3"
+											/>
+										</Column>
+									</Row>
+									<Row>
+										<Column
+											Width="100"
+											WidthScale="%"
+											>
+											<Division
+												Class="kpi kpi-pink"
+												ID="div-kpi"
+												>
+												<Label
+													Caption="% Done on Tablet"
+													Class="panel-title"
+												/>
+												<Spaces
+													Size="14"
+												/>
+												<Label
+													Caption="@Data.calcPercentTablet~"
+													Class="panel-title"
+													Format="##\%"
+												/>
+											</Division>
+											<LineBreak
+												LineCount="3"
+											/>
+										</Column>
+									</Row>
+									<Row>
+										<Column
+											Width="100"
+											WidthScale="%"
+											>
+											<Division
+												Class="kpi kpi-blue"
+												ID="div-kpi"
+												>
+												<Label
+													Caption="% Not Done on Tablet"
+													Class="panel-title"
+												/>
+												<Spaces
+													Size="3"
+												/>
+												<Label
+													Caption="@Data.calcPercentNotTablet~"
+													Class="panel-title"
+													Format="##\%"
 												/>
 											</Division>
 											<LineBreak
@@ -380,8 +484,28 @@ From (Select T1.LocationCode,
 				HtmlDiv="True"
 				ID="div-body-details"
 				>
-				<ResponsiveRow>
+				<ResponsiveRow
+					Class="pull-right"
+					>
 					<ResponsiveColumn>
+						<IncludeSharedElement
+							DefinitionFile="_Layout.Shared"
+							SharedElementID="shrExcelExport"
+							>
+							<SharedElementParams
+								DataTableID="dtDetailsByLocation"
+								ReportName="OrderDetails"
+							/>
+						</IncludeSharedElement>
+					</ResponsiveColumn>
+				</ResponsiveRow>
+				<ResponsiveRow>
+					<ResponsiveColumn
+						ColspanExtraSmallScreen="6"
+						ColspanLargeScreen="6"
+						ColspanMediumScreen="6"
+						ColspanSmallScreen="6"
+						>
 						<Division
 							ID="divYearOverYear"
 							>
@@ -508,24 +632,34 @@ ORDER BY LocationCode, DoneYear
 										/>
 										<WaitPage/>
 									</Action>
-									<Series
-										Color="Tomato"
-										LineAlgorithm="LOWESS"
-										SeriesLineStyle="Dash"
-										Type="TrendLine"
-									/>
+									<Remark>
+										<Series
+											Color="Tomato"
+											LineAlgorithm="LOWESS"
+											SeriesLineStyle="Dash"
+											Type="TrendLine"
+										/>
+									</Remark>
 								</Series>
 							</ChartCanvas>
 						</Division>
 					</ResponsiveColumn>
-					<ResponsiveColumn>
+					<ResponsiveColumn
+						ColspanExtraSmallScreen="6"
+						ColspanLargeScreen="6"
+						ColspanMediumScreen="6"
+						ColspanSmallScreen="6"
+						>
 						<Division
 							ID="divLocation"
 							>
 							<DataTable
+								AjaxPaging="True"
 								Caption="@Request.Location~ - @Request.Year~ Orders Not Done on Tablet"
 								Class="ThemeTextSmaller"
 								ID="dtDetailsByLocation"
+								Width="100"
+								WidthScale="%"
 								>
 								<InteractivePaging
 									CaptionType="Text"
@@ -560,6 +694,11 @@ Where T1.LocationCode &lt;&gt; &apos;PRECISE&apos; And T1.DoneDate &gt;= Cast(Da
 									>
 									<ConditionFilter
 										Condition="&quot;@Request.Location~&quot; = &quot;@Data.LocationCode~&quot; And &quot;@Request.Year~&quot; = &quot;@Data.DoneYear~&quot;"
+									/>
+									<SortFilter
+										DataType="Date"
+										SortColumn="DoneDate"
+										SortSequence="Ascending"
 									/>
 								</DataLayer>
 								<DataTableColumn
