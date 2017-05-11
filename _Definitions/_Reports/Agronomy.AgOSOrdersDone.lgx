@@ -281,7 +281,10 @@ From (Select T1.LocationCode,
 									ID="calcPercentNotTablet"
 								/>
 							</DataLayer>
-							<DataTableColumn>
+							<DataTableColumn
+								Width="25"
+								WidthScale="%"
+								>
 								<Rows
 									Width="100"
 									WidthScale="%"
@@ -364,9 +367,15 @@ From (Select T1.LocationCode,
 											/>
 										</Column>
 									</Row>
+									<Row>
+										<Column/>
+									</Row>
 								</Rows>
 							</DataTableColumn>
-							<DataTableColumn>
+							<DataTableColumn
+								Width="25"
+								WidthScale="%"
+								>
 								<Rows
 									Width="100"
 									WidthScale="%"
@@ -376,24 +385,6 @@ From (Select T1.LocationCode,
 											Width="100"
 											WidthScale="%"
 											>
-											<Remark>
-												<Division
-													Class="kpi kpi-orange"
-													ID="div-kpi"
-													>
-													<Label
-														Caption="Marked Done"
-														Class="panel-title"
-													/>
-													<Spaces
-														Size="17"
-													/>
-													<Label
-														Caption="@Data.OrderCount~"
-														Class="panel-title"
-													/>
-												</Division>
-											</Remark>
 											<LineBreak
 												LineCount="3"
 											/>
@@ -452,6 +443,68 @@ From (Select T1.LocationCode,
 												LineCount="3"
 											/>
 										</Column>
+									</Row>
+									<Row>
+										<Column/>
+									</Row>
+								</Rows>
+							</DataTableColumn>
+							<DataTableColumn
+								Width="25"
+								WidthScale="%"
+								>
+								<Rows
+									Width="100"
+									WidthScale="%"
+									>
+									<Row>
+										<Column
+											Width="100"
+											WidthScale="%"
+											>
+											<LineBreak
+												LineCount="3"
+											/>
+										</Column>
+									</Row>
+									<Row>
+										<Column
+											Width="100"
+											WidthScale="%"
+											>
+											<Division
+												Class="kpi kpi-coral"
+												ID="div-kpi"
+												>
+												<Label
+													Caption="Goal:"
+													Class="panel-title"
+												/>
+												<Spaces
+													Size="25"
+												/>
+												<Label
+													Caption="85%"
+													Class="panel-title"
+												/>
+											</Division>
+											<LineBreak
+												LineCount="3"
+											/>
+										</Column>
+									</Row>
+									<Row>
+										<Column
+											Width="100"
+											WidthScale="%"
+											>
+											<LineBreak
+												LineCount="3"
+											/>
+										</Column>
+									</Row>
+									<Row>
+										<Column/>
 									</Row>
 								</Rows>
 							</DataTableColumn>
