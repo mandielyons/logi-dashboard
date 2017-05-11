@@ -44,6 +44,8 @@
 								ColspanSmallScreen="12"
 								>
 								<Division
+									Class="well"
+									HtmlDiv="True"
 									ID="data"
 									SecurityRightID="TMA Dashboard,OC,LogiUserAdmin"
 									>
@@ -80,6 +82,8 @@
 								ColspanSmallScreen="12"
 								>
 								<Division
+									Class="well"
+									HtmlDiv="True"
 									ID="data"
 									SecurityRightID="MKC Dashboard,LogiUserAdmin"
 									>
