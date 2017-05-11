@@ -157,7 +157,7 @@ Where T1.DoneDate &gt;= &apos;2017-01-01&apos; And T1.LocationCode &lt;&gt; &apo
 								>
 								<Series
 									ChartLabelColumn="LocationCode"
-									ChartYDataColumn="ByTablet"
+									ChartYDataColumn="OrderCount"
 									ID="Series.Pie1"
 									PieBorderColor="White"
 									PieBorderThickness="1"
@@ -565,7 +565,7 @@ ORDER BY LocationCode, DoneYear
 								<Series
 									ChartXDataColumn="DoneYear"
 									ChartXDataColumnType="Text"
-									ChartYDataColumn="ByTablet"
+									ChartYDataColumn="OrderCount"
 									Color="#8085e9"
 									Type="Bar"
 									>
