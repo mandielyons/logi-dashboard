@@ -805,8 +805,8 @@
 
 	.kpi-orange{
 		color: #ffffff;
-		border-color: #FFA500;
-		background: #FFA500;
+		border-color: #f7a35c;
+		background: #f7a35c;
 	}
 
 	.kpi-purple{
@@ -832,6 +832,12 @@
 		color: #ffffff;
 		border-color: #CBCBCB;
 		background: #CBCBCB;
+	}
+
+	.kpi-pink{
+		color: #ffffff;
+		border-color: #f15c80;
+		background: #f15c80;
 	}
 	
 	
