@@ -2,6 +2,7 @@
 <Report
 	Caption="Share of Wallet"
 	ID="Sales.ShareOfWallet"
+	SecurityReportRightID="LogiUserAdmin"
 	>
 	<IncludeSharedElement
 		DefinitionFile="_Layout.Shared"
