@@ -2093,6 +2093,89 @@ From ag_location"
 		</Division>
 	</SharedElement>
 	<SharedElement
+		ID="shrDateFilter"
+		>
+		<Note
+			Note="**Pass in DataTableID, DefaultBeginDate and DefaultEndDate in the Shared Element Params.**"
+		/>
+		<Division
+			Class="well"
+			HtmlDiv="True"
+			ID="divDateRange"
+			>
+			<InputDate
+				Caption="Begin Date:"
+				CaptionClass="ThemeTextSmall ThemeBold"
+				Class="ThemeTextSmaller"
+				DefaultValue="@Shared.DefaultBeginDate~"
+				EndDateDefaultValue="@Shared.DefaultEndDate~"
+				EndDateRangeCaption="End Date:"
+				EndDateRangeID="HarvestEndDate"
+				ID="HarvestBeginDate"
+				InputDateReformat="yyyy-MM-dd"
+				ShowDateRange="True"
+				>
+				<EventHandler
+					DhtmlEvent="onchange"
+					ID="onChangeDate"
+					>
+					<Action
+						ElementID="@Shared.DataTableID~"
+						ID="actRefreshDataTable"
+						Type="RefreshElement"
+						>
+						<WaitPage/>
+					</Action>
+				</EventHandler>
+			</InputDate>
+		</Division>
+	</SharedElement>
+	<SharedElement
+		ID="shrYearFilter"
+		>
+		<Note
+			Note="**Pass in DataTableID in the Shared Element Params.**"
+		/>
+		<Division
+			ID="divYear"
+			>
+			<InputSelectList
+				Caption="Year:"
+				CaptionClass="ThemeTextSmall ThemeBold"
+				Class="ThemeTextSmaller"
+				ID="Year"
+				IncludeBlank="True"
+				IncludeBlankCaption="All"
+				IncludeBlankValue="All"
+				OptionCaptionColumn="FiscalYear"
+				OptionValueColumn="FiscalYear"
+				>
+				<DataLayer
+					ConnectionID="connCRM"
+					ID="dlFiscalYears"
+					Source="Select DISTINCT gb.ag_FiscalYear FiscalYear
+From ag_grainreceiptsummaryBase gb
+Where gb.ag_FiscalYear Between DatePart(Year, DateAdd(Year, Case When DatePart(Month, GetDate()) &lt; 3 Then -4 Else -3 End, GetDate())) And DatePart(Year, DateAdd(Year, Case When DatePart(Month, GetDate()) &lt; 3 Then 0 Else 1 End, GetDate())) 
+Order By FiscalYear DESC"
+					Type="SQL"
+				/>
+				<EventHandler
+					DhtmlEvent="onchange"
+					ID="onChangeYear"
+					>
+					<Action
+						ElementID="@Shared.DataTableID~"
+						ID="actRefreshDataTable"
+						Type="RefreshElement"
+						>
+						<WaitPage/>
+					</Action>
+				</EventHandler>
+			</InputSelectList>
+			<LineBreak/>
+		</Division>
+	</SharedElement>
+	<SharedElement
 		ID="shrHelp"
 		>
 		<Note

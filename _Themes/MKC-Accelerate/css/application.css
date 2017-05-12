@@ -1249,7 +1249,7 @@
 	div#PopupPanelContent td textarea,
 	div#PopupPanelContent td select {
 		margin: 4px;
-		width: 100%;
+		width: 40%;
 	}
 	
 	.rdPopupContent .ThemeLinkButton>span, 

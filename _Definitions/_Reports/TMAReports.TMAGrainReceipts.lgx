@@ -12,6 +12,7 @@
 		Branch="0"
 		Commodity="0"
 		Customer=""
+		Year="All"
 	/>
 	<Body>
 		<ResponsiveRow>
@@ -112,6 +113,14 @@ Order By AccountName"
 									<LineBreak/>
 									<IncludeSharedElement
 										DefinitionFile="_Layout.Shared"
+										SharedElementID="shrYearFilter"
+										>
+										<SharedElementParams
+											DataTableID="ctGrainReceiptSummary"
+										/>
+									</IncludeSharedElement>
+									<IncludeSharedElement
+										DefinitionFile="_Layout.Shared"
 										SharedElementID="shrCRMBranchSelect"
 										>
 										<SharedElementParams
@@ -191,7 +200,8 @@ From ag_grainreceiptsummaryBase gb
   Inner Join Account am On gb.ag_AccountID = am.AccountId
   Inner Join ag_commodity cm On gb.ag_CommodityID = cm.ag_commodityId
   Inner Join ag_location lm On gb.ag_LocationID = lm.ag_locationId
-Where gb.ag_FiscalYear Between DatePart(Year, DateAdd(Year, Case When DatePart(Month, GetDate()) &lt; 3 Then -4 Else -3 End, GetDate())) And DatePart(Year, DateAdd(Year, Case When DatePart(Month, GetDate()) &lt; 3 Then 0 Else 1 End, GetDate())) 
+Where gb.ag_FiscalYear Between DatePart(Year, DateAdd(Year, Case When DatePart(Month, GetDate()) &lt; 3 Then -4 Else -3 End, GetDate())) And DatePart(Year, DateAdd(Year, Case When DatePart(Month, GetDate()) &lt; 3 Then 0 Else 1 End, GetDate()))
+And (gb.ag_FiscalYear = &apos;@Request.Year~&apos; Or &apos;@Request.Year~&apos; = &apos;All&apos;) 
 And (lm.ag_DataSourceKey IN(@Request.Branch~) OR &apos;@Request.Branch~&apos;=&apos;0&apos;) 
 And gb.statecode = 0 And gb.statuscode = 1
 Order By AccountName,
@@ -402,5 +412,6 @@ Order By AccountName,
 		Branch=""
 		Commodity=""
 		Customer=""
+		Year=""
 	/>
 </Report>
