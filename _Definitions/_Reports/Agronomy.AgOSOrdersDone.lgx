@@ -2,6 +2,7 @@
 <Report
 	Caption="AgOS Orders"
 	ID="Agronomy.AgOSOrdersDone"
+	SecurityReportRightID="MKC Dashboard"
 	>
 	<IncludeSharedElement
 		DefinitionFile="_Layout.Shared"
