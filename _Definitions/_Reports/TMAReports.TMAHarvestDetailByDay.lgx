@@ -106,6 +106,7 @@
 									HtmlDiv="True"
 									ID="divFilters"
 									>
+									<LineBreak/>
 									<IncludeSharedElement
 										DefinitionFile="_Layout.Shared"
 										SharedElementID="shrBranchSelect"
@@ -123,6 +124,16 @@
 										/>
 									</IncludeSharedElement>
 									<LineBreak/>
+									<IncludeSharedElement
+										DefinitionFile="_Layout.Shared"
+										SharedElementID="shrDateFilter"
+										>
+										<SharedElementParams
+											DataTableID="CrosstabTable1"
+											DefaultBeginDate="@Local.HARVESTBEGINDT~"
+											DefaultEndDate="@Local.HARVESTENDDT~"
+										/>
+									</IncludeSharedElement>
 									<Button
 										Caption="Reset"
 										ID="btnReset"
