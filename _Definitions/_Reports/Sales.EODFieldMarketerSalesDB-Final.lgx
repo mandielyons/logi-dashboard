@@ -30,7 +30,7 @@
 		ID="LocalData-FieldMarketerList"
 		>
 		<DataLayer
-			ConnectionID="connCRMTest"
+			ConnectionID="connCRM"
 			ID="dlFldMarketerLocal"
 			Source="select * from
 (SELECT LOWER(REPLACE(SU.DomainName, &apos;MIDKSCOOP\&apos;,&apos;&apos;)) [login], SU.FullName as [FieldMarketer], SU.PositionIdName [ag_RoleIdName], SU.ag_DepartmentIdName, SU.ParentSystemUserIdName as [Manager], SU.InternalEmailAddress, SU.DomainName
@@ -216,7 +216,7 @@ font-weight: 400;
 													OptionValueColumn="FieldMarketer"
 													>
 													<DataLayer
-														ConnectionID="connCRMTest"
+														ConnectionID="connCRM"
 														ID="dlFldMarketer"
 														Source="SELECT DISTINCT am.po_FieldMarketer FieldMarketer
 FROM dbo.ag_saleshistory sh
@@ -270,7 +270,7 @@ ORDER BY FieldMarketer"
 												OptionValueColumn="AccountId"
 												>
 												<DataLayer
-													ConnectionID="connCRMTest"
+													ConnectionID="connCRM"
 													ID="dlCustomer"
 													Source="SELECT DISTINCT am.AccountId, am.Name AccountName
 FROM dbo.ag_saleshistory sh
@@ -313,7 +313,7 @@ ORDER BY AccountName"
 													WidthScale="px"
 													>
 													<DataLayer
-														ConnectionID="connCRMTest"
+														ConnectionID="connCRM"
 														ID="dlProdClass"
 														Source="SELECT DISTINCT pd.ProdRptSubCatDesc as [description], ProdRptCatDesc as [class]
 FROM dbo.mkcAgronomyProductDim pd 
@@ -335,7 +335,7 @@ ORDER BY [class], [description]"
 														DataColumn="description"
 														>
 														<DataLayer
-															ConnectionID="connCRMTest"
+															ConnectionID="connCRM"
 															ID="dlProdClass"
 															Source="SELECT DISTINCT pd.ProdRptSubCatDesc as description
 FROM dbo.mkcAgronomyProductDim pd 
@@ -492,7 +492,7 @@ WHERE pd.ProdRptSubCatDesc IN (@SingleQuote.Request.inpProdClass~) OR &apos;@Req
 												</Action>
 											</Series>
 											<DataLayer
-												ConnectionID="connCRMTest"
+												ConnectionID="connCRM"
 												ID="dlYearChart"
 												Source="SELECT sh.CropYear, CASE WHEN sh.[description] IN(&apos;Chemical&apos;,&apos;Seed Treatment&apos;) THEN &apos;$$$ (x100)&apos; ELSE sh.InvoiceUOM END InvoiceUOM, sh.[description], CASE WHEN sh.[description] IN(&apos;Chemical&apos;,&apos;Seed Treatment&apos;) THEN ROUND(SUM(sh.RptAmount)/100,2)  ELSE SUM(sh.RptAmount) END Amount
 FROM dbo.vmkcSalesFMDashboard sh
@@ -654,7 +654,7 @@ ORDER BY CropYear, [description]
 												</Action>
 											</Series>
 											<DataLayer
-												ConnectionID="connCRMTest"
+												ConnectionID="connCRM"
 												ID="dlMonthChart"
 												Source="SELECT sh.CropYear, CASE WHEN sh.[description] IN(&apos;Chemical&apos;,&apos;Seed Treatment&apos;) THEN &apos;$$$ (x100)&apos; ELSE sh.InvoiceUOM END InvoiceUOM, sh.[description], CASE WHEN sh.[description] IN(&apos;Chemical&apos;,&apos;Seed Treatment&apos;) THEN SUM(ISNULL(sh.RptAmount,0))/100  ELSE SUM(ISNULL(sh.RptAmount,0)) END Quantity
 FROM dbo.vmkcSalesFMDashboard sh
@@ -762,7 +762,7 @@ ORDER BY CropYear, [description]
 													WidthScale="%"
 													>
 													<DataLayer
-														ConnectionID="connCRMTest"
+														ConnectionID="connCRM"
 														ID="dlYearTable"
 														Source="Select a.FieldMarketer, a.Customer, a.Product, a.InvoiceUOM, a.ProductClass, a.MemberClass, a.hasCFA, sum(a.Quantity) as Quantity, sum(b.Quantity) as QuantityOld, sum(a.Amount) as Amount, sum(b.Amount) as AmountOld
 From 
