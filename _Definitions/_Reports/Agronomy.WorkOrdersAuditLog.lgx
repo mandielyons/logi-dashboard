@@ -1,0 +1,85 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report
+	Caption="AgOS Work Orders Audit Log"
+	ID="Agronomy.WorkOrdersAuditLog"
+	SecurityReportRightID="LogiUserAdmin"
+	>
+	<DefaultRequestParams/>
+	<Body>
+		<Division
+			Class="panel panel-default"
+			HtmlDiv="True"
+			ID="div-panel"
+			>
+			<Division
+				Class="panel-heading"
+				HtmlDiv="True"
+				ID="div-header"
+				>
+				<Label
+					Caption="AgOS Work Orders Audit Log"
+					Class="panel-title"
+				/>
+			</Division>
+			<Division
+				Class="panel-body"
+				HtmlDiv="True"
+				ID="div-body"
+				>
+				<ResponsiveRow>
+					<ResponsiveColumn
+						ColspanExtraSmallScreen="3"
+						ColspanLargeScreen="2"
+						ColspanMediumScreen="2"
+						ColspanSmallScreen="3"
+						>
+						<Division
+							Class="well"
+							HtmlDiv="True"
+							ID="divFilters"
+							>
+							<InputText
+								DefaultValue="@Request.OrderID~"
+								ID="iptOrderID"
+							/>
+						</Division>
+					</ResponsiveColumn>
+					<ResponsiveColumn>
+						<Division
+							ID="divAudit"
+							>
+							<DataTable
+								ID="dtWorkOrders"
+								>
+								<DataLayer
+									ConnectionID="connAgOS"
+									Source="Select Orders.OrderID,
+  Orders_tracking.OrderID As OrderID1,
+  Orders_tracking.update_scope_local_id,
+  Orders_tracking.scope_update_peer_key,
+  Orders_tracking.scope_update_peer_timestamp,
+  Orders_tracking.local_update_peer_key,
+  Orders_tracking.local_update_peer_timestamp,
+  Orders.CreatedDate,
+  Orders.ModifiedDate,
+  Orders.CreatedByID,
+  Orders.UserID,
+  Orders.DoneByID,
+  Orders.Comments
+From Orders,
+  Orders_tracking
+Where Orders.OrderID = &apos;@Request.OrderID~&apos;"
+									Type="SQL"
+								/>
+								<AutoColumns/>
+							</DataTable>
+						</Division>
+					</ResponsiveColumn>
+				</ResponsiveRow>
+			</Division>
+		</Division>
+	</Body>
+	<ideTestParams
+		OrderID="3538307"
+	/>
+</Report>
