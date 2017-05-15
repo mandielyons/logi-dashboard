@@ -131,29 +131,27 @@
 							<DataLayer
 								ConnectionID="connProdGP"
 								ID="dlTicketTracking"
-								Source="Select DM_DSTicketTracking.EntryID,
-  DM_DSTicketTracking.DropOffDate,
-  DM_DSTicketTracking.CUSTOMER,
-  DM_DSTicketTracking.BRANCH_NUMBER,
-  DM_DSTicketTracking.TotalTickets,
-  DM_DSTicketTracking.EnteredDate,
-  DM_DSTicketTracking.UserID,
-  DM_DSTicketTracking.CompletedDate,
-  IV_BRANCH_MASTER.BRANCH_NAME,
-  AR_CUSTOMER_MASTER_TMA.NAME,
-  DM_DSTicketTracking.ElectronicTicket,
-  DM_DSTicketTracking.COMMODITY_CODE,
-  CA_COMMODITY_MASTER.DESCRIPTION COMMODITY_DESC,
-  DM_DSTicketTracking.COMMENTS,
-  DateDiff(day, DM_DSTicketTracking.DropOffDate, GetDate()) As DaysOld
-From DM_DSTicketTracking
-  Inner Join IV_BRANCH_MASTER On DM_DSTicketTracking.BRANCH_NUMBER =
-    IV_BRANCH_MASTER.BRANCH_NUMBER
-  Inner Join AR_CUSTOMER_MASTER_TMA On DM_DSTicketTracking.CUSTOMER =
-    AR_CUSTOMER_MASTER_TMA.CUSTOMER
-  Left Outer Join CA_COMMODITY_MASTER On DM_DSTicketTracking.COMMODITY_CODE =
-    CA_COMMODITY_MASTER.COMMODITY_CODE
-Order By DM_DSTicketTracking.DropOffDate"
+								Source="SELECT TT.EntryID,
+  TT.DropOffDate,
+  TT.CUSTOMER,
+  TT.BRANCH_NUMBER,
+  TT.TotalTickets,
+  TT.EnteredDate,
+  TT.UserID,
+  TT.CompletedDate,
+  BM.BRANCH_NAME,
+  CM.NAME,
+  TT.ElectronicTicket,
+  TT.COMMODITY_CODE,
+  PM.DESCRIPTION COMMODITY_DESC,
+  TT.COMMENTS,
+  DateDiff(day, TT.DropOffDate, GetDate()) As DaysOld
+FROM Agtrax_Staging.dbo.DM_DSTicketTracking TT
+  INNER JOIN Agtrax_Staging.dbo.IV_BRANCH_MASTER BM ON TT.BRANCH_NUMBER = BM.BRANCH_NUMBER
+  INNER JOIN Agtrax_Staging.dbo.AR_CUSTOMER_MASTER_TMA CM ON TT.CUSTOMER = CM.CUSTOMER
+  LEFT OUTER JOIN Agtrax_Staging.dbo.CA_COMMODITY_MASTER PM ON TT.COMMODITY_CODE = PM.COMMODITY_CODE
+ORDER BY DropOffDate
+"
 								Type="SQL"
 								>
 								<ConditionFilter
