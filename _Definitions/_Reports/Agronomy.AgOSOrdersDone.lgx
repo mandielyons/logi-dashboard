@@ -725,33 +725,37 @@ Where T1.LocationCode &lt;&gt; &apos;PRECISE&apos; And T1.DoneDate &gt;= Cast(Da
 									<Label
 										Caption="@Data.OrderID~"
 										>
-										<Action
-											ID="actAuditLog"
-											Type="Report"
-											>
-											<Target
-												FrameID="NewWindow"
-												Report="Agronomy.WorkOrdersAuditLog"
+										<Remark>
+											<Action
+												ID="actAuditLog"
 												Type="Report"
 												>
-												<WaitPage/>
-											</Target>
-											<LinkParams
-												OrderID="@Data.OrderID~"
-											/>
-										</Action>
+												<Target
+													FrameID="NewWindow"
+													Report="Agronomy.WorkOrdersAuditLog"
+													Type="Report"
+													>
+													<WaitPage/>
+												</Target>
+												<LinkParams
+													OrderID="@Data.OrderID~"
+												/>
+											</Action>
+										</Remark>
 									</Label>
 								</DataTableColumn>
-								<DataTableColumn
-									Header="Scheduled"
-									Width="18"
-									WidthScale="%"
-									>
-									<Label
-										Caption="@Data.ScheduledDate~"
-										Format="Short Date"
-									/>
-								</DataTableColumn>
+								<Remark>
+									<DataTableColumn
+										Header="Scheduled"
+										Width="18"
+										WidthScale="%"
+										>
+										<Label
+											Caption="@Data.ScheduledDate~"
+											Format="Short Date"
+										/>
+									</DataTableColumn>
+								</Remark>
 								<DataTableColumn
 									Header="Acres"
 									Width="18"

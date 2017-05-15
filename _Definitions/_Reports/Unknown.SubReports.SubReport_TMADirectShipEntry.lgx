@@ -11,19 +11,20 @@
 		<DataLayer
 			ConnectionID="connProdGP"
 			ID="dlDSEntryIDRecord"
-			Source="Select AGTRAX_STAGING.dbo.DM_DSTicketTracking.EntryID,
-  AGTRAX_STAGING.dbo.DM_DSTicketTracking.DropOffDate,
-  AGTRAX_STAGING.dbo.DM_DSTicketTracking.CUSTOMER,
-  AGTRAX_STAGING.dbo.DM_DSTicketTracking.TotalTickets,
-  AGTRAX_STAGING.dbo.DM_DSTicketTracking.EnteredDate,
-  AGTRAX_STAGING.dbo.DM_DSTicketTracking.UserID,
-  AGTRAX_STAGING.dbo.DM_DSTicketTracking.CompletedDate,
-  AGTRAX_STAGING.dbo.DM_DSTicketTracking.BRANCH_NUMBER,
-  AGTRAX_STAGING.dbo.DM_DSTicketTracking.ElectronicTicket,
-  AGTRAX_STAGING.dbo.DM_DSTicketTracking.COMMENTS,
-  AGTRAX_STAGING.dbo.DM_DSTicketTracking.COMMODITY_CODE
-From AGTRAX_STAGING.dbo.DM_DSTicketTracking
-Where AGTRAX_STAGING.dbo.DM_DSTicketTracking.EntryID = &apos;@Request.EntryId~&apos;"
+			Source="SELECT 
+   EntryID
+ , DropOffDate
+ , CUSTOMER
+ , TotalTickets
+ , EnteredDate
+ , UserID
+ , CompletedDate
+ , BRANCH_NUMBER
+ , ElectronicTicket
+ , COMMENTS
+ , COMMODITY_CODE
+FROM Agtrax_Staging.dbo.DM_DSTicketTracking
+WHERE EntryID = @Request.EntryId~"
 			Type="SQL"
 		/>
 	</LocalData>
@@ -175,20 +176,18 @@ Where AGTRAX_STAGING.dbo.DM_DSTicketTracking.EntryID = &apos;@Request.EntryId~&a
 							<DataLayer
 								ConnectionID="connProdGP"
 								ID="dlCustomer"
-								Source="Select Distinct AR_CUSTOMER_MASTER_TMA.CUSTOMER CUSTNMBR,
-  AR_CUSTOMER_MASTER_TMA.NAME CUSTNAME,
-  LTrim(RTrim(AR_CUSTOMER_MASTER_TMA.NAME)) + &apos; - &apos; +
-  LTrim(RTrim(AR_CUSTOMER_MASTER_TMA.CUSTOMER)) ACCOUNT,
-  /*LTrim(RTrim(AR_CUSTOMER_MASTER_TMA.CUSTOMER)) + &apos; - &apos; +
-  LTrim(RTrim(AR_CUSTOMER_MASTER_TMA.NAME)) ACCOUNT,*/
-  AR_CUSTOMER_MISC_FLAG_TMA.MISC_FLAG_NUMBER,
-  AR_CUSTOMER_MISC_FLAG_TMA.MISC_FLAG_VALUE
-From AR_CUSTOMER_MASTER_TMA
-  Inner Join AR_CUSTOMER_MISC_FLAG_TMA On AR_CUSTOMER_MASTER_TMA.CUSTOMER =
-    AR_CUSTOMER_MISC_FLAG_TMA.CUSTOMER
-Where AR_CUSTOMER_MISC_FLAG_TMA.MISC_FLAG_NUMBER = &apos;99&apos; And
-  AR_CUSTOMER_MISC_FLAG_TMA.MISC_FLAG_VALUE = &apos;Y&apos;
-Order By CUSTNAME"
+								Source="SELECT 
+  CM.CUSTOMER CUSTNMBR,
+  CM.NAME CUSTNAME,
+  LTRIM(RTRIM(CM.NAME)) + &apos; - &apos; + LTRIM(RTRIM(CM.CUSTOMER)) ACCOUNT,
+  MF.MISC_FLAG_NUMBER,
+  MF.MISC_FLAG_VALUE
+FROM AR_CUSTOMER_MASTER_TMA CM
+  INNER JOIN AR_CUSTOMER_MISC_FLAG_TMA MF 
+    ON CM.CUSTOMER = MF.CUSTOMER
+WHERE MF.MISC_FLAG_NUMBER = &apos;99&apos; 
+  AND MF.MISC_FLAG_VALUE = &apos;Y&apos;
+ORDER BY CUSTNAME"
 								Type="SQL"
 							/>
 							<EventHandler
@@ -274,13 +273,14 @@ hiddenCust.value = customer.options[customer.selectedIndex].text;"
 							<DataLayer
 								ConnectionID="connProdGP"
 								ID="dlLocation"
-								Source="SELECT DISTINCT 
-	BRANCH_NUMBER [BRANCHNO]
-	, BRANCH_NAME [BRANCHNAME]
-	, LTRIM(RTRIM(BRANCH_NAME))+&apos; - &apos;+LTRIM(RTRIM(BRANCH_NUMBER)) [BRANCH]
+								Source="SELECT 
+   BRANCH_NUMBER [BRANCHNO]
+ , BRANCH_NAME [BRANCHNAME]
+ , LTRIM(RTRIM(BRANCH_NAME))+&apos; - &apos;+LTRIM(RTRIM(BRANCH_NUMBER)) [BRANCH]
 FROM Agtrax_Staging.dbo.IV_BRANCH_MASTER
-WHERE BRANCH_NUMBER LIKE (&apos;9%%&apos;) AND LEN(BRANCH_NUMBER) = 3 OR BRANCH_NUMBER LIKE (&apos;8%%&apos;) AND LEN(BRANCH_NUMBER) = 3
-ORDER BY BRANCHNAME"
+WHERE BRANCH_NUMBER LIKE (&apos;9[0-9][0-9]&apos;) OR BRANCH_NUMBER LIKE (&apos;8[0-9][0-9]&apos;) 
+ORDER BY BRANCHNAME 
+"
 								Type="SQL"
 							/>
 						</InputSelectList>
@@ -329,6 +329,22 @@ ORDER BY BRANCHNAME"
 							ID="iptComments"
 							InputColumns="200"
 							InputRows="5"
+							>
+							<EventHandler
+								DhtmlEvent="onchange"
+								>
+								<Action
+									ID="jsReplaceSingleQuote"
+									Javascript="var myStr = document.getElementById(&apos;iptComments&apos;).value; 
+var myStr2 = document.getElementById(&apos;iptCommentsCleaned&apos;);
+myStr2.value = myStr.replace(/&apos;/g , String.fromCharCode(39)+String.fromCharCode(39));"
+									Type="Javascript"
+								/>
+							</EventHandler>
+						</InputTextArea>
+						<InputText
+							Class="ThemeHidden"
+							ID="iptCommentsCleaned"
 						/>
 						<LineBreak/>
 						<LineBreak/>
@@ -475,74 +491,6 @@ else {complete.value = &quot;&quot;;}
 				</ResponsiveRow>
 			</Division>
 		</Division>
-		<Remark>
-			<Division
-				ID="divTest"
-				>
-				<Remark>
-					<Label
-						Caption="@Local.DropOffDate~"
-					/>
-				</Remark>
-				<Remark>
-					<LineBreak/>
-				</Remark>
-				<Remark>
-					<Label
-						Caption="@Local.TotalTickets~"
-					/>
-				</Remark>
-				<Remark>
-					<LineBreak/>
-				</Remark>
-				<Remark>
-					<Label
-						Caption="@Local.BRANCH_NUMBER~"
-					/>
-				</Remark>
-				<Remark>
-					<DataTable
-						AccessibleHeaders="True"
-						AccessibleSummary="AnalysisGrid DataTable"
-						ID="DataTable1"
-						KeepScrollPosition="True"
-						RememberSort="True"
-						ResizableColumns="True"
-						SortArrows="True"
-						TableBorder="0"
-						>
-						<DataLayer
-							ConnectionID="connMKC"
-							ID="SQLDataLayer1"
-							Source="Select Distinct AR_CUSTOMER_MASTER_TMA.CUSTOMER CUSTNMBR,
-  AR_CUSTOMER_MASTER_TMA.NAME CUSTNAME,
-  LTrim(RTrim(AR_CUSTOMER_MASTER_TMA.CUSTOMER)) + &apos; - &apos; +
-  LTrim(RTrim(AR_CUSTOMER_MASTER_TMA.NAME)) ACCOUNT,
-  AR_CUSTOMER_MISC_FLAG_TMA.MISC_FLAG_NUMBER,
-  AR_CUSTOMER_MISC_FLAG_TMA.MISC_FLAG_VALUE
-From AR_CUSTOMER_MASTER_TMA
-  Inner Join AR_CUSTOMER_MISC_FLAG_TMA On AR_CUSTOMER_MASTER_TMA.CUSTOMER =
-    AR_CUSTOMER_MISC_FLAG_TMA.CUSTOMER
-Where AR_CUSTOMER_MISC_FLAG_TMA.MISC_FLAG_NUMBER = &apos;99&apos; And
-  AR_CUSTOMER_MISC_FLAG_TMA.MISC_FLAG_VALUE = &apos;Y&apos;
-Order By CUSTNMBR
-"
-							Type="SQL"
-						/>
-						<InteractivePaging
-							CaptionType="Image"
-							HideShowPrevNextCaptions="False"
-							HideWhenOnePage="True"
-							IDnotSupportedHere="pagingTableNumbered"
-							Location="Top"
-							PageRowCount="20"
-							ShowPageNumber="Numbered"
-						/>
-						<AutoColumns/>
-					</DataTable>
-				</Remark>
-			</Division>
-		</Remark>
 		<IncludeScript
 			ID="jsOnLoad"
 			IncludedScript="var complete = document.getElementById(&quot;iptCompleteDate&quot;);
@@ -558,6 +506,8 @@ var strComplete = complete.value;
 var n = strComplete.search(&quot;1900-01-01&quot;);
 var electronic = document.getElementById(&quot;iptElectronic&quot;);
 var etickets = document.getElementById(&quot;chkElectronic&quot;);
+var comments = document.getElementById(&quot;iptComments&quot;).value;
+var comments2 = document.getElementById(&quot;iptCommentsCleaned&quot;);
 
 if (n &gt; -1) {done.checked = false;}
 else {done.checked = true;}
@@ -579,6 +529,9 @@ else if (entry.value &gt; 0){
 	//if (dteEntry.value == &quot;1/1/1900&quot;) {dteEntry.value = today.value;}
 	if (dteEntry.value == &quot;1/1/1900&quot;) {dteEntry.value = &quot;&quot;; dteHidden.value = today.value;}
 }
+
+//if apostrophe (single quote) is used in comments then double it so it will go into SQL Server
+comments2.value = comments.replace(/&apos;/g , String.fromCharCode(39)+String.fromCharCode(39));
 
 var customer = document.getElementById(&quot;iptCustomer&quot;);
 var hiddenCust = document.getElementById(&quot;iptAccount&quot;);
