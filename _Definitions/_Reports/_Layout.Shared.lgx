@@ -249,9 +249,78 @@ else {
 			Draggable="False"
 			Height="80"
 			HeightScale="%"
+			ID="pnlAboutMobileTMA"
+			PopupModal="True"
+			PopupPanelLocation="Center"
+			SecurityRightID="TMA Dashboard,OC"
+			ShowOnPageLoad="False"
+			Width="85"
+			WidthScale="%"
+			>
+			<ResponsiveRow>
+				<ResponsiveColumn>
+					<Division
+						Class="panel panel-default"
+						HtmlDiv="True"
+						ID="divAboutMobile"
+						>
+						<Division
+							Class="panel-heading"
+							HtmlDiv="True"
+							ID="divAboutHeader"
+							>
+							<Label
+								Caption="About TMA Dashboard"
+							/>
+						</Division>
+						<Division
+							Class="panel-body"
+							HtmlDiv="True"
+							ID="divAboutBody"
+							>
+							<ResponsiveRow>
+								<ResponsiveColumn>
+									<Division
+										Class="ThemeTextSmaller"
+										HtmlDiv="True"
+										ID="showReleaseNotesMobileTMA"
+									/>
+								</ResponsiveColumn>
+							</ResponsiveRow>
+							<ResponsiveRow
+								Class="pull-right"
+								>
+								<ResponsiveColumn>
+									<Spaces
+										Size="2"
+									/>
+									<Button
+										Caption="Close"
+										Class="btn btn-default"
+										ID="btnClose"
+										>
+										<Action
+											Display="Hide"
+											ElementID="pnlAboutMobileTMA"
+											ID="hidePopup"
+											Type="ShowElement"
+										/>
+									</Button>
+								</ResponsiveColumn>
+							</ResponsiveRow>
+						</Division>
+					</Division>
+				</ResponsiveColumn>
+			</ResponsiveRow>
+		</PopupPanel>
+		<PopupPanel
+			Draggable="False"
+			Height="80"
+			HeightScale="%"
 			ID="pnlAboutMobile"
 			PopupModal="True"
 			PopupPanelLocation="Center"
+			SecurityRightID="MKC Dashboard"
 			ShowOnPageLoad="False"
 			Width="85"
 			WidthScale="%"
@@ -316,9 +385,78 @@ else {
 			Draggable="False"
 			Height="60"
 			HeightScale="%"
+			ID="pnlAboutTMA"
+			PopupModal="True"
+			PopupPanelLocation="Center"
+			SecurityRightID="TMA Dashboard,OC"
+			ShowOnPageLoad="False"
+			Width="60"
+			WidthScale="%"
+			>
+			<ResponsiveRow>
+				<ResponsiveColumn>
+					<Division
+						Class="panel panel-default"
+						HtmlDiv="True"
+						ID="divAbout"
+						>
+						<Division
+							Class="panel-heading"
+							HtmlDiv="True"
+							ID="divAboutHeader"
+							>
+							<Label
+								Caption="About TMA Dashboard"
+							/>
+						</Division>
+						<Division
+							Class="panel-body"
+							HtmlDiv="True"
+							ID="divAboutBody"
+							>
+							<ResponsiveRow>
+								<ResponsiveColumn>
+									<Division
+										Class="ThemeTextSmall"
+										HtmlDiv="True"
+										ID="showReleaseNotesTMA"
+									/>
+								</ResponsiveColumn>
+							</ResponsiveRow>
+							<ResponsiveRow
+								Class="pull-right"
+								>
+								<ResponsiveColumn>
+									<Spaces
+										Size="2"
+									/>
+									<Button
+										Caption="Close"
+										Class="btn btn-default"
+										ID="btnClose"
+										>
+										<Action
+											Display="Hide"
+											ElementID="pnlAboutTMA"
+											ID="hidePopup"
+											Type="ShowElement"
+										/>
+									</Button>
+								</ResponsiveColumn>
+							</ResponsiveRow>
+						</Division>
+					</Division>
+				</ResponsiveColumn>
+			</ResponsiveRow>
+		</PopupPanel>
+		<PopupPanel
+			Draggable="False"
+			Height="60"
+			HeightScale="%"
 			ID="pnlAbout"
 			PopupModal="True"
 			PopupPanelLocation="Center"
+			SecurityRightID="MKC Dashboard"
 			ShowOnPageLoad="False"
 			Width="60"
 			WidthScale="%"
@@ -406,6 +544,10 @@ else {
 			<InputHidden
 				DefaultValue="@Function.UserID~"
 				ID="iptUserNotifications"
+			/>
+			<InputHidden
+				DefaultValue="@Function.UserRights~"
+				ID="iptSecurityRoles"
 			/>
 			<Division
 				HtmlDiv="True"
@@ -638,10 +780,23 @@ else {
 												<PopupOption
 													Caption="About"
 													ID="optAbout"
+													SecurityRightID="MKC Dashboard"
 													>
 													<Action
 														Display="Show"
 														ElementID="pnlAboutMobile"
+														ID="showPopup"
+														Type="ShowElement"
+													/>
+												</PopupOption>
+												<PopupOption
+													Caption="About"
+													ID="optAboutTMA"
+													SecurityRightID="TMA Dashboard,OC"
+													>
+													<Action
+														Display="Show"
+														ElementID="pnlAboutMobileTMA"
 														ID="showPopup"
 														Type="ShowElement"
 													/>
@@ -1012,10 +1167,12 @@ else {
 																>
 																<Label
 																	Caption="About"
+																	ID="AboutTMA"
+																	SecurityRightID="OC"
 																	>
 																	<Action
 																		Display="Show"
-																		ElementID="pnlAbout"
+																		ElementID="pnlAboutTMA"
 																		ID="showPopup"
 																		Type="ShowElement"
 																	/>
@@ -1170,6 +1327,92 @@ else {
 													</Division>
 												</Remark>
 												<Division
+													ID="sales-container"
+													SecurityRightID="MKC Dashboard, LogiUserAdmin"
+													>
+													<Division
+														Class="dropdown"
+														HtmlDiv="True"
+														ID="sales"
+														>
+														<Label
+															Caption="Sales"
+															>
+															<Action
+																ID="actBlank"
+																Javascript="void(0)"
+																Type="Javascript"
+															/>
+															<ConditionalClass
+																Class="selected-menu"
+																Condition="&quot;@Request.rdReport~&quot;.indexOf(&quot;Sales&quot;)&lt;&gt;&quot;-1&quot;"
+															/>
+														</Label>
+														<Label
+															Class="caret"
+															>
+															<Action
+																ID="actBlank"
+																Javascript="void(0)"
+																Type="Javascript"
+															/>
+															<ConditionalClass
+																Class="caret selected-menu"
+																Condition="&quot;@Request.rdReport~&quot;.indexOf(&quot;Maps&quot;)&lt;&gt;&quot;-1&quot;"
+															/>
+														</Label>
+														<Division
+															Class="submenu"
+															HtmlDiv="True"
+															ID="submenu-sales"
+															>
+															<DataList
+																ID="lstSales"
+																>
+																<DataLayer
+																	ID="dlNav-Sales"
+																	Type="DefinitionList"
+																	>
+																	<CompareFilter
+																		CaseSensitive="True"
+																		CompareType="="
+																		CompareValue="Sales"
+																		DataColumn="Folder1"
+																		DataType="Text"
+																		ID="fSales"
+																	/>
+																</DataLayer>
+																<ListItem>
+																	<Label
+																		Caption="@Data.Caption~"
+																		>
+																		<Action
+																			ID="actReport"
+																			Type="Report"
+																			>
+																			<Target
+																				Report="@Data.ID~"
+																				Type="Report"
+																				>
+																				<WaitPage/>
+																			</Target>
+																		</Action>
+																		<ConditionalClass
+																			Class="selected-menu"
+																			Condition="&quot;@Request.rdReport~&quot;==&quot;@Data.ID~&quot;"
+																		/>
+																	</Label>
+																</ListItem>
+															</DataList>
+														</Division>
+													</Division>
+													<Label
+														Caption="|"
+														Class="pipe-spacer"
+														ID="pipe-spacer"
+													/>
+												</Division>
+												<Division
 													ID="ag-container"
 													SecurityRightID="MKC Dashboard, LogiUserAdmin"
 													>
@@ -1254,92 +1497,6 @@ else {
 														Class="pipe-spacer"
 														ID="pipe-spacer"
 													/>
-													<Division
-														ID="sales-container"
-														SecurityRightID="MKC Dashboard, LogiUserAdmin"
-														>
-														<Division
-															Class="dropdown"
-															HtmlDiv="True"
-															ID="sales"
-															>
-															<Label
-																Caption="Sales"
-																>
-																<Action
-																	ID="actBlank"
-																	Javascript="void(0)"
-																	Type="Javascript"
-																/>
-																<ConditionalClass
-																	Class="selected-menu"
-																	Condition="&quot;@Request.rdReport~&quot;.indexOf(&quot;Sales&quot;)&lt;&gt;&quot;-1&quot;"
-																/>
-															</Label>
-															<Label
-																Class="caret"
-																>
-																<Action
-																	ID="actBlank"
-																	Javascript="void(0)"
-																	Type="Javascript"
-																/>
-																<ConditionalClass
-																	Class="caret selected-menu"
-																	Condition="&quot;@Request.rdReport~&quot;.indexOf(&quot;Maps&quot;)&lt;&gt;&quot;-1&quot;"
-																/>
-															</Label>
-															<Division
-																Class="submenu"
-																HtmlDiv="True"
-																ID="submenu-sales"
-																>
-																<DataList
-																	ID="lstSales"
-																	>
-																	<DataLayer
-																		ID="dlNav-Sales"
-																		Type="DefinitionList"
-																		>
-																		<CompareFilter
-																			CaseSensitive="True"
-																			CompareType="="
-																			CompareValue="Sales"
-																			DataColumn="Folder1"
-																			DataType="Text"
-																			ID="fSales"
-																		/>
-																	</DataLayer>
-																	<ListItem>
-																		<Label
-																			Caption="@Data.Caption~"
-																			>
-																			<Action
-																				ID="actReport"
-																				Type="Report"
-																				>
-																				<Target
-																					Report="@Data.ID~"
-																					Type="Report"
-																					>
-																					<WaitPage/>
-																				</Target>
-																			</Action>
-																			<ConditionalClass
-																				Class="selected-menu"
-																				Condition="&quot;@Request.rdReport~&quot;==&quot;@Data.ID~&quot;"
-																			/>
-																		</Label>
-																	</ListItem>
-																</DataList>
-															</Division>
-														</Division>
-														<Label
-															Caption="|"
-															Class="pipe-spacer"
-															ID="pipe-spacer"
-														/>
-													</Division>
 												</Division>
 												<Division
 													ID="tma-apps-container"
@@ -1559,10 +1716,24 @@ else {
 																>
 																<Label
 																	Caption="About"
+																	ID="lblAbout"
+																	SecurityRightID="MKC Dashboard"
 																	>
 																	<Action
 																		Display="Show"
 																		ElementID="pnlAbout"
+																		ID="showPopup"
+																		Type="ShowElement"
+																	/>
+																</Label>
+																<Label
+																	Caption="About"
+																	ID="lblAboutTMA"
+																	SecurityRightID="TMA Dashboard"
+																	>
+																	<Action
+																		Display="Show"
+																		ElementID="pnlAboutTMA"
 																		ID="showPopup"
 																		Type="ShowElement"
 																	/>
@@ -1749,9 +1920,20 @@ else {
 			<Division
 				Class="ThemeHidden"
 				ID="divNotifications"
+				SecurityRightID="MKC Dashboard"
 				>
 				<IncludeHtmlFile
 					IncludedHtmlFile="_Definitions/updates.html"
+				/>
+			</Division>
+			<Division
+				Class="ThemeHidden"
+				ID="divNotificationsTMA"
+				SecurityRightID="TMA Dashboard,OC"
+				>
+				<IncludeHtmlFile
+					IncludedHtmlFile="_Definitions/updates_tma.html"
+					SecurityRightID="TMA Dashboard,OC"
 				/>
 			</Division>
 		</Division>
@@ -2334,6 +2516,29 @@ Order By FiscalYear DESC"
 		<IncludeScript
 			IncludedScript="
 $(document).ready(function() {
+	// get the security roles
+	var roles = document.getElementById(&quot;iptSecurityRoles&quot;).value;
+	var sroles = roles.search(&quot;OC&quot;);
+	var security; 
+	
+	if (sroles &gt; -1) {
+		// OC user
+		security = &quot;OC&quot;;
+	}
+	else {
+		sroles = roles.search(&quot;MKC Dashboard&quot;);
+		if (sroles &gt; -1) {
+			// MKC user
+			security = &quot;MKC&quot;;
+		}
+		else {
+			sroles = roles.search(&quot;TMA Dashboard&quot;);
+			if (sroles &gt; -1) {
+				// TMA user
+				security = &quot;TMA&quot;;
+			}
+		}	
+	}
 	var str = document.getElementById(&quot;iptStatus&quot;).value;
 	var report = document.getElementById(&quot;iptReport&quot;).value;
 	var n = str.search(&quot;alert&quot;);
@@ -2371,44 +2576,68 @@ $(document).ready(function() {
 	
 
 	//display version and release notes on the about page and mobile about
-		var notifications = document.getElementById(&quot;showReleaseNotes&quot;);
-		notifications.innerHTML = &quot;&lt;b&gt;Latest Release Notes - &quot;;
-		var ul = document.getElementById(&quot;version&quot;);
-		var items = ul.getElementsByTagName(&quot;li&quot;);
-		for (var i = 0; i &lt; items.length; ++i) {
-			// do something with the notification items, which is a &lt;li&gt; element
-			notifications.innerHTML = notifications.innerHTML + items[i].innerHTML + &quot;&lt;/b&gt;&lt;br&gt;&lt;ul&gt;&quot;;
+	var notifications;
+	var version;
+	var notes;
+	var history;
+	
+	if (security == &quot;MKC&quot;) {
+		notifications = document.getElementById(&quot;showReleaseNotes&quot;);
+		version = document.getElementById(&quot;version&quot;);
+		notes = document.getElementById(&quot;notes&quot;);
+	}
+	else {
+		notifications = document.getElementById(&quot;showReleaseNotesTMA&quot;);
+		version = document.getElementById(&quot;version_tma&quot;);
+		notes = document.getElementById(&quot;notes_tma&quot;);
+	}
+	notifications.innerHTML = &quot;&lt;b&gt;Latest Release Notes - &quot;;
+	var ul = version;
+	var items = ul.getElementsByTagName(&quot;li&quot;);
+	for (var i = 0; i &lt; items.length; ++i) {
+		// do something with the notification items, which is a &lt;li&gt; element
+		notifications.innerHTML = notifications.innerHTML + items[i].innerHTML + &quot;&lt;/b&gt;&lt;br&gt;&lt;ul&gt;&quot;;
+	}
+	
+	var thisItem;
+	var anchors;
+	ul = notes;
+	items = ul.getElementsByTagName(&quot;li&quot;);
+	for (var i = 0; i &lt; items.length; ++i) {
+		// set the page header to the version
+		notifications.innerHTML = notifications.innerHTML + &quot;&lt;li&gt;&quot; + items[i].innerHTML + &quot;&lt;/li&gt;&quot;;
+		thisItem = items[i].innerHTML;
+		anchors = thisItem.search(&quot;lnkMore&quot;);
+		if (anchors &gt; -1) {
+			document.getElementById(&quot;lnkMore&quot;).style.display = &quot;none&quot;;
 		}
-		
-		var thisItem;
-		var anchors;
-		ul = document.getElementById(&quot;notes&quot;);
-		items = ul.getElementsByTagName(&quot;li&quot;);
-		for (var i = 0; i &lt; items.length; ++i) {
-			// set the page header to the version
-			notifications.innerHTML = notifications.innerHTML + &quot;&lt;li&gt;&quot; + items[i].innerHTML + &quot;&lt;/li&gt;&quot;;
-			thisItem = items[i].innerHTML;
-			anchors = thisItem.search(&quot;lnkMore&quot;);
-			if (anchors &gt; -1) {
-				document.getElementById(&quot;lnkMore&quot;).style.display = &quot;none&quot;;
-			}
-		}
-		notifications.innerHTML = notifications.innerHTML + &quot;&lt;/ul&gt;&lt;br&gt;&quot;;
-		var history = document.getElementById(&quot;history&quot;);
-		notifications.innerHTML = notifications.innerHTML + history.innerHTML;
+	}
+	notifications.innerHTML = notifications.innerHTML + &quot;&lt;/ul&gt;&lt;br&gt;&quot;;
+	if (security == &quot;MKC&quot;) {
+		history = document.getElementById(&quot;history&quot;);
+	}
+	else {
+		history = document.getElementById(&quot;history_tma&quot;);
+	}
+	notifications.innerHTML = notifications.innerHTML + history.innerHTML;
 		
 	// display for mobile
-	var mobileNotifications = document.getElementById(&quot;showReleaseNotesMobile&quot;);
+	var mobileNotifications;
+	if (security == &quot;MKC&quot;) {
+		mobileNotifications = document.getElementById(&quot;showReleaseNotes&quot;);
+	}
+	else {
+		mobileNotifications = document.getElementById(&quot;showReleaseNotesTMA&quot;);
+	}
 	mobileNotifications.innerHTML = notifications.innerHTML;
 		
-
-
-	//display notifications
+	//display notifications -- MKC
 	var home = report.search(&quot;Home.Default&quot;);
 	var dismissed = localStorage.getItem(&apos;dismissed&apos;) || &apos;&apos; ;
 	var loggedInUser = document.getElementById(&quot;iptUserNotifications&quot;).value;
 	var userDismiss = dismissed.search(loggedInUser);	
 	var userList;
+
 	if (home &gt; -1 || report == &quot;&quot;) {
 		if (document.getElementById(&quot;iptShowNotifications&quot;).value == &quot;N&quot;) {
 			//do not show notifications here
@@ -2416,7 +2645,12 @@ $(document).ready(function() {
 		else {
 			//if -1 this user has not dismissed the notifications yet, so show them
 			if (dismissed == &quot;&quot; || userDismiss == -1) {
-				var ul = document.getElementById(&quot;notifications&quot;);
+				if (security == &quot;MKC&quot;) {
+					ul = document.getElementById(&quot;notifications&quot;);
+				}
+				else {
+					ul = document.getElementById(&quot;notifications_tma&quot;);
+				}
 				var items = ul.getElementsByTagName(&quot;li&quot;);
 				for (var i = 0; i &lt; items.length; ++i) {
 					// do something with the notification items, which is a &lt;li&gt; element

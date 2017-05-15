@@ -724,7 +724,23 @@ Where T1.LocationCode &lt;&gt; &apos;PRECISE&apos; And T1.DoneDate &gt;= Cast(Da
 									>
 									<Label
 										Caption="@Data.OrderID~"
-									/>
+										>
+										<Action
+											ID="actAuditLog"
+											Type="Report"
+											>
+											<Target
+												FrameID="NewWindow"
+												Report="Agronomy.WorkOrdersAuditLog"
+												Type="Report"
+												>
+												<WaitPage/>
+											</Target>
+											<LinkParams
+												OrderID="@Data.OrderID~"
+											/>
+										</Action>
+									</Label>
 								</DataTableColumn>
 								<DataTableColumn
 									Header="Scheduled"
