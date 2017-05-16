@@ -24,7 +24,7 @@
  , COMMENTS
  , COMMODITY_CODE
 FROM Agtrax_Staging.dbo.DM_DSTicketTracking
-WHERE EntryID = @Request.EntryId~"
+WHERE EntryID = &apos;@Request.EntryId~&apos;"
 			Type="SQL"
 		/>
 	</LocalData>
