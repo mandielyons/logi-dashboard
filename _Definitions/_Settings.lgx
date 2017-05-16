@@ -55,17 +55,19 @@
 				Type="Process"
 			/>
 		</LogEvent>
-		<LogEvent
-			EventName="BuildReport"
-			ID="eventBuildReport"
-			>
-			<Action
-				ID="insertBuildReport"
-				Process="LogTasks"
-				TaskID="insertBuildReport"
-				Type="Process"
-			/>
-		</LogEvent>
+		<Remark>
+			<LogEvent
+				EventName="BuildReport"
+				ID="eventBuildReport"
+				>
+				<Action
+					ID="insertBuildReport"
+					Process="LogTasks"
+					TaskID="insertBuildReport"
+					Type="Process"
+				/>
+			</LogEvent>
+		</Remark>
 	</EventLogging>
 	<Remark>
 		<Constants
