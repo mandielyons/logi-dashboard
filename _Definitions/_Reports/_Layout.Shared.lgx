@@ -765,6 +765,21 @@ else {
 													</Action>
 												</PopupOption>
 												<PopupOption
+													Caption="TMA Scorecard"
+													ID="optTMAScorecard"
+													SecurityRightID="Dashboard Sr Mgmt,Dashboard Strategic Planning TMA,LogiUserAdmin"
+													>
+													<Action
+														ID="tarTMAScorecard"
+														Type="Report"
+														>
+														<Target
+															Report="Scorecards.TMA_StrategicDashboard"
+															Type="Report"
+														/>
+													</Action>
+												</PopupOption>
+												<PopupOption
 													Caption="Reset Password"
 													ID="optResetPwd"
 													SecurityRightID="OC,LogiUserAdmin"
