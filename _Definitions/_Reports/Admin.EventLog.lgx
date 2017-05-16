@@ -59,7 +59,8 @@ Select LogiEventLog.EventID,
   LogiEventLog.UserID,
   LogiEventLog.EventDetail
 From LogiEventLog
-WHERE  LogiEventLog.EventDateTime BETWEEN @StartDate AND @Enddate"
+WHERE  LogiEventLog.EventDateTime BETWEEN @StartDate AND @Enddate
+Order By LogiEventLog.EventDateTime DESC"
 								Type="SQL"
 								>
 								<ConditionFilter
