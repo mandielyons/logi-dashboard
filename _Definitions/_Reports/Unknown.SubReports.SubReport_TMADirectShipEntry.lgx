@@ -11,6 +11,7 @@
 		<DataLayer
 			ConnectionID="connProdGP"
 			ID="dlDSEntryIDRecord"
+<<<<<<< HEAD
 			Source="Select AGTRAX_STAGING.dbo.DM_DSTicketTracking.EntryID,
   AGTRAX_STAGING.dbo.DM_DSTicketTracking.DropOffDate,
   AGTRAX_STAGING.dbo.DM_DSTicketTracking.CUSTOMER,
@@ -24,6 +25,22 @@
   AGTRAX_STAGING.dbo.DM_DSTicketTracking.COMMODITY_CODE
 From AGTRAX_STAGING.dbo.DM_DSTicketTracking
 Where AGTRAX_STAGING.dbo.DM_DSTicketTracking.EntryID = &apos;@Request.EntryId~&apos;"
+=======
+			Source="SELECT 
+   EntryID
+ , DropOffDate
+ , CUSTOMER
+ , TotalTickets
+ , EnteredDate
+ , UserID
+ , CompletedDate
+ , BRANCH_NUMBER
+ , ElectronicTicket
+ , COMMENTS
+ , COMMODITY_CODE
+FROM Agtrax_Staging.dbo.DM_DSTicketTracking
+WHERE EntryID = &apos;@Request.EntryId~&apos;"
+>>>>>>> bdf01d9326614e6fc21c8a82c5ee133611bd1f5a
 			Type="SQL"
 		/>
 	</LocalData>
