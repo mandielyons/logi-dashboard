@@ -156,7 +156,7 @@ Where T1.DoneDate &gt;= &apos;2017-01-01&apos; And T1.LocationCode &lt;&gt; &apo
 							ID="divPieCharts"
 							>
 							<ChartCanvas
-								ChartCaption="Total Orders By Location (Current Year)"
+								ChartCaption="Total Orders By Location (Current Calendar Year)"
 								ChartOrientation="Default"
 								Class="ThemeTextSmall"
 								ID="chartOrdersMarkedDone"
@@ -247,7 +247,7 @@ Order By O.LocationCode,
 						ColspanSmallScreen="6"
 						>
 						<Label
-							Caption="MKC Current Year Totals"
+							Caption="MKC Current Calendar Year Totals"
 							Class="ThemeTextLarge ThemeAlignCenter"
 						/>
 						<LineBreak

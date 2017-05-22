@@ -2333,7 +2333,7 @@ From ag_location"
 			ID="divYear"
 			>
 			<InputSelectList
-				Caption="Year:"
+				Caption="Fiscal Year:"
 				CaptionClass="ThemeTextSmall ThemeBold"
 				Class="ThemeTextSmaller"
 				ID="Year"
