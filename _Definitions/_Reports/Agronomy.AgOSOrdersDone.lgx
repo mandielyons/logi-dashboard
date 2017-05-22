@@ -193,7 +193,7 @@ Order By O.LocationCode,
 										Type="SQL"
 										>
 										<ConditionFilter
-											Condition="@Data.DoneYear~ = &apos;@Request.Year~&apos;"
+											Condition="@Data.DoneYear~ = &apos;@Request.CurrYear~&apos;"
 										/>
 										<CalculatedColumn
 											Formula="(@Data.ByTablet~ * 100) / @Data.OrderCount~"
@@ -573,7 +573,7 @@ ORDER BY LocationCode, DoneYear
 												ID="calcPercentTablet"
 											/>
 											<ConditionFilter
-												Condition="@Data.DoneYear~ = &apos;@Request.Year~&apos;"
+												Condition="@Data.DoneYear~ = &apos;@Request.CurrYear~&apos;"
 											/>
 										</DataLayer>
 									</Series>
@@ -671,7 +671,7 @@ ORDER BY LocationCode, DoneYear
 							>
 							<DataTable
 								AjaxPaging="True"
-								Caption="@Request.Location~ - @Request.Year~ YTD Orders Not Done on Tablet"
+								Caption="@Request.Location~ - @Request.CurrYear~ YTD Orders Not Done on Tablet"
 								Class="ThemeTextSmaller"
 								ID="dtDetailsByLocation"
 								Width="100"
@@ -709,7 +709,7 @@ Where T1.LocationCode &lt;&gt; &apos;PRECISE&apos; And T1.DoneDate &gt;= Cast(Da
 									Type="SQL"
 									>
 									<ConditionFilter
-										Condition="&quot;@Request.Location~&quot; = &quot;@Data.LocationCode~&quot; And &quot;@Request.Year~&quot; = &quot;@Data.DoneYear~&quot;"
+										Condition="&quot;@Request.Location~&quot; = &quot;@Data.LocationCode~&quot; And &quot;@Request.CurrYear~&quot; = &quot;@Data.DoneYear~&quot;"
 									/>
 									<SortFilter
 										DataType="Date"
