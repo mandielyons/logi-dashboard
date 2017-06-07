@@ -2220,6 +2220,14 @@ From ag_location"
 					COMMODITY_CODE="04"
 					COMMODITY_DESC="CORN"
 				/>
+				<StaticDataRow
+					COMMODITY_CODE="27"
+					COMMODITY_DESC="CANOLA"
+				/>
+				<StaticDataRow
+					COMMODITY_CODE="22"
+					COMMODITY_DESC="SUNFLOWERS"
+				/>
 			</DataLayer>
 			<EventHandler
 				DhtmlEvent="onchange"
