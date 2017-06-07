@@ -9,8 +9,8 @@
 		SharedElementID="shrHeader"
 	/>
 	<DefaultRequestParams
+		CurrYear="2017"
 		Location="ABILENE"
-		Year="2017"
 	/>
 	<LocalData>
 		<DataLayer
@@ -22,7 +22,7 @@ From Orders T1
   Inner Join Users T3 With(NoLock) On T3.UserID = T1.DoneByID
   Inner Join Objects T4 With(NoLock) On T4.ObjectID = T1.ApplicatorID
   Inner Join OrderBin T5 With(NoLock) On T5.OrderID = T1.OrderID
-Where DatePart(YEAR, T1.DoneDate) = &apos;@Request.Year~&apos; And
+Where DatePart(YEAR, T1.DoneDate) = &apos;@Request.CurrYear~&apos; And
   T1.LocationCode &lt;&gt; &apos;PRECISE&apos; And
   T4.Name &lt;&gt; &apos;LIME APPLICATION&apos; And T1.Canceled = &apos;False&apos;"
 			Type="SQL"
@@ -156,7 +156,7 @@ Where T1.DoneDate &gt;= &apos;2017-01-01&apos; And T1.LocationCode &lt;&gt; &apo
 							ID="divPieCharts"
 							>
 							<ChartCanvas
-								ChartCaption="Total Orders By Location (Current Calendar Year)"
+								ChartCaption="Total Orders By Location (Current Calendar YTD)"
 								ChartOrientation="Default"
 								Class="ThemeTextSmall"
 								ID="chartOrdersMarkedDone"
@@ -193,7 +193,7 @@ Order By O.LocationCode,
 										Type="SQL"
 										>
 										<ConditionFilter
-											Condition="@Data.DoneYear~ = &apos;@Request.Year~&apos;"
+											Condition="@Data.DoneYear~ = &apos;@Request.CurrYear~&apos;"
 										/>
 										<CalculatedColumn
 											Formula="(@Data.ByTablet~ * 100) / @Data.OrderCount~"
@@ -247,7 +247,7 @@ Order By O.LocationCode,
 						ColspanSmallScreen="6"
 						>
 						<Label
-							Caption="MKC Current Calendar Year Totals"
+							Caption="MKC Current Calendar YTD Totals"
 							Class="ThemeTextLarge ThemeAlignCenter"
 						/>
 						<LineBreak
@@ -573,7 +573,7 @@ ORDER BY LocationCode, DoneYear
 												ID="calcPercentTablet"
 											/>
 											<ConditionFilter
-												Condition="@Data.DoneYear~ = &apos;@Request.Year~&apos;"
+												Condition="@Data.DoneYear~ = &apos;@Request.CurrYear~&apos;"
 											/>
 										</DataLayer>
 									</Series>
@@ -671,7 +671,7 @@ ORDER BY LocationCode, DoneYear
 							>
 							<DataTable
 								AjaxPaging="True"
-								Caption="@Request.Location~ - @Request.Year~ Orders Not Done on Tablet"
+								Caption="@Request.Location~ - @Request.CurrYear~ YTD Orders Not Done on Tablet"
 								Class="ThemeTextSmaller"
 								ID="dtDetailsByLocation"
 								Width="100"
@@ -709,7 +709,7 @@ Where T1.LocationCode &lt;&gt; &apos;PRECISE&apos; And T1.DoneDate &gt;= Cast(Da
 									Type="SQL"
 									>
 									<ConditionFilter
-										Condition="&quot;@Request.Location~&quot; = &quot;@Data.LocationCode~&quot; And &quot;@Request.Year~&quot; = &quot;@Data.DoneYear~&quot;"
+										Condition="&quot;@Request.Location~&quot; = &quot;@Data.LocationCode~&quot; And &quot;@Request.CurrYear~&quot; = &quot;@Data.DoneYear~&quot;"
 									/>
 									<SortFilter
 										DataType="Date"
@@ -796,7 +796,7 @@ Where T1.LocationCode &lt;&gt; &apos;PRECISE&apos; And T1.DoneDate &gt;= Cast(Da
 		SharedElementID="shrFooter"
 	/>
 	<ideTestParams
+		CurrYear=""
 		Location=""
-		Year=""
 	/>
 </Report>
