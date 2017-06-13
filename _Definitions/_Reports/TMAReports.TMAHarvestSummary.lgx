@@ -166,9 +166,10 @@
 										<DataLayer
 											ConnectionID="connProdGP"
 											ID="sqlDMHarvest"
-											Source="SELECT HARVESTYEAR, BRANCH_NUMBER, BRANCH_NAME, ROUND(WHEAT_CBU,0) WHEAT_CBU, ROUND(WHEAT_PBU,0) WHEAT_PBU, ROUND(MILO_CBU,0) MILO_CBU, ROUND(MILO_PBU,0) MILO_PBU, ROUND(SOYBEANS_CBU,0) SOYBEANS_CBU, ROUND(SOYBEANS_PBU,0) SOYBEANS_PBU, ROUND(CORN_CBU,0) CORN_CBU, ROUND(CORN_PBU,0) CORN_PBU, ROUND(CANOLA_CBU,0) CANOLA_CBU, ROUND(CANOLA_PBU,0) CANOLA_PBU, ROUND(TOTAL_CBU,0) TOTAL_CBU, ROUND(TOTAL_PBU,0) TOTAL_PBU, ROUND(WHEAT_AVG,0) WHEAT_AVG, ROUND(MILO_AVG,0) MILO_AVG, ROUND(SOYBEANS_AVG,0) SOYBEANS_AVG, ROUND(CORN_AVG,0) CORN_AVG, ROUND(CANOLA_AVG,0) CANOLA_AVG, ROUND(TOTAL_AVG,0) TOTAL_AVG
+											Source="SELECT HARVESTYEAR, BRANCH_NUMBER, BRANCH_NAME, ROUND(WHEAT_CBU,0) WHEAT_CBU, ROUND(WHEAT_PBU,0) WHEAT_PBU, ROUND(WHEAT_AVG,0) WHEAT_AVG, ROUND(MILO_CBU,0) MILO_CBU, ROUND(MILO_PBU,0) MILO_PBU, ROUND(MILO_AVG,0) MILO_AVG, ROUND(SOYBEANS_CBU,0) SOYBEANS_CBU, ROUND(SOYBEANS_PBU,0) SOYBEANS_PBU, ROUND(SOYBEANS_AVG,0) SOYBEANS_AVG, ROUND(CORN_CBU,0) CORN_CBU, ROUND(CORN_PBU,0) CORN_PBU, ROUND(CORN_AVG,0) CORN_AVG, ROUND(BARLEY_CBU,0) BARLEY_CBU, ROUND(BARLEY_PBU,0) BARLEY_PBU, ROUND(BARLEY_AVG,0) BARLEY_AVG, ROUND(SUNFLOWERS_CBU,0) SUNFLOWERS_CBU, ROUND(SUNFLOWERS_PBU,0) SUNFLOWERS_PBU, ROUND(SUNFLOWERS_AVG,0) SUNFLOWERS_AVG, ROUND(CANOLA_CBU,0) CANOLA_CBU, ROUND(CANOLA_PBU,0) CANOLA_PBU, ROUND(CANOLA_AVG,0) CANOLA_AVG, ROUND(SRWHEAT_CBU,0) SRWHEAT_CBU, ROUND(SRWHEAT_PBU,0) SRWHEAT_PBU, ROUND(SRWHEAT_AVG,0) SRWHEAT_AVG, ROUND(TOTAL_CBU,0) TOTAL_CBU, ROUND(TOTAL_PBU,0) TOTAL_PBU, ROUND(TOTAL_AVG,0) TOTAL_AVG
 FROM AgTrax_Staging.dbo.DM_HarvestSummary
-WHERE BRANCH_NUMBER IN(@Request.Branch~) OR &apos;@Request.Branch~&apos;=&apos;-1&apos;"
+WHERE BRANCH_NUMBER IN(@Request.Branch~) OR &apos;@Request.Branch~&apos;=&apos;-1&apos;
+"
 											Type="SQL"
 											>
 											<Join
@@ -212,12 +213,27 @@ WHERE BRANCH_NUMBER IN(@Request.Branch~) OR &apos;@Request.Branch~&apos;=&apos;-
 												ID="calcCORN"
 											/>
 											<CalculatedColumn
+												Formula="IIF(((&quot;@Request.Commodity~&quot; = &quot;00&quot;) or InStr(&quot;@Request.Commodity~&quot;, &quot;06&quot;) &gt; 0),IIF(&quot;@Data.BARLEY_CBU~&quot; = &quot;&quot;,&quot;0&quot;,&quot;@Data.BARLEY_CBU~&quot;),&quot;0&quot;)
+"
+												ID="calcBARLEY"
+											/>
+											<CalculatedColumn
+												Formula="IIF(((&quot;@Request.Commodity~&quot; = &quot;00&quot;) or InStr(&quot;@Request.Commodity~&quot;, &quot;22&quot;) &gt; 0),IIF(&quot;@Data.SUNFLOWERS_CBU~&quot; = &quot;&quot;,&quot;0&quot;,&quot;@Data.SUNFLOWERS_CBU~&quot;),&quot;0&quot;)
+"
+												ID="calcSUNFLOWERS"
+											/>
+											<CalculatedColumn
 												Formula="IIF(((&quot;@Request.Commodity~&quot; = &quot;00&quot;) or InStr(&quot;@Request.Commodity~&quot;, &quot;27&quot;) &gt; 0),IIF(&quot;@Data.CANOLA_CBU~&quot; = &quot;&quot;,&quot;0&quot;,&quot;@Data.CANOLA_CBU~&quot;),&quot;0&quot;)
 "
 												ID="calcCANOLA"
 											/>
 											<CalculatedColumn
-												Formula="@Data.calcWHEAT~ + @Data.calcMILO~ + @Data.calcSOYBEANS~ + @Data.calcCORN~ + @Data.calcCANOLA~"
+												Formula="IIF(((&quot;@Request.Commodity~&quot; = &quot;00&quot;) or InStr(&quot;@Request.Commodity~&quot;, &quot;28&quot;) &gt; 0),IIF(&quot;@Data.SRWHEAT_CBU~&quot; = &quot;&quot;,&quot;0&quot;,&quot;@Data.SRWHEAT_CBU~&quot;),&quot;0&quot;)
+"
+												ID="calcSRWHEAT"
+											/>
+											<CalculatedColumn
+												Formula="@Data.calcWHEAT~ + @Data.calcMILO~ + @Data.calcSOYBEANS~ + @Data.calcCORN~ + @Data.calcBARLEY~ + @Data.calcSUNFLOWERS~ + @Data.calcCANOLA~ + @Data.calcSRWHEAT~"
 												ID="calcTOTAL"
 											/>
 											<CalculatedColumn
@@ -237,8 +253,20 @@ WHERE BRANCH_NUMBER IN(@Request.Branch~) OR &apos;@Request.Branch~&apos;=&apos;-
 												ID="calcDiffCORN"
 											/>
 											<CalculatedColumn
+												Formula="IIF(&quot;@Data.BARLEY_CBU~&quot; = &quot;&quot;,&quot;0&quot;,&quot;@Data.BARLEY_CBU~&quot;-&quot;@Data.BARLEY_AVG~&quot;)"
+												ID="calcDiffBARLEY"
+											/>
+											<CalculatedColumn
+												Formula="IIF(&quot;@Data.SUNFLOWERS_CBU~&quot; = &quot;&quot;,&quot;0&quot;,&quot;@Data.SUNFLOWERS_CBU~&quot;-&quot;@Data.SUNFLOWERS_AVG~&quot;)"
+												ID="calcDiffSUNFLOWERS"
+											/>
+											<CalculatedColumn
 												Formula="IIF(&quot;@Data.CANOLA_CBU~&quot; = &quot;&quot;,&quot;0&quot;,&quot;@Data.CANOLA_CBU~&quot;-&quot;@Data.CANOLA_AVG~&quot;)"
 												ID="calcDiffCANOLA"
+											/>
+											<CalculatedColumn
+												Formula="IIF(&quot;@Data.SRWHEAT_CBU~&quot; = &quot;&quot;,&quot;0&quot;,&quot;@Data.SRWHEAT_CBU~&quot;-&quot;@Data.SRWHEAT_AVG~&quot;)"
+												ID="calcDiffSRWHEAT"
 											/>
 											<CalculatedColumn
 												Formula="IIF(IsNumeric(&quot;@Data.calcTOTAL~&quot;),&quot;@Data.calcTOTAL~&quot;-&quot;@Data.TOTAL_AVG~&quot;,&quot;0&quot;)
@@ -263,8 +291,20 @@ WHERE BRANCH_NUMBER IN(@Request.Branch~) OR &apos;@Request.Branch~&apos;=&apos;-
 												ID="calcPctCORN"
 											/>
 											<CalculatedColumn
+												Formula="IIF(&quot;@Data.BARLEY_CBU~&quot; = &quot;&quot;,&quot;0&quot;,&quot;@Data.BARLEY_CBU~&quot;) / IIF(&quot;@Data.BARLEY_AVG~&quot; = &quot;&quot;,&quot;1&quot;,&quot;@Data.BARLEY_AVG~&quot;)"
+												ID="calcPctBARLEY"
+											/>
+											<CalculatedColumn
+												Formula="IIF(&quot;@Data.SUNFLOWERS_CBU~&quot; = &quot;&quot;,&quot;0&quot;,&quot;@Data.SUNFLOWERS_CBU~&quot;) / IIF(&quot;@Data.SUNFLOWERS_AVG~&quot; = &quot;&quot;,&quot;1&quot;,&quot;@Data.SUNFLOWERS_AVG~&quot;)"
+												ID="calcPctSUNFLOWERS"
+											/>
+											<CalculatedColumn
 												Formula="IIF(&quot;@Data.CANOLA_CBU~&quot; = &quot;&quot;,&quot;0&quot;,&quot;@Data.CANOLA_CBU~&quot;) / IIF(&quot;@Data.CANOLA_AVG~&quot; = &quot;&quot;,&quot;1&quot;,&quot;@Data.CANOLA_AVG~&quot;)"
 												ID="calcPctCANOLA"
+											/>
+											<CalculatedColumn
+												Formula="IIF(&quot;@Data.SRWHEAT_CBU~&quot; = &quot;&quot;,&quot;0&quot;,&quot;@Data.SRWHEAT_CBU~&quot;) / IIF(&quot;@Data.SRWHEAT_AVG~&quot; = &quot;&quot;,&quot;1&quot;,&quot;@Data.SRWHEAT_AVG~&quot;)"
+												ID="calcPctSRWHEAT"
 											/>
 											<CalculatedColumn
 												Formula="@Data.calcTOTAL~ / IIF(&quot;@Data.TOTAL_AVG~&quot; = &quot;&quot;,&quot;1&quot;,&quot;@Data.TOTAL_AVG~&quot;)
@@ -576,6 +616,128 @@ WHERE BRANCH_NUMBER IN(@Request.Branch~) OR &apos;@Request.Branch~&apos;=&apos;-
 										<DataTableColumn
 											Class="ThemeAlignRight"
 											ColumnHeaderClass="ThemeAlignRight"
+											Condition="(&quot;@Request.Commodity~&quot; = &quot;00&quot;) or InStr(&quot;@Request.Commodity~&quot;, &quot;06&quot;) &gt; 0"
+											Header="@Local.HARVESTYEAR_CY~ BARLEY"
+											ID="colBARLEY_CBU"
+											Width="150"
+											WidthScale="px"
+											>
+											<Label
+												Caption="@Data.BARLEY_CBU~"
+												Format="###,###,##0"
+												ID="lblBARLEY_CBU"
+												>
+												<Action
+													Type="Report"
+													>
+													<LinkParams
+														Branch="@Data.BRANCH_NUMBER~"
+														Commodity="06"
+													/>
+													<Target
+														FrameID="Self"
+														ID="rptTMAHarvestDetailByDay"
+														Report="TMAReports.TMAHarvestDetailByDay"
+														RequestForwarding="True"
+														Type="Report"
+														>
+														<WaitPage/>
+													</Target>
+												</Action>
+											</Label>
+											<Division
+												Condition="&quot;@Data.calcDiffBARLEY~&quot;&lt;&quot;0&quot;"
+												ID="divDownBARLEY"
+												>
+												<Image
+													Caption="arrow-down-red-x10.png"
+												/>
+											</Division>
+											<Division
+												Condition="&quot;@Data.calcDiffBARLEY~&quot;&gt;&quot;0&quot;"
+												ID="divUpBARLEY"
+												>
+												<Image
+													Caption="arrow-up-green-x10.png"
+												/>
+											</Division>
+											<DataColumnSort
+												DataColumn="BARLEY_CBU"
+												DataType="Number"
+												FirstSortSequence="Descending"
+												ReverseSortSequence="Ascending"
+											/>
+											<DataColumnSummary
+												DataColumn="BARLEY_CBU"
+												DataType="Number"
+												Function="Sum"
+												ID="sumBARLEY_CBU"
+											/>
+										</DataTableColumn>
+										<DataTableColumn
+											Class="ThemeAlignRight"
+											ColumnHeaderClass="ThemeAlignRight"
+											Condition="(&quot;@Request.Commodity~&quot; = &quot;00&quot;) or InStr(&quot;@Request.Commodity~&quot;, &quot;22&quot;) &gt; 0"
+											Header="@Local.HARVESTYEAR_CY~ SUNFLOWERS"
+											ID="colSUNFLOWERS_CBU"
+											Width="150"
+											WidthScale="px"
+											>
+											<Label
+												Caption="@Data.SUNFLOWERS_CBU~"
+												Format="###,###,##0"
+												ID="lblSUNFLOWERS_CBU"
+												>
+												<Action
+													Type="Report"
+													>
+													<LinkParams
+														Branch="@Data.BRANCH_NUMBER~"
+														Commodity="22"
+													/>
+													<Target
+														FrameID="Self"
+														ID="rptTMAHarvestDetailByDay"
+														Report="TMAReports.TMAHarvestDetailByDay"
+														RequestForwarding="True"
+														Type="Report"
+														>
+														<WaitPage/>
+													</Target>
+												</Action>
+											</Label>
+											<Division
+												Condition="&quot;@Data.calcDiffSUNFLOWERS~&quot;&lt;&quot;0&quot;"
+												ID="divDownSUNFLOWERS"
+												>
+												<Image
+													Caption="arrow-down-red-x10.png"
+												/>
+											</Division>
+											<Division
+												Condition="&quot;@Data.calcDiffSUNFLOWERS~&quot;&gt;&quot;0&quot;"
+												ID="divUpSUNFLOWERS"
+												>
+												<Image
+													Caption="arrow-up-green-x10.png"
+												/>
+											</Division>
+											<DataColumnSort
+												DataColumn="SUNFLOWERS_CBU"
+												DataType="Number"
+												FirstSortSequence="Descending"
+												ReverseSortSequence="Ascending"
+											/>
+											<DataColumnSummary
+												DataColumn="SUNFLOWERS_CBU"
+												DataType="Number"
+												Function="Sum"
+												ID="sumSUNFLOWERS_CBU"
+											/>
+										</DataTableColumn>
+										<DataTableColumn
+											Class="ThemeAlignRight"
+											ColumnHeaderClass="ThemeAlignRight"
 											Condition="(&quot;@Request.Commodity~&quot; = &quot;00&quot;) or InStr(&quot;@Request.Commodity~&quot;, &quot;27&quot;) &gt; 0"
 											Header="@Local.HARVESTYEAR_CY~ CANOLA"
 											ID="colCANOLA_CBU"
@@ -635,6 +797,67 @@ WHERE BRANCH_NUMBER IN(@Request.Branch~) OR &apos;@Request.Branch~&apos;=&apos;-
 											/>
 										</DataTableColumn>
 										<DataTableColumn
+											Class="ThemeAlignRight"
+											ColumnHeaderClass="ThemeAlignRight"
+											Condition="(&quot;@Request.Commodity~&quot; = &quot;00&quot;) or InStr(&quot;@Request.Commodity~&quot;, &quot;28&quot;) &gt; 0"
+											Header="@Local.HARVESTYEAR_CY~ SRWHEAT"
+											ID="colSRWHEAT_CBU"
+											Width="150"
+											WidthScale="px"
+											>
+											<Label
+												Caption="@Data.SRWHEAT_CBU~"
+												Format="###,###,##0"
+												ID="lblSRWHEAT_CBU"
+												>
+												<Action
+													Type="Report"
+													>
+													<LinkParams
+														Branch="@Data.BRANCH_NUMBER~"
+														Commodity="28"
+													/>
+													<Target
+														FrameID="Self"
+														ID="rptTMAHarvestDetailByDay"
+														Report="TMAReports.TMAHarvestDetailByDay"
+														RequestForwarding="True"
+														Type="Report"
+														>
+														<WaitPage/>
+													</Target>
+												</Action>
+											</Label>
+											<Division
+												Condition="&quot;@Data.calcDiffSRWHEAT~&quot;&lt;&quot;0&quot;"
+												ID="divDownSRWHEAT"
+												>
+												<Image
+													Caption="arrow-down-red-x10.png"
+												/>
+											</Division>
+											<Division
+												Condition="&quot;@Data.calcDiffSRWHEAT~&quot;&gt;&quot;0&quot;"
+												ID="divUpSRWHEAT"
+												>
+												<Image
+													Caption="arrow-up-green-x10.png"
+												/>
+											</Division>
+											<DataColumnSort
+												DataColumn="SRWHEAT_CBU"
+												DataType="Number"
+												FirstSortSequence="Descending"
+												ReverseSortSequence="Ascending"
+											/>
+											<DataColumnSummary
+												DataColumn="SRWHEAT_CBU"
+												DataType="Number"
+												Function="Sum"
+												ID="sumSRWHEAT_CBU"
+											/>
+										</DataTableColumn>
+										<DataTableColumn
 											Class="ThemeAlignRight, ThemeBold"
 											ColumnHeaderClass="ThemeAlignRight"
 											Header="@Local.HARVESTYEAR_CY~ TOTAL"
@@ -664,13 +887,13 @@ WHERE BRANCH_NUMBER IN(@Request.Branch~) OR &apos;@Request.Branch~&apos;=&apos;-
 												/>
 											</Division>
 											<DataColumnSort
-												DataColumn="TOTAL_CBU"
+												DataColumn="calcTOTAL"
 												DataType="Number"
 												FirstSortSequence="Descending"
 												ReverseSortSequence="Ascending"
 											/>
 											<DataColumnSummary
-												DataColumn="TOTAL_CBU"
+												DataColumn="calcTOTAL"
 												DataType="Number"
 												Function="Sum"
 												ID="sumTOTAL_CBU"
@@ -897,6 +1120,102 @@ WHERE BRANCH_NUMBER IN(@Request.Branch~) OR &apos;@Request.Branch~&apos;=&apos;-
 										<DataTableColumn
 											Class="ThemeAlignRight"
 											ColumnHeaderClass="ThemeAlignRight"
+											Condition="(&quot;@Request.Commodity~&quot; = &quot;00&quot;) or InStr(&quot;@Request.Commodity~&quot;, &quot;06&quot;) &gt; 0"
+											Header="BARLEY % of AVG"
+											ID="colBARLEY_Pct"
+											Width="150"
+											WidthScale="px"
+											>
+											<Label
+												Caption="@Data.calcPctBARLEY~"
+												Format="0%"
+												ID="lblBARLEY_Pct"
+											/>
+											<DataColumnSort
+												DataColumn="@Data.calcPctBARLEY~"
+												DataType="Number"
+												FirstSortSequence="Descending"
+												ReverseSortSequence="Ascending"
+											/>
+										</DataTableColumn>
+										<DataTableColumn
+											Class="ThemeAlignRight"
+											ColumnHeaderClass="ThemeAlignRight"
+											Condition="(&quot;@Request.Commodity~&quot; = &quot;00&quot;) or InStr(&quot;@Request.Commodity~&quot;, &quot;06&quot;) &gt; 0"
+											Header="BARLEY 5 YR AVG"
+											ID="colBARLEY_AVG"
+											Width="150"
+											WidthScale="px"
+											>
+											<Label
+												Caption="@Data.BARLEY_AVG~"
+												Format="###,###,##0"
+												ID="lblBARLEY_AVG"
+											/>
+											<DataColumnSort
+												DataColumn="BARLEY_AVG"
+												DataType="Number"
+												FirstSortSequence="Descending"
+												ReverseSortSequence="Ascending"
+											/>
+											<DataColumnSummary
+												DataColumn="BARLEY_AVG"
+												DataType="Number"
+												Function="Sum"
+												ID="sumBARLEY_AVG"
+											/>
+										</DataTableColumn>
+										<DataTableColumn
+											Class="ThemeAlignRight"
+											ColumnHeaderClass="ThemeAlignRight"
+											Condition="(&quot;@Request.Commodity~&quot; = &quot;00&quot;) or InStr(&quot;@Request.Commodity~&quot;, &quot;22&quot;) &gt; 0"
+											Header="SUNFLOWERS % of AVG"
+											ID="colSUNFLOWERS_Pct"
+											Width="150"
+											WidthScale="px"
+											>
+											<Label
+												Caption="@Data.calcPctSUNFLOWERS~"
+												Format="0%"
+												ID="lblSUNFLOWERS_Pct"
+											/>
+											<DataColumnSort
+												DataColumn="@Data.calcPctSUNFLOWERS~"
+												DataType="Number"
+												FirstSortSequence="Descending"
+												ReverseSortSequence="Ascending"
+											/>
+										</DataTableColumn>
+										<DataTableColumn
+											Class="ThemeAlignRight"
+											ColumnHeaderClass="ThemeAlignRight"
+											Condition="(&quot;@Request.Commodity~&quot; = &quot;00&quot;) or InStr(&quot;@Request.Commodity~&quot;, &quot;22&quot;) &gt; 0"
+											Header="SUNFLOWERS 5 YR AVG"
+											ID="colSUNFLOWERS_AVG"
+											Width="150"
+											WidthScale="px"
+											>
+											<Label
+												Caption="@Data.SUNFLOWERS_AVG~"
+												Format="###,###,##0"
+												ID="lblSUNFLOWERS_AVG"
+											/>
+											<DataColumnSort
+												DataColumn="SUNFLOWERS_AVG"
+												DataType="Number"
+												FirstSortSequence="Descending"
+												ReverseSortSequence="Ascending"
+											/>
+											<DataColumnSummary
+												DataColumn="SUNFLOWERS_AVG"
+												DataType="Number"
+												Function="Sum"
+												ID="sumSUNFLOWERS_AVG"
+											/>
+										</DataTableColumn>
+										<DataTableColumn
+											Class="ThemeAlignRight"
+											ColumnHeaderClass="ThemeAlignRight"
 											Condition="(&quot;@Request.Commodity~&quot; = &quot;00&quot;) or InStr(&quot;@Request.Commodity~&quot;, &quot;27&quot;) &gt; 0"
 											Header="CANOLA % of AVG"
 											ID="colCANOLA_Pct"
@@ -940,6 +1259,54 @@ WHERE BRANCH_NUMBER IN(@Request.Branch~) OR &apos;@Request.Branch~&apos;=&apos;-
 												DataType="Number"
 												Function="Sum"
 												ID="sumCANOLA_AVG"
+											/>
+										</DataTableColumn>
+										<DataTableColumn
+											Class="ThemeAlignRight"
+											ColumnHeaderClass="ThemeAlignRight"
+											Condition="(&quot;@Request.Commodity~&quot; = &quot;00&quot;) or InStr(&quot;@Request.Commodity~&quot;, &quot;28&quot;) &gt; 0"
+											Header="SRWHEAT % of AVG"
+											ID="colSRWHEAT_Pct"
+											Width="150"
+											WidthScale="px"
+											>
+											<Label
+												Caption="@Data.calcPctSRWHEAT~"
+												Format="0%"
+												ID="lblSRWHEAT_Pct"
+											/>
+											<DataColumnSort
+												DataColumn="@Data.calcPctSRWHEAT~"
+												DataType="Number"
+												FirstSortSequence="Descending"
+												ReverseSortSequence="Ascending"
+											/>
+										</DataTableColumn>
+										<DataTableColumn
+											Class="ThemeAlignRight"
+											ColumnHeaderClass="ThemeAlignRight"
+											Condition="(&quot;@Request.Commodity~&quot; = &quot;00&quot;) or InStr(&quot;@Request.Commodity~&quot;, &quot;28&quot;) &gt; 0"
+											Header="SRWHEAT 5 YR AVG"
+											ID="colSRWHEAT_AVG"
+											Width="150"
+											WidthScale="px"
+											>
+											<Label
+												Caption="@Data.SRWHEAT_AVG~"
+												Format="###,###,##0"
+												ID="lblSRWHEAT_AVG"
+											/>
+											<DataColumnSort
+												DataColumn="SRWHEAT_AVG"
+												DataType="Number"
+												FirstSortSequence="Descending"
+												ReverseSortSequence="Ascending"
+											/>
+											<DataColumnSummary
+												DataColumn="SRWHEAT_AVG"
+												DataType="Number"
+												Function="Sum"
+												ID="sumSRWHEAT_AVG"
 											/>
 										</DataTableColumn>
 										<SummaryRow
