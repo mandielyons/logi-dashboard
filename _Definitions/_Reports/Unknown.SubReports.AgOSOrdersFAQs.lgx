@@ -1,0 +1,102 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report
+	ID="Unknown.SubReports.AgOSOrdersFAQs"
+	>
+	<IncludeSharedElement
+		DefinitionFile="_Layout.Shared"
+		SharedElementID="shrHeader"
+	/>
+	<Body>
+		<ResponsiveRow>
+			<ResponsiveColumn>
+				<Division
+					Class="panel panel-default"
+					HtmlDiv="True"
+					ID="panel"
+					>
+					<Division
+						Class="panel-heading"
+						HtmlDiv="True"
+						ID="panel-heading-perspectives"
+						>
+						<Label
+							Caption="AgOS Orders FAQs"
+							Class="panel-title"
+						/>
+					</Division>
+					<Division
+						ID="panel-body-perspectives"
+						>
+						<ResponsiveRow
+							CollisionBehavior="Wrap"
+							>
+							<ResponsiveColumn
+								Class="ThemeTextSmall"
+								>
+								<Division
+									Class="panel-body"
+									HtmlDiv="True"
+									ID="panel-1"
+									>
+									<Label
+										Caption="How current is the data on this report?"
+										Class="ThemeBold"
+									/>
+									<LineBreak/>
+									<IncludeHtml
+										Html="The AgOS Orders data is &quot;live&quot; data, meaning that data provided on entry or refresh of the page is the same data as is stored in the live AgOS orders database.&lt;br /&gt;"
+									/>
+									<LineBreak/>
+									<Label
+										Caption="How do I read the &quot;Total Orders By Location&quot; pie chart?"
+										Class="ThemeBold"
+									/>
+									<IncludeHtml
+										Html="&lt;br /&gt;
+The &quot;Total Orders By Location&quot; pie chart shows all orders by location for the current calendar year. Mouse over the location to view a breakdown:&lt;br /&gt;
+&lt;ul&gt;
+&lt;li&gt;Total Orders Done - grand total of orders marked done both on the tablet and in AgOS.  &lt;/li&gt;
+&lt;li&gt;Total Done on Tablet - total orders marked done on the tablet. &lt;/li&gt;
+&lt;li&gt;Percent Done on Tablet - percent of orders marked done on the tablet. &lt;/li&gt;
+&lt;li&gt;Percent Not Done on Tablet - percent of orders NOT marked done on the tablet (marked in AgOS). &lt;/li&gt;
+&lt;/ul&gt;
+Click on a location to view more details in the &quot;Location Order Details&quot; section below the pie chart.
+&lt;br /&gt;
+
+"
+									/>
+									<LineBreak/>
+									<Label
+										Caption="What do the numbers in the &quot;MKC Current Calendar YTD Totals&quot; section represent?"
+										Class="ThemeBold"
+									/>
+									<IncludeHtml
+										Html="&lt;br /&gt;The &quot;MKC Current Calendar YTD Totals&quot; section shows organization wide totals for the current calendar year. 
+&lt;ul&gt;&lt;li&gt;The orange KPI box displays the total orders makred done organization wide.&lt;/li&gt;
+&lt;li&gt;The red KPI box shows the organization wide goal for getting orders marked done on the tablet.&lt;/li&gt;
+&lt;li&gt;The pink KPI boxes show total done on tablet and precent done on tablet organization wide&lt;/li&gt;
+&lt;li&gt;The blue KPI boxes show total not done on tablet and percent not done on tablet organization wide.&lt;/li&gt;&lt;/ul&gt;
+"
+									/>
+									<LineBreak/>
+									<Label
+										Caption="How do I read the &quot;Location Orders Details&quot; section?"
+										Class="ThemeBold"
+									/>
+									<IncludeHtml
+										Html="&lt;br /&gt;The &quot;Location Orders Details&quot; section contains a &quot;Total Orders By Year&quot; chart showing the total orders for a location by year. Mouse over the bar (represents the year) to view totals for the year. The &quot;YTD Orders Not Done on Tablet&quot; table shows details for orders not marked done on a tablet. Click the Excel icon to export the table data to Excel.&lt;br /&gt;"
+									/>
+									<LineBreak/>
+								</Division>
+							</ResponsiveColumn>
+						</ResponsiveRow>
+					</Division>
+				</Division>
+			</ResponsiveColumn>
+		</ResponsiveRow>
+	</Body>
+	<IncludeSharedElement
+		DefinitionFile="_Layout.Shared"
+		SharedElementID="shrFooter"
+	/>
+</Report>
