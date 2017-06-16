@@ -52,6 +52,36 @@ Where DatePart(YEAR, T1.DoneDate) = &apos;@Request.CurrYear~&apos; And
 				ID="div-body"
 				>
 				<ResponsiveRow>
+					<ResponsiveColumn>
+						<Division
+							Class="pull-right"
+							HtmlDiv="True"
+							ID="divHelp"
+							>
+							<Spaces
+								Size="5"
+							/>
+							<Label
+								Class="fa fa-question-circle fa-2x "
+								HtmlTag="Span"
+								ID="lnkHelp"
+								Tooltip="AgOS Orders FAQs"
+								>
+								<Action
+									ID="rptFAQs"
+									Type="Report"
+									>
+									<Target
+										FrameID="NewWindow"
+										Report="Unknown.SubReports.AgOSOrdersFAQs"
+										Type="Report"
+									/>
+								</Action>
+							</Label>
+						</Division>
+					</ResponsiveColumn>
+				</ResponsiveRow>
+				<ResponsiveRow>
 					<Remark>
 						<ResponsiveColumn
 							ColspanExtraSmallScreen="3"

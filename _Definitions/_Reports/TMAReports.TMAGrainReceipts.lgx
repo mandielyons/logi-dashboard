@@ -47,6 +47,32 @@
 							<ResponsiveColumn
 								Class="ThemeAlignRight"
 								>
+								<Division
+									Class="pull-right"
+									HtmlDiv="True"
+									ID="divHelp"
+									>
+									<Spaces
+										Size="5"
+									/>
+									<Label
+										Class="fa fa-question-circle fa-2x "
+										HtmlTag="Span"
+										ID="lnkHelp"
+										Tooltip="Grain Receipts Training Video"
+										>
+										<Action
+											ID="rptTraining"
+											Type="Report"
+											>
+											<Target
+												FrameID="NewWindow"
+												Report="Admin.TrainingVideos"
+												Type="Report"
+											/>
+										</Action>
+									</Label>
+								</Division>
 								<IncludeSharedElement
 									DefinitionFile="_Layout.Shared"
 									SharedElementID="shrExcelExport"
