@@ -55,6 +55,33 @@
 						<ResponsiveColumn
 							Class="ThemeAlignRight"
 							>
+							<Division
+								Class="pull-right"
+								HtmlDiv="True"
+								ID="divHelp"
+								>
+								<Spaces
+									Size="5"
+								/>
+								<Label
+									Class="fa fa-question-circle fa-2x "
+									HtmlTag="Span"
+									ID="lnkHelp"
+									Tooltip="Harvest Report Instructions"
+									>
+									<Action
+										ID="dispatchInstr"
+										Type="Link"
+										>
+										<Target
+											FrameID="NewWindow"
+											ID="linkDispatchInstr"
+											Link="https://info.tmagrain.com/TMAGrain/Help/Using Harvest Dashboards_V2.4.pdf"
+											Type="Link"
+										/>
+									</Action>
+								</Label>
+							</Division>
 							<IncludeSharedElement
 								DefinitionFile="_Layout.Shared"
 								SharedElementID="shrExcelExport"

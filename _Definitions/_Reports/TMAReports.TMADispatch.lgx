@@ -111,6 +111,33 @@ WHERE CONTRACT_TYPE=2
 							<ResponsiveColumn
 								Class="ThemeAlignRight"
 								>
+								<Division
+									Class="pull-right"
+									HtmlDiv="True"
+									ID="divHelp"
+									>
+									<Spaces
+										Size="5"
+									/>
+									<Label
+										Class="fa fa-question-circle fa-2x "
+										HtmlTag="Span"
+										ID="lnkHelp"
+										Tooltip="Dispatch Instructions"
+										>
+										<Action
+											ID="dispatchInstr"
+											Type="Link"
+											>
+											<Target
+												FrameID="NewWindow"
+												ID="linkDispatchInstr"
+												Link="https://info.tmagrain.com/TMAGrain/Help/Using Dispatch Report Dashboard_V2.4.pdf"
+												Type="Link"
+											/>
+										</Action>
+									</Label>
+								</Division>
 								<IncludeSharedElement
 									DefinitionFile="_Layout.Shared"
 									SharedElementID="shrExcelExport"
