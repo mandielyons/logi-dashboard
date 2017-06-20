@@ -278,7 +278,7 @@
 																Class="btn btn-default ThemeTextSmall"
 																>
 																<Action
-																	ElementID="tabFinancials"
+																	ElementID="tabRigReports"
 																	ID="actRefreshBranchFinancialTabs"
 																	Type="RefreshElement"
 																	>
