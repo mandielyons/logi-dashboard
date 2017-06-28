@@ -193,7 +193,7 @@
 											>
 											<DataLayer
 												ColumnNamesRow="1"
-												ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\HVSTLS.xls"
+												ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\HVSTLS FALL 3.0.xls"
 												ExcelWorksheet="LongShortDB"
 												ID="dlLocationDetails"
 												Type="Excel"
@@ -281,7 +281,7 @@
 															ColSpan="2"
 															>
 															<LineBreak
-																LineCount="8"
+																LineCount="10"
 															/>
 														</Column>
 													</Row>
@@ -394,6 +394,21 @@
 													<Row>
 														<Column>
 															<Label
+																Caption="Canola:"
+															/>
+														</Column>
+														<Column
+															Class="ThemeAlignRight"
+															>
+															<Label
+																Caption="@Data.Canola_Elevator~"
+																Format="###,###,##0"
+															/>
+														</Column>
+													</Row>
+													<Row>
+														<Column>
+															<Label
 																Caption="Sunflowers: "
 															/>
 														</Column>
@@ -417,6 +432,21 @@
 															>
 															<Label
 																Caption="@Data.SoftWheat_Elevator~"
+																Format="###,###,##0"
+															/>
+														</Column>
+													</Row>
+													<Row>
+														<Column>
+															<Label
+																Caption="Book/Physical Adjustment:"
+															/>
+														</Column>
+														<Column
+															Class="ThemeAlignRight"
+															>
+															<Label
+																Caption="@Data.BookVPhys_Adjust~"
 																Format="###,###,##0"
 															/>
 														</Column>
@@ -549,6 +579,21 @@
 													<Row>
 														<Column>
 															<Label
+																Caption="Canola:"
+															/>
+														</Column>
+														<Column
+															Class="ThemeAlignRight"
+															>
+															<Label
+																Caption="@Data.Est_Canola_Rec~"
+																Format="###,###,##0"
+															/>
+														</Column>
+													</Row>
+													<Row>
+														<Column>
+															<Label
 																Caption="Sunflowers:"
 															/>
 														</Column>
@@ -581,7 +626,7 @@
 															ColSpan="2"
 															>
 															<LineBreak
-																LineCount="6"
+																LineCount="7"
 															/>
 														</Column>
 													</Row>
@@ -721,6 +766,32 @@
 													<Row>
 														<Column>
 															<Label
+																Caption="Canola:"
+															/>
+														</Column>
+														<Column
+															Class="ThemeAlignRight"
+															>
+															<Label
+																Caption="@Data.Canola_Sales~"
+																Format="###,###,##0"
+																>
+																<Action
+																	Type="Report"
+																	>
+																	<Target
+																		Report="TMAReports.TMADispatch"
+																		Type="Report"
+																		>
+																		<WaitPage/>
+																	</Target>
+																</Action>
+															</Label>
+														</Column>
+													</Row>
+													<Row>
+														<Column>
+															<Label
 																Caption="Sunflowers:"
 															/>
 														</Column>
@@ -729,6 +800,32 @@
 															>
 															<Label
 																Caption="@Data.Sunseed_Sales~"
+																Format="###,###,##0"
+																>
+																<Action
+																	Type="Report"
+																	>
+																	<Target
+																		Report="TMAReports.TMADispatch"
+																		Type="Report"
+																		>
+																		<WaitPage/>
+																	</Target>
+																</Action>
+															</Label>
+														</Column>
+													</Row>
+													<Row>
+														<Column>
+															<Label
+																Caption="Soft Wheat:"
+															/>
+														</Column>
+														<Column
+															Class="ThemeAlignRight"
+															>
+															<Label
+																Caption="@Data.SoftWheat_Sales~"
 																Format="###,###,##0"
 																>
 																<Action
@@ -907,13 +1004,13 @@
 											>
 											<DataLayer
 												ColumnNamesRow="1"
-												ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\HVSTLS.xls"
+												ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\HVSTLS FALL 3.0.xls"
 												ExcelWorksheet="LongShortDB"
 												ID="dlLocationDetails2"
 												Type="Excel"
 												>
 												<ConditionFilter
-													Condition="Left(&quot;@Data.Branch_Number~&quot;,3) = &quot;@Request.Branch~&quot;"
+													Condition="&quot;@Data.Branch_Number~&quot; = &quot;@Request.Branch~&quot;"
 													ID="filterByBranch"
 												/>
 											</DataLayer>
@@ -1058,7 +1155,7 @@
 												</Rows>
 											</DataTableColumn>
 											<DataTableColumn
-												Header="Canton Sold Not Allocated"
+												Header="Rail Terminals Sold Not Allocated"
 												Width="25"
 												WidthScale="%"
 												>
@@ -1094,7 +1191,7 @@
 															Class="ThemeAlignRight"
 															>
 															<Label
-																Caption="@Data.Wheat_Sold_NA_2~"
+																Caption="@Data.Total_Rail_Wheat_NA~"
 																Format="###,###,##0"
 															/>
 														</Column>
@@ -1109,7 +1206,7 @@
 															Class="ThemeAlignRight"
 															>
 															<Label
-																Caption="@Data.Milo_Sold_NA_2~"
+																Caption="@Data.Total_Rail_Milo_NA~"
 																Format="###,###,##0"
 															/>
 														</Column>
@@ -1124,7 +1221,7 @@
 															Class="ThemeAlignRight"
 															>
 															<Label
-																Caption="@Data.Beans_Sold_NA_2~"
+																Caption="@Data.Total_Rail_Beans_NA~"
 																Format="###,###,##0"
 															/>
 														</Column>
@@ -1139,7 +1236,7 @@
 															Class="ThemeAlignRight"
 															>
 															<Label
-																Caption="@Data.Corn_Sold_NA_2~"
+																Caption="@Data.Total_Rail_Corn_NA~"
 																Format="###,###,##0"
 															/>
 														</Column>
@@ -1156,7 +1253,7 @@
 													<Row>
 														<Column>
 															<Label
-																Caption="Total Canton Sold Not Allocated:"
+																Caption="Total Terminal Sold Not Allocated:"
 																Class="bold"
 															/>
 														</Column>
@@ -1164,7 +1261,7 @@
 															Class="ThemeAlignRight"
 															>
 															<Label
-																Caption=" @Data.Total_Canton_Sold_NA~"
+																Caption=" @Data.Total_Rail_NA~"
 																Class="bold"
 																Format="###,###,##0"
 															/>
@@ -1192,7 +1289,7 @@
 															Class="ThemeAlignRight"
 															>
 															<Label
-																Caption="@Data.Wheat_ToSell~"
+																Caption="@Data.Total_Wheat_ToSell~"
 																Format="###,###,##0"
 															/>
 														</Column>
@@ -1207,7 +1304,7 @@
 															Class="ThemeAlignRight"
 															>
 															<Label
-																Caption="@Data.Milo_ToSell~"
+																Caption="@Data.Total_Milo_ToSell~"
 																Format="###,###,##0"
 															/>
 														</Column>
@@ -1222,7 +1319,7 @@
 															Class="ThemeAlignRight"
 															>
 															<Label
-																Caption="@Data.Beans_ToSell~"
+																Caption="@Data.Total_Beans_ToSell~"
 																Format="###,###,##0"
 															/>
 														</Column>
@@ -1237,7 +1334,7 @@
 															Class="ThemeAlignRight"
 															>
 															<Label
-																Caption="@Data.Corn_ToSell~"
+																Caption="@Data.Total_Corn_ToSell~"
 																Format="###,###,##0"
 															/>
 														</Column>
@@ -1252,7 +1349,7 @@
 															Class="ThemeAlignRight"
 															>
 															<Label
-																Caption="@Data.SoftWheat_ToSell~"
+																Caption="@Data.Total_SoftWheat_ToSell~"
 																Format="###,###,##0"
 															/>
 														</Column>
@@ -1277,7 +1374,7 @@
 															Class="ThemeAlignRight"
 															>
 															<Label
-																Caption=" @Data.To_Sell_Wheat~"
+																Caption=" @Data.Grand_Total_ToSell~"
 																Class="bold"
 																Format="###,###,##0"
 															/>
@@ -1378,7 +1475,7 @@
 															Class="ThemeAlignRight"
 															>
 															<Label
-																Caption=" @Data.NewCrop_ToSell~"
+																Caption=" @Data.LongShortFall~"
 																Class="ThemeTextNormal"
 																Format="###,###,##0"
 																>
