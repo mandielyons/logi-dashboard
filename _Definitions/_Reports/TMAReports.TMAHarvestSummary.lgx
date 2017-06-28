@@ -264,6 +264,50 @@ WHERE BRANCH_NUMBER IN(@Request.Branch~) OR &apos;@Request.Branch~&apos;=&apos;-
 												ID="calcTOTAL"
 											/>
 											<CalculatedColumn
+												Formula="IIF(((&quot;@Request.Commodity~&quot; = &quot;00&quot;) or InStr(&quot;@Request.Commodity~&quot;, &quot;01&quot;) &gt; 0),IIF(&quot;@Data.WHEAT_AVG~&quot; = &quot;&quot;,&quot;0&quot;,&quot;@Data.WHEAT_AVG~&quot;),&quot;0&quot;)
+"
+												ID="calcAvgWHEAT"
+											/>
+											<CalculatedColumn
+												Formula="IIF(((&quot;@Request.Commodity~&quot; = &quot;00&quot;) or InStr(&quot;@Request.Commodity~&quot;, &quot;02&quot;) &gt; 0),IIF(&quot;@Data.MILO_AVG~&quot; = &quot;&quot;,&quot;0&quot;,&quot;@Data.MILO_AVG~&quot;),&quot;0&quot;)
+"
+												ID="calcAvgMILO"
+											/>
+											<CalculatedColumn
+												Formula="IIF(((&quot;@Request.Commodity~&quot; = &quot;00&quot;) or InStr(&quot;@Request.Commodity~&quot;, &quot;03&quot;) &gt; 0),IIF(&quot;@Data.SOYBEANS_AVG~&quot; = &quot;&quot;,&quot;0&quot;,&quot;@Data.SOYBEANS_AVG~&quot;),&quot;0&quot;)
+"
+												ID="calcAvgSOYBEANS"
+											/>
+											<CalculatedColumn
+												Formula="IIF(((&quot;@Request.Commodity~&quot; = &quot;00&quot;) or InStr(&quot;@Request.Commodity~&quot;, &quot;04&quot;) &gt; 0),IIF(&quot;@Data.CORN_AVG~&quot; = &quot;&quot;,&quot;0&quot;,&quot;@Data.CORN_AVG~&quot;),&quot;0&quot;)
+"
+												ID="calcAvgCORN"
+											/>
+											<CalculatedColumn
+												Formula="IIF(((&quot;@Request.Commodity~&quot; = &quot;00&quot;) or InStr(&quot;@Request.Commodity~&quot;, &quot;06&quot;) &gt; 0),IIF(&quot;@Data.BARLEY_AVG~&quot; = &quot;&quot;,&quot;0&quot;,&quot;@Data.BARLEY_AVG~&quot;),&quot;0&quot;)
+"
+												ID="calcAvgBARLEY"
+											/>
+											<CalculatedColumn
+												Formula="IIF(((&quot;@Request.Commodity~&quot; = &quot;00&quot;) or InStr(&quot;@Request.Commodity~&quot;, &quot;22&quot;) &gt; 0),IIF(&quot;@Data.SUNFLOWERS_AVG~&quot; = &quot;&quot;,&quot;0&quot;,&quot;@Data.SUNFLOWERS_AVG~&quot;),&quot;0&quot;)
+"
+												ID="calcAvgSUNFLOWERS"
+											/>
+											<CalculatedColumn
+												Formula="IIF(((&quot;@Request.Commodity~&quot; = &quot;00&quot;) or InStr(&quot;@Request.Commodity~&quot;, &quot;27&quot;) &gt; 0),IIF(&quot;@Data.CANOLA_AVG~&quot; = &quot;&quot;,&quot;0&quot;,&quot;@Data.CANOLA_AVG~&quot;),&quot;0&quot;)
+"
+												ID="calcAvgCANOLA"
+											/>
+											<CalculatedColumn
+												Formula="IIF(((&quot;@Request.Commodity~&quot; = &quot;00&quot;) or InStr(&quot;@Request.Commodity~&quot;, &quot;28&quot;) &gt; 0),IIF(&quot;@Data.SRWHEAT_AVG~&quot; = &quot;&quot;,&quot;0&quot;,&quot;@Data.SRWHEAT_AVG~&quot;),&quot;0&quot;)
+"
+												ID="calcAvgSRWHEAT"
+											/>
+											<CalculatedColumn
+												Formula="@Data.calcAvgWHEAT~ + @Data.calcAvgMILO~ + @Data.calcAvgSOYBEANS~ + @Data.calcAvgCORN~ + @Data.calcAvgBARLEY~ + @Data.calcAvgSUNFLOWERS~ + @Data.calcAvgCANOLA~ + @Data.calcAvgSRWHEAT~"
+												ID="calcAvgTOTAL"
+											/>
+											<CalculatedColumn
 												Formula="IIF(&quot;@Data.WHEAT_CBU~&quot; = &quot;&quot;,&quot;0&quot;,&quot;@Data.WHEAT_CBU~&quot;-&quot;@Data.WHEAT_AVG~&quot;)"
 												ID="calcDiffWHEAT"
 											/>
@@ -296,45 +340,45 @@ WHERE BRANCH_NUMBER IN(@Request.Branch~) OR &apos;@Request.Branch~&apos;=&apos;-
 												ID="calcDiffSRWHEAT"
 											/>
 											<CalculatedColumn
-												Formula="IIF(IsNumeric(&quot;@Data.calcTOTAL~&quot;),&quot;@Data.calcTOTAL~&quot;-&quot;@Data.TOTAL_AVG~&quot;,&quot;0&quot;)
+												Formula="IIF(IsNumeric(&quot;@Data.calcTOTAL~&quot;),&quot;@Data.calcTOTAL~&quot;-&quot;@Data.calcAvgTOTAL~&quot;,&quot;0&quot;)
 "
 												ID="calcDiffTOTAL"
 											/>
 											<CalculatedColumn
-												Formula="IIF(&quot;@Data.WHEAT_CBU~&quot; = &quot;&quot;,&quot;0&quot;,&quot;@Data.WHEAT_CBU~&quot;) / IIF(&quot;@Data.WHEAT_AVG~&quot; = &quot;&quot;,&quot;1&quot;,&quot;@Data.WHEAT_AVG~&quot;)
+												Formula="IIF(&quot;@Data.WHEAT_AVG~&quot; = &quot;&quot;,&quot;&quot;, IIF(&quot;@Data.WHEAT_CBU~&quot; = &quot;&quot;,&quot;0&quot;,&quot;@Data.WHEAT_CBU~&quot;) / IIF(&quot;@Data.WHEAT_AVG~&quot; = &quot;&quot;,&quot;1&quot;,&quot;@Data.WHEAT_AVG~&quot;))
 "
 												ID="calcPctWHEAT"
 											/>
 											<CalculatedColumn
-												Formula="IIF(&quot;@Data.MILO_CBU~&quot; = &quot;&quot;,&quot;0&quot;,&quot;@Data.MILO_CBU~&quot;) / IIF(&quot;@Data.MILO_AVG~&quot; = &quot;&quot;,&quot;1&quot;,&quot;@Data.MILO_AVG~&quot;)"
+												Formula="IIF(&quot;@Data.MILO_AVG~&quot; = &quot;&quot;,&quot;&quot;, IIF(&quot;@Data.MILO_CBU~&quot; = &quot;&quot;,&quot;0&quot;,&quot;@Data.MILO_CBU~&quot;) / IIF(&quot;@Data.MILO_AVG~&quot; = &quot;&quot;,&quot;1&quot;,&quot;@Data.MILO_AVG~&quot;))"
 												ID="calcPctMILO"
 											/>
 											<CalculatedColumn
-												Formula="IIF(&quot;@Data.SOYBEANS_CBU~&quot; = &quot;&quot;,&quot;0&quot;,&quot;@Data.SOYBEANS_CBU~&quot;) / IIF(&quot;@Data.SOYBEANS_AVG~&quot; = &quot;&quot;,&quot;1&quot;,&quot;@Data.SOYBEANS_AVG~&quot;)"
+												Formula="IIF(&quot;@Data.SOYBEANS_AVG~&quot; = &quot;&quot;,&quot;&quot;, IIF(&quot;@Data.SOYBEANS_CBU~&quot; = &quot;&quot;,&quot;0&quot;,&quot;@Data.SOYBEANS_CBU~&quot;) / IIF(&quot;@Data.SOYBEANS_AVG~&quot; = &quot;&quot;,&quot;1&quot;,&quot;@Data.SOYBEANS_AVG~&quot;))"
 												ID="calcPctSOYBEANS"
 											/>
 											<CalculatedColumn
-												Formula="IIF(&quot;@Data.CORN_CBU~&quot; = &quot;&quot;,&quot;0&quot;,&quot;@Data.CORN_CBU~&quot;) / IIF(&quot;@Data.CORN_AVG~&quot; = &quot;&quot;,&quot;1&quot;,&quot;@Data.CORN_AVG~&quot;)"
+												Formula="IIF(&quot;@Data.CORN_AVG~&quot; = &quot;&quot;,&quot;&quot;, IIF(&quot;@Data.CORN_CBU~&quot; = &quot;&quot;,&quot;0&quot;,&quot;@Data.CORN_CBU~&quot;) / IIF(&quot;@Data.CORN_AVG~&quot; = &quot;&quot;,&quot;1&quot;,&quot;@Data.CORN_AVG~&quot;))"
 												ID="calcPctCORN"
 											/>
 											<CalculatedColumn
-												Formula="IIF(&quot;@Data.BARLEY_CBU~&quot; = &quot;&quot;,&quot;0&quot;,&quot;@Data.BARLEY_CBU~&quot;) / IIF(&quot;@Data.BARLEY_AVG~&quot; = &quot;&quot;,&quot;1&quot;,&quot;@Data.BARLEY_AVG~&quot;)"
+												Formula="IIF(&quot;@Data.BARLEY_AVG~&quot; = &quot;&quot;,&quot;&quot;, IIF(&quot;@Data.BARLEY_CBU~&quot; = &quot;&quot;,&quot;0&quot;,&quot;@Data.BARLEY_CBU~&quot;) / IIF(&quot;@Data.BARLEY_AVG~&quot; = &quot;&quot;,&quot;1&quot;,&quot;@Data.BARLEY_AVG~&quot;))"
 												ID="calcPctBARLEY"
 											/>
 											<CalculatedColumn
-												Formula="IIF(&quot;@Data.SUNFLOWERS_CBU~&quot; = &quot;&quot;,&quot;0&quot;,&quot;@Data.SUNFLOWERS_CBU~&quot;) / IIF(&quot;@Data.SUNFLOWERS_AVG~&quot; = &quot;&quot;,&quot;1&quot;,&quot;@Data.SUNFLOWERS_AVG~&quot;)"
+												Formula="IIF(&quot;@Data.SUNFLOWERS_AVG~&quot; = &quot;&quot;,&quot;&quot;, IIF(&quot;@Data.SUNFLOWERS_CBU~&quot; = &quot;&quot;,&quot;0&quot;,&quot;@Data.SUNFLOWERS_CBU~&quot;) / IIF(&quot;@Data.SUNFLOWERS_AVG~&quot; = &quot;&quot;,&quot;1&quot;,&quot;@Data.SUNFLOWERS_AVG~&quot;))"
 												ID="calcPctSUNFLOWERS"
 											/>
 											<CalculatedColumn
-												Formula="IIF(&quot;@Data.CANOLA_CBU~&quot; = &quot;&quot;,&quot;0&quot;,&quot;@Data.CANOLA_CBU~&quot;) / IIF(&quot;@Data.CANOLA_AVG~&quot; = &quot;&quot;,&quot;1&quot;,&quot;@Data.CANOLA_AVG~&quot;)"
+												Formula="IIF(&quot;@Data.CANOLA_AVG~&quot; = &quot;&quot;,&quot;&quot;, IIF(&quot;@Data.CANOLA_CBU~&quot; = &quot;&quot;,&quot;0&quot;,&quot;@Data.CANOLA_CBU~&quot;) / IIF(&quot;@Data.CANOLA_AVG~&quot; = &quot;&quot;,&quot;1&quot;,&quot;@Data.CANOLA_AVG~&quot;))"
 												ID="calcPctCANOLA"
 											/>
 											<CalculatedColumn
-												Formula="IIF(&quot;@Data.SRWHEAT_CBU~&quot; = &quot;&quot;,&quot;0&quot;,&quot;@Data.SRWHEAT_CBU~&quot;) / IIF(&quot;@Data.SRWHEAT_AVG~&quot; = &quot;&quot;,&quot;1&quot;,&quot;@Data.SRWHEAT_AVG~&quot;)"
+												Formula="IIF(&quot;@Data.SRWHEAT_AVG~&quot; = &quot;&quot;,&quot;&quot;, IIF(&quot;@Data.SRWHEAT_CBU~&quot; = &quot;&quot;,&quot;0&quot;,&quot;@Data.SRWHEAT_CBU~&quot;) / IIF(&quot;@Data.SRWHEAT_AVG~&quot; = &quot;&quot;,&quot;1&quot;,&quot;@Data.SRWHEAT_AVG~&quot;))"
 												ID="calcPctSRWHEAT"
 											/>
 											<CalculatedColumn
-												Formula="@Data.calcTOTAL~ / IIF(&quot;@Data.TOTAL_AVG~&quot; = &quot;&quot;,&quot;1&quot;,&quot;@Data.TOTAL_AVG~&quot;)
+												Formula="IIF(&quot;@Data.TOTAL_AVG~&quot; = &quot;&quot;,&quot;&quot;, @Data.calcTOTAL~ / IIF(&quot;@Data.TOTAL_AVG~&quot; = &quot;&quot;,&quot;1&quot;,&quot;@Data.TOTAL_AVG~&quot;))
   "
 												ID="calcPctTOTAL"
 											/>
@@ -967,7 +1011,7 @@ WHERE BRANCH_NUMBER IN(@Request.Branch~) OR &apos;@Request.Branch~&apos;=&apos;-
 												ID="lblWHEAT_Pct"
 											/>
 											<DataColumnSort
-												DataColumn="@Data.calcPctWHEAT~"
+												DataColumn="calcPctWHEAT"
 												DataType="Number"
 												FirstSortSequence="Descending"
 												ReverseSortSequence="Ascending"
@@ -1015,7 +1059,7 @@ WHERE BRANCH_NUMBER IN(@Request.Branch~) OR &apos;@Request.Branch~&apos;=&apos;-
 												ID="lblMILO_Pct"
 											/>
 											<DataColumnSort
-												DataColumn="@Data.calcPctMILO~"
+												DataColumn="calcPctMILO"
 												DataType="Number"
 												FirstSortSequence="Descending"
 												ReverseSortSequence="Ascending"
@@ -1063,7 +1107,7 @@ WHERE BRANCH_NUMBER IN(@Request.Branch~) OR &apos;@Request.Branch~&apos;=&apos;-
 												ID="lblSOYBEANS_Pct"
 											/>
 											<DataColumnSort
-												DataColumn="@Data.calcPctSOYBEANS~"
+												DataColumn="calcPctSOYBEANS"
 												DataType="Number"
 												FirstSortSequence="Descending"
 												ReverseSortSequence="Ascending"
@@ -1111,7 +1155,7 @@ WHERE BRANCH_NUMBER IN(@Request.Branch~) OR &apos;@Request.Branch~&apos;=&apos;-
 												ID="lblCORN_Pct"
 											/>
 											<DataColumnSort
-												DataColumn="@Data.calcPctCORN~"
+												DataColumn="calcPctCORN"
 												DataType="Number"
 												FirstSortSequence="Descending"
 												ReverseSortSequence="Ascending"
@@ -1159,7 +1203,7 @@ WHERE BRANCH_NUMBER IN(@Request.Branch~) OR &apos;@Request.Branch~&apos;=&apos;-
 												ID="lblBARLEY_Pct"
 											/>
 											<DataColumnSort
-												DataColumn="@Data.calcPctBARLEY~"
+												DataColumn="calcPctBARLEY"
 												DataType="Number"
 												FirstSortSequence="Descending"
 												ReverseSortSequence="Ascending"
@@ -1207,7 +1251,7 @@ WHERE BRANCH_NUMBER IN(@Request.Branch~) OR &apos;@Request.Branch~&apos;=&apos;-
 												ID="lblSUNFLOWERS_Pct"
 											/>
 											<DataColumnSort
-												DataColumn="@Data.calcPctSUNFLOWERS~"
+												DataColumn="calcPctSUNFLOWERS"
 												DataType="Number"
 												FirstSortSequence="Descending"
 												ReverseSortSequence="Ascending"
@@ -1255,7 +1299,7 @@ WHERE BRANCH_NUMBER IN(@Request.Branch~) OR &apos;@Request.Branch~&apos;=&apos;-
 												ID="lblCANOLA_Pct"
 											/>
 											<DataColumnSort
-												DataColumn="@Data.calcPctCANOLA~"
+												DataColumn="calcPctCANOLA"
 												DataType="Number"
 												FirstSortSequence="Descending"
 												ReverseSortSequence="Ascending"
@@ -1303,7 +1347,7 @@ WHERE BRANCH_NUMBER IN(@Request.Branch~) OR &apos;@Request.Branch~&apos;=&apos;-
 												ID="lblSRWHEAT_Pct"
 											/>
 											<DataColumnSort
-												DataColumn="@Data.calcPctSRWHEAT~"
+												DataColumn="calcPctSRWHEAT"
 												DataType="Number"
 												FirstSortSequence="Descending"
 												ReverseSortSequence="Ascending"
