@@ -20,6 +20,8 @@
 USERNAME
 ,PASSWORD
 ,EMAIL
+,FIRSTNAME
+,LASTNAME
 ,ACTIVE
 )
 VALUES 
@@ -27,6 +29,8 @@ VALUES
 &apos;@Request.iptUsername~&apos;
 ,HASHBYTES(&apos;SHA1&apos;,N&apos;@Request.iptPassword~&apos;)
 ,&apos;@Request.iptEmail~&apos;
+,&apos;@Request.iptFname~&apos;
+,&apos;@Request.iptLname~&apos;
 ,1
 )
 "
@@ -43,6 +47,16 @@ VALUES
 						ID="iptPassword"
 						SqlParamType="dt-200"
 						Value="@Request.iptPassword~"
+					/>
+					<SqlParameter
+						ID="iptFname"
+						SqlParamType="dt-200"
+						Value="@Request.iptFname~"
+					/>
+					<SqlParameter
+						ID="iptLname"
+						SqlParamType="dt-200"
+						Value="@Request.iptLname~"
 					/>
 					<SqlParameter
 						ID="iptEmail"
@@ -105,6 +119,8 @@ VALUES
 SET
 PASSWORD = HASHBYTES(&apos;SHA1&apos;,N&apos;@Request.iptPassword~&apos;)
 ,EMAIL = &apos;@Request.iptEmail~&apos;
+,FIRSTNAME = &apos;@Request.iptFname~&apos;
+,LASTNAME = &apos;@Request.iptLname~&apos;
 WHERE USERNAME = &apos;@Request.iptUserHidden~&apos;"
 				SqlReturnType="RowsAffected"
 				Type="SQL"
@@ -119,6 +135,16 @@ WHERE USERNAME = &apos;@Request.iptUserHidden~&apos;"
 						ID="iptPassword"
 						SqlParamType="dt-200"
 						Value="@Request.iptPassword~"
+					/>
+					<SqlParameter
+						ID="iptFname"
+						SqlParamType="dt-200"
+						Value="@Request.iptFname~"
+					/>
+					<SqlParameter
+						ID="iptLname"
+						SqlParamType="dt-200"
+						Value="@Request.iptLname~"
 					/>
 					<SqlParameter
 						ID="iptEmail"
@@ -302,6 +328,8 @@ WHERE USERNAME = @iptUsername
 	<ideTestParams
 		actionType=""
 		iptEmail=""
+		iptFname=""
+		iptLname=""
 		iptPassword=""
 		iptUserHidden=""
 		iptUsername=""
