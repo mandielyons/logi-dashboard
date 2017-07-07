@@ -30,7 +30,7 @@
 				ConnectionID="connLogiDB"
 				HandleQuotesInTokens="True"
 				ID="dlLogiUser"
-				Source="SELECT USERNAME
+				Source="SELECT USERNAME,FIRSTNAME,LASTNAME
 FROM USERS
 WHERE 
 ACTIVE = 1
@@ -75,6 +75,8 @@ AND USERNAME = @iptUsername"
 			Source="Select USERS.USERNAME,
   USERS.PASSWORD,
   USERS.EMAIL,
+  USERS.FIRSTNAME,
+  USERS.LASTNAME,
   USERS.ACTIVE
 From USERS
 Order By USERS.USERNAME"
@@ -189,11 +191,39 @@ Order By USERS.USERNAME"
 									Caption="TMA Member User Management"
 									Class="panel-title"
 								/>
-								<IncludeHtml
-									Html="&lt;span class=&quot;pull-right&quot;&gt;
+								<Division
+									Class="pull-right"
+									HtmlDiv="True"
+									ID="divRefresh"
+									>
+									<Label
+										Caption=" "
+										Class="fa fa-refresh text-success"
+										>
+										<Action
+											ConfirmMessage="Requery Data and Refresh Report?"
+											ID="actRefreshReport"
+											Type="Report"
+											>
+											<LinkParams
+												cacheExpirationNow="True"
+											/>
+											<Target
+												Type="Report"
+												>
+												<WaitPage/>
+											</Target>
+										</Action>
+									</Label>
+									<Spaces
+										Size="2"
+									/>
+									<IncludeHtml
+										Html="&lt;span class=&quot;pull-right&quot;&gt;
 	&lt;a href=&quot;#panel-body&quot; data-toggle=&quot;collapse&quot; class=&quot;title&quot;&gt;&lt;i class=&quot;fa fa-chevron-down&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;&lt;/a&gt;
 &lt;/span&gt;"
-								/>
+									/>
+								</Division>
 							</ResponsiveColumn>
 						</ResponsiveRow>
 					</Division>
@@ -447,6 +477,26 @@ if(ipt.indexOf(&apos;,&apos;) != -1)
 													/>
 												</InputText>
 												<InputText
+													Caption="First name: "
+													DefaultValue="@Request.iptFname~"
+													ID="iptFname"
+													>
+													<Validation
+														ErrorMsg="First name is REQUIRED"
+														Type="Required"
+													/>
+												</InputText>
+												<InputText
+													Caption="Last name: "
+													DefaultValue="@Request.iptLname~"
+													ID="iptLname"
+													>
+													<Validation
+														ErrorMsg="Last name is REQUIRED"
+														Type="Required"
+													/>
+												</InputText>
+												<InputText
 													Caption="Email: "
 													DefaultValue="@Request.iptEmail~"
 													ID="iptEmail"
@@ -540,6 +590,14 @@ function isEmail(email) {
 														ID="actCancelPopup"
 														Type="ShowElement"
 													/>
+													<Remark>
+														<Action
+															ElementID="dtOtherCoopUsers"
+															FeedbackHideElementID="div-edit-popup"
+															ID="actCancelPopup"
+															Type="RefreshElement"
+														/>
+													</Remark>
 												</Label>
 											</Division>
 										</Division>
@@ -664,6 +722,8 @@ function isEmail(email) {
 														<LinkParams
 															actionType="Edit"
 															iptEmail="@Data.EMAIL~"
+															iptFname="@Data.FIRSTNAME~"
+															iptLname="@Data.LASTNAME~"
 															iptPassword="@Data.PASSWORD~"
 															iptUsername="@Data.USERNAME~"
 														/>
@@ -771,31 +831,6 @@ function isEmail(email) {
 									Caption="TMA &amp; MKC AD User Management"
 									Class="panel-title"
 								/>
-								<Division
-									Class="pull-right"
-									HtmlDiv="True"
-									ID="divRefresh"
-									>
-									<Label
-										Caption=" "
-										Class="fa fa-refresh text-success pull-right"
-										>
-										<Action
-											ConfirmMessage="Requery Active Directory and Refresh Report?"
-											ID="actRefreshReport"
-											Type="Report"
-											>
-											<LinkParams
-												cacheExpirationNow="True"
-											/>
-											<Target
-												Type="Report"
-												>
-												<WaitPage/>
-											</Target>
-										</Action>
-									</Label>
-								</Division>
 							</ResponsiveColumn>
 						</ResponsiveRow>
 					</Division>
@@ -1155,6 +1190,8 @@ function isEmail(email) {
 		cacheExpirationNow=""
 		iptActive=""
 		iptEmail=""
+		iptFname=""
+		iptLname=""
 		iptMemberOf=""
 		iptPassword=""
 		iptSearchUsername=""
