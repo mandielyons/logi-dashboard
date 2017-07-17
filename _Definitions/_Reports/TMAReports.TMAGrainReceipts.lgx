@@ -448,6 +448,21 @@ Order By AccountName,
 								</Division>
 							</ResponsiveColumn>
 						</ResponsiveRow>
+						<ResponsiveRow>
+							<ResponsiveColumn
+								ColspanExtraSmallScreen="12"
+								ColspanLargeScreen="3"
+								ColspanMediumScreen="3"
+								ColspanSmallScreen="12"
+							/>
+							<ResponsiveColumn
+								Class="ThemeTextSmall"
+								>
+								<Label
+									Caption="** Bushel amounts listed are accumulated volumes with the tenants rolled up into the total. Please do not use for pricing grain or open storage bushel amounts."
+								/>
+							</ResponsiveColumn>
+						</ResponsiveRow>
 					</Division>
 				</Division>
 			</ResponsiveColumn>
