@@ -150,7 +150,7 @@ Order By AccountName"
 										SharedElementID="shrCRMBranchSelect"
 										>
 										<SharedElementParams
-											BranchElementToRefresh="divReceipts,ctGrainReceiptSummary"
+											BranchElementToRefresh="divReceipts"
 										/>
 									</IncludeSharedElement>
 									<IncludeSharedElement
@@ -158,7 +158,7 @@ Order By AccountName"
 										SharedElementID="shrCommoditySelect"
 										>
 										<SharedElementParams
-											CommodityElementToRefresh="divReceipts,ctGrainReceiptSummary"
+											CommodityElementToRefresh="divReceipts"
 										/>
 									</IncludeSharedElement>
 									<LineBreak/>
@@ -388,6 +388,12 @@ Order By AccountName,
 											<CrosstabValueColumnSort
 												DataType="Number"
 											/>
+											<DataColumnSummary
+												DataColumn="rdCrosstabValue"
+												DataType="Number"
+												Function="Sum"
+												ID="summaryBushels"
+											/>
 										</CrosstabTableValueColumns>
 										<CrosstabTableLabelColumn
 											Class="ThemeAlignRight"
@@ -403,6 +409,12 @@ Order By AccountName,
 												Caption="@Data.ctTotal~"
 												Format="#,###.#"
 												ID="lblRowSummary"
+											/>
+											<DataColumnSummary
+												DataColumn="ctTotal"
+												DataType="Number"
+												Function="Sum"
+												ID="summaryTotal"
 											/>
 										</CrosstabTableLabelColumn>
 										<CrosstabTableLabelColumn
@@ -420,9 +432,35 @@ Order By AccountName,
 												Format="#,###.#"
 												ID="lblRowAvg"
 											/>
+											<DataColumnSummary
+												DataColumn="ctAverage"
+												DataType="Number"
+												Function="Average"
+												ID="summaryAverage"
+											/>
 										</CrosstabTableLabelColumn>
+										<SummaryRow
+											Caption="Totals"
+											ID="summaryTotals"
+											LastPageOnly="True"
+										/>
 									</CrosstabTable>
 								</Division>
+							</ResponsiveColumn>
+						</ResponsiveRow>
+						<ResponsiveRow>
+							<ResponsiveColumn
+								ColspanExtraSmallScreen="12"
+								ColspanLargeScreen="3"
+								ColspanMediumScreen="3"
+								ColspanSmallScreen="12"
+							/>
+							<ResponsiveColumn
+								Class="ThemeTextSmall"
+								>
+								<Label
+									Caption="** Bushel amounts listed are accumulated volumes with the tenants rolled up into the total. Please do not use for pricing grain or open storage bushel amounts."
+								/>
 							</ResponsiveColumn>
 						</ResponsiveRow>
 					</Division>
