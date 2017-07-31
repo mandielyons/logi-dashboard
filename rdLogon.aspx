@@ -149,7 +149,7 @@ End If %>
 											</tr>
 											<tr>
 												<td class="LabelCell" >Password:</td>
-												<td><input id="rdPassword" type="password" name="rdPassword"/></td>
+												<td><input id="iptPassword" type="password" name="iptPassword"/></td>
 											</tr>
 											<tr>
 												<td></td>
