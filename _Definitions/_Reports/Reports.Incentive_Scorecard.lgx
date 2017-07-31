@@ -8,6 +8,49 @@
 		ExcelFileLocation="C:\inetpub\wwwroot\MKCoop\UploadedFiles\Incentive Raw Data-Logi.xlsx"
 		PodLocation="Abilene"
 	/>
+	<LocalData>
+		<Note
+			Note="Seems like when using an Excel source, it is better to fetch the data early on in a &quot;Local Data&quot; source and then linking the data for later use versus attempting to retrieve data throughout the report. The performance (speed) difference is quite considerable in some cases. "
+		/>
+		<DataLayer
+			CellRange="A:T"
+			ColumnNamesRow="1"
+			ExcelFile="@Request.ExcelFileLocation~"
+			ExcelWorksheet="Location Scorecard"
+			ID="ExcelScorecard"
+			Type="Excel"
+			>
+			<DataLayerLink
+				ID="dllExcelScoreCard"
+			/>
+		</DataLayer>
+		<DataLayer
+			ColumnNamesRow="1"
+			ExcelFile="@Request.ExcelFileLocation~"
+			ExcelWorksheet="PODLookup"
+			ID="ExcelPODs"
+			Type="Excel"
+			>
+			<SortFilter
+				DataType="Text"
+				SortColumn="LocDesc"
+			/>
+			<DataLayerLink
+				ID="dllExcelPODs"
+			/>
+		</DataLayer>
+		<DataLayer
+			ColumnNamesRow="1"
+			ExcelFile="@Request.ExcelFileLocation~"
+			ExcelWorksheet="Growth Scorecard"
+			ID="ExcelGrowthData"
+			Type="Excel"
+			>
+			<DataLayerLink
+				ID="dllExcelGrowthData"
+			/>
+		</DataLayer>
+	</LocalData>
 	<IncludeSharedElement
 		DefinitionFile="_Layout.Shared"
 		SharedElementID="shrHeader"
@@ -165,17 +208,10 @@
 															</Action>
 														</EventHandler>
 														<DataLayer
-															ColumnNamesRow="1"
-															ExcelFile="@Request.ExcelFileLocation~"
-															ExcelWorksheet="PODLookup"
-															ID="dlExcel-PODs"
-															Type="Excel"
-															>
-															<SortFilter
-																DataType="Text"
-																SortColumn="LocDesc"
-															/>
-														</DataLayer>
+															ID="Linked-ExcelPODs"
+															LinkedDataLayerID="dllExcelPODs"
+															Type="Linked"
+														/>
 													</InputSelectList>
 												</Division>
 											</Column>
@@ -245,12 +281,9 @@
 													WidthScale="%"
 													>
 													<DataLayer
-														CellRange="A1:T300"
-														ColumnNamesRow="1"
-														ExcelFile="@Request.ExcelFileLocation~"
-														ExcelWorksheet="Location Scorecard"
-														ID="ExcelScorecard"
-														Type="Excel"
+														ID="Linked-ExcelScoreCard"
+														LinkedDataLayerID="dllExcelScorecard"
+														Type="Linked"
 														>
 														<CompareFilter
 															CompareType="="
@@ -275,18 +308,160 @@
 														Width="30"
 														WidthScale="%"
 														>
-														<Label
-															Caption="@Data.Location Metric~"
-															ID="lblMetricDesc"
+														<Note
+															Note="Based upon the Location Metric &quot;Growth&quot; different detail data needs to be displayed.
+This was the only way to get it to display correctly, by using a division and condition
+and splitting the &quot;More Rows&quot; item into two separate actions since there can only be a single
+action on an action item. Putting a condition on the subtable column headers hid the headers, 
+but then when showing the headers, it hid the data so the actual data in the table was never shown."
+														/>
+														<Division
+															Condition="&apos;@Data.Location Metric~&apos; == &apos;Growth&apos;"
+															ID="divGrowth"
 															>
-															<Action
-																Display="Toggle"
-																ElementID="mirMetricDetails"
-																ID="aseMetricDescriptionDetails"
-																Type="ShowElement"
-															/>
-														</Label>
+															<Label
+																Caption="@Data.Location Metric~"
+																ID="lblMetricDesc-Growth"
+																>
+																<Action
+																	Display="Toggle"
+																	ElementID="mirGrowthDetails"
+																	ID="aseGrowthDetails"
+																	Type="ShowElement"
+																/>
+															</Label>
+														</Division>
+														<Division
+															Condition="&apos;@Data.Location Metric~&apos; &lt;&gt; &apos;Growth&apos;"
+															ID="divNotGrowth"
+															>
+															<Label
+																Caption="@Data.Location Metric~"
+																ID="lblMetricDesc-NotGrowth"
+																>
+																<Action
+																	Display="Toggle"
+																	ElementID="mirMetricDetails"
+																	ID="aseMetricDetails"
+																	Type="ShowElement"
+																/>
+															</Label>
+														</Division>
 													</DataTableColumn>
+													<MoreInfoRow
+														Class="ThemeAlignTopLeft, ThemeTextSmallest"
+														ColumnSpanFirst="2"
+														ColumnSpanLast="5"
+														ID="mirGrowthDetails"
+														ShowModes="None"
+														>
+														<Note
+															Note="Growth metric detail information and notes"
+														/>
+														<SubDataTable
+															ColumnHeaderClass="ThemeAlignCenter"
+															ID="sdtGrowth"
+															>
+															<SubDataLayer
+																ID="subGrowth"
+																OrphanRowExistence="True"
+																>
+																<DataLayer
+																	ID="Linked-ExcelGrowthData"
+																	LinkedDataLayerID="dllExcelGrowthData"
+																	Type="Linked"
+																/>
+																<SubDataLayerRelationColumn
+																	ChildColumn="POD"
+																	ID="sdlRelationColumn"
+																	ParentColumn="Link"
+																/>
+															</SubDataLayer>
+															<DataTableColumn
+																ColumnHeaderClass="ThemeAlignLeft"
+																Header="Growth Category"
+																HeaderType="Text"
+																ID="colGrowthCategory"
+																>
+																<Label
+																	Caption="@Data.Category~"
+																	ID="lblCategory"
+																/>
+															</DataTableColumn>
+															<DataTableColumn
+																Class="ThemeAlignCenter"
+																ColumnHeaderClass="ThemeAlignCenter"
+																Header="5 Year Average"
+																HeaderType="Text"
+																ID="col5YearAvg"
+																>
+																<Label
+																	Caption="@Data.FiveYearAvg~"
+																	Format="#,###,##0"
+																	ID="lbl5YearAvg"
+																/>
+															</DataTableColumn>
+															<DataTableColumn
+																Class="ThemeAlignCenter"
+																ColumnHeaderClass="ThemeAlignCenter"
+																Header="Actual Performance"
+																HeaderType="Text"
+																ID="colActualPerformance"
+																>
+																<Label
+																	Caption="@Data.ActualPerformance~"
+																	Format="#,###,##0"
+																	ID="lblActualPerformance"
+																/>
+															</DataTableColumn>
+															<DataTableColumn
+																Class="ThemeAlignCenter"
+																ColumnHeaderClass="ThemeAlignCenter"
+																Header="Payout Actual Performance"
+																HeaderType="Text"
+																ID="colPayoutActualPerformance"
+																>
+																<Label
+																	Caption="@Data.PayoutActualPerformance~"
+																	Format="#,##0.00%"
+																	ID="lblPayoutActualPerformance"
+																/>
+															</DataTableColumn>
+															<DataTableColumn
+																Class="ThemeAlignCenter"
+																ColumnHeaderClass="ThemeAlignCenter"
+																Header="Weight %"
+																HeaderType="Text"
+																ID="colWeight"
+																>
+																<Label
+																	Caption="@Data.Weight~"
+																	Format="#,##0.00%"
+																	ID="lblWeight"
+																/>
+															</DataTableColumn>
+															<DataTableColumn
+																Class="ThemeAlignCenter"
+																ColumnHeaderClass="ThemeAlignCenter"
+																Header="Weighted Payout %"
+																HeaderType="Text"
+																ID="colWeightedPayout"
+																>
+																<Label
+																	Caption="@Data.WeightedPayout~"
+																	Format="#,##0.00%"
+																	ID="lblWeightedPayout"
+																/>
+															</DataTableColumn>
+														</SubDataTable>
+														<LineBreak
+															LineCount="1"
+														/>
+														<Label
+															Caption="@Data.Notes~"
+															Class="ThemeTextSmall"
+														/>
+													</MoreInfoRow>
 													<MoreInfoRow
 														Class="ThemeAlignTopLeft, ThemeTextSmallest"
 														ColumnSpanFirst="2"
@@ -294,6 +469,9 @@
 														ID="mirMetricDetails"
 														ShowModes="None"
 														>
+														<Note
+															Note="All other metric notes (not Growth)"
+														/>
 														<Label
 															Caption="@Data.Notes~"
 															Class="ThemeTextSmall"
