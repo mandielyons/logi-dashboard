@@ -12,7 +12,7 @@
 	<General
 		DoctypeDeclaration="Html5"
 		LogErrors="@Function.AppPhysicalPath~\_ErrorLogs"
-		rdDebuggerStyle="NoDetail"
+		rdDebuggerStyle="DebuggerLinks"
 		RedirectErrorUrl="rdPage.aspx?rdReport=_Layout.Error"
 		RepoFriendly="True"
 	/>
@@ -215,7 +215,7 @@
 			<DataLayer
 				ConnectionID="mkcLDAP"
 				ID="dlLdapAuth"
-				LdapPassword="@Request.rdPassword~"
+				LdapPassword="@Request.iptPassword~"
 				LdapUserDnSource="SELECT ADsPath FROM &apos;DC=midkscoop,DC=lan&apos; WHERE SamAccountName=&apos;@Request.rdUserName~&apos; and objectClass=&apos;person&apos;"
 				Type="LdapAuthentication"
 				>
@@ -232,7 +232,7 @@ FROM USERS
 WHERE 
 ACTIVE = 1
 AND USERNAME = @iptUsername
-AND PASSWORD = HASHBYTES(&apos;SHA1&apos;,N&apos;@Request.rdPassword~&apos;)
+AND PASSWORD = HASHBYTES(&apos;SHA1&apos;,N&apos;@Request.iptPassword~&apos;)
 "
 				Type="SQL"
 				>
@@ -296,11 +296,7 @@ AND PASSWORD = HASHBYTES(&apos;SHA1&apos;,N&apos;@Request.rdPassword~&apos;)
 				ConnectionID="connLogiDB"
 				HandleQuotesInTokens="True"
 				ID="dlLogiDbRoles"
-				Source="SELECT USERNAME
-FROM USERS
-WHERE 
-ACTIVE = 1
-AND USERNAME = @iptUsername"
+				Source="SELECT USERNAME FROM USERS WHERE ACTIVE = 1 AND USERNAME = @iptUsername"
 				Type="SQL"
 				>
 				<SqlParameters>
@@ -535,6 +531,7 @@ AND USERNAME = @iptUsername"
 		</Rights>
 	</Security>
 	<ideTestParams
+		iptPassword=""
 		rdPassword=""
 		rdUsername=""
 		rdUserName=""
