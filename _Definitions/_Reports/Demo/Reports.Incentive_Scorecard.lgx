@@ -119,103 +119,113 @@
 									</Row>
 									<Row>
 										<Column
-											Class="ThemeAlignTop"
-											ColSpan="1"
+											Class="ThemeAlignTop, ThemeAlignLeft"
 											ID="colFilters"
-											Width="20"
+											Width="10"
 											WidthScale="%"
 											>
-											<Rows>
-												<Row>
-													<Column
-														Class="ThemeAlignRight"
-														ID="colIcon"
-														>
-														<LineBreak/>
-														<Label
-															Class="fa fa-chevron-left"
-															>
-															<Action
-																Display="Toggle"
-																ElementID="colFilters,colFilters2"
-																ID="hideFilters"
-																ShowElementEffect="FadeIn"
-																Type="ShowElement"
-															/>
-														</Label>
-													</Column>
-												</Row>
-												<Row>
-													<Column
-														ID="colPodLocation"
-														Width="100"
-														WidthScale="%"
-														>
-														<Division
-															Class="well"
-															HtmlDiv="True"
-															ID="divFilterPodLocation"
-															>
-															<InputSelectList
-																Caption="PODs:"
-																DefaultValue="@Request.PodLocation~"
-																ID="PodLocation"
-																InputRows="17"
-																MultiSelect="False"
-																OptionCaptionColumn="LocDesc"
-																OptionValueColumn="LocDesc"
+											<ResponsiveRow>
+												<ResponsiveColumn>
+													<Rows>
+														<Row>
+															<Column
+																Class="ThemeAlignRight"
+																ID="colIcon"
 																>
-																<EventHandler
-																	DhtmlEvent="onchange"
-																	ID="evtOnChange"
+																<LineBreak/>
+																<Label
+																	Class="fa fa-chevron-left"
 																	>
 																	<Action
-																		ElementID="div-scorecard-report"
-																		ID="action-refresh-report"
-																		Type="RefreshElement"
+																		Display="Toggle"
+																		ElementID="colFilters,colFilters2"
+																		ID="hideFilters"
+																		ShowElementEffect="FadeIn"
+																		Type="ShowElement"
+																	/>
+																</Label>
+															</Column>
+														</Row>
+														<Row>
+															<Column
+																ID="colPodLocation"
+																>
+																<Division
+																	Class="well"
+																	HtmlDiv="True"
+																	ID="divFilterPodLocation"
+																	>
+																	<InputSelectList
+																		Caption="PODs:"
+																		DefaultValue="@Request.PodLocation~"
+																		ID="PodLocation"
+																		InputRows="17"
+																		MultiSelect="False"
+																		OptionCaptionColumn="LocDesc"
+																		OptionValueColumn="LocDesc"
 																		>
-																		<WaitPage/>
-																	</Action>
-																</EventHandler>
-																<DataLayer
-																	ID="Linked-ExcelPODs"
-																	LinkedDataLayerID="dllExcelPODs"
-																	Type="Linked"
-																/>
-															</InputSelectList>
-														</Division>
-													</Column>
-												</Row>
-											</Rows>
+																		<EventHandler
+																			DhtmlEvent="onchange"
+																			ID="evtOnChange"
+																			>
+																			<Action
+																				ElementID="div-scorecard-report"
+																				ID="action-refresh-report"
+																				Type="RefreshElement"
+																				>
+																				<WaitPage/>
+																			</Action>
+																		</EventHandler>
+																		<DataLayer
+																			ID="Linked-ExcelPODs"
+																			LinkedDataLayerID="dllExcelPODs"
+																			Type="Linked"
+																		/>
+																	</InputSelectList>
+																</Division>
+															</Column>
+														</Row>
+													</Rows>
+												</ResponsiveColumn>
+											</ResponsiveRow>
 										</Column>
 										<Column
-											Class="ThemeAlignTop"
+											Class="ThemeAlignTop, ThemeAlignLeft"
 											ID="colFilters2"
 											ShowModes="None"
-											Width="30"
-											WidthScale="px"
+											Width="1"
+											WidthScale="%"
 											>
-											<Rows>
-												<Row>
-													<Column
-														ID="colIcon"
-														>
-														<LineBreak/>
-														<Label
-															Class="fa fa-chevron-right"
-															>
-															<Action
-																Display="Toggle"
-																ElementID="colFilters,colFilters2"
-																ID="showFilters"
-																ShowElementEffect="FadeIn"
-																Type="ShowElement"
-															/>
-														</Label>
-													</Column>
-												</Row>
-											</Rows>
+											<ResponsiveRow>
+												<ResponsiveColumn>
+													<Rows>
+														<Row>
+															<Column
+																ID="colIcon"
+																>
+																<LineBreak/>
+																<Label
+																	Class="fa fa-chevron-right"
+																	>
+																	<Action
+																		Display="Toggle"
+																		ElementID="colFilters,colFilters2"
+																		ID="showFilters"
+																		ShowElementEffect="FadeIn"
+																		Type="ShowElement"
+																	/>
+																</Label>
+															</Column>
+														</Row>
+													</Rows>
+												</ResponsiveColumn>
+											</ResponsiveRow>
 										</Column>
+										<Column
+											ID="colBlankSpacer"
+											Width="1"
+											WidthScale="%"
+										/>
 										<Column
 											Class="ThemeAlignTop, ThemeAlignLeft"
 											ColSpan="11"
@@ -223,6 +233,9 @@
 											Width="60"
 											WidthScale="%"
 											>
+											<LineBreak
+												LineCount="2"
+											/>
 											<ResponsiveRow
 												Class="ThemeTextSmall, ThemeAlignLeft"
 												CollisionBehavior="Wrap"
@@ -239,9 +252,6 @@
 														Class="ThemeAlignLeft"
 														ID="div-scorecard-report"
 														>
-														<LineBreak
-															LineCount="3"
-														/>
 														<DataTable
 															Caption="Scorecard YTD - @Request.PodLocation~ POD"
 															ID="dtScorecard"
@@ -308,6 +318,91 @@ but then when showing the headers, it hid the data so the actual data in the tab
 																	</Label>
 																</Division>
 															</DataTableColumn>
+															<DataTableColumn
+																Class="ThemeBold, ThemeAlignCenter"
+																ColumnHeaderClass="ThemeAlignCenter"
+																Header="Weighted Payout Percentage"
+																ID="colWeightedPayout"
+																Width="22"
+																WidthScale="%"
+																>
+																<Label
+																	Caption="@Data.KpiColor~"
+																	Format="HTML"
+																	ID="lblWeightedPayout"
+																/>
+															</DataTableColumn>
+															<DataTableColumn
+																Class="ThemeAlignCenter"
+																ColumnHeaderClass="ThemeAlignCenter"
+																Header="Min"
+																ID="colBudget_Min"
+																Width="15"
+																WidthScale="%"
+																>
+																<Label
+																	Caption="@Data.Budget_Min~"
+																	Format="@Data.NumberFormat~"
+																	ID="lblBudget_Min"
+																/>
+															</DataTableColumn>
+															<DataTableColumn
+																Class="ThemeAlignCenter"
+																ColumnHeaderClass="ThemeAlignCenter"
+																Header="Target"
+																ID="colBudget_Target"
+																Width="15"
+																WidthScale="%"
+																>
+																<Label
+																	Caption="@Data.Budget_Target~"
+																	Format="@Data.NumberFormat~"
+																	ID="lblBudget_Target"
+																/>
+															</DataTableColumn>
+															<DataTableColumn
+																Class="ThemeAlignCenter"
+																ColumnHeaderClass="ThemeAlignCenter"
+																Header="Max"
+																ID="colBudget_Max"
+																Width="20"
+																WidthScale="%"
+																>
+																<Label
+																	Caption="@Data.Budget_Max~"
+																	Format="@Data.NumberFormat~"
+																	ID="lblBudget_Max"
+																/>
+															</DataTableColumn>
+															<DataTableColumn
+																Class="ThemeAlignCenter"
+																ColumnHeaderClass="ThemeAlignCenter"
+																Header="Actual Performance"
+																ID="colActual"
+																Width="20"
+																WidthScale="%"
+																>
+																<Label
+																	Caption="@Data.Actual_Performance~"
+																	Format="@Data.NumberFormat~"
+																	ID="lblActual"
+																/>
+															</DataTableColumn>
+															<MoreInfoRow
+																Class="ThemeTextSmallest, ThemeAlignLeft"
+																ColumnSpanFirst="2"
+																ColumnSpanLast="5"
+																ID="mirMetricDetails"
+																ShowModes="None"
+																>
+																<Note
+																	Note="All other metric notes (not Growth)"
+																/>
+																<Label
+																	Caption="@Data.Notes~"
+																	Class="ThemeTextSmall"
+																/>
+															</MoreInfoRow>
 															<MoreInfoRow
 																Class="ThemeTextSmallest, ThemeAlignLeft"
 																ColumnSpanFirst="2"
@@ -321,6 +416,8 @@ but then when showing the headers, it hid the data so the actual data in the tab
 																<SubDataTable
 																	ColumnHeaderClass="ThemeAlignCenter"
 																	ID="sdtGrowth"
+																	Width="100"
+																	WidthScale="%"
 																	>
 																	<SubDataLayer
 																		ID="subGrowth"
@@ -422,91 +519,6 @@ but then when showing the headers, it hid the data so the actual data in the tab
 																	Class="ThemeTextSmall"
 																/>
 															</MoreInfoRow>
-															<MoreInfoRow
-																Class="ThemeTextSmallest, ThemeAlignLeft"
-																ColumnSpanFirst="2"
-																ColumnSpanLast="5"
-																ID="mirMetricDetails"
-																ShowModes="None"
-																>
-																<Note
-																	Note="All other metric notes (not Growth)"
-																/>
-																<Label
-																	Caption="@Data.Notes~"
-																	Class="ThemeTextSmall"
-																/>
-															</MoreInfoRow>
-															<DataTableColumn
-																Class="ThemeBold, ThemeAlignCenter"
-																ColumnHeaderClass="ThemeAlignCenter"
-																Header="Weighted Payout Percentage"
-																ID="colWeightedPayout"
-																Width="22"
-																WidthScale="%"
-																>
-																<Label
-																	Caption="@Data.KpiColor~"
-																	Format="HTML"
-																	ID="lblWeightedPayout"
-																/>
-															</DataTableColumn>
-															<DataTableColumn
-																Class="ThemeAlignCenter"
-																ColumnHeaderClass="ThemeAlignCenter"
-																Header="Min"
-																ID="colBudget_Min"
-																Width="15"
-																WidthScale="%"
-																>
-																<Label
-																	Caption="@Data.Budget_Min~"
-																	Format="@Data.NumberFormat~"
-																	ID="lblBudget_Min"
-																/>
-															</DataTableColumn>
-															<DataTableColumn
-																Class="ThemeAlignCenter"
-																ColumnHeaderClass="ThemeAlignCenter"
-																Header="Target"
-																ID="colBudget_Target"
-																Width="15"
-																WidthScale="%"
-																>
-																<Label
-																	Caption="@Data.Budget_Target~"
-																	Format="@Data.NumberFormat~"
-																	ID="lblBudget_Target"
-																/>
-															</DataTableColumn>
-															<DataTableColumn
-																Class="ThemeAlignCenter"
-																ColumnHeaderClass="ThemeAlignCenter"
-																Header="Max"
-																ID="colBudget_Max"
-																Width="20"
-																WidthScale="%"
-																>
-																<Label
-																	Caption="@Data.Budget_Max~"
-																	Format="@Data.NumberFormat~"
-																	ID="lblBudget_Max"
-																/>
-															</DataTableColumn>
-															<DataTableColumn
-																Class="ThemeAlignCenter"
-																ColumnHeaderClass="ThemeAlignCenter"
-																Header="Actual Performance"
-																ID="colActual"
-																Width="20"
-																WidthScale="%"
-																>
-																<Label
-																	Caption="@Data.Actual_Performance~"
-																	Format="@Data.NumberFormat~"
-																	ID="lblActual"
-																/>
-															</DataTableColumn>
 														</DataTable>
 													</Division>
 												</ResponsiveColumn>

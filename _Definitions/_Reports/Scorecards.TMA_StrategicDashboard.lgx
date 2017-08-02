@@ -4128,7 +4128,7 @@
 																<DataTable
 																	AccessibleHeaders="True"
 																	AccessibleSummary="AnalysisGrid DataTable"
-																	Caption="Actions for Communicate the Strategic Plan to the Employee Group"
+																	Caption="Actions for Employee Development"
 																	DraggableColumns="False"
 																	HideWhenZeroRows="True"
 																	ID="dtEmpAction1"
@@ -4453,7 +4453,7 @@
 																<DataTable
 																	AccessibleHeaders="True"
 																	AccessibleSummary="AnalysisGrid DataTable"
-																	Caption="Actions for Living the Four Keys"
+																	Caption="Actions for Support Employee Wellness"
 																	DraggableColumns="False"
 																	HideWhenZeroRows="True"
 																	ID="dtEmpAction2"
@@ -4780,7 +4780,7 @@
 																<DataTable
 																	AccessibleHeaders="True"
 																	AccessibleSummary="AnalysisGrid DataTable"
-																	Caption="Actions for Employee Engagement"
+																	Caption="Actions for Improve Communication"
 																	DraggableColumns="False"
 																	HideWhenZeroRows="True"
 																	ID="dtEmpAction3"
@@ -5104,7 +5104,7 @@
 																<DataTable
 																	AccessibleHeaders="True"
 																	AccessibleSummary="AnalysisGrid DataTable"
-																	Caption="Actions for Employee Development"
+																	Caption="Actions for Enhancement of Training Program"
 																	DraggableColumns="False"
 																	HideWhenZeroRows="True"
 																	ID="dtEmpAction4"
@@ -5431,7 +5431,7 @@
 																<DataTable
 																	AccessibleHeaders="True"
 																	AccessibleSummary="AnalysisGrid DataTable"
-																	Caption="Actions for Employee Wellness"
+																	Caption="Actions for Employee Engagement"
 																	DraggableColumns="False"
 																	HideWhenZeroRows="True"
 																	ID="dtEmpAction5"
