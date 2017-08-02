@@ -3743,7 +3743,7 @@
 																<DataTable
 																	AccessibleHeaders="True"
 																	AccessibleSummary="AnalysisGrid DataTable"
-																	Caption="Actions for Communicate the Strategic Plan to the Employee Group"
+																	Caption=""
 																	DraggableColumns="False"
 																	HideWhenZeroRows="True"
 																	ID="dtEmpAction1"
@@ -4068,7 +4068,7 @@
 																<DataTable
 																	AccessibleHeaders="True"
 																	AccessibleSummary="AnalysisGrid DataTable"
-																	Caption="Actions for Living the Four Keys"
+																	Caption=""
 																	DraggableColumns="False"
 																	HideWhenZeroRows="True"
 																	ID="dtEmpAction2"
@@ -4395,7 +4395,7 @@
 																<DataTable
 																	AccessibleHeaders="True"
 																	AccessibleSummary="AnalysisGrid DataTable"
-																	Caption="Actions for Employee Engagement"
+																	Caption=""
 																	DraggableColumns="False"
 																	HideWhenZeroRows="True"
 																	ID="dtEmpAction3"
@@ -4719,7 +4719,7 @@
 																<DataTable
 																	AccessibleHeaders="True"
 																	AccessibleSummary="AnalysisGrid DataTable"
-																	Caption="Actions for Employee Development"
+																	Caption=""
 																	DraggableColumns="False"
 																	HideWhenZeroRows="True"
 																	ID="dtEmpAction4"
@@ -5379,7 +5379,7 @@
 																<DataTable
 																	AccessibleHeaders="True"
 																	AccessibleSummary="AnalysisGrid DataTable"
-																	Caption="Actions for Evaluate Logistics Effectiveness/Efficiency"
+																	Caption=""
 																	DraggableColumns="False"
 																	HideWhenZeroRows="True"
 																	ID="dtRenewalAction1"
@@ -5704,7 +5704,7 @@
 																<DataTable
 																	AccessibleHeaders="True"
 																	AccessibleSummary="AnalysisGrid DataTable"
-																	Caption="Actions for Identify Software Platform Enhancements"
+																	Caption=""
 																	DraggableColumns="False"
 																	HideWhenZeroRows="True"
 																	ID="dtRenewalAction2"
@@ -6032,7 +6032,7 @@
 																<DataTable
 																	AccessibleHeaders="True"
 																	AccessibleSummary="AnalysisGrid DataTable"
-																	Caption="Actions for Develop Strategy for Locations per TMA Structure Change"
+																	Caption=""
 																	DraggableColumns="False"
 																	HideWhenZeroRows="True"
 																	ID="dtRenewalAction3"
@@ -6357,7 +6357,7 @@
 																<DataTable
 																	AccessibleHeaders="True"
 																	AccessibleSummary="AnalysisGrid DataTable"
-																	Caption="Actions for Develop Sumner County Business Plan"
+																	Caption=""
 																	DraggableColumns="False"
 																	HideWhenZeroRows="True"
 																	ID="dtRenewalAction4"
@@ -6799,7 +6799,7 @@
 																<DataTable
 																	AccessibleHeaders="True"
 																	AccessibleSummary="AnalysisGrid DataTable"
-																	Caption="Actions for Prepare for Hybrid Wheat Opportunity"
+																	Caption=""
 																	DraggableColumns="False"
 																	HideWhenZeroRows="True"
 																	ID="dtRenewalAction5"
@@ -7133,7 +7133,7 @@
 																<DataTable
 																	AccessibleHeaders="True"
 																	AccessibleSummary="AnalysisGrid DataTable"
-																	Caption="Actions for Develop Plans Involving Strategic Partnerships"
+																	Caption=""
 																	DraggableColumns="False"
 																	HideWhenZeroRows="True"
 																	ID="dtRenewalAction6"
