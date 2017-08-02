@@ -8,57 +8,68 @@
 		ExcelFileLocation="C:\inetpub\wwwroot\MKCoop\UploadedFiles\Incentive Raw Data-Logi.xlsx"
 		PodLocation="Abilene"
 	/>
+	<LocalData>
+		<Note
+			Note="Seems like when using an Excel source, it is better to fetch the data early on in a &quot;Local Data&quot; source and then linking the data for later use versus attempting to retrieve data throughout the report. The performance (speed) difference is quite considerable in some cases. "
+		/>
+		<DataLayer
+			ColumnNamesRow="1"
+			ExcelFile="@Request.ExcelFileLocation~"
+			ExcelWorksheet="Location Scorecard"
+			ID="ExcelScorecard"
+			Type="Excel"
+			>
+			<CompareFilter
+				CaseSensitive="False"
+				CompareType="="
+				CompareValue="1"
+				DataColumn="Metric Active"
+				DataType="Boolean"
+				ID="FilterMetricActive"
+			/>
+			<DataLayerLink
+				ID="dllExcelScoreCard"
+			/>
+		</DataLayer>
+		<DataLayer
+			ColumnNamesRow="1"
+			ExcelFile="@Request.ExcelFileLocation~"
+			ExcelWorksheet="PODLookup"
+			ID="ExcelPODs"
+			Type="Excel"
+			>
+			<SortFilter
+				DataType="Text"
+				SortColumn="LocDesc"
+			/>
+			<DataLayerLink
+				ID="dllExcelPODs"
+			/>
+		</DataLayer>
+		<DataLayer
+			ColumnNamesRow="1"
+			ExcelFile="@Request.ExcelFileLocation~"
+			ExcelWorksheet="Growth Scorecard"
+			ID="ExcelGrowthData"
+			Type="Excel"
+			>
+			<DataLayerLink
+				ID="dllExcelGrowthData"
+			/>
+		</DataLayer>
+	</LocalData>
 	<IncludeSharedElement
 		DefinitionFile="_Layout.Shared"
 		SharedElementID="shrHeader"
 	/>
 	<Body>
-		<Remark>
-			<IncludeScript
-				ID="Script-GoogleAnalytics"
-				IncludedScript="&lt;script&gt;
-  (function(i,s,o,g,r,a,m){i[&apos;GoogleAnalyticsObject&apos;]=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,&apos;script&apos;,&apos;https://www.google-analytics.com/analytics.js&apos;,&apos;ga&apos;);
-
-  ga(&apos;create&apos;, &apos;UA-76860562-1&apos;, &apos;auto&apos;);
-  ga(&apos;send&apos;, &apos;pageview&apos;);
-
-&lt;/script&gt;
-
-&lt;script type=&quot;text/javascript&quot;&gt;
-
-  var _gaq = _gaq || [];
-  _gaq.push([&apos;_setAccount&apos;, &apos;UA-76860562-1&apos;]);
-  _gaq.push([&apos;_trackPageview&apos;]);
-
-  (function() {
-    var ga = document.createElement(&apos;script&apos;); ga.type = &apos;text/javascript&apos;; ga.async = true;
-    ga.src = (&apos;https:&apos; == document.location.protocol ? &apos;https://ssl&apos; : &apos;http://www&apos;) + &apos;.google-analytics.com/ga.js&apos;;
-    var s = document.getElementsByTagName(&apos;script&apos;)[0]; s.parentNode.insertBefore(ga, s);
-  })();
-
-&lt;/script&gt;
-
-&lt;script type=&quot;text/javascript&quot;&gt;
- function tableToExcel(table, name) {
-    var uri = &apos;data:application/vnd.ms-excel;base64,&apos;
-          , template = &apos;&lt;html xmlns:o=&quot;urn:schemas-microsoft-com:office:office&quot; xmlns:x=&quot;urn:schemas-microsoft-com:office:excel&quot; xmlns=&quot;http://www.w3.org/TR/REC-html40&quot;&gt;&lt;head&gt;&lt;!--[if gte mso 9]&gt;&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;yes&quot;?&gt;&lt;x:ExcelWorkbook&gt;&lt;x:ExcelWorksheets&gt;&lt;x:ExcelWorksheet&gt;&lt;x:Name&gt;{worksheet}&lt;/x:Name&gt;&lt;x:WorksheetOptions&gt;&lt;x:DisplayGridlines/&gt;&lt;/x:WorksheetOptions&gt;&lt;/x:ExcelWorksheet&gt;&lt;/x:ExcelWorksheets&gt;&lt;/x:ExcelWorkbook&gt;&lt;/xml&gt;&lt;![endif]--&gt;&lt;/head&gt;&lt;body&gt;&lt;table&gt;{table}&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;&apos;
-          , base64 = function (s) { return window.btoa(unescape(encodeURIComponent(s))); }
-          , format = function (s, c) { return s.replace(/{(\w+)}/g, function (m, p) { return c[p]; }); };
-        if (!table.nodeType) table = document.getElementById(table);
-        var ctx = { worksheet: name || &apos;Worksheet&apos;, table: table.innerHTML };
-        window.location.href = uri + base64(format(template, ctx));
-
-}
-&lt;/script&gt;
-
-"
-			/>
-		</Remark>
-		<ResponsiveRow>
-			<ResponsiveColumn>
+		<ResponsiveRow
+			Class="ThemeAlignLeft"
+			CollisionBehavior="Wrap"
+			>
+			<ResponsiveColumn
+				Class="ThemeAlignLeft"
+				>
 				<Division
 					Class="panel panel-default"
 					HtmlDiv="True"
@@ -78,287 +89,445 @@
 						HtmlDiv="True"
 						ID="panel-body-PODs"
 						>
-						<Rows
-							Width="100"
-							WidthScale="%"
+						<ResponsiveRow
+							Class="ThemeTextSmall"
 							>
-							<Row>
-								<Column
-									Class="ThemeAlignTop, ThemeAlignRight"
-									ColSpan="12"
-									ID="colExport"
+							<ResponsiveColumn>
+								<Rows
 									Width="100"
 									WidthScale="%"
 									>
-									<IncludeSharedElement
-										DefinitionFile="_Layout.Shared"
-										SharedElementID="shrExcelExport"
-										>
-										<SharedElementParams
-											DataTableID="dtScorecard"
-											ReportName="Incentive Plan"
-											Security=""
-										/>
-									</IncludeSharedElement>
-								</Column>
-							</Row>
-							<Row>
-								<Column
-									Class="ThemeAlignTop"
-									ID="colFilters"
-									Width="20"
-									WidthScale="%"
-									>
-									<Rows
-										Width="90"
-										WidthScale="%"
-										>
-										<Row>
-											<Column
-												Class="ThemeAlignRight"
-												ID="colIcon"
-												>
-												<LineBreak/>
-												<Label
-													Class="fa fa-chevron-left"
-													>
-													<Action
-														Display="Toggle"
-														ElementID="colFilters,colFilters2"
-														ID="hideFilters"
-														ShowElementEffect="FadeIn"
-														Type="ShowElement"
-													/>
-												</Label>
-											</Column>
-										</Row>
-										<Row>
-											<Column
-												ID="colPodLocation"
-												Width="100"
-												WidthScale="%"
-												>
-												<Division
-													Class="well"
-													HtmlDiv="True"
-													ID="divFilterPodLocation"
-													>
-													<InputSelectList
-														Caption="PODs:"
-														DefaultValue="@Request.PodLocation~"
-														ID="PodLocation"
-														InputRows="17"
-														MultiSelect="False"
-														OptionCaptionColumn="LocDesc"
-														OptionValueColumn="LocDesc"
-														>
-														<EventHandler
-															DhtmlEvent="onchange"
-															ID="evtOnChange"
-															>
-															<Action
-																ElementID="dtScorecard"
-																ID="action-refresh-report"
-																Type="RefreshElement"
-																>
-																<WaitPage/>
-															</Action>
-														</EventHandler>
-														<DataLayer
-															ColumnNamesRow="1"
-															ExcelFile="@Request.ExcelFileLocation~"
-															ExcelWorksheet="PODLookup"
-															ID="dlExcel-PODs"
-															Type="Excel"
-															>
-															<SortFilter
-																DataType="Text"
-																SortColumn="LocDesc"
-															/>
-														</DataLayer>
-													</InputSelectList>
-												</Division>
-											</Column>
-										</Row>
-									</Rows>
-								</Column>
-								<Column
-									Class="ThemeAlignTop"
-									ID="colFilters2"
-									ShowModes="None"
-									Width="30"
-									WidthScale="px"
-									>
-									<Rows
-										Width="90"
-										WidthScale="%"
-										>
-										<Row>
-											<Column
-												ID="colIcon"
-												>
-												<LineBreak/>
-												<Label
-													Class="fa fa-chevron-right"
-													>
-													<Action
-														Display="Toggle"
-														ElementID="colFilters,colFilters2"
-														ID="showFilters"
-														ShowElementEffect="FadeIn"
-														Type="ShowElement"
-													/>
-												</Label>
-											</Column>
-										</Row>
-									</Rows>
-								</Column>
-								<Column
-									Class="ThemeAlignTop"
-									ID="colContent"
-									Width="75"
-									WidthScale="%"
-									>
-									<ResponsiveRow
-										Class="ThemeTextSmall"
-										CollisionBehavior="Wrap"
-										ID="respContent"
-										>
-										<ResponsiveColumn
-											Class="ThemeAlignCenter"
-											ColspanExtraSmallScreen="12"
-											ColspanLargeScreen="6"
-											ColspanMediumScreen="5"
-											ColspanSmallScreen="12"
+									<Row>
+										<Column
+											Class="ThemeAlignTop, ThemeAlignRight"
+											ColSpan="12"
+											ID="colExport"
+											Width="100"
+											WidthScale="%"
 											>
-											<Division
-												Class="ThemeAlignCenter"
-												ID="div-scorecard-report"
+											<IncludeSharedElement
+												DefinitionFile="_Layout.Shared"
+												SharedElementID="shrExcelExport"
 												>
-												<LineBreak
-													LineCount="3"
+												<SharedElementParams
+													DataTableID="dtScorecard"
+													ReportName="Incentive Plan"
+													Security=""
 												/>
-												<DataTable
-													Caption="Scorecard YTD - @Request.PodLocation~ POD"
-													ID="dtScorecard"
-													Width="100"
-													WidthScale="%"
+											</IncludeSharedElement>
+										</Column>
+									</Row>
+									<Row>
+										<Column
+											Class="ThemeAlignTop, ThemeAlignLeft"
+											ID="colFilters"
+											Width="10"
+											WidthScale="%"
+											>
+											<ResponsiveRow>
+												<ResponsiveColumn>
+													<Rows>
+														<Row>
+															<Column
+																Class="ThemeAlignRight"
+																ID="colIcon"
+																>
+																<LineBreak/>
+																<Label
+																	Class="fa fa-chevron-left"
+																	>
+																	<Action
+																		Display="Toggle"
+																		ElementID="colFilters,colFilters2"
+																		ID="hideFilters"
+																		ShowElementEffect="FadeIn"
+																		Type="ShowElement"
+																	/>
+																</Label>
+															</Column>
+														</Row>
+														<Row>
+															<Column
+																ID="colPodLocation"
+																>
+																<Division
+																	Class="well"
+																	HtmlDiv="True"
+																	ID="divFilterPodLocation"
+																	>
+																	<InputSelectList
+																		Caption="PODs:"
+																		DefaultValue="@Request.PodLocation~"
+																		ID="PodLocation"
+																		InputRows="17"
+																		MultiSelect="False"
+																		OptionCaptionColumn="LocDesc"
+																		OptionValueColumn="LocDesc"
+																		>
+																		<EventHandler
+																			DhtmlEvent="onchange"
+																			ID="evtOnChange"
+																			>
+																			<Action
+																				ElementID="div-scorecard-report"
+																				ID="action-refresh-report"
+																				Type="RefreshElement"
+																				>
+																				<WaitPage/>
+																			</Action>
+																		</EventHandler>
+																		<DataLayer
+																			ID="Linked-ExcelPODs"
+																			LinkedDataLayerID="dllExcelPODs"
+																			Type="Linked"
+																		/>
+																	</InputSelectList>
+																</Division>
+															</Column>
+														</Row>
+													</Rows>
+												</ResponsiveColumn>
+											</ResponsiveRow>
+										</Column>
+										<Column
+											Class="ThemeAlignTop, ThemeAlignLeft"
+											ID="colFilters2"
+											ShowModes="None"
+											Width="1"
+											WidthScale="%"
+											>
+											<ResponsiveRow>
+												<ResponsiveColumn>
+													<Rows>
+														<Row>
+															<Column
+																ID="colIcon"
+																>
+																<LineBreak/>
+																<Label
+																	Class="fa fa-chevron-right"
+																	>
+																	<Action
+																		Display="Toggle"
+																		ElementID="colFilters,colFilters2"
+																		ID="showFilters"
+																		ShowElementEffect="FadeIn"
+																		Type="ShowElement"
+																	/>
+																</Label>
+															</Column>
+														</Row>
+													</Rows>
+												</ResponsiveColumn>
+											</ResponsiveRow>
+										</Column>
+										<Column
+											ID="colBlankSpacer"
+											Width="1"
+											WidthScale="%"
+										/>
+										<Column
+											Class="ThemeAlignTop, ThemeAlignLeft"
+											ColSpan="11"
+											ID="colContent"
+											Width="60"
+											WidthScale="%"
+											>
+											<LineBreak
+												LineCount="2"
+											/>
+											<ResponsiveRow
+												Class="ThemeTextSmall, ThemeAlignLeft"
+												CollisionBehavior="Wrap"
+												ID="respContent"
+												>
+												<ResponsiveColumn
+													Class="ThemeAlignLeft"
+													ColspanExtraSmallScreen="12"
+													ColspanLargeScreen="10"
+													ColspanMediumScreen="8"
+													ColspanSmallScreen="12"
 													>
-													<DataLayer
-														CellRange="A1:T300"
-														ColumnNamesRow="1"
-														ExcelFile="@Request.ExcelFileLocation~"
-														ExcelWorksheet="Location Scorecard"
-														ID="ExcelScorecard"
-														Type="Excel"
-														>
-														<CompareFilter
-															CompareType="="
-															CompareValue="@Request.PodLocation~"
-															DataColumn="LocationDesc"
-															DataType="Text"
-															ID="FilterLocation"
-														/>
-														<CompareFilter
-															CaseSensitive="False"
-															CompareType="="
-															CompareValue="1"
-															DataColumn="Metric Active"
-															DataType="Boolean"
-															ID="FilterMetricActive"
-														/>
-													</DataLayer>
-													<DataTableColumn
+													<Division
 														Class="ThemeAlignLeft"
-														Header="Metric"
-														ID="colMetricDesc"
-														Width="30"
-														WidthScale="%"
+														ID="div-scorecard-report"
 														>
-														<Label
-															Caption="@Data.Location Metric~"
-															ID="lblMetricDesc"
+														<DataTable
+															Caption="Scorecard YTD - @Request.PodLocation~ POD"
+															ID="dtScorecard"
+															Width="100"
+															WidthScale="%"
 															>
-															<Action
-																Display="Toggle"
-																ElementID="mirMetricDetails"
-																ID="aseMetricDescriptionDetails"
-																Type="ShowElement"
-															/>
-														</Label>
-													</DataTableColumn>
-													<MoreInfoRow
-														Class="ThemeAlignTopLeft, ThemeTextSmallest"
-														ColumnSpanFirst="2"
-														ColumnSpanLast="5"
-														ID="mirMetricDetails"
-														ShowModes="None"
-														>
-														<Label
-															Caption="@Data.Notes~"
-															Class="ThemeTextSmall"
-														/>
-													</MoreInfoRow>
-													<DataTableColumn
-														Class="ThemeBold"
-														ColumnHeaderClass="ThemeAlignCenter"
-														Header="Actual"
-														ID="colVisual"
-														Width="20"
-														WidthScale="%"
-														>
-														<Label
-															Caption="@Data.KpiColor~"
-															Format="HTML"
-															ID="lblVisual"
-														/>
-													</DataTableColumn>
-													<DataTableColumn
-														ColumnHeaderClass="ThemeAlignCenter"
-														Header="Min"
-														ID="colBudget_Min"
-														Width="20"
-														WidthScale="%"
-														>
-														<Label
-															Caption="@Data.Budget_Min~"
-															Format="@Data.NumberFormat~"
-															ID="lblBudget_Min"
-														/>
-													</DataTableColumn>
-													<DataTableColumn
-														ColumnHeaderClass="ThemeAlignCenter"
-														Header="Target"
-														ID="colBudget_Target"
-														Width="20"
-														WidthScale="%"
-														>
-														<Label
-															Caption="@Data.Budget_Target~"
-															Format="@Data.NumberFormat~"
-															ID="lblBudget_Target"
-														/>
-													</DataTableColumn>
-													<DataTableColumn
-														ColumnHeaderClass="ThemeAlignCenter"
-														Header="Max"
-														ID="colBudget_Max"
-														Width="20"
-														WidthScale="%"
-														>
-														<Label
-															Caption="@Data.Budget_Max~"
-															Format="@Data.NumberFormat~"
-															ID="lblBudget_Max"
-														/>
-													</DataTableColumn>
-												</DataTable>
-											</Division>
-										</ResponsiveColumn>
-									</ResponsiveRow>
-								</Column>
-							</Row>
-						</Rows>
+															<DataLayer
+																ID="Linked-ExcelScoreCard"
+																LinkedDataLayerID="dllExcelScorecard"
+																Type="Linked"
+																>
+																<CompareFilter
+																	CompareType="="
+																	CompareValue="@Request.PodLocation~"
+																	DataColumn="LocationDesc"
+																	DataType="Text"
+																	ID="FilterLocation"
+																/>
+															</DataLayer>
+															<DataTableColumn
+																Class="ThemeAlignLeft"
+																Header="Metric"
+																ID="colMetricDesc"
+																Width="30"
+																WidthScale="%"
+																>
+																<Note
+																	Note="Based upon the Location Metric &quot;Growth&quot; different detail data needs to be displayed.
+This was the only way to get it to display correctly, by using a division and condition
+and splitting the &quot;More Rows&quot; item into two separate actions since there can only be a single
+action on an action item. Putting a condition on the subtable column headers hid the headers, 
+but then when showing the headers, it hid the data so the actual data in the table was never shown."
+																/>
+																<Division
+																	Condition="&apos;@Data.Location Metric~&apos; == &apos;Growth&apos;"
+																	ID="divGrowth"
+																	>
+																	<Label
+																		Caption="@Data.Location Metric~"
+																		ID="lblMetricDesc-Growth"
+																		>
+																		<Action
+																			Display="Toggle"
+																			ElementID="mirGrowthDetails"
+																			ID="aseGrowthDetails"
+																			Type="ShowElement"
+																		/>
+																	</Label>
+																</Division>
+																<Division
+																	Condition="&apos;@Data.Location Metric~&apos; &lt;&gt; &apos;Growth&apos;"
+																	ID="divNotGrowth"
+																	>
+																	<Label
+																		Caption="@Data.Location Metric~"
+																		ID="lblMetricDesc-NotGrowth"
+																		>
+																		<Action
+																			Display="Toggle"
+																			ElementID="mirMetricDetails"
+																			ID="aseMetricDetails"
+																			Type="ShowElement"
+																		/>
+																	</Label>
+																</Division>
+															</DataTableColumn>
+															<DataTableColumn
+																Class="ThemeBold, ThemeAlignCenter"
+																ColumnHeaderClass="ThemeAlignCenter"
+																Header="Weighted Payout Percentage"
+																ID="colWeightedPayout"
+																Width="22"
+																WidthScale="%"
+																>
+																<Label
+																	Caption="@Data.KpiColor~"
+																	Format="HTML"
+																	ID="lblWeightedPayout"
+																/>
+															</DataTableColumn>
+															<DataTableColumn
+																Class="ThemeAlignCenter"
+																ColumnHeaderClass="ThemeAlignCenter"
+																Header="Min"
+																ID="colBudget_Min"
+																Width="15"
+																WidthScale="%"
+																>
+																<Label
+																	Caption="@Data.Budget_Min~"
+																	Format="@Data.NumberFormat~"
+																	ID="lblBudget_Min"
+																/>
+															</DataTableColumn>
+															<DataTableColumn
+																Class="ThemeAlignCenter"
+																ColumnHeaderClass="ThemeAlignCenter"
+																Header="Target"
+																ID="colBudget_Target"
+																Width="15"
+																WidthScale="%"
+																>
+																<Label
+																	Caption="@Data.Budget_Target~"
+																	Format="@Data.NumberFormat~"
+																	ID="lblBudget_Target"
+																/>
+															</DataTableColumn>
+															<DataTableColumn
+																Class="ThemeAlignCenter"
+																ColumnHeaderClass="ThemeAlignCenter"
+																Header="Max"
+																ID="colBudget_Max"
+																Width="20"
+																WidthScale="%"
+																>
+																<Label
+																	Caption="@Data.Budget_Max~"
+																	Format="@Data.NumberFormat~"
+																	ID="lblBudget_Max"
+																/>
+															</DataTableColumn>
+															<DataTableColumn
+																Class="ThemeAlignCenter"
+																ColumnHeaderClass="ThemeAlignCenter"
+																Header="Actual Performance"
+																ID="colActual"
+																Width="20"
+																WidthScale="%"
+																>
+																<Label
+																	Caption="@Data.Actual_Performance~"
+																	Format="@Data.NumberFormat~"
+																	ID="lblActual"
+																/>
+															</DataTableColumn>
+															<MoreInfoRow
+																Class="ThemeTextSmallest, ThemeAlignLeft"
+																ColumnSpanFirst="2"
+																ColumnSpanLast="5"
+																ID="mirMetricDetails"
+																ShowModes="None"
+																>
+																<Note
+																	Note="All other metric notes (not Growth)"
+																/>
+																<Label
+																	Caption="@Data.Notes~"
+																	Class="ThemeTextSmall"
+																/>
+															</MoreInfoRow>
+															<MoreInfoRow
+																Class="ThemeTextSmallest, ThemeAlignLeft"
+																ColumnSpanFirst="2"
+																ColumnSpanLast="5"
+																ID="mirGrowthDetails"
+																ShowModes="None"
+																>
+																<Note
+																	Note="Growth metric detail information and notes"
+																/>
+																<SubDataTable
+																	ColumnHeaderClass="ThemeAlignCenter"
+																	ID="sdtGrowth"
+																	Width="100"
+																	WidthScale="%"
+																	>
+																	<SubDataLayer
+																		ID="subGrowth"
+																		OrphanRowExistence="True"
+																		>
+																		<DataLayer
+																			ID="Linked-ExcelGrowthData"
+																			LinkedDataLayerID="dllExcelGrowthData"
+																			Type="Linked"
+																		/>
+																		<SubDataLayerRelationColumn
+																			ChildColumn="POD"
+																			ID="sdlRelationColumn"
+																			ParentColumn="Link"
+																		/>
+																	</SubDataLayer>
+																	<DataTableColumn
+																		ColumnHeaderClass="ThemeAlignLeft"
+																		Header="Growth Category"
+																		HeaderType="Text"
+																		ID="colGrowthCategory"
+																		>
+																		<Label
+																			Caption="@Data.Category~"
+																			ID="lblCategory"
+																		/>
+																	</DataTableColumn>
+																	<DataTableColumn
+																		Class="ThemeAlignCenter"
+																		ColumnHeaderClass="ThemeAlignCenter"
+																		Header="5 Year Average"
+																		HeaderType="Text"
+																		ID="col5YearAvg"
+																		>
+																		<Label
+																			Caption="@Data.FiveYearAvg~"
+																			Format="#,###,##0"
+																			ID="lbl5YearAvg"
+																		/>
+																	</DataTableColumn>
+																	<DataTableColumn
+																		Class="ThemeAlignCenter"
+																		ColumnHeaderClass="ThemeAlignCenter"
+																		Header="Actual Performance"
+																		HeaderType="Text"
+																		ID="colActualPerformance"
+																		>
+																		<Label
+																			Caption="@Data.ActualPerformance~"
+																			Format="#,###,##0"
+																			ID="lblActualPerformance"
+																		/>
+																	</DataTableColumn>
+																	<DataTableColumn
+																		Class="ThemeAlignCenter"
+																		ColumnHeaderClass="ThemeAlignCenter"
+																		Header="Payout Actual Performance"
+																		HeaderType="Text"
+																		ID="colPayoutActualPerformance"
+																		>
+																		<Label
+																			Caption="@Data.PayoutActualPerformance~"
+																			Format="#,##0.00%"
+																			ID="lblPayoutActualPerformance"
+																		/>
+																	</DataTableColumn>
+																	<DataTableColumn
+																		Class="ThemeAlignCenter"
+																		ColumnHeaderClass="ThemeAlignCenter"
+																		Header="Weight %"
+																		HeaderType="Text"
+																		ID="colWeight"
+																		>
+																		<Label
+																			Caption="@Data.Weight~"
+																			Format="#,##0.00%"
+																			ID="lblWeight"
+																		/>
+																	</DataTableColumn>
+																	<DataTableColumn
+																		Class="ThemeAlignCenter"
+																		ColumnHeaderClass="ThemeAlignCenter"
+																		Header="Weighted Payout %"
+																		HeaderType="Text"
+																		ID="colWeightedPayout"
+																		>
+																		<Label
+																			Caption="@Data.WeightedPayout~"
+																			Format="#,##0.00%"
+																			ID="lblWeightedPayout"
+																		/>
+																	</DataTableColumn>
+																</SubDataTable>
+																<LineBreak
+																	LineCount="1"
+																/>
+																<Label
+																	Caption="@Data.Notes~"
+																	Class="ThemeTextSmall"
+																/>
+															</MoreInfoRow>
+														</DataTable>
+													</Division>
+												</ResponsiveColumn>
+											</ResponsiveRow>
+										</Column>
+									</Row>
+								</Rows>
+							</ResponsiveColumn>
+						</ResponsiveRow>
 					</Division>
 				</Division>
 			</ResponsiveColumn>
