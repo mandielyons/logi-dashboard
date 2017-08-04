@@ -1481,11 +1481,11 @@
 																>
 																<ConditionalClass
 																	Class="bold text-success ThemeTextNormal"
-																	Condition=" &quot;@Data.NewCrop_ToSell~&quot; &gt; &quot;0&quot;"
+																	Condition=" &quot;@Data.LongShortFall~&quot; &gt; &quot;0&quot;"
 																/>
 																<ConditionalClass
 																	Class="bold text-danger ThemeTextNormal"
-																	Condition=" &quot;@Data.NewCrop_ToSell~&quot; &lt;= &quot;0&quot;"
+																	Condition=" &quot;@Data.LongShortFall~&quot; &lt;= &quot;0&quot;"
 																/>
 															</Label>
 														</Column>
