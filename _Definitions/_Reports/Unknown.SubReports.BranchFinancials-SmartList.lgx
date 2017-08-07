@@ -1,0 +1,252 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report
+	Caption="Other Expense - @Request.MNACSGMT~"
+	ID="Unknown.SubReports.BranchFinancials-SmartList"
+	SecurityReportRightID="Dashboard Monthly Staff"
+	>
+	<DefaultRequestParams
+		AcctCatFixedExpB="8100"
+		AcctCatFixedExpE="8199"
+		AcctCatOtherCostsB="8200"
+		AcctCatOtherCostsE="8499"
+		AcctCatOtherIncomeB="7000"
+		AcctCatOtherIncomeE="7999"
+		AcctCatPersonnelB="8000"
+		AcctCatPersonnelE="8099"
+		AcctCatSalesB="4300"
+		AcctCatSalesE="4500"
+		AcctListApplication="9600"
+		AcctListFertilizer="9800&apos;,&apos;9805&apos;,&apos;9810"
+		AcctListFuel="9820&apos;,&apos;9825"
+		AcctListGrain="0"
+		paramDefaultTab="tabVolumes"
+		paramFiscPeriod="@Local.FISCPERIODID~"
+		paramFiscYear="@Local.FISCYEAR~"
+		paramLocCd="100"
+		paramLocName="Abilene"
+		themePlanColumn="ThemeMargin, ThemeAlignRight"
+	/>
+	<Body>
+		<ResponsiveRow
+			ID="ResponsiveRowInput"
+			>
+			<ResponsiveColumn>
+				<Division
+					Class="panel panel-default"
+					HtmlDiv="True"
+					ID="panel"
+					>
+					<Division
+						Class="panel-heading"
+						HtmlDiv="True"
+						ID="panel-heading"
+						>
+						<Label
+							Caption="Other Operating Expense Details - @Request.MNACSGMT~"
+							Class="panel-title"
+							ID="lblHeaderAccount"
+						/>
+						<LineBreak/>
+						<Label
+							Caption="=&quot;Fiscal Period: &quot; + IIF(@Request.paramFiscPeriod~ = 1, &quot;March&quot;, IIF(@Request.paramFiscPeriod~ = 2, &quot;April&quot;, IIF(@Request.paramFiscPeriod~ = 3, &quot;May&quot;, IIF(@Request.paramFiscPeriod~ = 4, &quot;June&quot;, IIF(@Request.paramFiscPeriod~ =5, &quot;July&quot;, IIF(@Request.paramFiscPeriod~ = 6, &quot;August&quot;, IIF(@Request.paramFiscPeriod~ = 7, &quot;September&quot;, IIF(@Request.paramFiscPeriod~ = 8, &quot;October&quot;, IIF(@Request.paramFiscPeriod~ = 9, &quot;November&quot;, IIF(@Request.paramFiscPeriod~ = 10, &quot;December&quot;, IIF(@Request.paramFiscPeriod~ = 11, &quot;January&quot;, IIF(@Request.paramFiscPeriod~ = 12, &quot;February&quot;, &quot;Unk&quot;)))))))))))) + &quot; &quot; + @Request.paramFiscYear~"
+							Class="panel-title"
+							ID="lblHeaderFiscPeriod"
+						/>
+						<LineBreak/>
+						<Label
+							Caption="Location: @Request.paramLocName~"
+							Class="panel-title"
+							ID="lblHeaderLocName"
+						/>
+					</Division>
+					<Division
+						Class="panel-body"
+						HtmlDiv="True"
+						ID="panel-body-inputs"
+						>
+						<ResponsiveRow
+							Class="ThemeTextSmall"
+							>
+							<ResponsiveColumn
+								ColspanExtraSmallScreen="12"
+								ColspanLargeScreen="12"
+								ColspanMediumScreen="12"
+								ColspanSmallScreen="12"
+								>
+								<Division
+									Class="panel-body"
+									HtmlDiv="True"
+									ID="panel-bodyUnits"
+									>
+									<Rows
+										Width="100"
+										WidthScale="%"
+										>
+										<Row>
+											<Column
+												Class="ThemeTextSmall"
+												>
+												<DataTable
+													ID="dtSmartList"
+													SortArrows="True"
+													>
+													<DataLayer
+														ConnectionID="connProdGP"
+														ID="sqlUnits"
+														Source="SELECT 
+    AT.JRNENTRY AS [Journal Entry]
+  , AT.ORMSTRNM AS [Originating Master Name]
+  , AT.TRXDATE AS [Transaction Date]
+  , GL5.ACTNUMST AS [Account Number]
+  , AT.ACTDESCR AS [Account Description]
+  , AT.DEBITAMT AS [DebitAmount]
+  , AT.CRDTAMNT AS [CreditAmount]
+FROM MKCGP.dbo.slbAccountTrx AS [AT] 
+  INNER JOIN MKCGP.dbo.GL00105 AS [GL5] 
+    ON AT.ACTNUMBR = GL5.ACTINDX 
+WHERE AT.OPENYEAR=@Request.paramFiscYear~ 
+  AND AT.PERIODID=@Request.paramFiscPeriod~
+  AND AT.ACTNUMBR_4=&apos;@Request.MNACSGMT~&apos;
+  AND AT.ACTNUMBR_2=&apos;@Request.paramLocGLStr~&apos;
+ORDER BY AT.ACTDESCR, AT.JRNENTRY"
+														Type="SQL"
+														>
+														<GroupFilter
+															DataType="Text"
+															GroupColumn="@Request.MNACSGMT~"
+															ID="grpMNACSGMT"
+															KeepGroupedRows="True"
+														/>
+													</DataLayer>
+													<DataTableColumn
+														Header="Journal Entry"
+														ID="colJournal Entry"
+														>
+														<Label
+															Caption="@Data.Journal Entry~"
+															Class="ThemeAlignLeft"
+															ID="lblJournal Entry"
+														/>
+														<DataColumnSort
+															DataColumn="Journal Entry"
+															DataType="Number"
+														/>
+													</DataTableColumn>
+													<DataTableColumn
+														Header="Originating Master Name"
+														ID="colOriginating Master Name"
+														>
+														<Label
+															Caption="@Data.Originating Master Name~"
+															Class="ThemeAlignLeft"
+															ID="lblOriginating Master Name"
+														/>
+														<DataColumnSort
+															DataColumn="Originating Master Name"
+														/>
+													</DataTableColumn>
+													<DataTableColumn
+														Header="Transaction Date"
+														ID="colTransaction Date"
+														>
+														<Label
+															Caption="@Data.Transaction Date~"
+															Format="Short Date"
+															ID="lblTransaction Date"
+														/>
+														<DataColumnSort
+															DataColumn="Transaction Date"
+															DataType="Date"
+														/>
+													</DataTableColumn>
+													<DataTableColumn
+														Header="Account Number"
+														ID="colAccount Number"
+														>
+														<Label
+															Caption="@Data.Account Number~"
+															Class="ThemeAlignLeft"
+															ID="lblAccount Number"
+														/>
+														<DataColumnSort
+															DataColumn="Account Number"
+														/>
+													</DataTableColumn>
+													<DataTableColumn
+														Header="Account Description"
+														ID="colAccount Description"
+														>
+														<Label
+															Caption="@Data.Account Description~"
+															Class="ThemeAlignLeft"
+															ID="lblAccount Description"
+														/>
+														<DataColumnSort
+															DataColumn="Account Description"
+														/>
+													</DataTableColumn>
+													<DataTableColumn
+														Header="Debit Amount"
+														ID="colDebit Amount"
+														>
+														<Label
+															Caption="@Data.DebitAmount~"
+															Format="Currency"
+															ID="lblDebit Amount"
+														/>
+														<DataColumnSort
+															DataColumn="DebitAmount"
+															DataType="Number"
+														/>
+														<DataColumnSummary
+															DataColumn="DebitAmount"
+															DataType="Text"
+															Function="Sum"
+															ID="sumDebitAmount"
+														/>
+													</DataTableColumn>
+													<DataTableColumn
+														Header="Credit Amount"
+														ID="colCredit Amount"
+														>
+														<Label
+															Caption="@Data.CreditAmount~"
+															Format="Currency"
+															ID="lblCredit Amount"
+														/>
+														<DataColumnSort
+															DataColumn="CreditAmount"
+															DataType="Number"
+														/>
+														<DataColumnSummary
+															DataColumn="CreditAmount"
+															DataType="Number"
+															Function="Sum"
+															ID="sumCreditAmount"
+														/>
+													</DataTableColumn>
+													<SummaryRow
+														Caption="Totals"
+														ID="srTotals"
+														LastPageOnly="False"
+													/>
+												</DataTable>
+											</Column>
+										</Row>
+									</Rows>
+								</Division>
+							</ResponsiveColumn>
+						</ResponsiveRow>
+					</Division>
+				</Division>
+			</ResponsiveColumn>
+		</ResponsiveRow>
+	</Body>
+	<ideTestParams
+		MNACSGMT="8200"
+		paramFiscPeriod="5"
+		paramFiscYear="2018"
+		paramLocGLStr="100"
+		paramLocName=""
+	/>
+</Report>

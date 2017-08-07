@@ -2525,28 +2525,25 @@ ORDER BY MNACSGMT
 																								ID="MNACSGMT"
 																								>
 																								<Action
-																									Display="Toggle"
-																									ElementID="pupAccount"
-																									ID="aseAccount"
-																									ShowElementEffect="FadeIn"
-																									Type="ShowElement"
-																								/>
+																									ID="actrptSmartList"
+																									Type="Report"
+																									>
+																									<LinkParams
+																										MNACSGMT="@Data.MNACSGMT~"
+																										paramFiscPeriod="@Request.paramFiscPeriod~"
+																										paramFiscYear="@Request.paramFiscYear~"
+																										paramLocGLStr="@Request.paramLocGLStr~"
+																									/>
+																									<Target
+																										FrameID="NewWindow"
+																										ID="tgtRptSmartList"
+																										KeepShowElements="True"
+																										Report="Unknown.SubReports.BranchFinancials-SmartList"
+																										RequestForwarding="True"
+																										Type="Report"
+																									/>
+																								</Action>
 																							</Label>
-																							<PopupPanel
-																								Caption="GP SmartList"
-																								Draggable="False"
-																								Height="100"
-																								HeightScale="px"
-																								ID="pupAccount"
-																								PopupModal="True"
-																								PopupPanelLocation="Mouse"
-																								ShowOnPageLoad="False"
-																								>
-																								<Label
-																									Caption="Financials--&gt; Account Transactions --&gt; Financial Dashboard Detail"
-																									ID="lblSmartList"
-																								/>
-																							</PopupPanel>
 																							<DataColumnSort
 																								DataColumn="MNACSGMT"
 																								DataType="Text"
