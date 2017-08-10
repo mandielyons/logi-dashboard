@@ -10,6 +10,7 @@
 	/>
 	<DefaultRequestParams
 		Customer="-1"
+		FieldMarketer="-1"
 	/>
 	<Body>
 		<Remark>
@@ -351,6 +352,39 @@ Order By AccountName"
 										</EventHandler>
 									</InputSelectList>
 									<LineBreak/>
+									<InputSelectList
+										Caption="Field Marketer:"
+										CaptionClass="ThemeTextSmall ThemeBold"
+										Class="ThemeTextSmaller"
+										ID="FieldMarketer"
+										IncludeBlank="True"
+										IncludeBlankCaption="All"
+										IncludeBlankValue="-1"
+										OptionCaptionColumn="po_FieldMarketer"
+										OptionValueColumn="po_FieldMarketer"
+										>
+										<DataLayer
+											ConnectionID="connCRM"
+											ID="dlFieldMarketers"
+											Source="Select Distinct Account.po_FieldMarketer
+From Account
+Order By Account.po_FieldMarketer"
+											Type="SQL"
+										/>
+										<EventHandler
+											DhtmlEvent="onchange"
+											ID="eventOnChangeFM"
+											>
+											<Action
+												ElementID="panel-details-body"
+												ID="actRefreshAll"
+												Type="RefreshElement"
+												>
+												<WaitPage/>
+											</Action>
+										</EventHandler>
+									</InputSelectList>
+									<LineBreak/>
 									<Button
 										Caption="Reset"
 										ID="btnReset"
@@ -365,6 +399,7 @@ Order By AccountName"
 											<WaitPage/>
 											<LinkParams
 												Customer="-1"
+												FieldMarketer="-1"
 											/>
 										</Action>
 									</Button>
@@ -441,6 +476,7 @@ Group By am.po_FieldMarketer"
 										ChartCaption="Total Crop Acres By Commodity By Year"
 										ChartHeight="550"
 										ChartWidth="95%"
+										Class="ThemeTextSmall"
 										NoDataCaption="Default"
 										>
 										<Series
@@ -507,9 +543,12 @@ Where mkcCropForecastAcres.ProdRptCatDesc = &apos;Seed&apos; And
 						ID="panel-details-body"
 						>
 						<DataTable
+							AccessibleHeaders="True"
+							AjaxPaging="True"
 							Class="ThemeTextSmall"
 							ID="dtDetails"
-							Width="90"
+							SortArrows="True"
+							Width="60"
 							WidthScale="%"
 							>
 							<InteractivePaging
@@ -517,21 +556,18 @@ Where mkcCropForecastAcres.ProdRptCatDesc = &apos;Seed&apos; And
 								Class="ThemeTextSmall"
 								HideWhenOnePage="True"
 								Location="Bottom"
-								PageRowCount="20"
+								PageRowCount="50"
 							/>
 							<DataLayer
 								ConnectionID="connCRM"
 								ID="dlAcresDetail"
-								Source="Select gb.AccountId As Account,
+								Source="Select Distinct gb.AccountId As Account,
   am.po_FieldMarketer As FieldMarketer,
-  gb.CropYear As CropYear,
-  gb.CropName As CropName,
-  gb.Acres As Acres,
   am.Name As Name
 From mkcCropForecastAcres gb
   Inner Join Account am On gb.AccountId = am.AccountId
-Where (gb.AccountId = &apos;@Request.Customer~&apos;) Or
-  (&apos;@Request.Customer~&apos; = &apos;-1&apos;)
+Where (am.po_FieldMarketer = &apos;@Request.FieldMarketer~&apos;) Or
+  (&apos;@Request.FieldMarketer~&apos; = &apos;-1&apos;)
 Order By Name"
 								Type="SQL"
 								>
@@ -552,27 +588,33 @@ Order By Name"
 									Caption="@Data.Name~"
 								/>
 							</DataTableColumn>
-							<DataTableColumn
-								Header="Crop Year"
-								>
-								<Label
-									Caption="@Data.CropYear~"
-								/>
-							</DataTableColumn>
-							<DataTableColumn
-								Header="Crop Name"
-								>
-								<Label
-									Caption="@Data.CropName~"
-								/>
-							</DataTableColumn>
-							<DataTableColumn
-								Header="# Acres"
-								>
-								<Label
-									Caption="@Data.Acres~"
-								/>
-							</DataTableColumn>
+							<Remark>
+								<DataTableColumn
+									Header="Crop Year"
+									>
+									<Label
+										Caption="@Data.CropYear~"
+									/>
+								</DataTableColumn>
+							</Remark>
+							<Remark>
+								<DataTableColumn
+									Header="Crop Name"
+									>
+									<Label
+										Caption="@Data.CropName~"
+									/>
+								</DataTableColumn>
+							</Remark>
+							<Remark>
+								<DataTableColumn
+									Header="# Acres"
+									>
+									<Label
+										Caption="@Data.Acres~"
+									/>
+								</DataTableColumn>
+							</Remark>
 							<DataTableColumn
 								Header="Field Marketer"
 								>
@@ -618,5 +660,6 @@ $(document).ready(function() {
 	/>
 	<ideTestParams
 		Customer="c3711625-2596-e311-abda-0050569d7a13"
+		FieldMarketer="Jim Bettenbrock"
 	/>
 </Report>
