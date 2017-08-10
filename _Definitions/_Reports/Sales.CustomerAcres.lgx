@@ -542,26 +542,33 @@ Where mkcCropForecastAcres.ProdRptCatDesc = &apos;Seed&apos; And
 						HtmlDiv="True"
 						ID="panel-details-body"
 						>
-						<DataTable
-							AccessibleHeaders="True"
-							AjaxPaging="True"
-							Class="ThemeTextSmall"
-							ID="dtDetails"
-							SortArrows="True"
-							Width="60"
-							WidthScale="%"
-							>
-							<InteractivePaging
-								CaptionType="Text"
-								Class="ThemeTextSmall"
-								HideWhenOnePage="True"
-								Location="Bottom"
-								PageRowCount="50"
-							/>
-							<DataLayer
-								ConnectionID="connCRM"
-								ID="dlAcresDetail"
-								Source="Select Distinct gb.AccountId As Account,
+						<ResponsiveRow>
+							<ResponsiveColumn
+								ColspanExtraSmallScreen="12"
+								ColspanLargeScreen="6"
+								ColspanMediumScreen="6"
+								ColspanSmallScreen="12"
+								>
+								<DataTable
+									AccessibleHeaders="True"
+									AjaxPaging="True"
+									Class="ThemeTextSmall"
+									ID="dtDetails"
+									SortArrows="True"
+									Width="60"
+									WidthScale="%"
+									>
+									<InteractivePaging
+										CaptionType="Text"
+										Class="ThemeTextSmall"
+										HideWhenOnePage="True"
+										Location="Bottom"
+										PageRowCount="50"
+									/>
+									<DataLayer
+										ConnectionID="connCRM"
+										ID="dlAcresDetail"
+										Source="Select Distinct gb.AccountId As Account,
   am.po_FieldMarketer As FieldMarketer,
   am.Name As Name
 From mkcCropForecastAcres gb
@@ -569,60 +576,129 @@ From mkcCropForecastAcres gb
 Where (am.po_FieldMarketer = &apos;@Request.FieldMarketer~&apos;) Or
   (&apos;@Request.FieldMarketer~&apos; = &apos;-1&apos;)
 Order By Name"
-								Type="SQL"
+										Type="SQL"
+										>
+										<Remark>
+											<CompareFilter
+												CompareType="="
+												CompareValue="@Request.Customer~"
+												DataColumn="@Data.Name~"
+												DataType="Text"
+												ID="filName"
+											/>
+										</Remark>
+									</DataLayer>
+									<DataTableColumn
+										Header="Customer"
+										>
+										<Label
+											Caption="@Data.Name~"
+										/>
+									</DataTableColumn>
+									<Remark>
+										<DataTableColumn
+											Header="Crop Year"
+											>
+											<Label
+												Caption="@Data.CropYear~"
+											/>
+										</DataTableColumn>
+									</Remark>
+									<Remark>
+										<DataTableColumn
+											Header="Crop Name"
+											>
+											<Label
+												Caption="@Data.CropName~"
+											/>
+										</DataTableColumn>
+									</Remark>
+									<Remark>
+										<DataTableColumn
+											Header="# Acres"
+											>
+											<Label
+												Caption="@Data.Acres~"
+											/>
+										</DataTableColumn>
+									</Remark>
+									<DataTableColumn
+										Header="Field Marketer"
+										>
+										<Label
+											Caption="@Data.FieldMarketer~"
+										/>
+									</DataTableColumn>
+								</DataTable>
+							</ResponsiveColumn>
+							<ResponsiveColumn
+								ColspanExtraSmallScreen="12"
+								ColspanLargeScreen="6"
+								ColspanMediumScreen="6"
+								ColspanSmallScreen="12"
 								>
-								<Remark>
-									<CompareFilter
-										CompareType="="
-										CompareValue="@Request.Customer~"
-										DataColumn="@Data.Name~"
-										DataType="Text"
-										ID="filName"
-									/>
-								</Remark>
-							</DataLayer>
-							<DataTableColumn
-								Header="Customer"
-								>
-								<Label
-									Caption="@Data.Name~"
-								/>
-							</DataTableColumn>
-							<Remark>
-								<DataTableColumn
-									Header="Crop Year"
+								<DataTable
+									AccessibleHeaders="True"
+									AjaxPaging="True"
+									Class="ThemeTextSmall"
+									ID="dtTest"
+									SortArrows="True"
+									Width="60"
+									WidthScale="%"
 									>
-									<Label
-										Caption="@Data.CropYear~"
+									<InteractivePaging
+										CaptionType="Text"
+										Class="ThemeTextSmall"
+										HideWhenOnePage="True"
+										Location="Bottom"
+										PageRowCount="50"
 									/>
-								</DataTableColumn>
-							</Remark>
-							<Remark>
-								<DataTableColumn
-									Header="Crop Name"
-									>
-									<Label
-										Caption="@Data.CropName~"
+									<DataLayer
+										ConnectionID="connCRM"
+										ID="dlTest"
+										Source="Select Distinct gb.AccountId As Account,
+  Account.Name As Name,
+  Account.po_FieldMarketer As FieldMarketer,
+  ag_accountrep.OwnerIdName As MAA
+From mkcCropForecastAcres gb
+  Inner Join ag_accountrepBase On gb.AccountId = ag_accountrepBase.ag_AccountId
+  Inner Join ag_departmentBase On ag_departmentBase.ag_departmentId =
+    ag_accountrepBase.ag_DepartmentId
+  Inner Join ag_accountrep On ag_accountrep.ag_accountrepId =
+    ag_accountrepBase.ag_accountrepId
+  Inner Join Account On gb.AccountId = Account.AccountId
+Where (ag_accountrep.OwnerIdName = &apos;Nathan Larson&apos; And
+  ag_departmentBase.ag_name = &apos;Agronomy&apos;) Or
+  (ag_accountrep.OwnerIdName = &apos;Willie Swartz&apos; And ag_departmentBase.ag_name =
+  &apos;Agronomy&apos;)
+Order By Name"
+										Type="SQL"
 									/>
-								</DataTableColumn>
-							</Remark>
-							<Remark>
-								<DataTableColumn
-									Header="# Acres"
-									>
-									<Label
-										Caption="@Data.Acres~"
-									/>
-								</DataTableColumn>
-							</Remark>
-							<DataTableColumn
-								Header="Field Marketer"
-								>
-								<Label
-									Caption="@Data.FieldMarketer~"
-								/>
-							</DataTableColumn>
-						</DataTable>
+									<DataTableColumn
+										Header="Customer"
+										>
+										<Label
+											Caption="@Data.Name~"
+										/>
+									</DataTableColumn>
+									<DataTableColumn
+										Header="Master Agronomy Advisor"
+										>
+										<Label
+											Caption="@Data.FieldMarketer~"
+											>
+											<ConditionalClass
+												Class="ThemeHidden"
+												Condition="&quot;@Data.MAA~&quot; = &quot;Nathan Larson&quot; Or &quot;@Data.MAA~&quot; = &quot;Willie Swartz&quot;"
+											/>
+										</Label>
+										<Label
+											Caption="@Data.MAA~"
+										/>
+									</DataTableColumn>
+								</DataTable>
+							</ResponsiveColumn>
+						</ResponsiveRow>
 					</Division>
 				</Division>
 			</ResponsiveColumn>
@@ -660,6 +736,6 @@ $(document).ready(function() {
 	/>
 	<ideTestParams
 		Customer="c3711625-2596-e311-abda-0050569d7a13"
-		FieldMarketer="Jim Bettenbrock"
+		FieldMarketer=""
 	/>
 </Report>
