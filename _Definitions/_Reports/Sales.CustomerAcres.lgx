@@ -391,7 +391,7 @@ Order By Account.po_FieldMarketer"
 										Tooltip="Clear all selections"
 										>
 										<Action
-											ElementID="divFilters,panel-kpi,panel-crop"
+											ElementID="divFilters,panel-details-body"
 											ID="actReport"
 											RequestForwarding="True"
 											Type="RefreshElement"
