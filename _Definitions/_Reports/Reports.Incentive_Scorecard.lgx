@@ -382,11 +382,41 @@ but then when showing the headers, it hid the data so the actual data in the tab
 																Width="20"
 																WidthScale="%"
 																>
-																<Label
-																	Caption="@Data.Actual_Performance~"
-																	Format="@Data.NumberFormat~"
-																	ID="lblActual"
-																/>
+																<Division
+																	Class="ThemeTextPositive"
+																	Condition="IIF(@Data.MetricKey~ = 8, &quot;@Data.Actual_Performance~&quot; &lt; &quot;@Data.Budget_Target~&quot;, &quot;@Data.Actual_Performance~&quot; &gt; &quot;@Data.Budget_Target~&quot;)"
+																	ID="divColorGood"
+																	>
+																	<Label
+																		Caption="@Data.Actual_Performance~"
+																		Class="ThemeBold"
+																		Format="@Data.NumberFormat~"
+																		ID="lblActual"
+																	/>
+																</Division>
+																<Division
+																	Condition="&quot;@Data.Actual_Performance~&quot; == &quot;@Data.Budget_Target~&quot;"
+																	ID="divColorEqual"
+																	>
+																	<Label
+																		Caption="@Data.Actual_Performance~"
+																		Class="ThemeBold"
+																		Format="@Data.NumberFormat~"
+																		ID="lblActual"
+																	/>
+																</Division>
+																<Division
+																	Class="ThemeTextNegative"
+																	Condition="IIF(@Data.MetricKey~ = 8, &quot;@Data.Actual_Performance~&quot; &gt; &quot;@Data.Budget_Target~&quot;, &quot;@Data.Actual_Performance~&quot; &lt; &quot;@Data.Budget_Target~&quot;)"
+																	ID="divColorBad"
+																	>
+																	<Label
+																		Caption="@Data.Actual_Performance~"
+																		Class="ThemeBold"
+																		Format="@Data.NumberFormat~"
+																		ID="lblActual"
+																	/>
+																</Division>
 															</DataTableColumn>
 															<MoreInfoRow
 																Class="ThemeTextSmallest, ThemeAlignLeft"
