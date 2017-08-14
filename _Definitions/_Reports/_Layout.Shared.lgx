@@ -16,12 +16,13 @@
 		<IncludeScript
 			ID="globalScripts"
 			IncludedScript="&lt;script type=&quot;text/javascript&quot;&gt;
+// comment this out for live
 var url = window.location.href;
 var local = url.search(&quot;localhost&quot;);
-var dev = url.search(&quot;dashboard&quot;);
+var dev = url.search(&quot;dashboard/TMAGrain&quot;);
 
 //if this isn&apos;t a local machine or the development server then call the Google script
-if (dev != -1 &amp;&amp; local != -1) {
+if (dev != -1 &amp;&amp; local != -1) { // comment this out for live
 	// Google Analytics scripts
   (function(i,s,o,g,r,a,m){i[&apos;GoogleAnalyticsObject&apos;]=r;i[r]=i[r]||function(){
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -30,7 +31,7 @@ if (dev != -1 &amp;&amp; local != -1) {
 
   ga(&apos;create&apos;, &apos;UA-76860562-1&apos;, &apos;auto&apos;);
   ga(&apos;send&apos;, &apos;pageview&apos;);
-}
+} // comment this out for live
   
   // Table to Excel Script
    function tableToExcel(table, name) {
@@ -2300,9 +2301,7 @@ From ag_location"
 					/>
 				</Action>
 			</Label>
-			<LineBreak
-				LineCount="2"
-			/>
+			<LineBreak/>
 			<ResponsiveVisibility
 				HideForExtraSmallScreen="True"
 				HideForLargeScreen="False"
