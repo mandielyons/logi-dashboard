@@ -41,7 +41,7 @@
 	#Header-inner #main-nav a:hover,
 	#Header-inner #main-nav div.dropdown:hover a,
 	#Header-inner #main-nav div.dropdown.hover a{	
-		color: #9d9d9d;
+		color: #f18f01;
 	}
 	
 	.pipe-spacer {
@@ -121,11 +121,11 @@
 	
 	div.dropdown div.submenu a span.selected-menu{
 		color: #fff !important;
-		background-color: #9d9d9d;
+		background-color: #a23b72;
 	}
 	
 	div.dropdown div.submenu li:hover{
-		background-color: #9c9c9c;
+		background-color: #f18f01;
 	}
 	
 	div.dropdown div.submenu li:hover span{
@@ -148,14 +148,23 @@
 		padding: 1.5em 1.4em;
 		min-height: calc(100% - 5.8em);
 		position: relative;
-		top: 4.1em;
+		top: 2.5em;
 		left: 0;
-		-moz-transition: left 350ms cubic-bezier(0.25,0.81,0.36,1.00);
+		/*-moz-transition: left 350ms cubic-bezier(0.25,0.81,0.36,1.00);
 		-webkit-transition: left 350ms cubic-bezier(0.25,0.81,0.36,1.00);
 		-o-transition: left 350ms cubic-bezier(0.25,0.81,0.36,1.00);
 		-ms-transition: left 350ms cubic-bezier(0.25,0.81,0.36,1.00);
 		transition: left 350ms cubic-bezier(0.25,0.81,0.36,1.00);
-		-webkit-transform: translateZ(0);
+		-webkit-transform: translateZ(0); */
+		/*background: url("../../../_SupportFiles/white-wood_edited.jpg");*/
+		-webkit-background-size: 100%; 
+	    -moz-background-size: 100%; 
+	    -o-background-size: 100%; 
+	    background-size: 100%; 
+	    -webkit-background-size: cover; 
+	    -moz-background-size: cover; 
+	    -o-background-size: cover; 
+	    background-size: cover;	
 	}
 	
 	#Sidebar{
@@ -967,6 +976,22 @@
 		filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
 		
 	}
+	.btn-wish{
+		color: #333333;
+		text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
+		background-color: #f18f01;
+		background-image: -moz-linear-gradient(top, #ffffff, #e6e6e6);
+		background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ffffff), to(#e6e6e6));
+		background-image: -webkit-linear-gradient(top, #ffffff, #e6e6e6);
+		background-image: -o-linear-gradient(top, #ffffff, #e6e6e6);
+		background-image: linear-gradient(to bottom, #ffffff, #e6e6e6);
+		background-repeat: repeat-x;
+		filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffffff', endColorstr='#ffe6e6e6', GradientType=0);
+		border-color: #e6e6e6 #e6e6e6 #bfbfbf;
+		border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+		filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
+		
+	}
 	
 	#navigation {
 		background: #1D2733;
@@ -1161,7 +1186,7 @@
 	}
 	.rdThemeDataTableMainHeader{
 		color: #fff;
-		background-color: #454d59;
+		background-color: #5D3F4C;
 		font-size: 1.3em;
 		padding-left: .75em;
 		text-align: left;
@@ -1169,6 +1194,7 @@
 		border-right: 2px solid #fff;
 	}
 	.rdThemeDataTableHeader {
+
 	}
 	.rdThemeDataTableHeader td {
 	}
@@ -1179,7 +1205,7 @@
 	  border: none;
 	}
 	.rdThemeDataTableHeaderRow th {
-		background-color: #454d59;
+		background-color: #5D3F4C;
 		color:#fff;
 		font-family: 'Lato', sans-serif;
 		font-weight:normal;
@@ -1188,7 +1214,7 @@
 		/*  border: 1px solid #fff;*/
 	}
 	.rdThemeDataTableSummaryRow td {
-		background-color: #86cac3; /* 72C8C1 */
+		background-color: #2e86ab; /* 72C8C1 */
 		color: #fff;
 	}
 	.rdThemeDataTableGroupHeaderRow0 td, table.rdAgDataTable tr.rdAgGroup0HeaderRow td,

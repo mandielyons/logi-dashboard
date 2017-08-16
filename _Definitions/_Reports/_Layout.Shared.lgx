@@ -2510,7 +2510,7 @@ Order By FiscalYear DESC"
 									<Column>
 										<Button
 											Caption="Make A Wish"
-											Class="btn btn-default"
+											Class="btn btn-wish"
 											ID="btnWish"
 											>
 											<Action

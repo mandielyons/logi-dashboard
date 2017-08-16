@@ -151,7 +151,8 @@
 											>
 											<InputSelectList
 												Caption="PODs:"
-												Class="ThemeTextSmall"
+												CaptionClass="ThemeTextSmall,ThemeBold"
+												Class="ThemeTextSmaller,uppercase"
 												DefaultValue="@Request.PodLocation~"
 												ID="PodLocation"
 												InputRows="17"
@@ -239,6 +240,7 @@
 										>
 										<DataTable
 											Caption="Scorecard YTD - @Request.PodLocation~ POD"
+											CaptionClass="ThemeTextSmall"
 											ID="dtScorecard"
 											Width="90"
 											WidthScale="%"
