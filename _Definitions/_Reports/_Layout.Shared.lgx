@@ -18,7 +18,7 @@
 			IncludedScript="&lt;script type=&quot;text/javascript&quot;&gt;
 var url = window.location.href;
 var local = url.search(&quot;localhost&quot;);
-var dev = url.search(&quot;dashboard&quot;);
+var dev = url.search(&quot;dashboard/TMAGrain&quot;);
 
 //if this isn&apos;t a local machine or the development server then call the Google script
 if (dev != -1 &amp;&amp; local != -1) {
