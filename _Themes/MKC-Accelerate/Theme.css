@@ -136,7 +136,7 @@ tr.ThemeAlternatingRow:hover>td {
 }
 
 .rdThemeDataTableHeaderRow th {
-  background-color: #454d59;
+  background-color: #5D3F4C;
   color:#fff;
   font-family: 'Lato', sans-serif;
   font-weight:normal;
@@ -146,7 +146,8 @@ tr.ThemeAlternatingRow:hover>td {
 }
 
 .rdThemeDataTableSummaryRow td {
-  background-color: #50C5B7 !important; /* 72C8C1 */
+  background-color: #c73e1d !important; /* 72C8C1 */
+  font-weight:bold;
   color: #fff;
 }
 
@@ -155,7 +156,7 @@ tr.ThemeAlternatingRow:hover>td {
 .rdThemeDataTableGroupHeaderRow2 td, table.rdAgDataTable tr.rdAgGroup2HeaderRow td,
 .rdThemeDataTableGroupHeaderRow3 td, table.rdAgDataTable tr.rdAgGroup3HeaderRow td,
 .rdThemeDataTableGroupHeaderRow4 td, table.rdAgDataTable tr.rdAgGroup4HeaderRow td {
-  color: #363b42;
+  color: #5D3F4C;
   padding: 3px;
   font-weight: bold;
 }
@@ -438,10 +439,10 @@ table.rdAgDataTable th a:hover {
   font-weight: normal;
   /* text-shadow: 1px 1px 0px #ffffff; */
   background-image: none;
-  background: -webkit-gradient( linear, left top, left bottom, color-stop(0.05, #363b42), color-stop(1, #454d59) );
-  background: -moz-linear-gradient( center top, #363b42 5%, #454d59 100% );
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#363b42', endColorstr='#454d59');
-  background-color: #363b42 !important;
+  background: -webkit-gradient( linear, left top, left bottom, color-stop(0.05, #363b42), color-stop(1, #3b1f2b) );
+  background: -moz-linear-gradient( center top, #363b42 5%, #3b1f2b 100% );
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#363b42', endColorstr='#3b1f2b');
+  background-color: #3b1f2b !important;
   border: none;
   border-radius: 2px;
   text-decoration: none;
@@ -956,7 +957,7 @@ color:#fff;
 .yui-navset .yui-nav li.selected:hover {
     background-color: #EFEFF1;
     border-radius: 2px;
-    border-top: 4px solid #50C5B7;
+    border-top: 4px solid #a23b72;
 }
 .yui-navset .yui-nav li a {
   color: #fff;
@@ -968,7 +969,7 @@ color:#fff;
 	transition: color 0.20s ease-in-out 0s;
 }
 .yui-navset .yui-nav li:hover {
-  background-color: #FBEC59;
+  background-color: #f18f01;
   -webkit-transition: color 0.20s ease-in-out 0s;
   -moz-transition: color 0.20s ease-in-out 0s;
   transition: color 0.20s ease-in-out 0s;
@@ -1926,3 +1927,23 @@ table #dtBookmarkSharedWith td:first-of-type > span{
 	* html .clearfix {
 		height: 1%;
 	}
+
+  a {
+    color: #2e86ab;
+  }
+
+  .uppercase {
+    text-transform: uppercase;
+  }
+
+  .lowercase {
+    text-transform: lowercase;
+  }
+
+  .capitalize {
+    text-transform: capitalize;
+  }
+
+  /*.well {
+    background-color: #2e86ab;
+  }*/
