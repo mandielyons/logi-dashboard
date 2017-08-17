@@ -341,7 +341,7 @@ From (Select T1.LocationCode,
 													LineCount="2"
 												/>
 												<Division
-													Class="kpi kpi-orange"
+													Class="kpi kpi-yellow"
 													ID="div-kpi"
 													>
 													<Label
@@ -435,7 +435,7 @@ From (Select T1.LocationCode,
 													LineCount="2"
 												/>
 												<Division
-													Class="kpi kpi-yellow"
+													Class="kpi kpi-orange"
 													ID="div-kpi"
 													>
 													<Label
