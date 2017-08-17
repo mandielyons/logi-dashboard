@@ -181,12 +181,16 @@ Where T1.DoneDate &gt;= &apos;2017-01-01&apos; And T1.LocationCode &lt;&gt; &apo
 						ColspanSmallScreen="12"
 						>
 						<Division
-							Class="ThemeAlignLeft"
+							Class="ThemeAlignCenter"
 							HtmlDiv="True"
 							ID="divPieCharts"
 							>
+							<Label
+								Caption="Total Orders By Location (Current Calendar YTD)"
+								Class="ThemeTextSmall ThemeBold"
+							/>
 							<ChartCanvas
-								ChartCaption="Total Orders By Location (Current Calendar YTD)"
+								ChartCaption=""
 								ChartOrientation="Default"
 								Class="ThemeTextSmall"
 								ID="chartOrdersMarkedDone"
@@ -276,22 +280,25 @@ Order By O.LocationCode,
 						ColspanMediumScreen="6"
 						ColspanSmallScreen="6"
 						>
-						<Label
-							Caption="MKC Current Calendar YTD Totals"
-							Class="ThemeTextLarge ThemeAlignCenter"
-						/>
-						<LineBreak
-							LineCount="2"
-						/>
-						<DataTable
-							ID="dtAgOSOrdersTablet"
-							Width="100"
-							WidthScale="%"
+						<Division
+							Class="ThemeAlignCenter"
+							HtmlDiv="True"
+							ID="divTitle"
 							>
-							<DataLayer
-								ConnectionID="connAgOS"
-								ID="dlOrdersMarkedDone"
-								Source="Select Count(O.OrderID) OrderCount,
+							<Label
+								Caption="MKC Current Calendar YTD Totals"
+								Class="ThemeTextSmall ThemeBold "
+							/>
+							<DataTable
+								Class="ThemeTextSmall"
+								ID="dtAgOSOrdersTablet"
+								Width="100"
+								WidthScale="%"
+								>
+								<DataLayer
+									ConnectionID="connAgOS"
+									ID="dlOrdersMarkedDone"
+									Source="Select Count(O.OrderID) OrderCount,
   Sum(O.IsScheduled) Scheduled,
   Sum(O.IsTabletMOD) ByTablet
 From (Select T1.LocationCode,
@@ -302,206 +309,213 @@ From (Select T1.LocationCode,
   From Orders As T1 With(NoLock)
   Where T1.LocationCode &lt;&gt; &apos;PRECISE&apos; And T1.Canceled = 0 And
     T1.DoneDate &gt;= Cast(DatePart(YEAR, GetDate()) As [Char](4)) + &apos;-01-01&apos;) O"
-								Type="SQL"
-								>
-								<CalculatedColumn
-									Formula="(@Data.OrderCount~ - @Data.ByTablet~)"
-									ID="calcTotalNotTablet"
-								/>
-								<CalculatedColumn
-									Formula="(@Data.ByTablet~ * 100) / @Data.OrderCount~"
-									ID="calcPercentTablet"
-								/>
-								<CalculatedColumn
-									Formula="(@Data.calcTotalNotTablet~ * 100) / @Data.OrderCount~"
-									ID="calcPercentNotTablet"
-								/>
-							</DataLayer>
-							<DataTableColumn
-								Width="20"
-								WidthScale="%"
-								>
-								<Rows
-									Width="100"
+									Type="SQL"
+									>
+									<CalculatedColumn
+										Formula="(@Data.OrderCount~ - @Data.ByTablet~)"
+										ID="calcTotalNotTablet"
+									/>
+									<CalculatedColumn
+										Formula="(@Data.ByTablet~ * 100) / @Data.OrderCount~"
+										ID="calcPercentTablet"
+									/>
+									<CalculatedColumn
+										Formula="(@Data.calcTotalNotTablet~ * 100) / @Data.OrderCount~"
+										ID="calcPercentNotTablet"
+									/>
+								</DataLayer>
+								<DataTableColumn
+									Width="20"
 									WidthScale="%"
 									>
-									<Row>
-										<Column
-											Width="100"
-											WidthScale="%"
-											>
-											<Division
-												Class="kpi kpi-orange"
-												ID="div-kpi"
+									<Rows
+										Width="100"
+										WidthScale="%"
+										>
+										<Row>
+											<Column
+												Width="100"
+												WidthScale="%"
 												>
-												<Label
-													Caption="Marked Done"
-													Class="panel-title"
+												<LineBreak
+													LineCount="2"
 												/>
-												<Spaces
-													Size="14"
+												<Division
+													Class="kpi kpi-orange"
+													ID="div-kpi"
+													>
+													<Label
+														Caption="Marked Done"
+														Class="panel-title"
+													/>
+													<Spaces
+														Size="15"
+													/>
+													<Label
+														Caption="@Data.OrderCount~"
+														Class="panel-title"
+													/>
+												</Division>
+												<LineBreak
+													LineCount="3"
 												/>
-												<Label
-													Caption="@Data.OrderCount~"
-													Class="panel-title"
-												/>
-											</Division>
-											<LineBreak
-												LineCount="3"
-											/>
-										</Column>
-									</Row>
-									<Row>
-										<Column
-											Width="100"
-											WidthScale="%"
-											>
-											<Division
-												Class="kpi kpi-pink"
-												ID="div-kpi"
+											</Column>
+										</Row>
+										<Row>
+											<Column
+												Width="100"
+												WidthScale="%"
 												>
-												<Label
-													Caption="Done on Tablet"
-													Class="panel-title"
+												<Division
+													Class="kpi kpi-pink"
+													ID="div-kpi"
+													>
+													<Label
+														Caption="Done on Tablet"
+														Class="panel-title"
+													/>
+													<Spaces
+														Size="15"
+													/>
+													<Label
+														Caption="@Data.ByTablet~"
+														Class="panel-title"
+													/>
+												</Division>
+												<LineBreak
+													LineCount="3"
 												/>
-												<Spaces
-													Size="11"
-												/>
-												<Label
-													Caption="@Data.ByTablet~"
-													Class="panel-title"
-												/>
-											</Division>
-											<LineBreak
-												LineCount="3"
-											/>
-										</Column>
-									</Row>
-									<Row>
-										<Column
-											Width="100"
-											WidthScale="%"
-											>
-											<Division
-												Class="kpi kpi-blue"
-												ID="div-kpi"
+											</Column>
+										</Row>
+										<Row>
+											<Column
+												Width="100"
+												WidthScale="%"
 												>
-												<Label
-													Caption="Not on Tablet"
-													Class="panel-title"
+												<Division
+													Class="kpi kpi-blue"
+													ID="div-kpi"
+													>
+													<Label
+														Caption="Not on Tablet"
+														Class="panel-title"
+													/>
+													<Spaces
+														Size="19"
+													/>
+													<Label
+														Caption="@Data.calcTotalNotTablet~"
+														Class="panel-title"
+													/>
+												</Division>
+												<LineBreak
+													LineCount="3"
 												/>
-												<Spaces
-													Size="15"
-												/>
-												<Label
-													Caption="@Data.calcTotalNotTablet~"
-													Class="panel-title"
-												/>
-											</Division>
-											<LineBreak
-												LineCount="3"
-											/>
-										</Column>
-									</Row>
-									<Row>
-										<Column/>
-									</Row>
-								</Rows>
-							</DataTableColumn>
-							<DataTableColumn
-								Width="20"
-								WidthScale="%"
-								>
-								<Rows
-									Width="100"
+											</Column>
+										</Row>
+										<Row>
+											<Column/>
+										</Row>
+									</Rows>
+								</DataTableColumn>
+								<DataTableColumn
+									Width="20"
 									WidthScale="%"
 									>
-									<Row>
-										<Column
-											Width="100"
-											WidthScale="%"
-											>
-											<Division
-												Class="kpi kpi-coral"
-												ID="div-kpi"
+									<Rows
+										Width="100"
+										WidthScale="%"
+										>
+										<Row>
+											<Column
+												Width="100"
+												WidthScale="%"
 												>
-												<Label
-													Caption="Done on Tablet Goal"
-													Class="panel-title"
+												<LineBreak
+													LineCount="2"
 												/>
-												<Spaces
-													Size="4"
+												<Division
+													Class="kpi kpi-yellow"
+													ID="div-kpi"
+													>
+													<Label
+														Caption="Done on Tablet Goal"
+														Class="panel-title"
+													/>
+													<Spaces
+														Size="4"
+													/>
+													<Label
+														Caption="85%"
+														Class="panel-title"
+													/>
+												</Division>
+												<LineBreak
+													LineCount="3"
 												/>
-												<Label
-													Caption="85%"
-													Class="panel-title"
-												/>
-											</Division>
-											<LineBreak
-												LineCount="3"
-											/>
-										</Column>
-									</Row>
-									<Row>
-										<Column
-											Width="100"
-											WidthScale="%"
-											>
-											<Division
-												Class="kpi kpi-pink"
-												ID="div-kpi"
+											</Column>
+										</Row>
+										<Row>
+											<Column
+												Width="100"
+												WidthScale="%"
 												>
-												<Label
-													Caption="% Done on Tablet"
-													Class="panel-title"
+												<Division
+													Class="kpi kpi-pink"
+													ID="div-kpi"
+													>
+													<Label
+														Caption="% Done on Tablet"
+														Class="panel-title"
+													/>
+													<Spaces
+														Size="11"
+													/>
+													<Label
+														Caption="@Data.calcPercentTablet~"
+														Class="panel-title"
+														Format="##\%"
+													/>
+												</Division>
+												<LineBreak
+													LineCount="3"
 												/>
-												<Spaces
-													Size="11"
-												/>
-												<Label
-													Caption="@Data.calcPercentTablet~"
-													Class="panel-title"
-													Format="##\%"
-												/>
-											</Division>
-											<LineBreak
-												LineCount="3"
-											/>
-										</Column>
-									</Row>
-									<Row>
-										<Column
-											Width="100"
-											WidthScale="%"
-											>
-											<Division
-												Class="kpi kpi-blue"
-												ID="div-kpi"
+											</Column>
+										</Row>
+										<Row>
+											<Column
+												Width="100"
+												WidthScale="%"
 												>
-												<Label
-													Caption="% Not on Tablet"
-													Class="panel-title"
+												<Division
+													Class="kpi kpi-blue"
+													ID="div-kpi"
+													>
+													<Label
+														Caption="% Not on Tablet"
+														Class="panel-title"
+													/>
+													<Spaces
+														Size="15"
+													/>
+													<Label
+														Caption="@Data.calcPercentNotTablet~"
+														Class="panel-title"
+														Format="##\%"
+													/>
+												</Division>
+												<LineBreak
+													LineCount="3"
 												/>
-												<Spaces
-													Size="15"
-												/>
-												<Label
-													Caption="@Data.calcPercentNotTablet~"
-													Class="panel-title"
-													Format="##\%"
-												/>
-											</Division>
-											<LineBreak
-												LineCount="3"
-											/>
-										</Column>
-									</Row>
-									<Row>
-										<Column/>
-									</Row>
-								</Rows>
-							</DataTableColumn>
-						</DataTable>
+											</Column>
+										</Row>
+										<Row>
+											<Column/>
+										</Row>
+									</Rows>
+								</DataTableColumn>
+							</DataTable>
+						</Division>
 					</ResponsiveColumn>
 				</ResponsiveRow>
 			</Division>
@@ -553,19 +567,20 @@ From (Select T1.LocationCode,
 						ColspanSmallScreen="6"
 						>
 						<Division
+							Class="ThemeAlignCenter"
+							HtmlDiv="True"
 							ID="divYearOverYear"
 							>
-							<Remark>
-								<Label
-									Caption="Total Orders By Year"
-									Class="ThemeTextSmall ThemeBold"
-								/>
-							</Remark>
+							<Label
+								Caption="Total Orders By Year: @Request.Location~"
+								Class="ThemeTextSmall ThemeBold"
+								HtmlTag="True"
+							/>
 							<ChartCanvas
 								AutoQuicktip="False"
-								ChartCaption="Total Orders By Year: @Request.Location~"
 								ChartHeight="100%"
 								ChartWidth="95%"
+								Class="ThemeTextSmall"
 								ID="chartOrdersMarkedDone"
 								>
 								<Remark>
@@ -612,7 +627,7 @@ ORDER BY LocationCode, DoneYear
 									ChartXDataColumn="DoneYear"
 									ChartXDataColumnType="Text"
 									ChartYDataColumn="OrderCount"
-									Color="#8085e9"
+									Color="#c5283d"
 									Type="Bar"
 									>
 									<DataLayer
@@ -702,6 +717,7 @@ ORDER BY LocationCode, DoneYear
 							<DataTable
 								AjaxPaging="True"
 								Caption="@Request.Location~ - @Request.CurrYear~ YTD Orders Not Done on Tablet"
+								CaptionClass="ThemeTextSmall"
 								Class="ThemeTextSmaller"
 								ID="dtDetailsByLocation"
 								Width="100"
