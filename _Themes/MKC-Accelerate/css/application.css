@@ -801,21 +801,21 @@
 	/*KPI blue*/
 	.kpi-blue{
 		color: #ffffff;
-		border-color: #4DA8EF;
-		background: #4DA8EF;
+		border-color: #2e86ab;
+		background: #2e86ab;
 	}
 	
 	/*KPI yellow*/
 	.kpi-yellow{
 		color: #ffffff;
-		border-color: #E8CF44;
-		background: #E8CF44;
+		border-color: #f18f01;
+		background: #f18f01;
 	}
 
 	.kpi-orange{
 		color: #ffffff;
-		border-color: #f7a35c;
-		background: #f7a35c;
+		border-color: #c73e1d;
+		background: #c73e1d;
 	}
 
 	.kpi-purple{
@@ -845,8 +845,8 @@
 
 	.kpi-pink{
 		color: #ffffff;
-		border-color: #f15c80;
-		background: #f15c80;
+		border-color: #a23b72;
+		background: #a23b72;
 	}
 	
 	
