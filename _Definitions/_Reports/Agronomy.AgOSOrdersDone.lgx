@@ -627,7 +627,7 @@ ORDER BY LocationCode, DoneYear
 									ChartXDataColumn="DoneYear"
 									ChartXDataColumnType="Text"
 									ChartYDataColumn="OrderCount"
-									Color="#c5283d"
+									Color="#a23b72"
 									Type="Bar"
 									>
 									<DataLayer
