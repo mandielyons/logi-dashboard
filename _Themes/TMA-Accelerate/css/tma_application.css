@@ -127,6 +127,11 @@
 	div.dropdown div.submenu li:hover{
 		background-color: #adacb5 !important;
 	}
+
+	#AboutTMA:hover {
+		background-color: #adacb5 !important;
+		color: #fff;
+	}
 	
 	div.dropdown div.submenu li:hover span{
 		background-color: #adacb5 !important;
