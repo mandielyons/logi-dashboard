@@ -13,6 +13,14 @@
 
 "
 		/>
+		<IncludeHtml
+			Html="&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;_Themes/TMA-Accelerate/tma_Theme.css&quot;&gt;&lt;/link&gt;
+&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;_Themes/TMA-Accelerate/css/tma_application.css&quot;&gt;&lt;/link&gt;
+
+
+"
+			SecurityRightID="TMA Dashboard, OC"
+		/>
 		<IncludeScript
 			ID="globalScripts"
 			IncludedScript="&lt;script type=&quot;text/javascript&quot;&gt;
