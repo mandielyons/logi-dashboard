@@ -127,6 +127,11 @@
 	div.dropdown div.submenu li:hover{
 		background-color: #deb408;
 	}
+
+	#lblAbout:hover {
+		background-color: #deb408;
+		color: #fff;
+	}
 	
 	div.dropdown div.submenu li:hover span{
 		text-decoration: none;
