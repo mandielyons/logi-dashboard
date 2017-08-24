@@ -12,7 +12,7 @@
 	<General
 		DoctypeDeclaration="Html5"
 		LogErrors="@Function.AppPhysicalPath~\_ErrorLogs"
-		rdDebuggerStyle="NoDetail"
+		rdDebuggerStyle="DebuggerLinks"
 		RedirectErrorUrl="rdPage.aspx?rdReport=_Layout.Error"
 		RepoFriendly="True"
 	/>
@@ -27,7 +27,13 @@
 	<Constants
 		cacheExpirationTime="00:00"
 		cacheExpirationTimeSpan="08:00"
-	/>
+		Caption_NoDataFound="No data found"
+		Caption_WaitPanel="Retrieving data ..."
+		>
+		<Note
+			Note="Helpful constants that can be used throughout the application."
+		/>
+	</Constants>
 	<EventLogging
 		LogEvents="True"
 		>
@@ -69,19 +75,6 @@
 			</LogEvent>
 		</Remark>
 	</EventLogging>
-	<Remark>
-		<Constants
-			Caption_Application="App Template"
-			Caption_NoDataFound="No data found"
-			Caption_WaitPanel="Retrieving data ..."
-			Organization_Name="My Company"
-			Organization_Url="http://www.mycompany.com"
-			>
-			<Note
-				Note="Helpful constants that can be used throughout the application."
-			/>
-		</Constants>
-	</Remark>
 	<Connections>
 		<Connection
 			ID="connMKC"

@@ -41,7 +41,7 @@
 	#Header-inner #main-nav a:hover,
 	#Header-inner #main-nav div.dropdown:hover a,
 	#Header-inner #main-nav div.dropdown.hover a{	
-		color: #deb408;
+		color: #336633 !important;
 	}
 	
 	.pipe-spacer {
@@ -125,7 +125,7 @@
 	}
 	
 	div.dropdown div.submenu li:hover{
-		background-color: #deb408;
+		background-color: #f18f01;
 	}
 	
 	div.dropdown div.submenu li:hover span{
@@ -808,8 +808,8 @@
 	/*KPI yellow*/
 	.kpi-yellow{
 		color: #ffffff;
-		border-color: #deb408;
-		background: #deb408;
+		border-color: #f18f01;
+		background: #f18f01;
 	}
 
 	.kpi-orange{
@@ -979,7 +979,7 @@
 	.btn-wish{
 		color: #333333;
 		text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
-		background-color: #deb408;
+		background-color: #f18f01;
 		background-image: -moz-linear-gradient(top, #ffffff, #e6e6e6);
 		background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ffffff), to(#e6e6e6));
 		background-image: -webkit-linear-gradient(top, #ffffff, #e6e6e6);
