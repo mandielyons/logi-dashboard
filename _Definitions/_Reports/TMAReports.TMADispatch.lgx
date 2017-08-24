@@ -808,7 +808,8 @@ WHERE CONTRACT_TYPE=2
 											/>
 										</DataTableColumn>
 										<SummaryRow
-											Caption="Total: "
+											Caption="Total:"
+											Class="ThemeTextSmall"
 											ID="srSummary"
 											LastPageOnly="False"
 										/>
