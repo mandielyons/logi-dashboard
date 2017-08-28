@@ -224,15 +224,16 @@ If your question was not answered in the FAQs, then you may contact the followin
 										Class="ThemeBold"
 									/>
 									<IncludeHtml
-										Html="&lt;br /&gt;Look up smartlist in GP
-&lt;ul&gt;&lt;li&gt;GP &gt; Smartlist &gt; Financial &gt; Account Transactions &gt; Financial Dashboard Detail&lt;/li&gt;
-&lt;li&gt;Click on search button at top &gt; Type in branch # (3 digits) &gt; Type in main account # (4 digits) &gt; enter beg and end dates &gt; click OK&lt;/li&gt;
-&lt;li&gt;Wait for report to load&lt;/li&gt;
+										Html="&lt;br /&gt;Personnel Costs
+&lt;ul&gt;&lt;li&gt;These costs are allocated based on employee wages and time splits.&lt;/li&gt;
+&lt;li&gt;If you are looking for detail on what was posted in these accounts contact Erin Riley.&lt;/li&gt;
 &lt;/ul&gt;
-Export smartlist for easy filtering
-&lt;ul&gt;&lt;li&gt;Click excel at top of page&lt;/li&gt;
-&lt;li&gt;From cell A1 &gt; choose Data on top menu &gt; choose Filter&lt;/li&gt;
-&lt;li&gt;Click filter (drop down arrow) on the field you want to sort or filter&lt;/li&gt;
+Fixed Expenses
+&lt;ul&gt;&lt;li&gt;These expenses are allocated as noted above.&lt;/li&gt;
+&lt;/ul&gt;
+Other Expenses
+&lt;ul&gt;&lt;li&gt;To view account detail, click on the account number.&lt;/li&gt;
+&lt;li&gt;This will show all items that have been posted in the account.&lt;/li&gt;
 &lt;/ul&gt;
 "
 									/>
