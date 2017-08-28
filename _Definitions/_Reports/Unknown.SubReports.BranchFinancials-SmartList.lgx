@@ -215,12 +215,14 @@ ORDER BY AT.ACTDESCR, AT.JRNENTRY"
 											/>
 										</DataTableColumn>
 										<DataTableColumn
+											Class="ThemeAlignRight"
+											ColumnHeaderClass="ThemeAlignCenter"
 											Header="Debit Amount"
 											ID="colDebit Amount"
 											>
 											<Label
 												Caption="@Data.DebitAmount~"
-												Format="Currency"
+												Format="###,###,##0.00"
 												ID="lblDebit Amount"
 											/>
 											<DataColumnSort
@@ -235,12 +237,14 @@ ORDER BY AT.ACTDESCR, AT.JRNENTRY"
 											/>
 										</DataTableColumn>
 										<DataTableColumn
+											Class="ThemeAlignRight"
+											ColumnHeaderClass="ThemeAlignCenter"
 											Header="Credit Amount"
 											ID="colCredit Amount"
 											>
 											<Label
 												Caption="@Data.CreditAmount~"
-												Format="Currency"
+												Format="###,###,##0.00"
 												ID="lblCredit Amount"
 											/>
 											<DataColumnSort
@@ -262,18 +266,16 @@ ORDER BY AT.ACTDESCR, AT.JRNENTRY"
 									</DataTable>
 								</ResponsiveColumn>
 								<ResponsiveColumn>
-									<Remark>
-										<IncludeSharedElement
-											DefinitionFile="_Layout.Shared"
-											SharedElementID="shrExcelExport"
-											>
-											<SharedElementParams
-												DataTableID="dtSmartList"
-												ReportName="Other Operating Expense"
-												Security=""
-											/>
-										</IncludeSharedElement>
-									</Remark>
+									<IncludeSharedElement
+										DefinitionFile="_Layout.Shared"
+										SharedElementID="shrExcelExport"
+										>
+										<SharedElementParams
+											DataTableID="dtSmartList"
+											ReportName="Other Operating Expense"
+											Security=""
+										/>
+									</IncludeSharedElement>
 								</ResponsiveColumn>
 							</ResponsiveRow>
 						</Division>
