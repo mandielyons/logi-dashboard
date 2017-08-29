@@ -2305,6 +2305,7 @@ From ag_location"
 						ExportDataTableID="@Shared.DataTableID~"
 						ExportFilename="@Shared.ReportName~_@Function.GUID~"
 						FrameID="Top"
+						RequestForwarding="True"
 						ShowGridlines="True"
 						Type="NativeExcel"
 					/>
