@@ -382,14 +382,14 @@ else {
 		</PopupPanel>
 		<PopupPanel
 			Draggable="False"
-			Height="60"
+			Height="75"
 			HeightScale="%"
 			ID="pnlAboutTMA"
 			PopupModal="True"
 			PopupPanelLocation="Center"
 			SecurityRightID="TMA Dashboard,OC"
 			ShowOnPageLoad="False"
-			Width="60"
+			Width="75"
 			WidthScale="%"
 			>
 			<ResponsiveRow>
@@ -450,14 +450,14 @@ else {
 		</PopupPanel>
 		<PopupPanel
 			Draggable="False"
-			Height="60"
+			Height="75"
 			HeightScale="%"
 			ID="pnlAbout"
 			PopupModal="True"
 			PopupPanelLocation="Center"
 			SecurityRightID="MKC Dashboard"
 			ShowOnPageLoad="False"
-			Width="60"
+			Width="75"
 			WidthScale="%"
 			>
 			<ResponsiveRow>
@@ -2304,7 +2304,6 @@ From ag_location"
 						ExportDataTableID="@Shared.DataTableID~"
 						ExportFilename="@Shared.ReportName~_@Function.GUID~"
 						FrameID="Top"
-						RequestForwarding="True"
 						ShowGridlines="True"
 						Type="NativeExcel"
 					/>
@@ -2703,7 +2702,9 @@ $(document).ready(function() {
 				for (var i = 0; i &lt; items.length; ++i) {
 					// do something with the notification items, which is a &lt;li&gt; element
 					//$.notify(items[i].innerHTML,{className: &quot;error&quot;,autoHide: false,position:&quot;bottom left&quot;});
-					$(&quot;#Footer&quot;).notify(items[i].innerHTML,{className: &quot;error&quot;,autoHide: false,position:&quot;top left&quot;});
+					//(&quot;#Footer&quot;).notify(items[i].innerHTML,{className: &quot;error&quot;,autoHide: false});
+					$.notify(items[i].innerHTML,{className: &quot;error&quot;,autoHide: false});
+					//$(&quot;#Footer&quot;).notify(items[i].innerHTML,{className: &quot;error&quot;,autoHide: false,position:&quot;bottom left&quot;});
 				}				
 			}			
 		}
