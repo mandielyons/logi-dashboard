@@ -140,14 +140,7 @@ WHERE AT.OPENYEAR=@Request.paramFiscYear~
   AND AT.ACTNUMBR_2=&apos;@Request.paramLocGLStr~&apos;
 ORDER BY AT.ACTDESCR, AT.JRNENTRY"
 											Type="SQL"
-											>
-											<GroupFilter
-												DataType="Text"
-												GroupColumn="@Request.MNACSGMT~"
-												ID="grpMNACSGMT"
-												KeepGroupedRows="True"
-											/>
-										</DataLayer>
+										/>
 										<DataTableColumn
 											Header="Journal Entry"
 											ID="colJournal Entry"
