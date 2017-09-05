@@ -12,7 +12,6 @@
 
 
 "
-			SecurityRightID="MKC Dashboard"
 		/>
 		<IncludeHtml
 			Html="&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;_Themes/TMA-Accelerate/tma_Theme.css&quot;&gt;&lt;/link&gt;
@@ -2473,7 +2472,7 @@ Order By FiscalYear DESC"
 								SecurityRightID="TMA Dashboard,OC"
 							/>
 							<Label
-								Caption="V2.4.05.16.2017"
+								Caption="V2.5.09.05.2017"
 								Class="ThemeTextSmaller"
 								Format="HTML"
 								SecurityRightID="MKC Dashboard,TMA Dashboard,OC"
