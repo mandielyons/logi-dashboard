@@ -130,6 +130,7 @@
   , AT.ACTDESCR AS [Account Description]
   , AT.DEBITAMT AS [DebitAmount]
   , AT.CRDTAMNT AS [CreditAmount]
+  , AT.ACTNUMBR_4 AS MNACSGMT
 FROM MKCGP.dbo.slbAccountTrx AS [AT] 
   INNER JOIN MKCGP.dbo.GL00105 AS [GL5] 
     ON AT.ACTNUMBR = GL5.ACTINDX 
@@ -266,16 +267,18 @@ ORDER BY AT.ACTDESCR, AT.JRNENTRY"
 									</DataTable>
 								</ResponsiveColumn>
 								<ResponsiveColumn>
-									<IncludeSharedElement
-										DefinitionFile="_Layout.Shared"
-										SharedElementID="shrExcelExport"
-										>
-										<SharedElementParams
-											DataTableID="dtSmartList"
-											ReportName="Other Operating Expense"
-											Security=""
-										/>
-									</IncludeSharedElement>
+									<Remark>
+										<IncludeSharedElement
+											DefinitionFile="_Layout.Shared"
+											SharedElementID="shrExcelExport"
+											>
+											<SharedElementParams
+												DataTableID="dtSmartList"
+												ReportName="Other Operating Expense"
+												Security=""
+											/>
+										</IncludeSharedElement>
+									</Remark>
 								</ResponsiveColumn>
 							</ResponsiveRow>
 						</Division>
