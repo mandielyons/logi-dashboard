@@ -219,7 +219,6 @@
 										<DataLayer
 											Command="MKCGP.dbo.mkcGetFinancialData"
 											ConnectionID="connProdGP"
-<<<<<<< HEAD
 											ID="sp_sqlSmartListExpenseDetails"
 											Type="SP"
 											>
@@ -261,28 +260,6 @@
 												/>
 											</SPParameters>
 										</DataLayer>
-=======
-											ID="sqlUnits"
-											Source="SELECT 
-    AT.JRNENTRY AS [Journal Entry]
-  , AT.ORMSTRNM AS [Originating Master Name]
-  , AT.TRXDATE AS [Transaction Date]
-  , GL5.ACTNUMST AS [Account Number]
-  , AT.ACTDESCR AS [Account Description]
-  , AT.DEBITAMT AS [DebitAmount]
-  , AT.CRDTAMNT AS [CreditAmount]
-  , AT.ACTNUMBR_4 AS MNACSGMT
-FROM MKCGP.dbo.slbAccountTrx AS [AT] 
-  INNER JOIN MKCGP.dbo.GL00105 AS [GL5] 
-    ON AT.ACTNUMBR = GL5.ACTINDX 
-WHERE AT.OPENYEAR=@Request.paramFiscYear~ 
-  AND AT.PERIODID=@Request.paramFiscPeriod~
-  AND AT.ACTNUMBR_4=&apos;@Request.MNACSGMT~&apos;
-  AND AT.ACTNUMBR_2=&apos;@Request.paramLocGLStr~&apos;
-ORDER BY AT.ACTDESCR, AT.JRNENTRY"
-											Type="SQL"
-										/>
->>>>>>> 8ad0cef3464e845f83a1597e5ab4ff94cc0f86b3
 										<DataTableColumn
 											Header="Journal Entry"
 											ID="colJournal Entry"
@@ -434,18 +411,16 @@ ORDER BY AT.ACTDESCR, AT.JRNENTRY"
 									</DataTable>
 								</ResponsiveColumn>
 								<ResponsiveColumn>
-									<Remark>
-										<IncludeSharedElement
-											DefinitionFile="_Layout.Shared"
-											SharedElementID="shrExcelExport"
-											>
-											<SharedElementParams
-												DataTableID="dtSmartList"
-												ReportName="Other Operating Expense"
-												Security=""
-											/>
-										</IncludeSharedElement>
-									</Remark>
+									<IncludeSharedElement
+										DefinitionFile="_Layout.Shared"
+										SharedElementID="shrExcelExport"
+										>
+										<SharedElementParams
+											DataTableID="dtSmartList"
+											ReportName="Other Operating Expense"
+											Security=""
+										/>
+									</IncludeSharedElement>
 								</ResponsiveColumn>
 							</ResponsiveRow>
 						</Division>
