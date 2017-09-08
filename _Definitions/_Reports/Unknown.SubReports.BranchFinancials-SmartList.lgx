@@ -5,27 +5,124 @@
 	SecurityReportRightID="Dashboard Monthly Staff"
 	>
 	<DefaultRequestParams
-		AcctCatFixedExpB="8100"
-		AcctCatFixedExpE="8199"
-		AcctCatOtherCostsB="8200"
-		AcctCatOtherCostsE="8499"
-		AcctCatOtherIncomeB="7000"
-		AcctCatOtherIncomeE="7999"
-		AcctCatPersonnelB="8000"
-		AcctCatPersonnelE="8099"
-		AcctCatSalesB="4300"
-		AcctCatSalesE="4500"
-		AcctListApplication="9600"
-		AcctListFertilizer="9800&apos;,&apos;9805&apos;,&apos;9810"
-		AcctListFuel="9820&apos;,&apos;9825"
-		AcctListGrain="0"
-		paramDefaultTab="tabVolumes"
-		paramFiscPeriod="@Local.FISCPERIODID~"
-		paramFiscYear="@Local.FISCYEAR~"
-		paramLocCd="100"
-		paramLocName="Abilene"
-		themePlanColumn="ThemeMargin, ThemeAlignRight"
+		paramDefaultTab="SmartListExpenseDetails"
+		themeDetailText="ThemeTextSmaller"
 	/>
+	<LocalData>
+		<DataLayer
+			Command="MKCGP.dbo.mkcGetFinancialData"
+			ConnectionID="connProdGP"
+			ID="sp_sqlGetLocationName"
+			Type="SP"
+			>
+			<SPParameters>
+				<SPParameter
+					ID="FiscalYear"
+					SPParamDirection="Input"
+					SPParamSize="0"
+					SPParamType="dt-4"
+					Value="@Request.paramFiscYear~"
+				/>
+				<SPParameter
+					ID="FiscalPeriod"
+					SPParamDirection="Input"
+					SPParamSize="0"
+					SPParamType="dt-4"
+					Value="@Request.paramFiscPeriod~"
+				/>
+				<SPParameter
+					ID="LocationList"
+					SPParamDirection="Input"
+					SPParamSize="0"
+					SPParamType="dt-203"
+					Value="@Request.paramLocGLStr~"
+				/>
+				<SPParameter
+					ID="TabName"
+					SPParamDirection="Input"
+					SPParamSize="0"
+					SPParamType="dt-203"
+					Value="GetLocationName"
+				/>
+				<SPParameter
+					ID="Account"
+					SPParamDirection="Input"
+					SPParamSize="0"
+					SPParamType="dt-200"
+					Value="@Request.MNACSGMT~"
+				/>
+				<SPParameter
+					ID="LocType"
+					SPParamDirection="Input"
+					SPParamSize="0"
+					SPParamType="dt-16"
+					Value="@Request.LocType~"
+				/>
+			</SPParameters>
+		</DataLayer>
+	</LocalData>
+	<LocalData>
+		<DataLayer
+			ID="staticFiscalPeriodName"
+			Type="Static"
+			>
+			<StaticDataRow
+				FISCPRDDSC="March"
+				FISCPRDID="1"
+			/>
+			<StaticDataRow
+				FISCPRDDSC="April"
+				FISCPRDID="2"
+			/>
+			<StaticDataRow
+				FISCPRDDSC="May"
+				FISCPRDID="3"
+			/>
+			<StaticDataRow
+				FISCPRDDSC="June"
+				FISCPRDID="4"
+			/>
+			<StaticDataRow
+				FISCPRDDSC="July"
+				FISCPRDID="5"
+			/>
+			<StaticDataRow
+				FISCPRDDSC="August"
+				FISCPRDID="6"
+			/>
+			<StaticDataRow
+				FISCPRDDSC="September"
+				FISCPRDID="7"
+			/>
+			<StaticDataRow
+				FISCPRDDSC="October"
+				FISCPRDID="8"
+			/>
+			<StaticDataRow
+				FISCPRDDSC="November"
+				FISCPRDID="9"
+			/>
+			<StaticDataRow
+				FISCPRDDSC="December"
+				FISCPRDID="10"
+			/>
+			<StaticDataRow
+				FISCPRDDSC="January"
+				FISCPRDID="11"
+			/>
+			<StaticDataRow
+				FISCPRDDSC="February"
+				FISCPRDID="12"
+			/>
+			<CompareFilter
+				CompareType="="
+				CompareValue="@Request.paramFiscPeriod~"
+				DataColumn="FISCPRDID"
+				DataType="Number"
+				ID="filtPeriod"
+			/>
+		</DataLayer>
+	</LocalData>
 	<IncludeSharedElement
 		DefinitionFile="_Layout.Shared"
 		SharedElementID="shrHeader"
@@ -81,6 +178,20 @@
 							Class="panel-title"
 							ID="lblHeaderAccount"
 						/>
+						<Spaces
+							Size="4"
+						/>
+						<Label
+							Caption="@Local.FISCPRDDSC~ @Request.paramFiscYear~"
+							Class="panel-title"
+						/>
+						<Spaces
+							Size="4"
+						/>
+						<Label
+							Caption="@Local.LocationDescription~"
+							Class="panel-title"
+						/>
 					</Division>
 					<Division
 						Class="panel-body"
@@ -94,52 +205,61 @@
 							>
 							<ResponsiveRow>
 								<ResponsiveColumn
-									Class="ThemeTextSmall"
+									Class="@Request.themeDetailText~"
 									ColspanExtraSmallScreen="11"
 									ColspanLargeScreen="11"
 									ColspanMediumScreen="11"
 									ColspanSmallScreen="11"
 									>
-									<Label
-										Caption="=&quot;Fiscal Period: &quot; + IIF(@Request.paramFiscPeriod~ = 1, &quot;March&quot;, IIF(@Request.paramFiscPeriod~ = 2, &quot;April&quot;, IIF(@Request.paramFiscPeriod~ = 3, &quot;May&quot;, IIF(@Request.paramFiscPeriod~ = 4, &quot;June&quot;, IIF(@Request.paramFiscPeriod~ =5, &quot;July&quot;, IIF(@Request.paramFiscPeriod~ = 6, &quot;August&quot;, IIF(@Request.paramFiscPeriod~ = 7, &quot;September&quot;, IIF(@Request.paramFiscPeriod~ = 8, &quot;October&quot;, IIF(@Request.paramFiscPeriod~ = 9, &quot;November&quot;, IIF(@Request.paramFiscPeriod~ = 10, &quot;December&quot;, IIF(@Request.paramFiscPeriod~ = 11, &quot;January&quot;, IIF(@Request.paramFiscPeriod~ = 12, &quot;February&quot;, &quot;Unk&quot;)))))))))))) + &quot; &quot; + @Request.paramFiscYear~"
-										Class="panel-title"
-										ID="lblHeaderFiscPeriod"
-									/>
-									<LineBreak/>
-									<Label
-										Caption="Location: @Request.paramLocName~"
-										Class="panel-title"
-										ID="lblHeaderLocName"
-									/>
-									<LineBreak
-										LineCount="2"
-									/>
 									<DataTable
 										Caption="Other Operating Expense Details - @Request.MNACSGMT~"
 										ID="dtSmartList"
 										SortArrows="True"
 										>
 										<DataLayer
+											Command="MKCGP.dbo.mkcGetFinancialData"
 											ConnectionID="connProdGP"
-											ID="sqlUnits"
-											Source="SELECT 
-    AT.JRNENTRY AS [Journal Entry]
-  , AT.ORMSTRNM AS [Originating Master Name]
-  , AT.TRXDATE AS [Transaction Date]
-  , GL5.ACTNUMST AS [Account Number]
-  , AT.ACTDESCR AS [Account Description]
-  , AT.DEBITAMT AS [DebitAmount]
-  , AT.CRDTAMNT AS [CreditAmount]
-FROM MKCGP.dbo.slbAccountTrx AS [AT] 
-  INNER JOIN MKCGP.dbo.GL00105 AS [GL5] 
-    ON AT.ACTNUMBR = GL5.ACTINDX 
-WHERE AT.OPENYEAR=@Request.paramFiscYear~ 
-  AND AT.PERIODID=@Request.paramFiscPeriod~
-  AND AT.ACTNUMBR_4=&apos;@Request.MNACSGMT~&apos;
-  AND AT.ACTNUMBR_2=&apos;@Request.paramLocGLStr~&apos;
-ORDER BY AT.ACTDESCR, AT.JRNENTRY"
-											Type="SQL"
-										/>
+											ID="sp_sqlSmartListExpenseDetails"
+											Type="SP"
+											>
+											<SPParameters>
+												<SPParameter
+													ID="FiscalYear"
+													SPParamDirection="Input"
+													SPParamSize="0"
+													SPParamType="dt-4"
+													Value="@Request.paramFiscYear~"
+												/>
+												<SPParameter
+													ID="FiscalPeriod"
+													SPParamDirection="Input"
+													SPParamSize="0"
+													SPParamType="dt-4"
+													Value="@Request.paramFiscPeriod~"
+												/>
+												<SPParameter
+													ID="LocationList"
+													SPParamDirection="Input"
+													SPParamSize="0"
+													SPParamType="dt-203"
+													Value="@Request.paramLocGLStr~"
+												/>
+												<SPParameter
+													ID="TabName"
+													SPParamDirection="Input"
+													SPParamSize="0"
+													SPParamType="dt-203"
+													Value="@Request.paramDefaultTab~"
+												/>
+												<SPParameter
+													ID="Account"
+													SPParamDirection="Input"
+													SPParamSize="0"
+													SPParamType="dt-200"
+													Value="@Request.MNACSGMT~"
+												/>
+											</SPParameters>
+										</DataLayer>
 										<DataTableColumn
 											Header="Journal Entry"
 											ID="colJournal Entry"
@@ -170,6 +290,8 @@ ORDER BY AT.ACTDESCR, AT.JRNENTRY"
 										<DataTableColumn
 											Header="Transaction Date"
 											ID="colTransaction Date"
+											Width="8"
+											WidthScale="%"
 											>
 											<Label
 												Caption="@Data.Transaction Date~"
@@ -184,6 +306,8 @@ ORDER BY AT.ACTDESCR, AT.JRNENTRY"
 										<DataTableColumn
 											Header="Account Number"
 											ID="colAccount Number"
+											Width="13"
+											WidthScale="%"
 											>
 											<Label
 												Caption="@Data.Account Number~"
@@ -212,6 +336,8 @@ ORDER BY AT.ACTDESCR, AT.JRNENTRY"
 											ColumnHeaderClass="ThemeAlignCenter"
 											Header="Debit Amount"
 											ID="colDebit Amount"
+											Width="5"
+											WidthScale="%"
 											>
 											<Label
 												Caption="@Data.DebitAmount~"
@@ -234,6 +360,8 @@ ORDER BY AT.ACTDESCR, AT.JRNENTRY"
 											ColumnHeaderClass="ThemeAlignCenter"
 											Header="Credit Amount"
 											ID="colCredit Amount"
+											Width="5"
+											WidthScale="%"
 											>
 											<Label
 												Caption="@Data.CreditAmount~"
@@ -249,6 +377,30 @@ ORDER BY AT.ACTDESCR, AT.JRNENTRY"
 												DataType="Number"
 												Function="Sum"
 												ID="sumCreditAmount"
+											/>
+										</DataTableColumn>
+										<DataTableColumn
+											Class="ThemeAlignRight, ThemeBold"
+											ColumnHeaderClass="ThemeAlignCenter"
+											Header="Balance Amount"
+											ID="colBalance Amount"
+											Width="5"
+											WidthScale="%"
+											>
+											<Label
+												Caption="@Data.BalanceAmount~"
+												Format="###,###,##0.00"
+												ID="lblBalance Amount"
+											/>
+											<DataColumnSort
+												DataColumn="BalanceAmount"
+												DataType="Number"
+											/>
+											<DataColumnSummary
+												DataColumn="BalanceAmount"
+												DataType="Number"
+												Function="Sum"
+												ID="sumBalanceAmount"
 											/>
 										</DataTableColumn>
 										<SummaryRow
@@ -282,10 +434,12 @@ ORDER BY AT.ACTDESCR, AT.JRNENTRY"
 		/>
 	</Body>
 	<ideTestParams
+		LocType="1"
 		MNACSGMT="8200"
+		paramDefaultTab="SmartListExpenseDetails"
 		paramFiscPeriod="5"
 		paramFiscYear="2018"
 		paramLocGLStr="100"
-		paramLocName=""
+		themeDetailText=""
 	/>
 </Report>
