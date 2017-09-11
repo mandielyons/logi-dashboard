@@ -523,7 +523,6 @@ WHERE CONTRACT_TYPE=2
 									</Remark>
 									<DataTable
 										AjaxPaging="True"
-										AltRowClass="ThemeAlternatingRow"
 										Caption="TMA Branch Dispatch Details"
 										CaptionClass="ThemeTextSmall"
 										Class="ThemeTextSmaller"
@@ -585,6 +584,14 @@ WHERE CONTRACT_TYPE=2
 												DataColumn="SHPMTTYP_CODE"
 												DataType="Number"
 											/>
+											<ConditionalClass
+												Class="yellow-highlight"
+												Condition="&quot;@Data.SHPMTTYP_CODE~&quot; = &quot;11&quot;"
+											/>
+											<ConditionalClass
+												Class="blue-highlight"
+												Condition="&quot;@Data.SHPMTTYP_CODE~&quot; = &quot;110&quot;"
+											/>
 										</DataTableColumn>
 										<DataTableColumn
 											Header="Consignee"
@@ -600,6 +607,14 @@ WHERE CONTRACT_TYPE=2
 												DataColumn="SHPMTTYP_CODE"
 												DataType="Number"
 											/>
+											<ConditionalClass
+												Class="yellow-highlight"
+												Condition="&quot;@Data.SHPMTTYP_CODE~&quot; = &quot;11&quot;"
+											/>
+											<ConditionalClass
+												Class="blue-highlight"
+												Condition="&quot;@Data.SHPMTTYP_CODE~&quot; = &quot;110&quot;"
+											/>
 										</DataTableColumn>
 										<DataTableColumn
 											Header="Contract"
@@ -614,6 +629,14 @@ WHERE CONTRACT_TYPE=2
 											<DataColumnSort
 												DataColumn="CONTRACT_NUMBER"
 												DataType="Number"
+											/>
+											<ConditionalClass
+												Class="yellow-highlight"
+												Condition="&quot;@Data.SHPMTTYP_CODE~&quot; = &quot;11&quot;"
+											/>
+											<ConditionalClass
+												Class="blue-highlight"
+												Condition="&quot;@Data.SHPMTTYP_CODE~&quot; = &quot;110&quot;"
 											/>
 										</DataTableColumn>
 										<Remark>
@@ -645,6 +668,14 @@ WHERE CONTRACT_TYPE=2
 												DataColumn="SHPMTTYP_CODE"
 												DataType="Number"
 											/>
+											<ConditionalClass
+												Class="yellow-highlight"
+												Condition="&quot;@Data.SHPMTTYP_CODE~&quot; = &quot;11&quot;"
+											/>
+											<ConditionalClass
+												Class="blue-highlight"
+												Condition="&quot;@Data.SHPMTTYP_CODE~&quot; = &quot;110&quot;"
+											/>
 										</DataTableColumn>
 										<DataTableColumn
 											Header="Location"
@@ -659,6 +690,14 @@ WHERE CONTRACT_TYPE=2
 											<DataColumnSort
 												DataColumn="SHPMTTYP_CODE"
 												DataType="Number"
+											/>
+											<ConditionalClass
+												Class="yellow-highlight"
+												Condition="&quot;@Data.SHPMTTYP_CODE~&quot; = &quot;11&quot;"
+											/>
+											<ConditionalClass
+												Class="blue-highlight"
+												Condition="&quot;@Data.SHPMTTYP_CODE~&quot; = &quot;110&quot;"
 											/>
 										</DataTableColumn>
 										<DataTableColumn
@@ -681,6 +720,14 @@ WHERE CONTRACT_TYPE=2
 											<DataColumnSort
 												DataColumn="DELIVERY_START_DATE"
 												DataType="Date"
+											/>
+											<ConditionalClass
+												Class="yellow-highlight"
+												Condition="&quot;@Data.SHPMTTYP_CODE~&quot; = &quot;11&quot;"
+											/>
+											<ConditionalClass
+												Class="blue-highlight"
+												Condition="&quot;@Data.SHPMTTYP_CODE~&quot; = &quot;110&quot;"
 											/>
 										</DataTableColumn>
 										<Remark>
@@ -722,6 +769,14 @@ WHERE CONTRACT_TYPE=2
 												Function="Sum"
 												ID="dcsRemainingBU"
 											/>
+											<ConditionalClass
+												Class="yellow-highlight"
+												Condition="&quot;@Data.SHPMTTYP_CODE~&quot; = &quot;11&quot;"
+											/>
+											<ConditionalClass
+												Class="blue-highlight"
+												Condition="&quot;@Data.SHPMTTYP_CODE~&quot; = &quot;110&quot;"
+											/>
 										</DataTableColumn>
 										<DataTableColumn
 											Class="ThemeAlignCenter"
@@ -738,6 +793,14 @@ WHERE CONTRACT_TYPE=2
 												DataColumn="DEST_CODE"
 												DataType="Number"
 											/>
+											<ConditionalClass
+												Class="yellow-highlight"
+												Condition="&quot;@Data.SHPMTTYP_CODE~&quot; = &quot;11&quot;"
+											/>
+											<ConditionalClass
+												Class="blue-highlight"
+												Condition="&quot;@Data.SHPMTTYP_CODE~&quot; = &quot;110&quot;"
+											/>
 										</DataTableColumn>
 										<DataTableColumn
 											Header="Shipper Description"
@@ -753,6 +816,14 @@ WHERE CONTRACT_TYPE=2
 												DataColumn="SHIPR_DESC"
 												DataType="Text"
 											/>
+											<ConditionalClass
+												Class="yellow-highlight"
+												Condition="&quot;@Data.SHPMTTYP_CODE~&quot; = &quot;11&quot;"
+											/>
+											<ConditionalClass
+												Class="blue-highlight"
+												Condition="&quot;@Data.SHPMTTYP_CODE~&quot; = &quot;110&quot;"
+											/>
 										</DataTableColumn>
 										<DataTableColumn
 											Header="Shipper Number Trucks"
@@ -764,6 +835,14 @@ WHERE CONTRACT_TYPE=2
 												Caption="@Data.SHIPR_NUMTRCS~"
 												ID="lblSHIPR_NUMTRCS"
 											/>
+											<ConditionalClass
+												Class="yellow-highlight"
+												Condition="&quot;@Data.SHPMTTYP_CODE~&quot; = &quot;11&quot;"
+											/>
+											<ConditionalClass
+												Class="blue-highlight"
+												Condition="&quot;@Data.SHPMTTYP_CODE~&quot; = &quot;110&quot;"
+											/>
 										</DataTableColumn>
 										<DataTableColumn
 											Header="Shipper Load Description"
@@ -774,6 +853,14 @@ WHERE CONTRACT_TYPE=2
 											<Label
 												Caption="@Data.SHIPR_LDDESC~"
 												ID="lblSHIPR_LDDESC"
+											/>
+											<ConditionalClass
+												Class="yellow-highlight"
+												Condition="&quot;@Data.SHPMTTYP_CODE~&quot; = &quot;11&quot;"
+											/>
+											<ConditionalClass
+												Class="blue-highlight"
+												Condition="&quot;@Data.SHPMTTYP_CODE~&quot; = &quot;110&quot;"
 											/>
 										</DataTableColumn>
 										<Remark>
@@ -805,6 +892,14 @@ WHERE CONTRACT_TYPE=2
 											<Label
 												Caption="@Data.TMANOTES~"
 												ID="lblTMANOTES"
+											/>
+											<ConditionalClass
+												Class="yellow-highlight"
+												Condition="&quot;@Data.SHPMTTYP_CODE~&quot; = &quot;11&quot;"
+											/>
+											<ConditionalClass
+												Class="blue-highlight"
+												Condition="&quot;@Data.SHPMTTYP_CODE~&quot; = &quot;110&quot;"
 											/>
 										</DataTableColumn>
 										<SummaryRow
