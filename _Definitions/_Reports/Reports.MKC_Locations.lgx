@@ -11,14 +11,15 @@
 			ColumnNamesRow="1"
 			ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\LocationData.xlsx"
 			ExcelWorksheet="BranchData"
-			ID="dlLocalBranchData"
+			ID="dlActiveLocationBranchData"
 			Type="Excel"
 			>
-			<DataLayerLink
-				ID="dllBranchData"
-			/>
 			<ConditionFilter
 				Condition="&quot;@Data.Active~&quot; = &quot;1&quot;"
+				ID="filterActive"
+			/>
+			<DataLayerLink
+				ID="dllBranchData"
 			/>
 		</DataLayer>
 	</LocalData>
@@ -104,10 +105,8 @@
 												SortSequence="Ascending"
 											/>
 											<ConditionFilter
-												Condition="&quot;@Data.Latitude~&quot; != &quot;&quot; AND &quot;@Data.Longitude&quot; != &quot;&quot;"
-											/>
-											<ConditionFilter
-												Condition="&quot;@Data.Active~&quot; = &quot;1&quot;"
+												Condition="&quot;@Data.Latitude~&quot; != &quot;&quot; AND &quot;@Data.Longitude~&quot; != &quot;&quot;"
+												ID="filterLatLongValid"
 											/>
 										</DataLayer>
 										<EventHandler
@@ -174,11 +173,7 @@
 												ID="dllBranch"
 												LinkedDataLayerID="dllBranchData"
 												Type="Linked"
-												>
-												<ConditionFilter
-													Condition="&quot;@Data.Active~&quot; = &quot;1&quot;"
-												/>
-											</DataLayer>
+											/>
 											<Action
 												ElementID="panel-body-detail"
 												ID="refLocationInfoTable"
@@ -246,9 +241,6 @@
 															LinkedDataLayerID="dllBranchData"
 															Type="Linked"
 															>
-															<ConditionFilter
-																Condition="&quot;@Data.Active~&quot; = &quot;1&quot;"
-															/>
 															<ConditionFilter
 																Condition="&quot;@Request.MKCLocation~&quot; != &quot;&quot; AND &quot;@Data.LocationCode~&quot; = &quot;@Request.MKCLocation~&quot;"
 															/>
@@ -425,9 +417,8 @@
 																					<WaitPage/>
 																				</Target>
 																				<LinkParams
-																					paramLocCd="@Data.LocationCode~"
+																					LocType="1"
 																					paramLocGLStr="@Data.LocGLStr~"
-																					paramLocName=""
 																				/>
 																			</Action>
 																		</Label>
@@ -449,9 +440,8 @@
 																					<WaitPage/>
 																				</Target>
 																				<LinkParams
-																					paramLocCd="@Data.LocationCode~"
+																					LocType="1"
 																					paramLocGLStr="@Data.LocGLStr~"
-																					paramLocName=""
 																				/>
 																			</Action>
 																		</Label>
@@ -475,9 +465,8 @@
 																					<WaitPage/>
 																				</Target>
 																				<LinkParams
-																					paramLocCd="@Data.LocationCode~"
+																					LocType="1"
 																					paramLocGLStr="@Data.LocGLStr~"
-																					paramLocName=""
 																				/>
 																			</Action>
 																		</Label>
@@ -499,9 +488,8 @@
 																					<WaitPage/>
 																				</Target>
 																				<LinkParams
-																					paramLocCd="@Data.LocationCode~"
+																					LocType="1"
 																					paramLocGLStr="@Data.LocGLStr~"
-																					paramLocName=""
 																				/>
 																			</Action>
 																		</Label>
@@ -555,9 +543,6 @@
 															RightDataColumn="Location"
 														/>
 													</Join>
-													<ConditionFilter
-														Condition="&quot;@Data.Active~&quot; = &quot;1&quot;"
-													/>
 													<ConditionFilter
 														Condition="&quot;@Request.MKCLocation~&quot; != &quot;&quot; AND &quot;@Data.LocationCode~&quot; = &quot;@Request.MKCLocation~&quot;"
 													/>

@@ -3,16 +3,16 @@
 	Caption="Additional Branch Reports"
 	ID="Unknown.SubReports.AdditionalReports"
 	>
-	<LocalData>
+	<LocalData
+		ID="LocalData-FiscalDates"
+		>
+		<Note
+			Note="The Local Data section has to stay above the Default Request Parameters section"
+		/>
 		<DataLayer
-			CacheKey="luAdditionalReportsLocations"
-			ExpirationTimeSpan="8:00"
-			Type="Cached"
-			>
-			<DataLayer
-				ConnectionID="connProdGP"
-				ID="sqlFiscalDates"
-				Source="SELECT 
+			ConnectionID="connProdGP"
+			ID="sqlFiscalDates"
+			Source="SELECT 
   CASE 
     WHEN DATEPART(MONTH,GETDATE())&gt;2 THEN DATEPART(YEAR,GETDATE())+1 
   ELSE DATEPART(YEAR,GETDATE()) 
@@ -30,7 +30,158 @@
 	  END 
   END FISCPERIODID
 "
-				Type="SQL"
+			Type="SQL"
+		/>
+	</LocalData>
+	<LocalData
+		ID="LocalData-LocationList"
+		>
+		<DataLayer
+			ColumnNamesRow="1"
+			ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\LocationData.xlsx"
+			ExcelWorksheet="BranchData"
+			ID="dlLocations"
+			Type="Excel"
+			>
+			<ConditionFilter
+				Condition="&quot;@Data.LocGLStr~&quot; &lt;&gt; &quot;&quot;"
+				ID="filLocGLStr"
+			/>
+			<DataLayerLink
+				ID="dllLocations"
+			/>
+		</DataLayer>
+	</LocalData>
+	<LocalData
+		ID="LocalData-PODList"
+		>
+		<DataLayer
+			ConnectionID="connProdGP"
+			ID="dlPODs"
+			Source="SELECT [LocGLStr], LocDesc as [Location] FROM MKCGP.dbo.ABCPODLU ORDER BY [Location];"
+			Type="SQL"
+			>
+			<DataLayerLink
+				ID="dllPODs"
+			/>
+		</DataLayer>
+	</LocalData>
+	<LocalData
+		ID="LocalData-LocationName"
+		>
+		<DataLayer
+			Command="MKCGP.dbo.mkcGetFinancialData"
+			ConnectionID="connProdGP"
+			ID="sp_sqlGetLocationName"
+			Type="SP"
+			>
+			<SPParameters>
+				<SPParameter
+					ID="FiscalYear"
+					SPParamDirection="Input"
+					SPParamSize="0"
+					SPParamType="dt-4"
+					Value="@Request.paramFiscYear~"
+				/>
+				<SPParameter
+					ID="FiscalPeriod"
+					SPParamDirection="Input"
+					SPParamSize="0"
+					SPParamType="dt-4"
+					Value="@Request.paramFiscPeriod~"
+				/>
+				<SPParameter
+					ID="LocationList"
+					SPParamDirection="Input"
+					SPParamSize="0"
+					SPParamType="dt-203"
+					Value="@Request.paramLocGLStr~"
+				/>
+				<SPParameter
+					ID="TabName"
+					SPParamDirection="Input"
+					SPParamSize="0"
+					SPParamType="dt-203"
+					Value="GetLocationName"
+				/>
+				<SPParameter
+					ID="Account"
+					SPParamDirection="Input"
+					SPParamSize="0"
+					SPParamType="dt-200"
+					Value="@Request.MNACSGMT~"
+				/>
+				<SPParameter
+					ID="LocType"
+					SPParamDirection="Input"
+					SPParamSize="0"
+					SPParamType="dt-16"
+					Value="@Request.LocType~"
+				/>
+			</SPParameters>
+		</DataLayer>
+	</LocalData>
+	<LocalData
+		ID="LocalData-FiscalPeriodName"
+		>
+		<DataLayer
+			ID="staticFiscalPeriodName"
+			Type="Static"
+			>
+			<StaticDataRow
+				FISCPRDDSC="March"
+				FISCPRDID="1"
+			/>
+			<StaticDataRow
+				FISCPRDDSC="April"
+				FISCPRDID="2"
+			/>
+			<StaticDataRow
+				FISCPRDDSC="May"
+				FISCPRDID="3"
+			/>
+			<StaticDataRow
+				FISCPRDDSC="June"
+				FISCPRDID="4"
+			/>
+			<StaticDataRow
+				FISCPRDDSC="July"
+				FISCPRDID="5"
+			/>
+			<StaticDataRow
+				FISCPRDDSC="August"
+				FISCPRDID="6"
+			/>
+			<StaticDataRow
+				FISCPRDDSC="September"
+				FISCPRDID="7"
+			/>
+			<StaticDataRow
+				FISCPRDDSC="October"
+				FISCPRDID="8"
+			/>
+			<StaticDataRow
+				FISCPRDDSC="November"
+				FISCPRDID="9"
+			/>
+			<StaticDataRow
+				FISCPRDDSC="December"
+				FISCPRDID="10"
+			/>
+			<StaticDataRow
+				FISCPRDDSC="January"
+				FISCPRDID="11"
+			/>
+			<StaticDataRow
+				FISCPRDDSC="February"
+				FISCPRDID="12"
+			/>
+			<CompareFilter
+				CompareType="="
+				CompareValue="@Request.paramFiscPeriod~"
+				DataColumn="FISCPRDID"
+				DataType="Number"
+				ID="filtPeriod"
 			/>
 		</DataLayer>
 	</LocalData>
@@ -46,11 +197,16 @@
 	</LocalData>
 	<DefaultRequestParams
 		ckbCATEGORY="CHEM"
+		LocType="1"
+		paramBudgetId="@Local.FISCYEAR~"
 		paramDefaultTab="tabAppByRig"
 		paramFiscPeriod="@Local.FISCPERIODID~"
 		paramFiscYear="@Local.FISCYEAR~"
-		paramLocGLStr="100"
-		paramLocName="Abilene"
+		paramLocGLStr="040"
+		themeDetailText="ThemeTextSmaller"
+		themeInputText="ThemeTextSmaller,uppercase"
+		themePlanColumn="ThemeMargin ThemeAlignRight ThemeContainerShaded"
+		themeTabLabel="ThemeBold ThemeTextSmall"
 	/>
 	<IncludeSharedElement
 		DefinitionFile="_Layout.Shared"
@@ -69,10 +225,24 @@
 					<Division
 						Class="panel-heading"
 						HtmlDiv="True"
-						ID="panel-heading"
+						ID="panel-heading-Title"
 						>
 						<Label
 							Caption="Additional Branch Reports"
+							Class="panel-title"
+						/>
+						<Spaces
+							Size="4"
+						/>
+						<Label
+							Caption="@Local.FISCPRDDSC~ @Request.paramFiscYear~"
+							Class="panel-title"
+						/>
+						<Spaces
+							Size="4"
+						/>
+						<Label
+							Caption="@Local.LocationDescription~"
 							Class="panel-title"
 						/>
 					</Division>
@@ -164,7 +334,7 @@
 															>
 															<InputSelectList
 																Caption="Fiscal Year:"
-																Class="ThemeTextSmall"
+																Class="@Request.themeInputText~"
 																DefaultValue="@Request.paramFiscYear~"
 																ID="paramFiscYear"
 																IncludeBlank="False"
@@ -188,7 +358,7 @@
 															<LineBreak/>
 															<InputSelectList
 																Caption="Fiscal Period:"
-																Class="ThemeTextSmall"
+																Class="@Request.themeInputText~"
 																DefaultValue="@Request.paramFiscPeriod~"
 																ID="paramFiscPeriod"
 																IncludeBlank="False"
@@ -252,25 +422,20 @@
 															</InputSelectList>
 															<LineBreak/>
 															<InputSelectList
-																Caption="Location:"
-																Class="ThemeTextSmall"
+																Caption="Locations:"
+																CaptionClass="ThemeTextSmall,ThemeBold"
+																Class="@Request.themeInputText~"
 																DefaultValue="@Request.paramLocGLStr~"
 																ID="paramLocGLStr"
+																IncludeBlank="True"
 																OptionCaptionColumn="Location"
 																OptionValueColumn="LocGLStr"
 																>
 																<DataLayer
-																	ColumnNamesRow="1"
-																	ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\LocationData.xlsx"
-																	ExcelWorksheet="BranchData"
-																	ID="dlLocations"
-																	Type="Excel"
-																	>
-																	<ConditionFilter
-																		Condition="&quot;@Data.LocGLStr~&quot; &lt;&gt; &quot;&quot;"
-																		ID="filLocGLStr"
-																	/>
-																</DataLayer>
+																	ID="dataLocations"
+																	LinkedDataLayerID="dllLocations"
+																	Type="Linked"
+																/>
 															</InputSelectList>
 															<LineBreak/>
 															<Label
@@ -278,7 +443,7 @@
 																Class="btn btn-default ThemeTextSmall"
 																>
 																<Action
-																	ElementID="tabRigReports"
+																	ElementID="panel-heading-Title"
 																	ID="actRefreshBranchFinancialTabs"
 																	Type="RefreshElement"
 																	>
@@ -332,15 +497,15 @@
 											<Tabs
 												DefaultTab="@Request.paramDefaultTab~"
 												ID="tabRigReports"
-												TabbingStyle="RefreshPage"
+												TabbingStyle="Static"
 												TabLocation="top"
 												>
 												<Note
-													Note="Note: &quot;Tabbing Style&quot; *must be* &quot;Refresh Page&quot; for the inputs and sorting to work properly"
+													Note="Note: Make sure data table &quot;Ajax Paging and Sorting&quot; attribute setting = &quot;True&quot;"
 												/>
 												<TabPanel
 													Caption="Application By Rig"
-													Class="ThemeTextSmall"
+													Class="@Request.themeTabLabel~"
 													ID="tabAppByRig"
 													>
 													<Division
@@ -386,9 +551,10 @@
 																			>
 																			<Row>
 																				<Column
-																					Class="ThemeTextSmall"
+																					Class="@Request.themeDetailText~"
 																					>
 																					<DataTable
+																						AjaxPaging="True"
 																						ID="dtApplicationRig"
 																						SortArrows="True"
 																						>
@@ -559,7 +725,7 @@ ORDER BY AgLocationCode, Rig
 												</TabPanel>
 												<TabPanel
 													Caption="Application By Employee"
-													Class="ThemeTextSmall"
+													Class="@Request.themeTabLabel~"
 													ID="tabAppByEmployee"
 													>
 													<Division
@@ -605,9 +771,10 @@ ORDER BY AgLocationCode, Rig
 																			>
 																			<Row>
 																				<Column
-																					Class="ThemeTextSmall"
+																					Class="@Request.themeDetailText~"
 																					>
 																					<DataTable
+																						AjaxPaging="True"
 																						ID="dtApplicationOperator"
 																						SortArrows="True"
 																						>
@@ -750,7 +917,7 @@ ORDER BY AgLocationCode, Operator
 												</TabPanel>
 												<TabPanel
 													Caption="Inventory Turns"
-													Class="ThemeTextSmall"
+													Class="@Request.themeTabLabel~"
 													ID="tabTurns"
 													>
 													<Division
@@ -773,7 +940,9 @@ ORDER BY AgLocationCode, Operator
 																</ResponsiveColumn>
 															</ResponsiveRow>
 															<ResponsiveRow>
-																<ResponsiveColumn>
+																<ResponsiveColumn
+																	Class="@Request.themeDetailText~"
+																	>
 																	<Division
 																		Class="panel-body"
 																		HtmlDiv="True"
@@ -831,6 +1000,7 @@ ORDER BY AgLocationCode, Operator
 																			</Row>
 																			<Row>
 																				<Column
+																					Class="@Request.themeDetailText~"
 																					Width="98"
 																					WidthScale="%"
 																					>
@@ -921,7 +1091,7 @@ ORDER BY AgLocationCode, Operator
 												<Remark>
 													<TabPanel
 														Caption="Seeded Acres"
-														Class="ThemeTextSmall"
+														Class="@Request.themeTabLabel~"
 														ID="tabAcres"
 														>
 														<Note
@@ -995,7 +1165,9 @@ ORDER BY AgLocationCode, Operator
 																					Size="30"
 																				/>
 																			</Column>
-																			<Column>
+																			<Column
+																				Class="@Request.themeDetailText~"
+																				>
 																				<DataTable
 																					ID="dtSeededAcres"
 																					SortArrows="True"
@@ -1269,7 +1441,7 @@ ORDER BY AgLocationCode, Operator
 												</Remark>
 												<TabPanel
 													Caption="Grain Discounts, Dockage and Shrink"
-													Class="ThemeTextSmall"
+													Class="@Request.themeTabLabel~"
 													ID="tabGrainShrink"
 													>
 													<Division
@@ -1307,8 +1479,11 @@ ORDER BY AgLocationCode, Operator
 																			WidthScale="%"
 																			>
 																			<Row>
-																				<Column>
+																				<Column
+																					Class="@Request.themeDetailText~"
+																					>
 																					<DataTable
+																						AjaxPaging="True"
 																						ID="dtAvoidableDiscounts"
 																						SortArrows="True"
 																						>
@@ -1468,9 +1643,11 @@ ORDER BY GLLocStr, COMMODITY_DESC
 																				</Column>
 																			</Row>
 																		</Rows>
-																		<LineBreak
-																			LineCount="2"
-																		/>
+																		<Remark>
+																			<LineBreak
+																				LineCount="2"
+																			/>
+																		</Remark>
 																	</Division>
 																</ResponsiveColumn>
 															</ResponsiveRow>
@@ -1509,9 +1686,10 @@ ORDER BY GLLocStr, COMMODITY_DESC
 																			>
 																			<Row>
 																				<Column
-																					Class="ThemeTextSmall"
+																					Class="@Request.themeDetailText~"
 																					>
 																					<DataTable
+																						AjaxPaging="True"
 																						ID="dtLongShort"
 																						SortArrows="True"
 																						>
@@ -1671,9 +1849,11 @@ ORDER BY GLLocStr, COMMODITY_DESC
 																				</Column>
 																			</Row>
 																		</Rows>
-																		<LineBreak
-																			LineCount="2"
-																		/>
+																		<Remark>
+																			<LineBreak
+																				LineCount="2"
+																			/>
+																		</Remark>
 																	</Division>
 																</ResponsiveColumn>
 															</ResponsiveRow>
@@ -1697,9 +1877,14 @@ ORDER BY GLLocStr, COMMODITY_DESC
 	/>
 	<ideTestParams
 		ckbCATEGORY="CHEM"
+		LocType=""
+		MNACSGMT=""
 		paramDefaultTab="tabAppByRig"
 		paramFiscPeriod="11"
 		paramFiscYear="2016"
 		paramLocGLStr="100"
+		themeDetailText=""
+		themeInputText=""
+		themeTabLabel=""
 	/>
 </Report>
