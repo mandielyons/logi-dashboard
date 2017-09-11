@@ -567,13 +567,13 @@
 													<Tabs
 														DefaultTab="@Request.paramDefaultTab~"
 														ID="tabFinancials"
-														TabbingStyle="RefreshPage"
+														TabbingStyle="Static"
 														TabLocation="top"
 														Width="95"
 														WidthScale="%"
 														>
 														<Note
-															Note="Note: &quot;Tabbing Style&quot; *must be* &quot;Refresh Page&quot; for the inputs and sorting to work properly"
+															Note="Note: Make sure data table &quot;Ajax Paging and Sorting&quot; attribute setting = &quot;True&quot;"
 														/>
 														<TabPanel
 															Caption="Volumes"
@@ -611,6 +611,7 @@
 																							Class="@Request.themeDetailText~"
 																							>
 																							<DataTable
+																								AjaxPaging="True"
 																								ID="dtUnits"
 																								SortArrows="True"
 																								>
@@ -854,6 +855,7 @@
 																							Class="@Request.themeDetailText~"
 																							>
 																							<DataTable
+																								AjaxPaging="True"
 																								ID="dtTotals"
 																								SortArrows="True"
 																								>
@@ -1175,6 +1177,7 @@
 																							Class="@Request.themeDetailText~"
 																							>
 																							<DataTable
+																								AjaxPaging="True"
 																								ID="dtSales"
 																								SortArrows="True"
 																								>
@@ -1813,6 +1816,7 @@
 																							Class="@Request.themeDetailText~"
 																							>
 																							<DataTable
+																								AjaxPaging="True"
 																								ID="dtOtherIncome"
 																								SortArrows="True"
 																								>
@@ -2112,6 +2116,7 @@
 																							Class="@Request.themeDetailText~"
 																							>
 																							<DataTable
+																								AjaxPaging="True"
 																								ID="dtPersonnel"
 																								SortArrows="True"
 																								>
@@ -2411,6 +2416,7 @@
 																							Class="@Request.themeDetailText~"
 																							>
 																							<DataTable
+																								AjaxPaging="True"
 																								ID="dtFixedExpense"
 																								SortArrows="True"
 																								>
@@ -2708,6 +2714,7 @@
 																							Class="@Request.themeDetailText~"
 																							>
 																							<DataTable
+																								AjaxPaging="True"
 																								Caption=""
 																								ID="dtOtherExpense"
 																								SortArrows="True"
@@ -2825,7 +2832,6 @@
 																											<Target
 																												FrameID="NewWindow"
 																												ID="tgtRptSmartList"
-																												KeepShowElements="True"
 																												Report="Unknown.SubReports.BranchFinancials-SmartList"
 																												RequestForwarding="True"
 																												Type="Report"

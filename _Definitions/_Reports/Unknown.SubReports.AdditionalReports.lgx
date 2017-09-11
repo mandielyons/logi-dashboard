@@ -225,7 +225,7 @@
 					<Division
 						Class="panel-heading"
 						HtmlDiv="True"
-						ID="panel-heading"
+						ID="panel-heading-Title"
 						>
 						<Label
 							Caption="Additional Branch Reports"
@@ -443,7 +443,7 @@
 																Class="btn btn-default ThemeTextSmall"
 																>
 																<Action
-																	ElementID="tabRigReports"
+																	ElementID="panel-heading-Title"
 																	ID="actRefreshBranchFinancialTabs"
 																	Type="RefreshElement"
 																	>
@@ -497,11 +497,11 @@
 											<Tabs
 												DefaultTab="@Request.paramDefaultTab~"
 												ID="tabRigReports"
-												TabbingStyle="RefreshPage"
+												TabbingStyle="Static"
 												TabLocation="top"
 												>
 												<Note
-													Note="Note: &quot;Tabbing Style&quot; *must be* &quot;Refresh Page&quot; for the inputs and sorting to work properly"
+													Note="Note: Make sure data table &quot;Ajax Paging and Sorting&quot; attribute setting = &quot;True&quot;"
 												/>
 												<TabPanel
 													Caption="Application By Rig"
@@ -554,6 +554,7 @@
 																					Class="@Request.themeDetailText~"
 																					>
 																					<DataTable
+																						AjaxPaging="True"
 																						ID="dtApplicationRig"
 																						SortArrows="True"
 																						>
@@ -773,6 +774,7 @@ ORDER BY AgLocationCode, Rig
 																					Class="@Request.themeDetailText~"
 																					>
 																					<DataTable
+																						AjaxPaging="True"
 																						ID="dtApplicationOperator"
 																						SortArrows="True"
 																						>
@@ -1481,6 +1483,7 @@ ORDER BY AgLocationCode, Operator
 																					Class="@Request.themeDetailText~"
 																					>
 																					<DataTable
+																						AjaxPaging="True"
 																						ID="dtAvoidableDiscounts"
 																						SortArrows="True"
 																						>
@@ -1640,9 +1643,11 @@ ORDER BY GLLocStr, COMMODITY_DESC
 																				</Column>
 																			</Row>
 																		</Rows>
-																		<LineBreak
-																			LineCount="2"
-																		/>
+																		<Remark>
+																			<LineBreak
+																				LineCount="2"
+																			/>
+																		</Remark>
 																	</Division>
 																</ResponsiveColumn>
 															</ResponsiveRow>
@@ -1684,6 +1689,7 @@ ORDER BY GLLocStr, COMMODITY_DESC
 																					Class="@Request.themeDetailText~"
 																					>
 																					<DataTable
+																						AjaxPaging="True"
 																						ID="dtLongShort"
 																						SortArrows="True"
 																						>
@@ -1843,9 +1849,11 @@ ORDER BY GLLocStr, COMMODITY_DESC
 																				</Column>
 																			</Row>
 																		</Rows>
-																		<LineBreak
-																			LineCount="2"
-																		/>
+																		<Remark>
+																			<LineBreak
+																				LineCount="2"
+																			/>
+																		</Remark>
 																	</Division>
 																</ResponsiveColumn>
 															</ResponsiveRow>
