@@ -4,19 +4,16 @@
 	ID="Unknown.SubReports.BranchFinancials"
 	SecurityReportRightID="Dashboard Monthly Staff"
 	>
-	<LocalData>
+	<LocalData
+		ID="LocalData-FiscalDates"
+		>
 		<Note
 			Note="The Local Data section has to stay above the Default Request Parameters section"
 		/>
 		<DataLayer
-			CacheKey="luBranchFinancialsLocations"
-			ExpirationTimeSpan="8:00"
-			Type="Cached"
-			>
-			<DataLayer
-				ConnectionID="connProdGP"
-				ID="sqlFiscalDates"
-				Source="SELECT 
+			ConnectionID="connProdGP"
+			ID="sqlFiscalDates"
+			Source="SELECT 
   CASE 
     WHEN DATEPART(MONTH,GETDATE())&gt;2 THEN DATEPART(YEAR,GETDATE())+1 
   ELSE DATEPART(YEAR,GETDATE()) 
@@ -34,9 +31,12 @@
 	  END 
   END FISCPERIODID
 "
-				Type="SQL"
-			/>
-		</DataLayer>
+			Type="SQL"
+		/>
+	</LocalData>
+	<LocalData
+		ID="LocalData-LocationList"
+		>
 		<DataLayer
 			ColumnNamesRow="1"
 			ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\LocationData.xlsx"
@@ -52,6 +52,10 @@
 				ID="dllLocations"
 			/>
 		</DataLayer>
+	</LocalData>
+	<LocalData
+		ID="LocalData-PODList"
+		>
 		<DataLayer
 			ConnectionID="connProdGP"
 			ID="dlPODs"
@@ -63,7 +67,9 @@
 			/>
 		</DataLayer>
 	</LocalData>
-	<LocalData>
+	<LocalData
+		ID="LocalData-LocationName"
+		>
 		<DataLayer
 			Command="MKCGP.dbo.mkcGetFinancialData"
 			ConnectionID="connProdGP"
@@ -116,7 +122,9 @@
 			</SPParameters>
 		</DataLayer>
 	</LocalData>
-	<LocalData>
+	<LocalData
+		ID="LocalData-FiscalPeriodName"
+		>
 		<DataLayer
 			ID="staticFiscalPeriodName"
 			Type="Static"
@@ -186,13 +194,10 @@
 		paramFiscYear="@Local.FISCYEAR~"
 		paramLocGLStr="040"
 		themeDetailText="ThemeTextSmaller"
+		themeInputText="ThemeTextSmaller,uppercase"
 		themePlanColumn="ThemeMargin ThemeAlignRight ThemeContainerShaded"
 		themeTabLabel="ThemeBold ThemeTextSmall"
-		>
-		<Note
-			Note="themePlanColumn (with shading) = ThemeMargin, ThemeAlignRight, ThemeContainerShaded"
-		/>
-	</DefaultRequestParams>
+	/>
 	<IncludeSharedElement
 		DefinitionFile="_Layout.Shared"
 		SharedElementID="shrHeader"
@@ -321,7 +326,7 @@
 															<InputSelectList
 																Caption="Fiscal Year:"
 																CaptionClass="ThemeTextSmall,ThemeBold"
-																Class="ThemeTextSmaller,uppercase"
+																Class="@Request.themeInputText~"
 																DefaultValue="@Request.paramFiscYear~"
 																ID="paramFiscYear"
 																IncludeBlank="False"
@@ -346,7 +351,7 @@
 															<InputSelectList
 																Caption="Fiscal Period:"
 																CaptionClass="ThemeTextSmall,ThemeBold"
-																Class="ThemeTextSmaller,uppercase"
+																Class="@Request.themeInputText~"
 																DefaultValue="@Request.paramFiscPeriod~"
 																ID="paramFiscPeriod"
 																IncludeBlank="False"
@@ -410,6 +415,7 @@
 															</InputSelectList>
 															<LineBreak/>
 															<Division
+																HtmlDiv="True"
 																ID="divToggle"
 																>
 																<InputRadioButtons
@@ -447,33 +453,14 @@
 																</InputRadioButtons>
 																<LineBreak/>
 																<Division
-																	Condition="@Request.LocType~ == 2"
-																	ID="divPODs"
-																	>
-																	<InputSelectList
-																		Caption="PODs:"
-																		CaptionClass="ThemeTextSmall,ThemeBold"
-																		Class="ThemeTextSmaller,uppercase"
-																		DefaultValue="@Request.paramLocGLStr~"
-																		ID="paramLocGLStr"
-																		OptionCaptionColumn="Location"
-																		OptionValueColumn="LocGLStr"
-																		>
-																		<DataLayer
-																			ID="dataPODs"
-																			LinkedDataLayerID="dllPODs"
-																			Type="Linked"
-																		/>
-																	</InputSelectList>
-																</Division>
-																<Division
-																	Condition="@Request.LocType~ == 1"
+																	Condition="@Request.LocType~ = 1"
+																	HtmlDiv="True"
 																	ID="divLocations"
 																	>
 																	<InputSelectList
 																		Caption="Locations:"
 																		CaptionClass="ThemeTextSmall,ThemeBold"
-																		Class="ThemeTextSmaller,uppercase"
+																		Class="@Request.themeInputText~"
 																		DefaultValue="@Request.paramLocGLStr~"
 																		ID="paramLocGLStr"
 																		IncludeBlank="True"
@@ -483,6 +470,28 @@
 																		<DataLayer
 																			ID="dataLocations"
 																			LinkedDataLayerID="dllLocations"
+																			Type="Linked"
+																		/>
+																	</InputSelectList>
+																</Division>
+																<Division
+																	Condition="@Request.LocType~ = 2"
+																	HtmlDiv="True"
+																	ID="divPODs"
+																	>
+																	<InputSelectList
+																		Caption="PODs:"
+																		CaptionClass="ThemeTextSmall,ThemeBold"
+																		Class="@Request.themeInputText~"
+																		DefaultValue="@Request.paramLocGLStr~"
+																		ID="paramLocGLStr"
+																		IncludeBlank="True"
+																		OptionCaptionColumn="Location"
+																		OptionValueColumn="LocGLStr"
+																		>
+																		<DataLayer
+																			ID="dataPODs"
+																			LinkedDataLayerID="dllPODs"
 																			Type="Linked"
 																		/>
 																	</InputSelectList>
@@ -3018,13 +3027,14 @@
 		SharedElementID="shrFooter"
 	/>
 	<ideTestParams
-		LocType="2"
+		LocType="1"
 		MNACSGMT=""
 		paramDefaultTab=""
 		paramFiscPeriod="5"
 		paramFiscYear="2018"
 		paramLocGLStr="040"
 		themeDetailText=""
+		themeInputText=""
 		themePlanColumn=""
 		themeTabLabel=""
 	/>
