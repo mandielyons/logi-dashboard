@@ -497,7 +497,7 @@
 											<Tabs
 												DefaultTab="@Request.paramDefaultTab~"
 												ID="tabRigReports"
-												TabbingStyle="Static"
+												TabbingStyle="Ajax"
 												TabLocation="top"
 												>
 												<Note
@@ -1880,8 +1880,8 @@ ORDER BY GLLocStr, COMMODITY_DESC
 		LocType=""
 		MNACSGMT=""
 		paramDefaultTab="tabAppByRig"
-		paramFiscPeriod="11"
-		paramFiscYear="2016"
+		paramFiscPeriod="6"
+		paramFiscYear="2018"
 		paramLocGLStr="100"
 		themeDetailText=""
 		themeInputText=""
