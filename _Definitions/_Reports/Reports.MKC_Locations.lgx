@@ -85,9 +85,9 @@
 									ID="divFilter"
 									>
 									<InputSelectList
-										Caption="MKC Locations:"
+										Caption="Locations:"
 										CaptionClass="ThemeTextSmall ThemeBold"
-										Class="ThemeTextSmall"
+										Class="ThemeTextSmaller,uppercase"
 										ID="MKCLocation"
 										InputRows="20"
 										MultiSelect="False"
