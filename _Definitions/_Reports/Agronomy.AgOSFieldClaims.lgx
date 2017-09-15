@@ -182,7 +182,8 @@ Order By Customer"
 								Caption="Field Claim Details"
 								CaptionClass="ThemeTextSmall"
 								CellSpacing="5"
-								Class="ThemeTextSmall"
+								Class="ThemeTextSmaller"
+								DraggableColumns="False"
 								ID="dtClaims"
 								Width="100"
 								WidthScale="%"
@@ -229,19 +230,11 @@ Order By Claims.CreatedDate Desc"
 									>
 									<Label
 										Caption="@Data.ClaimNumber~"
-										>
-										<Remark>
-											<Action
-												ElementID="divClaims-details"
-												Type="RefreshElement"
-												>
-												<LinkParams
-													Claim="@Data.ClaimNumber~"
-												/>
-												<WaitPage/>
-											</Action>
-										</Remark>
-									</Label>
+									/>
+									<ConditionalClass
+										Class="yellow-highlight ThemeAlignTopLeft"
+										Condition="@Data.Resolved~ =  True"
+									/>
 								</DataTableColumn>
 								<DataTableColumn
 									Class="ThemeAlignTopLeft"
@@ -249,6 +242,10 @@ Order By Claims.CreatedDate Desc"
 									>
 									<Label
 										Caption="@Data.Customer~"
+									/>
+									<ConditionalClass
+										Class="yellow-highlight ThemeAlignTopLeft"
+										Condition="@Data.Resolved~ =  True"
 									/>
 								</DataTableColumn>
 								<DataTableColumn
@@ -258,15 +255,34 @@ Order By Claims.CreatedDate Desc"
 									<Label
 										Caption="@Data.CreatedDate~"
 									/>
+									<ConditionalClass
+										Class="yellow-highlight ThemeAlignTopLeft"
+										Condition="@Data.Resolved~ =  True"
+									/>
 								</DataTableColumn>
 								<DataTableColumn
 									Class="ThemeAlignTopLeft"
-									Header="Problem"
-									Width="30"
+									Header="Problem / Instructions"
+									Width="32"
 									WidthScale="%"
 									>
 									<Label
 										Caption="@Data.Problem~"
+										Class="uppercase"
+									/>
+									<LineBreak
+										LineCount="2"
+									/>
+									<Label
+										Caption="@Data.Instructions~"
+										Class="uppercase"
+									/>
+									<LineBreak
+										LineCount="2"
+									/>
+									<ConditionalClass
+										Class="yellow-highlight ThemeAlignTopLeft"
+										Condition="@Data.Resolved~ =  True"
 									/>
 								</DataTableColumn>
 								<DataTableColumn
@@ -275,6 +291,11 @@ Order By Claims.CreatedDate Desc"
 									>
 									<Label
 										Caption="@Data.CreatedFName~ @Data.CreatedLName~"
+										Class="uppercase"
+									/>
+									<ConditionalClass
+										Class="yellow-highlight ThemeAlignTopLeft"
+										Condition="@Data.Resolved~ =  True"
 									/>
 								</DataTableColumn>
 								<DataTableColumn
@@ -284,6 +305,10 @@ Order By Claims.CreatedDate Desc"
 									<Label
 										Caption="@Data.Acres~"
 									/>
+									<ConditionalClass
+										Class="yellow-highlight ThemeAlignTopLeft"
+										Condition="@Data.Resolved~ =  True"
+									/>
 								</DataTableColumn>
 								<DataTableColumn
 									Class="ThemeAlignTopLeft"
@@ -291,36 +316,23 @@ Order By Claims.CreatedDate Desc"
 									>
 									<Label
 										Caption="@Data.Manufacturer~"
+										Class="uppercase"
+									/>
+									<ConditionalClass
+										Class="yellow-highlight ThemeAlignTopLeft"
+										Condition="@Data.Resolved~ =  True"
 									/>
 								</DataTableColumn>
-								<Remark>
-									<DataTableColumn
-										Header="Resolved"
-										>
-										<Label
-											Caption="N"
-											>
-											<ConditionalClass
-												Class="ThemeHidden"
-												Condition="@Data.Resolved~ = True"
-											/>
-										</Label>
-										<Label
-											Caption="Y"
-											>
-											<ConditionalClass
-												Class="ThemeHidden"
-												Condition="@Data.Resolved~ = False"
-											/>
-										</Label>
-									</DataTableColumn>
-								</Remark>
 								<DataTableColumn
 									Class="ThemeAlignTopLeft"
 									Header="Resolved Date"
 									>
 									<Label
 										Caption="@Data.ResolveDate~"
+									/>
+									<ConditionalClass
+										Class="yellow-highlight ThemeAlignTopLeft"
+										Condition="@Data.Resolved~ =  True"
 									/>
 								</DataTableColumn>
 								<DataTableColumn
@@ -331,6 +343,10 @@ Order By Claims.CreatedDate Desc"
 									<Label
 										Caption="@Data.Total~"
 									/>
+									<ConditionalClass
+										Class="yellow-highlight ThemeAlignTopLeft"
+										Condition="@Data.Resolved~ =  True"
+									/>
 								</DataTableColumn>
 								<DataTableColumn
 									Class="ThemeAlignTopRight"
@@ -340,6 +356,10 @@ Order By Claims.CreatedDate Desc"
 									<Label
 										Caption="@Data.Received~"
 									/>
+									<ConditionalClass
+										Class="yellow-highlight ThemeAlignTopLeft"
+										Condition="@Data.Resolved~ =  True"
+									/>
 								</DataTableColumn>
 								<DataTableColumn
 									Class="ThemeAlignTopRight"
@@ -348,6 +368,10 @@ Order By Claims.CreatedDate Desc"
 									>
 									<Label
 										Caption="@Data.Balance~"
+									/>
+									<ConditionalClass
+										Class="yellow-highlight ThemeAlignTopLeft"
+										Condition="@Data.Resolved~ =  True"
 									/>
 								</DataTableColumn>
 							</DataTable>
