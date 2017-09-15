@@ -1,0 +1,403 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report
+	Caption="AgOS Field Claims "
+	ID="Agronomy.AgOSFieldClaims"
+	SecurityReportRightID="MKC Dashboard"
+	>
+	<DefaultRequestParams
+		Customer="-1"
+	/>
+	<IncludeSharedElement
+		DefinitionFile="_Layout.Shared"
+		SharedElementID="shrHeader"
+	/>
+	<Body>
+		<Division
+			Class="panel panel-default"
+			HtmlDiv="True"
+			ID="div-panel"
+			>
+			<Division
+				Class="panel-heading"
+				HtmlDiv="True"
+				ID="div-header"
+				>
+				<Label
+					Caption="AgOS Field Claims"
+					Class="panel-title"
+				/>
+			</Division>
+			<Division
+				Class="panel-body"
+				HtmlDiv="True"
+				ID="div-body"
+				>
+				<ResponsiveRow>
+					<ResponsiveColumn>
+						<Remark>
+							<Division
+								Class="pull-right"
+								HtmlDiv="True"
+								ID="divHelp"
+								>
+								<Spaces
+									Size="5"
+								/>
+								<Label
+									Class="fa fa-question-circle fa-2x "
+									HtmlTag="Span"
+									ID="lnkHelp"
+									Tooltip="AgOS Orders FAQs"
+									>
+									<Action
+										ID="rptFAQs"
+										Type="Report"
+										>
+										<Target
+											FrameID="NewWindow"
+											Report="Unknown.SubReports.AgOSOrdersFAQs"
+											Type="Report"
+										/>
+									</Action>
+								</Label>
+							</Division>
+						</Remark>
+						<Division
+							Class="pull-right"
+							HtmlDiv="True"
+							ID="divClaimExport"
+							>
+							<IncludeSharedElement
+								DefinitionFile="_Layout.Shared"
+								SharedElementID="shrExcelExport"
+								>
+								<SharedElementParams
+									DataTableID="dtClaims"
+									ReportName="Field Claims"
+									Security=""
+								/>
+							</IncludeSharedElement>
+						</Division>
+					</ResponsiveColumn>
+				</ResponsiveRow>
+				<ResponsiveRow>
+					<ResponsiveColumn
+						ColspanExtraSmallScreen="6"
+						ColspanLargeScreen="3"
+						ColspanMediumScreen="3"
+						ColspanSmallScreen="6"
+						>
+						<Division
+							Class="well"
+							HtmlDiv="True"
+							ID="divFilters"
+							>
+							<Remark>
+								<InputSelectList
+									Caption="Claim Number:"
+									CaptionClass="ThemeTextSmall ThemeBold"
+									Class="ThemeTextSmaller"
+									ID="Claim"
+									IncludeBlank="True"
+									OptionCaptionColumn="ClaimNumber"
+									OptionValueColumn="ClaimNumber"
+									>
+									<DataLayer
+										ConnectionID="connAgOS"
+										ID="dlClaimIDs"
+										Source="Select Claims.ClaimID As ClaimNumber
+From Claims
+Where Claims.ClaimTypeID = 1
+Order By ClaimNumber"
+										Type="SQL"
+									/>
+								</InputSelectList>
+							</Remark>
+							<Remark>
+								<LineBreak/>
+							</Remark>
+							<InputSelectList
+								Caption="Customer"
+								CaptionClass="ThemeTextSmall ThemeBold"
+								Class="ThemeTextSmaller"
+								ID="Customer"
+								IncludeBlank="True"
+								IncludeBlankValue="-1"
+								OptionCaptionColumn="Customer"
+								OptionValueColumn="CustID"
+								>
+								<DataLayer
+									ConnectionID="connAgOS"
+									ID="dlCustomer"
+									Source="Select Distinct Claims.ObjectID As CustID,
+  Objects.Name As Customer
+From Objects
+  Inner Join Claims On Objects.ObjectID = Claims.ObjectID
+Order By Customer"
+									Type="SQL"
+								/>
+								<EventHandler
+									DhtmlEvent="onchange"
+									>
+									<Action
+										ElementID="dtClaims"
+										ID="refClaims"
+										Type="RefreshElement"
+										>
+										<WaitPage/>
+									</Action>
+								</EventHandler>
+							</InputSelectList>
+							<LineBreak/>
+							<Button
+								Caption="Reset"
+								ID="btnReset"
+								Tooltip="Clear all selections"
+								>
+								<Action
+									ElementID="dtClaims,divFilters"
+									ID="actReport"
+									RequestForwarding="True"
+									Type="RefreshElement"
+									>
+									<WaitPage/>
+									<LinkParams
+										Claim="-1"
+										Customer="-1"
+									/>
+								</Action>
+							</Button>
+						</Division>
+					</ResponsiveColumn>
+					<ResponsiveColumn
+						ColspanExtraSmallScreen="6"
+						ColspanLargeScreen="9"
+						ColspanMediumScreen="9"
+						ColspanSmallScreen="6"
+						>
+						<Division
+							ID="divClaims"
+							>
+							<DataTable
+								Caption="Field Claim Details"
+								CaptionClass="ThemeTextSmall"
+								CellSpacing="5"
+								Class="ThemeTextSmall"
+								ID="dtClaims"
+								Width="100"
+								WidthScale="%"
+								>
+								<InteractivePaging
+									CaptionType="Image"
+									Class="ThemeTextSmall"
+									Location="Top"
+									PageRowCount="12"
+									ShowPageNumber="True"
+								/>
+								<DataLayer
+									ConnectionID="connAgOS"
+									ID="dlClaims"
+									Source="Select Claims.ClaimID As ClaimNumber,
+  Convert(VARCHAR(10),Claims.CreatedDate,110) As CreatedDate,
+  Claims.ManufacturerInvolved,
+  Claims.PrimaryProblem As Problem,
+  Convert(VARCHAR(10),Claims.DateResolved,110) As ResolveDate,
+  Claims.Resolved As Resolved,
+  Claims.OrderID As OrderNumber,
+  Claims.AcresAffected As Acres,
+  Claims.Instructions As Instructions,
+  Convert(VARCHAR,Claims.TotalAmount,1) As Total,
+  Convert(VARCHAR,Claims.BalanceAmount,1) As Balance,
+  Convert(VARCHAR,(Claims.TotalAmount - Claims.BalanceAmount),1) As Received,
+  Claims.LocationCode As Location,
+  Users.FirstName As CreatedFName,
+  Users.LastName As CreatedLName,
+  Objects.Name As Customer,
+  Manufacturer.Name As Manufacturer
+From Claims
+  Inner Join Users On Claims.CreatedBy = Users.UserID
+  Inner Join Objects On Objects.ObjectID = Claims.ObjectID
+  Left Join Manufacturer On Claims.ManufacturerID = Manufacturer.ManufacturerID
+Where (Claims.ObjectID = &apos;@Request.Customer~&apos;) Or
+  (&apos;@Request.Customer~&apos; = -1 And Claims.ClaimTypeID = 1)
+Order By Claims.CreatedDate Desc"
+									Type="SQL"
+								/>
+								<DataTableColumn
+									Class="ThemeAlignTopLeft"
+									Header="Claim #"
+									>
+									<Label
+										Caption="@Data.ClaimNumber~"
+										>
+										<Remark>
+											<Action
+												ElementID="divClaims-details"
+												Type="RefreshElement"
+												>
+												<LinkParams
+													Claim="@Data.ClaimNumber~"
+												/>
+												<WaitPage/>
+											</Action>
+										</Remark>
+									</Label>
+								</DataTableColumn>
+								<DataTableColumn
+									Class="ThemeAlignTopLeft"
+									Header="Customer"
+									>
+									<Label
+										Caption="@Data.Customer~"
+									/>
+								</DataTableColumn>
+								<DataTableColumn
+									Class="ThemeAlignTopLeft"
+									Header="Created Date"
+									>
+									<Label
+										Caption="@Data.CreatedDate~"
+									/>
+								</DataTableColumn>
+								<DataTableColumn
+									Class="ThemeAlignTopLeft"
+									Header="Problem"
+									Width="30"
+									WidthScale="%"
+									>
+									<Label
+										Caption="@Data.Problem~"
+									/>
+								</DataTableColumn>
+								<DataTableColumn
+									Class="ThemeAlignTopLeft"
+									Header="Created By"
+									>
+									<Label
+										Caption="@Data.CreatedFName~ @Data.CreatedLName~"
+									/>
+								</DataTableColumn>
+								<DataTableColumn
+									Class="ThemeAlignTopLeft"
+									Header="Acres"
+									>
+									<Label
+										Caption="@Data.Acres~"
+									/>
+								</DataTableColumn>
+								<DataTableColumn
+									Class="ThemeAlignTopLeft"
+									Header="Manufacturer"
+									>
+									<Label
+										Caption="@Data.Manufacturer~"
+									/>
+								</DataTableColumn>
+								<Remark>
+									<DataTableColumn
+										Header="Resolved"
+										>
+										<Label
+											Caption="N"
+											>
+											<ConditionalClass
+												Class="ThemeHidden"
+												Condition="@Data.Resolved~ = True"
+											/>
+										</Label>
+										<Label
+											Caption="Y"
+											>
+											<ConditionalClass
+												Class="ThemeHidden"
+												Condition="@Data.Resolved~ = False"
+											/>
+										</Label>
+									</DataTableColumn>
+								</Remark>
+								<DataTableColumn
+									Class="ThemeAlignTopLeft"
+									Header="Resolved Date"
+									>
+									<Label
+										Caption="@Data.ResolveDate~"
+									/>
+								</DataTableColumn>
+								<DataTableColumn
+									Class="ThemeAlignTopRight"
+									ColumnHeaderClass="ThemeAlignRight"
+									Header="Total"
+									>
+									<Label
+										Caption="@Data.Total~"
+									/>
+								</DataTableColumn>
+								<DataTableColumn
+									Class="ThemeAlignTopRight"
+									ColumnHeaderClass="ThemeAlignRight"
+									Header="Received"
+									>
+									<Label
+										Caption="@Data.Received~"
+									/>
+								</DataTableColumn>
+								<DataTableColumn
+									Class="ThemeAlignTopRight"
+									ColumnHeaderClass="ThemeAlignRight"
+									Header="Balance"
+									>
+									<Label
+										Caption="@Data.Balance~"
+									/>
+								</DataTableColumn>
+							</DataTable>
+						</Division>
+					</ResponsiveColumn>
+				</ResponsiveRow>
+			</Division>
+		</Division>
+		<Remark>
+			<Division
+				Class="panel panel-default"
+				HtmlDiv="True"
+				ID="div-details"
+				>
+				<Division
+					Class="panel-heading"
+					HtmlDiv="True"
+					ID="div-header-details"
+					>
+					<Label
+						Caption="Claim Details"
+						Class="panel-title"
+					/>
+				</Division>
+				<Division
+					Class="panel-body"
+					HtmlDiv="True"
+					ID="div-body-details"
+					>
+					<ResponsiveRow>
+						<ResponsiveColumn
+							ColspanExtraSmallScreen="12"
+							ColspanLargeScreen="12"
+							ColspanMediumScreen="12"
+							ColspanSmallScreen="12"
+							>
+							<Division
+								ID="divClaims-details"
+							/>
+						</ResponsiveColumn>
+					</ResponsiveRow>
+				</Division>
+			</Division>
+		</Remark>
+	</Body>
+	<IncludeSharedElement
+		DefinitionFile="_Layout.Shared"
+		SharedElementID="shrFooter"
+	/>
+	<ideTestParams
+		Customer="-1"
+	/>
+</Report>
