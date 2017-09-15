@@ -567,7 +567,7 @@
 													<Tabs
 														DefaultTab="@Request.paramDefaultTab~"
 														ID="tabFinancials"
-														TabbingStyle="Static"
+														TabbingStyle="Ajax"
 														TabLocation="top"
 														Width="95"
 														WidthScale="%"
