@@ -33,60 +33,13 @@
 				ID="div-body"
 				>
 				<ResponsiveRow>
-					<ResponsiveColumn>
-						<Remark>
-							<Division
-								Class="pull-right"
-								HtmlDiv="True"
-								ID="divHelp"
-								>
-								<Spaces
-									Size="5"
-								/>
-								<Label
-									Class="fa fa-question-circle fa-2x "
-									HtmlTag="Span"
-									ID="lnkHelp"
-									Tooltip="AgOS Orders FAQs"
-									>
-									<Action
-										ID="rptFAQs"
-										Type="Report"
-										>
-										<Target
-											FrameID="NewWindow"
-											Report="Unknown.SubReports.AgOSOrdersFAQs"
-											Type="Report"
-										/>
-									</Action>
-								</Label>
-							</Division>
-						</Remark>
-						<Division
-							Class="pull-right"
-							HtmlDiv="True"
-							ID="divClaimExport"
-							>
-							<IncludeSharedElement
-								DefinitionFile="_Layout.Shared"
-								SharedElementID="shrExcelExport"
-								>
-								<SharedElementParams
-									DataTableID="dtClaims"
-									ReportName="Field Claims"
-									Security=""
-								/>
-							</IncludeSharedElement>
-						</Division>
-					</ResponsiveColumn>
-				</ResponsiveRow>
-				<ResponsiveRow>
 					<ResponsiveColumn
 						ColspanExtraSmallScreen="6"
 						ColspanLargeScreen="3"
 						ColspanMediumScreen="3"
 						ColspanSmallScreen="6"
 						>
+						<LineBreak/>
 						<Division
 							Class="well"
 							HtmlDiv="True"
@@ -112,9 +65,6 @@ Order By ClaimNumber"
 										Type="SQL"
 									/>
 								</InputSelectList>
-							</Remark>
-							<Remark>
-								<LineBreak/>
 							</Remark>
 							<InputSelectList
 								Caption="Customer"
@@ -162,7 +112,6 @@ Order By Customer"
 									>
 									<WaitPage/>
 									<LinkParams
-										Claim="-1"
 										Customer="-1"
 									/>
 								</Action>
@@ -170,14 +119,19 @@ Order By Customer"
 						</Division>
 					</ResponsiveColumn>
 					<ResponsiveColumn
-						ColspanExtraSmallScreen="6"
-						ColspanLargeScreen="9"
-						ColspanMediumScreen="9"
-						ColspanSmallScreen="6"
+						ColspanExtraSmallScreen="5"
+						ColspanLargeScreen="8"
+						ColspanMediumScreen="8"
+						ColspanSmallScreen="5"
 						>
 						<Division
 							ID="divClaims"
 							>
+							<LineBreak/>
+							<Label
+								Caption="*Resolved claims are higlighted in yellow."
+								Class="ThemeTextSmaller pull-right"
+							/>
 							<DataTable
 								Caption="Field Claim Details"
 								CaptionClass="ThemeTextSmall"
@@ -192,7 +146,7 @@ Order By Customer"
 									CaptionType="Image"
 									Class="ThemeTextSmall"
 									Location="Top"
-									PageRowCount="12"
+									PageRowCount="10"
 									ShowPageNumber="True"
 								/>
 								<DataLayer
@@ -208,8 +162,8 @@ Order By Customer"
   Claims.AcresAffected As Acres,
   Claims.Instructions As Instructions,
   Convert(VARCHAR,Claims.TotalAmount,1) As Total,
-  Convert(VARCHAR,Claims.BalanceAmount,1) As Balance,
-  Convert(VARCHAR,(Claims.TotalAmount - Claims.BalanceAmount),1) As Received,
+  Convert(VARCHAR,Claims.BalanceAmount,1) As Received,
+  Convert(VARCHAR,(Claims.TotalAmount - Claims.BalanceAmount),1) As Balance,
   Claims.LocationCode As Location,
   Users.FirstName As CreatedFName,
   Users.LastName As CreatedLName,
@@ -226,7 +180,7 @@ Order By Claims.CreatedDate Desc"
 								/>
 								<DataTableColumn
 									Class="ThemeAlignTopLeft"
-									Header="Claim #"
+									Header="Claim"
 									>
 									<Label
 										Caption="@Data.ClaimNumber~"
@@ -263,7 +217,7 @@ Order By Claims.CreatedDate Desc"
 								<DataTableColumn
 									Class="ThemeAlignTopLeft"
 									Header="Problem / Instructions"
-									Width="32"
+									Width="25"
 									WidthScale="%"
 									>
 									<Label
@@ -312,7 +266,7 @@ Order By Claims.CreatedDate Desc"
 								</DataTableColumn>
 								<DataTableColumn
 									Class="ThemeAlignTopLeft"
-									Header="Manufacturer"
+									Header="Manuf"
 									>
 									<Label
 										Caption="@Data.Manufacturer~"
@@ -375,6 +329,24 @@ Order By Claims.CreatedDate Desc"
 									/>
 								</DataTableColumn>
 							</DataTable>
+						</Division>
+					</ResponsiveColumn>
+					<ResponsiveColumn>
+						<Division
+							Class="pull-right"
+							HtmlDiv="True"
+							ID="divClaimExport"
+							>
+							<IncludeSharedElement
+								DefinitionFile="_Layout.Shared"
+								SharedElementID="shrExcelExport"
+								>
+								<SharedElementParams
+									DataTableID="dtClaims"
+									ReportName="Field Claims"
+									Security=""
+								/>
+							</IncludeSharedElement>
 						</Division>
 					</ResponsiveColumn>
 				</ResponsiveRow>
