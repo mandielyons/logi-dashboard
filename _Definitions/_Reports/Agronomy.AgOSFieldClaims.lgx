@@ -4,8 +4,21 @@
 	ID="Agronomy.AgOSFieldClaims"
 	SecurityReportRightID="MKC Dashboard"
 	>
+	<LocalData>
+		<DataLayer
+			ConnectionID="connAgOS"
+			ID="dlDate"
+			Source="Select Top 1 Convert(VARCHAR(10),Claims.CreatedDate,110) As FirstCreatedDate
+From Claims
+Order By Claims.CreatedDate"
+			Type="SQL"
+		/>
+	</LocalData>
 	<DefaultRequestParams
 		Customer="-1"
+		HarvestBeginDate="@Local.FirstCreatedDate~"
+		HarvestEndDate="@Function.Date~"
+		Location=""
 	/>
 	<IncludeSharedElement
 		DefinitionFile="_Layout.Shared"
@@ -45,27 +58,6 @@
 							HtmlDiv="True"
 							ID="divFilters"
 							>
-							<Remark>
-								<InputSelectList
-									Caption="Claim Number:"
-									CaptionClass="ThemeTextSmall ThemeBold"
-									Class="ThemeTextSmaller"
-									ID="Claim"
-									IncludeBlank="True"
-									OptionCaptionColumn="ClaimNumber"
-									OptionValueColumn="ClaimNumber"
-									>
-									<DataLayer
-										ConnectionID="connAgOS"
-										ID="dlClaimIDs"
-										Source="Select Claims.ClaimID As ClaimNumber
-From Claims
-Where Claims.ClaimTypeID = 1
-Order By ClaimNumber"
-										Type="SQL"
-									/>
-								</InputSelectList>
-							</Remark>
 							<InputSelectList
 								Caption="Customer"
 								CaptionClass="ThemeTextSmall ThemeBold"
@@ -99,6 +91,47 @@ Order By Customer"
 								</EventHandler>
 							</InputSelectList>
 							<LineBreak/>
+							<InputSelectList
+								Caption="Location Code"
+								CaptionClass="ThemeTextSmall ThemeBold"
+								Class="ThemeTextSmaller"
+								ID="Location"
+								IncludeBlank="True"
+								OptionCaptionColumn="AgOSLocCode"
+								OptionValueColumn="AgOSLocCode"
+								>
+								<DataLayer
+									ConnectionID="connAgOS"
+									ID="dlLocation"
+									Source="Select Distinct (Claims.LocationCode) As AgOSLocCode
+From Claims
+Order By Claims.LocationCode"
+									Type="SQL"
+								/>
+								<EventHandler
+									DhtmlEvent="onchange"
+									>
+									<Action
+										ElementID="dtClaims"
+										ID="refClaimsByLoc"
+										Type="RefreshElement"
+										>
+										<WaitPage/>
+									</Action>
+								</EventHandler>
+							</InputSelectList>
+							<LineBreak/>
+							<IncludeSharedElement
+								DefinitionFile="_Layout.Shared"
+								SharedElementID="shrDateFilter"
+								>
+								<SharedElementParams
+									DataTableID="dtClaims"
+									DefaultBeginDate="@Local.FirstCreatedDate~"
+									DefaultEndDate="@Function.Date~"
+								/>
+							</IncludeSharedElement>
+							<LineBreak/>
 							<Button
 								Caption="Reset"
 								ID="btnReset"
@@ -113,6 +146,7 @@ Order By Customer"
 									<WaitPage/>
 									<LinkParams
 										Customer="-1"
+										Location=""
 									/>
 								</Action>
 							</Button>
@@ -139,16 +173,19 @@ Order By Customer"
 								Class="ThemeTextSmaller"
 								DraggableColumns="False"
 								ID="dtClaims"
+								KeepScrollPosition="True"
 								Width="100"
 								WidthScale="%"
 								>
-								<InteractivePaging
-									CaptionType="Image"
-									Class="ThemeTextSmall"
-									Location="Top"
-									PageRowCount="10"
-									ShowPageNumber="True"
-								/>
+								<Remark>
+									<InteractivePaging
+										CaptionType="Image"
+										Class="ThemeTextSmall"
+										Location="Top"
+										PageRowCount="10"
+										ShowPageNumber="True"
+									/>
+								</Remark>
 								<DataLayer
 									ConnectionID="connAgOS"
 									ID="dlClaims"
@@ -173,8 +210,11 @@ From Claims
   Inner Join Users On Claims.CreatedBy = Users.UserID
   Inner Join Objects On Objects.ObjectID = Claims.ObjectID
   Left Join Manufacturer On Claims.ManufacturerID = Manufacturer.ManufacturerID
-Where (Claims.ObjectID = &apos;@Request.Customer~&apos;) Or
-  (&apos;@Request.Customer~&apos; = -1 And Claims.ClaimTypeID = 1)
+Where (Claims.LocationCode = &apos;@Request.Location~&apos; Or &apos;@Request.Location~&apos; = &apos; &apos;)
+  And (Claims.ObjectID = &apos;@Request.Customer~&apos; Or &apos;@Request.Customer~&apos; = -1) And
+  Claims.ClaimTypeID = 1 And
+  Claims.CreatedDate Between &apos;@Request.HarvestBeginDate~&apos; And
+  &apos;@Request.HarvestEndDate~&apos;
 Order By Claims.CreatedDate Desc"
 									Type="SQL"
 								/>
@@ -395,5 +435,8 @@ Order By Claims.CreatedDate Desc"
 	/>
 	<ideTestParams
 		Customer="-1"
+		HarvestBeginDate="4/24/2017"
+		HarvestEndDate="9/20/2017"
+		Location=""
 	/>
 </Report>
