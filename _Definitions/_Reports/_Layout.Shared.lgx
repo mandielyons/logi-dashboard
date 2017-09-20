@@ -849,7 +849,7 @@ else {
 											/>
 										</ResponsiveVisibility>
 										<ResponsiveRow
-											Class="ThemeAlignRight"
+											Class="pull-right"
 											CollisionBehavior="Wrap"
 											>
 											<ResponsiveColumn
@@ -2456,13 +2456,13 @@ Order By FiscalYear DESC"
 								HideForSmallScreen="True"
 							/>
 							<Label
-								Caption="© Copyright 2016-2017 MKC. Shared growth. Shared success. All rights reserved. "
+								Caption="© Copyright 2017-2018 MKC. Shared growth. Shared success. All rights reserved. "
 								Class="ThemeTextSmaller"
 								Format="HTML"
 								SecurityRightID="MKC Dashboard"
 							/>
 							<Label
-								Caption="© Copyright 2016-2017 Team Marketing Alliance. All rights reserved."
+								Caption="© Copyright 2017-2018 Team Marketing Alliance. All rights reserved."
 								Class="ThemeTextSmaller"
 								Format="HTML"
 								SecurityRightID="TMA Dashboard,OC"
@@ -2484,13 +2484,13 @@ Order By FiscalYear DESC"
 								HideForSmallScreen="False"
 							/>
 							<Label
-								Caption="© Copyright 2016-2017 MKC."
+								Caption="© Copyright 2017-2018 MKC."
 								Class="ThemeTextSmallest"
 								Format="HTML"
 								SecurityRightID="MKC Dashboard"
 							/>
 							<Label
-								Caption="© Copyright 2016-2017 TMA. "
+								Caption="© Copyright 2017-2018 TMA. "
 								Class="ThemeTextSmallest"
 								Format="HTML"
 								SecurityRightID="TMA Dashboard,OC"
