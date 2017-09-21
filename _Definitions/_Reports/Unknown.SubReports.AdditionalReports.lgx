@@ -948,61 +948,72 @@ ORDER BY AgLocationCode, Operator
 																		HtmlDiv="True"
 																		ID="panel-bodyInventoryTurns"
 																		>
-																		<InputRadioButtons
-																			Class="ThemePadding, ThemeBold, ThemeTextSmall"
-																			DefaultValue="@Request.ckbCATEGORY~"
-																			ID="ckbCATEGORY"
-																			OptionCaptionColumn="CATDESC"
-																			OptionValueColumn="CATEGORY"
-																			RadioButtonDirection="Across"
-																			>
-																			<DataLayer
-																				ColumnNamesRow="1"
-																				ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\InventoryTurns.xlsx"
-																				ExcelWorksheet="InventoryTurns"
-																				ID="xlCategories"
-																				Type="Excel"
-																				>
-																				<GroupFilter
-																					DataType="Text"
-																					GroupColumn="CATEGORY"
-																					KeepGroupedRows="False"
-																				/>
-																				<SortFilter
-																					DataType="Text"
-																					SortColumn="CATEGORY"
-																					SortSequence="Ascending"
-																				/>
-																			</DataLayer>
-																			<EventHandler
-																				DhtmlEvent="OnChange"
-																				ID="evtOnChange"
-																				>
-																				<Action
-																					ElementID="panel-bodyInventoryTurns"
-																					ID="actRefreshChart"
-																					RequestForwarding="True"
-																					Type="RefreshElement"
-																				/>
-																			</EventHandler>
-																		</InputRadioButtons>
-																		<LineBreak/>
 																		<Rows
 																			Width="100"
 																			WidthScale="%"
 																			>
 																			<Row>
-																				<Column>
-																					<Spaces
-																						Size="30"
+																				<Column
+																					Class="@Request.themeDetailText~"
+																					Width="100"
+																					WidthScale="%"
+																					>
+																					<Label
+																						Caption="Data As of date: "
 																					/>
+																					<Spaces
+																						Size="3"
+																					/>
+																					<Label
+																						Caption="@Local.ASOF~"
+																					/>
+																				</Column>
+																			</Row>
+																			<Row>
+																				<Column>
+																					<InputRadioButtons
+																						Class="ThemePadding, ThemeBold, ThemeTextSmall"
+																						DefaultValue="@Request.ckbCATEGORY~"
+																						ID="ckbCATEGORY"
+																						OptionCaptionColumn="CATDESC"
+																						OptionValueColumn="CATEGORY"
+																						RadioButtonDirection="Across"
+																						>
+																						<DataLayer
+																							ColumnNamesRow="1"
+																							ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\InventoryTurns.xlsx"
+																							ExcelWorksheet="InventoryTurns"
+																							ID="xlCategories"
+																							Type="Excel"
+																							>
+																							<GroupFilter
+																								DataType="Text"
+																								GroupColumn="CATEGORY"
+																								KeepGroupedRows="False"
+																							/>
+																							<SortFilter
+																								DataType="Text"
+																								SortColumn="CATEGORY"
+																								SortSequence="Ascending"
+																							/>
+																						</DataLayer>
+																						<EventHandler
+																							DhtmlEvent="OnChange"
+																							ID="evtOnChange"
+																							>
+																							<Action
+																								ElementID="panel-bodyInventoryTurns"
+																								ID="actRefreshChart"
+																								RequestForwarding="True"
+																								Type="RefreshElement"
+																							/>
+																						</EventHandler>
+																					</InputRadioButtons>
 																				</Column>
 																			</Row>
 																			<Row>
 																				<Column
 																					Class="@Request.themeDetailText~"
-																					Width="98"
-																					WidthScale="%"
 																					>
 																					<ChartCanvas
 																						ChartHeight="600"
@@ -1079,9 +1090,6 @@ ORDER BY AgLocationCode, Operator
 																				</Column>
 																			</Row>
 																		</Rows>
-																		<LineBreak
-																			LineCount="2"
-																		/>
 																	</Division>
 																</ResponsiveColumn>
 															</ResponsiveRow>
