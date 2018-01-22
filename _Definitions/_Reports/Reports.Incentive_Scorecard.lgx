@@ -369,33 +369,56 @@ but then when showing the headers, it hid the data so the actual data in the tab
 												Width="20"
 												WidthScale="%"
 												>
-												<Division
-													Class="ThemeTextPositive"
-													Condition="IIF(@Data.MetricKey~ = 8, &quot;@Data.Actual_Performance~&quot; &lt; &quot;@Data.Budget_Target~&quot;, &quot;@Data.Actual_Performance~&quot; &gt; &quot;@Data.Budget_Target~&quot;)"
-													ID="divColorGood"
+												<Note
+													Note="Check to see if the Budget Target is blank"
 													>
-													<Label
-														Caption="@Data.Actual_Performance~"
-														Class="ThemeBold"
-														Format="@Data.NumberFormat~"
-														ID="lblActual"
+													<Note
+														Note="conditional formulas can evaluate numbers to numbers or text to text, but not blank to number, number to number evaluates properly ranther than text to text &quot;numbers&quot;, i.e. &quot;12345&quot; is less than &quot;345&quot; as text but not as a number"
 													/>
+												</Note>
+												<Division
+													Condition="Len(&quot;@Data.Budget_Target~&quot;)&gt;0"
+													ID="IsNotBlank"
+													>
+													<Division
+														Class="ThemeTextPositive"
+														Condition="IIF(@Data.MetricKey~ = 8, @Data.Actual_Performance~ &lt; @Data.Budget_Target~, @Data.Actual_Performance~ &gt; @Data.Budget_Target~)"
+														ID="divColorGood"
+														>
+														<Label
+															Caption="@Data.Actual_Performance~"
+															Class="ThemeBold"
+															Format="@Data.NumberFormat~"
+															ID="lblActual"
+														/>
+													</Division>
+													<Division
+														Condition="@Data.Actual_Performance~ = @Data.Budget_Target~"
+														ID="divColorEqual"
+														>
+														<Label
+															Caption="@Data.Actual_Performance~"
+															Class="ThemeBold"
+															Format="@Data.NumberFormat~"
+															ID="lblActual"
+														/>
+													</Division>
+													<Division
+														Class="ThemeTextNegative"
+														Condition="IIF(@Data.MetricKey~ = 8, @Data.Actual_Performance~ &gt; @Data.Budget_Target~, @Data.Actual_Performance~ &lt; @Data.Budget_Target~)"
+														ID="divColorBad"
+														>
+														<Label
+															Caption="@Data.Actual_Performance~"
+															Class="ThemeBold"
+															Format="@Data.NumberFormat~"
+															ID="lblActual"
+														/>
+													</Division>
 												</Division>
 												<Division
-													Condition="&quot;@Data.Actual_Performance~&quot; == &quot;@Data.Budget_Target~&quot;"
-													ID="divColorEqual"
-													>
-													<Label
-														Caption="@Data.Actual_Performance~"
-														Class="ThemeBold"
-														Format="@Data.NumberFormat~"
-														ID="lblActual"
-													/>
-												</Division>
-												<Division
-													Class="ThemeTextNegative"
-													Condition="IIF(@Data.MetricKey~ = 8, &quot;@Data.Actual_Performance~&quot; &gt; &quot;@Data.Budget_Target~&quot;, &quot;@Data.Actual_Performance~&quot; &lt; &quot;@Data.Budget_Target~&quot;)"
-													ID="divColorBad"
+													Condition="Len(&quot;@Data.Budget_Target~&quot;)=0"
+													ID="IsBlank"
 													>
 													<Label
 														Caption="@Data.Actual_Performance~"
