@@ -443,8 +443,8 @@
 																Class="btn btn-default ThemeTextSmall"
 																>
 																<Action
-																	ElementID="panel-heading-Title"
-																	ID="actRefreshBranchFinancialTabs"
+																	ElementID="panel-heading-Title,tabRigReports"
+																	ID="actRefreshRigReports"
 																	Type="RefreshElement"
 																	>
 																	<WaitPage/>

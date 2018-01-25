@@ -1,0 +1,481 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report
+	Caption="Grain Receipts"
+	ID="TMAReports.TMAGrainReceipts(Staging)"
+	SecurityReportRightID="MKC Dashboard, TMA Dashboard, OC"
+	>
+	<IncludeSharedElement
+		DefinitionFile="_Layout.Shared"
+		SharedElementID="shrHeader"
+	/>
+	<DefaultRequestParams
+		Branch="0"
+		Commodity="0"
+		Customer=""
+		Year="All"
+	/>
+	<LocalData>
+		<DataLayer
+			ConnectionID="connAgTrax"
+			ID="ldCustomers"
+			Source="SELECT DISTINCT 
+  DM_GrainReceiptSummary.CUSTOMER_RU as [ag_AccountID],
+  DM_GrainReceiptSummary.CUSTOMER_NAME_RU as [AccountName]
+FROM Agtrax_Staging.dbo.DM_GrainReceiptSummary 
+WHERE DM_GrainReceiptSummary.CUSTOMER_NAME_RU NOT LIKE &apos;%[*]%&apos;
+ORDER BY [AccountName]"
+			Type="SQL"
+			>
+			<DataLayerLink
+				ID="linkCustomers"
+			/>
+		</DataLayer>
+		<DataLayer
+			ConnectionID="connAgTrax"
+			ID="ldGrainReceipts"
+			Source="SELECT DM_GrainReceiptSummary.FISCAL_YEAR AS [FiscalYear]
+     , DM_GrainReceiptSummary.CUSTOMER_RU AS [ag_AccountID]
+     , DM_GrainReceiptSummary.CUSTOMER_NAME_RU AS [AccountName]
+     , DM_GrainReceiptSummary.COMMODITY_CODE AS [CommodityCode]
+     , DM_GrainReceiptSummary.COMMODITY_SCODE AS [CommodityShortName]
+     , DM_GrainReceiptSummary.CROP_NAME AS [CropName]
+     , DM_GrainReceiptSummary.BRANCH_NUMBER AS [LocationCode]
+     , DM_GrainReceiptSummary.BRANCH_NAME AS [LocationName]
+     , DM_GrainReceiptSummary.aggdtl AS [aggdtl]
+     , DM_GrainReceiptSummary.BU AS [Bushels]
+FROM Agtrax_Staging.dbo.DM_GrainReceiptSummary 
+WHERE DM_GrainReceiptSummary.FISCAL_YEAR BETWEEN DatePart(Year, DateAdd(Year, Case When DatePart(Month, GetDate()) &lt; 3 Then -4 Else -3 End, GetDate())) AND DatePart(Year, DateAdd(Year, Case When DatePart(Month, GetDate()) &lt; 3 Then 0 Else 1 End, GetDate()))
+  AND (CAST(DM_GrainReceiptSummary.FISCAL_YEAR as char(4)) = &apos;@Request.Year~&apos; Or &apos;@Request.Year~&apos; = &apos;All&apos;) 
+  AND (DM_GrainReceiptSummary.BRANCH_NUMBER IN(@Request.Branch~) OR &apos;@Request.Branch~&apos;=&apos;0&apos;) 
+  AND (DM_GrainReceiptSummary.CUSTOMER_RU IN(&apos;@Request.Customer~&apos;) OR &apos;@Request.Customer~&apos; = &apos;&apos;) 
+  AND (DM_GrainReceiptSummary.COMMODITY_CODE IN(&apos;@Request.Commodity~&apos;) OR (&apos;@Request.Commodity~&apos; = &apos;&apos; OR &apos;@Request.Commodity~&apos; = &apos;0&apos;))
+ORDER BY [AccountName], [aggdtl]
+"
+			Type="SQL"
+			>
+			<DataLayerLink
+				ID="linkGrainReceipts"
+			/>
+		</DataLayer>
+	</LocalData>
+	<Body>
+		<ResponsiveRow>
+			<ResponsiveColumn>
+				<Division
+					Class="panel panel-default"
+					HtmlDiv="True"
+					ID="panel"
+					>
+					<Division
+						Class="panel-heading"
+						HtmlDiv="True"
+						ID="panel-header"
+						>
+						<Label
+							Caption="Grain Receipts"
+							Class="panel-title"
+						/>
+					</Division>
+					<Division
+						Class="panel-body"
+						HtmlDiv="True"
+						ID="panel-body"
+						>
+						<ResponsiveRow>
+							<ResponsiveColumn>
+								<Label
+									Caption="Filter by customer, location(s) and commodity."
+									Class="ThemeTextSmall"
+								/>
+							</ResponsiveColumn>
+							<ResponsiveColumn
+								Class="ThemeAlignRight"
+								>
+								<Division
+									Class="pull-right"
+									HtmlDiv="True"
+									ID="divHelp"
+									>
+									<Spaces
+										Size="5"
+									/>
+									<Label
+										Class="fa fa-question-circle fa-2x "
+										HtmlTag="Span"
+										ID="lnkHelp"
+										Tooltip="Grain Receipts Training Video"
+										>
+										<Action
+											ID="rptTraining"
+											Type="Report"
+											>
+											<Target
+												FrameID="NewWindow"
+												Report="Admin.TrainingVideos"
+												Type="Report"
+											/>
+										</Action>
+									</Label>
+								</Division>
+								<IncludeSharedElement
+									DefinitionFile="_Layout.Shared"
+									SharedElementID="shrExcelExport"
+									>
+									<SharedElementParams
+										DataTableID="ctGrainReceiptSummary"
+										ReportName="Grain Receipts"
+									/>
+								</IncludeSharedElement>
+							</ResponsiveColumn>
+						</ResponsiveRow>
+						<ResponsiveRow>
+							<ResponsiveColumn
+								ColspanExtraSmallScreen="12"
+								ColspanLargeScreen="3"
+								ColspanMediumScreen="3"
+								ColspanSmallScreen="12"
+								>
+								<Division
+									Class="well"
+									HtmlDiv="True"
+									ID="divFilters"
+									>
+									<InputSelectList
+										Caption="Customer:"
+										CaptionClass="ThemeTextSmall ThemeBold"
+										Class="ThemeTextSmaller"
+										DefaultValue="@Request.Customer~"
+										ID="Customer"
+										IncludeBlank="True"
+										IncludeBlankCaption="All"
+										OptionCaptionColumn="AccountName"
+										OptionValueColumn="ag_AccountID"
+										>
+										<DataLayer
+											ID="dlCustomers"
+											LinkedDataLayerID="linkCustomers"
+											Type="Linked"
+										/>
+										<EventHandler
+											DhtmlEvent="onchange"
+											ID="eventOnChangeCustomer"
+											>
+											<Action
+												ElementID="divReceipts"
+												ID="actRefreshReceipt"
+												Type="RefreshElement"
+												>
+												<WaitPage/>
+											</Action>
+										</EventHandler>
+									</InputSelectList>
+									<LineBreak/>
+									<IncludeSharedElement
+										DefinitionFile="_Layout.Shared"
+										SharedElementID="shrYearFilter"
+										>
+										<SharedElementParams
+											DataTableID="ctGrainReceiptSummary"
+										/>
+									</IncludeSharedElement>
+									<IncludeSharedElement
+										DefinitionFile="_Layout.Shared"
+										ID="shrBranchSelect"
+										SharedElementID="shrBranchSelect"
+										>
+										<SharedElementParams
+											BranchElementToRefresh="divReceipts"
+										/>
+									</IncludeSharedElement>
+									<IncludeSharedElement
+										DefinitionFile="_Layout.Shared"
+										SharedElementID="shrCommoditySelect"
+										>
+										<SharedElementParams
+											CommodityElementToRefresh="divReceipts"
+										/>
+									</IncludeSharedElement>
+									<LineBreak/>
+									<Button
+										Caption="Reset"
+										ID="btnReset"
+										Tooltip="Clear all selections"
+										>
+										<Action
+											ElementID="divReceipts,divFilters"
+											ID="actReport"
+											RequestForwarding="True"
+											Type="RefreshElement"
+											>
+											<WaitPage/>
+											<LinkParams
+												Branch="0"
+												Commodity="0"
+												Customer=""
+											/>
+										</Action>
+									</Button>
+								</Division>
+							</ResponsiveColumn>
+							<ResponsiveColumn>
+								<Division
+									Class="ThemeTextSmall"
+									HtmlDiv="True"
+									ID="divReceipts"
+									>
+									<CrosstabTable
+										AccessibleSummary="AnalysisGrid CrossTabTable"
+										AjaxPaging="True"
+										DraggableColumns="True"
+										ID="ctGrainReceiptSummary"
+										ResizableColumns="True"
+										SortArrows="True"
+										Width="95"
+										WidthScale="%"
+										>
+										<InteractivePaging
+											CaptionType="Image"
+											Class="ThemeTextSmaller"
+											Location="Top"
+											PageRowCount="30"
+											ShowPageNumber="True"
+										/>
+										<DataLayer
+											ID="dlGrainReceipts"
+											LinkedDataLayerID="linkGrainReceipts"
+											Type="Linked"
+											>
+											<SortFilter
+												DataType="Number"
+												SortColumn="FiscalYear"
+											/>
+											<CrosstabFilter
+												CrosstabColumn="FiscalYear"
+												CrosstabLabelColumn="aggdtl"
+												CrosstabValueColumn="Bushels"
+												CrosstabValueFunction="Sum"
+												>
+												<ExtraCrosstabLabelColumn
+													CrosstabLabelColumn="AccountName"
+													ID="colAccountName"
+												/>
+												<ExtraCrosstabLabelColumn
+													CrosstabLabelColumn="CropName"
+													ID="colCropName"
+												/>
+												<ExtraCrosstabLabelColumn
+													CrosstabLabelColumn="CommodityCode"
+													ID="colCommodityCode"
+												/>
+												<ExtraCrosstabLabelColumn
+													CrosstabLabelColumn="CommodityShortName"
+													ID="colCommodityShortName"
+												/>
+												<ExtraCrosstabLabelColumn
+													CrosstabLabelColumn="LocationCode"
+													ID="colLocationCode"
+												/>
+												<ExtraCrosstabLabelColumn
+													CrosstabLabelColumn="LocationName"
+													ID="colLocationName"
+												/>
+												<CrosstabRowSummaryColumn
+													Function="Sum"
+													ID="ctTotal"
+												/>
+												<CrosstabRowSummaryColumn
+													Function="Average"
+													ID="ctAverage"
+												/>
+											</CrosstabFilter>
+										</DataLayer>
+										<CrosstabTableLabelColumn
+											Header="Account Name"
+											ID="colAccountName"
+											>
+											<Label
+												Caption="@Data.colAccountName~"
+												ID="lblAccountName"
+											/>
+											<DataColumnSort
+												DataColumn="colAccountName"
+												DataType="Text"
+											/>
+										</CrosstabTableLabelColumn>
+										<CrosstabTableLabelColumn
+											Header="Location"
+											ID="colLocationName"
+											>
+											<Label
+												Caption="@Data.colLocationCode~ - @Data.colLocationName~"
+												ID="lblLocationName"
+											/>
+											<DataColumnSort
+												DataColumn="colLocationName"
+												DataType="Text"
+											/>
+										</CrosstabTableLabelColumn>
+										<CrosstabTableLabelColumn
+											Header="Crop Name"
+											ID="colCropName"
+											>
+											<Label
+												Caption="@Data.colCommodityCode~ - @Data.colCropName~"
+												ID="lblCropName"
+											/>
+											<DataColumnSort
+												DataColumn="colCropName"
+												DataType="Text"
+											/>
+										</CrosstabTableLabelColumn>
+										<Remark>
+											<CrosstabTableLabelColumn
+												Header="Commodtiy Code"
+												ID="colCommodityCode"
+												>
+												<Label
+													Caption="@Data.colCommodityCode~"
+													ID="lblCommodityCode"
+												/>
+												<DataColumnSort
+													DataColumn="colCommodityCode"
+													DataType="Text"
+												/>
+											</CrosstabTableLabelColumn>
+										</Remark>
+										<Remark>
+											<CrosstabTableLabelColumn
+												Header="Commodity Short Name"
+												ID="colCommodityShortName"
+												>
+												<Label
+													Caption="@Data.colCommodityShortName~"
+													ID="lblCommodityShortName"
+												/>
+												<DataColumnSort
+													DataColumn="colCommodityShortName"
+													DataType="Text"
+												/>
+											</CrosstabTableLabelColumn>
+										</Remark>
+										<Remark>
+											<CrosstabTableLabelColumn
+												Header="Location Code"
+												ID="colLocationCode"
+												>
+												<Label
+													Caption="@Data.colLocationCode~"
+													ID="lblLocationCode"
+												/>
+												<DataColumnSort
+													DataColumn="colLocationCode"
+													DataType="Text"
+												/>
+											</CrosstabTableLabelColumn>
+										</Remark>
+										<CrosstabTableValueColumns
+											Header="@Data.rdCrosstabColumn~"
+											ID="colBushels"
+											>
+											<Label
+												Caption="=iif(@Data.rdCrosstabValCount~=0,&quot;&quot;,&quot;@Data.rdCrosstabValue~&quot;)"
+												Format="#,###,###,###.0"
+												ID="lblBushels"
+											/>
+											<CrosstabValueColumnSort
+												DataType="Number"
+												FirstSortSequence="Descending"
+											/>
+											<DataColumnSummary
+												DataColumn="rdCrosstabValue"
+												DataType="Number"
+												Function="Sum"
+												ID="summaryBushels"
+											/>
+										</CrosstabTableValueColumns>
+										<CrosstabTableLabelColumn
+											Class="ThemeAlignRight"
+											Header="Total Sum"
+											ID="colTotal"
+											Note="This is for summary rows and columns."
+											>
+											<DataColumnSort
+												DataColumn="ctTotal"
+												DataType="Number"
+												FirstSortSequence="Descending"
+											/>
+											<Label
+												Caption="@Data.ctTotal~"
+												Format="#,###,###,###.0"
+												ID="lblRowSummary"
+											/>
+											<DataColumnSummary
+												DataColumn="ctTotal"
+												DataType="Number"
+												Function="Sum"
+												ID="summaryTotal"
+											/>
+										</CrosstabTableLabelColumn>
+										<CrosstabTableLabelColumn
+											Class="ThemeAlignRight"
+											Header="Average"
+											ID="colAverage"
+											Note="This is for summary rows and columns."
+											>
+											<DataColumnSort
+												DataColumn="ctAverage"
+												DataType="Number"
+												FirstSortSequence="Descending"
+											/>
+											<Label
+												Caption="@Data.ctAverage~"
+												Format="#,###,###,###.0"
+												ID="lblRowAvg"
+											/>
+											<DataColumnSummary
+												DataColumn="ctAverage"
+												DataType="Number"
+												Function="Average"
+												ID="summaryAverage"
+											/>
+										</CrosstabTableLabelColumn>
+										<SummaryRow
+											Caption="Totals"
+											ID="summaryTotals"
+											LastPageOnly="True"
+										/>
+									</CrosstabTable>
+								</Division>
+							</ResponsiveColumn>
+						</ResponsiveRow>
+						<ResponsiveRow>
+							<ResponsiveColumn
+								ColspanExtraSmallScreen="12"
+								ColspanLargeScreen="3"
+								ColspanMediumScreen="3"
+								ColspanSmallScreen="12"
+							/>
+							<ResponsiveColumn
+								Class="ThemeTextSmall"
+								>
+								<Label
+									Caption="** Bushel amounts listed are accumulated volumes with the tenants rolled up into the total. Please do not use for pricing grain or open storage bushel amounts."
+								/>
+							</ResponsiveColumn>
+						</ResponsiveRow>
+					</Division>
+				</Division>
+			</ResponsiveColumn>
+		</ResponsiveRow>
+	</Body>
+	<IncludeSharedElement
+		DefinitionFile="_Layout.Shared"
+		SharedElementID="shrFooter"
+	/>
+	<ideTestParams
+		Branch=""
+		Commodity=""
+		Customer=""
+		Year=""
+	/>
+</Report>
