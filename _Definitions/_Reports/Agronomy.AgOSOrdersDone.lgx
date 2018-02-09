@@ -226,9 +226,11 @@ Order By O.LocationCode,
   O.DoneYear"
 										Type="SQL"
 										>
-										<ConditionFilter
-											Condition="@Data.DoneYear~ = &apos;@Request.CurrYear~&apos;"
-										/>
+										<Remark>
+											<ConditionFilter
+												Condition="@Data.DoneYear~ = &apos;@Request.CurrYear~&apos;"
+											/>
+										</Remark>
 										<CalculatedColumn
 											Formula="(@Data.ByTablet~ * 100) / @Data.OrderCount~"
 											ID="calcPercentTablet"
