@@ -226,9 +226,11 @@ Order By O.LocationCode,
   O.DoneYear"
 										Type="SQL"
 										>
-										<ConditionFilter
-											Condition="@Data.DoneYear~ = &apos;@Request.CurrYear~&apos;"
-										/>
+										<Remark>
+											<ConditionFilter
+												Condition="@Data.DoneYear~ = &apos;@Request.CurrYear~&apos;"
+											/>
+										</Remark>
 										<CalculatedColumn
 											Formula="(@Data.ByTablet~ * 100) / @Data.OrderCount~"
 											ID="calcPercentTablet"
@@ -842,7 +844,7 @@ Where T1.LocationCode &lt;&gt; &apos;PRECISE&apos; And T1.DoneDate &gt;= Cast(Da
 		SharedElementID="shrFooter"
 	/>
 	<ideTestParams
-		CurrYear=""
+		CurrYear="2018"
 		Location=""
 	/>
 </Report>

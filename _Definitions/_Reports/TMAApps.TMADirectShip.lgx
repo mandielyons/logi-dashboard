@@ -131,7 +131,7 @@
 							<DataLayer
 								ConnectionID="connProdGP"
 								ID="dlTicketTracking"
-								Source="SELECT TT.EntryID,
+								Source="Select TT.EntryID,
   TT.DropOffDate,
   TT.CUSTOMER,
   TT.BRANCH_NUMBER,
@@ -146,12 +146,12 @@
   PM.DESCRIPTION COMMODITY_DESC,
   TT.COMMENTS,
   DateDiff(day, TT.DropOffDate, GetDate()) As DaysOld
-FROM Agtrax_Staging.dbo.DM_DSTicketTracking TT
-  INNER JOIN Agtrax_Staging.dbo.IV_BRANCH_MASTER BM ON TT.BRANCH_NUMBER = BM.BRANCH_NUMBER
-  INNER JOIN Agtrax_Staging.dbo.AR_CUSTOMER_MASTER_TMA CM ON TT.CUSTOMER = CM.CUSTOMER
-  LEFT OUTER JOIN Agtrax_Staging.dbo.CA_COMMODITY_MASTER PM ON TT.COMMODITY_CODE = PM.COMMODITY_CODE
-ORDER BY DropOffDate
-"
+From DM_DSTicketTracking TT
+  Inner Join IV_BRANCH_MASTER BM On TT.BRANCH_NUMBER = BM.BRANCH_NUMBER
+  Inner Join AR_CUSTOMER_MASTER_TMA CM On TT.CUSTOMER = CM.CUSTOMER
+  Left Outer Join CA_COMMODITY_MASTER PM On TT.COMMODITY_CODE =
+    PM.COMMODITY_CODE
+Order By TT.DropOffDate"
 								Type="SQL"
 								>
 								<ConditionFilter
