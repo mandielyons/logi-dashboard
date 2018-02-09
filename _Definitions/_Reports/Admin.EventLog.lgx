@@ -4,6 +4,9 @@
 	ID="Admin.EventLog"
 	SecurityReportRightID="LogiUserAdmin"
 	>
+	<DefaultRequestParams
+		UserID="-1"
+	/>
 	<IncludeSharedElement
 		DefinitionFile="_Layout.Shared"
 		SharedElementID="shrHeader"
@@ -30,7 +33,82 @@
 				ID="panel-event-report"
 				>
 				<ResponsiveRow>
-					<ResponsiveColumn>
+					<ResponsiveColumn
+						ColspanExtraSmallScreen="6"
+						ColspanLargeScreen="2"
+						ColspanMediumScreen="2"
+						ColspanSmallScreen="6"
+						>
+						<Division
+							Class="well"
+							HtmlDiv="True"
+							ID="divFilters"
+							>
+							<InputSelectList
+								Caption="User ID:"
+								CaptionClass="ThemeTextSmall ThemeBold"
+								Class="ThemeTextSmaller"
+								ID="UserID"
+								IncludeBlank="True"
+								IncludeBlankValue="-1"
+								OptionCaptionColumn="UserID"
+								OptionValueColumn="UserID"
+								>
+								<DataLayer
+									ConnectionID="connLogiEvent"
+									ID="dlUserIDs"
+									Source="DECLARE @StartDate DATETIME 
+DECLARE @EndDate DATETIME
+
+SET @StartDate = Getdate() - 7 /* Seven Days Earlier */
+SET @EndDate = Getdate() /* Now */
+
+Select Distinct (LogiEventLog.UserID) As UserID
+From LogiEventLog
+Where LogiEventLog.EventDateTime BETWEEN @StartDate AND @Enddate
+And LogiEventLog.UserID &lt;&gt; &apos;&apos;
+Order By LogiEventLog.UserID ASC
+"
+									Type="SQL"
+								/>
+								<EventHandler
+									DhtmlEvent="onchange"
+									>
+									<Action
+										ElementID="dtEventLog"
+										ID="refLogByUser"
+										Type="RefreshElement"
+										>
+										<WaitPage/>
+									</Action>
+								</EventHandler>
+							</InputSelectList>
+							<LineBreak/>
+							<Button
+								Caption="Reset"
+								ID="btnReset"
+								Tooltip="Clear all selections"
+								>
+								<Action
+									ElementID="dtClaims,divFilters"
+									ID="actReport"
+									RequestForwarding="True"
+									Type="RefreshElement"
+									>
+									<WaitPage/>
+									<LinkParams
+										UserID="-1"
+									/>
+								</Action>
+							</Button>
+						</Division>
+					</ResponsiveColumn>
+					<ResponsiveColumn
+						ColspanExtraSmallScreen="6"
+						ColspanLargeScreen="10"
+						ColspanMediumScreen="10"
+						ColspanSmallScreen="6"
+						>
 						<DataTable
 							AccessibleHeaders="True"
 							AccessibleSummary="AnalysisGrid DataTable"
@@ -48,7 +126,7 @@
 								ConnectionID="connLogiEvent"
 								ID="dlEventLog"
 								Source="DECLARE @StartDate DATETIME 
-DECLARE @EndDate DATETIME 
+DECLARE @EndDate DATETIME
 
 SET @StartDate = Getdate() - 7 /* Seven Days Earlier */
 SET @EndDate = Getdate() /* Now */
@@ -57,16 +135,15 @@ Select LogiEventLog.EventID,
   LogiEventLog.EventDateTime,
   LogiEventLog.EventName,
   LogiEventLog.UserID,
-  LogiEventLog.EventDetail
+  LogiEventLog.EventDetail,
+  LogiEventLog.ReportID
 From LogiEventLog
-WHERE  LogiEventLog.EventDateTime BETWEEN @StartDate AND @Enddate
-Order By LogiEventLog.EventDateTime DESC"
+WHERE LogiEventLog.EventDateTime BETWEEN @StartDate AND @Enddate
+And LogiEventLog.UserID = &apos;@Request.UserID~&apos; Or &apos;@Request.UserID~&apos; = &apos;-1&apos;
+And LogiEventLog.UserID &lt;&gt; &apos;&apos;
+Order By LogiEventLog.EventDateTime DESC "
 								Type="SQL"
-								>
-								<ConditionFilter
-									Condition="&quot;@Data.EventName~&quot; &lt;&gt; &quot;RunSQL&quot; And &quot;@Data.EventName~&quot; &lt;&gt; &quot;BuildReport&quot;"
-								/>
-							</DataLayer>
+							/>
 							<Remark>
 								<InteractivePaging
 									CaptionType="Image"
@@ -74,7 +151,7 @@ Order By LogiEventLog.EventDateTime DESC"
 									HideWhenOnePage="True"
 									IDnotSupportedHere="pagingTableNumbered"
 									Location="Top"
-									PageRowCount="20"
+									PageRowCount="25"
 									ShowPageNumber="Numbered"
 								/>
 							</Remark>
@@ -88,6 +165,10 @@ Order By LogiEventLog.EventDateTime DESC"
 								<Label
 									Caption="@Data.EventID~"
 								/>
+								<ConditionalClass
+									Class="ThemeHidden"
+									Condition="&quot;@Data.EventName~&quot; = &quot;BuildReport&quot; And &quot;@Data.ReportID~&quot; = &quot;&quot;"
+								/>
 							</DataTableColumn>
 							<DataTableColumn
 								Header="Event Timestamp"
@@ -95,6 +176,10 @@ Order By LogiEventLog.EventDateTime DESC"
 								>
 								<Label
 									Caption="@Data.EventDateTime~"
+								/>
+								<ConditionalClass
+									Class="ThemeHidden"
+									Condition="&quot;@Data.EventName~&quot; = &quot;BuildReport&quot; And &quot;@Data.ReportID~&quot; = &quot;&quot;"
 								/>
 							</DataTableColumn>
 							<DataTableColumn
@@ -104,6 +189,10 @@ Order By LogiEventLog.EventDateTime DESC"
 								<Label
 									Caption="@Data.EventName~"
 								/>
+								<ConditionalClass
+									Class="ThemeHidden"
+									Condition="&quot;@Data.EventName~&quot; = &quot;BuildReport&quot; And &quot;@Data.ReportID~&quot; = &quot;&quot;"
+								/>
 							</DataTableColumn>
 							<DataTableColumn
 								Header="Event User ID"
@@ -112,6 +201,10 @@ Order By LogiEventLog.EventDateTime DESC"
 								<Label
 									Caption="@Data.UserID~"
 								/>
+								<ConditionalClass
+									Class="ThemeHidden"
+									Condition="&quot;@Data.EventName~&quot; = &quot;BuildReport&quot; And &quot;@Data.ReportID~&quot; = &quot;&quot;"
+								/>
 							</DataTableColumn>
 							<DataTableColumn
 								Header="Event Details"
@@ -119,6 +212,22 @@ Order By LogiEventLog.EventDateTime DESC"
 								>
 								<Label
 									Caption="@Data.EventDetail~"
+								/>
+								<ConditionalClass
+									Class="ThemeHidden"
+									Condition="&quot;@Data.EventName~&quot; = &quot;BuildReport&quot; And &quot;@Data.ReportID~&quot; = &quot;&quot;"
+								/>
+							</DataTableColumn>
+							<DataTableColumn
+								Header="Report ID"
+								ID="colReportID"
+								>
+								<Label
+									Caption="@Data.ReportID~"
+								/>
+								<ConditionalClass
+									Class="ThemeHidden"
+									Condition="&quot;@Data.EventName~&quot; = &quot;BuildReport&quot; And &quot;@Data.ReportID~&quot; = &quot;&quot;"
 								/>
 							</DataTableColumn>
 						</DataTable>
@@ -131,5 +240,7 @@ Order By LogiEventLog.EventDateTime DESC"
 		DefinitionFile="_Layout.Shared"
 		SharedElementID="shrFooter"
 	/>
-	<ideTestParams/>
+	<ideTestParams
+		UserID=""
+	/>
 </Report>

@@ -3,7 +3,6 @@
 	ID="Home.Default"
 	SecurityReportRightID="MKC Dashboard,TMA Dashboard,OC"
 	>
-	<SetSessionVariables/>
 	<IncludeSharedElement
 		DefinitionFile="_Layout.Shared"
 		SharedElementID="shrHeader"
@@ -21,10 +20,134 @@
 
 &lt;/script&gt;"
 		/>
+		<ResponsiveRow
+			Class="ThemeAlignRight"
+			>
+			<ResponsiveColumn
+				Class="pull-right"
+				>
+				<Division
+					Class="ThemeTextSmall"
+					HtmlDiv="True"
+					ID="personalize"
+					>
+					<DataList
+						Class="pull-right ThemeTextSmall"
+						ID="dtOCName"
+						Ordered="False"
+						SecurityRightID="OC"
+						>
+						<DataLayer
+							ConnectionID="connLogiDB"
+							HandleQuotesInTokens="True"
+							ID="dlOCName"
+							Source="Select FIRSTNAME
+From USERS
+Where USERS.ACTIVE = 1 And USERS.USERNAME = &apos;@Function.UserName~&apos;"
+							Type="SQL"
+						/>
+						<ListItem
+							Class="second-of-type"
+							ID="liOCName"
+							>
+							<Label
+								Caption="Welcome @Data.FIRSTNAME~!"
+							/>
+						</ListItem>
+					</DataList>
+					<DataList
+						Class="ThemeTextSmall"
+						ID="dlLDAPName"
+						Ordered="False"
+						SecurityRightID="MKC Dashboard,TMA Dashboard"
+						>
+						<DataLayer
+							ConnectionID="mkcLDAP"
+							ID="dlLDAPNames"
+							LdapSource="SELECT givenName FROM &apos;DC=midkscoop,DC=lan&apos; WHERE SamAccountName=&apos;@Function.UserName~&apos; and objectClass=&apos;person&apos;"
+							Type="Ldap"
+						/>
+						<ListItem
+							Class="second-of-type"
+							ID="liName"
+							>
+							<Label
+								Caption="Welcome @Data.givenName~!"
+							/>
+						</ListItem>
+					</DataList>
+				</Division>
+				<Division
+					Class="ThemeTextSmall"
+					HtmlDiv="True"
+					ID="divLastLogin"
+					>
+					<DataList
+						ID="dlLastLogin"
+						Ordered="False"
+						>
+						<DataLayer
+							ConnectionID="connLogiEvent"
+							ID="dlLastLoggedIn"
+							Source="Select Convert(VARCHAR(8),LogiEventLog.EventDateTime,1) As LoginDate,
+  LogiEventLog.UserID,
+  LogiEventLog.EventDetail,
+  Row_Number() Over (Partition By LogiEventLog.UserID Order By
+  LogiEventLog.EventDateTime Desc)
+From LogiEventLog
+Where LogiEventLog.UserID = &apos;mlyons&apos;"
+							Type="SQL"
+							>
+							<ConditionFilter
+								Condition="@Data.Column1~ = 1"
+							/>
+						</DataLayer>
+						<ListItem
+							Class="second-of-type"
+							ID="liLastLogin"
+							>
+							<Label
+								Caption="Last login: @Data.LoginDate~"
+							/>
+						</ListItem>
+					</DataList>
+				</Division>
+			</ResponsiveColumn>
+		</ResponsiveRow>
 		<ResponsiveRow>
 			<ResponsiveColumn
 				Class="ThemeAlignCenter"
 				>
+				<Division
+					ID="divRecentlyVisited"
+					>
+					<DataList
+						ID="dlLastVisited"
+						Ordered="False"
+						>
+						<DataLayer
+							ConnectionID="connLogiEvent"
+							ID="dlLastReports"
+							Source="Select *
+From LogiEventLog
+Where LogiEventLog.UserID = &apos;mlyons&apos;
+Order By LogiEventLog.EventDateTime Desc"
+							Type="SQL"
+							>
+							<ConditionFilter
+								Condition="@Data.Column1~ = 1 or @Data.Column1~ = 2 or @Data.Column1~ = 3"
+							/>
+						</DataLayer>
+						<ListItem
+							Class="second-of-type"
+							ID="liLastReports"
+							>
+							<Label
+								Caption="@Data.ReportID~"
+							/>
+						</ListItem>
+					</DataList>
+				</Division>
 				<Division
 					ID="divHomeImages"
 					>
@@ -90,4 +213,5 @@
 		DefinitionFile="_Layout.Shared"
 		SharedElementID="shrFooter"
 	/>
+	<ideTestParams/>
 </Report>

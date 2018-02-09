@@ -312,7 +312,6 @@
 										Class="ThemeTextSmaller"
 										ID="Customer"
 										IncludeBlank="True"
-										IncludeBlankCaption="All"
 										IncludeBlankValue="-1"
 										OptionCaptionColumn="AccountName"
 										OptionValueColumn="AccountId"
@@ -736,6 +735,6 @@ $(document).ready(function() {
 	/>
 	<ideTestParams
 		Customer="c3711625-2596-e311-abda-0050569d7a13"
-		FieldMarketer=""
+		FieldMarketer="-1"
 	/>
 </Report>

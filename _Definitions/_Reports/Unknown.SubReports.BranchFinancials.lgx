@@ -2,7 +2,7 @@
 <Report
 	Caption="Branch Financials"
 	ID="Unknown.SubReports.BranchFinancials"
-	SecurityReportRightID="Dashboard Monthly Staff"
+	SecurityReportRightID="Dashboard Monthly Staff,LogiUserAdmin"
 	>
 	<LocalData
 		ID="LocalData-FiscalDates"

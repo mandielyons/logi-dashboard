@@ -1188,6 +1188,16 @@
 																	NoWrap="True"
 																	rdForWizardSet="true"
 																/>
+																<TooltipPanel
+																	ID="ttStake1"
+																	Width="60"
+																	WidthScale="%"
+																	>
+																	<Label
+																		Caption="Team: @Data.Champion~,@Data.Team~"
+																		Class="ThemeTextSmaller"
+																	/>
+																</TooltipPanel>
 															</DataTableColumn>
 															<DataTableColumn
 																Header="Intent/Notes"
@@ -1325,6 +1335,16 @@
 																	NoWrap="True"
 																	rdForWizardSet="true"
 																/>
+																<TooltipPanel
+																	ID="ttStake2"
+																	Width="60"
+																	WidthScale="%"
+																	>
+																	<Label
+																		Caption="Team: @Data.Champion~,@Data.Team~"
+																		Class="ThemeTextSmaller"
+																	/>
+																</TooltipPanel>
 															</DataTableColumn>
 															<DataTableColumn
 																Header="Intent/Notes"
@@ -1515,6 +1535,16 @@
 																	NoWrap="True"
 																	rdForWizardSet="true"
 																/>
+																<TooltipPanel
+																	ID="ttProc1"
+																	Width="60"
+																	WidthScale="%"
+																	>
+																	<Label
+																		Caption="Team: @Data.Champion~,@Data.Team~"
+																		Class="ThemeTextSmaller"
+																	/>
+																</TooltipPanel>
 															</DataTableColumn>
 															<DataTableColumn
 																Header="Intent/Notes"
@@ -1651,6 +1681,16 @@
 																	NoWrap="True"
 																	rdForWizardSet="true"
 																/>
+																<TooltipPanel
+																	ID="ttProc2"
+																	Width="60"
+																	WidthScale="%"
+																	>
+																	<Label
+																		Caption="Team: @Data.Champion~,@Data.Team~"
+																		Class="ThemeTextSmaller"
+																	/>
+																</TooltipPanel>
 															</DataTableColumn>
 															<DataTableColumn
 																Header="Intent/Notes"
@@ -1787,6 +1827,16 @@
 																	NoWrap="True"
 																	rdForWizardSet="true"
 																/>
+																<TooltipPanel
+																	ID="ttProc3"
+																	Width="60"
+																	WidthScale="%"
+																	>
+																	<Label
+																		Caption="Team: @Data.Champion~,@Data.Team~"
+																		Class="ThemeTextSmaller"
+																	/>
+																</TooltipPanel>
 															</DataTableColumn>
 															<DataTableColumn
 																Header="Intent/Notes"
@@ -1812,7 +1862,7 @@
 																	>
 																	<Action
 																		Display="Toggle"
-																		ElementID="miTasks"
+																		ElementID="miTasks5"
 																		ID="showInitTasks5"
 																		Type="ShowElement"
 																	/>
@@ -1969,6 +2019,8 @@
 															<DataTableColumn
 																Header="Initiative"
 																ID="colInitiative"
+																Width="35"
+																WidthScale="%"
 																>
 																<Label
 																	Caption="@Data.Initiative~"
@@ -1976,10 +2028,22 @@
 																	NoWrap="True"
 																	rdForWizardSet="true"
 																/>
+																<TooltipPanel
+																	ID="ttOrg1"
+																	Width="60"
+																	WidthScale="%"
+																	>
+																	<Label
+																		Caption="Team: @Data.Champion~,@Data.Team~"
+																		Class="ThemeTextSmaller"
+																	/>
+																</TooltipPanel>
 															</DataTableColumn>
 															<DataTableColumn
 																Header="Intent/Notes"
 																ID="colIntent"
+																Width="55"
+																WidthScale="%"
 																>
 																<Label
 																	Caption="@Data.Intent~"
@@ -1992,6 +2056,8 @@
 																Class="pull-right"
 																Header="Progress"
 																ID="colProgress"
+																Width="10"
+																WidthScale="%"
 																>
 																<Label
 																	Caption="@Data.Progress~ %"
@@ -2114,6 +2180,16 @@
 																	NoWrap="True"
 																	rdForWizardSet="true"
 																/>
+																<TooltipPanel
+																	ID="ttOrg2"
+																	Width="60"
+																	WidthScale="%"
+																	>
+																	<Label
+																		Caption="Team: @Data.Champion~,@Data.Team~"
+																		Class="ThemeTextSmaller"
+																	/>
+																</TooltipPanel>
 															</DataTableColumn>
 															<DataTableColumn
 																Header="Intent/Notes"
@@ -2252,6 +2328,16 @@
 																	NoWrap="True"
 																	rdForWizardSet="true"
 																/>
+																<TooltipPanel
+																	ID="ttOrg3"
+																	Width="60"
+																	WidthScale="%"
+																	>
+																	<Label
+																		Caption="Team: @Data.Champion~,@Data.Team~"
+																		Class="ThemeTextSmaller"
+																	/>
+																</TooltipPanel>
 															</DataTableColumn>
 															<DataTableColumn
 																Header="Intent/Notes"
@@ -2390,6 +2476,16 @@
 																	NoWrap="True"
 																	rdForWizardSet="true"
 																/>
+																<TooltipPanel
+																	ID="ttOrg4"
+																	Width="60"
+																	WidthScale="%"
+																	>
+																	<Label
+																		Caption="Team: @Data.Champion~,@Data.Team~"
+																		Class="ThemeTextSmaller"
+																	/>
+																</TooltipPanel>
 															</DataTableColumn>
 															<DataTableColumn
 																Header="Intent/Notes"
@@ -2578,6 +2674,16 @@
 																	NoWrap="True"
 																	rdForWizardSet="true"
 																/>
+																<TooltipPanel
+																	ID="ttFin1"
+																	Width="60"
+																	WidthScale="%"
+																	>
+																	<Label
+																		Caption="Team: @Data.Champion~,@Data.Team~"
+																		Class="ThemeTextSmaller"
+																	/>
+																</TooltipPanel>
 															</DataTableColumn>
 															<DataTableColumn
 																Header="Intent/Notes"
@@ -2716,6 +2822,16 @@
 																	NoWrap="True"
 																	rdForWizardSet="true"
 																/>
+																<TooltipPanel
+																	ID="ttFin2"
+																	Width="60"
+																	WidthScale="%"
+																	>
+																	<Label
+																		Caption="Team: @Data.Champion~,@Data.Team~"
+																		Class="ThemeTextSmaller"
+																	/>
+																</TooltipPanel>
 															</DataTableColumn>
 															<DataTableColumn
 																Header="Intent/Notes"

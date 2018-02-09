@@ -844,7 +844,7 @@ Where T1.LocationCode &lt;&gt; &apos;PRECISE&apos; And T1.DoneDate &gt;= Cast(Da
 		SharedElementID="shrFooter"
 	/>
 	<ideTestParams
-		CurrYear=""
+		CurrYear="2018"
 		Location=""
 	/>
 </Report>
