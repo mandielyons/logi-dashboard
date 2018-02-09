@@ -2,7 +2,7 @@
 <Report
 	Caption="Other Expense - @Request.MNACSGMT~"
 	ID="Unknown.SubReports.BranchFinancials-SmartList"
-	SecurityReportRightID="Dashboard Monthly Staff"
+	SecurityReportRightID="Dashboard Monthly Staff,LogiUserAdmin"
 	>
 	<DefaultRequestParams
 		paramDefaultTab="SmartListExpenseDetails"

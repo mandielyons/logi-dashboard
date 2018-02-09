@@ -31,6 +31,41 @@
 							Caption="Grain Receipts"
 							Class="panel-title"
 						/>
+						<Division
+							Class="pull-right"
+							HtmlDiv="True"
+							ID="divHelp"
+							>
+							<IncludeSharedElement
+								DefinitionFile="_Layout.Shared"
+								SharedElementID="shrExcelExport"
+								>
+								<SharedElementParams
+									DataTableID="ctGrainReceiptSummary"
+									ReportName="Grain Receipts"
+								/>
+							</IncludeSharedElement>
+							<Spaces
+								Size="5"
+							/>
+							<Label
+								Class="fa fa-question-circle fa-2x"
+								HtmlTag="Span"
+								ID="lnkHelp"
+								Tooltip="Grain Receipts Training Video"
+								>
+								<Action
+									ID="rptTraining"
+									Type="Report"
+									>
+									<Target
+										FrameID="NewWindow"
+										Report="Admin.TrainingVideos"
+										Type="Report"
+									/>
+								</Action>
+							</Label>
+						</Division>
 					</Division>
 					<Division
 						Class="panel-body"
@@ -46,43 +81,7 @@
 							</ResponsiveColumn>
 							<ResponsiveColumn
 								Class="ThemeAlignRight"
-								>
-								<Division
-									Class="pull-right"
-									HtmlDiv="True"
-									ID="divHelp"
-									>
-									<Spaces
-										Size="5"
-									/>
-									<Label
-										Class="fa fa-question-circle fa-2x "
-										HtmlTag="Span"
-										ID="lnkHelp"
-										Tooltip="Grain Receipts Training Video"
-										>
-										<Action
-											ID="rptTraining"
-											Type="Report"
-											>
-											<Target
-												FrameID="NewWindow"
-												Report="Admin.TrainingVideos"
-												Type="Report"
-											/>
-										</Action>
-									</Label>
-								</Division>
-								<IncludeSharedElement
-									DefinitionFile="_Layout.Shared"
-									SharedElementID="shrExcelExport"
-									>
-									<SharedElementParams
-										DataTableID="ctGrainReceiptSummary"
-										ReportName="Grain Receipts"
-									/>
-								</IncludeSharedElement>
-							</ResponsiveColumn>
+							/>
 						</ResponsiveRow>
 						<ResponsiveRow>
 							<ResponsiveColumn

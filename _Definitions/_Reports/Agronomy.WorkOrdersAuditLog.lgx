@@ -53,12 +53,14 @@
 								>
 								<DataLayer
 									ConnectionID="connAgOS"
-									Source="Select DeltickOrderRef.OrderId,
-  DeltickOrderRef.TicketId,
-  Deltick2.ItemID
-From Deltick2
-  Inner Join DeltickOrderRef On Deltick2.TicketID = DeltickOrderRef.TicketId
-Where DeltickOrderRef.OrderId = &apos;3538307&apos;"
+									Source="Select Products.Name,
+  Products.Description,
+  Products.UPC,
+  BookedInv.Quantity,
+  Objects.Name As Name1
+From BookedInv
+  Inner Join Products On Products.ProductID = BookedInv.ProductID
+  Inner Join Objects On Objects.ObjectID = BookedInv.CustomerID"
 									Type="SQL"
 								/>
 								<AutoColumns/>
