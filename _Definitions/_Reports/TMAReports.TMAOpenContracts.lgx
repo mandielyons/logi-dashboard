@@ -15,10 +15,11 @@
 		Customer=""
 	/>
 	<LocalData>
-		<DataLayer
-			ConnectionID="connAgTrax"
-			ID="ldCustomers"
-			Source="SELECT DISTINCT 
+		<Remark>
+			<DataLayer
+				ConnectionID="connAgTrax"
+				ID="ldCustomers"
+				Source="SELECT DISTINCT 
   DM_OpenContracts.CUSTOMER,
   DM_OpenContracts.CUSTOMER_DESC 
 FROM Agtrax_Staging.dbo.DM_OpenContracts
@@ -26,16 +27,18 @@ WHERE DM_OpenContracts.CONTRACT_TYPE = @Request.ContractType~
   AND DM_OpenContracts.REMAINING_BU &lt;&gt; 0.0
 ORDER BY CUSTOMER_DESC
 "
-			Type="SQL"
-			>
-			<DataLayerLink
-				ID="linkCustomers"
-			/>
-		</DataLayer>
-		<DataLayer
-			ConnectionID="connAgTrax"
-			ID="ldOpenContracts"
-			Source="SELECT DM_OpenContracts.CUSTOMER
+				Type="SQL"
+				>
+				<DataLayerLink
+					ID="linkCustomers"
+				/>
+			</DataLayer>
+		</Remark>
+		<Remark>
+			<DataLayer
+				ConnectionID="connAgTrax"
+				ID="ldOpenContracts"
+				Source="SELECT DM_OpenContracts.CUSTOMER
      , DM_OpenContracts.CUSTOMER_DESC
 	 , DM_OpenContracts.CONTRACT_NUMBER
 	 , DM_OpenContracts.SIGNED
@@ -54,27 +57,30 @@ WHERE DM_OpenContracts.REMAINING_BU &lt;&gt; 0.0
   AND (DM_OpenContracts.CONTRACT_TYPE = @Request.ContractType~)
 ORDER BY DM_OpenContracts.CUSTOMER_DESC, DM_OpenContracts.COMMODITY_CODE, DM_OpenContracts.BRANCH_DESC
 "
-			Type="SQL"
-			>
-			<DataLayerLink
-				ID="linkOpenContracts"
-			/>
-		</DataLayer>
-		<DataLayer
-			ConnectionID="connAgTrax"
-			ID="ldContractType"
-			Source="SELECT DISTINCT 
+				Type="SQL"
+				>
+				<DataLayerLink
+					ID="linkOpenContracts"
+				/>
+			</DataLayer>
+		</Remark>
+		<Remark>
+			<DataLayer
+				ConnectionID="connAgTrax"
+				ID="ldContractType"
+				Source="SELECT DISTINCT 
   DM_OpenContracts.CONTRACT_TYPE,
   DM_OpenContracts.CONTRACT_TYPE_DESC
 FROM Agtrax_Staging.dbo.DM_OpenContracts
 ORDER BY CONTRACT_TYPE
 "
-			Type="SQL"
-			>
-			<DataLayerLink
-				ID="linkContractType"
-			/>
-		</DataLayer>
+				Type="SQL"
+				>
+				<DataLayerLink
+					ID="linkContractType"
+				/>
+			</DataLayer>
+		</Remark>
 	</LocalData>
 	<Body>
 		<ResponsiveRow>
@@ -158,35 +164,6 @@ ORDER BY CONTRACT_TYPE
 									HtmlDiv="True"
 									ID="divFilters"
 									>
-									<InputSelectList
-										Caption="Customer:"
-										CaptionClass="ThemeTextSmall ThemeBold"
-										Class="ThemeTextSmaller"
-										DefaultValue="@Request.Customer~"
-										ID="Customer"
-										IncludeBlank="True"
-										IncludeBlankCaption="All"
-										OptionCaptionColumn="CUSTOMER_DESC"
-										OptionValueColumn="CUSTOMER"
-										>
-										<DataLayer
-											ID="dlCustomers"
-											LinkedDataLayerID="linkCustomers"
-											Type="Linked"
-										/>
-										<EventHandler
-											DhtmlEvent="onchange"
-											ID="eventOnChangeCustomer"
-											>
-											<Action
-												ElementID="divOpenContracts"
-												ID="actRefreshOpenContractsCustomers"
-												Type="RefreshElement"
-												>
-												<WaitPage/>
-											</Action>
-										</EventHandler>
-									</InputSelectList>
 									<LineBreak/>
 									<InputRadioButtons
 										Class="ThemeTextSmall"
@@ -197,9 +174,15 @@ ORDER BY CONTRACT_TYPE
 										RadioButtonDirection="Down"
 										>
 										<DataLayer
+											ConnectionID="connAgTrax"
 											ID="dlContractType"
-											LinkedDataLayerID="linkContractType"
-											Type="Linked"
+											Source="SELECT DISTINCT 
+  DM_OpenContracts.CONTRACT_TYPE,
+  DM_OpenContracts.CONTRACT_TYPE_DESC
+FROM Agtrax_Staging.dbo.DM_OpenContracts
+ORDER BY CONTRACT_TYPE
+"
+											Type="SQL"
 										/>
 										<EventHandler
 											DhtmlEvent="onchange"
@@ -252,6 +235,43 @@ ORDER BY CONTRACT_TYPE
 										</Action>
 									</Button>
 								</Division>
+								<InputSelectList
+									Caption="Customer:"
+									CaptionClass="ThemeTextSmall ThemeBold"
+									Class="ThemeTextSmaller"
+									DefaultValue="@Request.Customer~"
+									ID="Customer"
+									IncludeBlank="True"
+									IncludeBlankCaption="All"
+									OptionCaptionColumn="CUSTOMER_DESC"
+									OptionValueColumn="CUSTOMER"
+									>
+									<DataLayer
+										ConnectionID="connAgTrax"
+										ID="dlCustomers"
+										Source="SELECT DISTINCT 
+  DM_OpenContracts.CUSTOMER,
+  DM_OpenContracts.CUSTOMER_DESC 
+FROM Agtrax_Staging.dbo.DM_OpenContracts
+WHERE DM_OpenContracts.CONTRACT_TYPE = @Request.ContractType~
+  AND DM_OpenContracts.REMAINING_BU &lt;&gt; 0.0
+ORDER BY CUSTOMER_DESC
+"
+										Type="SQL"
+									/>
+									<EventHandler
+										DhtmlEvent="onchange"
+										ID="eventOnChangeCustomer"
+										>
+										<Action
+											ElementID="divOpenContracts"
+											ID="actRefreshOpenContractsCustomers"
+											Type="RefreshElement"
+											>
+											<WaitPage/>
+										</Action>
+									</EventHandler>
+								</InputSelectList>
 							</ResponsiveColumn>
 							<ResponsiveColumn>
 								<Division
@@ -272,9 +292,28 @@ ORDER BY CONTRACT_TYPE
 										TableBorder="0"
 										>
 										<DataLayer
+											ConnectionID="connAgTrax"
 											ID="dlOpenContracts"
-											LinkedDataLayerID="linkOpenContracts"
-											Type="Linked"
+											Source="SELECT DM_OpenContracts.CUSTOMER
+     , DM_OpenContracts.CUSTOMER_DESC
+	 , DM_OpenContracts.CONTRACT_NUMBER
+	 , DM_OpenContracts.SIGNED
+	 , DM_OpenContracts.THEIR_CONTRACT_NUMBER
+	 , DM_OpenContracts.COMMODITY_CODE + &apos; - &apos; + DM_OpenContracts.COMMODITY_DESC AS COMMODITY_DESC
+	 , CAST(DM_OpenContracts.BRANCH_NUMBER as nvarchar(5)) + &apos; - &apos; + DM_OpenContracts.BRANCH_DESC AS BRANCH_NAME
+	 , DM_OpenContracts.DPR_POSITION
+	 , DM_OpenContracts.DPR_POSITION_GROUP
+	 , DM_OpenContracts.ISSUED_DATE
+	 , DM_OpenContracts.REMAINING_BU
+FROM Agtrax_Staging.dbo.DM_OpenContracts
+WHERE DM_OpenContracts.REMAINING_BU &lt;&gt; 0.0
+  AND (DM_OpenContracts.BRANCH_NUMBER IN(@Request.Branch~) OR &apos;@Request.Branch~&apos;=&apos;0&apos;) 
+  AND (DM_OpenContracts.CUSTOMER IN(&apos;@Request.Customer~&apos;) OR &apos;@Request.Customer~&apos; = &apos;&apos;) 
+  AND (DM_OpenContracts.COMMODITY_CODE IN(&apos;@Request.Commodity~&apos;) OR (&apos;@Request.Commodity~&apos; = &apos;&apos; OR &apos;@Request.Commodity~&apos; = &apos;0&apos;))
+  AND (DM_OpenContracts.CONTRACT_TYPE = @Request.ContractType~)
+ORDER BY DM_OpenContracts.CUSTOMER_DESC, DM_OpenContracts.COMMODITY_CODE, DM_OpenContracts.BRANCH_DESC
+"
+											Type="SQL"
 										/>
 										<InteractivePaging
 											CaptionType="Image"
