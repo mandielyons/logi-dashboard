@@ -8,13 +8,15 @@
 		<DataLayer
 			ConnectionID="connAgOS"
 			ID="dlDate"
-			Source="Select Top 1 Convert(VARCHAR(10),Claims.CreatedDate,110) As FirstCreatedDate
-From Claims
-Order By Claims.CreatedDate"
+			Source="SELECT CAST(MIN(Claims.CreatedDate) as date) AS FirstCreatedDate
+FROM AgOS_MKC_Live.dbo.Claims
+ORDER BY FirstCreatedDate
+"
 			Type="SQL"
 		/>
 	</LocalData>
 	<DefaultRequestParams
+		ClaimID=""
 		Customer="-1"
 		HarvestBeginDate="@Local.FirstCreatedDate~"
 		HarvestEndDate="@Function.Date~"
@@ -71,11 +73,12 @@ Order By Claims.CreatedDate"
 								<DataLayer
 									ConnectionID="connAgOS"
 									ID="dlCustomer"
-									Source="Select Distinct Claims.ObjectID As CustID,
-  Objects.Name As Customer
-From Objects
-  Inner Join Claims On Objects.ObjectID = Claims.ObjectID
-Order By Customer"
+									Source="SELECT DISTINCT 
+   Claims.ObjectID AS CustID
+ , Objects.Name AS Customer
+FROM AgOS_MKC_Live.dbo.Objects
+  INNER JOIN AgOS_MKC_Live.dbo.Claims ON Objects.ObjectID = Claims.ObjectID
+ORDER BY Customer"
 									Type="SQL"
 								/>
 								<EventHandler
@@ -103,9 +106,10 @@ Order By Customer"
 								<DataLayer
 									ConnectionID="connAgOS"
 									ID="dlLocation"
-									Source="Select Distinct (Claims.LocationCode) As AgOSLocCode
-From Claims
-Order By Claims.LocationCode"
+									Source="SELECT DISTINCT Claims.LocationCode As AgOSLocCode
+FROM AgOS_MKC_Live.dbo.Claims
+ORDER BY AgOSLocCode
+"
 									Type="SQL"
 								/>
 								<EventHandler
@@ -131,6 +135,43 @@ Order By Claims.LocationCode"
 									DefaultEndDate="@Function.Date~"
 								/>
 							</IncludeSharedElement>
+							<InputText
+								Caption="Claim ID"
+								CaptionClass="ThemeTextSmall ThemeBold"
+								DefaultValue="@Request.ClaimID~"
+								Format="General Number"
+								ID="ClaimID"
+								InputMaxLength="12"
+								InputSize="14"
+								Tooltip="Exit field when done to change"
+								>
+								<AutoComplete
+									ColumnName="ClaimID"
+									ID="acClaimID"
+									MultiSelect="False"
+									>
+									<DataLayer
+										ConnectionID="connAgOS"
+										ID="dlClaimID"
+										Source="SELECT Claims.ClaimID
+FROM AgOS_MKC_Live.dbo.Claims 
+ORDER BY ClaimID
+"
+										Type="SQL"
+									/>
+								</AutoComplete>
+								<EventHandler
+									DhtmlEvent="onchange"
+									>
+									<Action
+										ElementID="dtClaims"
+										ID="refClaimsByClaimID"
+										Type="RefreshElement"
+										>
+										<WaitPage/>
+									</Action>
+								</EventHandler>
+							</InputText>
 							<LineBreak/>
 							<Button
 								Caption="Reset"
@@ -145,6 +186,7 @@ Order By Claims.LocationCode"
 									>
 									<WaitPage/>
 									<LinkParams
+										ClaimID=""
 										Customer="-1"
 										Location=""
 									/>
@@ -189,38 +231,39 @@ Order By Claims.LocationCode"
 								<DataLayer
 									ConnectionID="connAgOS"
 									ID="dlClaims"
-									Source="Select Claims.ClaimID As ClaimNumber,
-  Convert(VARCHAR(10),Claims.CreatedDate,110) As CreatedDate,
+									Source="SELECT Claims.ClaimID As ClaimNumber,
+  CONVERT(VARCHAR(10),Claims.CreatedDate,110) As CreatedDate,
   Claims.ManufacturerInvolved,
   Claims.PrimaryProblem As Problem,
-  Convert(VARCHAR(10),Claims.DateResolved,110) As ResolveDate,
+  CONVERT(VARCHAR(10),Claims.DateResolved,110) As ResolveDate,
   Claims.Resolved As Resolved,
   Claims.OrderID As OrderNumber,
   Claims.AcresAffected As Acres,
   Claims.Instructions As Instructions,
-  Convert(VARCHAR,Claims.TotalAmount,1) As Total,
-  Convert(VARCHAR,Claims.BalanceAmount,1) As Received,
-  Convert(VARCHAR,(Claims.TotalAmount - Claims.BalanceAmount),1) As Balance,
+  Claims.TotalAmount As Total,
+  Claims.BalanceAmount As Received,
+  (Claims.TotalAmount - Claims.BalanceAmount) As Balance,
   Claims.LocationCode As Location,
   Users.FirstName As CreatedFName,
   Users.LastName As CreatedLName,
   Objects.Name As Customer,
   Manufacturer.Name As Manufacturer
-From Claims
-  Inner Join Users On Claims.CreatedBy = Users.UserID
-  Inner Join Objects On Objects.ObjectID = Claims.ObjectID
-  Left Join Manufacturer On Claims.ManufacturerID = Manufacturer.ManufacturerID
-Where (Claims.LocationCode = &apos;@Request.Location~&apos; Or &apos;@Request.Location~&apos; = &apos; &apos;)
-  And (Claims.ObjectID = &apos;@Request.Customer~&apos; Or &apos;@Request.Customer~&apos; = -1) And
-  Claims.ClaimTypeID = 1 And
-  Claims.CreatedDate Between &apos;@Request.HarvestBeginDate~&apos; And
-  &apos;@Request.HarvestEndDate~&apos;
-Order By Claims.CreatedDate Desc"
+FROM AgOS_MKC_Live.dbo.Claims
+  INNER JOIN AgOS_MKC_Live.dbo.Users On Claims.CreatedBy = Users.UserID
+  INNER JOIN AgOS_MKC_Live.dbo.Objects On Objects.ObjectID = Claims.ObjectID
+  LEFT JOIN AgOS_MKC_Live.dbo.Manufacturer On Claims.ManufacturerID = Manufacturer.ManufacturerID
+WHERE Claims.ClaimTypeID = 1 
+  AND Claims.CreatedDate BETWEEN &apos;@Request.HarvestBeginDate~&apos; AND &apos;@Request.HarvestEndDate~&apos;
+  AND (Claims.LocationCode = &apos;@Request.Location~&apos; OR &apos;@Request.Location~&apos; = &apos; &apos;)
+  AND (Claims.ObjectID = &apos;@Request.Customer~&apos; OR &apos;@Request.Customer~&apos; = -1) 
+  AND (Claims.ClaimID = &apos;@Request.ClaimID~&apos; OR &apos;@Request.ClaimID~&apos; = &apos;&apos;)
+ORDER BY Claims.CreatedDate DESC
+"
 									Type="SQL"
 								/>
 								<DataTableColumn
 									Class="ThemeAlignTopLeft"
-									Header="Claim"
+									Header="Claim_ID"
 									>
 									<Label
 										Caption="@Data.ClaimNumber~"
@@ -298,6 +341,7 @@ Order By Claims.CreatedDate Desc"
 									>
 									<Label
 										Caption="@Data.Acres~"
+										Class="ThemeAlignRight"
 									/>
 									<ConditionalClass
 										Class="yellow-highlight ThemeAlignTopLeft"
@@ -330,12 +374,14 @@ Order By Claims.CreatedDate Desc"
 									/>
 								</DataTableColumn>
 								<DataTableColumn
-									Class="ThemeAlignTopRight"
+									Class="ThemeAlignTopLeft"
 									ColumnHeaderClass="ThemeAlignRight"
 									Header="Total"
 									>
 									<Label
 										Caption="@Data.Total~"
+										Class="ThemeAlignRight"
+										Format="Standard"
 									/>
 									<ConditionalClass
 										Class="yellow-highlight ThemeAlignTopLeft"
@@ -343,12 +389,14 @@ Order By Claims.CreatedDate Desc"
 									/>
 								</DataTableColumn>
 								<DataTableColumn
-									Class="ThemeAlignTopRight"
+									Class="ThemeAlignTopLeft"
 									ColumnHeaderClass="ThemeAlignRight"
 									Header="Received"
 									>
 									<Label
 										Caption="@Data.Received~"
+										Class="ThemeAlignRight"
+										Format="Standard"
 									/>
 									<ConditionalClass
 										Class="yellow-highlight ThemeAlignTopLeft"
@@ -356,12 +404,14 @@ Order By Claims.CreatedDate Desc"
 									/>
 								</DataTableColumn>
 								<DataTableColumn
-									Class="ThemeAlignTopRight"
+									Class="ThemeAlignTopLeft"
 									ColumnHeaderClass="ThemeAlignRight"
 									Header="Balance"
 									>
 									<Label
 										Caption="@Data.Balance~"
+										Class="ThemeAlignRight"
+										Format="Standard"
 									/>
 									<ConditionalClass
 										Class="yellow-highlight ThemeAlignTopLeft"
@@ -434,6 +484,7 @@ Order By Claims.CreatedDate Desc"
 		SharedElementID="shrFooter"
 	/>
 	<ideTestParams
+		ClaimID=""
 		Customer="-1"
 		HarvestBeginDate="4/24/2017"
 		HarvestEndDate="9/20/2017"
