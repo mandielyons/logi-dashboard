@@ -8,9 +8,8 @@
 		<DataLayer
 			ConnectionID="connAgOS"
 			ID="dlDate"
-			Source="SELECT CAST(MIN(Claims.CreatedDate) as date) AS FirstCreatedDate
+			Source="SELECT CONVERT(VARCHAR(10),MIN(Claims.CreatedDate),101) AS FirstCreatedDate
 FROM AgOS_MKC_Live.dbo.Claims
-ORDER BY FirstCreatedDate
 "
 			Type="SQL"
 		/>
