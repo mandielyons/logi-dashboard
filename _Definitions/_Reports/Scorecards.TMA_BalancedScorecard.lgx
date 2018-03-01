@@ -2,7 +2,7 @@
 <Report
 	Caption="TMA Balanced Scorecard"
 	ID="Scorecards.TMA_BalancedScorecard"
-	SecurityReportRightID="Dashboard Sr Mgmt,Dashboard Stategic Planning,LogiUserAdmin"
+	SecurityReportRightID="Dashboard Sr Mgmt,Dashboard Strategic Planning TMA,LogiUserAdmin"
 	>
 	<IncludeSharedElement
 		DefinitionFile="_Layout.Shared"
@@ -157,22 +157,6 @@
 }
 &lt;/style&gt;"
 		/>
-		<Remark>
-			<Division
-				ID="panel-arrows"
-				>
-				<IncludeHtml
-					Html="&lt;img src=&quot;_SupportFiles/Arrow_up.png&quot; style=&quot;position: absolute;top: 388px;left: 90px;z-index: 1000;&quot;&gt;&lt;/img&gt;
-&lt;img src=&quot;_SupportFiles/Arrow_up.png&quot; style=&quot;position: absolute;top: 567px;left: 90px;z-index: 1000;&quot;&gt;&lt;/img&gt;"
-				/>
-				<ResponsiveVisibility
-					HideForExtraSmallScreen="True"
-					HideForLargeScreen="False"
-					HideForMediumScreen="True"
-					HideForSmallScreen="True"
-				/>
-			</Division>
-		</Remark>
 		<Division
 			Class="panel panel-default "
 			HtmlDiv="True"
