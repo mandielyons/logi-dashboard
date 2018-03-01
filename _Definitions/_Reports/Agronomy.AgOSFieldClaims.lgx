@@ -208,25 +208,25 @@ ORDER BY ClaimID
 								Class="ThemeTextSmaller pull-right"
 							/>
 							<DataTable
+								AjaxPaging="True"
 								Caption="Field Claim Details"
 								CaptionClass="ThemeTextSmall"
-								CellSpacing="5"
+								CellSpacing="7"
 								Class="ThemeTextSmaller"
 								DraggableColumns="False"
 								ID="dtClaims"
 								KeepScrollPosition="True"
+								RememberSort="False"
 								Width="100"
 								WidthScale="%"
 								>
-								<Remark>
-									<InteractivePaging
-										CaptionType="Image"
-										Class="ThemeTextSmall"
-										Location="Top"
-										PageRowCount="10"
-										ShowPageNumber="True"
-									/>
-								</Remark>
+								<InteractivePaging
+									CaptionType="Image"
+									Class="ThemeTextSmall"
+									Location="Top"
+									PageRowCount="10"
+									ShowPageNumber="True"
+								/>
 								<DataLayer
 									ConnectionID="connAgOS"
 									ID="dlClaims"
@@ -252,17 +252,13 @@ FROM AgOS_MKC_Live.dbo.Claims
   INNER JOIN AgOS_MKC_Live.dbo.Objects On Objects.ObjectID = Claims.ObjectID
   LEFT JOIN AgOS_MKC_Live.dbo.Manufacturer On Claims.ManufacturerID = Manufacturer.ManufacturerID
 WHERE Claims.ClaimTypeID = 1 
-  AND Claims.CreatedDate BETWEEN &apos;@Request.HarvestBeginDate~&apos; AND &apos;@Request.HarvestEndDate~&apos;
-  AND (Claims.LocationCode = &apos;@Request.Location~&apos; OR &apos;@Request.Location~&apos; = &apos; &apos;)
-  AND (Claims.ObjectID = &apos;@Request.Customer~&apos; OR &apos;@Request.Customer~&apos; = -1) 
-  AND (Claims.ClaimID = &apos;@Request.ClaimID~&apos; OR &apos;@Request.ClaimID~&apos; = &apos;&apos;)
-ORDER BY Claims.CreatedDate DESC
+ORDER BY ClaimNumber DESC
 "
 									Type="SQL"
 								/>
 								<DataTableColumn
 									Class="ThemeAlignTopLeft"
-									Header="Claim_ID"
+									Header="Claim ID"
 									>
 									<Label
 										Caption="@Data.ClaimNumber~"
@@ -379,7 +375,7 @@ ORDER BY Claims.CreatedDate DESC
 									>
 									<Label
 										Caption="@Data.Total~"
-										Class="ThemeAlignRight"
+										Class="pull-right"
 										Format="Standard"
 									/>
 									<ConditionalClass
@@ -394,7 +390,7 @@ ORDER BY Claims.CreatedDate DESC
 									>
 									<Label
 										Caption="@Data.Received~"
-										Class="ThemeAlignRight"
+										Class="pull-right"
 										Format="Standard"
 									/>
 									<ConditionalClass
@@ -409,7 +405,7 @@ ORDER BY Claims.CreatedDate DESC
 									>
 									<Label
 										Caption="@Data.Balance~"
-										Class="ThemeAlignRight"
+										Class="pull-right"
 										Format="Standard"
 									/>
 									<ConditionalClass
@@ -484,9 +480,5 @@ ORDER BY Claims.CreatedDate DESC
 	/>
 	<ideTestParams
 		ClaimID=""
-		Customer="-1"
-		HarvestBeginDate="4/24/2017"
-		HarvestEndDate="9/20/2017"
-		Location=""
 	/>
 </Report>
