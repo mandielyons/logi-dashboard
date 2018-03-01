@@ -207,8 +207,8 @@
 											>
 											<ResponsiveColumn
 												ColspanExtraSmallScreen="12"
-												ColspanLargeScreen="7"
-												ColspanMediumScreen="7"
+												ColspanLargeScreen="6"
+												ColspanMediumScreen="6"
 												ColspanSmallScreen="12"
 												>
 												<ResponsiveRow>
@@ -289,8 +289,8 @@
 												</ResponsiveRow>
 											</ResponsiveColumn>
 											<ResponsiveColumn
-												ColspanLargeScreen="5"
-												ColspanMediumScreen="5"
+												ColspanLargeScreen="6"
+												ColspanMediumScreen="6"
 												>
 												<ResponsiveRow>
 													<ResponsiveColumn
@@ -374,7 +374,7 @@
 																/>
 																<DataTableColumn
 																	Header="Measure"
-																	Width="70"
+																	Width="60"
 																	WidthScale="%"
 																	>
 																	<Label
@@ -384,7 +384,7 @@
 																</DataTableColumn>
 																<DataTableColumn
 																	Header="Target"
-																	Width="15"
+																	Width="25"
 																	WidthScale="%"
 																	>
 																	<Label
@@ -419,8 +419,8 @@
 											>
 											<ResponsiveColumn
 												ColspanExtraSmallScreen="12"
-												ColspanLargeScreen="7"
-												ColspanMediumScreen="7"
+												ColspanLargeScreen="67"
+												ColspanMediumScreen="6"
 												ColspanSmallScreen="12"
 												>
 												<ResponsiveRow>
@@ -501,14 +501,14 @@
 															<LineBreak/>
 														</Remark>
 														<Label
-															Caption="Stakeholder"
+															Caption="Customer"
 														/>
 													</ResponsiveColumn>
 												</ResponsiveRow>
 											</ResponsiveColumn>
 											<ResponsiveColumn
-												ColspanLargeScreen="5"
-												ColspanMediumScreen="5"
+												ColspanLargeScreen="6"
+												ColspanMediumScreen="6"
 												>
 												<ResponsiveRow>
 													<ResponsiveColumn
@@ -592,7 +592,7 @@
 																/>
 																<DataTableColumn
 																	Header="Measure"
-																	Width="70"
+																	Width="60"
 																	WidthScale="%"
 																	>
 																	<Label
@@ -602,7 +602,7 @@
 																</DataTableColumn>
 																<DataTableColumn
 																	Header="Target"
-																	Width="15"
+																	Width="25"
 																	WidthScale="%"
 																	>
 																	<Label
@@ -636,8 +636,8 @@
 											>
 											<ResponsiveColumn
 												ColspanExtraSmallScreen="12"
-												ColspanLargeScreen="7"
-												ColspanMediumScreen="7"
+												ColspanLargeScreen="6"
+												ColspanMediumScreen="6"
 												ColspanSmallScreen="12"
 												>
 												<ResponsiveRow>
@@ -741,8 +741,8 @@
 												</ResponsiveRow>
 											</ResponsiveColumn>
 											<ResponsiveColumn
-												ColspanLargeScreen="5"
-												ColspanMediumScreen="5"
+												ColspanLargeScreen="6"
+												ColspanMediumScreen="6"
 												>
 												<ResponsiveRow>
 													<ResponsiveColumn
@@ -826,7 +826,7 @@
 																/>
 																<DataTableColumn
 																	Header="Measure"
-																	Width="70"
+																	Width="60"
 																	WidthScale="%"
 																	>
 																	<Label
@@ -836,7 +836,7 @@
 																</DataTableColumn>
 																<DataTableColumn
 																	Header="Target"
-																	Width="15"
+																	Width="25"
 																	WidthScale="%"
 																	>
 																	<Label
@@ -870,8 +870,8 @@
 											>
 											<ResponsiveColumn
 												ColspanExtraSmallScreen="12"
-												ColspanLargeScreen="7"
-												ColspanMediumScreen="7"
+												ColspanLargeScreen="6"
+												ColspanMediumScreen="6"
 												ColspanSmallScreen="12"
 												>
 												<ResponsiveRow>
@@ -992,8 +992,8 @@
 												</ResponsiveRow>
 											</ResponsiveColumn>
 											<ResponsiveColumn
-												ColspanLargeScreen="5"
-												ColspanMediumScreen="5"
+												ColspanLargeScreen="6"
+												ColspanMediumScreen="6"
 												>
 												<ResponsiveRow>
 													<ResponsiveColumn
@@ -1077,7 +1077,7 @@
 																/>
 																<DataTableColumn
 																	Header="Measure"
-																	Width="70"
+																	Width="60"
 																	WidthScale="%"
 																	>
 																	<Label
@@ -1087,7 +1087,7 @@
 																</DataTableColumn>
 																<DataTableColumn
 																	Header="Target"
-																	Width="15"
+																	Width="25"
 																	WidthScale="%"
 																	>
 																	<Label
@@ -1159,7 +1159,7 @@
 												<Row>
 													<Column>
 														<Label
-															Caption="Stakeholder Initiatives"
+															Caption="Customer Initiatives"
 															Class="panel-title bold"
 														/>
 														<HR/>
@@ -1176,7 +1176,7 @@
 														ColSpan="2"
 														>
 														<Label
-															Caption="Enhance the Customer Experience - Tier 1"
+															Caption="Enhance the Customer Experience"
 															Class="panel-title bold"
 														/>
 													</Column>
@@ -1384,7 +1384,7 @@
 														ColSpan="2"
 														>
 														<Label
-															Caption="Improve Sales Performance - Tier 1"
+															Caption="Improve Sales Performance"
 															Class="font-xs bold"
 														/>
 													</Column>
@@ -1534,7 +1534,7 @@
 														ColSpan="2"
 														>
 														<Label
-															Caption="Increase Operational Efficiency - Tier 2"
+															Caption="Increase Operational Efficiency"
 															Class="font-xs bold"
 														/>
 													</Column>
@@ -1741,7 +1741,7 @@
 														ColSpan="2"
 														>
 														<Label
-															Caption="Improve Software Utilization - Tier 1"
+															Caption="Improve Software Utilization"
 															Class="font-xs bold"
 														/>
 													</Column>
@@ -1901,7 +1901,7 @@
 														ColSpan="2"
 														>
 														<Label
-															Caption="Increase Employee Knowledge, Skills &amp; Abilities - Tier 2"
+															Caption="Increase Employee Knowledge, Skills &amp; Abilities"
 															Class="font-xs bold"
 														/>
 													</Column>
@@ -2055,7 +2055,7 @@
 														ColSpan="2"
 														>
 														<Label
-															Caption="Build a Unified Image of the Brand - Tier 2"
+															Caption="Build a Unified Image of the Brand"
 															Class="font-xs bold"
 														/>
 													</Column>
@@ -2264,7 +2264,7 @@
 														ColSpan="2"
 														>
 														<Label
-															Caption="Increase Profitability - Tier 1"
+															Caption="Increase Profitability"
 															Class="panel-title bold"
 														/>
 													</Column>
