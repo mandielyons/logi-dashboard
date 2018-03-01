@@ -251,7 +251,9 @@
 														ColspanLargeScreen="1"
 														ColspanMediumScreen="1"
 														>
-														<LineBreak/>
+														<Remark>
+															<LineBreak/>
+														</Remark>
 														<Remark>
 															<Image
 																Caption="Arrow_left.png"
@@ -368,10 +370,12 @@
 														<Division
 															ID="panel-financial-init"
 															>
-															<LineBreak/>
+															<Remark>
+																<LineBreak/>
+															</Remark>
 															<DataTable
 																CellSpacing="5"
-																Class="ThemeTextSmall"
+																Class="ThemeTextSmaller"
 																ID="dtFinanceMeasures"
 																Width="100"
 																WidthScale="%"
@@ -509,7 +513,9 @@
 														ColspanLargeScreen="3"
 														ColspanMediumScreen="3"
 														>
-														<LineBreak/>
+														<Remark>
+															<LineBreak/>
+														</Remark>
 														<Label
 															Caption="Stakeholder"
 														/>
@@ -582,10 +588,12 @@
 														<Division
 															ID="panel-organization-init"
 															>
-															<LineBreak/>
+															<Remark>
+																<LineBreak/>
+															</Remark>
 															<DataTable
 																CellSpacing="5"
-																Class="ThemeTextSmall"
+																Class="ThemeTextSmaller"
 																ID="dtStMeasures"
 																Width="100"
 																WidthScale="%"
@@ -673,17 +681,23 @@
 															</Remark>
 														</Division>
 													</ResponsiveColumn>
-													<ResponsiveColumn
-														Class="ThemeAlignCenter"
-														ColspanLargeScreen="1"
-														ColspanMediumScreen="1"
-														>
-														<LineBreak/>
-														<Image
-															Caption="Arrow_left.png"
-															Width="100%"
-														/>
-													</ResponsiveColumn>
+													<Remark>
+														<ResponsiveColumn
+															Class="ThemeAlignCenter"
+															ColspanLargeScreen="1"
+															ColspanMediumScreen="1"
+															>
+															<Remark>
+																<LineBreak/>
+															</Remark>
+															<Remark>
+																<Image
+																	Caption="Arrow_left.png"
+																	Width="100%"
+																/>
+															</Remark>
+														</ResponsiveColumn>
+													</Remark>
 													<ResponsiveColumn
 														Class="ThemeAlignLeft"
 														ColspanLargeScreen="2"
@@ -705,8 +719,8 @@
 													</ResponsiveColumn>
 													<ResponsiveColumn
 														Class="ThemeAlignLeft"
-														ColspanLargeScreen="2"
-														ColspanMediumScreen="2"
+														ColspanLargeScreen="3"
+														ColspanMediumScreen="3"
 														>
 														<Remark>
 															<Division
@@ -733,7 +747,9 @@
 														ColspanLargeScreen="3"
 														ColspanMediumScreen="3"
 														>
-														<LineBreak/>
+														<Remark>
+															<LineBreak/>
+														</Remark>
 														<Label
 															Caption="Internal Processes"
 														/>
@@ -806,10 +822,12 @@
 														<Division
 															ID="panel-process-init"
 															>
-															<LineBreak/>
+															<Remark>
+																<LineBreak/>
+															</Remark>
 															<DataTable
 																CellSpacing="5"
-																Class="ThemeTextSmall"
+																Class="ThemeTextSmaller"
 																ID="dtProcMeasures"
 																Width="100"
 																WidthScale="%"
@@ -897,17 +915,23 @@
 															</Remark>
 														</Division>
 													</ResponsiveColumn>
-													<ResponsiveColumn
-														Class="ThemeAlignCenter"
-														ColspanLargeScreen="1"
-														ColspanMediumScreen="1"
-														>
-														<LineBreak/>
-														<Image
-															Caption="Arrow_left.png"
-															Width="100%"
-														/>
-													</ResponsiveColumn>
+													<Remark>
+														<ResponsiveColumn
+															Class="ThemeAlignCenter"
+															ColspanLargeScreen="1"
+															ColspanMediumScreen="1"
+															>
+															<Remark>
+																<LineBreak/>
+															</Remark>
+															<Remark>
+																<Image
+																	Caption="Arrow_left.png"
+																	Width="100%"
+																/>
+															</Remark>
+														</ResponsiveColumn>
+													</Remark>
 													<ResponsiveColumn
 														ColspanLargeScreen="2"
 														ColspanMediumScreen="2"
@@ -946,8 +970,8 @@
 														</Division>
 													</ResponsiveColumn>
 													<ResponsiveColumn
-														ColspanLargeScreen="2"
-														ColspanMediumScreen="2"
+														ColspanLargeScreen="3"
+														ColspanMediumScreen="3"
 														>
 														<Remark>
 															<Division
@@ -970,7 +994,9 @@
 														ColspanLargeScreen="3"
 														ColspanMediumScreen="3"
 														>
-														<LineBreak/>
+														<Remark>
+															<LineBreak/>
+														</Remark>
 														<Label
 															Caption="Organizational"
 														/>
@@ -1047,10 +1073,12 @@
 														<Division
 															ID="panel-organization-init"
 															>
-															<LineBreak/>
+															<Remark>
+																<LineBreak/>
+															</Remark>
 															<DataTable
 																CellSpacing="5"
-																Class="ThemeTextSmall"
+																Class="ThemeTextSmaller"
 																ID="dtOrgMeasures"
 																Width="100"
 																WidthScale="%"
