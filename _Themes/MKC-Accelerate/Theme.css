@@ -581,11 +581,11 @@ select.rdAgQbColor6, table.rdAgDataTable th.rdAgQbColor6 {
 	margin-bottom: 6px;
 }
 
-table.rdThemeSubDataTable th, .rdThemeSubDataTable th {
+/*table.rdThemeSubDataTable th, .rdThemeSubDataTable th {
 	background-color: #363b42;
 	color: #fff;
 	padding: 1px 3px;
-}
+}*/
 
 .rdThemeSubDataTableGroupHeaderRow td {
 	background-color: #878786;
@@ -596,6 +596,7 @@ table.rdThemeSubDataTable th, .rdThemeSubDataTable th {
 .rdThemeSubDataTableDataTableCell {
 	background-color: #ececec;
 	color: #363b42;
+  padding: 1px 3px;
 }
 
 .rdThemeSubDataTableMoreInfoRow {
@@ -1344,17 +1345,32 @@ input#txtEditBookmarkDescription {
 }
 
 .first-of-type {
-	background-color: #454d59;
+	background-color: #1D2733;
+  color: #fff;
 	border: none;
   display: block;
   padding: 3px;
 	width:100%;
 }
 .first-of-type li a:hover {
-	color:#fff;
+	color: #deb408;
 }
 .first-of-type:hover {
-	background-color: #D3D3D3;
+	background-color: #1D2733;
+}
+
+.second-of-type {
+  color: #1D2733;
+  border: none;
+  display: block;
+  padding: 3px;
+  width:100%;
+}
+.second-of-type li a:hover {
+  color: #deb408;
+}
+.second-of-type:hover {
+  color: #1D2733;
 }
 
 /* calendar */
@@ -1754,7 +1770,7 @@ table #dtBookmarkSharedWith td:first-of-type > span{
 	}
 
 	.ThemeContainerShaded {
-		background-color: #F0F465 !important;
+		background-color: #FFFF99 !important;
 		padding: 6px;
 	}
 
@@ -1944,6 +1960,25 @@ table #dtBookmarkSharedWith td:first-of-type > span{
     text-transform: capitalize;
   }
 
+  .yellow-highlight {
+    background-color: #FFFF99 !important;
+    color: black;
+  }
+
+  .blue-highlight {
+    background-color: #D8EFF6 !important;
+    color: black;
+  }
+
+  .white {
+    color: #FFFFFF !important;
+  }
+
   /*.well {
     background-color: #2e86ab;
   }*/
+
+  .set-panel-height {
+    height: 100% !important;
+    width: 100% !important;
+  }

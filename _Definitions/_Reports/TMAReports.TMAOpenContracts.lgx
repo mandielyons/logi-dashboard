@@ -13,6 +13,7 @@
 		Commodity="0"
 		ContractTypeID="1"
 		CustomerID=""
+		DPRPositionGroup=""
 	/>
 	<LocalData>
 		<DataLayer
@@ -35,24 +36,36 @@ ORDER BY CUSTOMER_DESC
 		<DataLayer
 			ConnectionID="connAgTrax"
 			ID="ldOpenContracts"
-			Source="SELECT DM_OpenContracts.CUSTOMER
-     , DM_OpenContracts.CUSTOMER_DESC
+			Source="SELECT CAST(DM_OpenContracts.CONTRACT_TYPE as char(1)) + LTRIM(RTRIM(DM_OpenContracts.CUSTOMER)) + CAST(DM_OpenContracts.CONTRACT_NUMBER as varchar(20)) + DM_OpenContracts.COMMODITY_CODE + CAST(DM_OpenContracts.BRANCH_NUMBER as varchar(6)) as RELKEY
+	 , DM_OpenContracts.ISSUED_DATE
 	 , DM_OpenContracts.CONTRACT_NUMBER
 	 , DM_OpenContracts.SIGNED
-	 , DM_OpenContracts.THEIR_CONTRACT_NUMBER
-	 , DM_OpenContracts.COMMODITY_CODE + &apos; - &apos; + DM_OpenContracts.COMMODITY_DESC AS COMMODITY_DESC
-	 , CAST(DM_OpenContracts.BRANCH_NUMBER as nvarchar(5)) + &apos; - &apos; + DM_OpenContracts.BRANCH_DESC AS BRANCH_NAME
+     , DM_OpenContracts.CUSTOMER_DESC
+     , DM_OpenContracts.CUSTOMER
+	 , DCM.DPR_GROUP_DESC AS CROP_NAME
+	 , DM_OpenContracts.COMMODITY_CODE /* + &apos; - &apos; + DM_OpenContracts.COMMODITY_DESC */ AS COMMODITY_DESC
 	 , DM_OpenContracts.DPR_POSITION
 	 , DM_OpenContracts.DPR_POSITION_GROUP
-	 , DM_OpenContracts.ISSUED_DATE
+	 , DM_OpenContracts.THEIR_CONTRACT_NUMBER
+	 , CAST(DM_OpenContracts.BRANCH_NUMBER as nvarchar(5)) + &apos; - &apos; + DM_OpenContracts.BRANCH_DESC AS BRANCH_NAME
+	 , DM_OpenContracts.ISSUED_BU
 	 , DM_OpenContracts.REMAINING_BU
-FROM Agtrax_Staging.dbo.DM_OpenContracts
+	 , DM_OpenContracts.PRICE
+	 , DM_OpenContracts.BOARD_PRICE
+	 , DM_OpenContracts.BASIS_PRICE
+	 , DM_OpenContracts.FREIGHT_RATE
+	 , DM_OpenContracts.SERVICE_FEE
+	 , DM_OpenContracts.DELIVERY_START_DATE
+	 , DM_OpenContracts.DELIVERY_END_DATE
+FROM Agtrax_Staging.dbo.DM_OpenContracts 
+  INNER JOIN Agtrax_Staging.dbo.vCOMMODITY_GROUP AS [DCM] ON DM_OpenContracts.COMMODITY_CODE = DCM.COMMODITY_CODE  
 WHERE DM_OpenContracts.REMAINING_BU &lt;&gt; 0.0
   AND (DM_OpenContracts.BRANCH_NUMBER IN(@Request.Branch~) OR (&apos;@Request.Branch~&apos; = &apos;&apos; OR &apos;@Request.Branch~&apos;=&apos;0&apos;))
   AND (DM_OpenContracts.CUSTOMER IN(&apos;@Request.CustomerID~&apos;) OR &apos;@Request.CustomerID~&apos; = &apos;&apos;) 
   AND (DM_OpenContracts.COMMODITY_CODE IN(&apos;@Request.Commodity~&apos;) OR (&apos;@Request.Commodity~&apos; = &apos;&apos; OR &apos;@Request.Commodity~&apos; = &apos;0&apos;))
   AND (DM_OpenContracts.CONTRACT_TYPE = @Request.ContractTypeID~)
-ORDER BY DM_OpenContracts.CUSTOMER_DESC, DM_OpenContracts.COMMODITY_CODE, DM_OpenContracts.BRANCH_DESC
+  AND (DM_OpenContracts.DPR_POSITION_GROUP IN(&apos;@Request.DPRPositionGroup~&apos;) OR (&apos;@Request.DPRPositionGroup~&apos; = &apos;&apos;))
+ORDER BY DM_OpenContracts.ISSUED_DATE DESC, DM_OpenContracts.CONTRACT_NUMBER, DM_OpenContracts.CUSTOMER_DESC
 "
 			Type="SQL"
 			>
@@ -73,6 +86,19 @@ ORDER BY CONTRACT_TYPE
 			>
 			<DataLayerLink
 				ID="linkContractType"
+			/>
+		</DataLayer>
+		<DataLayer
+			ConnectionID="connAgTrax"
+			ID="ldDPRPositionGroup"
+			Source="SELECT DISTINCT DPR_POSITION_GROUP 
+FROM Agtrax_Staging.dbo.DM_OpenContracts 
+ORDER BY DPR_POSITION_GROUP
+"
+			Type="SQL"
+			>
+			<DataLayerLink
+				ID="linkDPRPosiitonGroup"
 			/>
 		</DataLayer>
 	</LocalData>
@@ -140,7 +166,7 @@ ORDER BY CONTRACT_TYPE
 									SharedElementID="shrExcelExport"
 									>
 									<SharedElementParams
-										DataTableID="dtOpenContracts"
+										DataTableID="dtOpenContracts,mirContractDetails"
 										ReportName="Open Contracts"
 									/>
 								</IncludeSharedElement>
@@ -182,6 +208,36 @@ ORDER BY CONTRACT_TYPE
 											<Action
 												ElementID="divOpenContracts"
 												ID="actRefreshOpenContractsCustomers"
+												Type="RefreshElement"
+												>
+												<WaitPage/>
+											</Action>
+										</EventHandler>
+									</InputSelectList>
+									<LineBreak/>
+									<InputSelectList
+										Caption="Type:"
+										CaptionClass="ThemeTextSmall ThemeBold"
+										Class="ThemeTextSmaller"
+										DefaultValue="@Request.DPRPositionGroup~"
+										ID="DPRPositionGroup"
+										IncludeBlank="True"
+										IncludeBlankCaption="All"
+										OptionCaptionColumn="DPR_POSITION_GROUP"
+										OptionValueColumn="DPR_POSITION_GROUP"
+										>
+										<DataLayer
+											ID="ldDPRPositionGroup"
+											LinkedDataLayerID="linkDPRPosiitonGroup"
+											Type="Linked"
+										/>
+										<EventHandler
+											DhtmlEvent="onchange"
+											ID="eventOnChangeDPRPositionGroup"
+											>
+											<Action
+												ElementID="divOpenContracts"
+												ID="actRefreshOpenContractsDPRPositionGroup"
 												Type="RefreshElement"
 												>
 												<WaitPage/>
@@ -251,8 +307,9 @@ ORDER BY CONTRACT_TYPE
 											<LinkParams
 												Branch="0"
 												Commodity="0"
-												ContractType="1"
-												Customer=""
+												ContractTypeID="1"
+												CustomerID=""
+												DPRPositionGroup=""
 											/>
 										</Action>
 									</Button>
@@ -268,6 +325,7 @@ ORDER BY CONTRACT_TYPE
 										AccessibleHeaders="True"
 										AccessibleSummary="DataTable"
 										AjaxPaging="True"
+										CellSpacing="5"
 										DraggableColumns="True"
 										ID="dtOpenContracts"
 										KeepScrollPosition="True"
@@ -286,135 +344,13 @@ ORDER BY CONTRACT_TYPE
 											HideShowPrevNextCaptions="False"
 											HideWhenOnePage="True"
 											IDnotSupportedHere="pagingTableNumbered"
-											Location="Top"
+											Location="Both"
 											PageRowCount="20"
 											ShowPageNumber="Numbered"
 										/>
 										<DataTableColumn
-											Header="Account Name"
-											ID="colCUSTOMER_DESC"
-											>
-											<Label
-												Caption="@Data.CUSTOMER_DESC~"
-												ID="lblCUSTOMER_DESC"
-												NoWrap="True"
-												rdForWizardSet="true"
-											/>
-											<DataColumnSort
-												DataColumn="CUSTOMER_DESC"
-												DataType="Text"
-											/>
-										</DataTableColumn>
-										<DataTableColumn
-											Header="Contract Number"
-											ID="colCONTRACT_NUMBER"
-											>
-											<Label
-												Caption="@Data.CONTRACT_NUMBER~"
-												ID="lblCONTRACT_NUMBER"
-												NoWrap="True"
-												rdForWizardSet="true"
-											/>
-											<DataColumnSort
-												DataColumn="CONTRACT_NUMBER"
-												DataType="Text"
-											/>
-										</DataTableColumn>
-										<DataTableColumn
 											Class="ThemeAlignCenter"
-											Header="Signed"
-											ID="colSIGNED"
-											>
-											<Label
-												Caption="@Data.SIGNED~"
-												ID="lblSIGNED"
-												NoWrap="True"
-												rdForWizardSet="true"
-											/>
-											<DataColumnSort
-												DataColumn="SIGNED"
-												DataType="Text"
-											/>
-										</DataTableColumn>
-										<DataTableColumn
-											Header="Their Number"
-											ID="colTHEIR_CONTRACT_NUMBER"
-											>
-											<Label
-												Caption="@Data.THEIR_CONTRACT_NUMBER~"
-												ID="lblTHEIR_CONTRACT_NUMBER"
-												NoWrap="True"
-												rdForWizardSet="true"
-											/>
-											<DataColumnSort
-												DataColumn="THEIR_CONTRACT_NUMBER"
-												DataType="Text"
-											/>
-										</DataTableColumn>
-										<DataTableColumn
-											Header="Commodity"
-											ID="colCOMMODITY_DESC"
-											>
-											<Label
-												Caption="@Data.COMMODITY_DESC~"
-												ID="lblCOMMODITY_DESC"
-												NoWrap="True"
-												rdForWizardSet="true"
-											/>
-											<DataColumnSort
-												DataColumn="COMMODITY_DESC"
-												DataType="Text"
-											/>
-										</DataTableColumn>
-										<DataTableColumn
-											Header="Location"
-											ID="colBRANCH_NAME"
-											>
-											<Label
-												Caption="@Data.BRANCH_NAME~"
-												ID="lblBRANCH_NAME"
-												NoWrap="True"
-												rdForWizardSet="true"
-											/>
-											<DataColumnSort
-												DataColumn="BRANCH_NAME"
-												DataType="Text"
-											/>
-										</DataTableColumn>
-										<DataTableColumn
-											Class="ThemeAlignCenter"
-											Header="DPR Position"
-											ID="colDPR_POSITION"
-											>
-											<Label
-												Caption="@Data.DPR_POSITION~"
-												ID="lblDPR_POSITION"
-												NoWrap="True"
-												rdForWizardSet="true"
-											/>
-											<DataColumnSort
-												DataColumn="DPR_POSITION"
-												DataType="Text"
-											/>
-										</DataTableColumn>
-										<DataTableColumn
-											Header="Type"
-											ID="colDPR_POSITION_GROUP"
-											>
-											<Label
-												Caption="@Data.DPR_POSITION_GROUP~"
-												ID="lblDPR_POSITION_GROUP"
-												NoWrap="True"
-												rdForWizardSet="true"
-											/>
-											<DataColumnSort
-												DataColumn="DPR_POSITION_GROUP"
-												DataType="Text"
-											/>
-										</DataTableColumn>
-										<DataTableColumn
-											Class="ThemeAlignCenter"
-											Header="Issued"
+											Header="Contract Date"
 											ID="colISSUED_DATE"
 											>
 											<Label
@@ -431,12 +367,132 @@ ORDER BY CONTRACT_TYPE
 										</DataTableColumn>
 										<DataTableColumn
 											Class="ThemeAlignRight"
+											Header="Contract Number"
+											ID="colCONTRACT_NUMBER"
+											>
+											<Label
+												Caption="@Data.CONTRACT_NUMBER~"
+												ID="lblCONTRACT_NUMBER"
+												NoWrap="True"
+												rdForWizardSet="true"
+												>
+												<Action
+													Display="Toggle"
+													ElementID="mirContractDetails"
+													ID="aseContractDetails"
+													ShowElementEffect="FadeIn"
+													Type="ShowElement"
+												/>
+											</Label>
+											<DataColumnSort
+												DataColumn="CONTRACT_NUMBER"
+												DataType="Text"
+											/>
+										</DataTableColumn>
+										<DataTableColumn
+											Class="ThemeAlignLeft"
+											Header="Account Name"
+											ID="colCUSTOMER_DESC"
+											>
+											<Label
+												Caption="@Data.CUSTOMER_DESC~"
+												ID="lblCUSTOMER_DESC"
+												NoWrap="True"
+												rdForWizardSet="true"
+											/>
+											<DataColumnSort
+												DataColumn="CUSTOMER_DESC"
+												DataType="Text"
+											/>
+										</DataTableColumn>
+										<DataTableColumn
+											Class="ThemeAlignRight"
+											Header="Account Number"
+											ID="colCUSTOMER"
+											>
+											<Label
+												Caption="@Data.CUSTOMER~"
+												ID="lblCUSTOMER"
+												NoWrap="True"
+												rdForWizardSet="true"
+											/>
+											<DataColumnSort
+												DataColumn="CUSTOMER"
+												DataType="Text"
+											/>
+										</DataTableColumn>
+										<DataTableColumn
+											Class="ThemeAlignLeft"
+											Header="Crop"
+											ID="colCROP_NAME"
+											>
+											<Label
+												Caption="@Data.CROP_NAME~"
+												ID="lblCROP_NAME"
+												NoWrap="True"
+												rdForWizardSet="true"
+											/>
+											<DataColumnSort
+												DataColumn="CROP_NAME"
+												DataType="Text"
+											/>
+										</DataTableColumn>
+										<DataTableColumn
+											Class="ThemeAlignCenter"
+											Header="Commodity"
+											ID="colCOMMODITY_DESC"
+											>
+											<Label
+												Caption="@Data.COMMODITY_DESC~"
+												ID="lblCOMMODITY_DESC"
+												NoWrap="True"
+												rdForWizardSet="true"
+											/>
+											<DataColumnSort
+												DataColumn="COMMODITY_DESC"
+												DataType="Text"
+											/>
+										</DataTableColumn>
+										<DataTableColumn
+											Class="ThemeAlignLeft"
+											Header="Position Group"
+											ID="colDPR_POSITION_GROUP"
+											>
+											<Label
+												Caption="@Data.DPR_POSITION_GROUP~"
+												ID="lblDPR_POSITION_GROUP"
+												NoWrap="True"
+												rdForWizardSet="true"
+											/>
+											<DataColumnSort
+												DataColumn="DPR_POSITION_GROUP"
+												DataType="Text"
+											/>
+										</DataTableColumn>
+										<DataTableColumn
+											Class="ThemeAlignLeft"
+											Header="Location"
+											ID="colBRANCH_NAME"
+											>
+											<Label
+												Caption="@Data.BRANCH_NAME~"
+												ID="lblBRANCH_NAME"
+												NoWrap="True"
+												rdForWizardSet="true"
+											/>
+											<DataColumnSort
+												DataColumn="BRANCH_NAME"
+												DataType="Text"
+											/>
+										</DataTableColumn>
+										<DataTableColumn
+											Class="ThemeAlignRight"
 											Header="Remaining Bushels"
 											ID="colREMAINING_BU"
 											>
 											<Label
 												Caption="@Data.REMAINING_BU~"
-												Format="#,###,###,###,##0.0"
+												Format="#,###,###,###,##0.00"
 												ID="lblREMAINING_BU"
 												NoWrap="True"
 												rdForWizardSet="true"
@@ -452,11 +508,220 @@ ORDER BY CONTRACT_TYPE
 												ID="SumREMAINING_BU"
 											/>
 										</DataTableColumn>
+										<DataTableColumn
+											Class="ThemeAlignRight"
+											Header="Cash Price"
+											ID="colPRICE"
+											>
+											<Label
+												Caption="@Data.PRICE~"
+												Format="#,###,###,###,##0.00"
+												ID="lblPRICE"
+												NoWrap="True"
+												rdForWizardSet="true"
+											/>
+											<DataColumnSort
+												DataColumn="PRICE"
+												DataType="Number"
+											/>
+										</DataTableColumn>
+										<DataTableColumn
+											Class="ThemeAlignRight"
+											Header="Futures Price"
+											ID="colBOARD_PRICE"
+											>
+											<Label
+												Caption="@Data.BOARD_PRICE~"
+												Format="#,###,###,###,##0.00"
+												ID="lblBOARD_PRICE"
+												NoWrap="True"
+												rdForWizardSet="true"
+											/>
+											<DataColumnSort
+												DataColumn="BOARD_PRICE"
+												DataType="Number"
+											/>
+										</DataTableColumn>
+										<DataTableColumn
+											Class="ThemeAlignRight"
+											Header="Basis Price"
+											ID="colBASIS_PRICE"
+											>
+											<Label
+												Caption="@Data.BASIS_PRICE~"
+												Format="#,###,###,###,##0.00"
+												ID="lblBASIS_PRICE"
+												NoWrap="True"
+												rdForWizardSet="true"
+											/>
+											<DataColumnSort
+												DataColumn="BASIS_PRICE"
+												DataType="Number"
+											/>
+										</DataTableColumn>
+										<DataTableColumn
+											Class="ThemeAlignRight"
+											Header="Delivery End Date"
+											ID="colDELIVERY_END_DATE"
+											>
+											<Label
+												Caption="@Data.DELIVERY_END_DATE~"
+												Format="Short Date"
+												ID="lblDELIVERY_END_DATE"
+												NoWrap="True"
+												rdForWizardSet="true"
+											/>
+											<DataColumnSort
+												DataColumn="DELIVERY_END_DATE"
+												DataType="Number"
+											/>
+										</DataTableColumn>
 										<SummaryRow
 											Caption="Total:"
 											ID="summary"
 											LastPageOnly="False"
 										/>
+										<MoreInfoRow
+											Class="ThemeTextSmall"
+											ID="mirContractDetails"
+											ShowModes="None"
+											>
+											<SubDataTable
+												AltRowClass="ThemeAlternatingRow"
+												CellSpacing="10"
+												ID="subdataContractDetails"
+												Layout="Auto"
+												TableBorder="1"
+												Width="60"
+												WidthScale="%"
+												>
+												<SubDataLayer
+													ID="sdtContractDetails"
+													OrphanRowExistence="False"
+													>
+													<DataLayer
+														ID="ldOpenContractsDetails"
+														LinkedDataLayerID="linkOpenContracts"
+														Type="Linked"
+													/>
+													<SubDataLayerRelationColumn
+														ChildColumn="RELKEY"
+														ID="sdlrcRELKEY"
+														ParentColumn="RELKEY"
+													/>
+												</SubDataLayer>
+												<DataTableColumn
+													Class="ThemeAlignCenter"
+													ColumnHeaderClass="ThemeAlignCenter"
+													Header="Signed"
+													ID="colSIGNED"
+													>
+													<Label
+														Caption="@Data.SIGNED~"
+														ID="lblSIGNED"
+														NoWrap="True"
+														rdForWizardSet="true"
+													/>
+												</DataTableColumn>
+												<DataTableColumn
+													Class="ThemeAlignLeft"
+													ColumnHeaderClass="ThemeAlignCenter"
+													Header="Description"
+													ID="colTHEIR_CONTRACT_NUMBER"
+													>
+													<Label
+														Caption="@Data.THEIR_CONTRACT_NUMBER~"
+														ID="lblTHEIR_CONTRACT_NUMBER"
+														NoWrap="True"
+														rdForWizardSet="true"
+													/>
+												</DataTableColumn>
+												<DataTableColumn
+													Class="ThemeAlignCenter"
+													ColumnHeaderClass="ThemeAlignCenter"
+													Header="DPR Position"
+													ID="colDPR_POSITION"
+													>
+													<Label
+														Caption="@Data.DPR_POSITION~"
+														ID="lblDPR_POSITION"
+														NoWrap="True"
+														rdForWizardSet="true"
+													/>
+												</DataTableColumn>
+												<DataTableColumn
+													Class="ThemeAlignRight"
+													ColumnHeaderClass="ThemeAlignCenter"
+													Header="Freight Rate"
+													ID="colFREIGHT_RATE"
+													>
+													<Label
+														Caption="@Data.FREIGHT_RATE~"
+														Format="#,###,###,###,##0.00"
+														ID="lblFREIGHT_RATE"
+														NoWrap="True"
+														rdForWizardSet="true"
+													/>
+												</DataTableColumn>
+												<DataTableColumn
+													Class="ThemeAlignRight"
+													ColumnHeaderClass="ThemeAlignCenter"
+													Header="Service Fee"
+													ID="colSERVICE_FEE"
+													>
+													<Label
+														Caption="@Data.SERVICE_FEE~"
+														Format="#,###,###,###,##0.00"
+														ID="lblSERVICE_FEE"
+														NoWrap="True"
+														rdForWizardSet="true"
+													/>
+												</DataTableColumn>
+												<DataTableColumn
+													Class="ThemeAlignRight"
+													ColumnHeaderClass="ThemeAlignCenter"
+													Header="Delivery Start Date"
+													ID="colDELIVERY_START_DATE"
+													>
+													<Label
+														Caption="@Data.DELIVERY_START_DATE~"
+														Format="Short Date"
+														ID="lblDELIVERY_START_DATE"
+														NoWrap="True"
+														rdForWizardSet="true"
+													/>
+												</DataTableColumn>
+												<DataTableColumn
+													Class="ThemeAlignRight"
+													ColumnHeaderClass="ThemeAlignCenter"
+													Header="Issued Bushels"
+													ID="colISSUED_BU"
+													>
+													<Label
+														Caption="@Data.ISSUED_BU~"
+														Format="#,###,###,###,##0.00"
+														ID="lblISSUED_BU"
+														NoWrap="True"
+														rdForWizardSet="true"
+													/>
+													<Remark>
+														<DataColumnSummary
+															DataColumn="ISSUED_BU"
+															DataType="Number"
+															Function="Sum"
+															ID="SumISSUED_BU"
+														/>
+													</Remark>
+												</DataTableColumn>
+												<Remark>
+													<SummaryRow
+														Caption="Total:"
+														ID="summaryDetails"
+														LastPageOnly="False"
+													/>
+												</Remark>
+											</SubDataTable>
+										</MoreInfoRow>
 									</DataTable>
 								</Division>
 							</ResponsiveColumn>
@@ -486,5 +751,6 @@ ORDER BY CONTRACT_TYPE
 		Commodity=""
 		ContractTypeID=""
 		CustomerID=""
+		DPRPositionGroup=""
 	/>
 </Report>
