@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Report
-	Caption="MKC New Balanced Scorecard"
+	Caption="MKC Balanced Scorecard"
 	ID="Scorecards.MKC_BalancedScorecard"
 	SecurityReportRightID="Dashboard Sr Mgmt,Dashboard Stategic Planning,LogiUserAdmin"
 	>
@@ -206,7 +206,7 @@
 									ID="panel-heading-perspectives"
 									>
 									<Label
-										Caption="2017 MKC Balanced Scorecard"
+										Caption="2018 MKC Balanced Scorecard"
 										Class="panel-title"
 									/>
 								</Division>
