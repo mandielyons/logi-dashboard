@@ -77,41 +77,43 @@ Where USERS.ACTIVE = 1 And USERS.USERNAME = &apos;@Function.UserName~&apos;"
 						</ListItem>
 					</DataList>
 				</Division>
-				<Division
-					Class="ThemeTextSmall"
-					HtmlDiv="True"
-					ID="divLastLogin"
-					>
-					<DataList
-						ID="dlLastLogin"
-						Ordered="False"
+				<Remark>
+					<Division
+						Class="ThemeTextSmall"
+						HtmlDiv="True"
+						ID="divLastLogin"
 						>
-						<DataLayer
-							ConnectionID="connLogiEvent"
-							ID="dlLastLoggedIn"
-							Source="Select Convert(VARCHAR(8),LogiEventLog.EventDateTime,1) As LoginDate,
+						<DataList
+							ID="dlLastLogin"
+							Ordered="False"
+							>
+							<DataLayer
+								ConnectionID="connLogiEvent"
+								ID="dlLastLoggedIn"
+								Source="Select Convert(VARCHAR(8),LogiEventLog.EventDateTime,1) As LoginDate,
   LogiEventLog.UserID,
   LogiEventLog.EventDetail,
   Row_Number() Over (Partition By LogiEventLog.UserID Order By
   LogiEventLog.EventDateTime Desc)
 From LogiEventLog
 Where LogiEventLog.UserID = &apos;mlyons&apos;"
-							Type="SQL"
-							>
-							<ConditionFilter
-								Condition="@Data.Column1~ = 1"
-							/>
-						</DataLayer>
-						<ListItem
-							Class="second-of-type"
-							ID="liLastLogin"
-							>
-							<Label
-								Caption="Last login: @Data.LoginDate~"
-							/>
-						</ListItem>
-					</DataList>
-				</Division>
+								Type="SQL"
+								>
+								<ConditionFilter
+									Condition="@Data.Column1~ = 1"
+								/>
+							</DataLayer>
+							<ListItem
+								Class="second-of-type"
+								ID="liLastLogin"
+								>
+								<Label
+									Caption="Last login: @Data.LoginDate~"
+								/>
+							</ListItem>
+						</DataList>
+					</Division>
+				</Remark>
 			</ResponsiveColumn>
 		</ResponsiveRow>
 		<ResponsiveRow>
