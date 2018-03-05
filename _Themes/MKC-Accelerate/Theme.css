@@ -581,11 +581,11 @@ select.rdAgQbColor6, table.rdAgDataTable th.rdAgQbColor6 {
 	margin-bottom: 6px;
 }
 
-table.rdThemeSubDataTable th, .rdThemeSubDataTable th {
+/*table.rdThemeSubDataTable th, .rdThemeSubDataTable th {
 	background-color: #363b42;
 	color: #fff;
 	padding: 1px 3px;
-}
+}*/
 
 .rdThemeSubDataTableGroupHeaderRow td {
 	background-color: #878786;
@@ -596,6 +596,7 @@ table.rdThemeSubDataTable th, .rdThemeSubDataTable th {
 .rdThemeSubDataTableDataTableCell {
 	background-color: #ececec;
 	color: #363b42;
+  padding: 1px 3px;
 }
 
 .rdThemeSubDataTableMoreInfoRow {
@@ -1344,9 +1345,9 @@ input#txtEditBookmarkDescription {
 }
 
 .first-of-type {
-  background-color: #1D2733;
+	background-color: #1D2733;
   color: #fff;
-  border: none;
+	border: none;
   display: block;
   padding: 3px;
   width:100%;
@@ -1355,7 +1356,8 @@ input#txtEditBookmarkDescription {
   color: #deb408;
 }
 .first-of-type:hover {
-  background-color: #1D2733;
+	color: #deb408;
+	background-color: #1D2733;
 }
 
 .second-of-type {
@@ -1770,7 +1772,7 @@ table #dtBookmarkSharedWith td:first-of-type > span{
 	}
 
 	.ThemeContainerShaded {
-		background-color: #F0F465 !important;
+		background-color: #FFFF99 !important;
 		padding: 6px;
 	}
 
@@ -1960,7 +1962,11 @@ table #dtBookmarkSharedWith td:first-of-type > span{
     text-transform: capitalize;
   }
 
+<<<<<<< HEAD
    .yellow-highlight {
+=======
+  .yellow-highlight {
+>>>>>>> 3c7ee27359a6646c9798e00c481a6980613c77d1
     background-color: #FFFF99 !important;
     color: black;
   }
