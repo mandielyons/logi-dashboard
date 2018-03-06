@@ -581,11 +581,11 @@ select.rdAgQbColor6, table.rdAgDataTable th.rdAgQbColor6 {
 	margin-bottom: 6px;
 }
 
-table.rdThemeSubDataTable th, .rdThemeSubDataTable th {
+/*table.rdThemeSubDataTable th, .rdThemeSubDataTable th {
 	background-color: #363b42;
 	color: #fff;
 	padding: 1px 3px;
-}
+}*/
 
 .rdThemeSubDataTableGroupHeaderRow td {
 	background-color: #878786;

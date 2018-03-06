@@ -12,6 +12,7 @@
 		Branch="0"
 		Commodity="0"
 		Customer=""
+		CustomerID="-1"
 		DPRGroup=""
 	/>
 	<LocalData>
@@ -19,10 +20,12 @@
 			ConnectionID="connAgTrax"
 			ID="ldCustomers"
 			Source="SELECT DISTINCT 
+  REPLICATE(&apos; &apos;,9-LEN(DMvGrainBalances.CUSTOMER)) + DMvGrainBalances.CUSTOMER + &apos; - &apos; + DMvGrainBalances.CUSTOMER_NAME NAMENUMBER,
   DMvGrainBalances.CUSTOMER,
   DMvGrainBalances.CUSTOMER_NAME 
 FROM Agtrax_Staging.dbo.DMvGrainBalances
-ORDER BY CUSTOMER_NAME"
+ORDER BY CUSTOMER_NAME
+"
 			Type="SQL"
 			>
 			<DataLayerLink
@@ -45,6 +48,7 @@ ORDER BY CUSTOMER_NAME"
 FROM Agtrax_Staging.dbo.DMvGrainBalances 
 WHERE (DMvGrainBalances.BRANCH_NUMBER IN(@Request.Branch~) OR &apos;@Request.Branch~&apos;=&apos;0&apos;) 
   AND (DMvGrainBalances.CUSTOMER IN(&apos;@Request.Customer~&apos;) OR &apos;@Request.Customer~&apos; = &apos;&apos;) 
+  AND (DMvGrainBalances.CUSTOMER IN(&apos;@Request.CustomerID~&apos;) OR &apos;@Request.CustomerID~&apos; = &apos;-1&apos;) 
   AND (DMvGrainBalances.COMMODITY_CODE IN(&apos;@Request.Commodity~&apos;) OR (&apos;@Request.Commodity~&apos; = &apos;&apos; OR &apos;@Request.Commodity~&apos; = &apos;0&apos;))
   AND (DMvGrainBalances.DPR_POSITION_GROUP IN(&apos;@Request.DPRGroup~&apos;) OR &apos;@Request.DPRGroup~&apos; = &apos;&apos;)
 ORDER BY CUSTOMER_NAME, COMMODITY_CODE, BRANCH_NAME 
@@ -156,30 +160,71 @@ ORDER BY DPR_POSITION_GROUP
 										CaptionClass="ThemeTextSmall ThemeBold"
 										Class="ThemeTextSmaller"
 										DefaultValue="@Request.Customer~"
-										ID="Customer"
+										ID="CustomerID"
 										IncludeBlank="True"
 										IncludeBlankCaption="All"
-										OptionCaptionColumn="CUSTOMER_NAME"
+										IncludeBlankValue="-1"
+										OptionCaptionColumn="NAMENUMBER"
 										OptionValueColumn="CUSTOMER"
 										>
 										<DataLayer
-											ID="dlCustomers"
+											ID="dlCustomersID"
 											LinkedDataLayerID="linkCustomers"
 											Type="Linked"
-										/>
+											>
+											<SortFilter
+												DataType="Number"
+												ID="sortCustID"
+												SortColumn="CUSTOMER"
+												SortSequence="Ascending"
+											/>
+										</DataLayer>
 										<EventHandler
 											DhtmlEvent="onchange"
-											ID="eventOnChangeCustomer"
+											ID="eventOnChangeCustomerID"
 											>
 											<Action
 												ElementID="divGrainBalances"
-												ID="actRefreshGrainBalancesCustomers"
+												ID="actRefreshGrainBalancesCustomersID"
+												RequestForwarding="True"
 												Type="RefreshElement"
 												>
 												<WaitPage/>
 											</Action>
 										</EventHandler>
 									</InputSelectList>
+									<LineBreak/>
+									<Remark>
+										<InputSelectList
+											Caption="Customer:"
+											CaptionClass="ThemeTextSmall ThemeBold"
+											Class="ThemeTextSmaller"
+											DefaultValue="@Request.Customer~"
+											ID="Customer"
+											IncludeBlank="True"
+											IncludeBlankCaption="All"
+											OptionCaptionColumn="CUSTOMER_NAME"
+											OptionValueColumn="CUSTOMER"
+											>
+											<DataLayer
+												ID="dlCustomers"
+												LinkedDataLayerID="linkCustomers"
+												Type="Linked"
+											/>
+											<EventHandler
+												DhtmlEvent="onchange"
+												ID="eventOnChangeCustomer"
+												>
+												<Action
+													ElementID="divGrainBalances"
+													ID="actRefreshGrainBalancesCustomers"
+													Type="RefreshElement"
+													>
+													<WaitPage/>
+												</Action>
+											</EventHandler>
+										</InputSelectList>
+									</Remark>
 									<LineBreak/>
 									<InputSelectList
 										Caption="Balance Type:"
@@ -245,6 +290,7 @@ ORDER BY DPR_POSITION_GROUP
 												Branch="0"
 												Commodity="0"
 												Customer=""
+												CustomerID="-1"
 												DPRGroup=""
 											/>
 										</Action>
@@ -314,6 +360,21 @@ ORDER BY DPR_POSITION_GROUP
 											/>
 										</DataTableColumn>
 										<DataTableColumn
+											Header="Crop"
+											ID="colCROP_DESC"
+											>
+											<Label
+												Caption="@Data.CROP_DESC~"
+												ID="lblCROP_DESC"
+												NoWrap="True"
+												rdForWizardSet="true"
+											/>
+											<DataColumnSort
+												DataColumn="CROP_DESC"
+												DataType="Text"
+											/>
+										</DataTableColumn>
+										<DataTableColumn
 											Header="Location"
 											ID="colBRANCH_NAME"
 											>
@@ -360,28 +421,13 @@ ORDER BY DPR_POSITION_GROUP
 											/>
 										</DataTableColumn>
 										<DataTableColumn
-											Header="Crop"
-											ID="colCROP_DESC"
-											>
-											<Label
-												Caption="@Data.CROP_DESC~"
-												ID="lblCROP_DESC"
-												NoWrap="True"
-												rdForWizardSet="true"
-											/>
-											<DataColumnSort
-												DataColumn="CROP_DESC"
-												DataType="Text"
-											/>
-										</DataTableColumn>
-										<DataTableColumn
 											Class="ThemeAlignRight"
 											Header="Bushels"
 											ID="colBU"
 											>
 											<Label
 												Caption="@Data.BU~"
-												Format="#,###,###,###,##0.0"
+												Format="#,###,###,###,##0.00"
 												ID="lblBU"
 												NoWrap="True"
 												rdForWizardSet="true"
@@ -430,6 +476,7 @@ ORDER BY DPR_POSITION_GROUP
 		Branch=""
 		Commodity=""
 		Customer=""
+		CustomerID=""
 		DPRGroup=""
 	/>
 </Report>
