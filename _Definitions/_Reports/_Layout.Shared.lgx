@@ -2616,9 +2616,13 @@ $(document).ready(function() {
 	}
 		
 	//report specific functions
-	var r = report.search(&quot;AgOSOrdersDone&quot;);
+	var r = report.search(&quot;TMAOpenContracts&quot;);
+	var r2 = report.search(&quot;TMAGrainStorageBalances&quot;);
 	if (r &gt; -1) {
-
+		$(&quot;#btnReset&quot;).click();
+	}
+	if (r2 &gt; -1) {
+		$(&quot;#btnReset&quot;).click();
 	}
 	
 
