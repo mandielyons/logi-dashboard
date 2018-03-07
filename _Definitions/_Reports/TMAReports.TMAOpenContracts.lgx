@@ -216,7 +216,6 @@ ORDER BY DPR_POSITION_GROUP
 													HtmlDiv="True"
 													ID="divFilters"
 													>
-													<LineBreak/>
 													<InputSelectList
 														Caption="Customer:"
 														CaptionClass="ThemeTextSmall ThemeBold"
@@ -246,7 +245,6 @@ ORDER BY DPR_POSITION_GROUP
 															</Action>
 														</EventHandler>
 													</InputSelectList>
-													<LineBreak/>
 													<InputSelectList
 														Caption="Type:"
 														CaptionClass="ThemeTextSmall ThemeBold"
@@ -276,7 +274,6 @@ ORDER BY DPR_POSITION_GROUP
 															</Action>
 														</EventHandler>
 													</InputSelectList>
-													<LineBreak/>
 													<InputRadioButtons
 														Caption="Contract Type:"
 														CaptionClass="ThemeTextSmall ThemeBold"
