@@ -2,7 +2,7 @@
 <Report
 	Caption="TMA Balanced Scorecard"
 	ID="Scorecards.TMA_BalancedScorecard"
-	SecurityReportRightID="Dashboard Sr Mgmt,Dashboard Strategic Planning TMA,LogiUserAdmin"
+	SecurityReportRightID="Dashboard Sr Mgmt,Dashboard Strategic Planning TMA,LogiUserAdmin,TMA Dashboard,OC"
 	>
 	<IncludeSharedElement
 		DefinitionFile="_Layout.Shared"
