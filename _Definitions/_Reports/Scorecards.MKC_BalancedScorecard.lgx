@@ -378,13 +378,16 @@
 																WidthScale="%"
 																>
 																<DataLayer
-																	CellRange="A2:E3"
 																	ColumnNamesRow="1"
 																	ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\BalancedScorecard_NEW.xlsx"
 																	ExcelWorksheet="Measures"
 																	ID="dlStakeholderData"
 																	Type="Excel"
-																/>
+																	>
+																	<ConditionFilter
+																		Condition="@Data.OBJID~ = &quot;1&quot;"
+																	/>
+																</DataLayer>
 																<DataTableColumn
 																	Header="Measure"
 																	Width="70"
@@ -600,13 +603,16 @@
 																WidthScale="%"
 																>
 																<DataLayer
-																	CellRange="A7:E9"
 																	ColumnNamesRow="1"
 																	ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\BalancedScorecard_NEW.xlsx"
 																	ExcelWorksheet="Measures"
 																	ID="dlProcessData"
 																	Type="Excel"
-																/>
+																	>
+																	<ConditionFilter
+																		Condition="@Data.OBJID~ = &quot;2&quot;"
+																	/>
+																</DataLayer>
 																<DataTableColumn
 																	Header="Measure"
 																	Width="70"
@@ -839,13 +845,16 @@
 																WidthScale="%"
 																>
 																<DataLayer
-																	CellRange="A4:E6"
 																	ColumnNamesRow="1"
 																	ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\BalancedScorecard_NEW.xlsx"
 																	ExcelWorksheet="Measures"
 																	ID="dlOrganizationInitData"
 																	Type="Excel"
-																/>
+																	>
+																	<ConditionFilter
+																		Condition="@Data.OBJID~ = &quot;3&quot;"
+																	/>
+																</DataLayer>
 																<DataTableColumn
 																	Header="Measure"
 																	Width="70"
@@ -1042,13 +1051,16 @@
 																WidthScale="%"
 																>
 																<DataLayer
-																	CellRange="A10:E12"
 																	ColumnNamesRow="1"
 																	ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\BalancedScorecard_NEW.xlsx"
 																	ExcelWorksheet="Measures"
 																	ID="dlFinanceData"
 																	Type="Excel"
-																/>
+																	>
+																	<ConditionFilter
+																		Condition="@Data.OBJID~ = &quot;4&quot;"
+																	/>
+																</DataLayer>
 																<DataTableColumn
 																	Header="Measure"
 																	Width="70"
