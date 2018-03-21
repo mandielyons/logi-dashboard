@@ -9,25 +9,29 @@
 		SharedElementID="shrHeader"
 	/>
 	<DefaultRequestParams
-		CurrYear="2017"
 		Location="ABILENE"
+		SelectionYear="2018"
 	/>
-	<LocalData>
-		<DataLayer
-			ConnectionID="connAgOS"
-			ID="dlTotalOrdersDone"
-			Source="SELECT COUNT(T1.OrderID) As Total
+	<Remark>
+		<LocalData>
+			<Remark>
+				<DataLayer
+					ConnectionID="connAgOS"
+					ID="dlTotalOrdersDone"
+					Source="SELECT COUNT(T1.OrderID) As Total
 From Orders T1
   Inner Join Objects T2 With(NoLock) On T2.ObjectID = T1.ObjectID
   Inner Join Users T3 With(NoLock) On T3.UserID = T1.DoneByID
   Inner Join Objects T4 With(NoLock) On T4.ObjectID = T1.ApplicatorID
   Inner Join OrderBin T5 With(NoLock) On T5.OrderID = T1.OrderID
-Where DatePart(YEAR, T1.DoneDate) = &apos;@Request.CurrYear~&apos; And
+Where DatePart(YEAR, T1.DoneDate) &gt;= &apos;@Request.SelectionYear~&apos; And
   T1.LocationCode &lt;&gt; &apos;PRECISE&apos; And
   T4.Name &lt;&gt; &apos;LIME APPLICATION&apos; And T1.Canceled = &apos;False&apos;"
-			Type="SQL"
-		/>
-	</LocalData>
+					Type="SQL"
+				/>
+			</Remark>
+		</LocalData>
+	</Remark>
 	<Body
 		Class="ThemeTextSmall"
 		>
@@ -82,98 +86,72 @@ Where DatePart(YEAR, T1.DoneDate) = &apos;@Request.CurrYear~&apos; And
 					</ResponsiveColumn>
 				</ResponsiveRow>
 				<ResponsiveRow>
-					<Remark>
-						<ResponsiveColumn
-							ColspanExtraSmallScreen="3"
-							ColspanLargeScreen="2"
-							ColspanMediumScreen="2"
-							ColspanSmallScreen="3"
+					<ResponsiveColumn
+						ColspanExtraSmallScreen="6"
+						ColspanLargeScreen="2"
+						ColspanMediumScreen="2"
+						ColspanSmallScreen="6"
+						>
+						<Division
+							Class="well"
+							HtmlDiv="True"
+							ID="divFilters"
 							>
-							<Division
-								Class="well"
-								HtmlDiv="True"
-								ID="divFilters"
+							<InputSelectList
+								Caption="View Orders By Year"
+								CaptionClass="ThemeTextSmall ThemeBold"
+								Class="ThemeTextSmaller"
+								ID="SelectionYear"
+								OptionCaptionColumn="Year"
+								OptionValueColumn="Year"
 								>
-								<InputSelectList
-									Caption="Calendar Year:"
-									ID="Year"
-									OptionCaptionColumn="Year"
-									OptionValueColumn="Year"
-									>
-									<DataLayer
-										ConnectionID="connAgOS"
-										ID="dlYear"
-										Source="SELECT DISTINCT DatePart(YEAR, T1.DoneDate) As Year
+								<DataLayer
+									ConnectionID="connAgOS"
+									ID="dlOrderYear"
+									Source="Select Distinct DatePart(YEAR, T1.DoneDate) As Year
 From Orders T1
   Inner Join Objects T2 With(NoLock) On T2.ObjectID = T1.ObjectID
   Inner Join Users T3 With(NoLock) On T3.UserID = T1.DoneByID
   Inner Join Objects T4 With(NoLock) On T4.ObjectID = T1.ApplicatorID
   Inner Join OrderBin T5 With(NoLock) On T5.OrderID = T1.OrderID
-Where T1.LocationCode &lt;&gt; &apos;PRECISE&apos; And
-  T4.Name &lt;&gt; &apos;LIME APPLICATION&apos; And T1.Canceled = &apos;False&apos;
-Order By Year DESC"
-										Type="SQL"
-									/>
-									<EventHandler
-										DhtmlEvent="onchange"
-										ID="OnChangeYear"
-										>
-										<Action
-											ElementID="div-KPI, divTotals, divPieCharts"
-											ID="actRefreshAll"
-											Type="RefreshElement"
-											>
-											<WaitPage/>
-										</Action>
-									</EventHandler>
-								</InputSelectList>
-								<Remark>
-									<InputSelectList
-										Caption="Location:"
-										ID="Location"
-										IncludeBlank="True"
-										IncludeBlankCaption="ALL"
-										IncludeBlankValue="ALL"
-										OptionCaptionColumn="Location"
-										OptionValueColumn="Location"
-										>
-										<DataLayer
-											ConnectionID="connAgOS"
-											ID="dlLocations"
-											Source="SELECT DISTINCT T1.LocationCode As Location
-From Orders T1
-  Inner Join Objects T2 With(NoLock) On T2.ObjectID = T1.ObjectID
-  Inner Join Users T3 With(NoLock) On T3.UserID = T1.DoneByID
-  Inner Join Objects T4 With(NoLock) On T4.ObjectID = T1.ApplicatorID
-  Inner Join OrderBin T5 With(NoLock) On T5.OrderID = T1.OrderID
-Where T1.DoneDate &gt;= &apos;2017-01-01&apos; And T1.LocationCode &lt;&gt; &apos;PRECISE&apos; And
-  T4.Name &lt;&gt; &apos;LIME APPLICATION&apos; And T1.Canceled = &apos;False&apos;"
-											Type="SQL"
-										/>
-									</InputSelectList>
-								</Remark>
-								<LineBreak/>
-								<Button
-									Caption="Reset"
-									ID="btnReset"
-									Tooltip="Clear all selections"
+Where T1.LocationCode &lt;&gt; &apos;PRECISE&apos; And T4.Name &lt;&gt; &apos;LIME APPLICATION&apos; And
+  T1.Canceled = &apos;False&apos; And DatePart(YEAR, T1.DoneDate) &gt; &apos;2014&apos;
+Order By Year Desc"
+									Type="SQL"
+								/>
+								<EventHandler
+									DhtmlEvent="onchange"
 									>
 									<Action
-										ElementID="divFilters,div-KPI,divTotals,divPieCharts"
-										ID="actReport"
-										RequestForwarding="True"
+										ElementID="divPieCharts,divTitle,divYearOverYear,divLocation"
+										ID="refOrderData"
 										Type="RefreshElement"
 										>
 										<WaitPage/>
-										<LinkParams
-											Location="ALL"
-											Year="2017"
-										/>
 									</Action>
-								</Button>
-							</Division>
-						</ResponsiveColumn>
-					</Remark>
+								</EventHandler>
+							</InputSelectList>
+							<LineBreak/>
+							<Button
+								Caption="Reset"
+								ID="btnReset"
+								Tooltip="Clear all selections"
+								>
+								<Action
+									ElementID="divFilters,divPieCharts,divTitle,divYearOverYear,divLocation"
+									ID="actReport"
+									RequestForwarding="True"
+									Type="RefreshElement"
+									>
+									<WaitPage/>
+									<LinkParams
+										Location="ABILENE"
+										SelectionYear="2018"
+									/>
+								</Action>
+							</Button>
+						</Division>
+					</ResponsiveColumn>
 					<ResponsiveColumn
 						ColspanExtraSmallScreen="12"
 						ColspanLargeScreen="6"
@@ -186,7 +164,7 @@ Where T1.DoneDate &gt;= &apos;2017-01-01&apos; And T1.LocationCode &lt;&gt; &apo
 							ID="divPieCharts"
 							>
 							<Label
-								Caption="Total Orders By Location (Current Calendar YTD)"
+								Caption="@Request.SelectionYear~ Total Orders By Location (Calendar Year)"
 								Class="ThemeTextSmall ThemeBold"
 							/>
 							<ChartCanvas
@@ -218,19 +196,15 @@ From (Select T1.LocationCode,
     Case When T1.ScheduledDate &gt; 0 Then 1 Else 0 End As IsScheduled,
     Case When DatePart(HOUR, T1.DoneDate) &gt; 0 Then 1 Else 0 End As IsTabletMOD
   From Orders As T1 With(NoLock)
-  Where T1.LocationCode &lt;&gt; &apos;PRECISE&apos; And T1.Canceled = 0 And
-    T1.DoneDate &gt;= Cast(DatePart(YEAR, GetDate()) As [Char](4)) + &apos;-01-01&apos;) O
+    Inner Join Users T3 With(NoLock) On T3.UserID = T1.DoneByID
+  Where T1.LocationCode &lt;&gt; &apos;PRECISE&apos; And T1.Canceled = 0) O
 Group By O.LocationCode,
   O.DoneYear
 Order By O.LocationCode,
-  O.DoneYear"
+  O.DoneYear
+"
 										Type="SQL"
 										>
-										<Remark>
-											<ConditionFilter
-												Condition="@Data.DoneYear~ = &apos;@Request.CurrYear~&apos;"
-											/>
-										</Remark>
 										<CalculatedColumn
 											Formula="(@Data.ByTablet~ * 100) / @Data.OrderCount~"
 											ID="calcPercentTablet"
@@ -238,6 +212,9 @@ Order By O.LocationCode,
 										<CalculatedColumn
 											Formula="((@Data.OrderCount~ - @Data.ByTablet~) * 100) / @Data.OrderCount~"
 											ID="calcNotTablet"
+										/>
+										<ConditionFilter
+											Condition="&apos;@Data.DoneYear~&apos; = &apos;@Request.SelectionYear~&apos;"
 										/>
 									</DataLayer>
 									<Quicktip>
@@ -278,8 +255,8 @@ Order By O.LocationCode,
 					</ResponsiveColumn>
 					<ResponsiveColumn
 						ColspanExtraSmallScreen="6"
-						ColspanLargeScreen="6"
-						ColspanMediumScreen="6"
+						ColspanLargeScreen="4"
+						ColspanMediumScreen="4"
 						ColspanSmallScreen="6"
 						>
 						<Division
@@ -309,8 +286,12 @@ From (Select T1.LocationCode,
     Case When T1.ScheduledDate &gt; 0 Then 1 Else 0 End As IsScheduled,
     Case When DatePart(HOUR, T1.DoneDate) &gt; 0 Then 1 Else 0 End As IsTabletMOD
   From Orders As T1 With(NoLock)
-  Where T1.LocationCode &lt;&gt; &apos;PRECISE&apos; And T1.Canceled = 0 And
-    T1.DoneDate &gt;= Cast(DatePart(YEAR, GetDate()) As [Char](4)) + &apos;-01-01&apos;) O"
+    Inner Join Users T3 With(NoLock) On T3.UserID = T1.DoneByID
+  Where T1.LocationCode &lt;&gt; &apos;PRECISE&apos; And DatePart(YEAR, T1.DoneDate) =
+  &apos;@Request.SelectionYear~&apos;) O
+  
+  
+"
 									Type="SQL"
 									>
 									<CalculatedColumn
@@ -377,7 +358,7 @@ From (Select T1.LocationCode,
 														Class="panel-title"
 													/>
 													<Spaces
-														Size="15"
+														Size="12"
 													/>
 													<Label
 														Caption="@Data.ByTablet~"
@@ -635,27 +616,26 @@ ORDER BY LocationCode, DoneYear
 									<DataLayer
 										ConnectionID="connAgOS"
 										ID="dlOrdersMarkedDoneNot"
-										Source="SELECT O.LocationCode, O.DoneYear, COUNT(O.OrderID) OrderCount, SUM(O.IsScheduled) Scheduled, SUM(O.IsTabletMOD) ByTablet
-FROM 
- (
-	Select T1.LocationCode,
-	DatePart(YEAR, T1.DoneDate) As DoneYear,
-	T1.OrderID,
-	Case When T1.ScheduledDate &gt; 0 Then 1 Else 0 End As IsScheduled,
-	Case When DatePart(HOUR, T1.DoneDate) &gt; 0 Then 1 Else 0 End As IsTabletMOD,
-	T1.AcresSprayed,
-	T3.FirstName + &apos; &apos; + T3.LastName As [Applicator Name],
-	T3.Applicator
-	From Orders As T1 With(NoLock)
-	Inner Join Users T3 With(NoLock) On T3.UserID = T1.DoneByID
-	Where T1.LocationCode &lt;&gt; &apos;PRECISE&apos; And T1.Canceled = 0 And T1.DoneDate &gt;=
-	Cast(DatePart(YEAR, DateAdd(YEAR, -2, GetDate())) As [Char](4)) + &apos;-01-01&apos;
-	 
-  ) O
-GROUP BY O.LocationCode, O.DoneYear
-ORDER BY LocationCode, DoneYear
-
-"
+										Source="Select O.LocationCode,
+  O.DoneYear,
+  Count(O.OrderID) OrderCount,
+  Sum(O.IsScheduled) Scheduled,
+  Sum(O.IsTabletMOD) ByTablet
+From (Select T1.LocationCode,
+    DatePart(YEAR, T1.DoneDate) As DoneYear,
+    T1.OrderID,
+    Case When T1.ScheduledDate &gt; 0 Then 1 Else 0 End As IsScheduled,
+    Case When DatePart(HOUR, T1.DoneDate) &gt; 0 Then 1 Else 0 End As IsTabletMOD,
+    T1.AcresSprayed,
+    T3.FirstName + &apos; &apos; + T3.LastName As [Applicator Name],
+    T3.Applicator
+  From Orders As T1 With(NoLock)
+    Inner Join Users T3 With(NoLock) On T3.UserID = T1.DoneByID
+  Where T1.LocationCode &lt;&gt; &apos;PRECISE&apos; And T1.Canceled = 0) O
+Group By O.LocationCode,
+  O.DoneYear
+Order By O.LocationCode,
+  O.DoneYear"
 										Type="SQL"
 										>
 										<CalculatedColumn
@@ -664,6 +644,9 @@ ORDER BY LocationCode, DoneYear
 										/>
 										<ConditionFilter
 											Condition="&quot;@Request.Location~&quot; = &quot;@Data.LocationCode~&quot;"
+										/>
+										<ConditionFilter
+											Condition="&quot;@Data.DoneYear~&quot; &gt; &quot;2014&quot;"
 										/>
 									</DataLayer>
 									<Quicktip>
@@ -718,7 +701,7 @@ ORDER BY LocationCode, DoneYear
 							>
 							<DataTable
 								AjaxPaging="True"
-								Caption="@Request.Location~ - @Request.CurrYear~ YTD Orders Not Done on Tablet"
+								Caption="@Request.Location~ - @Request.SelectionYear~ YTD Orders Not Done on Tablet"
 								CaptionClass="ThemeTextSmall"
 								Class="ThemeTextSmaller"
 								ID="dtDetailsByLocation"
@@ -751,13 +734,12 @@ ORDER BY LocationCode, DoneYear
   T3.Applicator
 From Orders As T1 With(NoLock)
   Inner Join Users T3 With(NoLock) On T3.UserID = T1.DoneByID
-Where T1.LocationCode &lt;&gt; &apos;PRECISE&apos; And T1.DoneDate &gt;= Cast(DatePart(YEAR,
-  DateAdd(YEAR, -2, GetDate())) As [Char](4)) + &apos;-01-01&apos; And T1.Canceled = 0 And
-  DatePart(HOUR, T1.DoneDate) = 0"
+Where T1.LocationCode &lt;&gt; &apos;PRECISE&apos; And DatePart(YEAR, T1.DoneDate) &gt;=
+  &apos;@Request.SelectionYear~&apos; And DatePart(HOUR, T1.DoneDate) = 0"
 									Type="SQL"
 									>
 									<ConditionFilter
-										Condition="&quot;@Request.Location~&quot; = &quot;@Data.LocationCode~&quot; And &quot;@Request.CurrYear~&quot; = &quot;@Data.DoneYear~&quot;"
+										Condition="&quot;@Request.Location~&quot; = &quot;@Data.LocationCode~&quot; And &quot;@Request.SelectionYear~&quot; = &quot;@Data.DoneYear~&quot;"
 									/>
 									<SortFilter
 										DataType="Date"
@@ -844,7 +826,7 @@ Where T1.LocationCode &lt;&gt; &apos;PRECISE&apos; And T1.DoneDate &gt;= Cast(Da
 		SharedElementID="shrFooter"
 	/>
 	<ideTestParams
-		CurrYear="2018"
 		Location=""
+		SelectionYear="2018"
 	/>
 </Report>
