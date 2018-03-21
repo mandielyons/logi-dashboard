@@ -47,82 +47,6 @@
 									Class="well"
 									HtmlDiv="True"
 									ID="data"
-									SecurityRightID="MKC Dashboard,TMA Dashboard,OC,LogiUserAdmin"
-									>
-									<Label
-										Caption="TMA Dashboard - Long &amp; Short"
-										Class="panel-title bold"
-									/>
-									<LineBreak/>
-									<IncludeHtml
-										Html="&lt;!-- &quot;Video For Everybody&quot; http://camendesign.com/code/video_for_everybody --&gt;
-&lt;video controls=&quot;controls&quot; poster=&quot;https://info.tmagrain.com/TMAGrain/_SupportFiles/LongShortPoster.jpg&quot; width=&quot;640&quot; height=&quot;360&quot;&gt;
-	&lt;source src=&quot;https://info.tmagrain.com/TMAGrain/Videos/TMA Dashboard - Long _ Short Training.mp4&quot; type=&quot;video/mp4&quot; /&gt;
-	&lt;object type=&quot;application/x-shockwave-flash&quot; data=&quot;http://releases.flowplayer.org/swf/flowplayer-3.2.1.swf&quot; width=&quot;640&quot; height=&quot;360&quot;&gt;
-		&lt;param name=&quot;movie&quot; value=&quot;http://releases.flowplayer.org/swf/flowplayer-3.2.1.swf&quot; /&gt;
-		&lt;param name=&quot;allowFullScreen&quot; value=&quot;true&quot; /&gt;
-		&lt;param name=&quot;wmode&quot; value=&quot;transparent&quot; /&gt;
-		&lt;param name=&quot;flashVars&quot; value=&quot;config={&apos;playlist&apos;:[&apos;http%3A%2F%2Finfo.tmagrain.com%2FTMAGrain%2F_SupportFiles%2FLongShortPoster.jpg&apos;,{&apos;url&apos;:&apos;https%3A%2F%2Finfo.tmagrain.com%2FTMAGrain%2FVideos%2FTMA+Dashboard+-+Long+_+Short+Training.mp4&apos;,&apos;autoPlay&apos;:false}]}&quot; /&gt;
-		&lt;img alt=&quot;TMA Dashboard - Long &amp; Short&quot; src=&quot;https://info.tmagrain.com/TMAGrain/_SupportFiles/LongShortPoster.jpg&quot; width=&quot;640&quot; height=&quot;360&quot; title=&quot;No video playback capabilities, please download the video below&quot; /&gt;
-	&lt;/object&gt;
-&lt;/video&gt;
-&lt;p class=&quot;ThemeTextSmall&quot;&gt;
-	&lt;strong&gt;Download video:&lt;/strong&gt; &lt;a href=&quot;https://info.tmagrain.com/TMAGrain/Videos/TMA Dashboard - Long _ Short Training.mp4&quot;&gt;MP4 format&lt;/a&gt;
-&lt;/p&gt;"
-									/>
-									<LineBreak/>
-								</Division>
-							</ResponsiveColumn>
-						</ResponsiveRow>
-						<ResponsiveRow>
-							<ResponsiveColumn
-								ColspanExtraSmallScreen="12"
-								ColspanLargeScreen="9"
-								ColspanMediumScreen="9"
-								ColspanSmallScreen="12"
-								>
-								<Division
-									Class="well"
-									HtmlDiv="True"
-									ID="data"
-									SecurityRightID="MKC Dashboard,TMA Dashboard,OC,LogiUserAdmin"
-									>
-									<Label
-										Caption="TMA Dashboard - Grain Receipts"
-										Class="panel-title bold"
-									/>
-									<LineBreak/>
-									<IncludeHtml
-										Html="&lt;!-- &quot;Video For Everybody&quot; http://camendesign.com/code/video_for_everybody --&gt;
-&lt;video controls=&quot;controls&quot; poster=&quot;https://info.tmagrain.com/TMAGrain/_SupportFiles/GrainReceiptsPoster.jpg&quot; width=&quot;640&quot; height=&quot;360&quot;&gt;
-	&lt;source src=&quot;https://info.tmagrain.com/TMAGrain/Videos/TMA Dashboard - Grain Receipts.mp4&quot; type=&quot;video/mp4&quot; /&gt;
-	&lt;object type=&quot;application/x-shockwave-flash&quot; data=&quot;http://releases.flowplayer.org/swf/flowplayer-3.2.1.swf&quot; width=&quot;640&quot; height=&quot;360&quot;&gt;
-		&lt;param name=&quot;movie&quot; value=&quot;http://releases.flowplayer.org/swf/flowplayer-3.2.1.swf&quot; /&gt;
-		&lt;param name=&quot;allowFullScreen&quot; value=&quot;true&quot; /&gt;
-		&lt;param name=&quot;wmode&quot; value=&quot;transparent&quot; /&gt;
-		&lt;param name=&quot;flashVars&quot; value=&quot;config={&apos;playlist&apos;:[&apos;http%3A%2F%2Finfo.tmagrain.com%2FTMAGrain%2F_SupportFiles%2FGrainReceiptsPoster.jpg&apos;,{&apos;url&apos;:&apos;https%3A%2F%2Finfo.tmagrain.com%2FTMAGrain%2FVideos%2FTMA+Dashboard+-+Grain++Receipts.mp4&apos;,&apos;autoPlay&apos;:false}]}&quot; /&gt;
-		&lt;img alt=&quot;TMA Dashboard - Long &amp; Short&quot; src=&quot;https://info.tmagrain.com/TMAGrain/_SupportFiles/GrainReceiptsPoster.jpg&quot; width=&quot;640&quot; height=&quot;360&quot; title=&quot;No video playback capabilities, please download the video below&quot; /&gt;
-	&lt;/object&gt;
-&lt;/video&gt;
-&lt;p class=&quot;ThemeTextSmall&quot;&gt;
-	&lt;strong&gt;Download video:&lt;/strong&gt; &lt;a href=&quot;https://info.tmagrain.com/TMAGrain/Videos/TMA Dashboard - Grain Receipts.mp4&quot;&gt;MP4 format&lt;/a&gt;
-&lt;/p&gt;"
-									/>
-									<LineBreak/>
-								</Division>
-							</ResponsiveColumn>
-						</ResponsiveRow>
-						<ResponsiveRow>
-							<ResponsiveColumn
-								ColspanExtraSmallScreen="12"
-								ColspanLargeScreen="9"
-								ColspanMediumScreen="9"
-								ColspanSmallScreen="12"
-								>
-								<Division
-									Class="well"
-									HtmlDiv="True"
-									ID="data"
 									SecurityRightID="MKC Dashboard,LogiUserAdmin"
 									>
 									<Label
@@ -220,6 +144,82 @@
 &lt;/video&gt;
 &lt;p class=&quot;ThemeTextSmall&quot;&gt;
 	&lt;strong&gt;Download video:&lt;/strong&gt; &lt;a href=&quot;https://info.tmagrain.com/TMAGrain/Videos/MKC Field Marketer - Customer Acres Training.mp4&quot;&gt;MP4 format&lt;/a&gt;
+&lt;/p&gt;"
+									/>
+									<LineBreak/>
+								</Division>
+							</ResponsiveColumn>
+						</ResponsiveRow>
+						<ResponsiveRow>
+							<ResponsiveColumn
+								ColspanExtraSmallScreen="12"
+								ColspanLargeScreen="9"
+								ColspanMediumScreen="9"
+								ColspanSmallScreen="12"
+								>
+								<Division
+									Class="well"
+									HtmlDiv="True"
+									ID="data"
+									SecurityRightID="MKC Dashboard,TMA Dashboard,OC,LogiUserAdmin"
+									>
+									<Label
+										Caption="TMA Dashboard - Grain Receipts"
+										Class="panel-title bold"
+									/>
+									<LineBreak/>
+									<IncludeHtml
+										Html="&lt;!-- &quot;Video For Everybody&quot; http://camendesign.com/code/video_for_everybody --&gt;
+&lt;video controls=&quot;controls&quot; poster=&quot;https://info.tmagrain.com/TMAGrain/_SupportFiles/GrainReceiptsPoster.jpg&quot; width=&quot;640&quot; height=&quot;360&quot;&gt;
+	&lt;source src=&quot;https://info.tmagrain.com/TMAGrain/Videos/TMA Dashboard - Grain Receipts.mp4&quot; type=&quot;video/mp4&quot; /&gt;
+	&lt;object type=&quot;application/x-shockwave-flash&quot; data=&quot;http://releases.flowplayer.org/swf/flowplayer-3.2.1.swf&quot; width=&quot;640&quot; height=&quot;360&quot;&gt;
+		&lt;param name=&quot;movie&quot; value=&quot;http://releases.flowplayer.org/swf/flowplayer-3.2.1.swf&quot; /&gt;
+		&lt;param name=&quot;allowFullScreen&quot; value=&quot;true&quot; /&gt;
+		&lt;param name=&quot;wmode&quot; value=&quot;transparent&quot; /&gt;
+		&lt;param name=&quot;flashVars&quot; value=&quot;config={&apos;playlist&apos;:[&apos;http%3A%2F%2Finfo.tmagrain.com%2FTMAGrain%2F_SupportFiles%2FGrainReceiptsPoster.jpg&apos;,{&apos;url&apos;:&apos;https%3A%2F%2Finfo.tmagrain.com%2FTMAGrain%2FVideos%2FTMA+Dashboard+-+Grain++Receipts.mp4&apos;,&apos;autoPlay&apos;:false}]}&quot; /&gt;
+		&lt;img alt=&quot;TMA Dashboard - Long &amp; Short&quot; src=&quot;https://info.tmagrain.com/TMAGrain/_SupportFiles/GrainReceiptsPoster.jpg&quot; width=&quot;640&quot; height=&quot;360&quot; title=&quot;No video playback capabilities, please download the video below&quot; /&gt;
+	&lt;/object&gt;
+&lt;/video&gt;
+&lt;p class=&quot;ThemeTextSmall&quot;&gt;
+	&lt;strong&gt;Download video:&lt;/strong&gt; &lt;a href=&quot;https://info.tmagrain.com/TMAGrain/Videos/TMA Dashboard - Grain Receipts.mp4&quot;&gt;MP4 format&lt;/a&gt;
+&lt;/p&gt;"
+									/>
+									<LineBreak/>
+								</Division>
+							</ResponsiveColumn>
+						</ResponsiveRow>
+						<ResponsiveRow>
+							<ResponsiveColumn
+								ColspanExtraSmallScreen="12"
+								ColspanLargeScreen="9"
+								ColspanMediumScreen="9"
+								ColspanSmallScreen="12"
+								>
+								<Division
+									Class="well"
+									HtmlDiv="True"
+									ID="data"
+									SecurityRightID="MKC Dashboard,TMA Dashboard,OC,LogiUserAdmin"
+									>
+									<Label
+										Caption="TMA Dashboard - Long &amp; Short"
+										Class="panel-title bold"
+									/>
+									<LineBreak/>
+									<IncludeHtml
+										Html="&lt;!-- &quot;Video For Everybody&quot; http://camendesign.com/code/video_for_everybody --&gt;
+&lt;video controls=&quot;controls&quot; poster=&quot;https://info.tmagrain.com/TMAGrain/_SupportFiles/LongShortPoster.jpg&quot; width=&quot;640&quot; height=&quot;360&quot;&gt;
+	&lt;source src=&quot;https://info.tmagrain.com/TMAGrain/Videos/TMA Dashboard - Long _ Short Training.mp4&quot; type=&quot;video/mp4&quot; /&gt;
+	&lt;object type=&quot;application/x-shockwave-flash&quot; data=&quot;http://releases.flowplayer.org/swf/flowplayer-3.2.1.swf&quot; width=&quot;640&quot; height=&quot;360&quot;&gt;
+		&lt;param name=&quot;movie&quot; value=&quot;http://releases.flowplayer.org/swf/flowplayer-3.2.1.swf&quot; /&gt;
+		&lt;param name=&quot;allowFullScreen&quot; value=&quot;true&quot; /&gt;
+		&lt;param name=&quot;wmode&quot; value=&quot;transparent&quot; /&gt;
+		&lt;param name=&quot;flashVars&quot; value=&quot;config={&apos;playlist&apos;:[&apos;http%3A%2F%2Finfo.tmagrain.com%2FTMAGrain%2F_SupportFiles%2FLongShortPoster.jpg&apos;,{&apos;url&apos;:&apos;https%3A%2F%2Finfo.tmagrain.com%2FTMAGrain%2FVideos%2FTMA+Dashboard+-+Long+_+Short+Training.mp4&apos;,&apos;autoPlay&apos;:false}]}&quot; /&gt;
+		&lt;img alt=&quot;TMA Dashboard - Long &amp; Short&quot; src=&quot;https://info.tmagrain.com/TMAGrain/_SupportFiles/LongShortPoster.jpg&quot; width=&quot;640&quot; height=&quot;360&quot; title=&quot;No video playback capabilities, please download the video below&quot; /&gt;
+	&lt;/object&gt;
+&lt;/video&gt;
+&lt;p class=&quot;ThemeTextSmall&quot;&gt;
+	&lt;strong&gt;Download video:&lt;/strong&gt; &lt;a href=&quot;https://info.tmagrain.com/TMAGrain/Videos/TMA Dashboard - Long _ Short Training.mp4&quot;&gt;MP4 format&lt;/a&gt;
 &lt;/p&gt;"
 									/>
 									<LineBreak/>
