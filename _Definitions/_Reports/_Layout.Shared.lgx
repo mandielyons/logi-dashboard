@@ -2470,7 +2470,7 @@ Order By FiscalYear DESC"
 								SecurityRightID="TMA Dashboard,OC"
 							/>
 							<Label
-								Caption="V3.0"
+								Caption="V3.1"
 								Class="ThemeTextSmaller"
 								Format="HTML"
 								SecurityRightID="MKC Dashboard,TMA Dashboard,OC"
