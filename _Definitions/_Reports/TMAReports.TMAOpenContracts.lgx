@@ -20,17 +20,85 @@
 			ConnectionID="connAgTrax"
 			ID="ldCustomers"
 			Source="SELECT DISTINCT 
+  REPLICATE(&apos; &apos;,9-LEN(DM_OpenContracts.CUSTOMER)) + DM_OpenContracts.CUSTOMER + &apos; - &apos; + DM_OpenContracts.CUSTOMER_DESC NAMENUMBER,
   DM_OpenContracts.CUSTOMER,
   DM_OpenContracts.CUSTOMER_DESC 
 FROM Agtrax_Staging.dbo.DM_OpenContracts
 WHERE DM_OpenContracts.CONTRACT_TYPE = @Request.ContractTypeID~
   AND DM_OpenContracts.REMAINING_BU &lt;&gt; 0.0
 ORDER BY CUSTOMER_DESC
+
 "
 			Type="SQL"
 			>
 			<DataLayerLink
 				ID="linkCustomers"
+			/>
+		</DataLayer>
+		<DataLayer
+			ConnectionID="connAgTrax"
+			ID="ldLocations"
+			Source="SELECT DISTINCT 
+  REPLICATE(&apos; &apos;,3-LEN(DM_OpenContracts.BRANCH_NUMBER)) + CAST(DM_OpenContracts.BRANCH_NUMBER as varchar(9)) + &apos; - &apos; + DM_OpenContracts.BRANCH_DESC NAMENUMBER,
+  DM_OpenContracts.BRANCH_NUMBER,
+  DM_OpenContracts.BRANCH_DESC 
+FROM Agtrax_Staging.dbo.DM_OpenContracts
+WHERE DM_OpenContracts.CONTRACT_TYPE = @Request.ContractTypeID~
+  AND DM_OpenContracts.REMAINING_BU &lt;&gt; 0.0
+ORDER BY BRANCH_DESC
+"
+			Type="SQL"
+			>
+			<DataLayerLink
+				ID="linkLocations"
+			/>
+		</DataLayer>
+		<DataLayer
+			ConnectionID="connAgTrax"
+			ID="ldProducts"
+			Source="SELECT DISTINCT 
+  REPLICATE(&apos; &apos;,2-LEN(DM_OpenContracts.COMMODITY_CODE)) + DM_OpenContracts.COMMODITY_CODE + &apos; - &apos; + DM_OpenContracts.COMMODITY_DESC NAMENUMBER,
+  DM_OpenContracts.COMMODITY_CODE,
+  DM_OpenContracts.COMMODITY_DESC 
+FROM Agtrax_Staging.dbo.DM_OpenContracts
+WHERE DM_OpenContracts.CONTRACT_TYPE = @Request.ContractTypeID~
+  AND DM_OpenContracts.REMAINING_BU &lt;&gt; 0.0
+ORDER BY COMMODITY_DESC
+"
+			Type="SQL"
+			>
+			<DataLayerLink
+				ID="linkProducts"
+			/>
+		</DataLayer>
+		<DataLayer
+			ConnectionID="connAgTrax"
+			ID="ldContractType"
+			Source="SELECT DISTINCT 
+  DM_OpenContracts.CONTRACT_TYPE,
+  DM_OpenContracts.CONTRACT_TYPE_DESC
+FROM Agtrax_Staging.dbo.DM_OpenContracts
+ORDER BY CONTRACT_TYPE
+"
+			Type="SQL"
+			>
+			<DataLayerLink
+				ID="linkContractType"
+			/>
+		</DataLayer>
+		<DataLayer
+			ConnectionID="connAgTrax"
+			ID="ldDPRPositionGroup"
+			Source="SELECT DISTINCT DPR_POSITION_GROUP 
+FROM Agtrax_Staging.dbo.DM_OpenContracts 
+WHERE DM_OpenContracts.CONTRACT_TYPE = @Request.ContractTypeID~
+  AND DM_OpenContracts.REMAINING_BU &lt;&gt; 0.0
+ORDER BY DPR_POSITION_GROUP
+"
+			Type="SQL"
+			>
+			<DataLayerLink
+				ID="linkDPRPosiitonGroup"
 			/>
 		</DataLayer>
 		<DataLayer
@@ -71,34 +139,6 @@ ORDER BY DM_OpenContracts.ISSUED_DATE DESC, DM_OpenContracts.CONTRACT_NUMBER, DM
 			>
 			<DataLayerLink
 				ID="linkOpenContracts"
-			/>
-		</DataLayer>
-		<DataLayer
-			ConnectionID="connAgTrax"
-			ID="ldContractType"
-			Source="SELECT DISTINCT 
-  DM_OpenContracts.CONTRACT_TYPE,
-  DM_OpenContracts.CONTRACT_TYPE_DESC
-FROM Agtrax_Staging.dbo.DM_OpenContracts
-ORDER BY CONTRACT_TYPE
-"
-			Type="SQL"
-			>
-			<DataLayerLink
-				ID="linkContractType"
-			/>
-		</DataLayer>
-		<DataLayer
-			ConnectionID="connAgTrax"
-			ID="ldDPRPositionGroup"
-			Source="SELECT DISTINCT DPR_POSITION_GROUP 
-FROM Agtrax_Staging.dbo.DM_OpenContracts 
-ORDER BY DPR_POSITION_GROUP
-"
-			Type="SQL"
-			>
-			<DataLayerLink
-				ID="linkDPRPosiitonGroup"
 			/>
 		</DataLayer>
 	</LocalData>
@@ -216,6 +256,41 @@ ORDER BY DPR_POSITION_GROUP
 													HtmlDiv="True"
 													ID="divFilters"
 													>
+													<InputRadioButtons
+														Caption="Contract Type:"
+														CaptionClass="ThemeTextSmall ThemeBold"
+														Class="ThemeTextSmall"
+														DefaultValue="@Request.ContractTypeID~"
+														ID="ContractTypeID"
+														OptionCaptionColumn="CONTRACT_TYPE_DESC"
+														OptionValueColumn="CONTRACT_TYPE"
+														RadioButtonDirection="Down"
+														>
+														<DataLayer
+															ID="ldContractType"
+															LinkedDataLayerID="linkContractType"
+															Type="Linked"
+														/>
+														<EventHandler
+															DhtmlEvent="onchange"
+															ID="evhOnChange"
+															>
+															<Action
+																ElementID="divFilters,divOpenContracts"
+																ID="actRefreshOpenContractsContractType"
+																Type="RefreshElement"
+																>
+																<WaitPage/>
+																<LinkParams
+																	Branch="0"
+																	Commodity="0"
+																	CustomerID=""
+																	DPRPositionGroup=""
+																/>
+															</Action>
+														</EventHandler>
+													</InputRadioButtons>
+													<LineBreak/>
 													<InputSelectList
 														Caption="Customer:"
 														CaptionClass="ThemeTextSmall ThemeBold"
@@ -224,7 +299,7 @@ ORDER BY DPR_POSITION_GROUP
 														ID="CustomerID"
 														IncludeBlank="True"
 														IncludeBlankCaption="All"
-														OptionCaptionColumn="CUSTOMER_DESC"
+														OptionCaptionColumn="NAMENUMBER"
 														OptionValueColumn="CUSTOMER"
 														>
 														<DataLayer
@@ -245,6 +320,7 @@ ORDER BY DPR_POSITION_GROUP
 															</Action>
 														</EventHandler>
 													</InputSelectList>
+													<LineBreak/>
 													<InputSelectList
 														Caption="Type:"
 														CaptionClass="ThemeTextSmall ThemeBold"
@@ -274,52 +350,95 @@ ORDER BY DPR_POSITION_GROUP
 															</Action>
 														</EventHandler>
 													</InputSelectList>
-													<InputRadioButtons
-														Caption="Contract Type:"
+													<LineBreak/>
+													<InputSelectList
+														Caption="Locations:"
 														CaptionClass="ThemeTextSmall ThemeBold"
-														Class="ThemeTextSmall"
-														DefaultValue="@Request.ContractTypeID~"
-														ID="ContractTypeID"
-														OptionCaptionColumn="CONTRACT_TYPE_DESC"
-														OptionValueColumn="CONTRACT_TYPE"
-														RadioButtonDirection="Down"
+														Class="ThemeTextSmaller"
+														DefaultValue="@Request.Branch~"
+														ID="Branch"
+														IncludeBlank="True"
+														IncludeBlankCaption="All"
+														IncludeBlankValue="0"
+														InputRows="8"
+														MultiSelect="True"
+														OptionCaptionColumn="NAMENUMBER"
+														OptionValueColumn="BRANCH_NUMBER"
 														>
 														<DataLayer
-															ID="ldContractType"
-															LinkedDataLayerID="linkContractType"
+															ID="dlBranch"
+															LinkedDataLayerID="linkLocations"
 															Type="Linked"
 														/>
 														<EventHandler
 															DhtmlEvent="onchange"
-															ID="evhOnChange"
+															ID="eventOnChangeBranch"
 															>
 															<Action
 																ElementID="divOpenContracts"
-																ID="actRefreshOpenContractsContractType"
+																ID="actRefreshOpenContractsBranch"
 																Type="RefreshElement"
 																>
 																<WaitPage/>
 															</Action>
 														</EventHandler>
-													</InputRadioButtons>
+													</InputSelectList>
 													<LineBreak/>
-													<IncludeSharedElement
-														DefinitionFile="_Layout.Shared"
-														ID="shrBranchSelect"
-														SharedElementID="shrBranchSelect"
+													<InputSelectList
+														Caption="Commodity:"
+														CaptionClass="ThemeTextSmall ThemeBold"
+														Class="ThemeTextSmaller"
+														DefaultValue="@Request.Commodity~"
+														ID="Commodity"
+														IncludeBlank="True"
+														IncludeBlankCaption="All"
+														IncludeBlankValue="0"
+														MultiSelect="False"
+														OptionCaptionColumn="COMMODITY_DESC"
+														OptionValueColumn="COMMODITY_CODE"
 														>
-														<SharedElementParams
-															BranchElementToRefresh="divOpenContracts"
+														<DataLayer
+															ID="dlProducts"
+															LinkedDataLayerID="linkProducts"
+															Type="Linked"
 														/>
-													</IncludeSharedElement>
-													<IncludeSharedElement
-														DefinitionFile="_Layout.Shared"
-														SharedElementID="shrCommoditySelect"
-														>
-														<SharedElementParams
-															CommodityElementToRefresh="divOpenContracts"
-														/>
-													</IncludeSharedElement>
+														<EventHandler
+															DhtmlEvent="onchange"
+															ID="eventOnChangeCommodity"
+															>
+															<Action
+																ElementID="divOpenContracts"
+																ID="actRefreshOpenContractsCommodity"
+																Type="RefreshElement"
+																>
+																<WaitPage/>
+															</Action>
+														</EventHandler>
+													</InputSelectList>
+													<Remark>
+														<LineBreak/>
+													</Remark>
+													<Remark>
+														<IncludeSharedElement
+															DefinitionFile="_Layout.Shared"
+															ID="shrBranchSelect"
+															SharedElementID="shrBranchSelect"
+															>
+															<SharedElementParams
+																BranchElementToRefresh="divOpenContracts"
+															/>
+														</IncludeSharedElement>
+													</Remark>
+													<Remark>
+														<IncludeSharedElement
+															DefinitionFile="_Layout.Shared"
+															SharedElementID="shrCommoditySelect"
+															>
+															<SharedElementParams
+																CommodityElementToRefresh="divOpenContracts"
+															/>
+														</IncludeSharedElement>
+													</Remark>
 													<LineBreak/>
 													<Button
 														Caption="Reset"
@@ -483,7 +602,7 @@ ORDER BY DPR_POSITION_GROUP
 														/>
 													</DataTableColumn>
 													<DataTableColumn
-														Class="ThemeAlignRight"
+														Class="ThemeAlignCenter"
 														Header="Account Number"
 														ID="colCUSTOMER"
 														>
@@ -587,23 +706,6 @@ ORDER BY DPR_POSITION_GROUP
 													</DataTableColumn>
 													<DataTableColumn
 														Class="ThemeAlignRight"
-														Header="Cash Price"
-														ID="colPRICE"
-														>
-														<Label
-															Caption="@Data.PRICE~"
-															Format="#,###,###,###,##0.00"
-															ID="lblPRICE"
-															NoWrap="True"
-															rdForWizardSet="true"
-														/>
-														<DataColumnSort
-															DataColumn="PRICE"
-															DataType="Number"
-														/>
-													</DataTableColumn>
-													<DataTableColumn
-														Class="ThemeAlignRight"
 														Header="Futures Price"
 														ID="colBOARD_PRICE"
 														>
@@ -633,6 +735,23 @@ ORDER BY DPR_POSITION_GROUP
 														/>
 														<DataColumnSort
 															DataColumn="BASIS_PRICE"
+															DataType="Number"
+														/>
+													</DataTableColumn>
+													<DataTableColumn
+														Class="ThemeAlignRight"
+														Header="Cash Price"
+														ID="colPRICE"
+														>
+														<Label
+															Caption="@Data.PRICE~"
+															Format="#,###,###,###,##0.00"
+															ID="lblPRICE"
+															NoWrap="True"
+															rdForWizardSet="true"
+														/>
+														<DataColumnSort
+															DataColumn="PRICE"
 															DataType="Number"
 														/>
 													</DataTableColumn>
