@@ -711,7 +711,7 @@ ORDER BY DM_OpenContracts.ISSUED_DATE DESC, DM_OpenContracts.CONTRACT_NUMBER, DM
 														>
 														<Label
 															Caption="@Data.BOARD_PRICE~"
-															Format="#,###,###,###,##0.00"
+															Format="#,###,###,###,##0.0000"
 															ID="lblBOARD_PRICE"
 															NoWrap="True"
 															rdForWizardSet="true"
@@ -728,7 +728,7 @@ ORDER BY DM_OpenContracts.ISSUED_DATE DESC, DM_OpenContracts.CONTRACT_NUMBER, DM
 														>
 														<Label
 															Caption="@Data.BASIS_PRICE~"
-															Format="#,###,###,###,##0.00"
+															Format="#,###,###,###,##0.0000"
 															ID="lblBASIS_PRICE"
 															NoWrap="True"
 															rdForWizardSet="true"
@@ -745,7 +745,7 @@ ORDER BY DM_OpenContracts.ISSUED_DATE DESC, DM_OpenContracts.CONTRACT_NUMBER, DM
 														>
 														<Label
 															Caption="@Data.PRICE~"
-															Format="#,###,###,###,##0.00"
+															Format="#,###,###,###,##0.0000"
 															ID="lblPRICE"
 															NoWrap="True"
 															rdForWizardSet="true"
