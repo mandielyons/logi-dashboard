@@ -111,7 +111,8 @@ ORDER BY DPR_POSITION_GROUP
      , DM_OpenContracts.CUSTOMER_DESC
      , DM_OpenContracts.CUSTOMER
 	 , DCM.DPR_GROUP_DESC AS CROP_NAME
-	 , DM_OpenContracts.COMMODITY_CODE /* + &apos; - &apos; + DM_OpenContracts.COMMODITY_DESC */ AS COMMODITY_DESC
+	 , DM_OpenContracts.COMMODITY_CODE /* + &apos; - &apos; + DM_OpenContracts.COMMODITY_DESC AS COMMODITY_DESC */ AS COMMODITY_CODE
+	 , DM_OpenContracts.COMMODITY_DESC AS COMMODITY_DESC
 	 , DM_OpenContracts.DPR_POSITION
 	 , DM_OpenContracts.DPR_POSITION_GROUP
 	 , DM_OpenContracts.THEIR_CONTRACT_NUMBER
@@ -393,7 +394,8 @@ ORDER BY DM_OpenContracts.ISSUED_DATE DESC, DM_OpenContracts.CONTRACT_NUMBER, DM
 														IncludeBlank="True"
 														IncludeBlankCaption="All"
 														IncludeBlankValue="0"
-														MultiSelect="False"
+														InputRows="5"
+														MultiSelect="True"
 														OptionCaptionColumn="COMMODITY_DESC"
 														OptionValueColumn="COMMODITY_CODE"
 														>
@@ -636,6 +638,22 @@ ORDER BY DM_OpenContracts.ISSUED_DATE DESC, DM_OpenContracts.CONTRACT_NUMBER, DM
 													<DataTableColumn
 														Class="ThemeAlignCenter"
 														Header="Commodity"
+														ID="colCOMMODITY_CODE"
+														>
+														<Label
+															Caption="@Data.COMMODITY_CODE~"
+															ID="lblCOMMODITY_CODE"
+															NoWrap="True"
+															rdForWizardSet="true"
+														/>
+														<DataColumnSort
+															DataColumn="COMMODITY_CODE"
+															DataType="Text"
+														/>
+													</DataTableColumn>
+													<DataTableColumn
+														Class="ThemeAlignLeft"
+														Header="Commodity Description"
 														ID="colCOMMODITY_DESC"
 														>
 														<Label
