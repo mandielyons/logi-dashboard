@@ -323,13 +323,15 @@ ORDER BY DM_OpenContracts.ISSUED_DATE DESC, DM_OpenContracts.CONTRACT_NUMBER, DM
 													</InputSelectList>
 													<LineBreak/>
 													<InputSelectList
-														Caption="Type:"
+														Caption="Contract Types:"
 														CaptionClass="ThemeTextSmall ThemeBold"
 														Class="ThemeTextSmaller"
 														DefaultValue="@Request.DPRPositionGroup~"
 														ID="DPRPositionGroup"
 														IncludeBlank="True"
 														IncludeBlankCaption="All"
+														InputRows="5"
+														MultiSelect="True"
 														OptionCaptionColumn="DPR_POSITION_GROUP"
 														OptionValueColumn="DPR_POSITION_GROUP"
 														>
@@ -386,7 +388,7 @@ ORDER BY DM_OpenContracts.ISSUED_DATE DESC, DM_OpenContracts.CONTRACT_NUMBER, DM
 													</InputSelectList>
 													<LineBreak/>
 													<InputSelectList
-														Caption="Commodity:"
+														Caption="Commodities:"
 														CaptionClass="ThemeTextSmall ThemeBold"
 														Class="ThemeTextSmaller"
 														DefaultValue="@Request.Commodity~"
@@ -619,41 +621,45 @@ ORDER BY DM_OpenContracts.ISSUED_DATE DESC, DM_OpenContracts.CONTRACT_NUMBER, DM
 															DataType="Text"
 														/>
 													</DataTableColumn>
+													<Remark>
+														<DataTableColumn
+															Class="ThemeAlignLeft"
+															Header="Crop"
+															ID="colCROP_NAME"
+															>
+															<Label
+																Caption="@Data.CROP_NAME~"
+																ID="lblCROP_NAME"
+																NoWrap="True"
+																rdForWizardSet="true"
+															/>
+															<DataColumnSort
+																DataColumn="CROP_NAME"
+																DataType="Text"
+															/>
+														</DataTableColumn>
+													</Remark>
+													<Remark>
+														<DataTableColumn
+															Class="ThemeAlignCenter"
+															Header="Commodity Code"
+															ID="colCOMMODITY_CODE"
+															>
+															<Label
+																Caption="@Data.COMMODITY_CODE~"
+																ID="lblCOMMODITY_CODE"
+																NoWrap="True"
+																rdForWizardSet="true"
+															/>
+															<DataColumnSort
+																DataColumn="COMMODITY_CODE"
+																DataType="Text"
+															/>
+														</DataTableColumn>
+													</Remark>
 													<DataTableColumn
 														Class="ThemeAlignLeft"
-														Header="Crop"
-														ID="colCROP_NAME"
-														>
-														<Label
-															Caption="@Data.CROP_NAME~"
-															ID="lblCROP_NAME"
-															NoWrap="True"
-															rdForWizardSet="true"
-														/>
-														<DataColumnSort
-															DataColumn="CROP_NAME"
-															DataType="Text"
-														/>
-													</DataTableColumn>
-													<DataTableColumn
-														Class="ThemeAlignCenter"
 														Header="Commodity"
-														ID="colCOMMODITY_CODE"
-														>
-														<Label
-															Caption="@Data.COMMODITY_CODE~"
-															ID="lblCOMMODITY_CODE"
-															NoWrap="True"
-															rdForWizardSet="true"
-														/>
-														<DataColumnSort
-															DataColumn="COMMODITY_CODE"
-															DataType="Text"
-														/>
-													</DataTableColumn>
-													<DataTableColumn
-														Class="ThemeAlignLeft"
-														Header="Commodity Description"
 														ID="colCOMMODITY_DESC"
 														>
 														<Label
@@ -669,7 +675,7 @@ ORDER BY DM_OpenContracts.ISSUED_DATE DESC, DM_OpenContracts.CONTRACT_NUMBER, DM
 													</DataTableColumn>
 													<DataTableColumn
 														Class="ThemeAlignLeft"
-														Header="Position Group"
+														Header="Contract Type"
 														ID="colDPR_POSITION_GROUP"
 														>
 														<Label
