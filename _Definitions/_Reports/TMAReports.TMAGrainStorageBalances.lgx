@@ -292,7 +292,7 @@ ORDER BY CUSTOMER_NAME, COMMODITY_CODE, BRANCH_NAME
 									</InputSelectList>
 									<LineBreak/>
 									<InputSelectList
-										Caption="Commodity:"
+										Caption="Commodities:"
 										CaptionClass="ThemeTextSmall ThemeBold"
 										Class="ThemeTextSmaller"
 										DefaultValue="@Request.Commodity~"
@@ -300,7 +300,8 @@ ORDER BY CUSTOMER_NAME, COMMODITY_CODE, BRANCH_NAME
 										IncludeBlank="True"
 										IncludeBlankCaption="All"
 										IncludeBlankValue="0"
-										MultiSelect="False"
+										InputRows="5"
+										MultiSelect="True"
 										OptionCaptionColumn="COMMODITY_DESC"
 										OptionValueColumn="COMMODITY_CODE"
 										>
@@ -429,21 +430,23 @@ ORDER BY CUSTOMER_NAME, COMMODITY_CODE, BRANCH_NAME
 												DataType="Text"
 											/>
 										</DataTableColumn>
-										<DataTableColumn
-											Header="Crop"
-											ID="colCROP_DESC"
-											>
-											<Label
-												Caption="@Data.CROP_DESC~"
-												ID="lblCROP_DESC"
-												NoWrap="True"
-												rdForWizardSet="true"
-											/>
-											<DataColumnSort
-												DataColumn="CROP_DESC"
-												DataType="Text"
-											/>
-										</DataTableColumn>
+										<Remark>
+											<DataTableColumn
+												Header="Crop"
+												ID="colCROP_DESC"
+												>
+												<Label
+													Caption="@Data.CROP_DESC~"
+													ID="lblCROP_DESC"
+													NoWrap="True"
+													rdForWizardSet="true"
+												/>
+												<DataColumnSort
+													DataColumn="CROP_DESC"
+													DataType="Text"
+												/>
+											</DataTableColumn>
+										</Remark>
 										<DataTableColumn
 											Header="Location"
 											ID="colBRANCH_NAME"
