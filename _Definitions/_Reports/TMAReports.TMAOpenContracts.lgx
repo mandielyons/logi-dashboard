@@ -129,11 +129,11 @@ ORDER BY DPR_POSITION_GROUP
 FROM Agtrax_Staging.dbo.DM_OpenContracts 
   INNER JOIN Agtrax_Staging.dbo.vCOMMODITY_GROUP AS [DCM] ON DM_OpenContracts.COMMODITY_CODE = DCM.COMMODITY_CODE  
 WHERE DM_OpenContracts.REMAINING_BU &lt;&gt; 0.0
-  AND (DM_OpenContracts.BRANCH_NUMBER IN(@Request.Branch~) OR (&apos;@Request.Branch~&apos; = &apos;&apos; OR &apos;@Request.Branch~&apos;=&apos;0&apos;))
-  AND (DM_OpenContracts.CUSTOMER IN(&apos;@Request.CustomerID~&apos;) OR &apos;@Request.CustomerID~&apos; = &apos;&apos;) 
-  AND (DM_OpenContracts.COMMODITY_CODE IN(&apos;@Request.Commodity~&apos;) OR (&apos;@Request.Commodity~&apos; = &apos;&apos; OR &apos;@Request.Commodity~&apos; = &apos;0&apos;))
   AND (DM_OpenContracts.CONTRACT_TYPE = @Request.ContractTypeID~)
-  AND (DM_OpenContracts.DPR_POSITION_GROUP IN(&apos;@Request.DPRPositionGroup~&apos;) OR (&apos;@Request.DPRPositionGroup~&apos; = &apos;&apos;))
+  AND (DM_OpenContracts.CUSTOMER IN(@SingleQuote.Request.CustomerID~) OR &apos;@Request.CustomerID~&apos; = &apos;&apos;) 
+  AND (DM_OpenContracts.BRANCH_NUMBER IN(@Request.Branch~) OR (&apos;@Request.Branch~&apos; = &apos;&apos; OR &apos;@Request.Branch~&apos;=&apos;0&apos;))
+  AND (DM_OpenContracts.COMMODITY_CODE IN(@SingleQuote.Request.Commodity~) OR (&apos;@Request.Commodity~&apos; = &apos;&apos; OR &apos;@Request.Commodity~&apos; = &apos;0&apos;))
+  AND (DM_OpenContracts.DPR_POSITION_GROUP IN(@SingleQuote.Request.DPRPositionGroup~) OR (&apos;@Request.DPRPositionGroup~&apos; = &apos;&apos;))
 ORDER BY DM_OpenContracts.ISSUED_DATE DESC, DM_OpenContracts.CONTRACT_NUMBER, DM_OpenContracts.CUSTOMER_DESC
 "
 			Type="SQL"
