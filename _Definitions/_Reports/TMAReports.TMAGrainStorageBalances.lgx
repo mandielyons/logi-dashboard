@@ -91,9 +91,9 @@ ORDER BY DPR_POSITION_GROUP
  , DM_GrainBalances.BU 
 FROM Agtrax_Staging.dbo.DM_GrainBalances 
 WHERE (DM_GrainBalances.BRANCH_NUMBER IN(@Request.Branch~) OR &apos;@Request.Branch~&apos;=&apos;0&apos;) 
-  AND (DM_GrainBalances.CUSTOMER IN(&apos;@Request.CustomerID~&apos;) OR &apos;@Request.CustomerID~&apos; = &apos;-1&apos;) 
-  AND (DM_GrainBalances.COMMODITY_CODE IN(&apos;@Request.Commodity~&apos;) OR (&apos;@Request.Commodity~&apos; = &apos;&apos; OR &apos;@Request.Commodity~&apos; = &apos;0&apos;))
-  AND (DM_GrainBalances.DPR_POSITION_GROUP IN(&apos;@Request.DPRGroup~&apos;) OR &apos;@Request.DPRGroup~&apos; = &apos;&apos;)
+  AND (DM_GrainBalances.CUSTOMER IN(@SingleQuote.Request.CustomerID~) OR &apos;@Request.CustomerID~&apos; = &apos;-1&apos;) 
+  AND (DM_GrainBalances.COMMODITY_CODE IN(@SingleQuote.Request.Commodity~) OR (&apos;@Request.Commodity~&apos; = &apos;&apos; OR &apos;@Request.Commodity~&apos; = &apos;0&apos;))
+  AND (DM_GrainBalances.DPR_POSITION_GROUP IN(@SingleQuote.Request.DPRGroup~) OR &apos;@Request.DPRGroup~&apos; = &apos;&apos;)
 ORDER BY CUSTOMER_NAME, COMMODITY_CODE, BRANCH_NAME 
 "
 			Type="SQL"
