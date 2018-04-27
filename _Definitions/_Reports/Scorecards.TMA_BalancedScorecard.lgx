@@ -1236,12 +1236,24 @@
 															<DataTableColumn
 																Header="Intent/Notes"
 																ID="colIntent"
+																Width="40"
+																WidthScale="%"
 																>
 																<Label
 																	Caption="@Data.Intent~"
 																	ID="lblIntent"
 																	NoWrap="True"
 																	rdForWizardSet="true"
+																/>
+															</DataTableColumn>
+															<DataTableColumn
+																Header="Due Date"
+																ID="colDate"
+																Width="60"
+																WidthScale="px"
+																>
+																<Label
+																	Caption="@Data.DueDate~"
 																/>
 															</DataTableColumn>
 															<DataTableColumn
@@ -1442,12 +1454,24 @@
 															<DataTableColumn
 																Header="Intent/Notes"
 																ID="colIntent"
+																Width="40"
+																WidthScale="%"
 																>
 																<Label
 																	Caption="@Data.Intent~"
 																	ID="lblIntent"
 																	NoWrap="True"
 																	rdForWizardSet="true"
+																/>
+															</DataTableColumn>
+															<DataTableColumn
+																Header="Due Date"
+																ID="colDate"
+																Width="60"
+																WidthScale="px"
+																>
+																<Label
+																	Caption="@Data.DueDate~"
 																/>
 															</DataTableColumn>
 															<DataTableColumn
@@ -1594,12 +1618,24 @@
 															<DataTableColumn
 																Header="Intent/Notes"
 																ID="colIntent"
+																Width="40"
+																WidthScale="%"
 																>
 																<Label
 																	Caption="@Data.Intent~"
 																	ID="lblIntent"
 																	NoWrap="True"
 																	rdForWizardSet="true"
+																/>
+															</DataTableColumn>
+															<DataTableColumn
+																Header="Due Date"
+																ID="colDate"
+																Width="60"
+																WidthScale="px"
+																>
+																<Label
+																	Caption="@Data.DueDate~"
 																/>
 															</DataTableColumn>
 															<DataTableColumn
@@ -1804,7 +1840,7 @@
 															<DataTableColumn
 																Header="Intent/Notes"
 																ID="colIntent"
-																Width="55"
+																Width="40"
 																WidthScale="%"
 																>
 																<Label
@@ -1812,6 +1848,16 @@
 																	ID="lblIntent"
 																	NoWrap="True"
 																	rdForWizardSet="true"
+																/>
+															</DataTableColumn>
+															<DataTableColumn
+																Header="Due Date"
+																ID="colDate"
+																Width="60"
+																WidthScale="px"
+																>
+																<Label
+																	Caption="@Data.DueDate~"
 																/>
 															</DataTableColumn>
 															<DataTableColumn
@@ -1962,12 +2008,24 @@
 															<DataTableColumn
 																Header="Intent/Notes"
 																ID="colIntent"
+																Width="45"
+																WidthScale="%"
 																>
 																<Label
 																	Caption="@Data.Intent~"
 																	ID="lblIntent"
 																	NoWrap="True"
 																	rdForWizardSet="true"
+																/>
+															</DataTableColumn>
+															<DataTableColumn
+																Header="Due Date"
+																ID="colDate"
+																Width="60"
+																WidthScale="px"
+																>
+																<Label
+																	Caption="@Data.DueDate~"
 																/>
 															</DataTableColumn>
 															<DataTableColumn
@@ -2116,12 +2174,24 @@
 															<DataTableColumn
 																Header="Intent/Notes"
 																ID="colIntent"
+																Width="40"
+																WidthScale="%"
 																>
 																<Label
 																	Caption="@Data.Intent~"
 																	ID="lblIntent"
 																	NoWrap="True"
 																	rdForWizardSet="true"
+																/>
+															</DataTableColumn>
+															<DataTableColumn
+																Header="Due Date"
+																ID="colDate"
+																Width="60"
+																WidthScale="px"
+																>
+																<Label
+																	Caption="@Data.DueDate~"
 																/>
 															</DataTableColumn>
 															<DataTableColumn
@@ -2324,12 +2394,24 @@
 															<DataTableColumn
 																Header="Intent/Notes"
 																ID="colIntent"
+																Width="40"
+																WidthScale="%"
 																>
 																<Label
 																	Caption="@Data.Intent~"
 																	ID="lblIntent"
 																	NoWrap="True"
 																	rdForWizardSet="true"
+																/>
+															</DataTableColumn>
+															<DataTableColumn
+																Header="Due Date"
+																ID="colDate"
+																Width="60"
+																WidthScale="px"
+																>
+																<Label
+																	Caption="@Data.DueDate~"
 																/>
 															</DataTableColumn>
 															<DataTableColumn
