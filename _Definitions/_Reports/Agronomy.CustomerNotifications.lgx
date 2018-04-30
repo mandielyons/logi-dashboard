@@ -1,0 +1,317 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report
+	Caption="AgOS Customer Notifications"
+	ID="Agronomy.CustomerNotifications"
+	SecurityReportRightID="LogiUserAdmin"
+	>
+	<DefaultRequestParams/>
+	<IncludeSharedElement
+		DefinitionFile="_Layout.Shared"
+		SharedElementID="shrHeader"
+	/>
+	<Body>
+		<Division
+			Class="panel panel-default"
+			HtmlDiv="True"
+			ID="div-panel"
+			>
+			<Division
+				Class="panel-heading"
+				HtmlDiv="True"
+				ID="div-header"
+				>
+				<Label
+					Caption="AgOS Customer Notifications"
+					Class="panel-title"
+				/>
+			</Division>
+			<Division
+				Class="panel-body"
+				HtmlDiv="True"
+				ID="div-body"
+				>
+				<ResponsiveRow>
+					<ResponsiveColumn
+						ColspanExtraSmallScreen="3"
+						ColspanLargeScreen="2"
+						ColspanMediumScreen="2"
+						ColspanSmallScreen="3"
+						>
+						<Division
+							Class="well"
+							HtmlDiv="True"
+							ID="divFilters"
+							>
+							<InputSelectList
+								Caption="Customer"
+								CaptionClass="ThemeTextSmall ThemeBold"
+								Class="ThemeTextSmaller"
+								ID="Customer"
+								IncludeBlank="True"
+								OptionCaptionColumn="Customer"
+								OptionValueColumn="CustID"
+								>
+								<DataLayer
+									ConnectionID="connAgOS"
+									ID="dlCustomer"
+									Source="Select Distinct T2.ObjectID As CustID,
+  T2.Name As Customer
+From Orders T1
+  Inner Join Objects T2 With(NoLock) On T2.ObjectID = T1.ObjectID
+  Inner Join OrderProducts T3 With(NoLock) On T3.OrderID = T1.OrderID
+  Inner Join Users T4 With(NoLock) On T4.UserID = T1.CreatedByID
+  Left Join OrderNotification T5 With(NoLock) On T5.OrderId = T1.OrderID
+  Left Join Objects T6 With(NoLock) On T6.ObjectID = T1.ApplicatorID
+Where T1.Done = 1 And T1.Canceled = 0 And T1.LocationCode &lt;&gt; &apos;Precise&apos;
+  And T5.Status = 0 And T1.DoneDate &gt; &apos;2017-02-01&apos;
+Order By Customer"
+									Type="SQL"
+								/>
+								<EventHandler
+									DhtmlEvent="onchange"
+									>
+									<Action
+										ElementID="divAudit"
+										ID="refNotifyByCustomer"
+										Type="RefreshElement"
+										>
+										<WaitPage/>
+									</Action>
+								</EventHandler>
+							</InputSelectList>
+							<LineBreak/>
+							<InputSelectList
+								Caption="Location Code"
+								CaptionClass="ThemeTextSmall ThemeBold"
+								Class="ThemeTextSmaller"
+								ID="Location"
+								IncludeBlank="True"
+								OptionCaptionColumn="AgOSLocCode"
+								OptionValueColumn="AgOSLocCode"
+								>
+								<DataLayer
+									ConnectionID="connAgOS"
+									ID="dlLocation"
+									Source="SELECT DISTINCT Claims.LocationCode As AgOSLocCode
+FROM AgOS_MKC_Live.dbo.Claims
+ORDER BY AgOSLocCode
+"
+									Type="SQL"
+								/>
+								<EventHandler
+									DhtmlEvent="onchange"
+									>
+									<Action
+										ElementID="divAudit"
+										ID="refNotifyByLoc"
+										Type="RefreshElement"
+										>
+										<WaitPage/>
+									</Action>
+								</EventHandler>
+							</InputSelectList>
+							<LineBreak/>
+							<InputSelectList
+								Caption="Order"
+								CaptionClass="ThemeTextSmall ThemeBold"
+								Class="ThemeTextSmaller"
+								ID="OrderID"
+								IncludeBlank="True"
+								OptionCaptionColumn="OrderID"
+								OptionValueColumn="OrderID"
+								>
+								<DataLayer
+									ConnectionID="connAgOS"
+									ID="dlOrderID"
+									Source="Select Distinct T1.OrderID
+From Orders T1
+  Inner Join Objects T2 With(NoLock) On T2.ObjectID = T1.ObjectID
+  Inner Join OrderProducts T3 With(NoLock) On T3.OrderID = T1.OrderID
+  Inner Join Users T4 With(NoLock) On T4.UserID = T1.CreatedByID
+  Left Join OrderNotification T5 With(NoLock) On T5.OrderId = T1.OrderID
+  Left Join Objects T6 With(NoLock) On T6.ObjectID = T1.ApplicatorID
+Where T1.Done = 1 And T1.Canceled = 0 And T1.LocationCode &lt;&gt; &apos;Precise&apos;
+  And T5.Status = 0 And T1.DoneDate &gt; &apos;2017-02-01&apos;
+Order By T1.OrderID"
+									Type="SQL"
+								/>
+								<EventHandler
+									DhtmlEvent="onchange"
+									>
+									<Action
+										ElementID="divAudit"
+										ID="refNotifyByOrderID"
+										Type="RefreshElement"
+										>
+										<WaitPage/>
+									</Action>
+								</EventHandler>
+							</InputSelectList>
+							<LineBreak/>
+							<Button
+								Caption="Reset"
+								ID="btnReset"
+								Tooltip="Clear all selections"
+								>
+								<Action
+									ElementID="divAudit,divFilters"
+									ID="actReport"
+									RequestForwarding="True"
+									Type="RefreshElement"
+									>
+									<WaitPage/>
+									<LinkParams
+										ClaimID=""
+										Customer=""
+										Location=""
+									/>
+								</Action>
+							</Button>
+						</Division>
+					</ResponsiveColumn>
+					<ResponsiveColumn>
+						<Division
+							ID="divAudit"
+							>
+							<DataTable
+								Caption="Customer Notification Details"
+								CaptionClass="ThemeTextSmall"
+								Class="ThemeTextSmaller"
+								ID="dtNotifications"
+								Width="100"
+								WidthScale="%"
+								>
+								<InteractivePaging
+									CaptionType="Text"
+									Class="ThemeTextSmaller"
+									PageRowCount="40"
+									ShowPageNumber="True"
+								/>
+								<DataLayer
+									ConnectionID="connAgOS"
+									ID="dlNotifications"
+									Source="Select Distinct T1.OrderID,
+  T2.Name As OrderName,
+  T1.DoneDate,
+  Round(T1.Acres, 2) Acres,
+  T1.LocationCode,
+  Case T5.SendType When 1 Then &apos;Text&apos; When 0 Then &apos;Email&apos; Else &apos;Other&apos;
+  End As SendType,
+  T5.SendToName,
+  T5.SendTo,
+  Case T5.DoNotSend When 1 Then &apos;DoNotSend&apos; When 0 Then &apos;Error&apos;
+  End As SendStatus,
+  T6.Name Rig,
+  T4.UserName As CreatedBy
+From Orders T1
+  Inner Join Objects T2 With(NoLock) On T2.ObjectID = T1.ObjectID
+  Inner Join OrderProducts T3 With(NoLock) On T3.OrderID = T1.OrderID
+  Inner Join Users T4 With(NoLock) On T4.UserID = T1.CreatedByID
+  Left Join OrderNotification T5 With(NoLock) On T5.OrderId = T1.OrderID
+  Left Join Objects T6 With(NoLock) On T6.ObjectID = T1.ApplicatorID
+Where (T1.OrderID = &apos;@Request.OrderID~&apos; Or &apos;@Request.OrderID~&apos; = &apos;&apos;) And
+  T1.DoneDate &gt; &apos;2017-02-01&apos; And T1.LocationCode &lt;&gt; &apos;Precise&apos; And
+  (T1.LocationCode = &apos;@Request.Location~&apos; Or &apos;@Request.Location~&apos; = &apos; &apos;) And
+  (T2.ObjectID = &apos;@Request.Customer~&apos; Or &apos;@Request.Customer~&apos; = &apos; &apos;) And
+  T1.Done = 1 And T1.Canceled = 0 And T5.Status = 0
+Order By T1.DoneDate Desc"
+									Type="SQL"
+								/>
+								<Remark>
+									<AutoColumns/>
+								</Remark>
+								<DataTableColumn
+									Header="Order #"
+									>
+									<Label
+										Caption="@Data.OrderID~"
+									/>
+								</DataTableColumn>
+								<DataTableColumn
+									Header="Order Name"
+									>
+									<Label
+										Caption="@Data.OrderName~"
+									/>
+								</DataTableColumn>
+								<DataTableColumn
+									Header="Done Date"
+									>
+									<Label
+										Caption="@Data.DoneDate~"
+										Format="Short Date"
+									/>
+								</DataTableColumn>
+								<DataTableColumn
+									Header="Acres"
+									>
+									<Label
+										Caption="@Data.Acres~"
+									/>
+								</DataTableColumn>
+								<DataTableColumn
+									Header="Location"
+									>
+									<Label
+										Caption="@Data.LocationCode~"
+									/>
+								</DataTableColumn>
+								<DataTableColumn
+									Header="Message Type"
+									>
+									<Label
+										Caption="@Data.SendType~"
+									/>
+								</DataTableColumn>
+								<DataTableColumn
+									Header="Send To Name"
+									>
+									<Label
+										Caption="@Data.SendToName~"
+									/>
+								</DataTableColumn>
+								<DataTableColumn
+									Header="Send To"
+									>
+									<Label
+										Caption="@Data.SendTo~"
+									/>
+								</DataTableColumn>
+								<DataTableColumn
+									Header="Status"
+									>
+									<Label
+										Caption="@Data.SendStatus~"
+									/>
+								</DataTableColumn>
+								<DataTableColumn
+									Header="Rig"
+									>
+									<Label
+										Caption="@Data.Rig~"
+									/>
+								</DataTableColumn>
+								<DataTableColumn
+									Header="Created By"
+									>
+									<Label
+										Caption="@Data.CreatedBy~"
+									/>
+								</DataTableColumn>
+							</DataTable>
+						</Division>
+					</ResponsiveColumn>
+				</ResponsiveRow>
+			</Division>
+		</Division>
+	</Body>
+	<IncludeSharedElement
+		DefinitionFile="_Layout.Shared"
+		SharedElementID="shrFooter"
+	/>
+	<ideTestParams
+		Customer=""
+		Location=""
+		OrderID=""
+	/>
+</Report>

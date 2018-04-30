@@ -1223,6 +1223,16 @@
 																/>
 															</DataTableColumn>
 															<DataTableColumn
+																Header="Due Date"
+																ID="colDate"
+																Width="60"
+																WidthScale="px"
+																>
+																<Label
+																	Caption="@Data.DueDate~"
+																/>
+															</DataTableColumn>
+															<DataTableColumn
 																Class="pull-right"
 																Header="Progress"
 																ID="colProgress"
@@ -1367,6 +1377,16 @@
 																	ID="lblIntent"
 																	NoWrap="True"
 																	rdForWizardSet="true"
+																/>
+															</DataTableColumn>
+															<DataTableColumn
+																Header="Due Date"
+																ID="colDate"
+																Width="60"
+																WidthScale="px"
+																>
+																<Label
+																	Caption="@Data.DueDate~"
 																/>
 															</DataTableColumn>
 															<DataTableColumn
@@ -1570,6 +1590,16 @@
 																/>
 															</DataTableColumn>
 															<DataTableColumn
+																Header="Due Date"
+																ID="colDate"
+																Width="60"
+																WidthScale="px"
+																>
+																<Label
+																	Caption="@Data.DueDate~"
+																/>
+															</DataTableColumn>
+															<DataTableColumn
 																Class="pull-right"
 																Header="Progress"
 																ID="colProgress"
@@ -1716,6 +1746,16 @@
 																/>
 															</DataTableColumn>
 															<DataTableColumn
+																Header="Due Date"
+																ID="colDate"
+																Width="60"
+																WidthScale="px"
+																>
+																<Label
+																	Caption="@Data.DueDate~"
+																/>
+															</DataTableColumn>
+															<DataTableColumn
 																Class="pull-right"
 																Header="Progress"
 																ID="colProgress"
@@ -1859,6 +1899,16 @@
 																	ID="lblIntent"
 																	NoWrap="True"
 																	rdForWizardSet="true"
+																/>
+															</DataTableColumn>
+															<DataTableColumn
+																Header="Due Date"
+																ID="colDate"
+																Width="60"
+																WidthScale="px"
+																>
+																<Label
+																	Caption="@Data.DueDate~"
 																/>
 															</DataTableColumn>
 															<DataTableColumn
@@ -2065,6 +2115,16 @@
 																/>
 															</DataTableColumn>
 															<DataTableColumn
+																Header="Due Date"
+																ID="colDate"
+																Width="60"
+																WidthScale="px"
+																>
+																<Label
+																	Caption="@Data.DueDate~"
+																/>
+															</DataTableColumn>
+															<DataTableColumn
 																Class="pull-right"
 																Header="Progress"
 																ID="colProgress"
@@ -2212,6 +2272,16 @@
 																	ID="lblIntent"
 																	NoWrap="True"
 																	rdForWizardSet="true"
+																/>
+															</DataTableColumn>
+															<DataTableColumn
+																Header="Due Date"
+																ID="colDate"
+																Width="60"
+																WidthScale="px"
+																>
+																<Label
+																	Caption="@Data.DueDate~"
 																/>
 															</DataTableColumn>
 															<DataTableColumn
@@ -2363,6 +2433,16 @@
 																/>
 															</DataTableColumn>
 															<DataTableColumn
+																Header="Due Date"
+																ID="colDate"
+																Width="60"
+																WidthScale="px"
+																>
+																<Label
+																	Caption="@Data.DueDate~"
+																/>
+															</DataTableColumn>
+															<DataTableColumn
 																Class="pull-right"
 																Header="Progress"
 																ID="colProgress"
@@ -2508,6 +2588,16 @@
 																	ID="lblIntent"
 																	NoWrap="True"
 																	rdForWizardSet="true"
+																/>
+															</DataTableColumn>
+															<DataTableColumn
+																Header="Due Date"
+																ID="colDate"
+																Width="60"
+																WidthScale="px"
+																>
+																<Label
+																	Caption="@Data.DueDate~"
 																/>
 															</DataTableColumn>
 															<DataTableColumn
@@ -2709,6 +2799,16 @@
 																/>
 															</DataTableColumn>
 															<DataTableColumn
+																Header="Due Date"
+																ID="colDate"
+																Width="60"
+																WidthScale="px"
+																>
+																<Label
+																	Caption="@Data.DueDate~"
+																/>
+															</DataTableColumn>
+															<DataTableColumn
 																Class="pull-right"
 																Header="Progress"
 																ID="colProgress"
@@ -2854,6 +2954,16 @@
 																	ID="lblIntent"
 																	NoWrap="True"
 																	rdForWizardSet="true"
+																/>
+															</DataTableColumn>
+															<DataTableColumn
+																Header="Due Date"
+																ID="colDate"
+																Width="60"
+																WidthScale="px"
+																>
+																<Label
+																	Caption="@Data.DueDate~"
 																/>
 															</DataTableColumn>
 															<DataTableColumn
