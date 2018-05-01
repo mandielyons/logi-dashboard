@@ -2,7 +2,7 @@
 <Report
 	Caption="AgOS Customer Notifications"
 	ID="Agronomy.CustomerNotifications"
-	SecurityReportRightID="LogiUserAdmin"
+	SecurityReportRightID="LogiUserAdmin,MKC Dashboard"
 	>
 	<DefaultRequestParams/>
 	<IncludeSharedElement
