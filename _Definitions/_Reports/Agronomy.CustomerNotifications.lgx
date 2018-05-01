@@ -2,7 +2,7 @@
 <Report
 	Caption="AgOS Customer Notifications"
 	ID="Agronomy.CustomerNotifications"
-	SecurityReportRightID="LogiUserAdmin"
+	SecurityReportRightID="LogiUserAdmin, MKC Dashboard"
 	>
 	<DefaultRequestParams/>
 	<IncludeSharedElement
@@ -148,6 +148,37 @@ Order By T1.OrderID"
 								</EventHandler>
 							</InputSelectList>
 							<LineBreak/>
+							<InputSelectList
+								Caption="Status"
+								CaptionClass="ThemeTextSmall ThemeBold"
+								Class="ThemeTextSmaller"
+								ID="Status"
+								IncludeBlank="True"
+								OptionCaptionColumn="SendStatus"
+								OptionValueColumn="StatusNo"
+								>
+								<DataLayer
+									ConnectionID="connAgOS"
+									ID="dlStatus"
+									Source="Select Distinct T5.DoNotSend As StatusNo,
+  Case T5.DoNotSend When 1 Then &apos;DoNotSend&apos; When 0 Then &apos;Error&apos;
+  End As SendStatus
+From OrderNotification T5"
+									Type="SQL"
+								/>
+								<EventHandler
+									DhtmlEvent="onchange"
+									>
+									<Action
+										ElementID="divAudit"
+										ID="refNotifyByStatus"
+										Type="RefreshElement"
+										>
+										<WaitPage/>
+									</Action>
+								</EventHandler>
+							</InputSelectList>
+							<LineBreak/>
 							<Button
 								Caption="Reset"
 								ID="btnReset"
@@ -210,9 +241,10 @@ From Orders T1
   Left Join OrderNotification T5 With(NoLock) On T5.OrderId = T1.OrderID
   Left Join Objects T6 With(NoLock) On T6.ObjectID = T1.ApplicatorID
 Where (T1.OrderID = &apos;@Request.OrderID~&apos; Or &apos;@Request.OrderID~&apos; = &apos;&apos;) And
-  T1.DoneDate &gt; &apos;2017-02-01&apos; And T1.LocationCode &lt;&gt; &apos;Precise&apos; And
+  T1.DoneDate &gt; &apos;2018-04-01&apos; And T1.LocationCode &lt;&gt; &apos;Precise&apos; And
   (T1.LocationCode = &apos;@Request.Location~&apos; Or &apos;@Request.Location~&apos; = &apos; &apos;) And
   (T2.ObjectID = &apos;@Request.Customer~&apos; Or &apos;@Request.Customer~&apos; = &apos; &apos;) And
+  (T5.DoNotSend = &apos;@Request.Status~&apos; Or &apos;@Request.Status~&apos; = &apos; &apos;) And
   T1.Done = 1 And T1.Canceled = 0 And T5.Status = 0
 Order By T1.DoneDate Desc"
 									Type="SQL"
@@ -240,6 +272,20 @@ Order By T1.DoneDate Desc"
 									<Label
 										Caption="@Data.DoneDate~"
 										Format="Short Date"
+									/>
+								</DataTableColumn>
+								<DataTableColumn
+									Header="Status"
+									>
+									<Label
+										Caption="@Data.SendStatus~"
+									/>
+								</DataTableColumn>
+								<DataTableColumn
+									Header="Created By"
+									>
+									<Label
+										Caption="@Data.CreatedBy~"
 									/>
 								</DataTableColumn>
 								<DataTableColumn
@@ -278,24 +324,10 @@ Order By T1.DoneDate Desc"
 									/>
 								</DataTableColumn>
 								<DataTableColumn
-									Header="Status"
-									>
-									<Label
-										Caption="@Data.SendStatus~"
-									/>
-								</DataTableColumn>
-								<DataTableColumn
 									Header="Rig"
 									>
 									<Label
 										Caption="@Data.Rig~"
-									/>
-								</DataTableColumn>
-								<DataTableColumn
-									Header="Created By"
-									>
-									<Label
-										Caption="@Data.CreatedBy~"
 									/>
 								</DataTableColumn>
 							</DataTable>
@@ -313,5 +345,6 @@ Order By T1.DoneDate Desc"
 		Customer=""
 		Location=""
 		OrderID=""
+		Status=""
 	/>
 </Report>
