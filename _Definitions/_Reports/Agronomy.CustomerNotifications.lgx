@@ -252,6 +252,14 @@ Order By T1.DoneDate Desc"
 								<Remark>
 									<AutoColumns/>
 								</Remark>
+								<DataTableColumn>
+									<Label>
+										<ConditionalClass
+											Class="fa fa-exclamation-triangle text-danger"
+											Condition="&quot;@Data.SendStatus~&quot; = &quot;Error&quot;"
+										/>
+									</Label>
+								</DataTableColumn>
 								<DataTableColumn
 									Header="Order #"
 									>
