@@ -230,7 +230,7 @@ From OrderNotification T5"
   End As SendType,
   T5.SendToName,
   T5.SendTo,
-  Case T5.DoNotSend When 1 Then &apos;DoNotSend&apos; When 0 Then &apos;Error&apos;
+  Case T5.DoNotSend When 1 Then &apos;Marked Do Not Send&apos; When 0 Then &apos;Error&apos;
   End As SendStatus,
   T6.Name Rig,
   T4.UserName As CreatedBy
