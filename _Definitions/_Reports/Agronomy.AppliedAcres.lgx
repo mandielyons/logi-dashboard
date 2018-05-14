@@ -303,6 +303,7 @@ Order By Crop"
 							ID="divAudit"
 							>
 							<DataTable
+								AjaxPaging="True"
 								Caption="Application Details"
 								CaptionClass="ThemeTextSmall"
 								Class="ThemeTextSmaller"
