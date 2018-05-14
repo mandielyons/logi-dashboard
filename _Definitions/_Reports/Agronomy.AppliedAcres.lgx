@@ -1,0 +1,442 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report
+	Caption="Applied Acres"
+	ID="Agronomy.AppliedAcres"
+	SecurityReportRightID="MKC Agronomy, LogiUserAdmin"
+	>
+	<DefaultRequestParams
+		BeginDate="1/1/2016"
+		EndDate="@Function.Date~"
+	/>
+	<IncludeSharedElement
+		DefinitionFile="_Layout.Shared"
+		SharedElementID="shrHeader"
+	/>
+	<Body>
+		<Division
+			Class="panel panel-default"
+			HtmlDiv="True"
+			ID="div-panel"
+			>
+			<Division
+				Class="panel-heading"
+				HtmlDiv="True"
+				ID="div-header"
+				>
+				<Label
+					Caption="Applied Acres"
+					Class="panel-title"
+				/>
+			</Division>
+			<Division
+				Class="panel-body"
+				HtmlDiv="True"
+				ID="div-body"
+				>
+				<ResponsiveRow>
+					<ResponsiveColumn/>
+					<ResponsiveColumn
+						Class="ThemeAlignRight"
+						>
+						<IncludeSharedElement
+							DefinitionFile="_Layout.Shared"
+							SharedElementID="shrExcelExport"
+							>
+							<SharedElementParams
+								DataTableID="dtApplication"
+								ReportName="Applied Acres"
+							/>
+						</IncludeSharedElement>
+					</ResponsiveColumn>
+				</ResponsiveRow>
+				<ResponsiveRow>
+					<ResponsiveColumn
+						ColspanExtraSmallScreen="3"
+						ColspanLargeScreen="2"
+						ColspanMediumScreen="2"
+						ColspanSmallScreen="3"
+						>
+						<Division
+							Class="well"
+							HtmlDiv="True"
+							ID="divFilters"
+							>
+							<Remark>
+								<InputSelectList
+									Caption="Customer"
+									CaptionClass="ThemeTextSmall ThemeBold"
+									Class="ThemeTextSmaller"
+									ID="Customer"
+									IncludeBlank="True"
+									OptionCaptionColumn="Customer"
+									OptionValueColumn="CustID"
+									>
+									<DataLayer
+										ConnectionID="connAgOS"
+										ID="dlCustomer"
+										Source="Select Distinct T2.ObjectID As CustID,
+  T2.Name As Customer
+From Orders T1
+  Inner Join Objects T2 With(NoLock) On T2.ObjectID = T1.ObjectID
+  Inner Join OrderProducts T3 With(NoLock) On T3.OrderID = T1.OrderID
+  Inner Join Users T4 With(NoLock) On T4.UserID = T1.CreatedByID
+  Left Join OrderNotification T5 With(NoLock) On T5.OrderId = T1.OrderID
+  Left Join Objects T6 With(NoLock) On T6.ObjectID = T1.ApplicatorID
+Where T1.Done = 1 And T1.Canceled = 0 And T1.LocationCode &lt;&gt; &apos;Precise&apos;
+  And T5.Status = 0 And T1.DoneDate &gt; &apos;2017-02-01&apos;
+Order By Customer"
+										Type="SQL"
+									/>
+									<EventHandler
+										DhtmlEvent="onchange"
+										>
+										<Action
+											ElementID="divAudit"
+											ID="refNotifyByCustomer"
+											Type="RefreshElement"
+											>
+											<WaitPage/>
+										</Action>
+									</EventHandler>
+								</InputSelectList>
+							</Remark>
+							<Remark>
+								<LineBreak/>
+							</Remark>
+							<Remark>
+								<InputSelectList
+									Caption="Order"
+									CaptionClass="ThemeTextSmall ThemeBold"
+									Class="ThemeTextSmaller"
+									ID="OrderID"
+									IncludeBlank="True"
+									OptionCaptionColumn="OrderID"
+									OptionValueColumn="OrderID"
+									>
+									<DataLayer
+										ConnectionID="connAgOS"
+										ID="dlOrderID"
+										Source="Select Distinct T1.OrderID
+From Orders T1
+  Inner Join Objects T2 With(NoLock) On T2.ObjectID = T1.ObjectID
+  Inner Join OrderProducts T3 With(NoLock) On T3.OrderID = T1.OrderID
+  Inner Join Users T4 With(NoLock) On T4.UserID = T1.CreatedByID
+  Left Join OrderNotification T5 With(NoLock) On T5.OrderId = T1.OrderID
+  Left Join Objects T6 With(NoLock) On T6.ObjectID = T1.ApplicatorID
+Where T1.Done = 1 And T1.Canceled = 0 And T1.LocationCode &lt;&gt; &apos;Precise&apos;
+  And T5.Status = 0 And T1.DoneDate &gt; &apos;2017-02-01&apos;
+Order By T1.OrderID"
+										Type="SQL"
+									/>
+									<EventHandler
+										DhtmlEvent="onchange"
+										>
+										<Action
+											ElementID="divAudit"
+											ID="refNotifyByOrderID"
+											Type="RefreshElement"
+											>
+											<WaitPage/>
+										</Action>
+									</EventHandler>
+								</InputSelectList>
+							</Remark>
+							<Remark>
+								<LineBreak/>
+							</Remark>
+							<InputSelectList
+								Caption="Location Code"
+								CaptionClass="ThemeTextSmall ThemeBold"
+								Class="ThemeTextSmaller"
+								ID="Location"
+								IncludeBlank="True"
+								OptionCaptionColumn="AgOSLocCode"
+								OptionValueColumn="AgOSLocCode"
+								>
+								<DataLayer
+									ConnectionID="connAgOS"
+									ID="dlLocation"
+									Source="Select Distinct T1.LocationCode As AgOSLocCode
+From Orders T1
+Order By AgOSLocCode"
+									Type="SQL"
+								/>
+								<EventHandler
+									DhtmlEvent="onchange"
+									>
+									<Action
+										ElementID="divAudit"
+										ID="refNotifyByLoc"
+										Type="RefreshElement"
+										>
+										<WaitPage/>
+									</Action>
+								</EventHandler>
+							</InputSelectList>
+							<LineBreak/>
+							<InputSelectList
+								Caption="Crop"
+								CaptionClass="ThemeTextSmall ThemeBold"
+								Class="ThemeTextSmaller"
+								ID="Crop"
+								IncludeBlank="True"
+								OptionCaptionColumn="Crop"
+								OptionValueColumn="Crop"
+								>
+								<DataLayer
+									ConnectionID="connAgOS"
+									ID="dlCrop"
+									Source="Select Distinct T6.Name Crop
+From Orders T1
+  Inner Join Objects T2 With(NoLock) On T2.ObjectID = T1.ObjectID
+  Inner Join Users T3 With(NoLock) On T3.UserID = T1.DoneByID
+  Inner Join Objects T4 With(NoLock) On T4.ObjectID = T1.ApplicatorID
+  Inner Join Deltick1 T5 With(NoLock) On T5.OrderID = T1.OrderID
+  Inner Join Crops T6 With(NoLock) On T6.CropID = T1.CropID
+  Inner Join AppCode T7 With(NoLock) On T7.AppCodeID = T1.AppCodeID
+  Inner Join OrderSubCategory T8 With(NoLock) On T8.SubCategoryID =
+    T1.SubCategoryID
+  Inner Join NotificationContact T9 With(NoLock) On T2.ObjectID = T9.GrowerId
+Where T1.DoneDate &lt; &apos;2016-01-01&apos; And T1.LocationCode &lt;&gt; &apos;Precise&apos; And
+  T1.Canceled = 0 And T5.CategoryID = 1
+Order By Crop"
+									Type="SQL"
+								/>
+								<EventHandler
+									DhtmlEvent="onchange"
+									>
+									<Action
+										ElementID="divAudit"
+										ID="refCrop"
+										Type="RefreshElement"
+										>
+										<WaitPage/>
+									</Action>
+								</EventHandler>
+							</InputSelectList>
+							<LineBreak/>
+							<Division
+								Class="well"
+								HtmlDiv="True"
+								ID="divDateRange"
+								>
+								<InputDate
+									Caption="Begin Date"
+									CaptionClass="ThemeTextSmall ThemeBold"
+									Class="ThemeTextSmaller"
+									DefaultValue="1/1/2016"
+									Format="MM/dd/yyyy"
+									ID="BeginDate"
+									InputDateReformat="yyyy-MM-dd"
+									InputSize="12"
+									>
+									<Remark>
+										<InputDateCalendar/>
+									</Remark>
+									<EventHandler
+										DhtmlEvent="onchange"
+										ID="onChangeBeginDate"
+										>
+										<Action
+											ElementID="dtApplication"
+											ID="actRefreshDataTable"
+											Type="RefreshElement"
+											>
+											<WaitPage/>
+										</Action>
+									</EventHandler>
+								</InputDate>
+								<LineBreak
+									LineCount="2"
+								/>
+								<InputDate
+									Caption="End Date"
+									CaptionClass="ThemeTextSmall ThemeBold"
+									Class="ThemeTextSmaller"
+									DefaultValue="@Function.Date~"
+									Format="MM/dd/yyyy"
+									ID="EndDate"
+									InputDateReformat="yyyy-MM-dd"
+									InputSize="12"
+									>
+									<Remark>
+										<InputDateCalendar/>
+									</Remark>
+									<EventHandler
+										DhtmlEvent="onchange"
+										ID="onChangeEndDate"
+										>
+										<Action
+											ElementID="dtApplication"
+											ID="actRefreshDataTable"
+											Type="RefreshElement"
+											>
+											<WaitPage/>
+										</Action>
+									</EventHandler>
+								</InputDate>
+							</Division>
+							<LineBreak/>
+							<Button
+								Caption="Reset"
+								ID="btnReset"
+								Tooltip="Clear all selections"
+								>
+								<Action
+									ElementID="divAudit,divFilters"
+									ID="actReport"
+									RequestForwarding="True"
+									Type="RefreshElement"
+									>
+									<WaitPage/>
+									<LinkParams
+										BeginDate="1/1/2016"
+										EndDate="@Function.Date~"
+										Location=""
+									/>
+								</Action>
+							</Button>
+						</Division>
+					</ResponsiveColumn>
+					<ResponsiveColumn>
+						<Division
+							ID="divAudit"
+							>
+							<DataTable
+								Caption="Application Details"
+								CaptionClass="ThemeTextSmall"
+								Class="ThemeTextSmaller"
+								ID="dtApplication"
+								Width="100"
+								WidthScale="%"
+								>
+								<InteractivePaging
+									CaptionType="Text"
+									Class="ThemeTextSmaller"
+									PageRowCount="25"
+									ShowPageNumber="True"
+								/>
+								<DataLayer
+									ConnectionID="connAgOS"
+									ID="dlApplication"
+									Source="Select Top 100 Percent T1.OrderID,
+  T7.Description AppCode,
+  T2.Name,
+  T2.AccInterfaceID,
+  T6.Name Crop,
+  T1.DoneDate,
+  Round(T1.AcresSprayed, 2) SprayedAcres,
+  T1.LocationCode,
+  T8.Name Category
+From Orders T1
+  Inner Join Objects T2 With(NoLock) On T2.ObjectID = T1.ObjectID
+  Inner Join Users T3 With(NoLock) On T3.UserID = T1.DoneByID
+  Inner Join Objects T4 With(NoLock) On T4.ObjectID = T1.ApplicatorID
+  Inner Join Deltick1 T5 With(NoLock) On T5.OrderID = T1.OrderID
+  Inner Join Crops T6 With(NoLock) On T6.CropID = T1.CropID
+  Inner Join AppCode T7 With(NoLock) On T7.AppCodeID = T1.AppCodeID
+  Inner Join OrderSubCategory T8 With(NoLock) On T8.SubCategoryID =
+    T1.SubCategoryID
+Where (T6.Name = &apos;@Request.Crop~&apos; Or &apos;@Request.Crop~&apos; = &apos;&apos;) 
+  And (T1.DoneDate &gt; &apos;2016-01-01&apos; And T1.DoneDate Between &apos;@Request.BeginDate~&apos; And &apos;@Request.EndDate~&apos;)
+  And (T1.LocationCode &lt;&gt; &apos;Precise&apos; And T1.LocationCode = &apos;@Request.Location~&apos; Or &apos;@Request.Location~&apos; = &apos;&apos;)
+  And T1.Canceled = 0 And
+  T5.CategoryID = 1
+Order By T1.LocationCode,
+  T1.DoneDate"
+									Type="SQL"
+								/>
+								<Remark>
+									<AutoColumns/>
+								</Remark>
+								<DataTableColumn
+									Header="Order #"
+									>
+									<Label
+										Caption="@Data.OrderID~"
+									/>
+								</DataTableColumn>
+								<DataTableColumn
+									Header="Application Code"
+									>
+									<Label
+										Caption="@Data.AppCode~"
+									/>
+								</DataTableColumn>
+								<DataTableColumn
+									Header="Name"
+									>
+									<Label
+										Caption="@Data.Name~"
+									/>
+								</DataTableColumn>
+								<DataTableColumn
+									Header="Acct Interface ID"
+									>
+									<Label
+										Caption="@Data.AccInterfaceID~"
+									/>
+								</DataTableColumn>
+								<DataTableColumn
+									Header="Crop"
+									>
+									<Label
+										Caption="@Data.Crop~"
+									/>
+								</DataTableColumn>
+								<DataTableColumn
+									Header="Done Date"
+									>
+									<Label
+										Caption="@Data.DoneDate~"
+										Format="Short Date"
+									/>
+								</DataTableColumn>
+								<DataTableColumn
+									Header="Sprayed Acres"
+									>
+									<Label
+										Caption="@Data.SprayedAcres~"
+									/>
+								</DataTableColumn>
+								<DataTableColumn
+									Header="Location"
+									>
+									<Label
+										Caption="@Data.LocationCode~"
+									/>
+								</DataTableColumn>
+								<DataTableColumn
+									Header="Category"
+									>
+									<Label
+										Caption="@Data.Category~"
+									/>
+								</DataTableColumn>
+								<Remark>
+									<DataTableColumn
+										Header="Notification Data"
+										>
+										<Label
+											Caption="@Data.Data~"
+										/>
+									</DataTableColumn>
+								</Remark>
+							</DataTable>
+						</Division>
+					</ResponsiveColumn>
+				</ResponsiveRow>
+			</Division>
+		</Division>
+	</Body>
+	<IncludeSharedElement
+		DefinitionFile="_Layout.Shared"
+		SharedElementID="shrFooter"
+	/>
+	<ideTestParams
+		BeginDate=""
+		Crop=""
+		EndDate=""
+		Location=""
+	/>
+</Report>
