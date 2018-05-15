@@ -587,6 +587,10 @@ WHERE DM_OpenContracts.CONTRACT_TYPE = 2
         window.location.href = uri + base64(format(template, ctx));
 
 }
+
+// reload the page every 10 minutes
+setInterval(function(){ location.reload(true); }, 600000);
+
 &lt;/script&gt;
 
 "
