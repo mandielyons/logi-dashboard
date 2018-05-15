@@ -27,27 +27,29 @@
 			ConnectionID="connProdGP"
 			ID="sqlTMAContracts"
 			Source="SELECT 
- CASE FREIGHT WHEN &apos;Y&apos; THEN 11 WHEN &apos;N&apos; THEN 110 ELSE &apos;&apos; END AS SHPMTTYP_CODE
-,CASE FREIGHT WHEN &apos;Y&apos; THEN &apos;Ship Type 11&apos; WHEN &apos;N&apos; THEN &apos;FOB Picked Up&apos; ELSE &apos;&apos; END AS SHPMTTYP_DESC
-,CAST(CUSTOMER AS BIGINT) [jCUSTOMER]
-,CAST(CONTRACT_NUMBER AS FLOAT) [jCONTRACT_NUMBER]
-,CUSTOMER
-,CUSTOMER_DESC
-,LTRIM(RTRIM(CUSTOMER_DESC))+&apos; - &apos;+LTRIM(RTRIM(CUSTOMER)) [Account]
-,CONTRACT_NUMBER
-,THEIR_CONTRACT_NUMBER
-,COMMODITY_CODE
-,COMMODITY_DESC
-,LTRIM(RTRIM(COMMODITY_CODE))+&apos;-&apos;+LTRIM(RTRIM(COMMODITY_DESC)) [Commodity]
-,BRANCH_NUMBER
-,BRANCH_DESC
-,LTRIM(RTRIM(BRANCH_DESC))+&apos; - &apos;+LTRIM(RTRIM(BRANCH_NUMBER)) [Location]
-,DELIVERY_START_DATE
-,DELIVERY_END_DATE
-,REMAINING_BU
-FROM Agtrax_Staging..DM_OpenContracts
-WHERE CONTRACT_TYPE=2
-  AND (BRANCH_NUMBER IN(@Request.Branch~) OR &apos;@Request.Branch~&apos;=&apos;0&apos;)
+   CASE DM_OpenContracts.FREIGHT WHEN &apos;Y&apos; THEN 11 WHEN &apos;N&apos; THEN 110 ELSE &apos;&apos; END AS SHPMTTYP_CODE
+ , CASE DM_OpenContracts.FREIGHT WHEN &apos;Y&apos; THEN &apos;Ship Type 11&apos; WHEN &apos;N&apos; THEN &apos;FOB Picked Up&apos; ELSE &apos;&apos; END AS SHPMTTYP_DESC
+ , CAST(DM_OpenContracts.CUSTOMER AS BIGINT) [jCUSTOMER]
+ , CAST(DM_OpenContracts.CONTRACT_NUMBER AS FLOAT) [jCONTRACT_NUMBER]
+ , CAST(DM_OpenContracts.BRANCH_NUMBER AS BIGINT) [jBRANCH_NUMBER]
+ , DM_OpenContracts.CUSTOMER
+ , DM_OpenContracts.CUSTOMER_DESC
+ , LTRIM(RTRIM(DM_OpenContracts.CUSTOMER_DESC))+&apos; - &apos;+LTRIM(RTRIM(CUSTOMER)) [Account]
+ , DM_OpenContracts.CONTRACT_NUMBER
+ , DM_OpenContracts.THEIR_CONTRACT_NUMBER
+ , DM_OpenContracts.COMMODITY_CODE
+ , DM_OpenContracts.COMMODITY_DESC
+ , LTRIM(RTRIM(DM_OpenContracts.COMMODITY_CODE))+&apos; - &apos;+LTRIM(RTRIM(DM_OpenContracts.COMMODITY_DESC)) [Commodity]
+ , DM_OpenContracts.BRANCH_NUMBER
+ , DM_OpenContracts.BRANCH_DESC
+ , LTRIM(RTRIM(DM_OpenContracts.BRANCH_DESC))+&apos; - &apos;+LTRIM(RTRIM(DM_OpenContracts.BRANCH_NUMBER)) [Location]
+ , DM_OpenContracts.DELIVERY_START_DATE
+ , DM_OpenContracts.DELIVERY_END_DATE
+ , DM_OpenContracts.REMAINING_BU
+FROM Agtrax_Staging.dbo.DM_OpenContracts
+WHERE DM_OpenContracts.CONTRACT_TYPE = 2
+  AND DM_OpenContracts.REMAINING_BU &gt; 500
+  AND (DM_OpenContracts.BRANCH_NUMBER IN(@Request.Branch~) OR &apos;@Request.Branch~&apos;=&apos;0&apos;)
 "
 			Type="SQL"
 			>
@@ -203,324 +205,6 @@ WHERE CONTRACT_TYPE=2
 									Class="ThemeTextSmall"
 									ID="divDataTable"
 									>
-									<Remark>
-										<DataTable
-											AjaxPaging="True"
-											AltRowClass="ThemeAlternatingRow"
-											Caption="TMA Branch Dispatch Details"
-											CaptionClass="ThemeTextSmall"
-											Class="ThemeTextSmaller"
-											ID="TMAContracts"
-											Layout="Fixed"
-											RememberSort="True"
-											SecurityRightID="OC"
-											SortArrows="True"
-											>
-											<InteractivePaging
-												CaptionType="Image"
-												Class="ThemeTextSmall"
-												Location="Top"
-												PageNrCaption=" "
-												PageRowCount="15"
-												ShowPageNumber="True"
-											/>
-											<DataLayer
-												ID="dlsqlTMAContracts"
-												LinkedDataLayerID="sqlTMAContracts"
-												Type="Linked"
-												>
-												<Join
-													ID="joinSqlToXl"
-													JoinType="LeftOuterJoin"
-													SortLeftSide="True"
-													SortRightSide="True"
-													>
-													<MatchCondition
-														DataType="Number"
-														ID="joinCustomer"
-														LeftDataColumn="jCUSTOMER"
-														RightDataColumn="CUSTOMER"
-													/>
-													<MatchCondition
-														DataType="Number"
-														ID="joinContract"
-														LeftDataColumn="jCONTRACT_NUMBER"
-														RightDataColumn="CONTRACT_NUMBER"
-													/>
-													<DataLayer
-														ID="dlxlTmaCntrtShipr"
-														LinkedDataLayerID="xlTmaCntrtShipr"
-														Type="Linked"
-													/>
-												</Join>
-												<Join
-													ID="joinSqlToExcelBranch"
-													JoinType="LeftOuterJoin"
-													SortLeftSide="True"
-													SortRightSide="True"
-													>
-													<DataLayer
-														ColumnNamesRow="1"
-														ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\LocationData.xlsx"
-														ExcelWorksheet="TMALocations"
-														ID="excelTMALocations"
-														Type="Excel"
-													/>
-													<MatchCondition
-														DataType="Number"
-														ID="matchBRANCH_NUMBER"
-														LeftDataColumn="BRANCH_NUMBER"
-														RightDataColumn="BRANCH_NUMBER"
-													/>
-												</Join>
-												<ConditionFilter
-													Condition="&quot;@Data.REGION~&quot; &lt;&gt; &quot;MKC&quot;"
-													ID="ifOCBranch"
-												/>
-											</DataLayer>
-											<DataTableColumn
-												Header="Type"
-												ID="colSHPMTTYP_CODE"
-												Width="5"
-												WidthScale="%"
-												>
-												<Label
-													Caption="@Data.SHPMTTYP_CODE~"
-													ID="lblSHPMTTYP_CODE"
-												/>
-												<DataColumnSort
-													DataColumn="SHPMTTYP_CODE"
-													DataType="Number"
-												/>
-											</DataTableColumn>
-											<DataTableColumn
-												Header="Consignee"
-												ID="colAccount"
-												Width="12"
-												WidthScale="%"
-												>
-												<Label
-													Caption="@Data.Account~"
-													ID="lblAccount"
-												/>
-												<DataColumnSort
-													DataColumn="SHPMTTYP_CODE"
-													DataType="Number"
-												/>
-											</DataTableColumn>
-											<DataTableColumn
-												Header="Contract"
-												ID="colCONTRACT_NUMBER"
-												Width="8"
-												WidthScale="%"
-												>
-												<Label
-													Caption="@Data.CONTRACT_NUMBER~"
-													ID="lblCONTRACT_NUMBER"
-												/>
-												<DataColumnSort
-													DataColumn="CONTRACT_NUMBER"
-													DataType="Number"
-												/>
-											</DataTableColumn>
-											<Remark>
-												<DataTableColumn
-													Header="Account Contract"
-													ID="colTHEIR_CONTRACT_NUMBER"
-													>
-													<Label
-														Caption="@Data.THEIR_CONTRACT_NUMBER~"
-														ID="lblTHEIR_CONTRACT_NUMBER"
-													/>
-													<DataColumnSort
-														DataColumn="THEIR_CONTRACT_NUMBER"
-														DataType="Text"
-													/>
-												</DataTableColumn>
-											</Remark>
-											<DataTableColumn
-												Header="Commodity"
-												ID="colCommodity"
-												Width="8"
-												WidthScale="%"
-												>
-												<Label
-													Caption="@Data.Commodity~"
-													ID="lblCommodity"
-												/>
-												<DataColumnSort
-													DataColumn="SHPMTTYP_CODE"
-													DataType="Number"
-												/>
-											</DataTableColumn>
-											<DataTableColumn
-												Header="Location"
-												ID="colLocation"
-												Width="12"
-												WidthScale="%"
-												>
-												<Label
-													Caption="@Data.Location~"
-													ID="lblLocation"
-												/>
-												<DataColumnSort
-													DataColumn="SHPMTTYP_CODE"
-													DataType="Number"
-												/>
-											</DataTableColumn>
-											<DataTableColumn
-												Header="Delivery Start/End"
-												ID="colDELIVERY_START_END"
-												Width="8"
-												WidthScale="%"
-												>
-												<Label
-													Caption="@Data.DELIVERY_START_DATE~"
-													Format="Short Date"
-													ID="lblDELIVERY_START_DATE"
-												/>
-												<LineBreak/>
-												<Label
-													Caption="@Data.DELIVERY_END_DATE~"
-													Format="Short Date"
-													ID="lblDELIVERY_END_DATE"
-												/>
-												<DataColumnSort
-													DataColumn="DELIVERY_START_DATE"
-													DataType="Date"
-												/>
-											</DataTableColumn>
-											<Remark>
-												<DataTableColumn
-													Header="Delivery Start/End"
-													ID="colDELIVERY_END_DATE"
-													>
-													<Label
-														Caption="@Data.DELIVERY_END_DATE~"
-														Format="Short Date"
-														ID="lblDELIVERY_END_DATE"
-													/>
-													<DataColumnSort
-														DataColumn="DELIVERY_END_DATE"
-														DataType="Date"
-													/>
-												</DataTableColumn>
-											</Remark>
-											<DataTableColumn
-												Class="ThemeMargin, ThemeAlignRight"
-												ColumnHeaderClass="ThemeAlignCenter"
-												Header="Remaining BU"
-												ID="colREMAINING_BU"
-												Width="8"
-												WidthScale="%"
-												>
-												<Label
-													Caption="@Data.REMAINING_BU~"
-													Format="###,###,##0.00"
-													ID="lblREMAINING_BU"
-												/>
-												<DataColumnSort
-													DataColumn="REMAINING_BU"
-													DataType="Number"
-												/>
-												<DataColumnSummary
-													DataColumn="REMAINING_BU"
-													DataType="Number"
-													Function="Sum"
-													ID="dcsRemainingBU"
-												/>
-											</DataTableColumn>
-											<DataTableColumn
-												Class="ThemeAlignCenter"
-												Header="Dest Code"
-												ID="colDEST_CODE"
-												Width="5"
-												WidthScale="%"
-												>
-												<Label
-													Caption="@Data.DEST_CODE~"
-													ID="lblDEST_CODE"
-												/>
-												<DataColumnSort
-													DataColumn="DEST_CODE"
-													DataType="Number"
-												/>
-											</DataTableColumn>
-											<DataTableColumn
-												Header="Shipper Description"
-												ID="colSHIPR_DESC"
-												Width="10"
-												WidthScale="%"
-												>
-												<Label
-													Caption="@Data.SHIPR_DESC~"
-													ID="lblSHIPR_DESC"
-												/>
-												<DataColumnSort
-													DataColumn="SHIPR_DESC"
-													DataType="Text"
-												/>
-											</DataTableColumn>
-											<DataTableColumn
-												Header="Shipper Number Trucks"
-												ID="colSHIPR_NUMTRCS"
-												Width="8"
-												WidthScale="%"
-												>
-												<Label
-													Caption="@Data.SHIPR_NUMTRCS~"
-													ID="lblSHIPR_NUMTRCS"
-												/>
-											</DataTableColumn>
-											<DataTableColumn
-												Header="Shipper Load Description"
-												ID="colSHIPR_LDDESC"
-												Width="8"
-												WidthScale="%"
-												>
-												<Label
-													Caption="@Data.SHIPR_LDDESC~"
-													ID="lblSHIPR_LDDESC"
-												/>
-											</DataTableColumn>
-											<Remark>
-												<DataTableColumn
-													Header="Rate"
-													ID="colSHIPR_RATE"
-													>
-													<Label
-														Caption="@Data.SHIPR_RATE~"
-														ID="lblSHIPR_RATE"
-													/>
-												</DataTableColumn>
-											</Remark>
-											<Remark>
-												<DataTableColumn
-													Header="PAR"
-													ID="colSHIPR_PAR"
-													>
-													<Label
-														Caption="@Data.SHIPR_PAR~"
-														ID="lblSHIPR_PAR"
-													/>
-												</DataTableColumn>
-											</Remark>
-											<DataTableColumn
-												Header="Notes"
-												ID="colTMANOTES"
-												>
-												<Label
-													Caption="@Data.TMANOTES~"
-													ID="lblTMANOTES"
-												/>
-											</DataTableColumn>
-											<SummaryRow
-												Caption="Total: "
-												ID="srSummary"
-												LastPageOnly="False"
-											/>
-										</DataTable>
-									</Remark>
 									<DataTable
 										AjaxPaging="True"
 										Caption="TMA Branch Dispatch Details"
@@ -639,21 +323,6 @@ WHERE CONTRACT_TYPE=2
 												Condition="&quot;@Data.SHPMTTYP_CODE~&quot; = &quot;110&quot;"
 											/>
 										</DataTableColumn>
-										<Remark>
-											<DataTableColumn
-												Header="Account Contract"
-												ID="colTHEIR_CONTRACT_NUMBER"
-												>
-												<Label
-													Caption="@Data.THEIR_CONTRACT_NUMBER~"
-													ID="lblTHEIR_CONTRACT_NUMBER"
-												/>
-												<DataColumnSort
-													DataColumn="THEIR_CONTRACT_NUMBER"
-													DataType="Text"
-												/>
-											</DataTableColumn>
-										</Remark>
 										<DataTableColumn
 											Header="Commodity"
 											ID="colCommodity"
@@ -708,12 +377,14 @@ WHERE CONTRACT_TYPE=2
 											>
 											<Label
 												Caption="@Data.DELIVERY_START_DATE~"
+												Class="ThemeAlignLeft"
 												Format="Short Date"
 												ID="lblDELIVERY_START_DATE"
 											/>
 											<LineBreak/>
 											<Label
 												Caption="@Data.DELIVERY_END_DATE~"
+												Class="ThemeAlignRight"
 												Format="Short Date"
 												ID="lblDELIVERY_END_DATE"
 											/>
@@ -730,24 +401,8 @@ WHERE CONTRACT_TYPE=2
 												Condition="&quot;@Data.SHPMTTYP_CODE~&quot; = &quot;110&quot;"
 											/>
 										</DataTableColumn>
-										<Remark>
-											<DataTableColumn
-												Header="Delivery Start/End"
-												ID="colDELIVERY_END_DATE"
-												>
-												<Label
-													Caption="@Data.DELIVERY_END_DATE~"
-													Format="Short Date"
-													ID="lblDELIVERY_END_DATE"
-												/>
-												<DataColumnSort
-													DataColumn="DELIVERY_END_DATE"
-													DataType="Date"
-												/>
-											</DataTableColumn>
-										</Remark>
 										<DataTableColumn
-											Class="ThemeMargin, ThemeAlignRight"
+											Class="ThemeAlignRight,Theme"
 											ColumnHeaderClass="ThemeAlignCenter"
 											Header="Remaining BU"
 											ID="colREMAINING_BU"
@@ -756,6 +411,7 @@ WHERE CONTRACT_TYPE=2
 											>
 											<Label
 												Caption="@Data.REMAINING_BU~"
+												Class="ThemeAlignRight"
 												Format="###,###,##0.00"
 												ID="lblREMAINING_BU"
 											/>
@@ -863,28 +519,6 @@ WHERE CONTRACT_TYPE=2
 												Condition="&quot;@Data.SHPMTTYP_CODE~&quot; = &quot;110&quot;"
 											/>
 										</DataTableColumn>
-										<Remark>
-											<DataTableColumn
-												Header="Rate"
-												ID="colSHIPR_RATE"
-												>
-												<Label
-													Caption="@Data.SHIPR_RATE~"
-													ID="lblSHIPR_RATE"
-												/>
-											</DataTableColumn>
-										</Remark>
-										<Remark>
-											<DataTableColumn
-												Header="PAR"
-												ID="colSHIPR_PAR"
-												>
-												<Label
-													Caption="@Data.SHIPR_PAR~"
-													ID="lblSHIPR_PAR"
-												/>
-											</DataTableColumn>
-										</Remark>
 										<DataTableColumn
 											Header="Notes"
 											ID="colTMANOTES"
