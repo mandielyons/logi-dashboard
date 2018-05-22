@@ -27,13 +27,7 @@
 	<Constants
 		cacheExpirationTime="00:00"
 		cacheExpirationTimeSpan="08:00"
-		Caption_NoDataFound="No data found"
-		Caption_WaitPanel="Retrieving data ..."
-		>
-		<Note
-			Note="Helpful constants that can be used throughout the application."
-		/>
-	</Constants>
+	/>
 	<EventLogging
 		LogEvents="True"
 		>
@@ -61,25 +55,36 @@
 				Type="Process"
 			/>
 		</LogEvent>
-		<Remark>
-			<LogEvent
-				EventName="BuildReport"
-				ID="eventBuildReport"
-				>
-				<Action
-					ID="insertBuildReport"
-					Process="LogTasks"
-					TaskID="insertBuildReport"
-					Type="Process"
-				/>
-			</LogEvent>
-		</Remark>
+		<LogEvent
+			EventName="BuildReport"
+			ID="eventBuildReport"
+			>
+			<Action
+				ID="insertBuildReport"
+				Process="LogTasks"
+				TaskID="insertBuildReport"
+				Type="Process"
+			/>
+		</LogEvent>
 	</EventLogging>
+	<Remark>
+		<Constants
+			Caption_Application="App Template"
+			Caption_NoDataFound="No data found"
+			Caption_WaitPanel="Retrieving data ..."
+			Organization_Name="My Company"
+			Organization_Url="http://www.mycompany.com"
+			>
+			<Note
+				Note="Helpful constants that can be used throughout the application."
+			/>
+		</Constants>
+	</Remark>
 	<Connections>
 		<Connection
 			ID="connMKC"
 			SqlServer="DEVELOPMENT"
-			SqlServerDatabase="mkc"
+			SqlServerDatabase="SQLDEV1"
 			SqlServerPassword="integr8!"
 			SqlServerPort=""
 			SqlServerUser="BIOperations"
@@ -121,7 +126,7 @@
 		/>
 		<Connection
 			ID="connAgTrax"
-			SqlServer="sqlsvr1"
+			SqlServer="SQLPROD1"
 			SqlServerDatabase="Agtrax_Staging"
 			SqlServerPassword="integr8!"
 			SqlServerUser="BIOperations"
