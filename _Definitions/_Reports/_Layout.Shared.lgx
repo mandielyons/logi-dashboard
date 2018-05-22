@@ -2380,12 +2380,19 @@ From ag_location"
 				OptionValueColumn="FiscalYear"
 				>
 				<DataLayer
-					ConnectionID="connCRM"
+					ConnectionID="connMKC"
 					ID="dlFiscalYears"
-					Source="Select DISTINCT gb.ag_FiscalYear FiscalYear
-From ag_grainreceiptsummaryBase gb
-Where gb.ag_FiscalYear Between DatePart(Year, DateAdd(Year, Case When DatePart(Month, GetDate()) &lt; 3 Then -4 Else -3 End, GetDate())) And DatePart(Year, DateAdd(Year, Case When DatePart(Month, GetDate()) &lt; 3 Then 0 Else 1 End, GetDate())) 
-Order By FiscalYear DESC"
+					Source="SELECT DATEPART(YEAR, DATEADD(YEAR, CASE WHEN DATEPART(MONTH, GETDATE()) &lt; 3 THEN -4 ELSE -3 END, GETDATE())) as [FiscalYear]
+UNION 
+SELECT DATEPART(YEAR, DATEADD(YEAR, CASE WHEN DATEPART(MONTH, GETDATE()) &lt; 3 THEN -3 ELSE -2 END, GETDATE())) as [FiscalYear]
+UNION 
+SELECT DATEPART(YEAR, DATEADD(YEAR, CASE WHEN DATEPART(MONTH, GETDATE()) &lt; 3 THEN -2 ELSE -1 END, GETDATE())) as [FiscalYear]
+UNION 
+SELECT DATEPART(YEAR, DATEADD(YEAR, CASE WHEN DATEPART(MONTH, GETDATE()) &lt; 3 THEN -1 ELSE -0 END, GETDATE())) as [FiscalYear]
+UNION 
+SELECT DATEPART(YEAR, DATEADD(YEAR, CASE WHEN DATEPART(MONTH, GETDATE()) &lt; 3 THEN -0 ELSE +1 END, GETDATE())) as [FiscalYear]
+ORDER BY [FiscalYear]
+"
 					Type="SQL"
 				/>
 				<EventHandler
