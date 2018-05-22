@@ -12,7 +12,7 @@
 	<General
 		DoctypeDeclaration="Html5"
 		LogErrors="@Function.AppPhysicalPath~\_ErrorLogs"
-		rdDebuggerStyle="DebuggerLinks"
+		rdDebuggerStyle="NoDetail"
 		RedirectErrorUrl="rdPage.aspx?rdReport=_Layout.Error"
 		RepoFriendly="True"
 	/>
@@ -27,64 +27,61 @@
 	<Constants
 		cacheExpirationTime="00:00"
 		cacheExpirationTimeSpan="08:00"
-	/>
-	<EventLogging
-		LogEvents="True"
+		Caption_NoDataFound="No data found"
+		Caption_WaitPanel="Retrieving data ..."
 		>
-		<Remark>
+		<Note
+			Note="Helpful constants that can be used throughout the application."
+		/>
+	</Constants>
+	<Remark>
+		<EventLogging
+			LogEvents="True"
+			>
+			<Remark>
+				<LogEvent
+					EventName="AuthenticateUser"
+					ID="eventAuthenticate"
+					>
+					<Action
+						ID="insertAuthenticationRow"
+						Process="LogTasks"
+						TaskID="insertAuthenticationRow"
+						Type="Process"
+					/>
+				</LogEvent>
+			</Remark>
 			<LogEvent
-				EventName="AuthenticateUser"
-				ID="eventAuthenticate"
+				EventName="SessionStart"
+				ID="eventSession"
 				>
 				<Action
-					ID="insertAuthenticationRow"
+					ID="insertSessionRow"
 					Process="LogTasks"
-					TaskID="insertAuthenticationRow"
+					TaskID="insertSessionRow"
 					Type="Process"
 				/>
 			</LogEvent>
-		</Remark>
-		<LogEvent
-			EventName="SessionStart"
-			ID="eventSession"
-			>
-			<Action
-				ID="insertSessionRow"
-				Process="LogTasks"
-				TaskID="insertSessionRow"
-				Type="Process"
-			/>
-		</LogEvent>
-		<LogEvent
-			EventName="BuildReport"
-			ID="eventBuildReport"
-			>
-			<Action
-				ID="insertBuildReport"
-				Process="LogTasks"
-				TaskID="insertBuildReport"
-				Type="Process"
-			/>
-		</LogEvent>
-	</EventLogging>
-	<Remark>
-		<Constants
-			Caption_Application="App Template"
-			Caption_NoDataFound="No data found"
-			Caption_WaitPanel="Retrieving data ..."
-			Organization_Name="My Company"
-			Organization_Url="http://www.mycompany.com"
-			>
-			<Note
-				Note="Helpful constants that can be used throughout the application."
-			/>
-		</Constants>
+			<Remark>
+				<LogEvent
+					EventName="BuildReport"
+					ID="eventBuildReport"
+					>
+					<Action
+						ID="insertBuildReport"
+						Process="LogTasks"
+						TaskID="insertBuildReport"
+						Type="Process"
+					/>
+				</LogEvent>
+			</Remark>
+		</EventLogging>
 	</Remark>
 	<Connections>
 		<Connection
 			ID="connMKC"
-			SqlServer="DEVELOPMENT"
-			SqlServerDatabase="SQLDEV1"
+			SqlServer="SQLDEV1"
+			SqlServerDatabase="mkc"
 			SqlServerPassword="integr8!"
 			SqlServerPort=""
 			SqlServerUser="BIOperations"
