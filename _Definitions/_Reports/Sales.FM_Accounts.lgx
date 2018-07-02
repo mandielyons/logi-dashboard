@@ -1,0 +1,815 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report
+	Caption="Field Marketer Accounts"
+	ID="Sales.FM_Accounts"
+	SecurityReportRightID="LogiUserAdmin,MKC Dashboard"
+	>
+	<IncludeSharedElement
+		DefinitionFile="_Layout.Shared"
+		SharedElementID="shrHeader"
+	/>
+	<DefaultRequestParams
+		Customer="-1"
+		FieldMarketer="-1"
+	/>
+	<Body>
+		<Remark>
+			<PopupPanel
+				Class="ThemeTextSmaller"
+				CloseButtonClass="ThemeTextSmaller"
+				Height="25"
+				HeightScale="%"
+				HideCloseX="False"
+				ID="panelAddAcres"
+				PopupModal="True"
+				PopupPanelLocation="Mouse"
+				ShowOnPageLoad="False"
+				Width="65"
+				WidthScale="%"
+				>
+				<ResponsiveRow>
+					<ResponsiveColumn
+						Class="ThemeTextSmaller"
+						ColspanExtraSmallScreen="12"
+						ColspanLargeScreen="12"
+						ColspanMediumScreen="12"
+						ColspanSmallScreen="12"
+						>
+						<Division
+							Class="panel panel-default"
+							HtmlDiv="True"
+							ID="panel-add"
+							>
+							<Division
+								Class="panel-heading"
+								HtmlDiv="True"
+								ID="panel-add-header"
+								>
+								<Label
+									Caption="Add Customer Acres"
+								/>
+							</Division>
+							<Division
+								Class="panel-body ThemeTextSmaller"
+								HtmlDiv="True"
+								ID="panel-add-body"
+								>
+								<ResponsiveRow>
+									<ResponsiveColumn
+										Class="ThemeAlignLeft"
+										ColspanExtraSmallScreen="6"
+										ColspanLargeScreen="6"
+										ColspanMediumScreen="6"
+										ColspanSmallScreen="6"
+										>
+										<Label
+											Caption="Crop Year: "
+											Class="bold"
+										/>
+										<InputSelectList
+											Class="ThemeTextSmaller"
+											ID="newCropYear"
+											IncludeBlank="True"
+											IncludeBlankCaption="Select the crop year"
+											OptionCaptionColumn="CropYear"
+											OptionValueColumn="CropYearID"
+											>
+											<DataLayer
+												CellRange="A1:B6"
+												ColumnNamesRow="1"
+												ExcelFile="C:\inetpub\wwwroot\CRMEmbedApp\SelectData\CRMSelectData.xlsx"
+												ExcelWorksheet="CropYear"
+												ID="dlCropYear"
+												Type="Excel"
+											/>
+										</InputSelectList>
+										<LineBreak
+											LineCount="2"
+										/>
+									</ResponsiveColumn>
+									<ResponsiveColumn
+										Class="ThemeAlignLeft"
+										ColspanExtraSmallScreen="6"
+										ColspanLargeScreen="6"
+										ColspanMediumScreen="6"
+										ColspanSmallScreen="6"
+										>
+										<Label
+											Caption="Crop Name: "
+											Class="bold"
+										/>
+										<InputSelectList
+											Class="ThemeTextSmaller"
+											DefaultValue="@Request.CropName~"
+											ID="newCropName"
+											IncludeBlank="True"
+											IncludeBlankCaption="Select the crop name"
+											OptionCaptionColumn="CropName"
+											OptionTooltipColumn="Select a ticket range"
+											OptionValueColumn="CropID"
+											>
+											<Note
+												Note="&lt;!--Get appropriate data for this select--&gt;"
+											/>
+											<Validation
+												Class="ThemeErrorText"
+												Type="Required"
+											/>
+											<DataLayer
+												ColumnNamesRow="1"
+												ExcelFile="C:\inetpub\wwwroot\CRMEmbedApp\SelectData\CRMSelectData.xlsx"
+												ExcelWorksheet="CropName"
+												ID="dlCropName"
+												Type="Excel"
+											/>
+										</InputSelectList>
+										<LineBreak
+											LineCount="2"
+										/>
+									</ResponsiveColumn>
+								</ResponsiveRow>
+								<ResponsiveRow>
+									<ResponsiveColumn
+										Class="ThemeAlignLeft"
+										ColspanExtraSmallScreen="6"
+										ColspanLargeScreen="6"
+										ColspanMediumScreen="6"
+										ColspanSmallScreen="6"
+										>
+										<Label
+											Caption="Crop Type: "
+											Class="bold"
+										/>
+										<InputSelectList
+											Class="ThemeTextSmaller"
+											DefaultValue="@Request.CropType~"
+											ID="newCropType"
+											IncludeBlank="True"
+											IncludeBlankCaption="Select the crop type"
+											OptionCaptionColumn="CropType"
+											OptionTooltipColumn="Select a ticket range"
+											OptionValueColumn="CropTypeID"
+											>
+											<Note
+												Note="&lt;!--Get appropriate data for this select--&gt;"
+											/>
+											<Validation
+												Class="ThemeErrorText"
+												Type="Required"
+											/>
+											<DataLayer
+												ColumnNamesRow="1"
+												ExcelFile="C:\inetpub\wwwroot\CRMEmbedApp\SelectData\CRMSelectData.xlsx"
+												ExcelWorksheet="CropType"
+												ID="dlCropType"
+												Type="Excel"
+											/>
+										</InputSelectList>
+										<LineBreak
+											LineCount="2"
+										/>
+									</ResponsiveColumn>
+									<ResponsiveColumn
+										Class="ThemeAlignLeft"
+										ColspanExtraSmallScreen="6"
+										ColspanLargeScreen="6"
+										ColspanMediumScreen="6"
+										ColspanSmallScreen="6"
+										>
+										<Label
+											Caption="Crop Acres: "
+											Class="bold"
+										/>
+										<InputText
+											Class="ThemeAlignRight"
+											Format="General Number"
+											ID="iptNewAcres"
+											Tooltip="Enter the number of acres"
+											>
+											<Validation
+												Class="ThemeErrorText"
+												Type="Required"
+											/>
+										</InputText>
+										<LineBreak
+											LineCount="2"
+										/>
+									</ResponsiveColumn>
+								</ResponsiveRow>
+								<ResponsiveRow>
+									<ResponsiveColumn
+										Class="ThemeAlignRight"
+										ColspanExtraSmallScreen="12"
+										ColspanLargeScreen="12"
+										ColspanMediumScreen="12"
+										ColspanSmallScreen="12"
+										>
+										<InputText
+											Class="ThemeHidden"
+											DefaultValue="@Request.id~"
+											ID="iptAccountId"
+										/>
+										<Button
+											Caption="Cancel"
+											Class="ThemeTextSmaller"
+											ID="btnCancel"
+											>
+											<Remark>
+												<Action
+													ConfirmMessage="Changes will be lost. Continue without saving?"
+													ID="refreshReport"
+													Type="Report"
+													Validate="True"
+													>
+													<Target
+														Report="Default"
+														Type="Report"
+														>
+														<WaitPage/>
+													</Target>
+												</Action>
+											</Remark>
+											<Action
+												Display="Hide"
+												ElementID="panelAddAcres"
+												ID="hideAddPanel"
+												Type="ShowElement"
+											/>
+										</Button>
+										<Spaces
+											Size="30"
+										/>
+										<Button
+											Caption="Save"
+											Class="ThemeTextSmaller"
+											ID="btnAdd"
+											>
+											<Note
+												Note="&lt;!--Add Action.Process here--&gt;"
+											/>
+											<Action
+												ID="procAdd"
+												Process="SQLTasks"
+												TaskID="insertRow"
+												Type="Process"
+												>
+												<WaitPage/>
+												<LinkParams/>
+											</Action>
+										</Button>
+									</ResponsiveColumn>
+								</ResponsiveRow>
+							</Division>
+						</Division>
+					</ResponsiveColumn>
+				</ResponsiveRow>
+			</PopupPanel>
+		</Remark>
+		<IncludeScript
+			IncludedScript="&lt;script&gt;
+  (function(i,s,o,g,r,a,m){i[&apos;GoogleAnalyticsObject&apos;]=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,&apos;script&apos;,&apos;https://www.google-analytics.com/analytics.js&apos;,&apos;ga&apos;);
+
+  ga(&apos;create&apos;, &apos;UA-76860562-2&apos;, &apos;auto&apos;);
+  ga(&apos;send&apos;, &apos;pageview&apos;);
+
+&lt;/script&gt;"
+		/>
+		<ResponsiveRow>
+			<ResponsiveColumn>
+				<Remark>
+					<Division>
+						<DataTable
+							AccessibleHeaders="True"
+							Class="ThemeTextSmaller"
+							DraggableColumns="True"
+							ID="dtCDProd"
+							>
+							<DataLayer
+								ConnectionID="connAgOS"
+								Source="Select ScaleTicketProducts.ScaleTicketID,
+  ScaleTicketProducts.Amount As Quantity,
+  ScaleTicketProducts.Note,
+  Units.Name As OrderUOM,
+  Products.Name As Product,
+  Products.InvUnitID,
+  Products.ExportUnitID,
+  Units.[Conversion factor] As Conversion,
+  ScaleTicketProducts.TargetAmount,
+  Round((ScaleTicketProducts.TargetAmount / Units.[Conversion factor]),
+  3) As Total,
+  Units1.Name As DefaultUOM
+From ScaleTicketProducts
+  Inner Join Products On Products.ProductID = ScaleTicketProducts.ProductID
+  Left Outer Join Chemical On Products.ProductID = Chemical.ProductID
+  Left Outer Join Units On ScaleTicketProducts.UnitID = Units.UnitID
+  Left Outer Join Units Units1 On Chemical.ApplicationUnit = Units1.UnitID
+  Left Outer Join Fertilizer On Products.ProductID = Fertilizer.ProductID
+Where ScaleTicketProducts.ScaleTicketID = &apos;13769000&apos;"
+								Type="SQL"
+							/>
+							<AutoColumns/>
+						</DataTable>
+					</Division>
+				</Remark>
+				<Remark>
+					<Division>
+						<DataTable
+							AccessibleHeaders="True"
+							Class="ThemeTextSmaller"
+							DraggableColumns="True"
+							ID="dtCD"
+							>
+							<DataLayer
+								ConnectionID="connAgOS"
+								Source="Select T1.OrderID,
+  T2.ProductID,
+  T2.Name As ProductName,
+  Round(T4.Acres, 2) As Acres,
+  Round(T1.Rate, 2) As Rate,
+  T2.CategoryID,
+  T1.Per,
+  T3.Volume As OrderVol,
+  T3.Name As UOM,
+  T4.LocationCode,
+  T4.ScheduledDate,
+  T4.AppCodeID,
+  T6.Name Rig,
+  T3.[Conversion factor] ConvFact,
+  Round(T1.Quantity, 2) As Qty,
+  T5.Liquid
+From OrderProducts T1
+  Inner Join Products T2 With(NoLock) On T2.ProductID = T1.ProductID
+  Inner Join Units T3 With(NoLock) On T3.UnitID = T1.UnitID
+  Inner Join Orders T4 With(NoLock) On T4.OrderID = T1.OrderID
+  Left Join Chemical T5 With(NoLock) On T5.ProductID = T1.ProductID
+  Left Join Objects T6 With(NoLock) On T6.ObjectID = T4.ApplicatorID
+Where T2.CategoryID In (1, 5) And T4.LocationCode In (&apos;Lindsbor&apos;, &apos;CDD1&apos;) And
+  T4.Canceled = &apos;False&apos; And T4.Done = &apos;False&apos; And T1.Rate &lt;&gt; 0"
+								Type="SQL"
+							/>
+							<AutoColumns/>
+						</DataTable>
+					</Division>
+				</Remark>
+				<Division
+					Class="panel panel-default"
+					HtmlDiv="True"
+					ID="panel-share"
+					>
+					<Division
+						Class="panel-heading"
+						HtmlDiv="True"
+						ID="panel-share-heading"
+						>
+						<Label
+							Caption="Customer Acres"
+							Class="panel-title"
+						/>
+					</Division>
+					<Division
+						Class="panel-body"
+						HtmlDiv="True"
+						ID="panel-share-body"
+						>
+						<ResponsiveRow>
+							<ResponsiveColumn>
+								<Division
+									Class="well"
+									HtmlDiv="True"
+									ID="divFilters"
+									>
+									<InputSelectList
+										Caption="Customer:"
+										CaptionClass="ThemeTextSmall ThemeBold"
+										Class="ThemeTextSmaller"
+										ID="Customer"
+										IncludeBlank="True"
+										IncludeBlankValue="-1"
+										OptionCaptionColumn="AccountName"
+										OptionValueColumn="AccountId"
+										>
+										<DataLayer
+											ConnectionID="connCRM"
+											ID="dlCustomers"
+											Source="Select Distinct gb.AccountId,
+  am.ParentAccountId,
+  am.Name AccountName
+From mkcCropForecastAcres gb
+  Inner Join Account am On gb.AccountId = am.AccountId
+Order By AccountName"
+											Type="SQL"
+											>
+											<ConditionFilter
+												Condition="InStr(&quot;@Data.AccountName~&quot;,&quot;*&quot;) = 0"
+											/>
+											<AggregateColumn
+												AggregateColumn="AccountName"
+												AggregateFunction="Count"
+												DataType="Number"
+												ID="custCount"
+											/>
+										</DataLayer>
+										<EventHandler
+											DhtmlEvent="onchange"
+											ID="eventOnChangeCustomer"
+											>
+											<Action
+												ElementID="panel-visualization2,panel-details-body"
+												ID="actRefreshAll"
+												Type="RefreshElement"
+												>
+												<WaitPage/>
+											</Action>
+										</EventHandler>
+									</InputSelectList>
+									<LineBreak/>
+									<InputSelectList
+										Caption="Field Marketer:"
+										CaptionClass="ThemeTextSmall ThemeBold"
+										Class="ThemeTextSmaller"
+										ID="FieldMarketer"
+										IncludeBlank="True"
+										IncludeBlankCaption="All"
+										IncludeBlankValue="-1"
+										OptionCaptionColumn="po_FieldMarketer"
+										OptionValueColumn="po_FieldMarketer"
+										>
+										<DataLayer
+											ConnectionID="connCRM"
+											ID="dlFieldMarketers"
+											Source="Select Distinct Account.po_FieldMarketer
+From Account
+Order By Account.po_FieldMarketer"
+											Type="SQL"
+										/>
+										<EventHandler
+											DhtmlEvent="onchange"
+											ID="eventOnChangeFM"
+											>
+											<Action
+												ElementID="panel-details-body"
+												ID="actRefreshAll"
+												Type="RefreshElement"
+												>
+												<WaitPage/>
+											</Action>
+										</EventHandler>
+									</InputSelectList>
+									<LineBreak/>
+									<Button
+										Caption="Reset"
+										ID="btnReset"
+										Tooltip="Clear all selections"
+										>
+										<Action
+											ElementID="divFilters,panel-details-body"
+											ID="actReport"
+											RequestForwarding="True"
+											Type="RefreshElement"
+											>
+											<WaitPage/>
+											<LinkParams
+												Customer="-1"
+												FieldMarketer="-1"
+											/>
+										</Action>
+									</Button>
+									<LineBreak
+										LineCount="2"
+									/>
+								</Division>
+								<Label
+									Caption="Total Customers Entered:"
+									Class="ThemeTextSmall ThemeBold"
+								/>
+								<Spaces
+									Size="2"
+								/>
+								<Label
+									Caption="@Data.custCount~"
+									Class="ThemeTextSmall"
+								/>
+								<LineBreak
+									LineCount="2"
+								/>
+								<Division
+									ID="divDetails"
+									>
+									<DataTable
+										Class="ThemeTextSmall"
+										ID="dtAcresByFM"
+										Width="90"
+										WidthScale="%"
+										>
+										<DataLayer
+											ConnectionID="connCRM"
+											ID="dlCropAcresByFM"
+											Source="Select Count(Distinct gb.AccountId) As NumberEntered,
+  am.po_FieldMarketer As FieldMarketer
+From mkcCropForecastAcres gb
+  Inner Join Account am On gb.AccountId = am.AccountId
+Group By am.po_FieldMarketer"
+											Type="SQL"
+										/>
+										<AutoColumns/>
+									</DataTable>
+								</Division>
+							</ResponsiveColumn>
+							<ResponsiveColumn
+								Class="ThemeAlignCenter"
+								ColspanExtraSmallScreen="12"
+								ColspanLargeScreen="9"
+								ColspanMediumScreen="9"
+								ColspanSmallScreen="12"
+								>
+								<Division
+									ID="panel-visualization2-title"
+									>
+									<Remark>
+										<Label
+											Caption="Total Crop Acres By Year"
+											Class="ThemeTextSmall,ThemeBold"
+										/>
+									</Remark>
+									<Remark>
+										<LineBreak/>
+									</Remark>
+								</Division>
+								<Division
+									Class="well"
+									HtmlDiv="True"
+									ID="panel-visualization2"
+									>
+									<Note
+										Note="&lt;!--Insert visualization here--&gt;"
+									/>
+									<ChartCanvas
+										ChartCaption="Total Crop Acres By Commodity By Year"
+										ChartHeight="550"
+										ChartWidth="95%"
+										Class="ThemeTextSmall"
+										NoDataCaption="Default"
+										>
+										<Series
+											ChartXDataColumn="CropYear"
+											ChartXDataColumnType="Text"
+											ChartYDataColumn="rdCrosstabValue"
+											Type="Bar"
+										/>
+										<DataLayer
+											ConnectionID="connCRM"
+											ID="dlTotalCropByAcreByYear"
+											Source="Select mkcCropForecastAcres.CropName,
+  mkcCropForecastAcres.CropYear,
+  mkcCropForecastAcres.Acres
+From mkcCropForecastAcres
+Where mkcCropForecastAcres.ProdRptCatDesc = &apos;Seed&apos; And
+  mkcCropForecastAcres.AccountId = &apos;@Request.Customer~&apos; OR &apos;@Request.Customer~&apos;=&apos;-1&apos;"
+											Type="SQL"
+											>
+											<CrosstabFilter
+												CrosstabColumn="CropName"
+												CrosstabLabelColumn="CropYear"
+												CrosstabValueColumn="Acres"
+												CrosstabValueFunction="Sum"
+											/>
+										</DataLayer>
+									</ChartCanvas>
+								</Division>
+								<LineBreak
+									LineCount="2"
+								/>
+							</ResponsiveColumn>
+						</ResponsiveRow>
+					</Division>
+				</Division>
+			</ResponsiveColumn>
+		</ResponsiveRow>
+		<ResponsiveRow>
+			<ResponsiveColumn
+				Class="ThemeTextSmaller"
+				ColspanExtraSmallScreen="12"
+				ColspanLargeScreen="12"
+				ColspanMediumScreen="12"
+				ColspanSmallScreen="12"
+				>
+				<Division
+					Class="panel panel-default"
+					HtmlDiv="True"
+					ID="panel-details"
+					>
+					<Division
+						Class="panel-heading"
+						HtmlDiv="True"
+						ID="panel-details-heading"
+						>
+						<Label
+							Caption="Customer Acres Detail"
+							Class="panel-title"
+						/>
+					</Division>
+					<Division
+						Class="panel-body"
+						HtmlDiv="True"
+						ID="panel-details-body"
+						>
+						<ResponsiveRow>
+							<ResponsiveColumn
+								ColspanExtraSmallScreen="12"
+								ColspanLargeScreen="6"
+								ColspanMediumScreen="6"
+								ColspanSmallScreen="12"
+								>
+								<DataTable
+									AccessibleHeaders="True"
+									AjaxPaging="True"
+									Class="ThemeTextSmall"
+									ID="dtDetails"
+									SortArrows="True"
+									Width="60"
+									WidthScale="%"
+									>
+									<InteractivePaging
+										CaptionType="Text"
+										Class="ThemeTextSmall"
+										HideWhenOnePage="True"
+										Location="Bottom"
+										PageRowCount="50"
+									/>
+									<DataLayer
+										ConnectionID="connCRM"
+										ID="dlAcresDetail"
+										Source="Select Distinct gb.AccountId As Account,
+  am.po_FieldMarketer As FieldMarketer,
+  am.Name As Name
+From mkcCropForecastAcres gb
+  Inner Join Account am On gb.AccountId = am.AccountId
+Where (am.po_FieldMarketer = &apos;@Request.FieldMarketer~&apos;) Or
+  (&apos;@Request.FieldMarketer~&apos; = &apos;-1&apos;)
+Order By Name"
+										Type="SQL"
+										>
+										<Remark>
+											<CompareFilter
+												CompareType="="
+												CompareValue="@Request.Customer~"
+												DataColumn="@Data.Name~"
+												DataType="Text"
+												ID="filName"
+											/>
+										</Remark>
+									</DataLayer>
+									<DataTableColumn
+										Header="Customer"
+										>
+										<Label
+											Caption="@Data.Name~"
+										/>
+									</DataTableColumn>
+									<Remark>
+										<DataTableColumn
+											Header="Crop Year"
+											>
+											<Label
+												Caption="@Data.CropYear~"
+											/>
+										</DataTableColumn>
+									</Remark>
+									<Remark>
+										<DataTableColumn
+											Header="Crop Name"
+											>
+											<Label
+												Caption="@Data.CropName~"
+											/>
+										</DataTableColumn>
+									</Remark>
+									<Remark>
+										<DataTableColumn
+											Header="# Acres"
+											>
+											<Label
+												Caption="@Data.Acres~"
+											/>
+										</DataTableColumn>
+									</Remark>
+									<DataTableColumn
+										Header="Field Marketer"
+										>
+										<Label
+											Caption="@Data.FieldMarketer~"
+										/>
+									</DataTableColumn>
+								</DataTable>
+							</ResponsiveColumn>
+							<ResponsiveColumn
+								ColspanExtraSmallScreen="12"
+								ColspanLargeScreen="6"
+								ColspanMediumScreen="6"
+								ColspanSmallScreen="12"
+								>
+								<DataTable
+									AccessibleHeaders="True"
+									AjaxPaging="True"
+									Class="ThemeTextSmall"
+									ID="dtTest"
+									SortArrows="True"
+									Width="60"
+									WidthScale="%"
+									>
+									<InteractivePaging
+										CaptionType="Text"
+										Class="ThemeTextSmall"
+										HideWhenOnePage="True"
+										Location="Bottom"
+										PageRowCount="50"
+									/>
+									<DataLayer
+										ConnectionID="connCRM"
+										ID="dlTest"
+										Source="Select Distinct gb.AccountId As Account,
+  Account.Name As Name,
+  Account.po_FieldMarketer As FieldMarketer,
+  ag_accountrep.OwnerIdName As MAA
+From mkcCropForecastAcres gb
+  Inner Join ag_accountrepBase On gb.AccountId = ag_accountrepBase.ag_AccountId
+  Inner Join ag_departmentBase On ag_departmentBase.ag_departmentId =
+    ag_accountrepBase.ag_DepartmentId
+  Inner Join ag_accountrep On ag_accountrep.ag_accountrepId =
+    ag_accountrepBase.ag_accountrepId
+  Inner Join Account On gb.AccountId = Account.AccountId
+Where (ag_accountrep.OwnerIdName = &apos;Nathan Larson&apos; And
+  ag_departmentBase.ag_name = &apos;Agronomy&apos;) Or
+  (ag_accountrep.OwnerIdName = &apos;Willie Swartz&apos; And ag_departmentBase.ag_name =
+  &apos;Agronomy&apos;)
+Order By Name"
+										Type="SQL"
+									/>
+									<DataTableColumn
+										Header="Customer"
+										>
+										<Label
+											Caption="@Data.Name~"
+										/>
+									</DataTableColumn>
+									<DataTableColumn
+										Header="Master Agronomy Advisor"
+										>
+										<Label
+											Caption="@Data.FieldMarketer~"
+											>
+											<ConditionalClass
+												Class="ThemeHidden"
+												Condition="&quot;@Data.MAA~&quot; = &quot;Nathan Larson&quot; Or &quot;@Data.MAA~&quot; = &quot;Willie Swartz&quot;"
+											/>
+										</Label>
+										<Label
+											Caption="@Data.MAA~"
+										/>
+									</DataTableColumn>
+								</DataTable>
+							</ResponsiveColumn>
+						</ResponsiveRow>
+					</Division>
+				</Division>
+			</ResponsiveColumn>
+		</ResponsiveRow>
+		<IncludeScript
+			IncludedScript="&lt;script type=&quot;text/javascript&quot;&gt;
+
+$(document).ready(function() {
+	var today = new Date();
+	var month = today.getMonth();
+	var year = today.getFullYear();
+	txtCropYear = document.getElementById(&apos;iptCropYear&apos;);
+	newCropYear = document.getElementById(&apos;newCropYear&apos;);
+	selCropYear = document.getElementById(&apos;selCropYear&apos;);
+	if (month &gt; 8) {
+		year = year + 1;
+		txtCropYear.value = year;
+		newCropYear.value = year;
+		//selCropYear.value = year;	
+	}
+	else {
+		txtCropYear.value = year;
+		newCropYear.value = year;
+		//selCropYear.value = year;
+	}
+});
+
+&lt;/script&gt;
+"
+		/>
+	</Body>
+	<IncludeSharedElement
+		DefinitionFile="_Layout.Shared"
+		SharedElementID="shrFooter"
+	/>
+	<ideTestParams
+		Customer=""
+		FieldMarketer=""
+	/>
+</Report>
