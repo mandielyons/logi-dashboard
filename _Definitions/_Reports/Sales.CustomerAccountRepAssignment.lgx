@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Report
-	Caption="Customer Account Rep Assignments"
+	Caption="Account Rep Assignments"
 	ID="Sales.CustomerAccountRepAssignment"
 	>
 	<DefaultRequestParams
@@ -53,7 +53,7 @@ ORDER BY Company, CUSTOMER, CRM_DepartmentName, CRM_RoleName, CRM_AccountRepName
 				ID="div-header"
 				>
 				<Label
-					Caption="Customer AccountRep Assignments"
+					Caption="Account Rep Assignments"
 					Class="panel-title"
 				/>
 			</Division>
