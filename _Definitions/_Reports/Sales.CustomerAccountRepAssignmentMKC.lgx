@@ -2,7 +2,7 @@
 <Report
 	Caption="Customer Account Rep Assignments"
 	ID="Sales.CustomerAccountRepAssignmentMKC"
-	SecurityReportRightID="MKC Dashboard"
+	SecurityReportRightID="MKC Dashboard, TMA Dashboard"
 	>
 	<DefaultRequestParams
 		CustomerID=""
