@@ -1,12 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Report
-	Caption="Customer Account Rep Assignments"
+	Caption="Account Rep Lookup"
 	ID="Sales.CustomerAccountRepAssignmentTMA"
 	SecurityReportRightID="OC"
 	>
-	<DefaultRequestParams
-		CustomerID=""
-	/>
 	<LocalData>
 		<DataLayer
 			ConnectionID="connProdGP"
@@ -35,6 +32,22 @@ ORDER BY CUSTOMER, CRM_DepartmentName, CRM_RoleName, CRM_AccountRepName;"
 			/>
 		</DataLayer>
 	</LocalData>
+	<LocalData
+		ID="LocalData-CustName"
+		>
+		<DataLayer
+			ConnectionID="connProdGP"
+			ID="luCustomer"
+			Source="SELECT DISTINCT (DMvTMAAccountRepOC.CUSTOMER + &apos; : &apos; + DMvTMAAccountRepOC.CUSTOMER_NAME) as [luCUSTCOMBO]
+FROM Agtrax_Staging.dbo.DMvTMAAccountRepOC
+WHERE LTRIM(RTRIM(DMvTMAAccountRepOC.CUSTOMER)) = &apos;@Request.CustomerID~&apos;;
+"
+			Type="SQL"
+		/>
+	</LocalData>
+	<DefaultRequestParams
+		CustomerID=""
+	/>
 	<IncludeSharedElement
 		DefinitionFile="_Layout.Shared"
 		SharedElementID="shrHeader"
@@ -92,7 +105,7 @@ ORDER BY CUSTOMER, CRM_DepartmentName, CRM_RoleName, CRM_AccountRepName;"
 									DhtmlEvent="onchange"
 									>
 									<Action
-										ElementID="dtAssignment"
+										ElementID="divAccountRep"
 										ID="refAssignmentByCustomerID"
 										Type="RefreshElement"
 										>
@@ -117,38 +130,49 @@ ORDER BY CUSTOMER, CRM_DepartmentName, CRM_RoleName, CRM_AccountRepName;"
 							ID="divAccountRep"
 							>
 							<LineBreak/>
+							<Label
+								Caption="@Local.luCUSTCOMBO~"
+								Class="ThemeHeaderSmall"
+							/>
+							<LineBreak/>
 							<DataTable
 								ID="dtAssignment"
 								SortArrows="True"
 								>
-								<InteractivePaging
-									CaptionType="Image"
-									Class="ThemeTextSmall"
-									Location="Top"
-									PageRowCount="10"
-									ShowPageNumber="True"
-								/>
+								<Remark>
+									<InteractivePaging
+										CaptionType="Image"
+										Class="ThemeTextSmall"
+										Location="Top"
+										PageRowCount="10"
+										ShowPageNumber="True"
+									/>
+								</Remark>
 								<DataLayer
 									ID="lnkAccountRepAssignment"
 									LinkedDataLayerID="linkAccountRepAssignment"
 									Type="Linked"
 								/>
-								<DataTableColumn
-									Class="ThemeAlignTopLeft"
-									Header="Customer ID"
-									>
-									<Label
-										Caption="@Data.CUSTOMER~"
-									/>
-								</DataTableColumn>
-								<DataTableColumn
-									Class="ThemeAlignTopLeft"
-									Header="Customer Name"
-									>
-									<Label
-										Caption="@Data.CUSTOMER_NAME~"
-									/>
-								</DataTableColumn>
+								<Remark>
+									<DataTableColumn
+										Class="ThemeAlignTopLeft"
+										Header="Customer ID"
+										>
+										<Label
+											Caption="@Data.CUSTOMER~"
+										/>
+									</DataTableColumn>
+								</Remark>
+								<Remark>
+									<DataTableColumn
+										Class="ThemeAlignTopLeft"
+										Header="Customer Name"
+										>
+										<Label
+											Caption="@Data.CUSTOMER_NAME~"
+										/>
+									</DataTableColumn>
+								</Remark>
 								<DataTableColumn
 									Class="ThemeAlignTopLeft"
 									Header="CRM Department"
