@@ -287,10 +287,12 @@ WHERE DM_OpenContracts.CONTRACT_TYPE = 2
 												Caption="@Data.Account~"
 												ID="lblAccount"
 											/>
-											<DataColumnSort
-												DataColumn="SHPMTTYP_CODE"
-												DataType="Number"
-											/>
+											<Remark>
+												<DataColumnSort
+													DataColumn="SHPMTTYP_CODE"
+													DataType="Number"
+												/>
+											</Remark>
 											<ConditionalClass
 												Class="yellow-highlight"
 												Condition="&quot;@Data.SHPMTTYP_CODE~&quot; = &quot;11&quot;"
@@ -333,10 +335,12 @@ WHERE DM_OpenContracts.CONTRACT_TYPE = 2
 												Caption="@Data.Commodity~"
 												ID="lblCommodity"
 											/>
-											<DataColumnSort
-												DataColumn="SHPMTTYP_CODE"
-												DataType="Number"
-											/>
+											<Remark>
+												<DataColumnSort
+													DataColumn="COMMODITY"
+													DataType="Number"
+												/>
+											</Remark>
 											<ConditionalClass
 												Class="yellow-highlight"
 												Condition="&quot;@Data.SHPMTTYP_CODE~&quot; = &quot;11&quot;"
@@ -356,10 +360,12 @@ WHERE DM_OpenContracts.CONTRACT_TYPE = 2
 												Caption="@Data.Location~"
 												ID="lblLocation"
 											/>
-											<DataColumnSort
-												DataColumn="SHPMTTYP_CODE"
-												DataType="Number"
-											/>
+											<Remark>
+												<DataColumnSort
+													DataColumn="LOCATION"
+													DataType="Text"
+												/>
+											</Remark>
 											<ConditionalClass
 												Class="yellow-highlight"
 												Condition="&quot;@Data.SHPMTTYP_CODE~&quot; = &quot;11&quot;"

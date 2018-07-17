@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Report
 	Caption="Customer Survey 2018"
-	ID="Reports.Customer_Survey_2018"
-	SecurityReportRightID="LogiUserAdmin,Dashboard Sr Mgmt"
+	ID="Admin.Customer_Survey_2018"
+	SecurityReportRightID="Dashboard Sr Mgmt"
 	>
 	<Body>
 		<IncludeSharedElement

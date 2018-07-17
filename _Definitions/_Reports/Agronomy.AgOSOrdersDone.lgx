@@ -201,8 +201,7 @@ From (Select T1.LocationCode,
 Group By O.LocationCode,
   O.DoneYear
 Order By O.LocationCode,
-  O.DoneYear
-"
+  O.DoneYear"
 										Type="SQL"
 										>
 										<CalculatedColumn
