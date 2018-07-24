@@ -13,24 +13,15 @@
 
 "
 		/>
-		<IncludeHtml
-			Html="&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;_Themes/TMA-Accelerate/tma_Theme.css&quot;&gt;&lt;/link&gt;
-&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;_Themes/TMA-Accelerate/css/tma_application.css&quot;&gt;&lt;/link&gt;
-
-
-"
-			SecurityRightID="TMA Dashboard, OC"
-		/>
 		<IncludeScript
 			ID="globalScripts"
 			IncludedScript="&lt;script type=&quot;text/javascript&quot;&gt;
-// comment this out for live
 var url = window.location.href;
 var local = url.search(&quot;localhost&quot;);
-var dev = url.search(&quot;dashboard/TMAGrain&quot;);
+var dev = url.search(&quot;dashboard&quot;);
 
 //if this isn&apos;t a local machine or the development server then call the Google script
-if (dev != -1 &amp;&amp; local != -1) { // comment this out for live
+if (dev != -1 &amp;&amp; local != -1) {
 	// Google Analytics scripts
   (function(i,s,o,g,r,a,m){i[&apos;GoogleAnalyticsObject&apos;]=r;i[r]=i[r]||function(){
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -39,7 +30,17 @@ if (dev != -1 &amp;&amp; local != -1) { // comment this out for live
 
   ga(&apos;create&apos;, &apos;UA-76860562-1&apos;, &apos;auto&apos;);
   ga(&apos;send&apos;, &apos;pageview&apos;);
-} // comment this out for live
+
+  var _gaq = _gaq || [];
+  _gaq.push([&apos;_setAccount&apos;, &apos;UA-76860562-1&apos;]);
+  _gaq.push([&apos;_trackPageview&apos;]);
+
+  (function() {
+    var ga = document.createElement(&apos;script&apos;); ga.type = &apos;text/javascript&apos;; ga.async = true;
+    ga.src = (&apos;https:&apos; == document.location.protocol ? &apos;https://ssl&apos; : &apos;http://www&apos;) + &apos;.google-analytics.com/ga.js&apos;;
+    var s = document.getElementsByTagName(&apos;script&apos;)[0]; s.parentNode.insertBefore(ga, s);
+  })();
+}
   
   // Table to Excel Script
    function tableToExcel(table, name) {
@@ -248,78 +249,9 @@ else {
 			Draggable="False"
 			Height="80"
 			HeightScale="%"
-			ID="pnlAboutMobileTMA"
-			PopupModal="True"
-			PopupPanelLocation="Center"
-			SecurityRightID="TMA Dashboard,OC"
-			ShowOnPageLoad="False"
-			Width="85"
-			WidthScale="%"
-			>
-			<ResponsiveRow>
-				<ResponsiveColumn>
-					<Division
-						Class="panel panel-default"
-						HtmlDiv="True"
-						ID="divAboutMobile"
-						>
-						<Division
-							Class="panel-heading"
-							HtmlDiv="True"
-							ID="divAboutHeader"
-							>
-							<Label
-								Caption="About TMA Dashboard"
-							/>
-						</Division>
-						<Division
-							Class="panel-body"
-							HtmlDiv="True"
-							ID="divAboutBody"
-							>
-							<ResponsiveRow>
-								<ResponsiveColumn>
-									<Division
-										Class="ThemeTextSmaller"
-										HtmlDiv="True"
-										ID="showReleaseNotesMobileTMA"
-									/>
-								</ResponsiveColumn>
-							</ResponsiveRow>
-							<ResponsiveRow
-								Class="pull-right"
-								>
-								<ResponsiveColumn>
-									<Spaces
-										Size="2"
-									/>
-									<Button
-										Caption="Close"
-										Class="btn btn-default"
-										ID="btnClose"
-										>
-										<Action
-											Display="Hide"
-											ElementID="pnlAboutMobileTMA"
-											ID="hidePopup"
-											Type="ShowElement"
-										/>
-									</Button>
-								</ResponsiveColumn>
-							</ResponsiveRow>
-						</Division>
-					</Division>
-				</ResponsiveColumn>
-			</ResponsiveRow>
-		</PopupPanel>
-		<PopupPanel
-			Draggable="False"
-			Height="80"
-			HeightScale="%"
 			ID="pnlAboutMobile"
 			PopupModal="True"
 			PopupPanelLocation="Center"
-			SecurityRightID="MKC Dashboard"
 			ShowOnPageLoad="False"
 			Width="85"
 			WidthScale="%"
@@ -382,82 +314,13 @@ else {
 		</PopupPanel>
 		<PopupPanel
 			Draggable="False"
-			Height="75"
-			HeightScale="%"
-			ID="pnlAboutTMA"
-			PopupModal="True"
-			PopupPanelLocation="Center"
-			SecurityRightID="TMA Dashboard,OC"
-			ShowOnPageLoad="False"
-			Width="75"
-			WidthScale="%"
-			>
-			<ResponsiveRow>
-				<ResponsiveColumn>
-					<Division
-						Class="panel panel-default"
-						HtmlDiv="True"
-						ID="divAbout"
-						>
-						<Division
-							Class="panel-heading"
-							HtmlDiv="True"
-							ID="divAboutHeader"
-							>
-							<Label
-								Caption="About TMA Dashboard"
-							/>
-						</Division>
-						<Division
-							Class="panel-body"
-							HtmlDiv="True"
-							ID="divAboutBody"
-							>
-							<ResponsiveRow>
-								<ResponsiveColumn>
-									<Division
-										Class="ThemeTextSmall"
-										HtmlDiv="True"
-										ID="showReleaseNotesTMA"
-									/>
-								</ResponsiveColumn>
-							</ResponsiveRow>
-							<ResponsiveRow
-								Class="pull-right"
-								>
-								<ResponsiveColumn>
-									<Spaces
-										Size="2"
-									/>
-									<Button
-										Caption="Close"
-										Class="btn btn-default"
-										ID="btnClose"
-										>
-										<Action
-											Display="Hide"
-											ElementID="pnlAboutTMA"
-											ID="hidePopup"
-											Type="ShowElement"
-										/>
-									</Button>
-								</ResponsiveColumn>
-							</ResponsiveRow>
-						</Division>
-					</Division>
-				</ResponsiveColumn>
-			</ResponsiveRow>
-		</PopupPanel>
-		<PopupPanel
-			Draggable="False"
-			Height="75"
+			Height="40"
 			HeightScale="%"
 			ID="pnlAbout"
 			PopupModal="True"
 			PopupPanelLocation="Center"
-			SecurityRightID="MKC Dashboard"
 			ShowOnPageLoad="False"
-			Width="75"
+			Width="50"
 			WidthScale="%"
 			>
 			<ResponsiveRow>
@@ -530,12 +393,12 @@ else {
 			ShowModes="rdBrowser"
 			>
 			<InputHidden
-				DefaultValue="@Request.rdReport~"
-				ID="iptReport"
-			/>
-			<InputHidden
 				DefaultValue="@Request.StatusMsg~"
 				ID="iptStatus"
+			/>
+			<InputHidden
+				DefaultValue="@Request.rdReport~"
+				ID="iptReport"
 			/>
 			<InputHidden
 				ID="iptShowNotifications"
@@ -543,10 +406,6 @@ else {
 			<InputHidden
 				DefaultValue="@Function.UserID~"
 				ID="iptUserNotifications"
-			/>
-			<InputHidden
-				DefaultValue="@Function.UserRights~"
-				ID="iptSecurityRoles"
 			/>
 			<Division
 				HtmlDiv="True"
@@ -574,8 +433,8 @@ else {
 								>
 								<ResponsiveColumn
 									ColspanExtraSmallScreen="6"
-									ColspanLargeScreen="3"
-									ColspanMediumScreen="3"
+									ColspanLargeScreen="2"
+									ColspanMediumScreen="2"
 									ColspanSmallScreen="6"
 									>
 									<Division
@@ -626,8 +485,8 @@ else {
 								</ResponsiveColumn>
 								<ResponsiveColumn
 									ColspanExtraSmallScreen="6"
-									ColspanLargeScreen="9"
-									ColspanMediumScreen="9"
+									ColspanLargeScreen="10"
+									ColspanMediumScreen="10"
 									ColspanSmallScreen="6"
 									>
 									<Division
@@ -638,7 +497,8 @@ else {
 										<Note
 											Note="*** build mobile navigation here - only for BELOW 1024*768 (1024*768 in portrait) ***"
 										/>
-										<Division
+										<Remark>
+											<Division
 												ID="div-rtest"
 												>
 												<Label
@@ -650,6 +510,7 @@ else {
 													Size="5"
 												/>
 											</Division>
+										</Remark>
 										<ResponsiveVisibility
 											HideForExtraSmallScreen="False"
 											HideForLargeScreen="True"
@@ -762,21 +623,6 @@ else {
 													</Action>
 												</PopupOption>
 												<PopupOption
-													Caption="TMA Scorecard"
-													ID="optTMAScorecard"
-													SecurityRightID="Dashboard Sr Mgmt,Dashboard Strategic Planning TMA,TMA Dashboard,OC"
-													>
-													<Action
-														ID="tarTMAScorecard"
-														Type="Report"
-														>
-														<Target
-															Report="Scorecards.TMA_StrategicDashboard"
-															Type="Report"
-														/>
-													</Action>
-												</PopupOption>
-												<PopupOption
 													Caption="Reset Password"
 													ID="optResetPwd"
 													SecurityRightID="OC,LogiUserAdmin"
@@ -794,23 +640,10 @@ else {
 												<PopupOption
 													Caption="About"
 													ID="optAbout"
-													SecurityRightID="MKC Dashboard"
 													>
 													<Action
 														Display="Show"
 														ElementID="pnlAboutMobile"
-														ID="showPopup"
-														Type="ShowElement"
-													/>
-												</PopupOption>
-												<PopupOption
-													Caption="About"
-													ID="optAboutTMA"
-													SecurityRightID="TMA Dashboard,OC"
-													>
-													<Action
-														Display="Show"
-														ElementID="pnlAboutMobileTMA"
 														ID="showPopup"
 														Type="ShowElement"
 													/>
@@ -849,7 +682,7 @@ else {
 											/>
 										</ResponsiveVisibility>
 										<ResponsiveRow
-											Class="pull-right"
+											Class="ThemeAlignRight"
 											CollisionBehavior="Wrap"
 											>
 											<ResponsiveColumn
@@ -859,20 +692,18 @@ else {
 												ColspanMediumScreen="12"
 												ColspanSmallScreen="12"
 												>
-												
-													<Division
-														ID="div-test"
-														>
-														<Label
-															Caption="***FOR INTERNAL USE ONLY***"
-															Class="ThemeErrorText,ThemeTextSmall"
-															HtmlTag="Span"
-														/>
-														<Spaces
-															Size="5"
-														/>
-													</Division>
-												
+												<Division
+													ID="div-test"
+													>
+													<Label
+														Caption="***FOR INTERNAL USE ONLY***"
+														Class="ThemeErrorText,ThemeTextSmall"
+														HtmlTag="Span"
+													/>
+													<Spaces
+														Size="5"
+													/>
+												</Division>
 												<Remark>
 													<Label
 														Caption="Home"
@@ -930,7 +761,7 @@ else {
 												</Remark>
 												<Division
 													ID="reports-container"
-													SecurityRightID="Dashboard Monthly Staff,LogiUserAdmin"
+													SecurityRightID="Dashboard Monthly Staff"
 													>
 													<Division
 														Class="dropdown"
@@ -1100,18 +931,58 @@ else {
 														ID="pipe-spacer"
 													/>
 												</Division>
-												<Remark>
+												<Division
+													Class="ThemeHidden"
+													ID="divOC"
+													>
+													<ConditionalClass
+														Condition="InStr(&quot;@Function.UserRoles~&quot;,&quot;OC&quot;) &gt; 0"
+													/>
+													<Remark>
+														<Division
+															ID="other-container"
+															SecurityRightID="OC,LogiUserAdmin"
+															>
+															<Label
+																Caption="Password Reset"
+																>
+																<Action
+																	ID="actReport"
+																	Type="Report"
+																	>
+																	<Target
+																		ID="tgtReport"
+																		Report="Other.PasswordReset"
+																		Type="Report"
+																		>
+																		<WaitPage/>
+																	</Target>
+																</Action>
+																<ConditionalClass
+																	Class="selected-menu"
+																	Condition="&quot;@Request.rdReport~&quot;==&quot;Other.PasswordReset&quot;"
+																/>
+															</Label>
+															<Remark>
+																<Label
+																	Caption="|"
+																	Class="pipe-spacer"
+																	ID="pipe-spacer"
+																/>
+															</Remark>
+														</Division>
+													</Remark>
 													<Division
-														ID="maps-container"
-														SecurityRightID="LogiUserAdmin"
+														ID="admin-container"
+														SecurityRightID="TMA Dashboard,MKC Dashboard,OC"
 														>
 														<Division
 															Class="dropdown"
 															HtmlDiv="True"
-															ID="maps"
+															ID="admin"
 															>
 															<Label
-																Caption="Maps"
+																Caption="Admin"
 																>
 																<Action
 																	ID="actBlank"
@@ -1120,7 +991,7 @@ else {
 																/>
 																<ConditionalClass
 																	Class="selected-menu"
-																	Condition="&quot;@Request.rdReport~&quot;.indexOf(&quot;Maps&quot;)&lt;&gt;&quot;-1&quot;"
+																	Condition="&quot;@Request.rdReport~&quot;.indexOf(&quot;Admin&quot;)&lt;&gt;&quot;-1&quot;"
 																/>
 															</Label>
 															<Label
@@ -1133,28 +1004,38 @@ else {
 																/>
 																<ConditionalClass
 																	Class="caret selected-menu"
-																	Condition="&quot;@Request.rdReport~&quot;.indexOf(&quot;Maps&quot;)&lt;&gt;&quot;-1&quot;"
+																	Condition="&quot;@Request.rdReport~&quot;.indexOf(&quot;Admin&quot;)&lt;&gt;&quot;-1&quot;"
 																/>
 															</Label>
 															<Division
 																Class="submenu"
 																HtmlDiv="True"
-																ID="submenu-maps"
+																ID="submenu-admin"
 																>
+																<Label
+																	Caption="About"
+																	>
+																	<Action
+																		Display="Show"
+																		ElementID="pnlAbout"
+																		ID="showPopup"
+																		Type="ShowElement"
+																	/>
+																</Label>
 																<DataList
-																	ID="lstMaps"
+																	ID="lstAdmin"
 																	>
 																	<DataLayer
-																		ID="dlNav-Maps"
+																		ID="dlNav-Admin"
 																		Type="DefinitionList"
 																		>
 																		<CompareFilter
 																			CaseSensitive="True"
 																			CompareType="="
-																			CompareValue="Maps"
+																			CompareValue="Admin"
 																			DataColumn="Folder1"
 																			DataType="Text"
-																			ID="fMaps"
+																			ID="fAdmin"
 																		/>
 																	</DataLayer>
 																	<ListItem>
@@ -1187,10 +1068,110 @@ else {
 															ID="pipe-spacer"
 														/>
 													</Division>
-												</Remark>
+													<Label
+														Caption="Logout"
+														>
+														<Action
+															ID="actLogout"
+															Type="Exit"
+															>
+															<Target
+																ID="tgtLogout"
+																Link="@Function.AppVirtualPath~"
+																Type="Link"
+															/>
+														</Action>
+													</Label>
+												</Division>
+												<Division
+													ID="maps-container"
+													SecurityRightID="LogiUserAdmin"
+													>
+													<Division
+														Class="dropdown"
+														HtmlDiv="True"
+														ID="maps"
+														>
+														<Label
+															Caption="Maps"
+															>
+															<Action
+																ID="actBlank"
+																Javascript="void(0)"
+																Type="Javascript"
+															/>
+															<ConditionalClass
+																Class="selected-menu"
+																Condition="&quot;@Request.rdReport~&quot;.indexOf(&quot;Maps&quot;)&lt;&gt;&quot;-1&quot;"
+															/>
+														</Label>
+														<Label
+															Class="caret"
+															>
+															<Action
+																ID="actBlank"
+																Javascript="void(0)"
+																Type="Javascript"
+															/>
+															<ConditionalClass
+																Class="caret selected-menu"
+																Condition="&quot;@Request.rdReport~&quot;.indexOf(&quot;Maps&quot;)&lt;&gt;&quot;-1&quot;"
+															/>
+														</Label>
+														<Division
+															Class="submenu"
+															HtmlDiv="True"
+															ID="submenu-maps"
+															>
+															<DataList
+																ID="lstMaps"
+																>
+																<DataLayer
+																	ID="dlNav-Maps"
+																	Type="DefinitionList"
+																	>
+																	<CompareFilter
+																		CaseSensitive="True"
+																		CompareType="="
+																		CompareValue="Maps"
+																		DataColumn="Folder1"
+																		DataType="Text"
+																		ID="fMaps"
+																	/>
+																</DataLayer>
+																<ListItem>
+																	<Label
+																		Caption="@Data.Caption~"
+																		>
+																		<Action
+																			ID="actReport"
+																			Type="Report"
+																			>
+																			<Target
+																				Report="@Data.ID~"
+																				Type="Report"
+																				>
+																				<WaitPage/>
+																			</Target>
+																		</Action>
+																		<ConditionalClass
+																			Class="selected-menu"
+																			Condition="&quot;@Request.rdReport~&quot;==&quot;@Data.ID~&quot;"
+																		/>
+																	</Label>
+																</ListItem>
+															</DataList>
+														</Division>
+													</Division>
+													<Label
+														Caption="|"
+														Class="pipe-spacer"
+														ID="pipe-spacer"
+													/>
+												</Division>
 												<Division
 													ID="sales-container"
-													SecurityRightID="MKC Dashboard, LogiUserAdmin"
+													SecurityRightID="MKC Dashboard"
 													>
 													<Division
 														Class="dropdown"
@@ -1207,7 +1188,7 @@ else {
 															/>
 															<ConditionalClass
 																Class="selected-menu"
-																Condition="&quot;@Request.rdReport~&quot;.indexOf(&quot;Sales&quot;)&lt;&gt;&quot;-1&quot;"
+																Condition="&quot;@Request.rdReport~&quot;.indexOf(&quot;Maps&quot;)&lt;&gt;&quot;-1&quot;"
 															/>
 														</Label>
 														<Label
@@ -1242,92 +1223,6 @@ else {
 																		DataColumn="Folder1"
 																		DataType="Text"
 																		ID="fSales"
-																	/>
-																</DataLayer>
-																<ListItem>
-																	<Label
-																		Caption="@Data.Caption~"
-																		>
-																		<Action
-																			ID="actReport"
-																			Type="Report"
-																			>
-																			<Target
-																				Report="@Data.ID~"
-																				Type="Report"
-																				>
-																				<WaitPage/>
-																			</Target>
-																		</Action>
-																		<ConditionalClass
-																			Class="selected-menu"
-																			Condition="&quot;@Request.rdReport~&quot;==&quot;@Data.ID~&quot;"
-																		/>
-																	</Label>
-																</ListItem>
-															</DataList>
-														</Division>
-													</Division>
-													<Label
-														Caption="|"
-														Class="pipe-spacer"
-														ID="pipe-spacer"
-													/>
-												</Division>
-												<Division
-													ID="ag-container"
-													SecurityRightID="MKC Dashboard, LogiUserAdmin"
-													>
-													<Division
-														Class="dropdown"
-														HtmlDiv="True"
-														ID="agronomy"
-														>
-														<Label
-															Caption="Agronomy"
-															>
-															<Action
-																ID="actBlank"
-																Javascript="void(0)"
-																Type="Javascript"
-															/>
-															<ConditionalClass
-																Class="selected-menu"
-																Condition="&quot;@Request.rdReport~&quot;.indexOf(&quot;Agronomy&quot;)&lt;&gt;&quot;-1&quot;"
-															/>
-														</Label>
-														<Label
-															Class="caret"
-															>
-															<Action
-																ID="actBlank"
-																Javascript="void(0)"
-																Type="Javascript"
-															/>
-															<ConditionalClass
-																Class="caret selected-menu"
-																Condition="&quot;@Request.rdReport~&quot;.indexOf(&quot;Agronomy&quot;)&lt;&gt;&quot;-1&quot;"
-															/>
-														</Label>
-														<Division
-															Class="submenu"
-															HtmlDiv="True"
-															ID="submenu-ag"
-															>
-															<DataList
-																ID="lstAgronomy"
-																>
-																<DataLayer
-																	ID="dlNav-Agronomy"
-																	Type="DefinitionList"
-																	>
-																	<CompareFilter
-																		CaseSensitive="True"
-																		CompareType="="
-																		CompareValue="Agronomy"
-																		DataColumn="Folder1"
-																		DataType="Text"
-																		ID="fAgronomy"
 																	/>
 																</DataLayer>
 																<ListItem>
@@ -1447,143 +1342,20 @@ else {
 													/>
 												</Division>
 												<Division
-													ID="scorecard-container"
-													SecurityRightID="Dashboard Stategic Planning,LogiUserAdmin,Dashboard Sr Mgmt,Dashboard Strategic Planning TMA,TMA Dashboard,OC"
+													ID="divNotOC"
+													SecurityRightID="TMA Dashboard,MKC Dashboard"
 													>
 													<Division
-														Class="dropdown"
-														HtmlDiv="True"
-														ID="scorecards"
-														>
-														<Label
-															Caption="Scorecards"
-															>
-															<Action
-																ID="actBlank"
-																Javascript="void(0)"
-																Type="Javascript"
-															/>
-															<ConditionalClass
-																Class="selected-menu"
-																Condition="&quot;@Request.rdReport~&quot;.indexOf(&quot;Scorecards&quot;)&lt;&gt;&quot;-1&quot;"
-															/>
-														</Label>
-														<Label
-															Class="caret"
-															>
-															<Action
-																ID="actBlank"
-																Javascript="void(0)"
-																Type="Javascript"
-															/>
-															<ConditionalClass
-																Class="caret selected-menu"
-																Condition="&quot;@Request.rdReport~&quot;.indexOf(&quot;Scorecards&quot;)&lt;&gt;&quot;-1&quot;"
-															/>
-														</Label>
-														<Division
-															Class="submenu"
-															HtmlDiv="True"
-															ID="submenu-scorecards"
-															>
-															<DataList
-																ID="lstScorecards"
-																>
-																<DataLayer
-																	ID="dlNav-Scorecards"
-																	Type="DefinitionList"
-																	>
-																	<CompareFilter
-																		CaseSensitive="True"
-																		CompareType="="
-																		CompareValue="Scorecards"
-																		DataColumn="Folder1"
-																		DataType="Text"
-																		ID="fScorecards"
-																	/>
-																</DataLayer>
-																<ListItem>
-																	<Label
-																		Caption="@Data.Caption~"
-																		>
-																		<Action
-																			ID="actReport"
-																			Type="Report"
-																			>
-																			<Target
-																				Report="@Data.ID~"
-																				Type="Report"
-																				>
-																				<WaitPage/>
-																			</Target>
-																		</Action>
-																		<ConditionalClass
-																			Class="selected-menu"
-																			Condition="&quot;@Request.rdReport~&quot;==&quot;@Data.ID~&quot;"
-																		/>
-																	</Label>
-																</ListItem>
-															</DataList>
-														</Division>
-													</Division>
-													<Label
-														Caption="|"
-														Class="pipe-spacer"
-														ID="pipe-spacer"
-													/>
-												</Division>
-												<Division
-													Class="ThemeHidden"
-													ID="divOC"
-													>
-													<ConditionalClass
-														Condition="InStr(&quot;@Function.UserRoles~&quot;,&quot;OC&quot;) &gt; 0"
-													/>
-													<Remark>
-														<Division
-															ID="other-container"
-															SecurityRightID="OC,LogiUserAdmin"
-															>
-															<Label
-																Caption="Password Reset"
-																>
-																<Action
-																	ID="actReport"
-																	Type="Report"
-																	>
-																	<Target
-																		ID="tgtReport"
-																		Report="Other.PasswordReset"
-																		Type="Report"
-																		>
-																		<WaitPage/>
-																	</Target>
-																</Action>
-																<ConditionalClass
-																	Class="selected-menu"
-																	Condition="&quot;@Request.rdReport~&quot;==&quot;Other.PasswordReset&quot;"
-																/>
-															</Label>
-															<Remark>
-																<Label
-																	Caption="|"
-																	Class="pipe-spacer"
-																	ID="pipe-spacer"
-																/>
-															</Remark>
-														</Division>
-													</Remark>
-													<Division
-														ID="admin-container"
-														SecurityRightID="OC"
+														ID="scorecard-container"
+														SecurityRightID="Dashboard Stategic Planning,LogiUserAdmin,Dashboard Sr Mgmt,Dashboard Strategic Planning TMA"
 														>
 														<Division
 															Class="dropdown"
 															HtmlDiv="True"
-															ID="admin"
+															ID="scorecards"
 															>
 															<Label
-																Caption="Admin"
+																Caption="Scorecards"
 																>
 																<Action
 																	ID="actBlank"
@@ -1592,7 +1364,7 @@ else {
 																/>
 																<ConditionalClass
 																	Class="selected-menu"
-																	Condition="&quot;@Request.rdReport~&quot;.indexOf(&quot;Admin&quot;)&lt;&gt;&quot;-1&quot;"
+																	Condition="&quot;@Request.rdReport~&quot;.indexOf(&quot;Scorecards&quot;)&lt;&gt;&quot;-1&quot;"
 																/>
 															</Label>
 															<Label
@@ -1605,40 +1377,28 @@ else {
 																/>
 																<ConditionalClass
 																	Class="caret selected-menu"
-																	Condition="&quot;@Request.rdReport~&quot;.indexOf(&quot;Admin&quot;)&lt;&gt;&quot;-1&quot;"
+																	Condition="&quot;@Request.rdReport~&quot;.indexOf(&quot;Scorecards&quot;)&lt;&gt;&quot;-1&quot;"
 																/>
 															</Label>
 															<Division
 																Class="submenu"
 																HtmlDiv="True"
-																ID="submenu-admin"
+																ID="submenu-scorecards"
 																>
-																<Label
-																	Caption="About"
-																	ID="AboutTMA"
-																	SecurityRightID="OC"
-																	>
-																	<Action
-																		Display="Show"
-																		ElementID="pnlAboutTMA"
-																		ID="showPopup"
-																		Type="ShowElement"
-																	/>
-																</Label>
 																<DataList
-																	ID="lstAdmin"
+																	ID="lstScorecards"
 																	>
 																	<DataLayer
-																		ID="dlNav-Admin"
+																		ID="dlNav-Scorecards"
 																		Type="DefinitionList"
 																		>
 																		<CompareFilter
 																			CaseSensitive="True"
 																			CompareType="="
-																			CompareValue="Admin"
+																			CompareValue="Scorecards"
 																			DataColumn="Folder1"
 																			DataType="Text"
-																			ID="fAdmin"
+																			ID="fScorecards"
 																		/>
 																	</DataLayer>
 																	<ListItem>
@@ -1671,30 +1431,9 @@ else {
 															ID="pipe-spacer"
 														/>
 													</Division>
-													<Remark>
-														<Label
-															Caption="Logout"
-															>
-															<Action
-																ID="actLogout"
-																Type="Exit"
-																>
-																<Target
-																	ID="tgtLogout"
-																	Link="@Function.AppVirtualPath~"
-																	Type="Link"
-																/>
-															</Action>
-														</Label>
-													</Remark>
-												</Division>
-												<Division
-													ID="divNotOC"
-													SecurityRightID="TMA Dashboard,MKC Dashboard,OC"
-													>
 													<Division
 														ID="admin-container"
-														SecurityRightID="TMA Dashboard,MKC Dashboard"
+														SecurityRightID="TMA Dashboard,MKC Dashboard,OC"
 														>
 														<Division
 															Class="dropdown"
@@ -1734,24 +1473,10 @@ else {
 																>
 																<Label
 																	Caption="About"
-																	ID="lblAbout"
-																	SecurityRightID="MKC Dashboard"
 																	>
 																	<Action
 																		Display="Show"
 																		ElementID="pnlAbout"
-																		ID="showPopup"
-																		Type="ShowElement"
-																	/>
-																</Label>
-																<Label
-																	Caption="About"
-																	ID="lblAboutTMA"
-																	SecurityRightID="TMA Dashboard"
-																	>
-																	<Action
-																		Display="Show"
-																		ElementID="pnlAboutTMA"
 																		ID="showPopup"
 																		Type="ShowElement"
 																	/>
@@ -1938,20 +1663,9 @@ else {
 			<Division
 				Class="ThemeHidden"
 				ID="divNotifications"
-				SecurityRightID="MKC Dashboard"
 				>
 				<IncludeHtmlFile
 					IncludedHtmlFile="_Definitions/updates.html"
-				/>
-			</Division>
-			<Division
-				Class="ThemeHidden"
-				ID="divNotificationsTMA"
-				SecurityRightID="TMA Dashboard,OC"
-				>
-				<IncludeHtmlFile
-					IncludedHtmlFile="_Definitions/updates_tma.html"
-					SecurityRightID="TMA Dashboard,OC"
 				/>
 			</Division>
 		</Division>
@@ -2002,100 +1716,11 @@ ORDER BY BRANCH_NAME"
 						ExcelWorksheet="TMALocations"
 						ID="excelTMALocations"
 						Type="Excel"
-						>
-						<ConditionFilter
-							Condition="&quot;@Data.REGION~&quot; &lt;&gt; &quot;&quot;"
-						/>
-					</DataLayer>
+					/>
 					<MatchCondition
 						DataType="Number"
 						ID="matchBRANCH_NUMBER"
 						LeftDataColumn="BRANCH_NUMBER"
-						RightDataColumn="BRANCH_NUMBER"
-					/>
-				</Join>
-				<SortFilter
-					DataType="Text"
-					ID="sortREGION,BRANCH"
-					SortColumn="REGION, BRANCH_NAME"
-				/>
-				<GroupFilter
-					DataType="Text"
-					GroupColumn="REGION"
-					Hierarchical="True"
-					ID="groupREGION"
-					KeepGroupedRows="True"
-				/>
-			</DataLayer>
-			<EventHandler
-				DhtmlEvent="onchange"
-				ID="evtOnChangeBranch"
-				>
-				<Action
-					ElementID="@Shared.BranchElementToRefresh~"
-					ID="actRefreshReport"
-					Type="RefreshElement"
-					>
-					<WaitPage/>
-				</Action>
-			</EventHandler>
-		</InputSelectList>
-	</SharedElement>
-	<SharedElement
-		ID="shrCRMBranchSelect"
-		>
-		<Note
-			Note="**Pass in BranchElementToRefresh in the Shared Element Params.**"
-		/>
-		<Label
-			Caption="Use CTRL+click to select multiple values"
-			Class="ThemeTextSmaller"
-		/>
-		<LineBreak/>
-		<Note
-			Note="**All branches are shown here. Security is set for TMA Dashboard and MKC Dashboard.**"
-		/>
-		<InputSelectList
-			Caption="Locations:"
-			CaptionClass="ThemeTextSmall ThemeBold"
-			Class="ThemeTextSmaller"
-			DefaultValue="@Request.Branch~"
-			GroupCaptionColumn="REGION"
-			ID="Branch"
-			InputRows="12"
-			MultiSelect="True"
-			OptionCaptionColumn="BRANCH_NAME"
-			OptionValueColumn="BRANCH_NUMBER"
-			>
-			<DataLayer
-				ConnectionID="connCRM"
-				ID="sqlCRMLocations"
-				Source="Select Distinct ag_location.ag_locationId,
-  ag_location.ag_DataSourceKey
-From ag_location"
-				Type="SQL"
-				>
-				<Join
-					ID="joinSqlToExcelBranch"
-					JoinType="InnerJoin"
-					SortLeftSide="True"
-					SortRightSide="True"
-					>
-					<DataLayer
-						ColumnNamesRow="1"
-						ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\LocationData.xlsx"
-						ExcelWorksheet="TMALocations"
-						ID="excelTMALocations"
-						Type="Excel"
-						>
-						<ConditionFilter
-							Condition="&quot;@Data.REGION~&quot; &lt;&gt; &quot;&quot;"
-						/>
-					</DataLayer>
-					<MatchCondition
-						DataType="Number"
-						ID="matchBRANCH_NUMBER"
-						LeftDataColumn="ag_DataSourceKey"
 						RightDataColumn="BRANCH_NUMBER"
 					/>
 				</Join>
@@ -2164,22 +1789,6 @@ From ag_location"
 					COMMODITY_CODE="04"
 					COMMODITY_DESC="CORN"
 				/>
-				<StaticDataRow
-					COMMODITY_CODE="27"
-					COMMODITY_DESC="CANOLA"
-				/>
-				<StaticDataRow
-					COMMODITY_CODE="22"
-					COMMODITY_DESC="SUNFLOWERS"
-				/>
-				<StaticDataRow
-					COMMODITY_CODE="06"
-					COMMODITY_DESC="BARLEY"
-				/>
-				<StaticDataRow
-					COMMODITY_CODE="28"
-					COMMODITY_DESC="SOFT RED WHEAT"
-				/>
 			</DataLayer>
 			<EventHandler
 				DhtmlEvent="onchange"
@@ -2241,22 +1850,6 @@ From ag_location"
 					COMMODITY_CODE="04"
 					COMMODITY_DESC="CORN"
 				/>
-				<StaticDataRow
-					COMMODITY_CODE="27"
-					COMMODITY_DESC="CANOLA"
-				/>
-				<StaticDataRow
-					COMMODITY_CODE="22"
-					COMMODITY_DESC="SUNFLOWERS"
-				/>
-				<StaticDataRow
-					COMMODITY_CODE="06"
-					COMMODITY_DESC="BARLEY"
-				/>
-				<StaticDataRow
-					COMMODITY_CODE="28"
-					COMMODITY_DESC="SOFT RED WHEAT"
-				/>
 			</DataLayer>
 			<EventHandler
 				DhtmlEvent="onchange"
@@ -2280,131 +1873,28 @@ From ag_location"
 		/>
 		<Division
 			ID="divExcelExport"
-			SecurityRightID="MKC Dashboard, TMA Dashboard, OC"
+			SecurityRightID="@Shared.Security~"
 			>
 			<Label
 				Class="fa fa-file-excel-o fa-2x "
 				HtmlTag="Span"
 				ID="lnkExcel"
-				SecurityRightID="MKC Dashboard, TMA Dashboard, OC"
 				Tooltip="Export to Excel"
 				>
-				<Remark>
-					<Action
-						Javascript="tableToExcel(&quot;@Shared.DataTableID~&quot;,&quot;@Shared.ReportName~&quot;);"
-						Type="Javascript"
-					/>
-				</Remark>
 				<Action
-					ID="actExportExcel"
-					Type="NativeExcel"
-					>
-					<Target
-						ExcelOutputFormat="Excel2007"
-						ExportDataTableID="@Shared.DataTableID~"
-						ExportFilename="@Shared.ReportName~_@Function.GUID~"
-						FrameID="Top"
-						ShowGridlines="True"
-						Type="NativeExcel"
-					/>
-				</Action>
+					Javascript="tableToExcel(&quot;@Shared.DataTableID~&quot;,&quot;@Shared.ReportName~&quot;);"
+					Type="Javascript"
+				/>
 			</Label>
+			<LineBreak
+				LineCount="2"
+			/>
 			<ResponsiveVisibility
 				HideForExtraSmallScreen="True"
 				HideForLargeScreen="False"
 				HideForMediumScreen="False"
 				HideForSmallScreen="True"
 			/>
-		</Division>
-	</SharedElement>
-	<SharedElement
-		ID="shrDateFilter"
-		>
-		<Note
-			Note="**Pass in DataTableID, DefaultBeginDate and DefaultEndDate in the Shared Element Params.**"
-		/>
-		<Division
-			Class="well"
-			HtmlDiv="True"
-			ID="divDateRange"
-			>
-			<InputDate
-				Caption="Begin Date:"
-				CaptionClass="ThemeTextSmall ThemeBold"
-				Class="ThemeTextSmaller"
-				DefaultValue="@Shared.DefaultBeginDate~"
-				EndDateDefaultValue="@Shared.DefaultEndDate~"
-				EndDateRangeCaption="End Date:"
-				EndDateRangeID="HarvestEndDate"
-				ID="HarvestBeginDate"
-				InputDateReformat="yyyy-MM-dd"
-				ShowDateRange="True"
-				>
-				<EventHandler
-					DhtmlEvent="onchange"
-					ID="onChangeDate"
-					>
-					<Action
-						ElementID="@Shared.DataTableID~"
-						ID="actRefreshDataTable"
-						Type="RefreshElement"
-						>
-						<WaitPage/>
-					</Action>
-				</EventHandler>
-			</InputDate>
-		</Division>
-	</SharedElement>
-	<SharedElement
-		ID="shrYearFilter"
-		>
-		<Note
-			Note="**Pass in DataTableID in the Shared Element Params.**"
-		/>
-		<Division
-			ID="divYear"
-			>
-			<InputSelectList
-				Caption="Fiscal Year:"
-				CaptionClass="ThemeTextSmall ThemeBold"
-				Class="ThemeTextSmaller"
-				ID="Year"
-				IncludeBlank="True"
-				IncludeBlankCaption="All"
-				IncludeBlankValue="All"
-				OptionCaptionColumn="FiscalYear"
-				OptionValueColumn="FiscalYear"
-				>
-				<DataLayer
-					ConnectionID="connMKC"
-					ID="dlFiscalYears"
-					Source="SELECT DATEPART(YEAR, DATEADD(YEAR, CASE WHEN DATEPART(MONTH, GETDATE()) &lt; 3 THEN -4 ELSE -3 END, GETDATE())) as [FiscalYear]
-UNION 
-SELECT DATEPART(YEAR, DATEADD(YEAR, CASE WHEN DATEPART(MONTH, GETDATE()) &lt; 3 THEN -3 ELSE -2 END, GETDATE())) as [FiscalYear]
-UNION 
-SELECT DATEPART(YEAR, DATEADD(YEAR, CASE WHEN DATEPART(MONTH, GETDATE()) &lt; 3 THEN -2 ELSE -1 END, GETDATE())) as [FiscalYear]
-UNION 
-SELECT DATEPART(YEAR, DATEADD(YEAR, CASE WHEN DATEPART(MONTH, GETDATE()) &lt; 3 THEN -1 ELSE -0 END, GETDATE())) as [FiscalYear]
-UNION 
-SELECT DATEPART(YEAR, DATEADD(YEAR, CASE WHEN DATEPART(MONTH, GETDATE()) &lt; 3 THEN -0 ELSE +1 END, GETDATE())) as [FiscalYear]
-ORDER BY [FiscalYear]
-"
-					Type="SQL"
-				/>
-				<EventHandler
-					DhtmlEvent="onchange"
-					ID="onChangeYear"
-					>
-					<Action
-						ElementID="@Shared.DataTableID~"
-						ID="actRefreshDataTable"
-						Type="RefreshElement"
-						>
-						<WaitPage/>
-					</Action>
-				</EventHandler>
-			</InputSelectList>
-			<LineBreak/>
 		</Division>
 	</SharedElement>
 	<SharedElement
@@ -2467,19 +1957,19 @@ ORDER BY [FiscalYear]
 								HideForSmallScreen="True"
 							/>
 							<Label
-								Caption="© Copyright 2017-2018 MKC. Shared growth. Shared success. All rights reserved. "
+								Caption="© Copyright 2016-2017 MKC. Shared growth. Shared success. All rights reserved. "
 								Class="ThemeTextSmaller"
 								Format="HTML"
 								SecurityRightID="MKC Dashboard"
 							/>
 							<Label
-								Caption="© Copyright 2017-2018 Team Marketing Alliance. All rights reserved."
+								Caption="© Copyright 2016-2017 Team Marketing Alliance. All rights reserved."
 								Class="ThemeTextSmaller"
 								Format="HTML"
 								SecurityRightID="TMA Dashboard,OC"
 							/>
 							<Label
-								Caption="V3.3"
+								Caption="V2.1.01.24.2017"
 								Class="ThemeTextSmaller"
 								Format="HTML"
 								SecurityRightID="MKC Dashboard,TMA Dashboard,OC"
@@ -2495,13 +1985,13 @@ ORDER BY [FiscalYear]
 								HideForSmallScreen="False"
 							/>
 							<Label
-								Caption="© Copyright 2017-2018 MKC."
+								Caption="© Copyright 2016-2017 MKC."
 								Class="ThemeTextSmallest"
 								Format="HTML"
 								SecurityRightID="MKC Dashboard"
 							/>
 							<Label
-								Caption="© Copyright 2017-2018 TMA. "
+								Caption="© Copyright 2016-2017 TMA. "
 								Class="ThemeTextSmallest"
 								Format="HTML"
 								SecurityRightID="TMA Dashboard,OC"
@@ -2525,7 +2015,7 @@ ORDER BY [FiscalYear]
 									<Column>
 										<Button
 											Caption="Make A Wish"
-											Class="btn btn-wish"
+											Class="btn btn-default"
 											ID="btnWish"
 											>
 											<Action
@@ -2570,29 +2060,6 @@ ORDER BY [FiscalYear]
 		<IncludeScript
 			IncludedScript="
 $(document).ready(function() {
-	// get the security roles
-	var roles = document.getElementById(&quot;iptSecurityRoles&quot;).value;
-	var sroles = roles.search(&quot;OC&quot;);
-	var security; 
-	
-	if (sroles &gt; -1) {
-		// OC user
-		security = &quot;OC&quot;;
-	}
-	else {
-		sroles = roles.search(&quot;MKC Dashboard&quot;);
-		if (sroles &gt; -1) {
-			// MKC user
-			security = &quot;MKC&quot;;
-		}
-		else {
-			sroles = roles.search(&quot;TMA Dashboard&quot;);
-			if (sroles &gt; -1) {
-				// TMA user
-				security = &quot;TMA&quot;;
-			}
-		}	
-	}
 	var str = document.getElementById(&quot;iptStatus&quot;).value;
 	var report = document.getElementById(&quot;iptReport&quot;).value;
 	var n = str.search(&quot;alert&quot;);
@@ -2623,79 +2090,51 @@ $(document).ready(function() {
 	}
 		
 	//report specific functions
-	var r = report.search(&quot;TMAOpenContracts&quot;);
-	var r2 = report.search(&quot;TMAGrainStorageBalances&quot;);
+	var r = report.search(&quot;ContractsDashboard&quot;);
 	if (r &gt; -1) {
-		$(&quot;#btnReset&quot;).click();
-	}
-	if (r2 &gt; -1) {
-		$(&quot;#btnReset&quot;).click();
+				
 	}
 	
 
 	//display version and release notes on the about page and mobile about
-	var notifications;
-	var version;
-	var notes;
-	var history;
-	
-	if (security == &quot;MKC&quot;) {
-		notifications = document.getElementById(&quot;showReleaseNotes&quot;);
-		version = document.getElementById(&quot;version&quot;);
-		notes = document.getElementById(&quot;notes&quot;);
-	}
-	else {
-		notifications = document.getElementById(&quot;showReleaseNotesTMA&quot;);
-		version = document.getElementById(&quot;version_tma&quot;);
-		notes = document.getElementById(&quot;notes_tma&quot;);
-	}
-	notifications.innerHTML = &quot;&lt;b&gt;Latest Release Notes - &quot;;
-	var ul = version;
-	var items = ul.getElementsByTagName(&quot;li&quot;);
-	for (var i = 0; i &lt; items.length; ++i) {
-		// do something with the notification items, which is a &lt;li&gt; element
-		notifications.innerHTML = notifications.innerHTML + items[i].innerHTML + &quot;&lt;/b&gt;&lt;br&gt;&lt;ul&gt;&quot;;
-	}
-	
-	var thisItem;
-	var anchors;
-	ul = notes;
-	items = ul.getElementsByTagName(&quot;li&quot;);
-	for (var i = 0; i &lt; items.length; ++i) {
-		// set the page header to the version
-		notifications.innerHTML = notifications.innerHTML + &quot;&lt;li&gt;&quot; + items[i].innerHTML + &quot;&lt;/li&gt;&quot;;
-		thisItem = items[i].innerHTML;
-		anchors = thisItem.search(&quot;lnkMore&quot;);
-		if (anchors &gt; -1) {
-			document.getElementById(&quot;lnkMore&quot;).style.display = &quot;none&quot;;
+		var notifications = document.getElementById(&quot;showReleaseNotes&quot;);
+		notifications.innerHTML = &quot;&lt;b&gt;Latest Release Notes - &quot;;
+		var ul = document.getElementById(&quot;version&quot;);
+		var items = ul.getElementsByTagName(&quot;li&quot;);
+		for (var i = 0; i &lt; items.length; ++i) {
+			// do something with the notification items, which is a &lt;li&gt; element
+			notifications.innerHTML = notifications.innerHTML + items[i].innerHTML + &quot;&lt;/b&gt;&lt;br&gt;&lt;ul&gt;&quot;;
 		}
-	}
-	notifications.innerHTML = notifications.innerHTML + &quot;&lt;/ul&gt;&lt;br&gt;&quot;;
-	if (security == &quot;MKC&quot;) {
-		history = document.getElementById(&quot;history&quot;);
-	}
-	else {
-		history = document.getElementById(&quot;history_tma&quot;);
-	}
-	notifications.innerHTML = notifications.innerHTML + history.innerHTML;
+		
+		var thisItem;
+		var anchors;
+		ul = document.getElementById(&quot;notes&quot;);
+		items = ul.getElementsByTagName(&quot;li&quot;);
+		for (var i = 0; i &lt; items.length; ++i) {
+			// set the page header to the version
+			notifications.innerHTML = notifications.innerHTML + &quot;&lt;li&gt;&quot; + items[i].innerHTML + &quot;&lt;/li&gt;&quot;;
+			thisItem = items[i].innerHTML;
+			anchors = thisItem.search(&quot;lnkMore&quot;);
+			if (anchors &gt; -1) {
+				document.getElementById(&quot;lnkMore&quot;).style.display = &quot;none&quot;;
+			}
+		}
+		notifications.innerHTML = notifications.innerHTML + &quot;&lt;/ul&gt;&lt;br&gt;&quot;;
+		var history = document.getElementById(&quot;history&quot;);
+		notifications.innerHTML = notifications.innerHTML + history.innerHTML;
 		
 	// display for mobile
-	var mobileNotifications;
-	if (security == &quot;MKC&quot;) {
-		mobileNotifications = document.getElementById(&quot;showReleaseNotes&quot;);
-	}
-	else {
-		mobileNotifications = document.getElementById(&quot;showReleaseNotesTMA&quot;);
-	}
+	var mobileNotifications = document.getElementById(&quot;showReleaseNotesMobile&quot;);
 	mobileNotifications.innerHTML = notifications.innerHTML;
 		
-	//display notifications -- MKC
+
+
+	//display notifications
 	var home = report.search(&quot;Home.Default&quot;);
 	var dismissed = localStorage.getItem(&apos;dismissed&apos;) || &apos;&apos; ;
 	var loggedInUser = document.getElementById(&quot;iptUserNotifications&quot;).value;
 	var userDismiss = dismissed.search(loggedInUser);	
 	var userList;
-
 	if (home &gt; -1 || report == &quot;&quot;) {
 		if (document.getElementById(&quot;iptShowNotifications&quot;).value == &quot;N&quot;) {
 			//do not show notifications here
@@ -2703,19 +2142,12 @@ $(document).ready(function() {
 		else {
 			//if -1 this user has not dismissed the notifications yet, so show them
 			if (dismissed == &quot;&quot; || userDismiss == -1) {
-				if (security == &quot;MKC&quot;) {
-					ul = document.getElementById(&quot;notifications&quot;);
-				}
-				else {
-					ul = document.getElementById(&quot;notifications_tma&quot;);
-				}
+				var ul = document.getElementById(&quot;notifications&quot;);
 				var items = ul.getElementsByTagName(&quot;li&quot;);
 				for (var i = 0; i &lt; items.length; ++i) {
 					// do something with the notification items, which is a &lt;li&gt; element
 					//$.notify(items[i].innerHTML,{className: &quot;error&quot;,autoHide: false,position:&quot;bottom left&quot;});
-					//(&quot;#Footer&quot;).notify(items[i].innerHTML,{className: &quot;error&quot;,autoHide: false});
-					$.notify(items[i].innerHTML,{className: &quot;error&quot;,autoHide: false});
-					//$(&quot;#Footer&quot;).notify(items[i].innerHTML,{className: &quot;error&quot;,autoHide: false,position:&quot;bottom left&quot;});
+					$(&quot;#Footer&quot;).notify(items[i].innerHTML,{className: &quot;error&quot;,autoHide: false,position:&quot;top left&quot;});
 				}				
 			}			
 		}

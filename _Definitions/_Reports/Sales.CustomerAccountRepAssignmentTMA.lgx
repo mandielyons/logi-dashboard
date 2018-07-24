@@ -1,20 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Report
-	Caption="Account Rep Assignments"
-	ID="Sales.CustomerAccountRepAssignment"
+	Caption="Account Rep Lookup"
+	ID="Sales.CustomerAccountRepAssignmentTMA"
+	SecurityReportRightID="TMA Dashboard, OC"
 	>
-	<DefaultRequestParams
-		Company="MKC"
-		CustomerID=""
-	/>
 	<LocalData>
 		<DataLayer
 			ConnectionID="connProdGP"
 			ID="dlCustomer"
-			Source="SELECT DISTINCT Company, vmkcAccountRep.CUSTOMER as [CUSTOMER], vmkcAccountRep.CUSTOMER_NAME as [CUSTOMER_NAME], (vmkcAccountRep.CUSTOMER + &apos; - &apos; + vmkcAccountRep.CUSTOMER_NAME) as [CUSTCOMBO]
-FROM MKCGP.dbo.vmkcAccountRep
-WHERE Company = &apos;@Request.Company~&apos;
-ORDER BY Company, CUSTOMER_NAME;
+			Source="SELECT DISTINCT DMvTMAAccountRepOC.CUSTOMER as [CUSTOMER], DMvTMAAccountRepOC.CUSTOMER_NAME as [CUSTOMER_NAME], (DMvTMAAccountRepOC.CUSTOMER + &apos; - &apos; + DMvTMAAccountRepOC.CUSTOMER_NAME) as [CUSTCOMBO]
+FROM Agtrax_Staging.dbo.DMvTMAAccountRepOC
+ORDER BY CUSTOMER_NAME;
 "
 			Type="SQL"
 			>
@@ -25,11 +21,10 @@ ORDER BY Company, CUSTOMER_NAME;
 		<DataLayer
 			ConnectionID="connProdGP"
 			ID="dlAccountRepAssignment"
-			Source="SELECT vmkcAccountRep.Company, vmkcAccountRep.CUSTOMER, vmkcAccountRep.CUSTOMER_NAME, vmkcAccountRep.CRM_DepartmentName, vmkcAccountRep.CRM_RoleName, vmkcAccountRep.CRM_AccountRepName
-FROM MKCGP.dbo.vmkcAccountRep
-WHERE vmkcAccountRep.Company = &apos;@Request.Company~&apos;
-  AND vmkcAccountRep.CUSTOMER = &apos;@Request.CustomerID~&apos;
-ORDER BY Company, CUSTOMER, CRM_DepartmentName, CRM_RoleName, CRM_AccountRepName;"
+			Source="SELECT DMvTMAAccountRepOC.CUSTOMER, DMvTMAAccountRepOC.CUSTOMER_NAME, DMvTMAAccountRepOC.CRM_DepartmentName, DMvTMAAccountRepOC.CRM_RoleName, DMvTMAAccountRepOC.CRM_AccountRepName
+FROM Agtrax_Staging.dbo.DMvTMAAccountRepOC
+WHERE DMvTMAAccountRepOC.CUSTOMER = &apos;@Request.CustomerID~&apos;
+ORDER BY CUSTOMER, CRM_DepartmentName, CRM_RoleName, CRM_AccountRepName;"
 			Type="SQL"
 			>
 			<DataLayerLink
@@ -37,6 +32,22 @@ ORDER BY Company, CUSTOMER, CRM_DepartmentName, CRM_RoleName, CRM_AccountRepName
 			/>
 		</DataLayer>
 	</LocalData>
+	<LocalData
+		ID="LocalData-CustName"
+		>
+		<DataLayer
+			ConnectionID="connProdGP"
+			ID="luCustomer"
+			Source="SELECT DISTINCT (DMvTMAAccountRepOC.CUSTOMER + &apos; : &apos; + DMvTMAAccountRepOC.CUSTOMER_NAME) as [luCUSTCOMBO]
+FROM Agtrax_Staging.dbo.DMvTMAAccountRepOC
+WHERE LTRIM(RTRIM(DMvTMAAccountRepOC.CUSTOMER)) = &apos;@Request.CustomerID~&apos;;
+"
+			Type="SQL"
+		/>
+	</LocalData>
+	<DefaultRequestParams
+		CustomerID=""
+	/>
 	<IncludeSharedElement
 		DefinitionFile="_Layout.Shared"
 		SharedElementID="shrHeader"
@@ -53,7 +64,7 @@ ORDER BY Company, CUSTOMER, CRM_DepartmentName, CRM_RoleName, CRM_AccountRepName
 				ID="div-header"
 				>
 				<Label
-					Caption="Account Rep Assignments"
+					Caption="Customer AccountRep Assignments"
 					Class="panel-title"
 				/>
 			</Division>
@@ -75,42 +86,6 @@ ORDER BY Company, CUSTOMER, CRM_DepartmentName, CRM_RoleName, CRM_AccountRepName
 							ID="divFilters"
 							>
 							<InputSelectList
-								Caption="Company"
-								CaptionClass="ThemeTextSmall ThemeBold"
-								Class="ThemeTextSmall "
-								DefaultValue="@Request.Company~"
-								ID="Company"
-								OptionCaptionColumn="Company"
-								OptionValueColumn="Company"
-								>
-								<DataLayer
-									ID="dlsCompany"
-									Type="Static"
-									>
-									<StaticDataRow
-										Company="MKC"
-									/>
-									<StaticDataRow
-										Company="TMA"
-									/>
-								</DataLayer>
-								<EventHandler
-									DhtmlEvent="onchange"
-									>
-									<Action
-										ElementID="CustomerID, dtAssignment"
-										ID="refAssignmentByCompany"
-										Type="RefreshElement"
-										>
-										<LinkParams
-											CustomerID=""
-										/>
-										<WaitPage/>
-									</Action>
-								</EventHandler>
-							</InputSelectList>
-							<LineBreak/>
-							<InputSelectList
 								Caption="Customer"
 								CaptionClass="ThemeTextSmall ThemeBold"
 								Class="ThemeTextSmall"
@@ -130,7 +105,7 @@ ORDER BY Company, CUSTOMER, CRM_DepartmentName, CRM_RoleName, CRM_AccountRepName
 									DhtmlEvent="onchange"
 									>
 									<Action
-										ElementID="dtAssignment"
+										ElementID="divAccountRep"
 										ID="refAssignmentByCustomerID"
 										Type="RefreshElement"
 										>
@@ -155,46 +130,49 @@ ORDER BY Company, CUSTOMER, CRM_DepartmentName, CRM_RoleName, CRM_AccountRepName
 							ID="divAccountRep"
 							>
 							<LineBreak/>
+							<Label
+								Caption="@Local.luCUSTCOMBO~"
+								Class="ThemeHeaderSmall"
+							/>
+							<LineBreak/>
 							<DataTable
 								ID="dtAssignment"
 								SortArrows="True"
 								>
-								<InteractivePaging
-									CaptionType="Image"
-									Class="ThemeTextSmall"
-									Location="Top"
-									PageRowCount="10"
-									ShowPageNumber="True"
-								/>
+								<Remark>
+									<InteractivePaging
+										CaptionType="Image"
+										Class="ThemeTextSmall"
+										Location="Top"
+										PageRowCount="10"
+										ShowPageNumber="True"
+									/>
+								</Remark>
 								<DataLayer
 									ID="lnkAccountRepAssignment"
 									LinkedDataLayerID="linkAccountRepAssignment"
 									Type="Linked"
 								/>
-								<DataTableColumn
-									Class="ThemeAlignTopLeft"
-									Header="Company"
-									>
-									<Label
-										Caption="@Data.Company~"
-									/>
-								</DataTableColumn>
-								<DataTableColumn
-									Class="ThemeAlignTopLeft"
-									Header="Customer ID"
-									>
-									<Label
-										Caption="@Data.CUSTOMER~"
-									/>
-								</DataTableColumn>
-								<DataTableColumn
-									Class="ThemeAlignTopLeft"
-									Header="Customer Name"
-									>
-									<Label
-										Caption="@Data.CUSTOMER_NAME~"
-									/>
-								</DataTableColumn>
+								<Remark>
+									<DataTableColumn
+										Class="ThemeAlignTopLeft"
+										Header="Customer ID"
+										>
+										<Label
+											Caption="@Data.CUSTOMER~"
+										/>
+									</DataTableColumn>
+								</Remark>
+								<Remark>
+									<DataTableColumn
+										Class="ThemeAlignTopLeft"
+										Header="Customer Name"
+										>
+										<Label
+											Caption="@Data.CUSTOMER_NAME~"
+										/>
+									</DataTableColumn>
+								</Remark>
 								<DataTableColumn
 									Class="ThemeAlignTopLeft"
 									Header="CRM Department"
@@ -249,7 +227,6 @@ ORDER BY Company, CUSTOMER, CRM_DepartmentName, CRM_RoleName, CRM_AccountRepName
 		SharedElementID="shrFooter"
 	/>
 	<ideTestParams
-		Company=""
 		CustomerID=""
 	/>
 </Report>

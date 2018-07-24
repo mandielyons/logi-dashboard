@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Report
-	Caption="Customer Fields"
-	ID="Maps.MapCustFields"
+	Caption="Customer Fields - Filter"
+	ID="Maps.MapCustFieldswFltr"
 	>
 	<LocalData
 		Condition="&quot;@Request.iptCustomer~&quot;.length &gt; 0"
@@ -65,8 +65,10 @@ FROM DynamicsGPWarehouse..CustomerFieldsAgWorks
 			ConnectionID="connProdGP"
 			HandleQuotesInTokens="True"
 			ID="dlGmap"
-			Source="Select *
-From DynamicsGPWarehouse..CustomerFieldsAgWorks"
+			Source="SELECT * 
+FROM DynamicsGPWarehouse..CustomerFieldsAgWorks
+WHERE 
+CustID IN (@Request.iptCustomer~)"
 			Type="SQL"
 			>
 			<Note
@@ -318,68 +320,26 @@ And Objects.Visible = 1"
 							ID="div-map"
 							>
 							<Division
-								Class="container-fluid"
-								ID="div-map-content"
+								Condition="&quot;@Request.iptCustomer~&quot;.length &gt; 0"
+								HtmlDiv="True"
+								ID="div-customer-selected"
 								>
-								<GoogleMap
-									GoogleMapTypes="Satellite,Map,Hybrid,Terrain"
-									GoogleMapZoomControl="Small"
-									Height="700"
-									ID="gMap-CustomerFieldLocations"
-									MapScale="False"
-									Width="900"
+								<Division
+									Class="container-fluid"
+									ID="div-map-content"
 									>
-									<GoogleMapPolygons
-										FillColor="@Data.csc~"
-										ID="gmpoly"
+									<GoogleMap
+										GoogleMapTypes="Satellite,Map,Hybrid,Terrain"
+										GoogleMapZoomControl="Small"
+										Height="700"
+										ID="gMap-CustomerFieldLocations"
+										MapScale="False"
+										Width="900"
 										>
-										<DataLayer
-											ConnectionID="connProdGP"
-											HandleQuotesInTokens="True"
-											ID="dlGmap"
-											Source="Select *
-From DynamicsGPWarehouse..CustomerFieldsAgWorks"
-											Type="SQL"
+										<GoogleMapPolygons
+											FillColor="@Data.csc~"
+											ID="gmpoly"
 											>
-											<Note
-												Note="convert to long,lat,0 long,lat,0"
-											/>
-											<CalculatedColumn
-												Formula="Replace(&apos;@Data.latlongs~&apos;,&apos;POLYGON ((&apos;,&apos;&apos;)"
-												ID="cc1"
-											/>
-											<CalculatedColumn
-												Formula="Replace(&apos;@Data.cc1~&apos;, &apos;))&apos;, &apos;?&apos;)"
-												ID="cc2"
-											/>
-											<CalculatedColumn
-												Formula="Replace(&apos;@Data.cc2~&apos;, &apos;, &apos; , &apos;?&apos;)"
-												ID="cc3"
-											/>
-											<CalculatedColumn
-												Formula="Replace(&apos;@Data.cc3~&apos;, &apos; &apos;, &apos;,&apos;)"
-												ID="cc4"
-											/>
-											<CalculatedColumn
-												Formula="Replace(&apos;@Data.cc4~&apos;, &apos;?&apos; , &apos;,0 &apos;)"
-												ID="rdCoordinates"
-											/>
-											<ColorSpectrumColumn
-												DataColumn="Acres"
-												HighValueColor="BlueViolet"
-												ID="csc"
-												LowValueColor="Red"
-												MediumValueColor="Orange"
-											/>
-											<DataLayerLink
-												ID="linkGmap-UserCustomerFields"
-											/>
-										</DataLayer>
-										<PolygonColorSpectrumLegend
-											Format="#.0 acres"
-											ID="pcsl"
-										/>
-										<Remark>
 											<DataLayer
 												ID="dllGmap-UserCustomerFields-Map"
 												LinkedDataLayerID="linkGmap-UserCustomerFields"
@@ -393,82 +353,79 @@ From DynamicsGPWarehouse..CustomerFieldsAgWorks"
 													MediumValueColor="Orange"
 												/>
 											</DataLayer>
-										</Remark>
-										<Action
-											Type="MapMarkerInfo"
-											>
-											<MapMarkerInfo>
-												<Label
-													Caption="Customer: "
-													Class="ThemeBold"
-												/>
-												<Label
-													Caption="@Data.CustDesc~"
-												/>
-												<LineBreak/>
-												<Label
-													Caption="Farm: "
-													Class="ThemeBold"
-												/>
-												<Label
-													Caption="@Data.FarmDesc~"
-												/>
-												<LineBreak/>
-												<Label
-													Caption="Field: "
-													Class="ThemeBold"
-												/>
-												<Label
-													Caption="@Data.FieldDesc~"
-												/>
-												<LineBreak/>
-												<Label
-													Caption="@Data.Acres~"
-													Format="#.#0 Acres"
-												/>
-											</MapMarkerInfo>
-										</Action>
-									</GoogleMapPolygons>
-								</GoogleMap>
+											<PolygonColorSpectrumLegend
+												Format="#.0 acres"
+												ID="pcsl"
+											/>
+											<Action
+												Type="MapMarkerInfo"
+												>
+												<MapMarkerInfo>
+													<Label
+														Caption="Customer: "
+														Class="ThemeBold"
+													/>
+													<Label
+														Caption="@Data.CustDesc~"
+													/>
+													<LineBreak/>
+													<Label
+														Caption="Farm: "
+														Class="ThemeBold"
+													/>
+													<Label
+														Caption="@Data.FarmDesc~"
+													/>
+													<LineBreak/>
+													<Label
+														Caption="Field: "
+														Class="ThemeBold"
+													/>
+													<Label
+														Caption="@Data.FieldDesc~"
+													/>
+													<LineBreak/>
+													<Label
+														Caption="@Data.Acres~"
+														Format="#.#0 Acres"
+													/>
+												</MapMarkerInfo>
+											</Action>
+										</GoogleMapPolygons>
+									</GoogleMap>
+								</Division>
 							</Division>
 							<Division
-								Condition="&quot;@Request.iptCustomer~&quot;.length &gt; 0"
+								Condition="&quot;@Request.iptCustomer~&quot;.length == 0"
 								HtmlDiv="True"
-								ID="div-customer-selected"
-							/>
-							<Remark>
-								<Division
-									Condition="&quot;@Request.iptCustomer~&quot;.length == 0"
-									HtmlDiv="True"
-									ID="div-no-customer-selected"
-									>
-									<ResponsiveRow>
-										<ResponsiveColumn/>
-										<ResponsiveColumn
+								ID="div-no-customer-selected"
+								>
+								<ResponsiveRow>
+									<ResponsiveColumn/>
+									<ResponsiveColumn
+										Class="text-center"
+										>
+										<Label
+											Class="fa fa-warning fa-4x"
+											HtmlTag="h1"
+											ID="icon-error"
+										/>
+										<LineBreak/>
+										<Label
+											Caption="Please select 1+ Customers"
 											Class="text-center"
-											>
-											<Label
-												Class="fa fa-warning fa-4x"
-												HtmlTag="h1"
-												ID="icon-error"
-											/>
-											<LineBreak/>
-											<Label
-												Caption="Please select 1+ Customers"
-												Class="text-center"
-												HtmlTag="h4"
-											/>
-											<LineBreak/>
-											<Label
-												Caption="NOTE: Selecting more than a few customers may increase wait time."
-												Class="text-center"
-												HtmlTag="h5"
-											/>
-										</ResponsiveColumn>
-										<ResponsiveColumn/>
-									</ResponsiveRow>
-								</Division>
-							</Remark>
+											HtmlTag="h4"
+										/>
+										<LineBreak/>
+										<Label
+											Caption="NOTE: Selecting more than a few customers may increase wait time."
+											Class="text-center"
+											HtmlTag="h5"
+										/>
+									</ResponsiveColumn>
+									<ResponsiveColumn/>
+								</ResponsiveRow>
+							</Division>
 						</Division>
 					</Division>
 				</Division>

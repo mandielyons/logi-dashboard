@@ -1,0 +1,231 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report
+	Caption="Account Rep Lookup"
+	ID="Sales.CustomerAccountRepAssignmentMKC"
+	SecurityReportRightID="MKC Dashboard, TMA Dashboard"
+	>
+	<LocalData>
+		<DataLayer
+			ConnectionID="connProdGP"
+			ID="dlCustomer"
+			Source="SELECT DISTINCT vmkcAccountRep.CUSTOMER as [CUSTOMER], vmkcAccountRep.CUSTOMER_NAME as [CUSTOMER_NAME], (vmkcAccountRep.CUSTOMER + &apos; - &apos; + vmkcAccountRep.CUSTOMER_NAME) as [CUSTCOMBO]
+FROM MKCGP.dbo.vmkcAccountRep
+ORDER BY CUSTOMER_NAME;
+"
+			Type="SQL"
+			>
+			<DataLayerLink
+				ID="linkCustomer"
+			/>
+		</DataLayer>
+		<DataLayer
+			ConnectionID="connProdGP"
+			ID="dlAccountRepAssignment"
+			Source="SELECT vmkcAccountRep.CUSTOMER, vmkcAccountRep.CUSTOMER_NAME, vmkcAccountRep.CRM_DepartmentName, vmkcAccountRep.CRM_RoleName, vmkcAccountRep.CRM_AccountRepName
+FROM MKCGP.dbo.vmkcAccountRep
+WHERE vmkcAccountRep.CUSTOMER = &apos;@Request.CustomerID~&apos;
+ORDER BY CUSTOMER, CRM_DepartmentName, CRM_RoleName, CRM_AccountRepName;"
+			Type="SQL"
+			>
+			<DataLayerLink
+				ID="linkAccountRepAssignment"
+			/>
+		</DataLayer>
+	</LocalData>
+	<LocalData
+		ID="LocalData-CustName"
+		>
+		<DataLayer
+			ConnectionID="connProdGP"
+			ID="luCustomer"
+			Source="SELECT DISTINCT (vmkcAccountRep.CUSTOMER + &apos; : &apos; + vmkcAccountRep.CUSTOMER_NAME) as [luCUSTCOMBO]
+FROM MKCGP.dbo.vmkcAccountRep
+WHERE vmkcAccountRep.CUSTOMER = &apos;@Request.CustomerID~&apos;;"
+			Type="SQL"
+		/>
+	</LocalData>
+	<DefaultRequestParams
+		CustomerID=""
+	/>
+	<IncludeSharedElement
+		DefinitionFile="_Layout.Shared"
+		SharedElementID="shrHeader"
+	/>
+	<Body>
+		<Division
+			Class="panel panel-default"
+			HtmlDiv="True"
+			ID="div-panel"
+			>
+			<Division
+				Class="panel-heading"
+				HtmlDiv="True"
+				ID="div-header"
+				>
+				<Label
+					Caption="Account Rep Assignments"
+					Class="panel-title"
+				/>
+			</Division>
+			<Division
+				Class="panel-body"
+				HtmlDiv="True"
+				ID="div-body"
+				>
+				<ResponsiveRow>
+					<ResponsiveColumn
+						ColspanExtraSmallScreen="6"
+						ColspanLargeScreen="3"
+						ColspanMediumScreen="3"
+						ColspanSmallScreen="6"
+						>
+						<Division
+							Class="well"
+							HtmlDiv="True"
+							ID="divFilters"
+							>
+							<InputSelectList
+								Caption="Customer"
+								CaptionClass="ThemeTextSmall ThemeBold"
+								Class="ThemeTextSmall"
+								DefaultValue="@Request.CustomerID~"
+								ID="CustomerID"
+								IncludeBlank="True"
+								MultiSelect="False"
+								OptionCaptionColumn="CUSTOMER_NAME"
+								OptionValueColumn="CUSTOMER"
+								>
+								<DataLayer
+									ID="lnkCustomer"
+									LinkedDataLayerID="linkCustomer"
+									Type="Linked"
+								/>
+								<EventHandler
+									DhtmlEvent="onchange"
+									>
+									<Action
+										ElementID="divAccountRep"
+										ID="refAssignmentByCustomerID"
+										Type="RefreshElement"
+										>
+										<WaitPage/>
+									</Action>
+								</EventHandler>
+							</InputSelectList>
+							<LineBreak
+								ID="NewLine(8)"
+								LineCount="8"
+							/>
+						</Division>
+					</ResponsiveColumn>
+					<ResponsiveColumn
+						ColspanExtraSmallScreen="5"
+						ColspanLargeScreen="8"
+						ColspanMediumScreen="8"
+						ColspanSmallScreen="5"
+						>
+						<Division
+							Class="ThemeTextSmall"
+							ID="divAccountRep"
+							>
+							<LineBreak/>
+							<Label
+								Caption="@Local.luCUSTCOMBO~"
+								Class="ThemeHeaderSmall"
+							/>
+							<LineBreak/>
+							<DataTable
+								ID="dtAssignment"
+								SortArrows="True"
+								>
+								<Remark>
+									<InteractivePaging
+										CaptionType="Image"
+										Class="ThemeTextSmall"
+										Location="Top"
+										PageRowCount="10"
+										ShowPageNumber="True"
+									/>
+								</Remark>
+								<DataLayer
+									ID="lnkAccountRepAssignment"
+									LinkedDataLayerID="linkAccountRepAssignment"
+									Type="Linked"
+								/>
+								<Remark>
+									<DataTableColumn
+										Class="ThemeAlignTopLeft"
+										Header="Customer ID"
+										>
+										<Label
+											Caption="@Data.CUSTOMER~"
+										/>
+									</DataTableColumn>
+								</Remark>
+								<Remark>
+									<DataTableColumn
+										Class="ThemeAlignTopLeft"
+										Header="Customer Name"
+										>
+										<Label
+											Caption="@Data.CUSTOMER_NAME~"
+										/>
+									</DataTableColumn>
+								</Remark>
+								<DataTableColumn
+									Class="ThemeAlignTopLeft"
+									Header="CRM Department"
+									>
+									<Label
+										Caption="@Data.CRM_DepartmentName~"
+									/>
+								</DataTableColumn>
+								<DataTableColumn
+									Class="ThemeAlignTopLeft"
+									Header="CRM Role"
+									>
+									<Label
+										Caption="@Data.CRM_RoleName~"
+									/>
+								</DataTableColumn>
+								<DataTableColumn
+									Class="ThemeAlignTopLeft"
+									Header="Account Rep"
+									>
+									<Label
+										Caption="@Data.CRM_AccountRepName~"
+									/>
+								</DataTableColumn>
+							</DataTable>
+						</Division>
+					</ResponsiveColumn>
+					<ResponsiveColumn>
+						<Division
+							Class="pull-right"
+							HtmlDiv="True"
+							ID="divAccountRepExport"
+							>
+							<IncludeSharedElement
+								DefinitionFile="_Layout.Shared"
+								SharedElementID="shrExcelExport"
+								>
+								<SharedElementParams
+									DataTableID="dtClaims"
+									ReportName="Field Claims"
+									Security=""
+								/>
+							</IncludeSharedElement>
+						</Division>
+					</ResponsiveColumn>
+				</ResponsiveRow>
+			</Division>
+		</Division>
+	</Body>
+	<IncludeSharedElement
+		DefinitionFile="_Layout.Shared"
+		SharedElementID="shrFooter"
+	/>
+	<ideTestParams
+		CustomerID=""
+	/>
+</Report>
