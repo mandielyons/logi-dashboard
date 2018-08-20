@@ -15,6 +15,7 @@
 		paramCommodityCode="01"
 		paramCommodityCT="01"
 		paramCommodityDesc="Corn"
+		paramContractMain="-1"
 		paramCustNmbr="ALL"
 		paramShipPeriodDt="2000-02-01"
 		Position="Cash"
@@ -107,7 +108,7 @@
   , COMMODITY_CODE AS [COMMODITYCD]
   , MAX(COMMODITY_DESC) AS [COMMODITYDESC]
   , CAST(SUM(REMAINING_BU) AS DECIMAL(19,2)) AS [REMAINING_BU]
-FROM [AgTrax_Staging]..[DM_OpenContracts] with(nolock)
+FROM [AgTrax_Staging].[dbo].[DM_OpenContracts] with(nolock)
 GROUP BY DATA_KEY,CONTRACT_MAIN,CUSTOMER,COMMODITY_CODE
 HAVING SUM(REMAINING_BU)&lt;0
 "
@@ -624,8 +625,8 @@ ORDER BY CONTRACTNMBR"
   , OC.COMMODITY_CODE [COMMODITYCD]
   , OC.COMMODITY_DESC [COMMODITYDESC]
   , OC.REMAINING_BU
-FROM AgTrax_Staging..DM_OpenContracts OC 
-  INNER JOIN AgTrax_Staging..AR_CUSTOMER_MASTER_TMA CM ON OC.CUSTOMER=CM.CUSTOMER
+FROM AgTrax_Staging.dbo.DM_OpenContracts OC 
+  INNER JOIN AgTrax_Staging.dbo.AR_CUSTOMER_MASTER_TMA CM ON OC.CUSTOMER=CM.CUSTOMER
 WHERE OC.DATA_KEY=&apos;@Request.paramContractKey~&apos;
 ORDER BY CONTRACTNMBR"
 														Type="SQL"
@@ -1146,7 +1147,7 @@ ORDER BY BRANCH"
 , COMMODITY_CODE+&apos; - &apos;+MAX(COMMODITY_DESC) [Commodity]
 , DELIVERY_START_DATE, DELIVERY_END_DATE 
 , SUM(ISSUED_BU) [ISSUED_BU], SUM(REMAINING_BU) [REMAINING_BU]
-FROM AgTrax_Staging..DM_OpenContracts 
+FROM AgTrax_Staging.dbo.DM_OpenContracts 
 WHERE DELIVERY_END_DATE &lt;= &apos;@Local.SHIP_PERIOD_DT~&apos; 
   AND DPR_GROUP = @Request.paramCommodityCode~
   AND CONTRACT_TYPE_DESC = &apos;@Request.ContractType~&apos;
@@ -1415,9 +1416,9 @@ ORDER BY CUSTDESC, MAINCONTRACT
   , OC.COMMODITY_DESC AS [COMMODITYDESC]
   , OC.ISSUED_LBS, OC.APPLIED_LBS, OC.ADJUSTED_LBS, OC.SUB_CONT_LBS, OC.REMAINING_LBS
   , OC.ISSUED_BU, OC.APPLIED_BU, OC.ADJUSTED_BU, OC.SUB_CONT_BU, OC.REMAINING_BU
-FROM AgTrax_Staging..DM_OpenContracts AS OC with(nolock)
-  INNER JOIN AgTrax_Staging..AR_CUSTOMER_MASTER_TMA CM ON OC.CUSTOMER=CM.CUSTOMER
-WHERE OC.DATA_KEY=&apos;@Request.paramContractKey~&apos; OR (OC.CONTRACT_MAIN=&apos;@Request.paramContractMain~&apos; and OC.CUSTOMER=&apos;@Request.paramCustomer~&apos;)
+FROM AgTrax_Staging.dbo.DM_OpenContracts AS OC with(nolock)
+  INNER JOIN AgTrax_Staging.dbo.AR_CUSTOMER_MASTER_TMA CM ON OC.CUSTOMER=CM.CUSTOMER
+WHERE OC.DATA_KEY=&apos;@Request.paramContractKey~&apos; OR (OC.CONTRACT_MAIN=@Request.paramContractMain~ and OC.CUSTOMER=&apos;@Request.paramCustomer~&apos;)
 "
 													Type="SQL"
 												/>
