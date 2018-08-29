@@ -270,11 +270,11 @@ WHERE DM_OpenContracts.CONTRACT_TYPE = 2
 											/>
 											<ConditionalClass
 												Class="yellow-highlight"
-												Condition="&quot;@Data.TEMPLATE~&quot; = &quot;11&quot;"
+												Condition="&quot;@Data.SHPMTTYP_CODE~&quot; = &quot;11&quot;"
 											/>
 											<ConditionalClass
 												Class="blue-highlight"
-												Condition="&quot;@Data.TEMPLATE~&quot; = &quot;110&quot;"
+												Condition="&quot;@Data.SHPMTTYP_CODE~&quot; = &quot;110&quot;"
 											/>
 										</DataTableColumn>
 										<DataTableColumn
