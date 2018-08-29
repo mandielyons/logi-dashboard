@@ -206,10 +206,12 @@ WHERE DM_OpenContracts.CONTRACT_TYPE = 2
 									ID="divDataTable"
 									>
 									<DataTable
+										AccessibleHeaders="True"
 										AjaxPaging="True"
 										Caption="TMA Branch Dispatch Details"
 										CaptionClass="ThemeTextSmall"
 										Class="ThemeTextSmaller"
+										DraggableColumns="True"
 										ID="ALLContracts"
 										Layout="Fixed"
 										RememberSort="True"
@@ -278,6 +280,29 @@ WHERE DM_OpenContracts.CONTRACT_TYPE = 2
 											/>
 										</DataTableColumn>
 										<DataTableColumn
+											Header="Type"
+											ID="colSHPMTTYP_CODE"
+											Width="5"
+											WidthScale="%"
+											>
+											<Label
+												Caption="@Data.SHPMTTYP_CODE~"
+												ID="lblSHPMTTYP_CODE"
+											/>
+											<DataColumnSort
+												DataColumn="SHPMTTYP_CODE"
+												DataType="Number"
+											/>
+											<ConditionalClass
+												Class="yellow-highlight"
+												Condition="&quot;@Data.SHPMTTYP_CODE~&quot; = &quot;11&quot;"
+											/>
+											<ConditionalClass
+												Class="blue-highlight"
+												Condition="&quot;@Data.SHPMTTYP_CODE~&quot; = &quot;110&quot;"
+											/>
+										</DataTableColumn>
+										<DataTableColumn
 											Header="Commodity"
 											ID="colCommodity"
 											Width="8"
@@ -313,29 +338,6 @@ WHERE DM_OpenContracts.CONTRACT_TYPE = 2
 											<DataColumnSort
 												DataColumn="Account"
 												DataType="Text"
-											/>
-											<ConditionalClass
-												Class="yellow-highlight"
-												Condition="&quot;@Data.SHPMTTYP_CODE~&quot; = &quot;11&quot;"
-											/>
-											<ConditionalClass
-												Class="blue-highlight"
-												Condition="&quot;@Data.SHPMTTYP_CODE~&quot; = &quot;110&quot;"
-											/>
-										</DataTableColumn>
-										<DataTableColumn
-											Header="Type"
-											ID="colSHPMTTYP_CODE"
-											Width="5"
-											WidthScale="%"
-											>
-											<Label
-												Caption="@Data.SHPMTTYP_CODE~"
-												ID="lblSHPMTTYP_CODE"
-											/>
-											<DataColumnSort
-												DataColumn="SHPMTTYP_CODE"
-												DataType="Number"
 											/>
 											<ConditionalClass
 												Class="yellow-highlight"
