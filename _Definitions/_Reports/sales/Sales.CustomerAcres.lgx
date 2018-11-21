@@ -279,6 +279,81 @@
 		/>
 		<ResponsiveRow>
 			<ResponsiveColumn>
+				<Remark>
+					<Division>
+						<DataTable
+							AccessibleHeaders="True"
+							Class="ThemeTextSmaller"
+							DraggableColumns="True"
+							ID="dtCDProd"
+							>
+							<DataLayer
+								ConnectionID="connAgOS"
+								Source="Select ScaleTicketProducts.ScaleTicketID,
+  ScaleTicketProducts.Amount As Quantity,
+  ScaleTicketProducts.Note,
+  Units.Name As OrderUOM,
+  Products.Name As Product,
+  Products.InvUnitID,
+  Products.ExportUnitID,
+  Units.[Conversion factor] As Conversion,
+  ScaleTicketProducts.TargetAmount,
+  Round((ScaleTicketProducts.TargetAmount / Units.[Conversion factor]),
+  3) As Total,
+  Units1.Name As DefaultUOM
+From ScaleTicketProducts
+  Inner Join Products On Products.ProductID = ScaleTicketProducts.ProductID
+  Left Outer Join Chemical On Products.ProductID = Chemical.ProductID
+  Left Outer Join Units On ScaleTicketProducts.UnitID = Units.UnitID
+  Left Outer Join Units Units1 On Chemical.ApplicationUnit = Units1.UnitID
+  Left Outer Join Fertilizer On Products.ProductID = Fertilizer.ProductID
+Where ScaleTicketProducts.ScaleTicketID = &apos;13769000&apos;"
+								Type="SQL"
+							/>
+							<AutoColumns/>
+						</DataTable>
+					</Division>
+				</Remark>
+				<Remark>
+					<Division>
+						<DataTable
+							AccessibleHeaders="True"
+							Class="ThemeTextSmaller"
+							DraggableColumns="True"
+							ID="dtCD"
+							>
+							<DataLayer
+								ConnectionID="connAgOS"
+								Source="Select T1.OrderID,
+  T2.ProductID,
+  T2.Name As ProductName,
+  Round(T4.Acres, 2) As Acres,
+  Round(T1.Rate, 2) As Rate,
+  T2.CategoryID,
+  T1.Per,
+  T3.Volume As OrderVol,
+  T3.Name As UOM,
+  T4.LocationCode,
+  T4.ScheduledDate,
+  T4.AppCodeID,
+  T6.Name Rig,
+  T3.[Conversion factor] ConvFact,
+  Round(T1.Quantity, 2) As Qty,
+  T5.Liquid
+From OrderProducts T1
+  Inner Join Products T2 With(NoLock) On T2.ProductID = T1.ProductID
+  Inner Join Units T3 With(NoLock) On T3.UnitID = T1.UnitID
+  Inner Join Orders T4 With(NoLock) On T4.OrderID = T1.OrderID
+  Left Join Chemical T5 With(NoLock) On T5.ProductID = T1.ProductID
+  Left Join Objects T6 With(NoLock) On T6.ObjectID = T4.ApplicatorID
+Where T2.CategoryID In (1, 5) And T4.LocationCode In (&apos;Lindsbor&apos;, &apos;CDD1&apos;) And
+  T4.Canceled = &apos;False&apos; And T4.Done = &apos;False&apos; And T1.Rate &lt;&gt; 0"
+								Type="SQL"
+							/>
+							<AutoColumns/>
+						</DataTable>
+					</Division>
+				</Remark>
 				<Division
 					Class="panel panel-default"
 					HtmlDiv="True"
@@ -734,7 +809,7 @@ $(document).ready(function() {
 		SharedElementID="shrFooter"
 	/>
 	<ideTestParams
-		Customer="c3711625-2596-e311-abda-0050569d7a13"
-		FieldMarketer="-1"
+		Customer=""
+		FieldMarketer=""
 	/>
 </Report>

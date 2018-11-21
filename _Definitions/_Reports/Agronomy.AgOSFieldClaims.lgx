@@ -21,85 +21,6 @@ FROM AgOS_MKC_Live.dbo.Claims
 		HarvestEndDate="@Function.Date~"
 		Location=""
 	/>
-	<LocalData>
-		<DataLayer
-			ConnectionID="connAgOS"
-			ID="dlCustomer"
-			Source="SELECT DISTINCT 
-   Claims.ObjectID AS CustID
- , Objects.Name AS Customer
-FROM AgOS_MKC_Live.dbo.Objects
-  INNER JOIN AgOS_MKC_Live.dbo.Claims ON Objects.ObjectID = Claims.ObjectID
-ORDER BY Customer"
-			Type="SQL"
-			>
-			<DataLayerLink
-				ID="linkCustomer"
-			/>
-		</DataLayer>
-		<DataLayer
-			ConnectionID="connAgOS"
-			ID="dlClaimID"
-			Source="SELECT Claims.ClaimID
-FROM AgOS_MKC_Live.dbo.Claims 
-ORDER BY ClaimID
-"
-			Type="SQL"
-			>
-			<DataLayerLink
-				ID="linkClaimID"
-			/>
-		</DataLayer>
-		<DataLayer
-			ConnectionID="connAgOS"
-			ID="dlLocation"
-			Source="SELECT DISTINCT Claims.LocationCode As AgOSLocCode
-FROM AgOS_MKC_Live.dbo.Claims
-ORDER BY AgOSLocCode
-"
-			Type="SQL"
-			>
-			<DataLayerLink
-				ID="linkLocation"
-			/>
-		</DataLayer>
-		<DataLayer
-			ConnectionID="connAgOS"
-			ID="dlClaims"
-			Source="SELECT Claims.ClaimID As ClaimNumber,
-  CONVERT(VARCHAR(10),Claims.CreatedDate,110) As CreatedDate,
-  Claims.ManufacturerInvolved,
-  Claims.PrimaryProblem As Problem,
-  CONVERT(VARCHAR(10),Claims.DateResolved,110) As ResolveDate,
-  Claims.Resolved As Resolved,
-  Claims.OrderID As OrderNumber,
-  Claims.AcresAffected As Acres,
-  Claims.Instructions As Instructions,
-  Claims.TotalAmount As Total,
-  Claims.BalanceAmount As Received,
-  (Claims.TotalAmount - Claims.BalanceAmount) As Balance,
-  Claims.LocationCode As Location,
-  Users.FirstName As CreatedFName,
-  Users.LastName As CreatedLName,
-  Objects.Name As Customer,
-  Manufacturer.Name As Manufacturer
-FROM AgOS_MKC_Live.dbo.Claims
-  INNER JOIN AgOS_MKC_Live.dbo.Users On Claims.CreatedBy = Users.UserID
-  INNER JOIN AgOS_MKC_Live.dbo.Objects On Objects.ObjectID = Claims.ObjectID
-  LEFT JOIN AgOS_MKC_Live.dbo.Manufacturer On Claims.ManufacturerID = Manufacturer.ManufacturerID
-WHERE Claims.ClaimTypeID = 1 
-  AND Claims.CreatedDate BETWEEN &apos;@Request.HarvestBeginDate~&apos; AND &apos;@Request.HarvestEndDate~&apos;
-  AND (Claims.LocationCode = &apos;@Request.Location~&apos; OR &apos;@Request.Location~&apos; = &apos; &apos;)
-  AND (Claims.ObjectID = &apos;@Request.Customer~&apos; OR &apos;@Request.Customer~&apos; = &apos;-1&apos;) 
-  AND (Claims.ClaimID = &apos;@Request.ClaimID~&apos; OR &apos;@Request.ClaimID~&apos; = &apos;&apos;)
-ORDER BY ClaimNumber DESC"
-			Type="SQL"
-			>
-			<DataLayerLink
-				ID="linkClaims"
-			/>
-		</DataLayer>
-	</LocalData>
 	<IncludeSharedElement
 		DefinitionFile="_Layout.Shared"
 		SharedElementID="shrHeader"
@@ -149,9 +70,15 @@ ORDER BY ClaimNumber DESC"
 								OptionValueColumn="CustID"
 								>
 								<DataLayer
-									ID="lnkCustomer"
-									LinkedDataLayerID="linkCustomer"
-									Type="Linked"
+									ConnectionID="connAgOS"
+									ID="dlCustomer"
+									Source="SELECT DISTINCT 
+   Claims.ObjectID AS CustID
+ , Objects.Name AS Customer
+FROM AgOS_MKC_Live.dbo.Objects
+  INNER JOIN AgOS_MKC_Live.dbo.Claims ON Objects.ObjectID = Claims.ObjectID
+ORDER BY Customer"
+									Type="SQL"
 								/>
 								<EventHandler
 									DhtmlEvent="onchange"
@@ -176,9 +103,13 @@ ORDER BY ClaimNumber DESC"
 								OptionValueColumn="AgOSLocCode"
 								>
 								<DataLayer
-									ID="lnkLocation"
-									LinkedDataLayerID="linkLocation"
-									Type="Linked"
+									ConnectionID="connAgOS"
+									ID="dlLocation"
+									Source="SELECT DISTINCT Claims.LocationCode As AgOSLocCode
+FROM AgOS_MKC_Live.dbo.Claims
+ORDER BY AgOSLocCode
+"
+									Type="SQL"
 								/>
 								<EventHandler
 									DhtmlEvent="onchange"
@@ -219,9 +150,13 @@ ORDER BY ClaimNumber DESC"
 									MultiSelect="False"
 									>
 									<DataLayer
-										ID="lnkClaimID"
-										LinkedDataLayerID="linkClaimID"
-										Type="Linked"
+										ConnectionID="connAgOS"
+										ID="dlClaimID"
+										Source="SELECT Claims.ClaimID
+FROM AgOS_MKC_Live.dbo.Claims 
+ORDER BY ClaimID
+"
+										Type="SQL"
 									/>
 								</AutoComplete>
 								<EventHandler
@@ -252,8 +187,6 @@ ORDER BY ClaimNumber DESC"
 									<LinkParams
 										ClaimID=""
 										Customer="-1"
-										HarvestBeginDate="@Local.FirstCreatedDate~"
-										HarvestEndDate="@Function.Date~"
 										Location=""
 									/>
 								</Action>
@@ -275,33 +208,61 @@ ORDER BY ClaimNumber DESC"
 								Class="ThemeTextSmaller pull-right"
 							/>
 							<DataTable
-								AjaxPaging="True"
 								Caption="Field Claim Details"
 								CaptionClass="ThemeTextSmall"
-								CellSpacing="7"
+								CellSpacing="5"
 								Class="ThemeTextSmaller"
 								DraggableColumns="False"
 								ID="dtClaims"
 								KeepScrollPosition="True"
-								RememberSort="False"
 								Width="100"
 								WidthScale="%"
 								>
-								<InteractivePaging
-									CaptionType="Image"
-									Class="ThemeTextSmall"
-									Location="Top"
-									PageRowCount="10"
-									ShowPageNumber="True"
-								/>
+								<Remark>
+									<InteractivePaging
+										CaptionType="Image"
+										Class="ThemeTextSmall"
+										Location="Top"
+										PageRowCount="10"
+										ShowPageNumber="True"
+									/>
+								</Remark>
 								<DataLayer
-									ID="lnkClaims"
-									LinkedDataLayerID="linkClaims"
-									Type="Linked"
+									ConnectionID="connAgOS"
+									ID="dlClaims"
+									Source="SELECT Claims.ClaimID As ClaimNumber,
+  CONVERT(VARCHAR(10),Claims.CreatedDate,110) As CreatedDate,
+  Claims.ManufacturerInvolved,
+  Claims.PrimaryProblem As Problem,
+  CONVERT(VARCHAR(10),Claims.DateResolved,110) As ResolveDate,
+  Claims.Resolved As Resolved,
+  Claims.OrderID As OrderNumber,
+  Claims.AcresAffected As Acres,
+  Claims.Instructions As Instructions,
+  Claims.TotalAmount As Total,
+  Claims.BalanceAmount As Received,
+  (Claims.TotalAmount - Claims.BalanceAmount) As Balance,
+  Claims.LocationCode As Location,
+  Users.FirstName As CreatedFName,
+  Users.LastName As CreatedLName,
+  Objects.Name As Customer,
+  Manufacturer.Name As Manufacturer
+FROM AgOS_MKC_Live.dbo.Claims
+  INNER JOIN AgOS_MKC_Live.dbo.Users On Claims.CreatedBy = Users.UserID
+  INNER JOIN AgOS_MKC_Live.dbo.Objects On Objects.ObjectID = Claims.ObjectID
+  LEFT JOIN AgOS_MKC_Live.dbo.Manufacturer On Claims.ManufacturerID = Manufacturer.ManufacturerID
+WHERE Claims.ClaimTypeID = 1 
+  AND Claims.CreatedDate BETWEEN &apos;@Request.HarvestBeginDate~&apos; AND &apos;@Request.HarvestEndDate~&apos;
+  AND (Claims.LocationCode = &apos;@Request.Location~&apos; OR &apos;@Request.Location~&apos; = &apos; &apos;)
+  AND (Claims.ObjectID = &apos;@Request.Customer~&apos; OR &apos;@Request.Customer~&apos; = -1) 
+  AND (Claims.ClaimID = &apos;@Request.ClaimID~&apos; OR &apos;@Request.ClaimID~&apos; = &apos;&apos;)
+ORDER BY Claims.CreatedDate DESC
+"
+									Type="SQL"
 								/>
 								<DataTableColumn
 									Class="ThemeAlignTopLeft"
-									Header="Claim ID"
+									Header="Claim_ID"
 									>
 									<Label
 										Caption="@Data.ClaimNumber~"
@@ -418,7 +379,7 @@ ORDER BY ClaimNumber DESC"
 									>
 									<Label
 										Caption="@Data.Total~"
-										Class="pull-right"
+										Class="ThemeAlignRight"
 										Format="Standard"
 									/>
 									<ConditionalClass
@@ -433,7 +394,7 @@ ORDER BY ClaimNumber DESC"
 									>
 									<Label
 										Caption="@Data.Received~"
-										Class="pull-right"
+										Class="ThemeAlignRight"
 										Format="Standard"
 									/>
 									<ConditionalClass
@@ -448,7 +409,7 @@ ORDER BY ClaimNumber DESC"
 									>
 									<Label
 										Caption="@Data.Balance~"
-										Class="pull-right"
+										Class="ThemeAlignRight"
 										Format="Standard"
 									/>
 									<ConditionalClass
@@ -480,6 +441,42 @@ ORDER BY ClaimNumber DESC"
 				</ResponsiveRow>
 			</Division>
 		</Division>
+		<Remark>
+			<Division
+				Class="panel panel-default"
+				HtmlDiv="True"
+				ID="div-details"
+				>
+				<Division
+					Class="panel-heading"
+					HtmlDiv="True"
+					ID="div-header-details"
+					>
+					<Label
+						Caption="Claim Details"
+						Class="panel-title"
+					/>
+				</Division>
+				<Division
+					Class="panel-body"
+					HtmlDiv="True"
+					ID="div-body-details"
+					>
+					<ResponsiveRow>
+						<ResponsiveColumn
+							ColspanExtraSmallScreen="12"
+							ColspanLargeScreen="12"
+							ColspanMediumScreen="12"
+							ColspanSmallScreen="12"
+							>
+							<Division
+								ID="divClaims-details"
+							/>
+						</ResponsiveColumn>
+					</ResponsiveRow>
+				</Division>
+			</Division>
+		</Remark>
 	</Body>
 	<IncludeSharedElement
 		DefinitionFile="_Layout.Shared"
@@ -487,9 +484,9 @@ ORDER BY ClaimNumber DESC"
 	/>
 	<ideTestParams
 		ClaimID=""
-		Customer=""
-		HarvestBeginDate=""
-		HarvestEndDate=""
+		Customer="-1"
+		HarvestBeginDate="4/24/2017"
+		HarvestEndDate="9/20/2017"
 		Location=""
 	/>
 </Report>

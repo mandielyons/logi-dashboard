@@ -53,14 +53,37 @@
 								>
 								<DataLayer
 									ConnectionID="connAgOS"
-									Source="Select Products.Name,
-  Products.Description,
-  Products.UPC,
-  BookedInv.Quantity,
-  Objects.Name As Name1
-From BookedInv
-  Inner Join Products On Products.ProductID = BookedInv.ProductID
-  Inner Join Objects On Objects.ObjectID = BookedInv.CustomerID"
+									Source="Select Top 100 Percent T3.FirstName + T3.LastName As [Applicator Name],
+  T1.OrderID,
+  T7.Description AppCode,
+  T2.Name,
+  T6.Name Crop,
+  T1.DoneDate,
+  Round(T1.Acres, 2) Acres,
+  Round(T1.AcresSprayed, 2) SprayedAcres,
+  Round(T1.Acres - T1.AcresSprayed, 2) As [Acres Diff],
+  T1.LocationCode,
+  T4.Name Rig,
+  T5.TicketID,
+  T5.Exported,
+  T5.CreatedDate TktDate,
+  T8.Name Category,
+  T4.LastUpdate
+From Orders T1
+  Inner Join Objects T2 With(NoLock) On T2.ObjectID = T1.ObjectID
+  Inner Join Users T3 With(NoLock) On T3.UserID = T1.DoneByID
+  Inner Join Objects T4 With(NoLock) On T4.ObjectID = T1.ApplicatorID
+  Inner Join Deltick1 T5 With(NoLock) On T5.OrderID = T1.OrderID
+  Inner Join AgOS_RCAerial_Live.dbo.Crops T6 With(NoLock) On T6.CropID =
+    T1.CropID
+  Inner Join AgOS_RCAerial_Live.dbo.AppCode T7 With(NoLock) On T7.AppCodeID =
+    T1.AppCodeID
+  Inner Join OrderSubCategory T8 With(NoLock) On T8.SubCategoryID =
+    T1.SubCategoryID
+Where T1.DoneDate &gt;= &apos;2017-02-01&apos; And T1.DoneDate &lt; &apos;2018-04-01&apos; And
+  T1.LocationCode &lt;&gt; &apos;Precise&apos; And T1.Canceled = 0 And T5.CategoryID = 1
+Order By T1.LocationCode,
+  T1.DoneDate"
 									Type="SQL"
 								/>
 								<AutoColumns/>
