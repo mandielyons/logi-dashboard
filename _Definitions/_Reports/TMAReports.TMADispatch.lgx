@@ -28,7 +28,7 @@
 			ID="sqlTMAContracts"
 			Source="SELECT 
    CASE DM_OpenContracts.FREIGHT WHEN &apos;Y&apos; THEN 11 WHEN &apos;N&apos; THEN 110 ELSE &apos;&apos; END AS SHPMTTYP_CODE
- , CASE DM_OpenContracts.FREIGHT WHEN &apos;Y&apos; THEN &apos;Ship Type 11&apos; WHEN &apos;N&apos; THEN &apos;FOB Picked Up&apos; ELSE &apos;&apos; END AS SHPMTTYP_DESC
+ , CASE DM_OpenContracts.FREIGHT WHEN &apos;Y&apos; THEN 4 WHEN &apos;N&apos; THEN 5 ELSE 0 END AS TEMPLATE
  , CAST(DM_OpenContracts.CUSTOMER AS BIGINT) [jCUSTOMER]
  , CAST(DM_OpenContracts.CONTRACT_NUMBER AS FLOAT) [jCONTRACT_NUMBER]
  , CAST(DM_OpenContracts.BRANCH_NUMBER AS BIGINT) [jBRANCH_NUMBER]
@@ -206,10 +206,12 @@ WHERE DM_OpenContracts.CONTRACT_TYPE = 2
 									ID="divDataTable"
 									>
 									<DataTable
+										AccessibleHeaders="True"
 										AjaxPaging="True"
 										Caption="TMA Branch Dispatch Details"
 										CaptionClass="ThemeTextSmall"
 										Class="ThemeTextSmaller"
+										DraggableColumns="True"
 										ID="ALLContracts"
 										Layout="Fixed"
 										RememberSort="True"
@@ -255,6 +257,29 @@ WHERE DM_OpenContracts.CONTRACT_TYPE = 2
 											</Join>
 										</DataLayer>
 										<DataTableColumn
+											Header="Template"
+											ID="colTEMPLATE"
+											Width="5"
+											WidthScale="%"
+											>
+											<Label
+												Caption="@Data.TEMPLATE~"
+												ID="lblTEMPLATE"
+											/>
+											<DataColumnSort
+												DataColumn="TEMPLATE"
+												DataType="Number"
+											/>
+											<ConditionalClass
+												Class="yellow-highlight"
+												Condition="&quot;@Data.SHPMTTYP_CODE~&quot; = &quot;11&quot;"
+											/>
+											<ConditionalClass
+												Class="blue-highlight"
+												Condition="&quot;@Data.SHPMTTYP_CODE~&quot; = &quot;110&quot;"
+											/>
+										</DataTableColumn>
+										<DataTableColumn
 											Header="Type"
 											ID="colSHPMTTYP_CODE"
 											Width="5"
@@ -278,6 +303,29 @@ WHERE DM_OpenContracts.CONTRACT_TYPE = 2
 											/>
 										</DataTableColumn>
 										<DataTableColumn
+											Header="Commodity"
+											ID="colCommodity"
+											Width="8"
+											WidthScale="%"
+											>
+											<Label
+												Caption="@Data.Commodity~"
+												ID="lblCommodity"
+											/>
+											<DataColumnSort
+												DataColumn="Commodity"
+												DataType="Text"
+											/>
+											<ConditionalClass
+												Class="yellow-highlight"
+												Condition="&quot;@Data.SHPMTTYP_CODE~&quot; = &quot;11&quot;"
+											/>
+											<ConditionalClass
+												Class="blue-highlight"
+												Condition="&quot;@Data.SHPMTTYP_CODE~&quot; = &quot;110&quot;"
+											/>
+										</DataTableColumn>
+										<DataTableColumn
 											Header="Consignee"
 											ID="colAccount"
 											Width="12"
@@ -288,8 +336,54 @@ WHERE DM_OpenContracts.CONTRACT_TYPE = 2
 												ID="lblAccount"
 											/>
 											<DataColumnSort
-												DataColumn="SHPMTTYP_CODE"
-												DataType="Number"
+												DataColumn="Account"
+												DataType="Text"
+											/>
+											<ConditionalClass
+												Class="yellow-highlight"
+												Condition="&quot;@Data.SHPMTTYP_CODE~&quot; = &quot;11&quot;"
+											/>
+											<ConditionalClass
+												Class="blue-highlight"
+												Condition="&quot;@Data.SHPMTTYP_CODE~&quot; = &quot;110&quot;"
+											/>
+										</DataTableColumn>
+										<DataTableColumn
+											Header="Location"
+											ID="colLocation"
+											Width="12"
+											WidthScale="%"
+											>
+											<Label
+												Caption="@Data.Location~"
+												ID="lblLocation"
+											/>
+											<DataColumnSort
+												DataColumn="Location"
+												DataType="Text"
+											/>
+											<ConditionalClass
+												Class="yellow-highlight"
+												Condition="&quot;@Data.SHPMTTYP_CODE~&quot; = &quot;11&quot;"
+											/>
+											<ConditionalClass
+												Class="blue-highlight"
+												Condition="&quot;@Data.SHPMTTYP_CODE~&quot; = &quot;110&quot;"
+											/>
+										</DataTableColumn>
+										<DataTableColumn
+											Header="Shipper Description"
+											ID="colSHIPR_DESC"
+											Width="10"
+											WidthScale="%"
+											>
+											<Label
+												Caption="@Data.SHIPR_DESC~"
+												ID="lblSHIPR_DESC"
+											/>
+											<DataColumnSort
+												DataColumn="SHIPR_DESC"
+												DataType="Text"
 											/>
 											<ConditionalClass
 												Class="yellow-highlight"
@@ -312,52 +406,6 @@ WHERE DM_OpenContracts.CONTRACT_TYPE = 2
 											/>
 											<DataColumnSort
 												DataColumn="CONTRACT_NUMBER"
-												DataType="Number"
-											/>
-											<ConditionalClass
-												Class="yellow-highlight"
-												Condition="&quot;@Data.SHPMTTYP_CODE~&quot; = &quot;11&quot;"
-											/>
-											<ConditionalClass
-												Class="blue-highlight"
-												Condition="&quot;@Data.SHPMTTYP_CODE~&quot; = &quot;110&quot;"
-											/>
-										</DataTableColumn>
-										<DataTableColumn
-											Header="Commodity"
-											ID="colCommodity"
-											Width="8"
-											WidthScale="%"
-											>
-											<Label
-												Caption="@Data.Commodity~"
-												ID="lblCommodity"
-											/>
-											<DataColumnSort
-												DataColumn="SHPMTTYP_CODE"
-												DataType="Number"
-											/>
-											<ConditionalClass
-												Class="yellow-highlight"
-												Condition="&quot;@Data.SHPMTTYP_CODE~&quot; = &quot;11&quot;"
-											/>
-											<ConditionalClass
-												Class="blue-highlight"
-												Condition="&quot;@Data.SHPMTTYP_CODE~&quot; = &quot;110&quot;"
-											/>
-										</DataTableColumn>
-										<DataTableColumn
-											Header="Location"
-											ID="colLocation"
-											Width="12"
-											WidthScale="%"
-											>
-											<Label
-												Caption="@Data.Location~"
-												ID="lblLocation"
-											/>
-											<DataColumnSort
-												DataColumn="SHPMTTYP_CODE"
 												DataType="Number"
 											/>
 											<ConditionalClass
@@ -448,29 +496,6 @@ WHERE DM_OpenContracts.CONTRACT_TYPE = 2
 											<DataColumnSort
 												DataColumn="DEST_CODE"
 												DataType="Number"
-											/>
-											<ConditionalClass
-												Class="yellow-highlight"
-												Condition="&quot;@Data.SHPMTTYP_CODE~&quot; = &quot;11&quot;"
-											/>
-											<ConditionalClass
-												Class="blue-highlight"
-												Condition="&quot;@Data.SHPMTTYP_CODE~&quot; = &quot;110&quot;"
-											/>
-										</DataTableColumn>
-										<DataTableColumn
-											Header="Shipper Description"
-											ID="colSHIPR_DESC"
-											Width="10"
-											WidthScale="%"
-											>
-											<Label
-												Caption="@Data.SHIPR_DESC~"
-												ID="lblSHIPR_DESC"
-											/>
-											<DataColumnSort
-												DataColumn="SHIPR_DESC"
-												DataType="Text"
 											/>
 											<ConditionalClass
 												Class="yellow-highlight"

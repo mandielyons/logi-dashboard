@@ -1213,7 +1213,6 @@
 																/>
 															</DataLayer>
 															<DataTableColumn
-																Class="ThemeAlignTop"
 																Header="Initiative"
 																ID="colInitiative"
 																>
@@ -1248,7 +1247,6 @@
 																/>
 															</DataTableColumn>
 															<DataTableColumn
-																Class="ThemeAlignTopRight"
 																Header="Due Date"
 																ID="colDate"
 																Width="60"
@@ -1259,7 +1257,7 @@
 																/>
 															</DataTableColumn>
 															<DataTableColumn
-																Class="ThemeAlignTopRight"
+																Class="pull-right"
 																Header="Progress"
 																ID="colProgress"
 																>
@@ -1433,7 +1431,6 @@
 																/>
 															</DataLayer>
 															<DataTableColumn
-																Class="ThemeAlignTop"
 																Header="Initiative"
 																ID="colInitiative"
 																>
@@ -1468,7 +1465,6 @@
 																/>
 															</DataTableColumn>
 															<DataTableColumn
-																Class="ThemeAlignTop"
 																Header="Due Date"
 																ID="colDate"
 																Width="60"
@@ -1479,7 +1475,7 @@
 																/>
 															</DataTableColumn>
 															<DataTableColumn
-																Class="ThemeAlignTopRight"
+																Class="pull-right"
 																Header="Progress"
 																ID="colProgress"
 																>
@@ -1599,7 +1595,6 @@
 																/>
 															</DataLayer>
 															<DataTableColumn
-																Class="ThemeAlignTop"
 																Header="Initiative"
 																ID="colInitiative"
 																>
@@ -1634,7 +1629,6 @@
 																/>
 															</DataTableColumn>
 															<DataTableColumn
-																Class="ThemeAlignTop"
 																Header="Due Date"
 																ID="colDate"
 																Width="60"
@@ -1645,7 +1639,7 @@
 																/>
 															</DataTableColumn>
 															<DataTableColumn
-																Class="ThemeAlignTopRight"
+																Class="pull-right"
 																Header="Progress"
 																ID="colProgress"
 																>
@@ -1821,7 +1815,6 @@
 																/>
 															</DataLayer>
 															<DataTableColumn
-																Class="ThemeAlignTop"
 																Header="Initiative"
 																ID="colInitiative"
 																Width="35"
@@ -1858,7 +1851,6 @@
 																/>
 															</DataTableColumn>
 															<DataTableColumn
-																Class="ThemeAlignTop"
 																Header="Due Date"
 																ID="colDate"
 																Width="60"
@@ -1869,7 +1861,7 @@
 																/>
 															</DataTableColumn>
 															<DataTableColumn
-																Class="ThemeAlignTopRight"
+																Class="pull-right"
 																Header="Progress"
 																ID="colProgress"
 																Width="10"
@@ -1993,7 +1985,6 @@
 																/>
 															</DataLayer>
 															<DataTableColumn
-																Class="ThemeAlignTop"
 																Header="Initiative"
 																ID="colInitiative"
 																>
@@ -2028,7 +2019,6 @@
 																/>
 															</DataTableColumn>
 															<DataTableColumn
-																Class="ThemeAlignTop"
 																Header="Due Date"
 																ID="colDate"
 																Width="60"
@@ -2039,7 +2029,7 @@
 																/>
 															</DataTableColumn>
 															<DataTableColumn
-																Class="ThemeAlignTopRight"
+																Class="pull-right"
 																Header="Progress"
 																ID="colProgress"
 																>
@@ -2161,7 +2151,6 @@
 																/>
 															</DataLayer>
 															<DataTableColumn
-																Class="ThemeAlignTop"
 																Header="Initiative"
 																ID="colInitiative"
 																>
@@ -2196,7 +2185,6 @@
 																/>
 															</DataTableColumn>
 															<DataTableColumn
-																Class="ThemeAlignTop"
 																Header="Due Date"
 																ID="colDate"
 																Width="60"
@@ -2207,7 +2195,7 @@
 																/>
 															</DataTableColumn>
 															<DataTableColumn
-																Class="ThemeAlignTopRight"
+																Class="pull-right"
 																Header="Progress"
 																ID="colProgress"
 																>
@@ -2383,7 +2371,6 @@
 																/>
 															</DataLayer>
 															<DataTableColumn
-																Class="ThemeAlignTop"
 																Header="Initiative"
 																ID="colInitiative"
 																>
@@ -2418,7 +2405,6 @@
 																/>
 															</DataTableColumn>
 															<DataTableColumn
-																Class="ThemeAlignTop"
 																Header="Due Date"
 																ID="colDate"
 																Width="60"
@@ -2429,7 +2415,7 @@
 																/>
 															</DataTableColumn>
 															<DataTableColumn
-																Class="ThemeAlignRight ThemeAlignTop"
+																Class="pull-right"
 																Header="Progress"
 																ID="colProgress"
 																>

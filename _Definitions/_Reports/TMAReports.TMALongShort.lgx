@@ -1010,7 +1010,7 @@
 												Type="Excel"
 												>
 												<ConditionFilter
-													Condition="&quot;@Data.Branch_Number~&quot; = &quot;@Request.Branch~&quot;"
+													Condition="Left(&quot;@Data.Branch_Number~&quot;,3) = &quot;@Request.Branch~&quot;"
 													ID="filterByBranch"
 												/>
 											</DataLayer>

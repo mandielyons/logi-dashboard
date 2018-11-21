@@ -639,17 +639,17 @@ else {
 											Note="*** build mobile navigation here - only for BELOW 1024*768 (1024*768 in portrait) ***"
 										/>
 										<Division
-												ID="div-rtest"
-												>
-												<Label
-													Caption="***FOR INTERNAL USE ONLY***"
-													Class="ThemeErrorText,ThemeTextSmallest"
-													HtmlTag="Span"
-												/>
-												<Spaces
-													Size="5"
-												/>
-											</Division>
+											ID="div-rtest"
+											>
+											<Label
+												Caption="***FOR INTERNAL USE ONLY***"
+												Class="ThemeErrorText,ThemeTextSmallest"
+												HtmlTag="Span"
+											/>
+											<Spaces
+												Size="5"
+											/>
+										</Division>
 										<ResponsiveVisibility
 											HideForExtraSmallScreen="False"
 											HideForLargeScreen="True"
@@ -859,20 +859,18 @@ else {
 												ColspanMediumScreen="12"
 												ColspanSmallScreen="12"
 												>
-												
-													<Division
-														ID="div-test"
-														>
-														<Label
-															Caption="***FOR INTERNAL USE ONLY***"
-															Class="ThemeErrorText,ThemeTextSmall"
-															HtmlTag="Span"
-														/>
-														<Spaces
-															Size="5"
-														/>
-													</Division>
-												
+												<Division
+													ID="div-test"
+													>
+													<Label
+														Caption="***FOR INTERNAL USE ONLY***"
+														Class="ThemeErrorText,ThemeTextSmall"
+														HtmlTag="Span"
+													/>
+													<Spaces
+														Size="5"
+													/>
+												</Division>
 												<Remark>
 													<Label
 														Caption="Home"
@@ -1188,10 +1186,10 @@ else {
 														/>
 													</Division>
 												</Remark>
-												
+												<Remark>
 													<Division
 														ID="sales-container"
-														SecurityRightID="MKC Dashboard, TMA Dashboard, OC, LogiUserAdmin"
+														SecurityRightID="MKC Dashboard, LogiUserAdmin"
 														>
 														<Division
 															Class="dropdown"
@@ -1275,7 +1273,7 @@ else {
 															ID="pipe-spacer"
 														/>
 													</Division>
-												
+												</Remark>
 												<Division
 													ID="ag-container"
 													SecurityRightID="MKC Dashboard, LogiUserAdmin"
@@ -2378,19 +2376,12 @@ From ag_location"
 				OptionValueColumn="FiscalYear"
 				>
 				<DataLayer
-					ConnectionID="connMKC"
+					ConnectionID="connCRM"
 					ID="dlFiscalYears"
-					Source="SELECT DATEPART(YEAR, DATEADD(YEAR, CASE WHEN DATEPART(MONTH, GETDATE()) &lt; 3 THEN -4 ELSE -3 END, GETDATE())) as [FiscalYear]
-UNION 
-SELECT DATEPART(YEAR, DATEADD(YEAR, CASE WHEN DATEPART(MONTH, GETDATE()) &lt; 3 THEN -3 ELSE -2 END, GETDATE())) as [FiscalYear]
-UNION 
-SELECT DATEPART(YEAR, DATEADD(YEAR, CASE WHEN DATEPART(MONTH, GETDATE()) &lt; 3 THEN -2 ELSE -1 END, GETDATE())) as [FiscalYear]
-UNION 
-SELECT DATEPART(YEAR, DATEADD(YEAR, CASE WHEN DATEPART(MONTH, GETDATE()) &lt; 3 THEN -1 ELSE -0 END, GETDATE())) as [FiscalYear]
-UNION 
-SELECT DATEPART(YEAR, DATEADD(YEAR, CASE WHEN DATEPART(MONTH, GETDATE()) &lt; 3 THEN -0 ELSE +1 END, GETDATE())) as [FiscalYear]
-ORDER BY [FiscalYear]
-"
+					Source="Select DISTINCT gb.ag_FiscalYear FiscalYear
+From ag_grainreceiptsummaryBase gb
+Where gb.ag_FiscalYear Between DatePart(Year, DateAdd(Year, Case When DatePart(Month, GetDate()) &lt; 3 Then -4 Else -3 End, GetDate())) And DatePart(Year, DateAdd(Year, Case When DatePart(Month, GetDate()) &lt; 3 Then 0 Else 1 End, GetDate())) 
+Order By FiscalYear DESC"
 					Type="SQL"
 				/>
 				<EventHandler
@@ -2481,7 +2472,7 @@ ORDER BY [FiscalYear]
 								SecurityRightID="TMA Dashboard,OC"
 							/>
 							<Label
-								Caption="V3.4"
+								Caption="V3.3"
 								Class="ThemeTextSmaller"
 								Format="HTML"
 								SecurityRightID="MKC Dashboard,TMA Dashboard,OC"

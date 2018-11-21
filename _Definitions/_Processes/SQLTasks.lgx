@@ -422,7 +422,7 @@ Processed: @Function.DateTime~"
 			EmailSubject="Dashboard Wish"
 			FromEmailAddress="noreply-support@tmagrain.com"
 			ID="sendWishEmail"
-			ToEmailAddress="mlyons@mkcoop.com"
+			ToEmailAddress="mlyons@mkcoop.com;acessna@mkcoop.com;mfriesen@mkcoop.com"
 			Type="SendMail"
 			>
 			<IfError>
