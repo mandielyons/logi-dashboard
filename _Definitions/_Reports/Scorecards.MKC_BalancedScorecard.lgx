@@ -1179,7 +1179,6 @@
 															SortArrows="False"
 															>
 															<DataLayer
-																CellRange="A2:H5"
 																ColumnNamesRow="1"
 																ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\BalancedScorecard_NEW.xlsx"
 																ExcelWorksheet="Initiatives"
