@@ -133,17 +133,19 @@ Order By AgOSLocCode"
   Deltick1.LocationCode As Location,
   Farm.Name As Farm,
   Objects.Name As Customer,
-  Deltick1.CreatedDate
+  Deltick1.CreatedDate,
+  ScheduleInfo.LocationCode As InventoryLocation
+
 From Deltick1
   Inner Join Farm On Deltick1.FarmID = Farm.FarmID
   Inner Join Objects On Objects.ObjectID = Deltick1.[From/To] And
     Objects.ObjectID = Farm.ObjectID
+  Inner Join ScheduleInfo On Deltick1.OrderID = ScheduleInfo.OrderID
 Where (Deltick1.LocationCode = &apos;@Request.Location~&apos; Or &apos;@Request.Location~&apos; =
     &apos; &apos;) And Deltick1.CreatedDate &gt; &apos;@Request.Year~&apos; And
   Deltick1.SubCategoryID = 8 And Deltick1.Exported = 0
-Order By Deltick1.CreatedDate"
-									Type="SQL"
-								/>
+Order By Location"
+Type="SQL" 	/>
 								<InteractivePaging
 									CaptionType="Text"
 									Class="ThemeTextSmaller"
@@ -159,11 +161,19 @@ Order By Deltick1.CreatedDate"
 									/>
 								</DataTableColumn>
 								<DataTableColumn
-									Header="Location"
+									Header="Order Location"
 									ID="colLocation"
 									>
 									<Label
 										Caption="@Data.Location~"
+									/>
+								</DataTableColumn>
+								<DataTableColumn
+									Header="Inventory Location"
+									ID="colLocation"
+									>
+									<Label
+										Caption="@Data.InventoryLocation~"
 									/>
 								</DataTableColumn>
 								<DataTableColumn

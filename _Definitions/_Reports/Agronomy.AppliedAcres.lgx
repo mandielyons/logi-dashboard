@@ -217,6 +217,50 @@ Order By Crop"
 								</EventHandler>
 							</InputSelectList>
 							<LineBreak/>
+							<InputSelectList
+								Caption="Category"
+								CaptionClass="ThemeTextSmall ThemeBold"
+								Class="ThemeTextSmaller"
+								ID="Category"
+								IncludeBlank="True"
+								IncludeBlankCaption="ALL"
+								OptionCaptionColumn="Category"
+								OptionValueColumn="Category"
+								>
+								<DataLayer
+									ConnectionID="connAgOS"
+									ID="dlCategory"
+									Source="Select Distinct T8.Name Category,
+  OrderSubCategory.Name
+From Orders T1
+  Inner Join Objects T2 With(NoLock) On T2.ObjectID = T1.ObjectID
+  Inner Join Users T3 With(NoLock) On T3.UserID = T1.DoneByID
+  Inner Join Objects T4 With(NoLock) On T4.ObjectID = T1.ApplicatorID
+  Inner Join Deltick1 T5 With(NoLock) On T5.OrderID = T1.OrderID
+  Inner Join AppCode T7 With(NoLock) On T7.AppCodeID = T1.AppCodeID
+  Inner Join OrderSubCategory T8 With(NoLock) On T8.SubCategoryID =
+    T1.SubCategoryID
+  Inner Join NotificationContact T9 With(NoLock) On T2.ObjectID = T9.GrowerId
+  Inner Join OrderSubCategory On OrderSubCategory.SubCategoryID =
+    T1.SubCategoryID
+Where T1.DoneDate &lt; &apos;2016-01-01&apos; And T1.LocationCode &lt;&gt; &apos;Precise&apos; And
+  T1.Canceled = 0 And T5.CategoryID = 1
+Order By Category"
+									Type="SQL"
+								/>
+								<EventHandler
+									DhtmlEvent="onchange"
+									>
+									<Action
+										ElementID="divAudit"
+										ID="refCategory"
+										Type="RefreshElement"
+										>
+										<WaitPage/>
+									</Action>
+								</EventHandler>
+							</InputSelectList>
+							<LineBreak/>
 							<Division
 								Class="well"
 								HtmlDiv="True"
@@ -340,11 +384,12 @@ From Orders T1
   Inner Join AppCode T7 With(NoLock) On T7.AppCodeID = T1.AppCodeID
   Inner Join OrderSubCategory T8 With(NoLock) On T8.SubCategoryID =
     T1.SubCategoryID
-Where (T6.Name = &apos;@Request.Crop~&apos; Or &apos;@Request.Crop~&apos; = &apos;&apos;) 
-  And (T1.DoneDate &gt; &apos;2016-01-01&apos; And T1.DoneDate Between &apos;@Request.BeginDate~&apos; And &apos;@Request.EndDate~&apos;)
-  And (T1.LocationCode &lt;&gt; &apos;Precise&apos; And T1.LocationCode = &apos;@Request.Location~&apos; Or &apos;@Request.Location~&apos; = &apos;&apos;)
-  And T1.Canceled = 0 And
-  T5.CategoryID = 1
+Where (T6.Name = &apos;@Request.Crop~&apos; Or &apos;@Request.Crop~&apos; = &apos;&apos;) And
+  T1.DoneDate &gt; &apos;2016-01-01&apos; And T1.DoneDate Between &apos;@Request.BeginDate~&apos; And
+  &apos;@Request.EndDate~&apos; And ((T1.LocationCode &lt;&gt; &apos;Precise&apos; And
+    T1.LocationCode = &apos;@Request.Location~&apos;) Or &apos;@Request.Location~&apos; = &apos;&apos;) And
+  (T8.Name = &apos;@Request.Category~&apos; Or &apos;@Request.Category~&apos; = &apos;&apos;) And
+  T1.Canceled = 0 And T5.CategoryID = 1
 Order By T1.LocationCode,
   T1.DoneDate"
 									Type="SQL"
@@ -438,6 +483,7 @@ Order By T1.LocationCode,
 	/>
 	<ideTestParams
 		BeginDate=""
+		Category=""
 		Crop=""
 		EndDate=""
 		Location=""
