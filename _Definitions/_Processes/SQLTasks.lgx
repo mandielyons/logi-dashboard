@@ -44,7 +44,7 @@ WHERE DM_DSTicketTracking.EntryID = &apos;@Request.iptEntryId~&apos;"
 			Type="If"
 			>
 			<Procedure
-				CcEmailAddress="mlyons@mkcoop.com;dlichti@tmagrain.com"
+				CcEmailAddress="mlyons@mkcoop.com;dlichti@tmagrain.com;lblankley@tmagrain.com"
 				ConnectionID="connSMTP"
 				EmailBody="The customer transaction below has been completed.
 
@@ -141,7 +141,7 @@ VALUES (&apos;@Request.dteDropOff~&apos;,&apos;@Request.iptCustomer~&apos;,&apos
 			Type="If"
 			>
 			<Procedure
-				CcEmailAddress="mlyons@mkcoop.com;dlichti@tmagrain.com"
+				CcEmailAddress="mlyons@mkcoop.com;dlichti@tmagrain.com;lblankley@tmagrain.com"
 				ConnectionID="connSMTP"
 				EmailBody="The customer transaction below has been added.
 
@@ -186,7 +186,7 @@ AgTrax Entered: @Request.dteEntered~"
 			Type="If"
 			>
 			<Procedure
-				CcEmailAddress="mlyons@mkcoop.com;dlichti@tmagrain.com"
+				CcEmailAddress="mlyons@mkcoop.com;dlichti@tmagrain.com;lblankley@tmagrain.com"
 				ConnectionID="connSMTP"
 				EmailBody="The customer transaction below has been completed.
 
