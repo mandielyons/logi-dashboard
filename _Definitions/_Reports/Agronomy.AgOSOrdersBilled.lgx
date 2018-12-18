@@ -1,0 +1,225 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report
+	Caption="AgOS GP Shipment Invoice"
+	ID="Agronomy.AgOSOrdersBilled"
+	SecurityReportRightID="MKC Dashboard"
+	>
+	<DefaultRequestParams
+		Year="2018"
+	/>
+	<IncludeSharedElement
+		DefinitionFile="_Layout.Shared"
+		SharedElementID="shrHeader"
+	/>
+	<Body>
+		<IncludeScript
+			IncludedScript="&lt;script&gt;
+  (function(i,s,o,g,r,a,m){i[&apos;GoogleAnalyticsObject&apos;]=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,&apos;script&apos;,&apos;https://www.google-analytics.com/analytics.js&apos;,&apos;ga&apos;);
+
+  ga(&apos;create&apos;, &apos;UA-76860562-2&apos;, &apos;auto&apos;);
+  ga(&apos;send&apos;, &apos;pageview&apos;);
+
+&lt;/script&gt;"
+		/>
+		<Division
+			Class="panel panel-default"
+			HtmlDiv="True"
+			ID="panel-share"
+			>
+			<Division
+				Class="panel-heading"
+				HtmlDiv="True"
+				ID="panel-share-heading"
+				>
+				<Label
+					Caption="AgOS Orders Done Not Billed"
+					Class="panel-title"
+				/>
+			</Division>
+			<Division
+				Class="panel-body"
+				HtmlDiv="True"
+				ID="panel-share-body"
+				>
+				<ResponsiveRow>
+					<ResponsiveColumn>
+						<Division
+							Class="well"
+							HtmlDiv="True"
+							ID="divFilters"
+							>
+							<InputSelectList
+								Caption="Inventory Location"
+								CaptionClass="ThemeTextSmall ThemeBold"
+								Class="ThemeTextSmaller"
+								ID="Location"
+								IncludeBlank="True"
+								IncludeBlankCaption="ALL"
+								OptionCaptionColumn="AgOSLocCode"
+								OptionValueColumn="AgOSLocCode"
+								>
+								<DataLayer
+									ConnectionID="connAgOS"
+									ID="dlLocation"
+									Source="Select Distinct Deltick1.LocationCode As AgOSLocCode
+From Deltick1
+Where (Deltick1.LocationCode = &apos;@Request.Location~&apos; Or &apos;@Request.Location~&apos; =
+    &apos; &apos;) And Deltick1.CreatedDate &gt; &apos;@Request.Year~&apos; And
+  Deltick1.SubCategoryID = 8 And Deltick1.Exported = 0
+Order By AgOSLocCode"
+									Type="SQL"
+								/>
+								<EventHandler
+									DhtmlEvent="onchange"
+									>
+									<Action
+										ElementID="divDetails"
+										ID="refNotifyByLoc"
+										Type="RefreshElement"
+										>
+										<WaitPage/>
+									</Action>
+								</EventHandler>
+							</InputSelectList>
+							<LineBreak/>
+							<Button
+								Caption="Reset"
+								ID="btnReset"
+								Tooltip="Clear all selections"
+								>
+								<Action
+									ElementID="divFilters,divDetails"
+									ID="actReport"
+									RequestForwarding="True"
+									Type="RefreshElement"
+									>
+									<WaitPage/>
+									<LinkParams
+										Location=""
+									/>
+								</Action>
+							</Button>
+							<LineBreak
+								LineCount="2"
+							/>
+						</Division>
+					</ResponsiveColumn>
+					<ResponsiveColumn
+						ColspanExtraSmallScreen="12"
+						ColspanLargeScreen="9"
+						ColspanMediumScreen="9"
+						ColspanSmallScreen="12"
+						>
+						<Division
+							ID="divDetails"
+							>
+							<DataTable
+								AccessibleHeaders="True"
+								Caption="AgOS Orders with Shipment Invoice"
+								CaptionClass="ThemeTextSmall"
+								Class="ThemeTextSmaller"
+								ID="dtDeltick"
+								SortArrows="True"
+								Width="100"
+								WidthScale="%"
+								>
+								<DataLayer
+									ConnectionID="connAgOS"
+									ID="dlOrdersDone"
+									Source="Select Deltick1.OrderID,
+  Deltick1.LocationCode As Location,
+  Deltick1.TicketID As TicketID,
+  Deltick1.Exported As Billed,
+  ScheduleInfo.LocationCode As InventoryLocation
+From Deltick1
+  Inner Join Orders On Orders.OrderID = Deltick1.OrderID
+  Inner Join ScheduleInfo On Deltick1.OrderID = ScheduleInfo.OrderID
+Where Deltick1.LocationCode = &apos;CDD1&apos; And Deltick1.Exported = &apos;1&apos; And
+  Orders.DoneDate &gt;= DateAdd(Month, -1, GetDate()) And
+  (ScheduleInfo.LocationCode = &apos;@Request.Location~&apos; Or &apos;@Request.Location~&apos; = &apos;&apos;)
+Order By Location"
+									Type="SQL"
+									>
+									<Join
+										ID="joinShipmentInvoice"
+										JoinType="InnerJoin"
+										>
+										<MatchCondition
+											LeftDataColumn="TicketID"
+											RightDataColumn="AgWorksTicket"
+										/>
+										<DataLayer
+											ConnectionID="connGP"
+											ID="dlShipInvoice"
+											Source="Select IRASShipInvHDRHIST.IRShipmentNumber As ShipmentInvoice,
+  IRASShipInvHDRHIST.IRAgWorksTicketID As AgWorksTicket
+From IRASShipInvHDRHIST"
+											Type="SQL"
+										/>
+									</Join>
+								</DataLayer>
+								<InteractivePaging
+									CaptionType="Text"
+									Class="ThemeTextSmaller"
+									PageRowCount="40"
+									ShowPageNumber="True"
+								/>
+								<DataTableColumn
+									Header="Order #"
+									ID="colOrder"
+									>
+									<Label
+										Caption="@Data.OrderID~"
+									/>
+								</DataTableColumn>
+								<DataTableColumn
+									Header="Order Location"
+									ID="colLocation"
+									>
+									<Label
+										Caption="@Data.Location~"
+									/>
+								</DataTableColumn>
+								<DataTableColumn
+									Header="Inventory Location"
+									ID="colInvLocation"
+									>
+									<Label
+										Caption="@Data.InventoryLocation~"
+									/>
+								</DataTableColumn>
+								<DataTableColumn
+									Header="AgWorks Ticket"
+									ID="colTicket"
+									>
+									<Label
+										Caption="@Data.TicketID~"
+									/>
+								</DataTableColumn>
+								<DataTableColumn
+									Header="GP Shipment"
+									ID="colShipment"
+									>
+									<Label
+										Caption="@Data.ShipmentInvoice~"
+									/>
+								</DataTableColumn>
+							</DataTable>
+						</Division>
+					</ResponsiveColumn>
+				</ResponsiveRow>
+			</Division>
+		</Division>
+	</Body>
+	<IncludeSharedElement
+		DefinitionFile="_Layout.Shared"
+		SharedElementID="shrFooter"
+	/>
+	<ideTestParams
+		Location=""
+		Year=""
+	/>
+</Report>
