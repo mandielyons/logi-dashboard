@@ -569,7 +569,26 @@ Processed: @Function.DateTime~"
 			Type="Report"
 			>
 			<Target
-				Report="Unknown.SubReports.PlanInput"
+				Report="Reports.PlanInput"
+				RequestForwarding="True"
+				Type="Report"
+			/>
+		</Response>
+	</Task>
+	<Task
+		ID="taskNewBudget"
+		>
+		<Procedure
+			Command="MKCGP.dbo.mkcNewBudgetInput"
+			ConnectionID="connMKC"
+			ID="procSpBudgetNew"
+			Type="SP"
+		/>
+		<Response
+			Type="Report"
+			>
+			<Target
+				Report="Reports.PlanInput"
 				RequestForwarding="True"
 				Type="Report"
 			/>
