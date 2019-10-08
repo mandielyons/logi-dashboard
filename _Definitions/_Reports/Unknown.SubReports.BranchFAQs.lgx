@@ -87,21 +87,27 @@ If your question was not answered in the FAQs, then you may contact the followin
 &lt;/ul&gt;"
 									/>
 									<LineBreak/>
-									<Label
-										Caption="Where do I see my financial pod information?"
-										Class="ThemeBold"
-									/>
-									<IncludeHtml
-										Html="&lt;br /&gt;The dashboard can only display branches one at a time.  In order to see current financials for your pod you will need to manually add them together.
+									<Remark>
+										<Label
+											Caption="Where do I see my financial pod information?"
+											Class="ThemeBold"
+										/>
+									</Remark>
+									<Remark>
+										<IncludeHtml
+											Html="&lt;br /&gt;The dashboard can only display branches one at a time.  In order to see current financials for your pod you will need to manually add them together.
 &lt;br /&gt;"
-									/>
-									<LineBreak/>
+										/>
+									</Remark>
+									<Remark>
+										<LineBreak/>
+									</Remark>
 									<Label
 										Caption="How do I group branch financials together?"
 										Class="ThemeBold"
 									/>
 									<IncludeHtml
-										Html="&lt;br /&gt;The dashboard can only display branches one at a time.  To view another branch, change the filter at the top of the report page and click apply.
+										Html="&lt;br /&gt;The dashboard can only display the selected POD or a branch.  To view another POD or branch, change the filter at the top of the report page and click apply.
 &lt;br /&gt;"
 									/>
 									<LineBreak/>
@@ -138,7 +144,7 @@ If your question was not answered in the FAQs, then you may contact the followin
 										Class="ThemeBold"
 									/>
 									<IncludeHtml
-										Html="&lt;br /&gt;The financial plan will be added to the dashboard at a later date.  Today you will access the financial plan by viewing the excel file emailed out.
+										Html="&lt;br /&gt;The financial plan will be added to the dashboard as soon as it is available.  If there are questions, please refer to the section &quot;Who do I contact for help on the branch dashboard?&quot;
 &lt;br /&gt;"
 									/>
 									<LineBreak/>

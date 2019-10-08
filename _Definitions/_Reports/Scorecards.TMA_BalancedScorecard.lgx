@@ -642,6 +642,25 @@
 												>
 												<ResponsiveRow>
 													<ResponsiveColumn
+														Class="ThemeAlignLeft"
+														ColspanLargeScreen="2"
+														ColspanMediumScreen="2"
+														>
+														<Division
+															Class="set-panel-height"
+															HtmlDiv="True"
+															ID="panel-process2"
+															>
+															<Image
+																AltText="Utilize new tools &amp; technology"
+																Caption="purple_tmaoval_2.png"
+																Class="set-panel-height"
+																ID="purple_oval_2"
+																Tooltip="Utilize new tools &amp; technology"
+															/>
+														</Division>
+													</ResponsiveColumn>
+													<ResponsiveColumn
 														ColspanLargeScreen="2"
 														ColspanMediumScreen="2"
 														>
@@ -682,25 +701,6 @@
 															</Remark>
 														</ResponsiveColumn>
 													</Remark>
-													<ResponsiveColumn
-														Class="ThemeAlignLeft"
-														ColspanLargeScreen="2"
-														ColspanMediumScreen="2"
-														>
-														<Division
-															Class="set-panel-height"
-															HtmlDiv="True"
-															ID="panel-process2"
-															>
-															<Image
-																AltText="Utilize new tools &amp; technology"
-																Caption="purple_tmaoval_2.png"
-																Class="set-panel-height"
-																ID="purple_oval_2"
-																Tooltip="Utilize new tools &amp; technology"
-															/>
-														</Division>
-													</ResponsiveColumn>
 													<ResponsiveColumn
 														Class="ThemeAlignLeft"
 														ColspanLargeScreen="3"
@@ -876,6 +876,25 @@
 												>
 												<ResponsiveRow>
 													<ResponsiveColumn
+														Class="ThemeAlignLeft"
+														ColspanLargeScreen="2"
+														ColspanMediumScreen="2"
+														>
+														<Division
+															Class="set-panel-height"
+															HtmlDiv="True"
+															ID="panel-organization2"
+															>
+															<Image
+																AltText="Offer new products, programs &amp; services"
+																Caption="orange_tmaoval_3.png"
+																Class="set-panel-height"
+																ID="orange_oval_3"
+																Tooltip="Offer new products, programs &amp; services"
+															/>
+														</Division>
+													</ResponsiveColumn>
+													<ResponsiveColumn
 														ColspanLargeScreen="2"
 														ColspanMediumScreen="2"
 														>
@@ -931,25 +950,6 @@
 																Class="set-panel-height"
 																ID="orange_oval_2"
 																Tooltip="Renew facilities &amp; infrastructure"
-															/>
-														</Division>
-													</ResponsiveColumn>
-													<ResponsiveColumn
-														Class="ThemeAlignLeft"
-														ColspanLargeScreen="2"
-														ColspanMediumScreen="2"
-														>
-														<Division
-															Class="set-panel-height"
-															HtmlDiv="True"
-															ID="panel-organization2"
-															>
-															<Image
-																AltText="Offer new products, programs &amp; services"
-																Caption="orange_tmaoval_3.png"
-																Class="set-panel-height"
-																ID="orange_oval_3"
-																Tooltip="Offer new products, programs &amp; services"
 															/>
 														</Division>
 													</ResponsiveColumn>
@@ -1398,7 +1398,7 @@
 														ColSpan="2"
 														>
 														<Label
-															Caption="Improve Sales Performance"
+															Caption="Increase Operational Efficiency"
 															Class="font-xs bold"
 														/>
 													</Column>
@@ -1562,7 +1562,7 @@
 														ColSpan="2"
 														>
 														<Label
-															Caption="Increase Operational Efficiency"
+															Caption="Improve Sales Performance"
 															Class="font-xs bold"
 														/>
 													</Column>
@@ -1783,7 +1783,7 @@
 														ColSpan="2"
 														>
 														<Label
-															Caption="Improve Software Utilization"
+															Caption="Build a Unified Brand"
 															Class="font-xs bold"
 														/>
 													</Column>
@@ -1955,7 +1955,7 @@
 														ColSpan="2"
 														>
 														<Label
-															Caption="Increase Employee Knowledge, Skills &amp; Abilities"
+															Caption="Improve Software Utilization"
 															Class="font-xs bold"
 														/>
 													</Column>
@@ -2123,7 +2123,7 @@
 														ColSpan="2"
 														>
 														<Label
-															Caption="Build a Unified Image of the Brand"
+															Caption="Increase Employee Knowledge, Skills &amp; Abilities"
 															Class="font-xs bold"
 														/>
 													</Column>
