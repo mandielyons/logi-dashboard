@@ -34,23 +34,45 @@
 			Type="SQL"
 		/>
 	</LocalData>
+	<DefaultRequestParams
+		LocType="1"
+		paramBudgetId="@Local.FISCYEAR~"
+		paramDefaultTab="tabVolumes"
+		paramFiscPeriod="@Local.FISCPERIODID~"
+		paramFiscYear="@Local.FISCYEAR~"
+		paramLocGLStr="040"
+		themeDetailText="ThemeTextSmaller"
+		themeInputText="ThemeTextSmaller,uppercase"
+		themePlanColumn="ThemeMargin ThemeAlignRight ThemeContainerShaded"
+		themeTabLabel="ThemeBold ThemeTextSmall"
+	/>
 	<LocalData
 		ID="LocalData-LocationList"
 		>
 		<DataLayer
-			ColumnNamesRow="1"
-			ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\LocationData.xlsx"
-			ExcelWorksheet="BranchData"
-			ID="dlLocations"
-			Type="Excel"
+			CacheKey="BranchFinancialsLocationList"
+			ExpirationTime="05:00"
+			Type="Cached"
 			>
-			<ConditionFilter
-				Condition="&quot;@Data.LocGLStr~&quot; &lt;&gt; &quot;&quot;"
-				ID="filLocGLStr"
-			/>
-			<DataLayerLink
-				ID="dllLocations"
-			/>
+			<DataLayer
+				ColumnNamesRow="1"
+				ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\LocationData.xlsx"
+				ExcelWorksheet="BranchData"
+				ID="dlLocations"
+				Type="Excel"
+				>
+				<ConditionFilter
+					Condition="&quot;@Data.Active~&quot; == &quot;1&quot;"
+					ID="filActive"
+				/>
+				<ConditionFilter
+					Condition="&quot;@Data.LocGLStr~&quot; &lt;&gt; &quot;&quot;"
+					ID="filLocGLStr"
+				/>
+				<DataLayerLink
+					ID="dllLocations"
+				/>
+			</DataLayer>
 		</DataLayer>
 	</LocalData>
 	<LocalData
@@ -186,18 +208,6 @@
 			/>
 		</DataLayer>
 	</LocalData>
-	<DefaultRequestParams
-		LocType="1"
-		paramBudgetId="@Local.FISCYEAR~"
-		paramDefaultTab="tabVolumes"
-		paramFiscPeriod="@Local.FISCPERIODID~"
-		paramFiscYear="@Local.FISCYEAR~"
-		paramLocGLStr="040"
-		themeDetailText="ThemeTextSmaller"
-		themeInputText="ThemeTextSmaller,uppercase"
-		themePlanColumn="ThemeMargin ThemeAlignRight ThemeContainerShaded"
-		themeTabLabel="ThemeBold ThemeTextSmall"
-	/>
 	<IncludeSharedElement
 		DefinitionFile="_Layout.Shared"
 		SharedElementID="shrHeader"

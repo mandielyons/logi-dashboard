@@ -499,9 +499,92 @@ Processed: @Function.DateTime~"
 			/>
 		</Response>
 	</Task>
+	<Task
+		ID="taskUpdateBudget"
+		>
+		<Procedure
+			DataTableID="dtBudgetInput"
+			ID="procLoopDataRows"
+			Type="RunDataTableRows"
+			>
+			<Procedure
+				Expression="@Request.hdnChangeFlag~"
+				ID="procIfChanged"
+				Type="If"
+				>
+				<Procedure
+					Command="MKCGP.dbo.mkcUpdateBudgetInput"
+					ConnectionID="connMKC"
+					ID="procSpBudgetUpdate"
+					Type="SP"
+					>
+					<SPParameters>
+						<SPParameter
+							ID="Location"
+							SPParamDirection="Input"
+							SPParamSize="3"
+							SPParamType="dt-129"
+							Value="@Request.hdnLOCATNID~"
+						/>
+						<SPParameter
+							ID="Account"
+							SPParamDirection="Input"
+							SPParamSize="4"
+							SPParamType="dt-129"
+							Value="@Request.hdnMNACSGMT~"
+						/>
+						<SPParameter
+							ID="Amount"
+							SPParamDirection="Input"
+							SPParamSize="0"
+							SPParamType="dt-131"
+							Value="@Request.inpBudgetAmt~"
+						/>
+						<SPParameter
+							ID="Final"
+							SPParamDirection="Input"
+							SPParamSize="0"
+							SPParamType="dt-11"
+							Value="@Request.chkFinal~"
+						/>
+						<SPParameter
+							ID="Approved"
+							SPParamDirection="Input"
+							SPParamSize="0"
+							SPParamType="dt-11"
+							Value="@Request.chkApproved~"
+						/>
+						<SPParameter
+							ID="UserId"
+							SPParamDirection="Input"
+							SPParamSize="128"
+							SPParamType="dt-200"
+							Value="@Request.hdnUSERID~"
+						/>
+					</SPParameters>
+				</Procedure>
+			</Procedure>
+		</Procedure>
+		<Response
+			Type="Report"
+			>
+			<Target
+				Report="Unknown.SubReports.PlanInput"
+				RequestForwarding="True"
+				Type="Report"
+			/>
+		</Response>
+	</Task>
 	<ideTestParams
+		chkApproved=""
+		chkFinal=""
 		dteDropOff=""
 		dteEntered=""
+		hdnChangeFlag=""
+		hdnLOCATNID=""
+		hdnMNACSGMT=""
+		hdnUSERID=""
+		inpBudgetAmt=""
 		iptAccount=""
 		iptBranch=""
 		iptComments=""
