@@ -638,18 +638,20 @@ else {
 										<Note
 											Note="*** build mobile navigation here - only for BELOW 1024*768 (1024*768 in portrait) ***"
 										/>
-										<Division
-											ID="div-rtest"
-											>
-											<Label
-												Caption="***FOR INTERNAL USE ONLY***"
-												Class="ThemeErrorText,ThemeTextSmallest"
-												HtmlTag="Span"
-											/>
-											<Spaces
-												Size="5"
-											/>
-										</Division>
+										<Remark>
+											<Division
+												ID="div-rtest"
+												>
+												<Label
+													Caption="***FOR INTERNAL USE ONLY***"
+													Class="ThemeErrorText,ThemeTextSmallest"
+													HtmlTag="Span"
+												/>
+												<Spaces
+													Size="5"
+												/>
+											</Division>
+										</Remark>
 										<ResponsiveVisibility
 											HideForExtraSmallScreen="False"
 											HideForLargeScreen="True"
@@ -859,18 +861,20 @@ else {
 												ColspanMediumScreen="12"
 												ColspanSmallScreen="12"
 												>
-												<Division
-													ID="div-test"
-													>
-													<Label
-														Caption="***FOR INTERNAL USE ONLY***"
-														Class="ThemeErrorText,ThemeTextSmall"
-														HtmlTag="Span"
-													/>
-													<Spaces
-														Size="5"
-													/>
-												</Division>
+												<Remark>
+													<Division
+														ID="div-test"
+														>
+														<Label
+															Caption="***FOR INTERNAL USE ONLY***"
+															Class="ThemeErrorText,ThemeTextSmall"
+															HtmlTag="Span"
+														/>
+														<Spaces
+															Size="5"
+														/>
+													</Division>
+												</Remark>
 												<Remark>
 													<Label
 														Caption="Home"
@@ -1186,92 +1190,92 @@ else {
 														/>
 													</Division>
 												</Remark>
-												<Division
-													ID="sales-container"
-													SecurityRightID="MKC Dashboard, LogiUserAdmin"
-													>
 													<Division
-														Class="dropdown"
-														HtmlDiv="True"
-														ID="sales"
+														ID="sales-container"
+														SecurityRightID="MKC Dashboard, TMA Dashboard, OC, LogiUserAdmin"
 														>
-														<Label
-															Caption="Sales"
-															>
-															<Action
-																ID="actBlank"
-																Javascript="void(0)"
-																Type="Javascript"
-															/>
-															<ConditionalClass
-																Class="selected-menu"
-																Condition="&quot;@Request.rdReport~&quot;.indexOf(&quot;Sales&quot;)&lt;&gt;&quot;-1&quot;"
-															/>
-														</Label>
-														<Label
-															Class="caret"
-															>
-															<Action
-																ID="actBlank"
-																Javascript="void(0)"
-																Type="Javascript"
-															/>
-															<ConditionalClass
-																Class="caret selected-menu"
-																Condition="&quot;@Request.rdReport~&quot;.indexOf(&quot;Maps&quot;)&lt;&gt;&quot;-1&quot;"
-															/>
-														</Label>
 														<Division
-															Class="submenu"
+															Class="dropdown"
 															HtmlDiv="True"
-															ID="submenu-sales"
+															ID="sales"
 															>
-															<DataList
-																ID="lstSales"
+															<Label
+																Caption="Sales"
 																>
-																<DataLayer
-																	ID="dlNav-Sales"
-																	Type="DefinitionList"
+																<Action
+																	ID="actBlank"
+																	Javascript="void(0)"
+																	Type="Javascript"
+																/>
+																<ConditionalClass
+																	Class="selected-menu"
+																	Condition="&quot;@Request.rdReport~&quot;.indexOf(&quot;Sales&quot;)&lt;&gt;&quot;-1&quot;"
+																/>
+															</Label>
+															<Label
+																Class="caret"
+																>
+																<Action
+																	ID="actBlank"
+																	Javascript="void(0)"
+																	Type="Javascript"
+																/>
+																<ConditionalClass
+																	Class="caret selected-menu"
+																	Condition="&quot;@Request.rdReport~&quot;.indexOf(&quot;Maps&quot;)&lt;&gt;&quot;-1&quot;"
+																/>
+															</Label>
+															<Division
+																Class="submenu"
+																HtmlDiv="True"
+																ID="submenu-sales"
+																>
+																<DataList
+																	ID="lstSales"
 																	>
-																	<CompareFilter
-																		CaseSensitive="True"
-																		CompareType="="
-																		CompareValue="Sales"
-																		DataColumn="Folder1"
-																		DataType="Text"
-																		ID="fSales"
-																	/>
-																</DataLayer>
-																<ListItem>
-																	<Label
-																		Caption="@Data.Caption~"
+																	<DataLayer
+																		ID="dlNav-Sales"
+																		Type="DefinitionList"
 																		>
-																		<Action
-																			ID="actReport"
-																			Type="Report"
+																		<CompareFilter
+																			CaseSensitive="True"
+																			CompareType="="
+																			CompareValue="Sales"
+																			DataColumn="Folder1"
+																			DataType="Text"
+																			ID="fSales"
+																		/>
+																	</DataLayer>
+																	<ListItem>
+																		<Label
+																			Caption="@Data.Caption~"
 																			>
-																			<Target
-																				Report="@Data.ID~"
+																			<Action
+																				ID="actReport"
 																				Type="Report"
 																				>
-																				<WaitPage/>
-																			</Target>
-																		</Action>
-																		<ConditionalClass
-																			Class="selected-menu"
-																			Condition="&quot;@Request.rdReport~&quot;==&quot;@Data.ID~&quot;"
-																		/>
-																	</Label>
-																</ListItem>
-															</DataList>
+																				<Target
+																					Report="@Data.ID~"
+																					Type="Report"
+																					>
+																					<WaitPage/>
+																				</Target>
+																			</Action>
+																			<ConditionalClass
+																				Class="selected-menu"
+																				Condition="&quot;@Request.rdReport~&quot;==&quot;@Data.ID~&quot;"
+																			/>
+																		</Label>
+																	</ListItem>
+																</DataList>
+															</Division>
 														</Division>
+														<Label
+															Caption="|"
+															Class="pipe-spacer"
+															ID="pipe-spacer"
+														/>
 													</Division>
-													<Label
-														Caption="|"
-														Class="pipe-spacer"
-														ID="pipe-spacer"
-													/>
-												</Division>
 												<Division
 													ID="ag-container"
 													SecurityRightID="MKC Dashboard, LogiUserAdmin"
@@ -2477,7 +2481,7 @@ ORDER BY [FiscalYear]
 								SecurityRightID="TMA Dashboard,OC"
 							/>
 							<Label
-								Caption="V3.3"
+								Caption="V3.5"
 								Class="ThemeTextSmaller"
 								Format="HTML"
 								SecurityRightID="MKC Dashboard,TMA Dashboard,OC"
