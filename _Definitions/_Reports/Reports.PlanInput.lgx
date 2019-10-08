@@ -1,0 +1,236 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report Caption="Plan Input" ID="Reports.PlanInput" SecurityReportRightID="Reports_PlanInputEntry, Reports_PlanInputApprover, Reports_PlanInputAdmin, IT Department">
+  <SetSessionVariables>
+    <SessionParams userName="@Function.UserName~" />
+  </SetSessionVariables>
+  <LocalData ID="LocalData-FiscYear">
+    <DataLayer ConnectionID="connMKC" ID="fiscyear" Source="SELECT MAX(BUDGETYR) as [BudgetYear], MAX(BUDGETYR)-1 as [FiscYear] FROM MKCGP.dbo.MKC_Budget_Input" Type="SQL" />
+  </LocalData>
+  <DefaultRequestParams LocType="1" paramBudgetYear="@Local.BudgetYear~" paramFiscPeriod="0" paramFiscYear="@Local.FiscYear~" paramLocGLStr="100" paramUserApprv="" paramUserFinal="" themeDetailText="ThemeMargin ThemeTextSmaller" themePlanColumn="ThemeMargin ThemeAlignRight ThemeContainerShaded" />
+  <LocalData ID="LocalData-Locations">
+    <DataLayer ConnectionID="connMKC" ID="chkboxes" Source="SELECT CONVERT(bit, MAX(CONVERT(tinyint, IsFinal))) as ckbFinal, CONVERT(bit, MAX(CONVERT(tinyint, IsApproved))) as ckbApproved, MAX(ISNULL(FINALUSER,'')) as FinalUser, MAX(ISNULL(FINALDTTM,'')) as FinalDate, MAX(ISNULL(APPRVUSER,'')) as ApprovedUser, MAX(ISNULL(APPRVDTTM,'')) as ApprovedDate&#xD;&#xA;FROM MKCGP.dbo.MKC_Budget_Input&#xD;&#xA;WHERE LOCATNID = '@Request.paramLocGLStr~';" Type="SQL" />
+  </LocalData>
+  <LocalData ID="LocalData-Locations">
+    <DataLayer ConnectionID="connMKC" Source="exec MKCGP.dbo.mkcPodLocationList" Type="SQL">
+      <DataLayerLink ID="podloc" />
+    </DataLayer>
+  </LocalData>
+  <LocalData>
+    <DataLayer ConnectionID="connMKC" ID="LocationDescription" Source="SELECT LTRIM(RTRIM(SY00600.LOCATNNM)) AS [LocationDesc]&#xD;&#xA;FROM MKCGP.dbo.SY00600 with(nolock)&#xD;&#xA;WHERE SY00600.LOCATNID = '@Request.paramLocGLStr~';" Type="SQL" />
+  </LocalData>
+  <IncludeSharedElement DefinitionFile="_Layout.Shared" SharedElementID="shrHeader" />
+  <Body>
+    <ResponsiveRow ID="ResponsiveRowInput">
+      <ResponsiveColumn>
+        <Division Class="panel panel-default" HtmlDiv="True" ID="panel-ReportHdr">
+          <Division Class="panel-heading" HtmlDiv="True" ID="panel-heading-Title">
+            <Label Caption="Plan Input" Class="panel-title" />
+            <Spaces Size="4" />
+            <Label Caption="@Request.paramBudgetYear~" Class="panel-title" />
+            <Spaces Size="4" />
+            <Label Caption="@Local.LocationDesc~" Class="panel-title" />
+          </Division>
+          <Division Class="panel-body" HtmlDiv="True" ID="panel-body-inputs">
+            <ResponsiveRow>
+              <ResponsiveColumn ColspanExtraSmallScreen="12" ColspanLargeScreen="12" ColspanMediumScreen="12" ColspanSmallScreen="12">
+                <Rows Width="100" WidthScale="%">
+                  <Row>
+                    <Column Class="ThemeAlignTop, ThemeAlignLeft" ID="colFilters" Width="280" WidthScale="px">
+                      <Rows Width="90" WidthScale="%">
+                        <Row>
+                          <Column Class="ThemeAlignRight">
+                            <LineBreak />
+                            <Label Class="fa fa-chevron-left" Tooltip="Hide filters">
+                              <Action Display="Toggle" ElementID="colFilters,colFilters2" ID="hideFilters" ShowElementEffect="FadeIn" Type="ShowElement" />
+                            </Label>
+                          </Column>
+                        </Row>
+                        <Row>
+                          <Column Width="100" WidthScale="%">
+                            <Division Class="well" HtmlDiv="True" ID="divFilters">
+                              <InputSelectList Caption="Location:" CaptionClass="ThemeTextSmall,ThemeBold" Class="ThemeTextSmaller" DefaultValue="@Request.paramLocGLStr~" GroupCaptionColumn="PodDesc" GroupClassColumn="ThemeBold, ThemeTextSmaller" ID="paramLocGLStr" IncludeBlank="False" InputRows="12" MultiSelect="False" OptionCaptionColumn="LocDesc" OptionValueColumn="LocGLStr">
+                                <DataLayer ID="lnkPodLoc" LinkedDataLayerID="podloc" Type="Linked">
+                                  <SortFilter DataType="Text" ID="sortPodLoc" SortColumn="PodDesc, LocDesc" />
+                                  <GroupFilter DataType="Text" GroupColumn="PodDesc" Hierarchical="True" ID="grpPodDesc" KeepGroupedRows="True" />
+                                </DataLayer>
+                                <EventHandler DhtmlEvent="onchange" ID="ehocLocation">
+                                  <Action ElementID="panel-heading-Title, panel-BudgetInput" ID="actre-panel-ReportHdr" Type="RefreshElement">
+                                    <WaitPage />
+                                  </Action>
+                                </EventHandler>
+                              </InputSelectList>
+                            </Division>
+                          </Column>
+                        </Row>
+                      </Rows>
+                    </Column>
+                    <Column Class="ThemeAlignTop" ID="colFilters2" ShowModes="None" Width="30" WidthScale="px">
+                      <Rows Width="90" WidthScale="%">
+                        <Row>
+                          <Column Class="panel-heading" ID="colIcon">
+                            <LineBreak />
+                            <Label Class="fa fa-chevron-right" Tooltip="Show filters">
+                              <Action Display="Toggle" ElementID="colFilters,colFilters2" ID="showFilters" ShowElementEffect="FadeIn" Type="ShowElement" />
+                            </Label>
+                          </Column>
+                        </Row>
+                      </Rows>
+                    </Column>
+                    <Column Class="ThemeAlignTop ThemeAlignLeft" ID="colContent">
+                      <ResponsiveRow Class="ThemeTextSmall, ThemeAlignLeft" CollisionBehavior="Wrap" ID="respContent">
+                        <ResponsiveColumn ColspanExtraSmallScreen="12" ColspanLargeScreen="12" ColspanMediumScreen="12" ColspanSmallScreen="12">
+                          <Note Note="Note: Make sure data table &quot;Ajax Paging and Sorting&quot; attribute setting = &quot;True&quot;" />
+                          <Division Class="panel panel-default" HtmlDiv="True" ID="panel-BudgetInput">
+                            <Division Class="panel-body" HtmlDiv="True" ID="divBudgetInput">
+                              <ResponsiveRow>
+                                <ResponsiveColumn ColspanExtraSmallScreen="11" ColspanLargeScreen="11" ColspanMediumScreen="11" ColspanSmallScreen="11">
+                                  <Division Class="panel-body" HtmlDiv="True" ID="panel-bodyBudgetInput">
+                                    <Rows Width="100" WidthScale="%">
+                                      <Row>
+                                        <Column Class="@Request.themeDetailText~ ">
+                                          <DataTable AjaxPaging="True" ID="dtBudgetInput">
+                                            <DataLayer ConnectionID="connMKC" ID="sqlBudget" Source="SELECT FiscYear, LOCATNID, LOCATNNM, MNACSGMT, ACTGRPID, ACTGROUP, SORTORDR, ACTDESCR, ALLOCACT, ALLOCPCT, IsInput, cyActAmt, cyBudAmt, pyActAmt, InpAmt, IsFinal, IsApproved&#xD;&#xA;FROM MKCGP.dbo.vmkcBudgetInputSummary &#xD;&#xA;WHERE LOCATNID = '@Request.paramLocGLStr~'&#xD;&#xA;ORDER BY SORTORDR;&#xD;&#xA;" Type="SQL">
+                                              <GroupFilter DataType="Number" GroupColumn="ACTGRPID" Hierarchical="False" ID="grpIntGroup" KeepGroupedRows="True" SortSequence="Ascending" />
+                                            </DataLayer>
+                                            <HeaderRow HeaderPosition="Top" ID="rowCustomHeader">
+                                              <Column ColSpan="2" />
+                                              <Column Class="ThemeAlignCenter" ColSpan="1">
+                                                <Label Caption="Current" Class="ThemeAlignCenter, ThemeBold" />
+                                              </Column>
+                                              <Column Class="ThemeAlignCenter" ColSpan="1">
+                                                <Label Caption="Plan" Class="ThemeAlignCenter, ThemeBold" />
+                                              </Column>
+                                              <Column Class="ThemeAlignCenter" ColSpan="1">
+                                                <Label Caption="Prior Year" Class="ThemeAlignCenter, ThemeBold" />
+                                              </Column>
+                                              <Column Class="ThemeAlignCenter" ColSpan="1">
+                                                <Label Caption="Plan" Class="ThemeAlignCenter, ThemeBold" />
+                                              </Column>
+                                            </HeaderRow>
+                                            <GroupHeaderRow Caption="@Data.ACTGROUP~" Class="ThemeBold" GroupFilterID="grpIntGroup" ID="grpHdrActGroup" PrependBlankRows="1">
+                                              <Column ColSpan="4">
+                                                <Label Caption="@Data.ACTGROUP~" Class="ThemeBold" ID="AccountGroup" />
+                                              </Column>
+                                            </GroupHeaderRow>
+                                            <DataTableColumn Class="ThemeAlignVerticalLeft" ColumnHeaderClass="ThemeAlignCenter" Header="Description" HeaderType="Text" ID="colDescription">
+                                              <Label Caption="@Data.ACTDESCR~" ID="lblDescription" />
+                                            </DataTableColumn>
+                                            <DataTableColumn Class="ThemeAlignVerticalLeft" ColumnHeaderClass="ThemeAlignCenter" Header="Account" HeaderType="Text" ID="colAccount">
+                                              <Division Condition="@Data.ACTGRPID~==3" ID="divAcctVisible">
+                                                <Label Caption="@Data.MNACSGMT~" ID="lblAccount" />
+                                              </Division>
+                                            </DataTableColumn>
+                                            <DataTableColumn Class="ThemeAlignVerticalRight" ColumnHeaderClass="ThemeAlignCenter" Header="YTD" HeaderType="Text" ID="colCyActAmt">
+                                              <Label Caption="@Data.cyActAmt~" Format="###,###,##0;(###,###,##0)" ID="cyActAmt" />
+                                              <DataColumnSummary DataColumn="cyActAmt" DataType="Number" Function="Sum" ID="sumCyActAmt" />
+                                            </DataTableColumn>
+                                            <DataTableColumn Class="@Request.themePlanColumn~ ThemeAlignVerticalRight" ColumnHeaderClass="ThemeAlignCenter" Header="Amount" HeaderType="Text" ID="colCyBudAmt">
+                                              <Label Caption="@Data.cyBudAmt~" Format="###,###,##0;(###,###,##0)" ID="cyBudAmt" />
+                                              <DataColumnSummary DataColumn="cyBudAmt" DataType="Number" Function="Sum" ID="sumCyBudAmt" />
+                                            </DataTableColumn>
+                                            <DataTableColumn Class="ThemeAlignVerticalRight" ColumnHeaderClass="ThemeAlignCenter" Header="Actual" HeaderType="Text" ID="colPyActAmt">
+                                              <Label Caption="@Data.pyActAmt~" Format="###,###,##0;(###,###,##0)" ID="pyActAmt" />
+                                              <DataColumnSummary DataColumn="pyActAmt" DataType="Number" Function="Sum" ID="sumPyActAmt" />
+                                            </DataTableColumn>
+                                            <DataTableColumn Class="ThemeAlignRight" ColumnHeaderClass="ThemeAlignCenter" Header="Input" ID="colPlanEntry">
+                                              <Division Condition="@Data.IsInput~==False or (@Data.IsFinal~==True OR @Data.IsApproved~==True)" ID="divViewEntry">
+                                                <Label Caption="@Data.InpAmt~" Format="###,###,##0;(###,###,##0)" />
+                                              </Division>
+                                              <Division Condition="@Data.IsInput~==True AND @Data.IsFinal~==False AND @Data.IsApproved~==False" ID="divEditEntry">
+                                                <InputText ChangeFlagElementID="hdnChangeFlag" Class="@Request.themeDetailText~, ThemeAlignRight" DefaultValue="@Data.InpAmt~" Format="###,###,##0;(###,###,##0)" ID="inpBudgetAmt" InputMaxLength="9" InputSize="8">
+                                                  <Validation ErrorMsg="You can enter numbers only!" Type="Numeric" />
+                                                  <Validation ErrorMsg="You must enter a numeric value!" Type="Required" />
+                                                </InputText>
+                                              </Division>
+                                              <DataColumnSummary DataColumn="InpAmt" DataType="Number" Function="Sum" ID="sumInpAmt" />
+                                              <InputHidden DefaultValue="True" ID="hdnChangeFlag" />
+                                              <InputHidden DefaultValue="@Data.MNACSGMT~" ID="hdnMNACSGMT" />
+                                              <InputHidden DefaultValue="@Data.LOCATNID~" ID="hdnLOCATNID" />
+                                              <InputHidden DefaultValue="@Session.userName~" ID="hdnUSERID" />
+                                            </DataTableColumn>
+                                            <GroupSummaryRow Caption="@Data.ACTGROUP~ Total:" Class="ThemeBold" GroupFilterID="grpIntGroup" ID="grpSumRow" />
+                                          </DataTable>
+                                        </Column>
+                                      </Row>
+                                    </Rows>
+                                  </Division>
+                                </ResponsiveColumn>
+                                <ResponsiveColumn>
+                                  <Division Class="panel-body pull-right" HtmlDiv="True" ID="divTotalsData">
+                                    <IncludeSharedElement DefinitionFile="_Layout.Shared" SharedElementID="shrExcelExport">
+                                      <SharedElementParams DataTableID="dtBudgetInput" ReportName="Plan Input" Security="" />
+                                    </IncludeSharedElement>
+                                  </Division>
+                                </ResponsiveColumn>
+                              </ResponsiveRow>
+                              <ResponsiveRow>
+                                <ResponsiveColumn>
+                                  <Division ID="divUpdate">
+                                    <Rows>
+                                      <Row>
+                                        <Column Class="@Request.themeDetailText~" Width="80" WidthScale="px">
+                                          <Label Caption="Final:" Class="ThemeBold" ID="lblFinal" />
+                                          <LineBreak />
+                                          <Label Caption="Approved:" Class="ThemeBold" ID="lblApproved" />
+                                        </Column>
+                                        <Column Class="@Request.themeDetailText~" Width="30" WidthScale="px">
+                                          <Division ID="div-LocMgr">
+                                            <Division Condition="@Local.ckbApproved~==0" ID="div-LocMgr-Hidden">
+                                              <InputCheckbox CheckedValue="True" Class="ThemeAlignTopLeft" DefaultValue="@Local.ckbFinal~" ID="chkFinal" UncheckedValue="False" />
+                                            </Division>
+                                          </Division>
+                                          <LineBreak />
+                                          <Division ID="div-AreaMgr" SecurityRightID="Reports_PlanInputApprover, Reports_PlanInputAdmin, IT Department">
+                                            <InputCheckbox CheckedValue="True" Class="ThemeAlignTopLeft" DefaultValue="@Local.ckbApproved~" ID="chkApproved" UncheckedValue="False" />
+                                          </Division>
+                                          <LineBreak />
+                                        </Column>
+                                        <Column Class="@Request.themeDetailText~" Width="130" WidthScale="px">
+                                          <Label Caption="@Local.FinalUser~" Class="ThemeAlignLeft" ID="lblFinalUser" />
+                                          <LineBreak />
+                                          <Label Caption="@Local.ApprovedUser~" Class="ThemeAlignLeft" ID="lblApprovedUser" />
+                                          <LineBreak />
+                                        </Column>
+                                        <Column Class="@Request.themeDetailText~" Width="180" WidthScale="px">
+                                          <Division Condition="&quot;@Local.FinalDate~&quot;&lt;&gt;&quot;1900-01-01T00:00:00-06:00&quot;" ID="div-FinalDttNotNull">
+                                            <Label Caption="@Local.FinalDate~" Class="ThemeAlignLeft" Format="Short Date" ID="lblFinalDate" />
+                                            <Spaces Size="2" />
+                                            <Label Caption="@Local.FinalDate~" Class="ThemeAlignLeft" Format="Short Time" ID="lblFinalTime" />
+                                          </Division>
+                                          <LineBreak />
+                                          <Division Condition="&quot;@Local.ApprovedDate~&quot;&lt;&gt;&quot;1900-01-01T00:00:00-06:00&quot;" ID="div-ApprvDttmNotNull">
+                                            <Label Caption="@Local.ApprovedDate~" Class="ThemeAlignLeft" Format="Short Date" ID="lblApprovedDate" />
+                                            <Spaces Size="2" />
+                                            <Label Caption="@Local.ApprovedDate~" Class="ThemeAlignLeft" Format="Short Time" ID="lblApprovedTime" />
+                                          </Division>
+                                          <LineBreak />
+                                        </Column>
+                                        <Column Class="@Request.themeDetailText~" Width="50" WidthScale="px">
+                                          <Button Caption="Update" ID="btnUpdate" Tooltip="Click to update Plan Input values for the selected location">
+                                            <Action ID="actProcess" Process="SQLTasks" TaskID="taskUpdateBudget" Type="Process" Validate="True">
+                                              <WaitPage />
+                                            </Action>
+                                          </Button>
+                                        </Column>
+                                      </Row>
+                                    </Rows>
+                                  </Division>
+                                </ResponsiveColumn>
+                              </ResponsiveRow>
+                            </Division>
+                          </Division>
+                        </ResponsiveColumn>
+                      </ResponsiveRow>
+                    </Column>
+                  </Row>
+                </Rows>
+              </ResponsiveColumn>
+            </ResponsiveRow>
+          </Division>
+        </Division>
+      </ResponsiveColumn>
+    </ResponsiveRow>
+  </Body>
+  <IncludeSharedElement DefinitionFile="_Layout.Shared" SharedElementID="shrFooter" />
+  <ideTestParams paramBudgetYear="" paramLocGLStr="" themeDetailText="" themePlanColumn="" />
+</Report>
