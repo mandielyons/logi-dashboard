@@ -13,7 +13,7 @@
 		ID="LocalData-FiscYear"
 		>
 		<DataLayer
-			ConnectionID="connMKC"
+			ConnectionID="connPlanInput"
 			ID="fiscyear"
 			Source="SELECT MAX(BUDGETYR) as [BudgetYear], MAX(BUDGETYR)-1 as [FiscYear] FROM MKCGP.dbo.MKC_Budget_Input"
 			Type="SQL"
@@ -34,7 +34,7 @@
 		ID="LocalData-Locations"
 		>
 		<DataLayer
-			ConnectionID="connMKC"
+			ConnectionID="connPlanInput"
 			ID="chkboxes"
 			Source="SELECT CONVERT(bit, MAX(CONVERT(tinyint, IsFinal))) as ckbFinal, CONVERT(bit, MAX(CONVERT(tinyint, IsApproved))) as ckbApproved, MAX(ISNULL(FINALUSER,&apos;&apos;)) as FinalUser, MAX(ISNULL(FINALDTTM,&apos;&apos;)) as FinalDate, MAX(ISNULL(APPRVUSER,&apos;&apos;)) as ApprovedUser, MAX(ISNULL(APPRVDTTM,&apos;&apos;)) as ApprovedDate
 FROM MKCGP.dbo.MKC_Budget_Input
@@ -46,7 +46,7 @@ WHERE LOCATNID = &apos;@Request.paramLocGLStr~&apos;;"
 		ID="LocalData-Locations"
 		>
 		<DataLayer
-			ConnectionID="connMKC"
+			ConnectionID="connPlanInput"
 			Source="exec MKCGP.dbo.mkcPodLocationList"
 			Type="SQL"
 			>
@@ -57,7 +57,7 @@ WHERE LOCATNID = &apos;@Request.paramLocGLStr~&apos;;"
 	</LocalData>
 	<LocalData>
 		<DataLayer
-			ConnectionID="connMKC"
+			ConnectionID="connPlanInput"
 			ID="LocationDescription"
 			Source="SELECT LTRIM(RTRIM(SY00600.LOCATNNM)) AS [LocationDesc]
 FROM MKCGP.dbo.SY00600 with(nolock)
@@ -295,7 +295,7 @@ WHERE SY00600.LOCATNID = &apos;@Request.paramLocGLStr~&apos;;"
 																						ID="dtBudgetInput"
 																						>
 																						<DataLayer
-																							ConnectionID="connMKC"
+																							ConnectionID="connPlanInput"
 																							ID="sqlBudget"
 																							Source="SELECT FiscYear, LOCATNID, LOCATNNM, MNACSGMT, ACTGRPID, ACTGROUP, SORTORDR, ACTDESCR, ALLOCACT, ALLOCPCT, IsInput, cyActAmt, cyBudAmt, pyActAmt, InpAmt, IsFinal, IsApproved
 FROM MKCGP.dbo.vmkcBudgetInputSummary 
