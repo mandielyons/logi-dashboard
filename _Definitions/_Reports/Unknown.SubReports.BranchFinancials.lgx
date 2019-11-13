@@ -50,29 +50,23 @@
 		ID="LocalData-LocationList"
 		>
 		<DataLayer
-			CacheKey="BranchFinancialsLocationList"
-			ExpirationTime="05:00"
-			Type="Cached"
+			ColumnNamesRow="1"
+			ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\LocationData.xlsx"
+			ExcelWorksheet="BranchData"
+			ID="dlLocations"
+			Type="Excel"
 			>
-			<DataLayer
-				ColumnNamesRow="1"
-				ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\LocationData.xlsx"
-				ExcelWorksheet="BranchData"
-				ID="dlLocations"
-				Type="Excel"
-				>
-				<ConditionFilter
-					Condition="&quot;@Data.Active~&quot; == &quot;1&quot;"
-					ID="filActive"
-				/>
-				<ConditionFilter
-					Condition="&quot;@Data.LocGLStr~&quot; &lt;&gt; &quot;&quot;"
-					ID="filLocGLStr"
-				/>
-				<DataLayerLink
-					ID="dllLocations"
-				/>
-			</DataLayer>
+			<ConditionFilter
+				Condition="&quot;@Data.Active~&quot; == &quot;1&quot;"
+				ID="filActive"
+			/>
+			<ConditionFilter
+				Condition="&quot;@Data.LocGLStr~&quot; &lt;&gt; &quot;&quot;"
+				ID="filLocGLStr"
+			/>
+			<DataLayerLink
+				ID="dllLocations"
+			/>
 		</DataLayer>
 	</LocalData>
 	<LocalData
