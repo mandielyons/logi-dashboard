@@ -35,17 +35,54 @@
 		<DataLayer
 			ConnectionID="connProdGP"
 			ID="sqlCreditHold"
-			MaxRows="30"
 			Source="SELECT c.GPCustCd, c.CustDesc, c.CustCityState, c.AccountRep, c.Balance, c.CFACust
+  , CASE c.CRLMTTYP WHEN 0 THEN &apos;Yes&apos; ELSE &apos;No&apos; END as OnHold
 FROM MKCGP.dbo.vmkcCreditMgmtBalHold as [c] with(nolock)
-WHERE c.PaymentTerms NOT IN(&apos;CASH ONLY&apos;)
+WHERE ((c.Aged_61_90 + c.Aged_91_OV &gt; 0 AND c.CRLMTTYP &gt; 0) OR (c.CRLMTTYP = 0)) 
+  AND c.PaymentTerms NOT IN(&apos;CASH ONLY&apos;)
   AND (c.CustCityState IN(&apos;@Request.pCustCityState~&apos;) OR &apos;@Request.pCustCityState~&apos; = &apos;&apos;)
   AND (c.AccountRep IN(&apos;@Request.pAccountRep~&apos;) OR &apos;@Request.pAccountRep~&apos; = &apos;&apos;)
+  AND (CASE c.CRLMTTYP WHEN 0 THEN &apos;Yes&apos; ELSE &apos;No&apos; END IN(&apos;@Request.pOnHold~&apos;) OR &apos;@Request.pOnHold~&apos; = &apos;&apos;)
 ORDER BY GPCustCd;"
 			Type="SQL"
 			>
 			<DataLayerLink
 				ID="lnkCreditHold"
+			/>
+		</DataLayer>
+		<DataLayer
+			ConnectionID="connProdGP"
+			HandleQuotesInTokens="True"
+			ID="sqlCustDetails"
+			Source="SELECT
+  LTRIM(RTRIM(RO.CUSTNMBR)) as [GPCustCd],
+  RO.AGNGBUKT,
+  LTRIM(RTRIM(RH.RMPERDSC)) AS AGINGDESC,
+  MKCGP.dbo.DYN_FUNC_Document_Type_RM_Trx(RO.RMDTYPAL) as DOCTYPE,
+  RO.DOCNUMBR,
+  RO.DOCDATE,
+  RO.DUEDATE,
+  CASE 
+    WHEN RO.RMDTYPAL &lt; 7 THEN RO.ORTRXAMT
+    WHEN RO.RMDTYPAL &gt; 6 THEN RO.ORTRXAMT *-1
+    ELSE 0.0
+  END as [ORIG_AMT],
+  CASE
+    WHEN RO.RMDTYPAL &lt; 7 THEN RO.CURTRXAM
+    WHEN RO.RMDTYPAL &gt; 6 THEN RO.CURTRXAM *-1
+    ELSE 0.0
+  END as [AMOUNT_DUE]
+FROM MKCGP.dbo.RM20101 AS RO
+  INNER JOIN MKCGP.dbo.RM00101 AS RM ON RO.CUSTNMBR = RM.CUSTNMBR
+  INNER JOIN MKCGP.dbo.RM40201 AS RH ON RO.AGNGBUKT = RH.INDEX1
+WHERE RO.VOIDSTTS = 0 
+  AND RO.CURTRXAM &lt;&gt; 0.0
+ORDER BY GPCustCd, AGNGBUKT DESC, DOCDATE DESC, DOCNUMBR DESC
+"
+			Type="SQL"
+			>
+			<DataLayerLink
+				ID="lnkCustDetails"
 			/>
 		</DataLayer>
 	</LocalData>
@@ -192,6 +229,53 @@ ORDER BY GPCustCd;"
 																	<Action
 																		ElementID="panel-CreditHold"
 																		ID="actre-AccountRep"
+																		Type="RefreshElement"
+																		>
+																		<WaitPage/>
+																	</Action>
+																</EventHandler>
+															</InputSelectList>
+														</Division>
+													</Column>
+												</Row>
+												<Row>
+													<Column
+														Width="100"
+														WidthScale="%"
+														>
+														<Division
+															Class="well"
+															HtmlDiv="True"
+															ID="divFilter-OnHold"
+															>
+															<InputSelectList
+																Caption="On Credit Hold"
+																CaptionClass="ThemeTextSmall,ThemeBold"
+																Class="@Request.themeDetailText~"
+																DefaultValue="@Request.pOnHold~"
+																ID="pOnHold"
+																IncludeBlank="True"
+																OptionCaptionColumn="OnHold"
+																OptionValueColumn="OnHold"
+																>
+																<DataLayer
+																	ID="staticOnHold"
+																	Type="Static"
+																	>
+																	<StaticDataRow
+																		OnHold="Yes"
+																	/>
+																	<StaticDataRow
+																		OnHold="No"
+																	/>
+																</DataLayer>
+																<EventHandler
+																	DhtmlEvent="onchange"
+																	ID="ehocOnHold"
+																	>
+																	<Action
+																		ElementID="panel-CreditHold"
+																		ID="actre-OnHold"
 																		Type="RefreshElement"
 																		>
 																		<WaitPage/>
@@ -373,6 +457,8 @@ ORDER BY GPCustCd;"
 																							/>
 																						</DataTableColumn>
 																						<DataTableColumn
+																							Class="ThemeAlignCenter"
+																							ColumnHeaderClass="ThemeAlignCenter"
 																							Header="CFA"
 																							ID="colCFACust"
 																							>
@@ -382,6 +468,35 @@ ORDER BY GPCustCd;"
 																							/>
 																							<DataColumnSort
 																								DataColumn="CFACust"
+																							/>
+																						</DataTableColumn>
+																						<DataTableColumn
+																							Class="ThemeAlignCenter"
+																							ColumnHeaderClass="ThemeAlignCenter"
+																							Header="On Hold"
+																							ID="colOnHold"
+																							>
+																							<Division
+																								Class="ThemeBold ThemeTextNegative"
+																								Condition="&quot;@Data.OnHold~&quot;==&quot;Yes&quot;"
+																								ID="divOnHoldYes"
+																								>
+																								<Label
+																									Caption="@Data.OnHold~"
+																									ID="lblOnHold"
+																								/>
+																							</Division>
+																							<Division
+																								Condition="&quot;@Data.OnHold~&quot;==&quot;No&quot;"
+																								ID="divOnHoldNo"
+																								>
+																								<Label
+																									Caption="@Data.OnHold~"
+																									ID="lblOnHold"
+																								/>
+																							</Division>
+																							<DataColumnSort
+																								DataColumn="OnHold"
 																							/>
 																						</DataTableColumn>
 																						<MoreInfoRow
@@ -401,36 +516,9 @@ ORDER BY GPCustCd;"
 																									OrphanRowExistence="True"
 																									>
 																									<DataLayer
-																										ConnectionID="connProdGP"
-																										HandleQuotesInTokens="True"
-																										ID="sqlCustDetails"
-																										MaxRows="200"
-																										Source="SELECT
-  LTRIM(RTRIM(RO.CUSTNMBR)) as [GPCustCd],
-  RO.AGNGBUKT,
-  LTRIM(RTRIM(RH.RMPERDSC)) AS AGINGDESC,
-  MKCGP.dbo.DYN_FUNC_Document_Type_RM_Trx(RO.RMDTYPAL) as DOCTYPE,
-  RO.DOCNUMBR,
-  RO.DOCDATE,
-  RO.DUEDATE,
-  CASE 
-    WHEN RO.RMDTYPAL &lt; 7 THEN RO.ORTRXAMT
-    WHEN RO.RMDTYPAL &gt; 6 THEN RO.ORTRXAMT *-1
-    ELSE 0.0
-  END as [ORIG_AMT],
-  CASE
-    WHEN RO.RMDTYPAL &lt; 7 THEN RO.CURTRXAM
-    WHEN RO.RMDTYPAL &gt; 6 THEN RO.CURTRXAM *-1
-    ELSE 0.0
-  END as [AMOUNT_DUE]
-FROM MKCGP.dbo.RM20101 AS RO
-  INNER JOIN MKCGP.dbo.RM00101 AS RM ON RO.CUSTNMBR = RM.CUSTNMBR
-  INNER JOIN MKCGP.dbo.RM40201 AS RH ON RO.AGNGBUKT = RH.INDEX1
-WHERE RO.VOIDSTTS = 0 
-  AND RO.CURTRXAM &lt;&gt; 0.0
-ORDER BY GPCustCd, AGNGBUKT, DOCDATE, DOCNUMBR
-"
-																										Type="SQL"
+																										ID="dataCustDetails"
+																										LinkedDataLayerID="lnkCustDetails"
+																										Type="Linked"
 																									/>
 																									<SubDataLayerRelationColumn
 																										ChildColumn="GPCustCd"
@@ -569,6 +657,7 @@ ORDER BY GPCustCd, AGNGBUKT, DOCDATE, DOCNUMBR
 	<ideTestParams
 		pAccountRep=""
 		pCustCityState=""
+		pOnHold=""
 		themeDetailText=""
 	/>
 </Report>
