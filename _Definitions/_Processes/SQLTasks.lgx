@@ -514,7 +514,7 @@ Processed: @Function.DateTime~"
 				>
 				<Procedure
 					Command="MKCGP.dbo.mkcUpdateBudgetInput"
-					ConnectionID="connMKC"
+					ConnectionID="connPlanInput"
 					ID="procSpBudgetUpdate"
 					Type="SP"
 					>
@@ -580,7 +580,7 @@ Processed: @Function.DateTime~"
 		>
 		<Procedure
 			Command="MKCGP.dbo.mkcNewBudgetInput"
-			ConnectionID="connMKC"
+			ConnectionID="connPlanInput"
 			ID="procSpBudgetNew"
 			Type="SP"
 		/>

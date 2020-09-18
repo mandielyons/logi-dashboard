@@ -581,11 +581,11 @@ select.rdAgQbColor6, table.rdAgDataTable th.rdAgQbColor6 {
 	margin-bottom: 6px;
 }
 
-/*table.rdThemeSubDataTable th, .rdThemeSubDataTable th {
+table.rdThemeSubDataTable th, .rdThemeSubDataTable th {
 	background-color: #363b42;
 	color: #fff;
 	padding: 1px 3px;
-}*/
+}
 
 .rdThemeSubDataTableGroupHeaderRow td {
 	background-color: #878786;
@@ -596,7 +596,6 @@ select.rdAgQbColor6, table.rdAgDataTable th.rdAgQbColor6 {
 .rdThemeSubDataTableDataTableCell {
 	background-color: #ececec;
 	color: #363b42;
-  padding: 1px 3px;
 }
 
 .rdThemeSubDataTableMoreInfoRow {
@@ -1350,13 +1349,12 @@ input#txtEditBookmarkDescription {
 	border: none;
   display: block;
   padding: 3px;
-  width:100%;
+	width:100%;
 }
 .first-of-type li a:hover {
-  color: #deb408;
+	color: #deb408;
 }
 .first-of-type:hover {
-	color: #deb408;
 	background-color: #1D2733;
 }
 
@@ -1373,7 +1371,6 @@ input#txtEditBookmarkDescription {
 .second-of-type:hover {
   color: #1D2733;
 }
-
 
 /* calendar */
 
@@ -1972,11 +1969,7 @@ table #dtBookmarkSharedWith td:first-of-type > span{
     text-transform: capitalize;
   }
 
-<<<<<<< HEAD
-   .yellow-highlight {
-=======
   .yellow-highlight {
->>>>>>> 3c7ee27359a6646c9798e00c481a6980613c77d1
     background-color: #FFFF99 !important;
     color: black;
   }

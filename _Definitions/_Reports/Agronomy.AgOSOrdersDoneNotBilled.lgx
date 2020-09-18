@@ -5,7 +5,7 @@
 	SecurityReportRightID="MKC Dashboard"
 	>
 	<DefaultRequestParams
-		Year="2019"
+		Year="2018"
 	/>
 	<IncludeSharedElement
 		DefinitionFile="_Layout.Shared"
@@ -133,27 +133,23 @@ Order By AgOSLocCode"
   Deltick1.LocationCode As Location,
   Farm.Name As Farm,
   Objects.Name As Customer,
-  Deltick1.CreatedDate As CreatedDate,
-  Deltick1.TicketID As TicketID,
-  Deltick1.Exported As Exported,
-  ScheduleInfo.LocationCode As InventoryLocation,
-  Deltick1.PO,
-  Deltick1.DelayExport As Delayed
+  Deltick1.CreatedDate,
+  ScheduleInfo.LocationCode As InventoryLocation
+
 From Deltick1
   Inner Join Farm On Deltick1.FarmID = Farm.FarmID
   Inner Join Objects On Objects.ObjectID = Deltick1.[From/To] And
     Objects.ObjectID = Farm.ObjectID
   Inner Join ScheduleInfo On Deltick1.OrderID = ScheduleInfo.OrderID
 Where (Deltick1.LocationCode = &apos;@Request.Location~&apos; Or &apos;@Request.Location~&apos; =
-    &apos; &apos;) And Deltick1.CreatedDate &gt; &apos;@Request.Year~&apos; And Deltick1.DelayExport =
-  &apos;1&apos; And Deltick1.SubCategoryID = 8
+    &apos; &apos;) And Deltick1.CreatedDate &gt; &apos;@Request.Year~&apos; And
+  Deltick1.SubCategoryID = 8 And Deltick1.Exported = 0
 Order By Location"
-									Type="SQL"
-								/>
+Type="SQL" 	/>
 								<InteractivePaging
 									CaptionType="Text"
 									Class="ThemeTextSmaller"
-									PageRowCount="100"
+									PageRowCount="40"
 									ShowPageNumber="True"
 								/>
 								<DataTableColumn
@@ -164,16 +160,6 @@ Order By Location"
 										Caption="@Data.OrderID~"
 									/>
 								</DataTableColumn>
-								<Remark>
-									<DataTableColumn
-										Header="GP Shipment"
-										ID="colShipment"
-										>
-										<Label
-											Caption="@Data.Shipment~"
-										/>
-									</DataTableColumn>
-								</Remark>
 								<DataTableColumn
 									Header="Order Location"
 									ID="colLocation"
@@ -227,6 +213,6 @@ Order By Location"
 	/>
 	<ideTestParams
 		Location=""
-		Year="2019"
+		Year="2018"
 	/>
 </Report>
