@@ -19,7 +19,7 @@
 
 
 "
-			SecurityRightID="TMA Dashboard, OC"
+			SecurityRightID="TMA Dashboard,OC,Dashboard Scales"
 		/>
 		<IncludeScript
 			ID="globalScripts"
@@ -608,7 +608,7 @@ else {
 											Caption="TMA_LogoHorWht.png"
 											Class="main-logo"
 											ID="tmalogo"
-											SecurityRightID="TMA Dashboard,OC"
+											SecurityRightID="TMA Dashboard,OC,Dashboard Scales"
 											>
 											<Action
 												ID="actHomeLink"
@@ -1018,7 +1018,7 @@ else {
 												</Division>
 												<Division
 													ID="tma-reports-container"
-													SecurityRightID="TMA Dashboard,MKC Dashboard,OC"
+													SecurityRightID="TMA Dashboard,MKC Dashboard,OC,Dashboard Scales"
 													>
 													<Division
 														Class="dropdown"
@@ -1190,92 +1190,92 @@ else {
 														/>
 													</Division>
 												</Remark>
+												<Division
+													ID="sales-container"
+													SecurityRightID="MKC Dashboard, TMA Dashboard, OC, LogiUserAdmin"
+													>
 													<Division
-														ID="sales-container"
-														SecurityRightID="MKC Dashboard, TMA Dashboard, OC, LogiUserAdmin"
+														Class="dropdown"
+														HtmlDiv="True"
+														ID="sales"
 														>
-														<Division
-															Class="dropdown"
-															HtmlDiv="True"
-															ID="sales"
+														<Label
+															Caption="Sales"
 															>
-															<Label
-																Caption="Sales"
+															<Action
+																ID="actBlank"
+																Javascript="void(0)"
+																Type="Javascript"
+															/>
+															<ConditionalClass
+																Class="selected-menu"
+																Condition="&quot;@Request.rdReport~&quot;.indexOf(&quot;Sales&quot;)&lt;&gt;&quot;-1&quot;"
+															/>
+														</Label>
+														<Label
+															Class="caret"
+															>
+															<Action
+																ID="actBlank"
+																Javascript="void(0)"
+																Type="Javascript"
+															/>
+															<ConditionalClass
+																Class="caret selected-menu"
+																Condition="&quot;@Request.rdReport~&quot;.indexOf(&quot;Maps&quot;)&lt;&gt;&quot;-1&quot;"
+															/>
+														</Label>
+														<Division
+															Class="submenu"
+															HtmlDiv="True"
+															ID="submenu-sales"
+															>
+															<DataList
+																ID="lstSales"
 																>
-																<Action
-																	ID="actBlank"
-																	Javascript="void(0)"
-																	Type="Javascript"
-																/>
-																<ConditionalClass
-																	Class="selected-menu"
-																	Condition="&quot;@Request.rdReport~&quot;.indexOf(&quot;Sales&quot;)&lt;&gt;&quot;-1&quot;"
-																/>
-															</Label>
-															<Label
-																Class="caret"
-																>
-																<Action
-																	ID="actBlank"
-																	Javascript="void(0)"
-																	Type="Javascript"
-																/>
-																<ConditionalClass
-																	Class="caret selected-menu"
-																	Condition="&quot;@Request.rdReport~&quot;.indexOf(&quot;Maps&quot;)&lt;&gt;&quot;-1&quot;"
-																/>
-															</Label>
-															<Division
-																Class="submenu"
-																HtmlDiv="True"
-																ID="submenu-sales"
-																>
-																<DataList
-																	ID="lstSales"
+																<DataLayer
+																	ID="dlNav-Sales"
+																	Type="DefinitionList"
 																	>
-																	<DataLayer
-																		ID="dlNav-Sales"
-																		Type="DefinitionList"
+																	<CompareFilter
+																		CaseSensitive="True"
+																		CompareType="="
+																		CompareValue="Sales"
+																		DataColumn="Folder1"
+																		DataType="Text"
+																		ID="fSales"
+																	/>
+																</DataLayer>
+																<ListItem>
+																	<Label
+																		Caption="@Data.Caption~"
 																		>
-																		<CompareFilter
-																			CaseSensitive="True"
-																			CompareType="="
-																			CompareValue="Sales"
-																			DataColumn="Folder1"
-																			DataType="Text"
-																			ID="fSales"
-																		/>
-																	</DataLayer>
-																	<ListItem>
-																		<Label
-																			Caption="@Data.Caption~"
+																		<Action
+																			ID="actReport"
+																			Type="Report"
 																			>
-																			<Action
-																				ID="actReport"
+																			<Target
+																				Report="@Data.ID~"
 																				Type="Report"
 																				>
-																				<Target
-																					Report="@Data.ID~"
-																					Type="Report"
-																					>
-																					<WaitPage/>
-																				</Target>
-																			</Action>
-																			<ConditionalClass
-																				Class="selected-menu"
-																				Condition="&quot;@Request.rdReport~&quot;==&quot;@Data.ID~&quot;"
-																			/>
-																		</Label>
-																	</ListItem>
-																</DataList>
-															</Division>
+																				<WaitPage/>
+																			</Target>
+																		</Action>
+																		<ConditionalClass
+																			Class="selected-menu"
+																			Condition="&quot;@Request.rdReport~&quot;==&quot;@Data.ID~&quot;"
+																		/>
+																	</Label>
+																</ListItem>
+															</DataList>
 														</Division>
-														<Label
-															Caption="|"
-															Class="pipe-spacer"
-															ID="pipe-spacer"
-														/>
 													</Division>
+													<Label
+														Caption="|"
+														Class="pipe-spacer"
+														ID="pipe-spacer"
+													/>
+												</Division>
 												<Division
 													ID="ag-container"
 													SecurityRightID="MKC Dashboard, LogiUserAdmin"
@@ -1692,7 +1692,7 @@ else {
 												</Division>
 												<Division
 													ID="divNotOC"
-													SecurityRightID="TMA Dashboard,MKC Dashboard,OC"
+													SecurityRightID="TMA Dashboard,MKC Dashboard,OC,Dashboard Scales"
 													>
 													<Division
 														ID="admin-container"
@@ -2439,6 +2439,47 @@ ORDER BY [FiscalYear]
 		</Division>
 	</SharedElement>
 	<SharedElement
+		ID="shrMaintMsg"
+		>
+		<Division
+			Class="text-center"
+			>
+			<ResponsiveRow>
+				<ResponsiveColumn>
+					<Label
+						Caption="Dashboard Under Construction"
+						Class="header-md text-danger"
+					/>
+				</ResponsiveColumn>
+			</ResponsiveRow>
+			<ResponsiveRow>
+				<ResponsiveColumn>
+					<Image
+						AltText="Dashboard Under Construction"
+						Caption="construction.jpg"
+						ID="imgConstruction"
+					/>
+				</ResponsiveColumn>
+			</ResponsiveRow>
+			<ResponsiveRow>
+				<ResponsiveColumn>
+					<Label
+						Caption="** Data Not Current **"
+						Class="header-sm text-danger"
+					/>
+				</ResponsiveColumn>
+			</ResponsiveRow>
+			<ResponsiveRow>
+				<ResponsiveColumn>
+					<Label
+						Caption="Please check back later"
+						Class="header-sm text-danger"
+					/>
+				</ResponsiveColumn>
+			</ResponsiveRow>
+		</Division>
+	</SharedElement>
+	<SharedElement
 		ID="shrFooter"
 		>
 		<Division
@@ -2469,13 +2510,13 @@ ORDER BY [FiscalYear]
 								HideForSmallScreen="True"
 							/>
 							<Label
-								Caption="© Copyright 2017-2018 MKC. Shared growth. Shared success. All rights reserved. "
+								Caption="© Copyright 2020-2021 MKC. Shared growth. Shared success. All rights reserved. "
 								Class="ThemeTextSmaller"
 								Format="HTML"
 								SecurityRightID="MKC Dashboard"
 							/>
 							<Label
-								Caption="© Copyright 2017-2018 Team Marketing Alliance. All rights reserved."
+								Caption="© Copyright 2020-2021 Team Marketing Alliance. All rights reserved."
 								Class="ThemeTextSmaller"
 								Format="HTML"
 								SecurityRightID="TMA Dashboard,OC"
@@ -2497,13 +2538,13 @@ ORDER BY [FiscalYear]
 								HideForSmallScreen="False"
 							/>
 							<Label
-								Caption="© Copyright 2017-2018 MKC."
+								Caption="© Copyright 2020-2021 MKC."
 								Class="ThemeTextSmallest"
 								Format="HTML"
 								SecurityRightID="MKC Dashboard"
 							/>
 							<Label
-								Caption="© Copyright 2017-2018 TMA. "
+								Caption="© Copyright 2020-2021 TMA. "
 								Class="ThemeTextSmallest"
 								Format="HTML"
 								SecurityRightID="TMA Dashboard,OC"
@@ -2593,7 +2634,14 @@ $(document).ready(function() {
 				// TMA user
 				security = &quot;TMA&quot;;
 			}
-		}	
+			else {
+				sroles = roles.search(&quot;Dashboard Scales&quot;);
+				if (sroles &gt; -1) {
+					// Scale user
+					security = &quot;TMA&quot;;
+				}	
+			}
+		}
 	}
 	var str = document.getElementById(&quot;iptStatus&quot;).value;
 	var report = document.getElementById(&quot;iptReport&quot;).value;
@@ -2651,35 +2699,38 @@ $(document).ready(function() {
 		version = document.getElementById(&quot;version_tma&quot;);
 		notes = document.getElementById(&quot;notes_tma&quot;);
 	}
-	notifications.innerHTML = &quot;&lt;b&gt;Latest Release Notes - &quot;;
-	var ul = version;
-	var items = ul.getElementsByTagName(&quot;li&quot;);
-	for (var i = 0; i &lt; items.length; ++i) {
-		// do something with the notification items, which is a &lt;li&gt; element
-		notifications.innerHTML = notifications.innerHTML + items[i].innerHTML + &quot;&lt;/b&gt;&lt;br&gt;&lt;ul&gt;&quot;;
-	}
-	
-	var thisItem;
-	var anchors;
-	ul = notes;
-	items = ul.getElementsByTagName(&quot;li&quot;);
-	for (var i = 0; i &lt; items.length; ++i) {
-		// set the page header to the version
-		notifications.innerHTML = notifications.innerHTML + &quot;&lt;li&gt;&quot; + items[i].innerHTML + &quot;&lt;/li&gt;&quot;;
-		thisItem = items[i].innerHTML;
-		anchors = thisItem.search(&quot;lnkMore&quot;);
-		if (anchors &gt; -1) {
-			document.getElementById(&quot;lnkMore&quot;).style.display = &quot;none&quot;;
+	if (notifications != null) {
+		notifications.innerHTML = &quot;&lt;b&gt;Latest Release Notes - &quot;;
+		var ul = version;
+		var items = ul.getElementsByTagName(&quot;li&quot;);
+		for (var i = 0; i &lt; items.length; ++i) {
+			// do something with the notification items, which is a &lt;li&gt; element
+			notifications.innerHTML = notifications.innerHTML + items[i].innerHTML + &quot;&lt;/b&gt;&lt;br&gt;&lt;ul&gt;&quot;;
 		}
+
+
+		var thisItem;
+		var anchors;
+		ul = notes;
+		items = ul.getElementsByTagName(&quot;li&quot;);
+		for (var i = 0; i &lt; items.length; ++i) {
+			// set the page header to the version
+			notifications.innerHTML = notifications.innerHTML + &quot;&lt;li&gt;&quot; + items[i].innerHTML + &quot;&lt;/li&gt;&quot;;
+			thisItem = items[i].innerHTML;
+			anchors = thisItem.search(&quot;lnkMore&quot;);
+			if (anchors &gt; -1) {
+				document.getElementById(&quot;lnkMore&quot;).style.display = &quot;none&quot;;
+			}
+		}
+		notifications.innerHTML = notifications.innerHTML + &quot;&lt;/ul&gt;&lt;br&gt;&quot;;
+		if (security == &quot;MKC&quot;) {
+			history = document.getElementById(&quot;history&quot;);
+		}
+		else {
+			history = document.getElementById(&quot;history_tma&quot;);
+		}
+		notifications.innerHTML = notifications.innerHTML + history.innerHTML;
 	}
-	notifications.innerHTML = notifications.innerHTML + &quot;&lt;/ul&gt;&lt;br&gt;&quot;;
-	if (security == &quot;MKC&quot;) {
-		history = document.getElementById(&quot;history&quot;);
-	}
-	else {
-		history = document.getElementById(&quot;history_tma&quot;);
-	}
-	notifications.innerHTML = notifications.innerHTML + history.innerHTML;
 		
 	// display for mobile
 	var mobileNotifications;
@@ -2689,7 +2740,9 @@ $(document).ready(function() {
 	else {
 		mobileNotifications = document.getElementById(&quot;showReleaseNotesTMA&quot;);
 	}
-	mobileNotifications.innerHTML = notifications.innerHTML;
+	if (mobileNotifications != null) {
+		mobileNotifications.innerHTML = notifications.innerHTML;
+	}
 		
 	//display notifications -- MKC
 	var home = report.search(&quot;Home.Default&quot;);
@@ -2705,21 +2758,23 @@ $(document).ready(function() {
 		else {
 			//if -1 this user has not dismissed the notifications yet, so show them
 			if (dismissed == &quot;&quot; || userDismiss == -1) {
-				if (security == &quot;MKC&quot;) {
-					ul = document.getElementById(&quot;notifications&quot;);
+				if (ul != null) {
+					if (security == &quot;MKC&quot;) {
+						ul = document.getElementById(&quot;notifications&quot;);
+					}
+					else {
+						ul = document.getElementById(&quot;notifications_tma&quot;);
+					}
+					var items = ul.getElementsByTagName(&quot;li&quot;);
+					for (var i = 0; i &lt; items.length; ++i) {
+						// do something with the notification items, which is a &lt;li&gt; element
+						//$.notify(items[i].innerHTML,{className: &quot;error&quot;,autoHide: false,position:&quot;bottom left&quot;});
+						//(&quot;#Footer&quot;).notify(items[i].innerHTML,{className: &quot;error&quot;,autoHide: false});
+						$.notify(items[i].innerHTML,{className: &quot;error&quot;,autoHide: false});
+						//$(&quot;#Footer&quot;).notify(items[i].innerHTML,{className: &quot;error&quot;,autoHide: false,position:&quot;bottom left&quot;});
+					}				
 				}
-				else {
-					ul = document.getElementById(&quot;notifications_tma&quot;);
-				}
-				var items = ul.getElementsByTagName(&quot;li&quot;);
-				for (var i = 0; i &lt; items.length; ++i) {
-					// do something with the notification items, which is a &lt;li&gt; element
-					//$.notify(items[i].innerHTML,{className: &quot;error&quot;,autoHide: false,position:&quot;bottom left&quot;});
-					//(&quot;#Footer&quot;).notify(items[i].innerHTML,{className: &quot;error&quot;,autoHide: false});
-					$.notify(items[i].innerHTML,{className: &quot;error&quot;,autoHide: false});
-					//$(&quot;#Footer&quot;).notify(items[i].innerHTML,{className: &quot;error&quot;,autoHide: false,position:&quot;bottom left&quot;});
-				}				
-			}			
+			}
 		}
 	}
  });

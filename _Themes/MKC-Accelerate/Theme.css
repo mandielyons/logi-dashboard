@@ -1734,6 +1734,16 @@ table #dtBookmarkSharedWith td:first-of-type > span{
 	  text-align: right;
 	}
 
+  .ThemeAlignVerticalLeft {
+    vertical-align: middle !important;
+    text-align: left;
+  }
+
+  .ThemeAlignVerticalRight {
+    vertical-align: middle !important;
+    text-align: right;  
+  }
+
 	.ThemeMarginLargest {
 		margin: 72px;
 	}

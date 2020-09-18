@@ -1,0 +1,211 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report
+	Caption="Hutch Kahler Recon"
+	ID="Agronomy.HutchKahlerRecon"
+	SecurityReportRightID="MKC Dashboard"
+	>
+	<IncludeSharedElement
+		DefinitionFile="_Layout.Shared"
+		SharedElementID="shrHeader"
+	/>
+	<DefaultRequestParams
+		ScaleTicket="-1"
+	/>
+	<Body>
+		<IncludeScript
+			IncludedScript="&lt;script&gt;
+  (function(i,s,o,g,r,a,m){i[&apos;GoogleAnalyticsObject&apos;]=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,&apos;script&apos;,&apos;https://www.google-analytics.com/analytics.js&apos;,&apos;ga&apos;);
+
+  ga(&apos;create&apos;, &apos;UA-76860562-2&apos;, &apos;auto&apos;);
+  ga(&apos;send&apos;, &apos;pageview&apos;);
+
+&lt;/script&gt;"
+		/>
+		<Division
+			Class="panel panel-default"
+			HtmlDiv="True"
+			ID="panel-share"
+			>
+			<Division
+				Class="panel-heading"
+				HtmlDiv="True"
+				ID="panel-share-heading"
+				>
+				<Label
+					Caption="Hutch Kahler Reconciliation"
+					Class="panel-title"
+				/>
+			</Division>
+			<Division
+				Class="panel-body"
+				HtmlDiv="True"
+				ID="panel-share-body"
+				>
+				<ResponsiveRow>
+					<ResponsiveColumn/>
+					<ResponsiveColumn
+						Class="ThemeAlignRight"
+						>
+						<IncludeSharedElement
+							DefinitionFile="_Layout.Shared"
+							SharedElementID="shrExcelExport"
+							>
+							<SharedElementParams
+								DataTableID="dtCDProd"
+								ReportName="Applied Acres (Milo) "
+							/>
+						</IncludeSharedElement>
+					</ResponsiveColumn>
+				</ResponsiveRow>
+				<ResponsiveRow>
+					<ResponsiveColumn>
+						<Division
+							Class="well"
+							HtmlDiv="True"
+							ID="divFilters"
+							>
+							<InputSelectList
+								Caption="Location Code"
+								CaptionClass="ThemeTextSmall ThemeBold"
+								Class="ThemeTextSmaller"
+								ID="Location"
+								IncludeBlank="True"
+								IncludeBlankCaption="ALL"
+								OptionCaptionColumn="LocationCode"
+								OptionValueColumn="LocationCode"
+								>
+								<DataLayer
+									ConnectionID="connAgOS"
+									ID="dlLocation"
+									Source="Select Distinct ScaleTickets.LocationCode
+From ScaleTickets
+Where (ScaleTickets.LocationCode = &apos;@Request.Location~&apos;) Or
+  (&apos;@Request.Location~&apos; = &apos; &apos;)
+Order By ScaleTickets.LocationCode"
+									Type="SQL"
+								/>
+								<EventHandler
+									DhtmlEvent="onchange"
+									>
+									<Action
+										ElementID="divDetails"
+										ID="refNotifyByLoc"
+										Type="RefreshElement"
+										>
+										<WaitPage/>
+									</Action>
+								</EventHandler>
+							</InputSelectList>
+							<Remark>
+								<InputSelectList
+									Caption="Scale Ticket ID:"
+									CaptionClass="ThemeTextSmall ThemeBold"
+									Class="ThemeTextSmaller"
+									ID="ScaleTicket"
+									IncludeBlank="True"
+									IncludeBlankValue="-1"
+									OptionCaptionColumn="ScaleTicket"
+									OptionValueColumn="ScaleTicket"
+									>
+									<DataLayer
+										ConnectionID="connAgOS"
+										ID="dlWorkOrders"
+										Source="Select Distinct ScaleTickets.ScaleTicketID As ScaleTicket
+From ScaleTickets
+Where ScaleTickets.timeout &gt; &apos;2019-12-31 00:00:00&apos;"
+										Type="SQL"
+									/>
+									<EventHandler
+										DhtmlEvent="onchange"
+										ID="eventOnChangeWorkOrder"
+										>
+										<Action
+											ElementID="divDetails"
+											ID="actRefreshAll"
+											Type="RefreshElement"
+											>
+											<WaitPage/>
+										</Action>
+									</EventHandler>
+								</InputSelectList>
+							</Remark>
+							<LineBreak/>
+							<Button
+								Caption="Reset"
+								ID="btnReset"
+								Tooltip="Clear all selections"
+								>
+								<Action
+									ElementID="divFilters,divDetails"
+									ID="actReport"
+									RequestForwarding="True"
+									Type="RefreshElement"
+									>
+									<WaitPage/>
+									<LinkParams
+										Customer="-1"
+										FieldMarketer="-1"
+									/>
+								</Action>
+							</Button>
+							<LineBreak
+								LineCount="2"
+							/>
+						</Division>
+					</ResponsiveColumn>
+					<ResponsiveColumn
+						Class="ThemeAlignCenter"
+						ColspanExtraSmallScreen="12"
+						ColspanLargeScreen="9"
+						ColspanMediumScreen="9"
+						ColspanSmallScreen="12"
+						>
+						<Division
+							ID="divDetails"
+							>
+							<DataTable
+								AccessibleHeaders="True"
+								Class="ThemeTextSmaller"
+								DraggableColumns="True"
+								ID="dtHutchKahler"
+								SortArrows="True"
+								>
+								<AutoColumns/>
+								<InteractivePaging
+									CaptionType="Text"
+									Class="ThemeTextSmaller"
+									PageRowCount="50"
+									ShowPageNumber="True"
+								/>
+								<SummaryRow/>
+								<DataLayer
+									ConnectionID="connAgOS"
+									Source="Select ScaleTickets.LocationCode, Orders.orderID, ScaleTickets.scaleticketid, scaleticketproducts.productid, products.Name, scaleticketproducts.amount, 
+orders.createddate, scaletickets.timeout, orders.done, scaletickets.blended, scaletickets.shipped, orders.canceled, mixers.name as Blender from scaletickets
+Join ScaleticketProducts on scaleticketproducts.scaleticketid = scaletickets.scaleticketid
+Join Orders on orders.orderid = scaletickets.orderid
+Join Products on Products.ProductID = scaleticketproducts.productid
+join mixers on scaletickets.mixerid = mixers.mixerid
+where orders.done = 0 and scaletickets.timeout &gt; &apos;2019-12-31 00:00:00&apos; And (ScaleTickets.LocationCode = &apos;@Request.Location~&apos; Or &apos;@Request.Location~&apos; =
+    &apos; &apos;) 
+order by scaletickets.LocationCode"
+									Type="SQL"
+								/>
+							</DataTable>
+						</Division>
+					</ResponsiveColumn>
+				</ResponsiveRow>
+			</Division>
+		</Division>
+	</Body>
+	<IncludeSharedElement
+		DefinitionFile="_Layout.Shared"
+		SharedElementID="shrFooter"
+	/>
+	<ideTestParams
+		Location=""
+	/>
+</Report>

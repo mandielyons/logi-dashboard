@@ -374,20 +374,24 @@ Order By Category"
   T1.DoneDate,
   Round(T1.AcresSprayed, 2) SprayedAcres,
   T1.LocationCode,
-  T8.Name Category
+  T8.Name Category,
+  T3.UserName UserName,
+  T5.CreatedByID,
+  T9.Name FarmName
 From Orders T1
   Inner Join Objects T2 With(NoLock) On T2.ObjectID = T1.ObjectID
-  Inner Join Users T3 With(NoLock) On T3.UserID = T1.DoneByID
+  Inner Join Users T3 With(NoLock) On T3.UserID = T1.CreatedByID
   Inner Join Objects T4 With(NoLock) On T4.ObjectID = T1.ApplicatorID
   Inner Join Deltick1 T5 With(NoLock) On T5.OrderID = T1.OrderID
   Inner Join Crops T6 With(NoLock) On T6.CropID = T1.CropID
   Inner Join AppCode T7 With(NoLock) On T7.AppCodeID = T1.AppCodeID
   Inner Join OrderSubCategory T8 With(NoLock) On T8.SubCategoryID =
     T1.SubCategoryID
+  Inner Join Farm T9 With(NoLock) On T9.FarmID = T5.FarmID
 Where (T6.Name = &apos;@Request.Crop~&apos; Or &apos;@Request.Crop~&apos; = &apos;&apos;) And
   T1.DoneDate &gt; &apos;2016-01-01&apos; And T1.DoneDate Between &apos;@Request.BeginDate~&apos; And
   &apos;@Request.EndDate~&apos; And ((T1.LocationCode &lt;&gt; &apos;Precise&apos; And
-    T1.LocationCode = &apos;@Request.Location~&apos;) Or &apos;@Request.Location~&apos; = &apos;&apos;) And
+      T1.LocationCode = &apos;@Request.Location~&apos;) Or &apos;@Request.Location~&apos; = &apos;&apos;) And
   (T8.Name = &apos;@Request.Category~&apos; Or &apos;@Request.Category~&apos; = &apos;&apos;) And
   T1.Canceled = 0 And T5.CategoryID = 1
 Order By T1.LocationCode,
@@ -404,27 +408,38 @@ Order By T1.LocationCode,
 										Caption="@Data.OrderID~"
 									/>
 								</DataTableColumn>
+								<Remark>
+									<DataTableColumn
+										Header="Application Code"
+										>
+										<Label
+											Caption="@Data.AppCode~"
+										/>
+									</DataTableColumn>
+								</Remark>
 								<DataTableColumn
-									Header="Application Code"
-									>
-									<Label
-										Caption="@Data.AppCode~"
-									/>
-								</DataTableColumn>
-								<DataTableColumn
-									Header="Name"
+									Header="Account Name"
 									>
 									<Label
 										Caption="@Data.Name~"
 									/>
 								</DataTableColumn>
 								<DataTableColumn
-									Header="Acct Interface ID"
+									Header="Farm Name"
 									>
 									<Label
-										Caption="@Data.AccInterfaceID~"
+										Caption="@Data.FarmName~"
 									/>
 								</DataTableColumn>
+								<Remark>
+									<DataTableColumn
+										Header="Acct Interface ID"
+										>
+										<Label
+											Caption="@Data.AccInterfaceID~"
+										/>
+									</DataTableColumn>
+								</Remark>
 								<DataTableColumn
 									Header="Crop"
 									>
@@ -461,15 +476,13 @@ Order By T1.LocationCode,
 										Caption="@Data.Category~"
 									/>
 								</DataTableColumn>
-								<Remark>
-									<DataTableColumn
-										Header="Notification Data"
-										>
-										<Label
-											Caption="@Data.Data~"
-										/>
-									</DataTableColumn>
-								</Remark>
+								<DataTableColumn
+									Header="Created By"
+									>
+									<Label
+										Caption="@Data.UserName~"
+									/>
+								</DataTableColumn>
 							</DataTable>
 						</Division>
 					</ResponsiveColumn>

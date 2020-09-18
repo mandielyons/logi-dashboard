@@ -41,32 +41,26 @@ VALUES (&apos;@Request.EventTime~&apos;, &apos;@Request.EventName~&apos;, &apos;
 		ID="insertSessionRow"
 		>
 		<Procedure
-			Expression="InStr(&quot;@Function.AppVirtualPath~&quot;,&quot;info&quot;) &gt; 0"
-			ID="ifLive"
-			Type="If"
-			>
-			<Procedure
-				ConnectionID="connLogiEvent"
-				ID="insertSessionRow"
-				SqlCommand="INSERT INTO LogiEventLog (EventDateTime, EventName, EventDuration, ElementID, UserID, EventDetail) 
+			ConnectionID="connLogiEvent"
+			ID="insertSessionRow"
+			SqlCommand="INSERT INTO LogiEventLog (EventDateTime, EventName, EventDuration, ElementID, UserID, EventDetail) 
 VALUES (&apos;@Request.EventTime~&apos;, &apos;@Request.EventName~&apos;, &apos;@Request.EventDuration~&apos;, &apos;@Request.ElementID~&apos;,&apos;@Request.rdUsername~&apos;,&apos;Session started for this user.&apos;) 
 "
-				Type="SQL"
+			Type="SQL"
+			>
+			<IfError
+				ID="InsertSessionRowError"
 				>
-				<IfError
-					ID="InsertSessionRowError"
+				<Procedure
+					Expression="@Procedure.insertSessionRow.ErrorMessage~.Length &gt; 0"
+					ID="insertRowError"
+					Type="If"
 					>
-					<Procedure
-						Expression="@Procedure.insertSessionRow.ErrorMessage~.Length &gt; 0"
-						ID="insertRowError"
-						Type="If"
-						>
-						<Response
-							Type="Exit"
-						/>
-					</Procedure>
-				</IfError>
-			</Procedure>
+					<Response
+						Type="Exit"
+					/>
+				</Procedure>
+			</IfError>
 		</Procedure>
 		<Response
 			Type="Exit"
@@ -105,32 +99,27 @@ VALUES (&apos;@Request.EventName~&apos;, &apos;@Request.ElementID~&apos;, &apos;
 		ID="insertBuildReport"
 		>
 		<Procedure
-			Expression="InStr(&quot;@Function.AppVirtualPath~&quot;,&quot;info&quot;) &gt; 0"
-			ID="ifLive"
-			Type="If"
-			>
-			<Procedure
-				ConnectionID="connLogiEvent"
-				ID="insertBuildReport"
-				SqlCommand="INSERT INTO LogiEventLog (EventName, ElementID, EventDateTime, EventDuration, SQLCommand, UserID, EventDetail) 
-VALUES (&apos;@Request.EventName~&apos;, &apos;@Request.ElementID~&apos;, &apos;@Request.EventTime~&apos;, &apos;@Request.EventDuration~&apos;, &apos;@Request.SQL~&apos;, &apos;@Request.rdUsername~&apos;,&apos;Build Report&apos;) 
+			ConnectionID="connLogiEvent"
+			ID="insertBuildReport"
+			SqlCommand="INSERT INTO LogiEventLog (EventName, ElementID, EventDateTime, EventDuration, SQLCommand, UserID, EventDetail, ReportID) 
+VALUES (&apos;@Request.EventName~&apos;, &apos;@Request.ElementID~&apos;, &apos;@Request.EventTime~&apos;, &apos;@Request.EventDuration~&apos;, &apos;@Request.SQL~&apos;, &apos;@Request.rdUsername~&apos;,&apos;Build Report&apos;,&apos;@Request.rdReport~&apos;) 
 "
-				Type="SQL"
+			SqlReturnType="RowsAffected"
+			Type="SQL"
+			>
+			<IfError
+				ID="InsertBuildReportError"
 				>
-				<IfError
-					ID="InsertSQLRowError"
+				<Procedure
+					Expression="@Procedure.insertSQLRow.ErrorMessage~.Length &gt; 0"
+					ID="insertRowError"
+					Type="If"
 					>
-					<Procedure
-						Expression="@Procedure.insertSQLRow.ErrorMessage~.Length &gt; 0"
-						ID="insertRowError"
-						Type="If"
-						>
-						<Response
-							Type="Exit"
-						/>
-					</Procedure>
-				</IfError>
-			</Procedure>
+					<Response
+						Type="Exit"
+					/>
+				</Procedure>
+			</IfError>
 		</Procedure>
 		<Response
 			Type="Exit"

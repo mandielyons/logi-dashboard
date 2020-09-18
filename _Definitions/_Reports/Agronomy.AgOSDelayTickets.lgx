@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Report
-	Caption="AgOS Orders Done Not Billed"
-	ID="Agronomy.AgOSOrdersDoneNotBilled"
+	Caption="AgOS Delay Tickets"
+	ID="Agronomy.AgOSDelayTickets"
 	SecurityReportRightID="MKC Dashboard"
 	>
 	<DefaultRequestParams
@@ -35,7 +35,7 @@
 				ID="panel-share-heading"
 				>
 				<Label
-					Caption="AgOS Orders Done Not Billed"
+					Caption="AgOS Delay Tickets"
 					Class="panel-title"
 				/>
 			</Division>
@@ -67,8 +67,7 @@
 									Source="Select Distinct Deltick1.LocationCode As AgOSLocCode
 From Deltick1
 Where (Deltick1.LocationCode = &apos;@Request.Location~&apos; Or &apos;@Request.Location~&apos; =
-    &apos; &apos;) And Deltick1.CreatedDate &gt; &apos;@Request.Year~&apos; And
-  Deltick1.SubCategoryID = 8 And Deltick1.Exported = 0
+    &apos; &apos;) And Deltick1.DelayExport = 1
 Order By AgOSLocCode"
 									Type="SQL"
 								/>
@@ -118,7 +117,7 @@ Order By AgOSLocCode"
 							>
 							<DataTable
 								AccessibleHeaders="True"
-								Caption="Orders Marked Done But Not Billed"
+								Caption="Delay Ticket Details"
 								CaptionClass="ThemeTextSmall"
 								Class="ThemeTextSmaller"
 								ID="dtDeltick"
@@ -129,25 +128,30 @@ Order By AgOSLocCode"
 								<DataLayer
 									ConnectionID="connAgOS"
 									ID="dlOrdersDone"
-									Source="Select Deltick1.OrderID,
-  Deltick1.LocationCode As Location,
-  Farm.Name As Farm,
-  Objects.Name As Customer,
-  Deltick1.CreatedDate As CreatedDate,
-  Deltick1.TicketID As TicketID,
-  Deltick1.Exported As Exported,
-  ScheduleInfo.LocationCode As InventoryLocation,
-  Deltick1.PO,
-  Deltick1.DelayExport As Delayed
-From Deltick1
-  Inner Join Farm On Deltick1.FarmID = Farm.FarmID
-  Inner Join Objects On Objects.ObjectID = Deltick1.[From/To] And
-    Objects.ObjectID = Farm.ObjectID
-  Inner Join ScheduleInfo On Deltick1.OrderID = ScheduleInfo.OrderID
-Where (Deltick1.LocationCode = &apos;@Request.Location~&apos; Or &apos;@Request.Location~&apos; =
-    &apos; &apos;) And Deltick1.CreatedDate &gt; &apos;@Request.Year~&apos; And Deltick1.DelayExport =
-  &apos;1&apos; And Deltick1.SubCategoryID = 8
-Order By Location"
+									Source="Select T1.TicketID,
+  T1.Exported,
+  T2.Name As Orgin_Loc,
+  T3.Name As From_To,
+  T1.LocationCode As Location,
+  T1.CategoryID As CatID,
+  Case T1.CategoryID When &apos;1&apos; Then &apos;CstmrOp&apos; When &apos;2&apos; Then &apos;Distribution&apos;
+    When &apos;3&apos; Then &apos;InsideComp&apos; When &apos;4&apos; Then &apos;InvAdj&apos; Else &apos;Other&apos;
+  End As Category,
+  T1.SubCategoryID As SubCatID,
+  Case T1.SubCategoryID When &apos;1&apos; Then &apos;DelTicket&apos; When &apos;2&apos; Then &apos;Return&apos;
+    When &apos;3&apos; Then &apos;TransOut&apos; When &apos;4&apos; Then &apos;TransIn&apos; When &apos;5&apos; Then &apos;Dist_Ship&apos;
+    When &apos;6&apos; Then &apos;Dist_Rtn&apos; When &apos;8&apos; Then &apos;FieldApp&apos; When &apos;9&apos; Then &apos;Booking&apos;
+    When &apos;10&apos; Then &apos;Inv_Short&apos; When &apos;11&apos; Then &apos;Inv_Long&apos; Else &apos;Other&apos;
+  End As SubCategory,
+  T1.Comment,
+  T1.DelayExport,
+  T1.CreatedDate As TicketDate
+From Deltick1 T1 With(NoLock)
+  Inner Join Objects T2 With(NoLock) On T2.ObjectID = T1.ObjectID
+  Inner Join Objects T3 With(NoLock) On T3.ObjectID = T1.[From/To]
+Where T1.DelayExport = 1 And T1.CreatedDate &gt;= &apos;2017-01-01&apos; And (T1.LocationCode = &apos;@Request.Location~&apos; Or &apos;@Request.Location~&apos; =
+    &apos; &apos;)
+Order By TicketDate ASC, Location"
 									Type="SQL"
 								/>
 								<InteractivePaging
@@ -157,25 +161,50 @@ Order By Location"
 									ShowPageNumber="True"
 								/>
 								<DataTableColumn
-									Header="Order #"
-									ID="colOrder"
+									Header="Ticket #"
+									ID="colTicket"
 									>
 									<Label
-										Caption="@Data.OrderID~"
+										Caption="@Data.TicketID~"
+									/>
+								</DataTableColumn>
+								<DataTableColumn
+									Header="Ticket Date"
+									ID="colDate"
+									>
+									<Label
+										Caption="@Data.TicketDate~"
+										Format="Short Date"
+									/>
+								</DataTableColumn>
+								<DataTableColumn
+									Header="Category"
+									ID="colCategory"
+									>
+									<Label
+										Caption="@Data.Category~"
+									/>
+								</DataTableColumn>
+								<DataTableColumn
+									Header="SubCategory"
+									ID="colSubCategory"
+									>
+									<Label
+										Caption="@Data.SubCategory~"
 									/>
 								</DataTableColumn>
 								<Remark>
 									<DataTableColumn
-										Header="GP Shipment"
-										ID="colShipment"
+										Header="Delay "
+										ID="colDelayExport"
 										>
 										<Label
-											Caption="@Data.Shipment~"
+											Caption="@Data.DelayExport~"
 										/>
 									</DataTableColumn>
 								</Remark>
 								<DataTableColumn
-									Header="Order Location"
+									Header="Location"
 									ID="colLocation"
 									>
 									<Label
@@ -183,35 +212,27 @@ Order By Location"
 									/>
 								</DataTableColumn>
 								<DataTableColumn
-									Header="Inventory Location"
-									ID="colLocation"
+									Header="Origin"
+									ID="colFrom"
 									>
 									<Label
-										Caption="@Data.InventoryLocation~"
+										Caption="@Data.Orgin_Loc~"
 									/>
 								</DataTableColumn>
 								<DataTableColumn
-									Header="Date Created"
-									ID="colDate"
+									Header="To"
+									ID="colTo"
 									>
 									<Label
-										Caption="@Data.CreatedDate~"
+										Caption="@Data.From_To~"
 									/>
 								</DataTableColumn>
 								<DataTableColumn
-									Header="Customer"
-									ID="colCustomer"
+									Header="Comments"
+									ID="colComments"
 									>
 									<Label
-										Caption="@Data.Customer~"
-									/>
-								</DataTableColumn>
-								<DataTableColumn
-									Header="Farm"
-									ID="colFarm"
-									>
-									<Label
-										Caption="@Data.Farm~"
+										Caption="@Data.Comment~"
 									/>
 								</DataTableColumn>
 							</DataTable>
@@ -227,6 +248,5 @@ Order By Location"
 	/>
 	<ideTestParams
 		Location=""
-		Year="2019"
 	/>
 </Report>

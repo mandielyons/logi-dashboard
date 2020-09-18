@@ -130,7 +130,7 @@
 			Type="SqlServer"
 		/>
 		<Connection
-			GoogleMapsApiKey="AIzaSyCJ-WNEfpzMpNZvR-g9pp1qmxHfj927sZI"
+			GoogleMapsApiKey="AIzaSyBDzf1VudzM0439eh72VTObm60JXll3Bj0"
 			GoogleMapsUseHTTPS="True"
 			ID="gmAPIKey"
 			Type="GoogleMaps"
@@ -188,29 +188,13 @@
 			Type="SqlServer"
 		/>
 		<Connection
-			ID="connPlanInput"
-			SqlServer="SQLPROD1"
+			ID="connGP"
+			SqlServer="sqlprod1"
 			SqlServerDatabase="MKCGP"
 			SqlServerPassword="integr8!"
 			SqlServerPort=""
 			SqlServerUser="BIOperations"
 			Type="SqlServer"
-		/>
-		<Connection
-			ID="connMKCLive"
-			SqlServer="SQLPROD1"
-			SqlServerDatabase="MKCGP"
-			SqlServerPassword="integr8!"
-			SqlServerPort=""
-			SqlServerUser="BIOperations"
-			Type="SqlServer"
-		/>
-		<Connection
-			ID="connD365"
-			ODataPassword="H0p3for2morrow"
-			ODataURL="http://mkc.crm.dynamics.com"
-			ODataUser="mlyons@mkcoop.com"
-			Type="OData"
 		/>
 	</Connections>
 	<Security
@@ -236,7 +220,7 @@
 				ConnectionID="mkcLDAP"
 				ID="dlLdapAuth"
 				LdapPassword="@Request.iptPassword~"
-				LdapUserDnSource="SELECT ADsPath FROM &apos;DC=midkscoop,DC=lan&apos; WHERE SamAccountName=&apos;@Request.rdUserName~&apos; or UserPrincipalName=&apos;@Request.rdUserName~&apos; and objectClass=&apos;person&apos;"
+				LdapUserDnSource="SELECT ADsPath FROM &apos;DC=midkscoop,DC=lan&apos; WHERE SamAccountName=&apos;@Request.rdUserName~&apos; and objectClass=&apos;person&apos;"
 				Type="LdapAuthentication"
 				>
 				<Note
@@ -299,7 +283,7 @@ AND PASSWORD = HASHBYTES(&apos;SHA1&apos;,N&apos;@Request.iptPassword~&apos;)
 				<DataLayer
 					ConnectionID="mkcLDAP"
 					ID="dlLdapRoles"
-					LdapSource="SELECT memberOf, sAMAccountName, title, name, userPrincipalName, ADsPath, DisplayName, givenName, sn, mail FROM &apos;DC=midkscoop,DC=lan&apos; WHERE SamAccountName=&apos;@Function.UserName~&apos; Or UserPrincipalName=&apos;@Function.UserName~&apos; and objectClass=&apos;person&apos;"
+					LdapSource="SELECT memberOf, sAMAccountName, title, name, userPrincipalName, ADsPath, DisplayName, givenName, sn, mail FROM &apos;DC=midkscoop,DC=lan&apos; WHERE SamAccountName=&apos;@Function.UserName~&apos; and objectClass=&apos;person&apos;"
 					Type="Ldap"
 					>
 					<CalculatedColumn
@@ -346,7 +330,7 @@ AND PASSWORD = HASHBYTES(&apos;SHA1&apos;,N&apos;@Request.iptPassword~&apos;)
 				<DataLayer
 					ConnectionID="mkcLDAP"
 					ID="dlLdapRights"
-					LdapSource="SELECT memberOf, sAMAccountName, title, name, userPrincipalName, ADsPath, DisplayName, givenName, sn, mail FROM &apos;DC=midkscoop,DC=lan&apos; WHERE SamAccountName=&apos;@Function.UserName~&apos; Or UserPrincipalName=&apos;@Function.UserName~&apos; and objectClass=&apos;person&apos;"
+					LdapSource="SELECT memberOf, sAMAccountName, title, name, userPrincipalName, ADsPath, DisplayName, givenName, sn, mail FROM &apos;DC=midkscoop,DC=lan&apos; WHERE SamAccountName=&apos;@Function.UserName~&apos; and objectClass=&apos;person&apos;"
 					Type="Ldap"
 					>
 					<CalculatedColumn
@@ -424,7 +408,7 @@ AND USERNAME = @iptUsername"
 					<DataLayer
 						ConnectionID="mkcLDAP"
 						ID="dlLdapRights"
-						LdapSource="SELECT memberOf, sAMAccountName, title, name, userPrincipalName, ADsPath, DisplayName, givenName, sn, mail FROM &apos;DC=midkscoop,DC=lan&apos; WHERE SamAccountName=&apos;@Function.UserName~&apos; Or UserPrincipalName=&apos;@Function.UserName~&apos; and objectClass=&apos;person&apos;"
+						LdapSource="SELECT memberOf, sAMAccountName, title, name, userPrincipalName, ADsPath, DisplayName, givenName, sn, mail FROM &apos;DC=midkscoop,DC=lan&apos; WHERE SamAccountName=&apos;@Function.UserName~&apos; and objectClass=&apos;person&apos;"
 						Type="Ldap"
 						>
 						<ConditionFilter
@@ -446,7 +430,7 @@ AND USERNAME = @iptUsername"
 					<DataLayer
 						ConnectionID="mkcLDAP"
 						ID="dlLdapRights"
-						LdapSource="SELECT memberOf, sAMAccountName, title, name, userPrincipalName, ADsPath, DisplayName, givenName, sn, mail FROM &apos;DC=midkscoop,DC=lan&apos; WHERE SamAccountName=&apos;@Function.UserName~&apos; Or userPrincipalName=&apos;@Function.UserName~&apos; and objectClass=&apos;person&apos;"
+						LdapSource="SELECT memberOf, sAMAccountName, title, name, userPrincipalName, ADsPath, DisplayName, givenName, sn, mail FROM &apos;DC=midkscoop,DC=lan&apos; WHERE SamAccountName=&apos;@Function.UserName~&apos; and objectClass=&apos;person&apos;"
 						Type="Ldap"
 						>
 						<ConditionFilter
@@ -468,7 +452,7 @@ AND USERNAME = @iptUsername"
 					<DataLayer
 						ConnectionID="mkcLDAP"
 						ID="dlLdapRights"
-						LdapSource="SELECT memberOf, sAMAccountName, title, name, userPrincipalName, ADsPath, DisplayName, givenName, sn, mail FROM &apos;DC=midkscoop,DC=lan&apos; WHERE SamAccountName=&apos;@Function.UserName~&apos; Or userPrincipalName=&apos;@Function.UserName~&apos; and objectClass=&apos;person&apos;"
+						LdapSource="SELECT memberOf, sAMAccountName, title, name, userPrincipalName, ADsPath, DisplayName, givenName, sn, mail FROM &apos;DC=midkscoop,DC=lan&apos; WHERE SamAccountName=&apos;@Function.UserName~&apos; and objectClass=&apos;person&apos;"
 						Type="Ldap"
 						>
 						<ConditionFilter
@@ -490,7 +474,7 @@ AND USERNAME = @iptUsername"
 					<DataLayer
 						ConnectionID="mkcLDAP"
 						ID="dlLdapRights"
-						LdapSource="SELECT memberOf, sAMAccountName, title, name, userPrincipalName, ADsPath, DisplayName, givenName, sn, mail FROM &apos;DC=midkscoop,DC=lan&apos; WHERE SamAccountName=&apos;@Function.UserName~&apos; Or userPrincipalName=&apos;@Function.UserName~&apos; and objectClass=&apos;person&apos;"
+						LdapSource="SELECT memberOf, sAMAccountName, title, name, userPrincipalName, ADsPath, DisplayName, givenName, sn, mail FROM &apos;DC=midkscoop,DC=lan&apos; WHERE SamAccountName=&apos;@Function.UserName~&apos; and objectClass=&apos;person&apos;"
 						Type="Ldap"
 						>
 						<ConditionFilter
@@ -512,7 +496,7 @@ AND USERNAME = @iptUsername"
 					<DataLayer
 						ConnectionID="mkcLDAP"
 						ID="dlLdapRights"
-						LdapSource="SELECT memberOf, sAMAccountName, title, name, userPrincipalName, ADsPath, DisplayName, givenName, sn, mail FROM &apos;DC=midkscoop,DC=lan&apos; WHERE SamAccountName=&apos;@Function.UserName~&apos; Or userPrincipalName=&apos;@Function.UserName~&apos; and objectClass=&apos;person&apos;"
+						LdapSource="SELECT memberOf, sAMAccountName, title, name, userPrincipalName, ADsPath, DisplayName, givenName, sn, mail FROM &apos;DC=midkscoop,DC=lan&apos; WHERE SamAccountName=&apos;@Function.UserName~&apos; and objectClass=&apos;person&apos;"
 						Type="Ldap"
 						>
 						<ConditionFilter
@@ -534,7 +518,7 @@ AND USERNAME = @iptUsername"
 					<DataLayer
 						ConnectionID="mkcLDAP"
 						ID="dlLdapRights"
-						LdapSource="SELECT memberOf, sAMAccountName, title, name, userPrincipalName, ADsPath, DisplayName, givenName, sn, mail FROM &apos;DC=midkscoop,DC=lan&apos; WHERE SamAccountName=&apos;@Function.UserName~&apos; Or userPrincipalName=&apos;@Function.UserName~&apos; and objectClass=&apos;person&apos;"
+						LdapSource="SELECT memberOf, sAMAccountName, title, name, userPrincipalName, ADsPath, DisplayName, givenName, sn, mail FROM &apos;DC=midkscoop,DC=lan&apos; WHERE SamAccountName=&apos;@Function.UserName~&apos; and objectClass=&apos;person&apos;"
 						Type="Ldap"
 						>
 						<ConditionFilter

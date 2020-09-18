@@ -1184,7 +1184,6 @@ ORDER BY CONTRACT_TYPE, DELIVERY_END_DATE
 		<ResponsiveRow>
 			<ResponsiveColumn>
 				<Division
-					Class="ThemeHidden"
 					ID="panel-detail"
 					>
 					<ConditionalClass
@@ -1220,8 +1219,8 @@ ORDER BY CONTRACT_TYPE, DELIVERY_END_DATE
 										>
 										<SharedElementParams
 											DataTableID="dtTMAContractsNetDetail"
-											ReportName="Contracts Detail"
-											Security=""
+											ReportName="Detail"
+											Security="MKC Dashboard,TMA Dashboard,OC"
 										/>
 									</IncludeSharedElement>
 								</ResponsiveColumn>
@@ -1231,18 +1230,22 @@ ORDER BY CONTRACT_TYPE, DELIVERY_END_DATE
 								>
 								<ResponsiveColumn>
 									<Division
+										Class="ThemeTextSmall"
+										HtmlDiv="True"
 										ID="divDataTable"
 										>
 										<DataTable
 											AccessibleHeaders="True"
-											AccessibleSummary="AnalysisGrid DataTable"
+											AccessibleSummary="DataTable"
 											AjaxPaging="True"
 											Caption=""
+											CellSpacing="5"
 											ID="dtTMAContractsNetDetail"
 											KeepScrollPosition="True"
 											RememberSort="True"
 											ResizableColumns="False"
 											SortArrows="True"
+											TableBorder="0"
 											Width="100"
 											WidthScale="%"
 											>

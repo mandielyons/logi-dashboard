@@ -137,9 +137,8 @@ Order By AgOSLocCode"
 From Deltick1
   Inner Join Orders On Orders.OrderID = Deltick1.OrderID
   Inner Join ScheduleInfo On Deltick1.OrderID = ScheduleInfo.OrderID
-Where Deltick1.LocationCode = &apos;CDD1&apos; And Deltick1.Exported = &apos;1&apos; And
-  Orders.DoneDate &gt;= DateAdd(Month, -1, GetDate()) And
-  (ScheduleInfo.LocationCode = &apos;@Request.Location~&apos; Or &apos;@Request.Location~&apos; = &apos;&apos;)
+Where (ScheduleInfo.LocationCode = &apos;@Request.Location~&apos; Or &apos;@Request.Location~&apos; = &apos;&apos;) And
+  Deltick1.LocationCode = &apos;CDD1&apos;
 Order By Location"
 									Type="SQL"
 									>
@@ -155,8 +154,17 @@ Order By Location"
 											ConnectionID="connGP"
 											ID="dlShipInvoice"
 											Source="Select IRASShipInvHDRHIST.IRShipmentNumber As ShipmentInvoice,
-  IRASShipInvHDRHIST.IRAgWorksTicketID As AgWorksTicket
-From IRASShipInvHDRHIST"
+  IRASShipInvHDRHIST.IRShipDate,
+  IRASShipInvHDRHIST.SHIPMTHD,
+  IRASShipInvHDRHIST.IRSource,
+  IRASShipInvHDRHIST.IRAgWorksTicketID As AgWorksTicket,
+  IRASShipInvHDRHIST.IRBranchID,
+  IRASShipInvHDRHIST.IRLastModifiedDate As Modified,
+  IRASShipInvHDRHIST.IRCreatedDate
+From IRASShipInvHDRHIST
+Where IRASShipInvHDRHIST.IRSource = &apos;AGWORKS&apos; And
+  IRASShipInvHDRHIST.IRLastModifiedDate &gt;= DateAdd(month, -1, GetDate())
+Order By IRASShipInvHDRHIST.IRAgWorksTicketID"
 											Type="SQL"
 										/>
 									</Join>
@@ -205,6 +213,15 @@ From IRASShipInvHDRHIST"
 									>
 									<Label
 										Caption="@Data.ShipmentInvoice~"
+									/>
+								</DataTableColumn>
+								<DataTableColumn
+									Header="Shipped to GP"
+									ID="colShipDate"
+									>
+									<Label
+										Caption="@Data.Modified~"
+										Format="Short Date"
 									/>
 								</DataTableColumn>
 							</DataTable>

@@ -596,6 +596,7 @@ table.rdThemeSubDataTable th, .rdThemeSubDataTable th {
 .rdThemeSubDataTableDataTableCell {
 	background-color: #ececec;
 	color: #363b42;
+  padding: 1px 3px;
 }
 
 .rdThemeSubDataTableMoreInfoRow {
@@ -1754,7 +1755,7 @@ table #dtBookmarkSharedWith td:first-of-type > span{
 	}
 
 	.ThemeContainerShaded {
-		background-color: #F0F465 !important;
+		background-color: #FFFF99 !important;
 		padding: 6px;
 	}
 
@@ -1892,6 +1893,9 @@ table #dtBookmarkSharedWith td:first-of-type > span{
 	table[rdelement=Tabs]{
 		width: 100%;
 	}
+  .set-panel-height {
+    height: 100% !important;
+  }
 	
 	.rdThemePaging input.rdThemePagingCurrent{
 		padding:0;
@@ -1943,6 +1947,17 @@ table #dtBookmarkSharedWith td:first-of-type > span{
   .capitalize {
     text-transform: capitalize;
   }
+
+  .yellow-highlight {
+    background-color: #FFFF99 !important;
+    color: black;
+  }
+
+  .blue-highlight {
+    background-color: #D8EFF6 !important;
+    color: black;
+  }
+
 
   /*.well {
     background-color: #2e86ab;

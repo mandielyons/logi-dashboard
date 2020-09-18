@@ -2,7 +2,7 @@
 <Report
 	Caption="Dispatch"
 	ID="TMAReports.TMADispatch"
-	SecurityReportRightID="TMA Dashboard,MKC Dashboard,OC"
+	SecurityReportRightID="TMA Dashboard,MKC Dashboard,OC,Dashboard Scales"
 	>
 	<IncludeSharedElement
 		DefinitionFile="_Layout.Shared"
@@ -103,6 +103,10 @@ WHERE DM_OpenContracts.CONTRACT_TYPE = 2
 						HtmlDiv="True"
 						ID="panel-dispatch"
 						>
+						<IncludeSharedElement
+							DefinitionFile="_Layout.Shared"
+							SharedElementID="shrMaintMsg"
+						/>
 						<ResponsiveRow>
 							<ResponsiveColumn>
 								<Label
@@ -215,7 +219,7 @@ WHERE DM_OpenContracts.CONTRACT_TYPE = 2
 										ID="ALLContracts"
 										Layout="Fixed"
 										RememberSort="True"
-										SecurityRightID="TMA Dashboard,MKC Dashboard,OC"
+										SecurityRightID="TMA Dashboard,MKC Dashboard,OC,Dashboard Scales"
 										SortArrows="True"
 										>
 										<InteractivePaging

@@ -826,6 +826,6 @@ Where T1.LocationCode &lt;&gt; &apos;PRECISE&apos; And DatePart(YEAR, T1.DoneDat
 	/>
 	<ideTestParams
 		Location=""
-		SelectionYear="2018"
+		SelectionYear="2020"
 	/>
 </Report>

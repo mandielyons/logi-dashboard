@@ -45,26 +45,43 @@
 				ID="panel-share-body"
 				>
 				<ResponsiveRow>
-					<ResponsiveColumn>
-						<Division
-							Class="well"
-							HtmlDiv="True"
-							ID="divFilters"
+					<ResponsiveColumn/>
+					<ResponsiveColumn
+						Class="ThemeAlignRight"
+						>
+						<IncludeSharedElement
+							DefinitionFile="_Layout.Shared"
+							SharedElementID="shrExcelExport"
 							>
-							<InputSelectList
-								Caption="Work Order:"
-								CaptionClass="ThemeTextSmall ThemeBold"
-								Class="ThemeTextSmaller"
-								ID="ScaleTicket"
-								IncludeBlank="True"
-								IncludeBlankValue="-1"
-								OptionCaptionColumn="WorkOrder"
-								OptionValueColumn="ScaleTicket"
+							<SharedElementParams
+								DataTableID="dtCDProd"
+								ReportName="Applied Acres (Milo) "
+							/>
+						</IncludeSharedElement>
+					</ResponsiveColumn>
+				</ResponsiveRow>
+				<ResponsiveRow>
+					<Remark>
+						<ResponsiveColumn>
+							<Division
+								Class="well"
+								HtmlDiv="True"
+								ID="divFilters"
 								>
-								<DataLayer
-									ConnectionID="connAgOS"
-									ID="dlWorkOrders"
-									Source="Select Distinct SchOrderProducts.OrderID As WorkOrder,
+								<InputSelectList
+									Caption="Work Order:"
+									CaptionClass="ThemeTextSmall ThemeBold"
+									Class="ThemeTextSmaller"
+									ID="ScaleTicket"
+									IncludeBlank="True"
+									IncludeBlankValue="-1"
+									OptionCaptionColumn="WorkOrder"
+									OptionValueColumn="ScaleTicket"
+									>
+									<DataLayer
+										ConnectionID="connAgOS"
+										ID="dlWorkOrders"
+										Source="Select Distinct SchOrderProducts.OrderID As WorkOrder,
   ScaleTickets.ScaleTicketID As ScaleTicket,
   Schedule.Date,
   Objects.Name As Grower
@@ -74,52 +91,64 @@ From SchOrderProducts
   Inner Join Orders On Orders.OrderID = Schedule.OrderID
   Inner Join Objects On Objects.ObjectID = Orders.ObjectID
 Where Schedule.Date != &apos;&apos;"
-									Type="SQL"
-								/>
-								<EventHandler
-									DhtmlEvent="onchange"
-									ID="eventOnChangeWorkOrder"
+										Type="SQL"
+									/>
+									<EventHandler
+										DhtmlEvent="onchange"
+										ID="eventOnChangeWorkOrder"
+										>
+										<Action
+											ElementID="divDetails"
+											ID="actRefreshAll"
+											Type="RefreshElement"
+											>
+											<WaitPage/>
+										</Action>
+									</EventHandler>
+								</InputSelectList>
+								<LineBreak/>
+								<Button
+									Caption="Reset"
+									ID="btnReset"
+									Tooltip="Clear all selections"
 									>
 									<Action
-										ElementID="divDetails"
-										ID="actRefreshAll"
+										ElementID="divFilters,divDetails"
+										ID="actReport"
+										RequestForwarding="True"
 										Type="RefreshElement"
 										>
 										<WaitPage/>
+										<LinkParams
+											Customer="-1"
+											FieldMarketer="-1"
+										/>
 									</Action>
-								</EventHandler>
-							</InputSelectList>
-							<LineBreak/>
-							<Button
-								Caption="Reset"
-								ID="btnReset"
-								Tooltip="Clear all selections"
-								>
-								<Action
-									ElementID="divFilters,divDetails"
-									ID="actReport"
-									RequestForwarding="True"
-									Type="RefreshElement"
-									>
-									<WaitPage/>
-									<LinkParams
-										Customer="-1"
-										FieldMarketer="-1"
-									/>
-								</Action>
-							</Button>
-							<LineBreak
-								LineCount="2"
-							/>
-						</Division>
-					</ResponsiveColumn>
+								</Button>
+								<LineBreak
+									LineCount="2"
+								/>
+							</Division>
+						</ResponsiveColumn>
+					</Remark>
 					<ResponsiveColumn
 						Class="ThemeAlignCenter"
 						ColspanExtraSmallScreen="12"
-						ColspanLargeScreen="9"
-						ColspanMediumScreen="9"
+						ColspanLargeScreen="12"
+						ColspanMediumScreen="12"
 						ColspanSmallScreen="12"
 						>
+						<Remark>
+							<DataTable
+								ID="dtGP"
+								>
+								<DataLayer
+									ConnectionID="connMKCLive"
+									ID="dlGP"
+									Type="SQL"
+								/>
+							</DataTable>
+						</Remark>
 						<Division
 							ID="divDetails"
 							>
@@ -154,41 +183,243 @@ Where ScaleTicketProducts.ScaleTicketID = &apos;@Request.ScaleTicket~&apos;"
 										Type="SQL"
 									/>
 								</Remark>
+								<Remark>
+									<DataLayer
+										ConnectionID="connAgOS"
+										Source="Select T1.ScaleTicketID,
+  T1.Amount As Quantity,
+  T1.Note as Rate,
+  T3.Name As UOM,
+  T2.Name As Product,
+-- T2.InvUnitID,
+--  T2.ExportUnitID,
+-- T3.[Conversion factor] As Conversion,
+--Round( T1.TargetAmount,3) TargetAmt,
+  Round((T1.TargetAmount / T3.[Conversion factor]),3) As Total,
+--T4.Liquid as ChemLiq,
+--T5.Liquid as FertLiq,
+ Case T3.Volume
+when &apos;1&apos; then &apos;GAL&apos;
+when &apos;0&apos; then &apos;LBS&apos;
+Else &apos;Other&apos;
+End as DefUOM,
+T8.OrderID,
+Round(T8.RatePerAcre,0) RatePAcre,
+Round(T9.ScheduledAcres,2) as Acres,
+T9.CropName as Crop,
+T9.LocationCode as Location,
+T9.ApplicatorID,
+T9.ScheduledDate,
+T9.Comments,
+T9.CustomerName,
+T9.SubCategoryName as OrderType,
+T9.ApplicatorName,
+T10.EnableScheduling as Enabled,
+T11.Visible
+
+From [AgOS_MKC_Live].dbo.[ScaleTicketProducts] T1
+  Left Join [AgOS_MKC_Live].dbo.Products T2
+On T2.ProductID = T1.ProductID
+  Left Join [AgOS_MKC_Live].dbo.Units T3
+On T1.UnitID = T3.UnitID
+  Left Outer Join [AgOS_MKC_Live].dbo.Chemical T4
+On T2.ProductID = T4.ProductID
+  Left Outer Join [AgOS_MKC_Live].dbo.Fertilizer T5
+On T2.ProductID = T5.ProductID
+  Left Outer Join [AgOS_MKC_Live].dbo.Units T6
+On T4.ApplicationUnit = T6.UnitID
+  Left Outer Join [AgOS_MKC_Live].dbo.Units T7
+On T5.ApplicationUnit = T7.UnitID
+  Left Outer Join [AgOS_MKC_Live].dbo.scaletickets T8
+On T1.ScaleTicketID = T8.ScaleTicketID
+  Left Outer Join [AgOS_MKC_Live].dbo.scheduleInfo T9
+On T9.OrderID = T8.OrderID
+  Left Outer Join [AgOS_MKC_Live].dbo.Applicator T10
+On T9.ApplicatorID = T10.ObjectID
+  Inner Join [AgOS_MKC_Live].dbo.Objects T11
+On T9.ApplicatorID = T11.ObjectID
+
+
+Where T11.Visible = &apos;True&apos; and T9.Done =&apos;0&apos; and T9.Canceled = &apos;0&apos; and T9.LocationCode in ( &apos;cdd1&apos;,&apos;lindsbor&apos;,&apos;grovelan&apos;,&apos;walton&apos; ) and T9.SubCategoryName &lt;&gt; &apos;Lime&apos;"
+										Type="SQL"
+									/>
+								</Remark>
+								<Remark>
+									<DataLayer
+										ConnectionID="connAgOS"
+										Source="Select Orders.OrderID,
+  Orders.LocationCode,
+  Orders.CropID,
+  Orders.Canceled,
+  Crops.Name,
+  Products.Name As ProductName,
+  Orders.DoneDate
+From Orders
+  Inner Join Crops On Crops.CropID = Orders.CropID
+  Inner Join OrderProducts On Orders.OrderID = OrderProducts.OrderID
+  Inner Join Products On Products.ProductID = OrderProducts.ProductID
+Where Orders.Canceled = &apos;0&apos; And (Products.Name like(&apos;lorsban&apos;) or Products.Name In (&apos;lorsban&apos;,&apos;lorsban &apos;,&apos;cobalt&apos;,
+  &apos;yuma&apos;,&apos;brigade&apos;,&apos;capture&apos;,&apos;tundra&apos;,&apos;tundra supreme&apos;)) And Orders.DoneDate &gt; &apos;1-1-2014&apos;"
+										Type="SQL"
+									/>
+								</Remark>
+								<Remark>
+									<DataLayer
+										ConnectionID="connAgOS"
+										Source="select T3.FirstName + T3.LastName as [Applicator Name],
+T1.[OrderID],
+T7.[Description] AppCode,
+T2.[Name],
+T6.[Name] Crop,
+T1.[DoneDate],
+Round(T1.[Acres],2) Acres,
+Round(T1.[AcresSprayed],2) SprayedAcres,
+Round(T1.Acres - T1.AcresSprayed,2) as [Acres Diff],
+T1.[LocationCode],
+T4.[Name] Rig,
+T5.TicketID,
+T5.Exported,
+T5.[CreatedDate] TktDate,
+T8.[Name] Category,
+T4.[LastUpdate]
+ from [AgOS_MKC_Live].dbo.[Orders] T1 
+ INNER JOIN [AgOS_MKC_Live].dbo.[Objects] T2 with (nolock) 
+ on 
+ T2.[ObjectID] =  T1.[ObjectID]
+ INNER JOIN [AgOS_MKC_Live].dbo.[Users] T3 with (nolock) 
+ on 
+ T3.[UserID] =  T1.[DoneByID]
+ INNER JOIN [AgOS_MKC_Live].dbo.[Objects] T4 with (nolock) 
+ on 
+ T4.[ObjectID] =  T1.[ApplicatorID]
+INNER JOIN [AgOS_MKC_Live].dbo.[Deltick1] T5 with (nolock) 
+ on 
+ T5.[OrderID] =  T1.[OrderID]
+INNER JOIN [AgOS_RCAerial_Live].dbo.[Crops] T6 with (nolock) 
+ on 
+ T6.[CropID] =  T1.[CropID]
+INNER JOIN [AgOS_RCAerial_Live].dbo.[AppCode] T7 with (nolock) 
+ on 
+ T7.[AppCodeID] =  T1.[AppCodeID]
+INNER JOIN [AgOS_MKC_Live].dbo.[OrderSubCategory] T8 with (nolock) 
+ on 
+T8.[SubCategoryID] =  T1.SubCategoryID
+
+Where
+T1.[DoneDate] &gt;= &apos;2017-04-01&apos; and T1.[DoneDate] &lt; &apos;2018-04-01&apos; and T1.[Canceled] = 0 and T5.CategoryID = 1 and T1.[LocationCode] &lt;&gt; &apos;Precise&apos;
+
+Order by T1.[LocationCode], T1.[DoneDate]"
+										Type="SQL"
+									/>
+								</Remark>
 								<AutoColumns/>
 								<SummaryRow/>
 								<Remark>
 									<DataLayer
 										ConnectionID="connAgOS"
-										Source="Select *
-From Deltick1"
+										Source="Select Objects.Name,
+  Objects.AccInterfaceID,
+  Objects.LocationCode
+From Applicator
+  Inner Join Objects On Objects.ObjectID = Applicator.ObjectID
+Where Objects.AccInterfaceID = &apos;&apos; And Objects.Visible = 1 And
+  Applicator.EnableScheduling = 1
+Order By Objects.LocationCode"
+										Type="SQL"
+									/>
+								</Remark>
+								<Remark>
+									<DataLayer
+										ConnectionID="connAgOS"
+										Source="Select Orders.OrderID,
+  Orders.CreatedDate,
+  Orders.CreatedByID,
+  Orders.UserID,
+  Orders.Done,
+  Orders.Acres,
+  FieldList.ScheduledAcres
+From FieldList
+  Join Orders On FieldList.OrderID = Orders.OrderID
+Where FieldList.ContourID Is Not Null And Orders.OrderClassID = 3
+Order By Orders.OrderID"
+										Type="SQL"
+									/>
+								</Remark>
+								<Remark>
+									<DataLayer
+										ConnectionID="connAgTrax"
+										Source="Select Orders.OrderID,
+  Orders.CreatedDate,
+  Orders.CreatedByID,
+  Orders.UserID,
+  Orders.Done,
+  Orders.Acres
+From Orders
+Where Orders.Done = &apos;0&apos;"
 										Type="SQL"
 									/>
 								</Remark>
 								<DataLayer
 									ConnectionID="connAgOS"
-									Source="Select Orders.OrderID,
-  ScaleTickets.ScaleTicketID,
-  ScaleTickets.Name,
-  ScaleTickets.TicketID,
-  ScaleTicketProducts.Amount,
-  ScaleTicketProducts.Note,
-  Orders.ScheduledDate,
-  Orders.ModifiedDate,
-  Orders.CreatedByID,
-  OrderClass.ClassName,
-  Users.UserName,
-  Users.SalesRep
-From Orders
-  Inner Join ScaleTickets On Orders.OrderID = ScaleTickets.OrderID
-  Inner Join ScaleTicketProducts On ScaleTickets.ScaleTicketID =
-    ScaleTicketProducts.ScaleTicketID
-  Inner Join OrderClass On OrderClass.OrderClassID = Orders.OrderClassID
-  Inner Join Users On Users.UserID = Orders.CreatedByID
-Where ScaleTickets.ScaleTicketID &lt;&gt; &apos;&apos; And Orders.ModifiedDate &gt;
-  Orders.ScheduledDate And OrderClass.ClassName = &apos;Active&apos; And
-  Users.SalesRep = &apos;1&apos;"
+									Source="Select Products.Name,
+  Category.Name As Name1,
+  Products.PackSize,
+  Units.Name As Unit,
+  Products.Price
+From Products
+  Inner Join Units On Units.UnitID = Products.UnitID2
+  Inner Join Category On Category.CategoryID = Products.CategoryID
+Where Category.Name = &apos;Service&apos; And Products.InUse = &apos;1&apos;
+Order By Products.Name"
 									Type="SQL"
 								/>
+								<Remark>
+									<DataLayer
+										ConnectionID="connAgOS"
+										Source="Select Objects.AccInterfaceID,
+  Objects.Name,
+  Grower.Address,
+  Grower.Address2,
+  Grower.City,
+  Grower.State,
+  Grower.ZIP,
+  Grower.Phone
+From Grower
+  Inner Join Objects On Objects.ObjectID = Grower.ObjectID
+Where Objects.Visible = &apos;1&apos;"
+										Type="SQL"
+									/>
+								</Remark>
+								<Remark>
+									<DataLayer
+										ConnectionID="connLogiEvent"
+										ID="dlSalesHistory"
+										Source="Select Distinct Customers.CustomerNumber,
+  Customers.CustomerName,
+  Customers.CustomerClass
+From Customers
+  Inner Join SalesDetail On Customers.CustomerNumber =
+    SalesDetail.CustomerNumber
+  Inner Join ItemMaster On SalesDetail.ItemNumber = ItemMaster.ItemNumber
+Where Customers.CustomerClass &lt;&gt; &apos;Internal MKC TRucks etc.&apos; And
+  (ItemMaster.ItemClassDescription = &apos;Ag - Application&apos; Or
+    ItemMaster.ItemClassDescription = &apos;Ag - Chemical&apos; Or
+    ItemMaster.ItemClassDescription In (&apos;Ag - Fert Dry&apos;) Or
+    ItemMaster.ItemClassDescription In (&apos;Ag - Fert NH3&apos;) Or
+    ItemMaster.ItemClassDescription In (&apos;Ag - Fert Blending&apos;) Or
+    ItemMaster.ItemClassDescription In (&apos;Ag - Fert Liquid&apos;) Or
+    ItemMaster.ItemClassDescription In (&apos;SD - Corn Seed&apos;) Or
+    ItemMaster.ItemClassDescription In (&apos;SD - Cover Crop Seed&apos;) Or
+    ItemMaster.ItemClassDescription In (&apos;SD - Other Seed&apos;) Or
+    ItemMaster.ItemClassDescription In (&apos;SD - Sorghum&apos;) Or
+    ItemMaster.ItemClassDescription In (&apos;SD - Soybean&apos;) Or
+    ItemMaster.ItemClassDescription In (&apos;SD - Wheat Seed&apos;) Or
+    ItemMaster.ItemClassDescription In (&apos;SD - Seed Treat&apos;)) And
+  SalesDetail.DocumentDate &gt; &apos;09/01/2019&apos;
+Order By Customers.CustomerNumber"
+										Type="SQL"
+									/>
+								</Remark>
 							</DataTable>
 						</Division>
 					</ResponsiveColumn>
