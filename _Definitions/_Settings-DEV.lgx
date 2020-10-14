@@ -12,7 +12,7 @@
 	<General
 		DoctypeDeclaration="Html5"
 		LogErrors="@Function.AppPhysicalPath~\_ErrorLogs"
-		rdDebuggerStyle="DebuggerLinksNoData"
+		rdDebuggerStyle="DebuggerLinks"
 		RedirectErrorUrl="rdPage.aspx?rdReport=_Layout.Error"
 		RepoFriendly="True"
 	/>
@@ -35,52 +35,52 @@
 		/>
 	</Constants>
 	<Remark>
-		<EventLogging
-			LogEvents="True"
-			>
-			<Remark>
-				<LogEvent
-					EventName="AuthenticateUser"
-					ID="eventAuthenticate"
-					>
-					<Action
-						ID="insertAuthenticationRow"
-						Process="LogTasks"
-						TaskID="insertAuthenticationRow"
-						Type="Process"
-					/>
-				</LogEvent>
-			</Remark>
+	<EventLogging
+		LogEvents="True"
+		>
+		<Remark>
 			<LogEvent
-				EventName="SessionStart"
-				ID="eventSession"
+				EventName="AuthenticateUser"
+				ID="eventAuthenticate"
 				>
 				<Action
-					ID="insertSessionRow"
+					ID="insertAuthenticationRow"
 					Process="LogTasks"
-					TaskID="insertSessionRow"
+					TaskID="insertAuthenticationRow"
 					Type="Process"
 				/>
 			</LogEvent>
-			<Remark>
-				<LogEvent
-					EventName="BuildReport"
-					ID="eventBuildReport"
-					>
-					<Action
-						ID="insertBuildReport"
-						Process="LogTasks"
-						TaskID="insertBuildReport"
-						Type="Process"
-					/>
-				</LogEvent>
-			</Remark>
-		</EventLogging>
+		</Remark>
+		<LogEvent
+			EventName="SessionStart"
+			ID="eventSession"
+			>
+			<Action
+				ID="insertSessionRow"
+				Process="LogTasks"
+				TaskID="insertSessionRow"
+				Type="Process"
+			/>
+		</LogEvent>
+		<Remark>
+			<LogEvent
+				EventName="BuildReport"
+				ID="eventBuildReport"
+				>
+				<Action
+					ID="insertBuildReport"
+					Process="LogTasks"
+					TaskID="insertBuildReport"
+					Type="Process"
+				/>
+			</LogEvent>
+		</Remark>
+	</EventLogging>
 	</Remark>
 	<Connections>
 		<Connection
 			ID="connMKC"
-			SqlServer="SQLDEV1"
+			SqlServer="DEVELOPMENT"
 			SqlServerDatabase="mkc"
 			SqlServerPassword="integr8!"
 			SqlServerPort=""
@@ -123,7 +123,7 @@
 		/>
 		<Connection
 			ID="connAgTrax"
-			SqlServer="SQLPROD1"
+			SqlServer="sqlsvr1"
 			SqlServerDatabase="Agtrax_Staging"
 			SqlServerPassword="integr8!"
 			SqlServerUser="BIOperations"
@@ -187,16 +187,8 @@
 			SqlServerUser="BIOperations"
 			Type="SqlServer"
 		/>
-		<Connection
-			ID="connGP"
-			SqlServer="sqlprod1"
-			SqlServerDatabase="MKCGP"
-			SqlServerPassword="integr8!"
-			SqlServerPort=""
-			SqlServerUser="BIOperations"
-			Type="SqlServer"
-		/>
 	</Connections>
+	<Remark>
 	<Security
 		AuthenticationSource="Standard"
 		CacheRights="Session"
@@ -534,6 +526,7 @@ AND USERNAME = @iptUsername"
 			</Remark>
 		</Rights>
 	</Security>
+	</Remark>
 	<ideTestParams
 		iptPassword=""
 		rdPassword=""

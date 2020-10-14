@@ -190,7 +190,7 @@
 									ID="panel-heading-perspectives"
 									>
 									<Label
-										Caption="2018 TMA Balanced Scorecard"
+										Caption="2020 TMA Balanced Scorecard"
 										Class="panel-title"
 									/>
 								</Division>
@@ -583,7 +583,7 @@
 																WidthScale="%"
 																>
 																<DataLayer
-																	CellRange="A5:E6"
+																	CellRange="A5:E7"
 																	ColumnNamesRow="1"
 																	ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\TMA BalancedScorecard_NEW.xlsx"
 																	ExcelWorksheet="Measures"
@@ -652,11 +652,11 @@
 															ID="panel-process2"
 															>
 															<Image
-																AltText="Utilize new tools &amp; technology"
-																Caption="purple_tmaoval_2.png"
+																AltText="Make it easy to do business"
+																Caption="purple_oval_1.png"
 																Class="set-panel-height"
 																ID="purple_oval_2"
-																Tooltip="Utilize new tools &amp; technology"
+																Tooltip="Make it easy to do business"
 															/>
 														</Division>
 													</ResponsiveColumn>
@@ -670,11 +670,11 @@
 															ID="panel-process1"
 															>
 															<Image
-																AltText="Make it easy to do business"
+																AltText="Improve sales performance"
 																Caption="purple_tmaoval_1.png"
 																Class="set-panel-height"
 																ID="purple_oval_1"
-																Tooltip="Make it easy to do business"
+																Tooltip="Improve sales performance"
 															/>
 															<Remark>
 																<IncludeHtml
@@ -817,7 +817,7 @@
 																WidthScale="%"
 																>
 																<DataLayer
-																	CellRange="A7:E10"
+																	CellRange="A8:E11"
 																	ColumnNamesRow="1"
 																	ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\TMA BalancedScorecard_NEW.xlsx"
 																	ExcelWorksheet="Measures"
@@ -1068,7 +1068,7 @@
 																WidthScale="%"
 																>
 																<DataLayer
-																	CellRange="A11:E16"
+																	CellRange="A12:E16"
 																	ColumnNamesRow="1"
 																	ExcelFile="C:\inetpub\wwwroot\MKCoop\UploadedFiles\TMA BalancedScorecard_NEW.xlsx"
 																	ExcelWorksheet="Measures"

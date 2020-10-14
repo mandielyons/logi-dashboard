@@ -1,0 +1,161 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report Caption="Grain Storage Balances" ID="Unknown.TMABusinessUnits" SecurityReportRightID="MKC Dashboard, TMA Dashboard, OC">
+  <IncludeSharedElement DefinitionFile="_Layout.Shared" SharedElementID="shrHeader" />
+  <DefaultRequestParams Branch="0" Commodity="0" Customer="" CustomerID="-1" DPRGroup="" />
+  <LocalData>
+    <DataLayer ConnectionID="connAgTrax" ID="ldCustomers" Source="SELECT DISTINCT &#xD;&#xA;  REPLICATE(' ',9-LEN(DM_GrainBalances.CUSTOMER)) + DM_GrainBalances.CUSTOMER + ' - ' + DM_GrainBalances.CUSTOMER_NAME NAMENUMBER,&#xD;&#xA;  DM_GrainBalances.CUSTOMER,&#xD;&#xA;  DM_GrainBalances.CUSTOMER_NAME &#xD;&#xA;FROM Agtrax_Staging.dbo.DM_GrainBalances&#xD;&#xA;ORDER BY CUSTOMER_NAME&#xD;&#xA;" Type="SQL">
+      <DataLayerLink ID="linkCustomers" />
+    </DataLayer>
+    <DataLayer ConnectionID="connAgTrax" ID="ldLocations" Source="SELECT DISTINCT &#xD;&#xA;  REPLICATE(' ',3-LEN(DM_GrainBalances.BRANCH_NUMBER)) + CAST(DM_GrainBalances.BRANCH_NUMBER as varchar(9)) + ' - ' + DM_GrainBalances.BRANCH_NAME NAMENUMBER,&#xD;&#xA;  DM_GrainBalances.BRANCH_NUMBER,&#xD;&#xA;  DM_GrainBalances.BRANCH_NAME &#xD;&#xA;FROM Agtrax_Staging.dbo.DM_GrainBalances&#xD;&#xA;ORDER BY BRANCH_NAME&#xD;&#xA;" Type="SQL">
+      <DataLayerLink ID="linkLocations" />
+    </DataLayer>
+    <DataLayer ConnectionID="connAgTrax" ID="ldProducts" Source="SELECT DISTINCT &#xD;&#xA;  DM_GrainBalances.COMMODITY_CODE, &#xD;&#xA;  DM_GrainBalances.COMMODITY_DESC &#xD;&#xA;FROM Agtrax_Staging.dbo.DM_GrainBalances &#xD;&#xA;ORDER BY COMMODITY_CODE" Type="SQL">
+      <DataLayerLink ID="linkProducts" />
+    </DataLayer>
+    <DataLayer ConnectionID="connAgTrax" ID="ldDPRGroup" Source="SELECT DISTINCT &#xD;&#xA;  DM_GrainBalances.DPR_POSITION_GROUP&#xD;&#xA;FROM Agtrax_Staging.dbo.DM_GrainBalances&#xD;&#xA;ORDER BY DPR_POSITION_GROUP&#xD;&#xA;" Type="SQL">
+      <DataLayerLink ID="linkDPRGroup" />
+    </DataLayer>
+    <DataLayer ConnectionID="connAgTrax" ID="ldGrainBalances" Source="SELECT DM_GrainBalances.CUSTOMER&#xD;&#xA; , DM_GrainBalances.CUSTOMER_NAME&#xD;&#xA; , DM_GrainBalances.COMMODITY_CODE&#xD;&#xA; , DM_GrainBalances.COMMODITY_DESC&#xD;&#xA; , DM_GrainBalances.BRANCH_NUMBER &#xD;&#xA; , DM_GrainBalances.BRANCH_NAME &#xD;&#xA; , DM_GrainBalances.DPR_POSITION &#xD;&#xA; , DM_GrainBalances.DPR_POSITION_GROUP&#xD;&#xA; , DM_GrainBalances.CROP_DESC&#xD;&#xA; , DM_GrainBalances.BU &#xD;&#xA;FROM Agtrax_Staging.dbo.DM_GrainBalances &#xD;&#xA;WHERE (DM_GrainBalances.BRANCH_NUMBER IN(@Request.Branch~) OR '@Request.Branch~'='0') &#xD;&#xA;  AND (DM_GrainBalances.CUSTOMER IN(@SingleQuote.Request.CustomerID~) OR '@Request.CustomerID~' = '-1') &#xD;&#xA;  AND (DM_GrainBalances.COMMODITY_CODE IN(@SingleQuote.Request.Commodity~) OR ('@Request.Commodity~' = '' OR '@Request.Commodity~' = '0'))&#xD;&#xA;  AND (DM_GrainBalances.DPR_POSITION_GROUP IN(@SingleQuote.Request.DPRGroup~) OR '@Request.DPRGroup~' = '')&#xD;&#xA;ORDER BY CUSTOMER_NAME, COMMODITY_CODE, BRANCH_NAME &#xD;&#xA;" Type="SQL">
+      <DataLayerLink ID="linkGrainBalances" />
+    </DataLayer>
+  </LocalData>
+  <Body>
+    <ResponsiveRow>
+      <ResponsiveColumn>
+        <Division Class="panel panel-default" HtmlDiv="True" ID="panel">
+          <Division Class="panel-heading" HtmlDiv="True" ID="panel-header">
+            <Label Caption="Grain Storage Balances" Class="panel-title" />
+          </Division>
+          <Division Class="panel-body" HtmlDiv="True" ID="panel-body">
+            <ResponsiveRow>
+              <ResponsiveColumn>
+                <Label Caption="Filter by customer, balance type, location(s) and commodity." Class="ThemeTextSmall" />
+              </ResponsiveColumn>
+              <ResponsiveColumn Class="ThemeAlignRight">
+                <Division Class="pull-right" HtmlDiv="True" ID="divHelp">
+                  <Spaces Size="5" />
+                  <Label Class="fa fa-question-circle fa-2x " HtmlTag="Span" ID="lnkHelp" Tooltip="Grain Receipts Training Video">
+                    <Action ID="rptTraining" Type="Report">
+                      <Target FrameID="NewWindow" Report="Admin.TrainingVideos" Type="Report" />
+                    </Action>
+                  </Label>
+                </Division>
+                <IncludeSharedElement DefinitionFile="_Layout.Shared" SharedElementID="shrExcelExport">
+                  <SharedElementParams DataTableID="dtGrainBalances" ReportName="Grain Storage Balances" />
+                </IncludeSharedElement>
+              </ResponsiveColumn>
+            </ResponsiveRow>
+            <ResponsiveRow>
+              <ResponsiveColumn ColspanExtraSmallScreen="12" ColspanLargeScreen="3" ColspanMediumScreen="3" ColspanSmallScreen="12">
+                <Division Class="well" HtmlDiv="True" ID="divFilters">
+                  <InputSelectList Caption="Customer:" CaptionClass="ThemeTextSmall ThemeBold" Class="ThemeTextSmaller" DefaultValue="@Request.Customer~" ID="CustomerID" IncludeBlank="True" IncludeBlankCaption="All" IncludeBlankValue="-1" MultiSelect="False" OptionCaptionColumn="NAMENUMBER" OptionValueColumn="CUSTOMER">
+                    <DataLayer ID="dlCustomersID" LinkedDataLayerID="linkCustomers" Type="Linked">
+                      <Remark>
+                        <SortFilter DataType="Number" ID="sortCustID" SortColumn="CUSTOMER" SortSequence="Ascending" />
+                      </Remark>
+                    </DataLayer>
+                    <EventHandler DhtmlEvent="onchange" ID="eventOnChangeCustomerID">
+                      <Action ElementID="divGrainBalances" ID="actRefreshGrainBalancesCustomersID" RequestForwarding="True" Type="RefreshElement">
+                        <WaitPage />
+                      </Action>
+                    </EventHandler>
+                  </InputSelectList>
+                  <LineBreak />
+                  <InputSelectList Caption="Balance Type:" CaptionClass="ThemeTextSmall ThemeBold" Class="ThemeTextSmaller" DefaultValue="@Request.DPRGroup~" ID="DPRGroup" IncludeBlank="True" IncludeBlankCaption="All" MultiSelect="False" OptionCaptionColumn="DPR_POSITION_GROUP" OptionValueColumn="DPR_POSITION_GROUP">
+                    <DataLayer ID="dlDPRGroup" LinkedDataLayerID="linkDPRGroup" Type="Linked" />
+                    <EventHandler DhtmlEvent="onchange" ID="eventOnChangeDPRGroup">
+                      <Action ElementID="divGrainBalances" ID="actRefreshGrainBalancesDPRGroup" Type="RefreshElement">
+                        <WaitPage />
+                      </Action>
+                    </EventHandler>
+                  </InputSelectList>
+                  <LineBreak />
+                  <InputSelectList Caption="Locations:" CaptionClass="ThemeTextSmall ThemeBold" Class="ThemeTextSmaller" DefaultValue="@Request.Branch~" ID="Branch" IncludeBlank="True" IncludeBlankCaption="All" IncludeBlankValue="0" InputRows="8" MultiSelect="True" OptionCaptionColumn="NAMENUMBER" OptionValueColumn="BRANCH_NUMBER">
+                    <DataLayer ID="dlBranch" LinkedDataLayerID="linkLocations" Type="Linked" />
+                    <EventHandler DhtmlEvent="onchange" ID="eventOnChangeBranch">
+                      <Action ElementID="divGrainBalances" ID="actRefreshGrainBalancesBranch" Type="RefreshElement">
+                        <WaitPage />
+                      </Action>
+                    </EventHandler>
+                  </InputSelectList>
+                  <LineBreak />
+                  <InputSelectList Caption="Commodities:" CaptionClass="ThemeTextSmall ThemeBold" Class="ThemeTextSmaller" DefaultValue="@Request.Commodity~" ID="Commodity" IncludeBlank="True" IncludeBlankCaption="All" IncludeBlankValue="0" InputRows="5" MultiSelect="True" OptionCaptionColumn="COMMODITY_DESC" OptionValueColumn="COMMODITY_CODE">
+                    <DataLayer ID="dlProducts" LinkedDataLayerID="linkProducts" Type="Linked" />
+                    <EventHandler DhtmlEvent="onchange" ID="eventOnChangeCommodity">
+                      <Action ElementID="divGrainBalances" ID="actRefreshGrainBalancesCommodity" Type="RefreshElement">
+                        <WaitPage />
+                      </Action>
+                    </EventHandler>
+                  </InputSelectList>
+                  <Remark>
+                    <IncludeSharedElement DefinitionFile="_Layout.Shared" ID="shrBranchSelect" SharedElementID="shrBranchSelect">
+                      <SharedElementParams BranchElementToRefresh="divGrainBalances" />
+                    </IncludeSharedElement>
+                  </Remark>
+                  <Remark>
+                    <IncludeSharedElement DefinitionFile="_Layout.Shared" SharedElementID="shrCommoditySelect">
+                      <SharedElementParams CommodityElementToRefresh="divGrainBalances" />
+                    </IncludeSharedElement>
+                  </Remark>
+                  <LineBreak />
+                  <Button Caption="Reset" ID="btnReset" Tooltip="Clear all selections">
+                    <Action ElementID="divGrainBalances,divFilters" ID="actReport" RequestForwarding="True" Type="RefreshElement">
+                      <WaitPage />
+                      <LinkParams Branch="0" Commodity="0" Customer="" CustomerID="-1" DPRGroup="" />
+                    </Action>
+                  </Button>
+                </Division>
+              </ResponsiveColumn>
+              <ResponsiveColumn>
+                <Division Class="ThemeTextSmall" HtmlDiv="True" ID="divGrainBalances">
+                  <DataTable AccessibleHeaders="True" AccessibleSummary="DataTable" AjaxPaging="True" DraggableColumns="True" ID="dtGrainBalances" KeepScrollPosition="True" RememberSort="True" ResizableColumns="True" SortArrows="True" TableBorder="0">
+                    <DataLayer ID="dlGrainBalances" LinkedDataLayerID="linkGrainBalances" Type="Linked" />
+                    <InteractivePaging CaptionType="Image" HideShowPrevNextCaptions="False" HideWhenOnePage="True" IDnotSupportedHere="pagingTableNumbered" Location="Top" PageRowCount="20" ShowPageNumber="Numbered" />
+                    <DataTableColumn Header="Account Name" ID="colCUSTOMER_NAME">
+                      <Label Caption="@Data.CUSTOMER_NAME~" ID="lblCUSTOMER_NAME" NoWrap="True" rdForWizardSet="true" />
+                      <DataColumnSort DataColumn="CUSTOMER_NAME" DataType="Text" />
+                    </DataTableColumn>
+                    <DataTableColumn Header="Commodity" ID="colCOMMODITY_DESC">
+                      <Label Caption="@Data.COMMODITY_DESC~" ID="lblCOMMODITY_DESC" NoWrap="True" rdForWizardSet="true" />
+                      <DataColumnSort DataColumn="COMMODITY_DESC" DataType="Text" />
+                    </DataTableColumn>
+                    <Remark>
+                      <DataTableColumn Header="Crop" ID="colCROP_DESC">
+                        <Label Caption="@Data.CROP_DESC~" ID="lblCROP_DESC" NoWrap="True" rdForWizardSet="true" />
+                        <DataColumnSort DataColumn="CROP_DESC" DataType="Text" />
+                      </DataTableColumn>
+                    </Remark>
+                    <DataTableColumn Header="Location" ID="colBRANCH_NAME">
+                      <Label Caption="@Data.BRANCH_NAME~" ID="lblBRANCH_NAME" NoWrap="True" rdForWizardSet="true" />
+                      <DataColumnSort DataColumn="BRANCH_NAME" DataType="Text" />
+                    </DataTableColumn>
+                    <DataTableColumn Class="ThemeAlignCenter" Header="DPR Position" ID="colDPR_POSITION">
+                      <Label Caption="@Data.DPR_POSITION~" ID="lblDPR_POSITION" NoWrap="True" rdForWizardSet="true" />
+                      <DataColumnSort DataColumn="DPR_POSITION" DataType="Number" />
+                    </DataTableColumn>
+                    <DataTableColumn Header="Balance Type" ID="colDPR_POSITION_GROUP">
+                      <Label Caption="@Data.DPR_POSITION_GROUP~" ID="lblDPR_POSITION_GROUP" NoWrap="True" rdForWizardSet="true" />
+                      <DataColumnSort DataColumn="DPR_POSITION_GROUP" DataType="Text" />
+                    </DataTableColumn>
+                    <DataTableColumn Class="ThemeAlignRight" Header="Bushels" ID="colBU">
+                      <Label Caption="@Data.BU~" Format="#,###,###,###,##0.00" ID="lblBU" NoWrap="True" rdForWizardSet="true" />
+                      <DataColumnSort DataColumn="BU" DataType="Number" />
+                      <DataColumnSummary DataColumn="BU" DataType="Number" Function="Sum" ID="SumBU" />
+                    </DataTableColumn>
+                    <SummaryRow Caption="Total:" ID="summary" LastPageOnly="False" />
+                  </DataTable>
+                </Division>
+              </ResponsiveColumn>
+            </ResponsiveRow>
+            <ResponsiveRow>
+              <ResponsiveColumn ColspanExtraSmallScreen="12" ColspanLargeScreen="3" ColspanMediumScreen="3" ColspanSmallScreen="12" />
+              <ResponsiveColumn Class="ThemeTextSmall" />
+            </ResponsiveRow>
+          </Division>
+        </Division>
+      </ResponsiveColumn>
+    </ResponsiveRow>
+  </Body>
+  <IncludeSharedElement DefinitionFile="_Layout.Shared" SharedElementID="shrFooter" />
+  <ideTestParams Branch="" Commodity="" Customer="" CustomerID="" DPRGroup="" />
+</Report>

@@ -1,0 +1,444 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report
+	Caption="Scheduled Acres"
+	ID="Agronomy.ScheduledAcres"
+	SecurityReportRightID="MKC Agronomy, LogiUserAdmin"
+	>
+	<DefaultRequestParams
+		Today="@Function.Date~"
+	/>
+	<IncludeSharedElement
+		DefinitionFile="_Layout.Shared"
+		SharedElementID="shrHeader"
+	/>
+	<Body>
+		<Division
+			Class="panel panel-default"
+			HtmlDiv="True"
+			ID="div-panel"
+			>
+			<Division
+				Class="panel-heading"
+				HtmlDiv="True"
+				ID="div-header"
+				>
+				<Label
+					Caption="Scheduled Acres"
+					Class="panel-title"
+				/>
+			</Division>
+			<Division
+				Class="panel-body"
+				HtmlDiv="True"
+				ID="div-body"
+				>
+				<Remark>
+					<ResponsiveRow>
+						<ResponsiveColumn/>
+						<ResponsiveColumn
+							Class="ThemeAlignRight"
+							>
+							<IncludeSharedElement
+								DefinitionFile="_Layout.Shared"
+								SharedElementID="shrExcelExport"
+								>
+								<SharedElementParams
+									DataTableID="dtApplication"
+									ReportName="Applied Acres"
+								/>
+							</IncludeSharedElement>
+						</ResponsiveColumn>
+					</ResponsiveRow>
+				</Remark>
+				<ResponsiveRow>
+					<ResponsiveColumn
+						ColspanExtraSmallScreen="3"
+						ColspanLargeScreen="2"
+						ColspanMediumScreen="2"
+						ColspanSmallScreen="3"
+						>
+						<Division
+							Class="well"
+							HtmlDiv="True"
+							ID="divFilters"
+							>
+							<InputSelectList
+								Caption="Customer"
+								CaptionClass="ThemeTextSmall ThemeBold"
+								Class="ThemeTextSmaller"
+								ID="Customer"
+								IncludeBlank="True"
+								OptionCaptionColumn="Customer"
+								OptionValueColumn="CustID"
+								>
+								<DataLayer
+									ConnectionID="connAgOS"
+									ID="dlCustomer"
+									Source="Select Distinct T2.ObjectID As CustID,
+  T2.Name As Customer
+From Orders T1
+  Inner Join Objects T2 With(NoLock) On T2.ObjectID = T1.ObjectID
+  Inner Join ScheduleInfo On T1.OrderID = ScheduleInfo.OrderID
+Where T1.Done = 0 And T1.Canceled = 0 And ScheduleInfo.ScheduledDate &lt;&gt; &apos;&apos;
+Order By Customer"
+									Type="SQL"
+								/>
+								<EventHandler
+									DhtmlEvent="onchange"
+									>
+									<Action
+										ElementID="divAudit"
+										ID="refNotifyByCustomer"
+										Type="RefreshElement"
+										>
+										<WaitPage/>
+									</Action>
+								</EventHandler>
+							</InputSelectList>
+							<LineBreak/>
+							<InputSelectList
+								Caption="Created By"
+								CaptionClass="ThemeTextSmall ThemeBold"
+								Class="ThemeTextSmaller"
+								ID="CreatedBy"
+								IncludeBlank="True"
+								OptionCaptionColumn="FullName"
+								OptionValueColumn="UserName"
+								>
+								<DataLayer
+									ConnectionID="connAgOS"
+									ID="dlCreatedBy"
+									Source="Select Distinct Users.UserName,
+  Concat(Users.FirstName, &apos; &apos;, Users.LastName) As FullName
+From Orders T1
+  Inner Join Objects T2 With(NoLock) On T2.ObjectID = T1.ObjectID
+  Inner Join ScheduleInfo On T1.OrderID = ScheduleInfo.OrderID
+  Inner Join Users On Users.UserID = T1.CreatedByID
+Where T1.Done = 0 And T1.Canceled = 0 And ScheduleInfo.ScheduledDate &lt;&gt; &apos;&apos;
+Order By Users.UserName"
+									Type="SQL"
+								/>
+								<EventHandler
+									DhtmlEvent="onchange"
+									>
+									<Action
+										ElementID="divAudit"
+										ID="refNotifyByCreatedByID"
+										Type="RefreshElement"
+										>
+										<WaitPage/>
+									</Action>
+								</EventHandler>
+							</InputSelectList>
+							<LineBreak/>
+							<InputSelectList
+								Caption="Order"
+								CaptionClass="ThemeTextSmall ThemeBold"
+								Class="ThemeTextSmaller"
+								ID="OrderID"
+								IncludeBlank="True"
+								OptionCaptionColumn="OrderNum"
+								OptionValueColumn="OrderNum"
+								>
+								<DataLayer
+									ConnectionID="connAgOS"
+									ID="dlOrderID"
+									Source="Select Distinct T1.OrderID As OrderNum
+From Orders T1
+  Inner Join Objects T2 With(NoLock) On T2.ObjectID = T1.ObjectID
+  Inner Join ScheduleInfo On T1.OrderID = ScheduleInfo.OrderID
+Where T1.Done = 0 And T1.Canceled = 0 And ScheduleInfo.ScheduledDate &lt;&gt; &apos;&apos;
+Order By OrderNum"
+									Type="SQL"
+								/>
+								<EventHandler
+									DhtmlEvent="onchange"
+									>
+									<Action
+										ElementID="divAudit"
+										ID="refNotifyByOrderID"
+										Type="RefreshElement"
+										>
+										<WaitPage/>
+									</Action>
+								</EventHandler>
+							</InputSelectList>
+							<LineBreak/>
+							<Button
+								Caption="Reset"
+								ID="btnReset"
+								Tooltip="Clear all selections"
+								>
+								<Action
+									ElementID="divAudit,divFilters"
+									ID="actReport"
+									RequestForwarding="True"
+									Type="RefreshElement"
+									>
+									<WaitPage/>
+									<LinkParams
+										BeginDate="1/1/2016"
+										EndDate="@Function.Date~"
+										Location=""
+									/>
+								</Action>
+							</Button>
+						</Division>
+					</ResponsiveColumn>
+					<ResponsiveColumn>
+						<ResponsiveRow>
+							<ResponsiveColumn>
+								<Division
+									Class="bold"
+									ID="divYesterday"
+									>
+									<DataTable
+										ID="dtYesterday"
+										>
+										<DataLayer
+											ConnectionID="connAgOS"
+											Source="Select Round(Sum(OrderInfo.Acres), 2) As YAcres,
+  Sum(OrderInfo.AcresSprayed) As AppliedAcres
+From OrderInfo
+Where OrderInfo.DoneDate = DateAdd(day, -1, &apos;@Request.Today~&apos;)"
+											Type="SQL"
+										/>
+										<Remark>
+											<AutoColumns/>
+										</Remark>
+										<DataTableColumn>
+											<Label
+												Caption="Acres Done Yesterday: @Data.YAcres~"
+												Class="ThemeHidden"
+												>
+												<ConditionalClass
+													Condition="&quot;@Data.Acres~&quot; &lt;&gt; &quot;&quot;"
+												/>
+											</Label>
+											<Label
+												Caption="Acres Done Yesterday: 0"
+												Class="ThemeHidden"
+												>
+												<ConditionalClass
+													Condition="&quot;@Data.Acres~&quot; = &quot;&quot;"
+												/>
+											</Label>
+										</DataTableColumn>
+									</DataTable>
+								</Division>
+							</ResponsiveColumn>
+							<ResponsiveColumn>
+								<Division
+									Class="text-success bold"
+									ID="divToday"
+									>
+									<DataTable
+										ID="dtToday"
+										>
+										<DataLayer
+											ConnectionID="connAgOS"
+											Source="Select Round(Sum(OrderInfo.Acres), 2) As Acres,
+  Round(Sum(OrderInfo.AcresSprayed), 2) As AppliedAcres
+From OrderInfo
+Where OrderInfo.ScheduledDate = &apos;@Request.Today~&apos;"
+											Type="SQL"
+										/>
+										<Remark>
+											<AutoColumns/>
+										</Remark>
+										<DataTableColumn>
+											<Label
+												Caption="Acres Scheduled Today: @Data.Acres~"
+												Class="ThemeHidden"
+												>
+												<ConditionalClass
+													Condition="&quot;@Data.Acres~&quot; &lt;&gt; &quot;&quot;"
+												/>
+											</Label>
+											<Label
+												Caption="Acres Scheduled Today: 0"
+												Class="ThemeHidden"
+												>
+												<ConditionalClass
+													Condition="&quot;@Data.Acres~&quot; = &quot;&quot;"
+												/>
+											</Label>
+										</DataTableColumn>
+									</DataTable>
+								</Division>
+							</ResponsiveColumn>
+							<ResponsiveColumn>
+								<Division
+									Class="text-warning bold"
+									ID="divTomorrow"
+									>
+									<DataTable
+										ID="dtTomorrow"
+										>
+										<DataLayer
+											ConnectionID="connAgOS"
+											Source="Select Round(Sum(OrderInfo.Acres), 2) As Acres,
+  Sum(OrderInfo.AcresSprayed) As AppliedAcres
+From OrderInfo
+Where OrderInfo.ScheduledDate = DateAdd(day, 1, &apos;@Request.Today~&apos;)"
+											Type="SQL"
+										/>
+										<Remark>
+											<AutoColumns/>
+										</Remark>
+										<DataTableColumn>
+											<Label
+												Caption="Acres Scheduled Tomorrow: @Data.Acres~"
+												Class="ThemeHidden"
+												>
+												<ConditionalClass
+													Condition="&quot;@Data.Acres~&quot; &lt;&gt; &quot;&quot;"
+												/>
+											</Label>
+											<Label
+												Caption="Acres Scheduled Tomorrow: 0"
+												Class="ThemeHidden"
+												>
+												<ConditionalClass
+													Condition="&quot;@Data.Acres~&quot; = &quot;&quot;"
+												/>
+											</Label>
+										</DataTableColumn>
+									</DataTable>
+								</Division>
+							</ResponsiveColumn>
+						</ResponsiveRow>
+						<Division
+							ID="divAudit"
+							>
+							<HR/>
+							<DataTable
+								Caption="Scheduled Orders"
+								CaptionClass="ThemeTextSmall"
+								Class="ThemeTextSmaller"
+								ID="dtSchedule"
+								Width="100"
+								WidthScale="%"
+								>
+								<InteractivePaging
+									CaptionType="Text"
+									Class="ThemeTextSmaller"
+									HideWhenOnePage="True"
+									Location="Bottom"
+									PageRowCount="25"
+									ShowPageNumber="True"
+								/>
+								<DataLayer
+									ConnectionID="connAgOS"
+									ID="dlSchedule"
+									Source="Select ScheduleInfo.OrderID,
+  ScheduleInfo.TargetDate,
+  ScheduleInfo.ScheduledDate,
+  ScheduleInfo.ScheduledAcres,
+  ScheduleInfo.CustomerName,
+  ScheduleInfo.FarmName,
+  OrderInfo.DoneDate,
+  OrderInfo.Done,
+  OrderInfo.Canceled,
+  Users.UserName,
+  Users.FirstName,
+  Users.LastName,
+  ScheduleInfo.ApplicatorName,
+  ScheduleInfo.LocationCode,
+  OrderInfo.ObjectID
+From ScheduleInfo
+  Inner Join OrderInfo On ScheduleInfo.OrderID = OrderInfo.OrderID
+  Inner Join Users On OrderInfo.CreatedByID = Users.UserID
+  Inner Join Objects On OrderInfo.ObjectID = Objects.ObjectID
+Where (ScheduleInfo.OrderID = &apos;@Request.OrderID~&apos; Or &apos;@Request.OrderID~&apos; = &apos;&apos;)
+  And ScheduleInfo.ScheduledDate &lt;&gt; &apos;&apos; And OrderInfo.Done = 0 And
+  OrderInfo.Canceled = 0 And (Users.UserName = &apos;@Request.CreatedBy~&apos; Or
+    &apos;@Request.CreatedBy~&apos; = &apos;&apos;) And (OrderInfo.ObjectID = &apos;@Request.Customer~&apos;
+    Or &apos;@Request.Customer~&apos; = &apos;&apos;)
+Order By ScheduleInfo.ScheduledDate"
+									Type="SQL"
+								/>
+								<Remark>
+									<AutoColumns/>
+								</Remark>
+								<DataTableColumn
+									Header="Order"
+									>
+									<Label
+										Caption="@Data.OrderID~"
+									/>
+								</DataTableColumn>
+								<DataTableColumn
+									Header="Customer"
+									>
+									<Label
+										Caption="@Data.CustomerName~"
+										Format="General Date"
+									/>
+								</DataTableColumn>
+								<DataTableColumn
+									Header="Farm"
+									>
+									<Label
+										Caption="@Data.FarmName~"
+										Format="General Date"
+									/>
+								</DataTableColumn>
+								<DataTableColumn
+									Header="Scheduled Acres"
+									>
+									<Label
+										Caption="@Data.ScheduledAcres~"
+									/>
+								</DataTableColumn>
+								<DataTableColumn
+									Header="Scheduled Date"
+									>
+									<Label
+										Caption="@Data.ScheduledDate~"
+										Format="Short Date"
+									/>
+								</DataTableColumn>
+								<DataTableColumn
+									Header="Applicator"
+									>
+									<Label
+										Caption="@Data.ApplicatorName~"
+										Format="Short Date"
+									/>
+								</DataTableColumn>
+								<DataTableColumn
+									Header="Location"
+									>
+									<Label
+										Caption="@Data.LocationCode~"
+										Format="Short Date"
+									/>
+								</DataTableColumn>
+								<DataTableColumn
+									Header="Created By"
+									>
+									<Label
+										Caption="@Data.UserName~"
+										Format="Short Date"
+									/>
+								</DataTableColumn>
+								<SummaryRow/>
+							</DataTable>
+						</Division>
+					</ResponsiveColumn>
+				</ResponsiveRow>
+			</Division>
+		</Division>
+	</Body>
+	<IncludeSharedElement
+		DefinitionFile="_Layout.Shared"
+		SharedElementID="shrFooter"
+	/>
+	<ideTestParams
+		CreatedBy=""
+		Customer=""
+		OrderID=""
+		Today="5/8/2019"
+	/>
+</Report>

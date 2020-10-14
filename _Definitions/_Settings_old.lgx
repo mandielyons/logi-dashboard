@@ -12,7 +12,7 @@
 	<General
 		DoctypeDeclaration="Html5"
 		LogErrors="@Function.AppPhysicalPath~\_ErrorLogs"
-		rdDebuggerStyle="DebuggerLinksNoData"
+		rdDebuggerStyle="DebuggerLinks"
 		RedirectErrorUrl="rdPage.aspx?rdReport=_Layout.Error"
 		RepoFriendly="True"
 	/>
@@ -130,7 +130,7 @@
 			Type="SqlServer"
 		/>
 		<Connection
-			GoogleMapsApiKey="AIzaSyAZ5sSwPZ7jVWRxyRVU8QRltwXowOvxKL8"
+			GoogleMapsApiKey="AIzaSyBDzf1VudzM0439eh72VTObm60JXll3Bj0"
 			GoogleMapsUseHTTPS="True"
 			ID="gmAPIKey"
 			Type="GoogleMaps"

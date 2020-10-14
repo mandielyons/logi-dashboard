@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Report
-	Caption="AgOS GP Shipment Invoice"
-	ID="Agronomy.AgOSOrdersBilled"
+	Caption="AgOS Delay Tickets"
+	ID="Agronomy.AgOSDelayTickets"
 	SecurityReportRightID="MKC Dashboard"
 	>
 	<DefaultRequestParams
-		Year="2018"
+		Year="2019"
 	/>
 	<IncludeSharedElement
 		DefinitionFile="_Layout.Shared"
@@ -35,7 +35,7 @@
 				ID="panel-share-heading"
 				>
 				<Label
-					Caption="AgOS Orders Done Not Billed"
+					Caption="AgOS Delay Tickets"
 					Class="panel-title"
 				/>
 			</Division>
@@ -52,7 +52,7 @@
 							ID="divFilters"
 							>
 							<InputSelectList
-								Caption="Inventory Location"
+								Caption="Location Code"
 								CaptionClass="ThemeTextSmall ThemeBold"
 								Class="ThemeTextSmaller"
 								ID="Location"
@@ -67,8 +67,7 @@
 									Source="Select Distinct Deltick1.LocationCode As AgOSLocCode
 From Deltick1
 Where (Deltick1.LocationCode = &apos;@Request.Location~&apos; Or &apos;@Request.Location~&apos; =
-    &apos; &apos;) And Deltick1.CreatedDate &gt; &apos;@Request.Year~&apos; And
-  Deltick1.SubCategoryID = 8 And Deltick1.Exported = 0
+    &apos; &apos;) And Deltick1.DelayExport = 1
 Order By AgOSLocCode"
 									Type="SQL"
 								/>
@@ -118,7 +117,7 @@ Order By AgOSLocCode"
 							>
 							<DataTable
 								AccessibleHeaders="True"
-								Caption="AgOS Orders with Shipment Invoice"
+								Caption="Delay Ticket Details"
 								CaptionClass="ThemeTextSmall"
 								Class="ThemeTextSmaller"
 								ID="dtDeltick"
@@ -129,78 +128,40 @@ Order By AgOSLocCode"
 								<DataLayer
 									ConnectionID="connAgOS"
 									ID="dlOrdersDone"
-									Source="Select Deltick1.OrderID,
-  Deltick1.LocationCode As Location,
-  Deltick1.TicketID As TicketID,
-  Deltick1.Exported As Billed,
-  ScheduleInfo.LocationCode As InventoryLocation
-From Deltick1
-  Inner Join Orders On Orders.OrderID = Deltick1.OrderID
-  Inner Join ScheduleInfo On Deltick1.OrderID = ScheduleInfo.OrderID
-Where (ScheduleInfo.LocationCode = &apos;@Request.Location~&apos; Or &apos;@Request.Location~&apos; = &apos;&apos;) And
-  Deltick1.LocationCode = &apos;CDD1&apos;
-Order By Location"
+									Source="Select T1.TicketID,
+  T1.Exported,
+  T2.Name As Orgin_Loc,
+  T3.Name As From_To,
+  T1.LocationCode As Location,
+  T1.CategoryID As CatID,
+  Case T1.CategoryID When &apos;1&apos; Then &apos;CstmrOp&apos; When &apos;2&apos; Then &apos;Distribution&apos;
+    When &apos;3&apos; Then &apos;InsideComp&apos; When &apos;4&apos; Then &apos;InvAdj&apos; Else &apos;Other&apos;
+  End As Category,
+  T1.SubCategoryID As SubCatID,
+  Case T1.SubCategoryID When &apos;1&apos; Then &apos;DelTicket&apos; When &apos;2&apos; Then &apos;Return&apos;
+    When &apos;3&apos; Then &apos;TransOut&apos; When &apos;4&apos; Then &apos;TransIn&apos; When &apos;5&apos; Then &apos;Dist_Ship&apos;
+    When &apos;6&apos; Then &apos;Dist_Rtn&apos; When &apos;8&apos; Then &apos;FieldApp&apos; When &apos;9&apos; Then &apos;Booking&apos;
+    When &apos;10&apos; Then &apos;Inv_Short&apos; When &apos;11&apos; Then &apos;Inv_Long&apos; Else &apos;Other&apos;
+  End As SubCategory,
+  T1.Comment,
+  T1.DelayExport,
+  T1.CreatedDate As TicketDate
+From Deltick1 T1 With(NoLock)
+  Inner Join Objects T2 With(NoLock) On T2.ObjectID = T1.ObjectID
+  Inner Join Objects T3 With(NoLock) On T3.ObjectID = T1.[From/To]
+Where T1.DelayExport = 1 And T1.CreatedDate &gt;= &apos;2017-01-01&apos; And (T1.LocationCode = &apos;@Request.Location~&apos; Or &apos;@Request.Location~&apos; =
+    &apos; &apos;)
+Order By TicketDate ASC, Location"
 									Type="SQL"
-									>
-									<Join
-										ID="joinShipmentInvoice"
-										JoinType="InnerJoin"
-										>
-										<MatchCondition
-											LeftDataColumn="TicketID"
-											RightDataColumn="AgWorksTicket"
-										/>
-										<DataLayer
-											ConnectionID="connGP"
-											ID="dlShipInvoice"
-											Source="Select IRASShipInvHDRHIST.IRShipmentNumber As ShipmentInvoice,
-  IRASShipInvHDRHIST.IRShipDate,
-  IRASShipInvHDRHIST.SHIPMTHD,
-  IRASShipInvHDRHIST.IRSource,
-  IRASShipInvHDRHIST.IRAgWorksTicketID As AgWorksTicket,
-  IRASShipInvHDRHIST.IRBranchID,
-  IRASShipInvHDRHIST.IRLastModifiedDate As Modified,
-  IRASShipInvHDRHIST.IRCreatedDate
-From IRASShipInvHDRHIST
-Where IRASShipInvHDRHIST.IRSource = &apos;AGWORKS&apos; And
-  IRASShipInvHDRHIST.IRLastModifiedDate &gt;= DateAdd(month, -1, GetDate())
-Order By IRASShipInvHDRHIST.IRAgWorksTicketID"
-											Type="SQL"
-										/>
-									</Join>
-								</DataLayer>
+								/>
 								<InteractivePaging
 									CaptionType="Text"
 									Class="ThemeTextSmaller"
-									PageRowCount="40"
+									PageRowCount="100"
 									ShowPageNumber="True"
 								/>
 								<DataTableColumn
-									Header="Order #"
-									ID="colOrder"
-									>
-									<Label
-										Caption="@Data.OrderID~"
-									/>
-								</DataTableColumn>
-								<DataTableColumn
-									Header="Order Location"
-									ID="colLocation"
-									>
-									<Label
-										Caption="@Data.Location~"
-									/>
-								</DataTableColumn>
-								<DataTableColumn
-									Header="Inventory Location"
-									ID="colInvLocation"
-									>
-									<Label
-										Caption="@Data.InventoryLocation~"
-									/>
-								</DataTableColumn>
-								<DataTableColumn
-									Header="AgWorks Ticket"
+									Header="Ticket #"
 									ID="colTicket"
 									>
 									<Label
@@ -208,20 +169,70 @@ Order By IRASShipInvHDRHIST.IRAgWorksTicketID"
 									/>
 								</DataTableColumn>
 								<DataTableColumn
-									Header="GP Shipment"
-									ID="colShipment"
+									Header="Ticket Date"
+									ID="colDate"
 									>
 									<Label
-										Caption="@Data.ShipmentInvoice~"
+										Caption="@Data.TicketDate~"
+										Format="Short Date"
 									/>
 								</DataTableColumn>
 								<DataTableColumn
-									Header="Shipped to GP"
-									ID="colShipDate"
+									Header="Category"
+									ID="colCategory"
 									>
 									<Label
-										Caption="@Data.Modified~"
-										Format="Short Date"
+										Caption="@Data.Category~"
+									/>
+								</DataTableColumn>
+								<DataTableColumn
+									Header="SubCategory"
+									ID="colSubCategory"
+									>
+									<Label
+										Caption="@Data.SubCategory~"
+									/>
+								</DataTableColumn>
+								<Remark>
+									<DataTableColumn
+										Header="Delay "
+										ID="colDelayExport"
+										>
+										<Label
+											Caption="@Data.DelayExport~"
+										/>
+									</DataTableColumn>
+								</Remark>
+								<DataTableColumn
+									Header="Location"
+									ID="colLocation"
+									>
+									<Label
+										Caption="@Data.Location~"
+									/>
+								</DataTableColumn>
+								<DataTableColumn
+									Header="Origin"
+									ID="colFrom"
+									>
+									<Label
+										Caption="@Data.Orgin_Loc~"
+									/>
+								</DataTableColumn>
+								<DataTableColumn
+									Header="To"
+									ID="colTo"
+									>
+									<Label
+										Caption="@Data.From_To~"
+									/>
+								</DataTableColumn>
+								<DataTableColumn
+									Header="Comments"
+									ID="colComments"
+									>
+									<Label
+										Caption="@Data.Comment~"
 									/>
 								</DataTableColumn>
 							</DataTable>
@@ -237,6 +248,5 @@ Order By IRASShipInvHDRHIST.IRAgWorksTicketID"
 	/>
 	<ideTestParams
 		Location=""
-		Year=""
 	/>
 </Report>

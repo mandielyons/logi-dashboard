@@ -2,7 +2,7 @@
 <Report
 	Caption="Long &amp; Short"
 	ID="TMAReports.TMALongShort"
-	ScriptValueCacheCount="MKC Dashboard,TMA Dashboard,OC"
+	SecurityReportRightID="MKC Dashboard,TMA Dashboard,OC"
 	>
 	<IncludeSharedElement
 		DefinitionFile="_Layout.Shared"

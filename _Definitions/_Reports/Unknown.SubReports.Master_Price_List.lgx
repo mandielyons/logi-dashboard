@@ -1,0 +1,138 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report
+	Caption="TMA Direct Ship App"
+	ID="Unknown.SubReports.Master_Price_List"
+	>
+	<IncludeSharedElement
+		DefinitionFile="_Layout.Shared"
+		SharedElementID="shrHeader"
+	/>
+	<DefaultRequestParams
+		EntryID=""
+	/>
+	<Body>
+		<Division
+			Class="panel panel-default"
+			HtmlDiv="True"
+			ID="panel-ds"
+			>
+			<Division
+				Class="panel-heading"
+				HtmlDiv="True"
+				ID="panel-ds-header"
+				>
+				<Label
+					Caption="Master_Price_List"
+				/>
+			</Division>
+			<Division
+				Class="panel-body"
+				HtmlDiv="True"
+				ID="panel-ds-report"
+				>
+				<ResponsiveRow
+					Class="ThemeAlignRight"
+					>
+					<ResponsiveColumn>
+						<Label
+							Class="fa fa-plus fa-2x"
+							HtmlTag="Div"
+							Tooltip="Add a ticket"
+							>
+							<Action
+								Type="Report"
+								>
+								<Target
+									FrameID="Self"
+									ID="lnkEntry"
+									Report="Master_Price_List"
+									Type="Report"
+									>
+									<WaitPage/>
+								</Target>
+							</Action>
+						</Label>
+						<Spaces
+							Size="15"
+						/>
+						<Label
+							Class="fa fa-file-excel-o fa-2x "
+							HtmlTag="Div"
+							Tooltip="Export to Excel"
+							>
+							<Action
+								Type="NativeExcel"
+								>
+								<Target
+									ExcelOutputFormat="Excel2007"
+									ExportDataTableID="dtTicketTracking"
+									FrameID="NewWindow"
+									Report="Master_Price_List"
+									RequestForwarding="True"
+									Type="NativeExcel"
+								/>
+							</Action>
+						</Label>
+						<Spaces
+							Size="18"
+						/>
+					</ResponsiveColumn>
+				</ResponsiveRow>
+				<ResponsiveRow>
+					<ResponsiveColumn>
+						<LineBreak/>
+						<Label
+							Caption="@Request.StatusMsg~"
+							ID="lblStatus"
+							>
+							<ConditionalClass
+								Class="ThemeErrorText"
+								Condition="InStr(&quot;@Request.StatusMsg~&quot;,&quot;Error:&quot;) &gt; 0"
+							/>
+							<ConditionalClass
+								Class="ThemeTextNegative"
+								Condition="InStr(&quot;@Request.StatusMsg~&quot;,&quot;Success:&quot;) &gt; 0"
+							/>
+						</Label>
+						<LineBreak/>
+						<LineBreak/>
+					</ResponsiveColumn>
+				</ResponsiveRow>
+				<ResponsiveRow>
+					<ResponsiveColumn>
+						<DataTable
+							ID="Master_Price_List"
+							>
+							<DataLayer
+								ConnectionID="connMKC"
+								ID="Price_List"
+								Source="select 
+t1.[ITEMNMBR],[ITEMDESC],[UOfM],T1.PRCLEVEL
+,[FromQTY],[ToQTY],[ITEMTYPE],[ITMCLSCD]
+ from [MKCGP]..IV00108 T1  with (nolock) 
+ LEFT JOIN [MKCGP]..IV00101 T2 with (nolock) 
+ on 
+ T2.[ITEMNMBR] =  T1.[ITEMNMBR]
+ WHERE T1.ITEMNMBR LIKE &apos;CHEM%&apos;
+ and T1.PRCLEVEL LIKE( &apos;%RETAIL%&apos; )"
+								Type="SQL"
+								>
+								<SortFilter
+									ID="Price_List"
+									SortColumn="ITEMNMBR"
+								/>
+							</DataLayer>
+						</DataTable>
+					</ResponsiveColumn>
+				</ResponsiveRow>
+			</Division>
+		</Division>
+	</Body>
+	<IncludeSharedElement
+		DefinitionFile="_Layout.Shared"
+		SharedElementID="shrFooter"
+	/>
+	<ideTestParams
+		StatusMsg=""
+	/>
+</Report>

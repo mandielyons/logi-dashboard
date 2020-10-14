@@ -1,0 +1,9 @@
+<rdSavedDashboard InfoVersion="12.6.114-SP2">
+  <Tabs ID="rdDashboardTabs" ActiveTabID="5768c4c81b7945d59d4a83340a265505" DashboardColumnCount="6">
+    <Tab ID="eadbd84fac0642b0999b4cf53b3e125f" Caption="New Tab" ColumnCount="6" rdFreeformLayoutStyle="Width:1852px;" />
+    <Tab ID="5768c4c81b7945d59d4a83340a265505" Caption="New Tab" ColumnCount="6" />
+  </Tabs>
+  <Panel ID="pnl2" InstanceID="64b1c489ba6c4b2c9b22eee49a4b39d5" TabID="eadbd84fac0642b0999b4cf53b3e125f" DashboardColumn="0" />
+  <Panel ID="pnl1" InstanceID="78df3e9951e6492a884d3954f7ee3775" TabID="eadbd84fac0642b0999b4cf53b3e125f" DashboardColumn="0" />
+  <Panel ID="pnl3" InstanceID="06ef037ec4a7494a82779c42460f7572" TabID="eadbd84fac0642b0999b4cf53b3e125f" DashboardColumn="1" />
+</rdSavedDashboard>

@@ -33,6 +33,22 @@
 				ID="div-body"
 				>
 				<ResponsiveRow>
+					<ResponsiveColumn/>
+					<ResponsiveColumn
+						Class="ThemeAlignRight"
+						>
+						<IncludeSharedElement
+							DefinitionFile="_Layout.Shared"
+							SharedElementID="shrExcelExport"
+							>
+							<SharedElementParams
+								DataTableID="dtNotifications"
+								ReportName="Customer Notifications"
+							/>
+						</IncludeSharedElement>
+					</ResponsiveColumn>
+				</ResponsiveRow>
+				<ResponsiveRow>
 					<ResponsiveColumn
 						ColspanExtraSmallScreen="3"
 						ColspanLargeScreen="2"

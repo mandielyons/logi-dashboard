@@ -2,7 +2,7 @@
 <Report
 	Caption="MKC Balanced Scorecard"
 	ID="Scorecards.MKC_BalancedScorecard"
-	SecurityReportRightID="Dashboard Sr Mgmt,Dashboard Stategic Planning,LogiUserAdmin"
+	SecurityReportRightID="Dashboard Sr Mgmt,Dashboard Strategic Planning,LogiUserAdmin"
 	>
 	<IncludeSharedElement
 		DefinitionFile="_Layout.Shared"
@@ -206,7 +206,7 @@
 									ID="panel-heading-perspectives"
 									>
 									<Label
-										Caption="2018 MKC Balanced Scorecard"
+										Caption="2020 MKC Balanced Scorecard"
 										Class="panel-title"
 									/>
 								</Division>

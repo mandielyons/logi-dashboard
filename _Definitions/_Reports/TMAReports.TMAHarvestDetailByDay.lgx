@@ -2,6 +2,7 @@
 <Report
 	Caption="Harvest Receipts"
 	ID="TMAReports.TMAHarvestDetailByDay"
+	SecurityReportRightID="MKC Dashboard,TMA Dashboard,OC"
 	>
 	<IncludeSharedElement
 		DefinitionFile="_Layout.Shared"
